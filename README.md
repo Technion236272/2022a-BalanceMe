@@ -1,22 +1,32 @@
 # BalanceMe
 
-> This is the project description. Give a consice decription of no more than 2-3 lines.
+
+> BalanceMe is an application which gives the user the ability to control his incomes, expenses and keep track of
+the user's financial balance over time. The user allocates a budget and at the end of the month, 
+the application reports to the user about his spending habits and whether the user spent over budget or not.
+
 
 ## Motivation
 
-Describe the problem your project solves, and why it is important. Write a short paragraph. Example:
-* *For many people in Israel, ordering takeout food or going out to eat is not a cheap treat. For many others, cooking for themselves and their family at home is not a privilege. We want to change the way people think about home-made food, using an on-demand service platform, similar to Uber and Airbnb.* **(Taken from [Cookoo](https://github.com/Technion236503/2019b-Cookoo))**
+
+* *For many people in the world, keeping track of their budget every month is an impossible task. 
+With a large amount of expenses and few sources of income, it might be difficult to ensure your expenses are lower than your incomes.
+Sometimes, people are interested in statistics about their spending over time, in order 
+to plan future expenses, save money and manage their account balance. 
+BalanceMe offers a user-friendly platform for managing the financial balance each month,
+customized for every user.*
+
 
 ## Core Features
 
-Describe the core features of your project, which contribute the most to its value. Example:
 
-* [ ] View stores around your location.
-* [ ] Filter neraby stores by distance, rating and keywords.
+* [ ] Create and manage income and expense categories as you want.
+* [ ] View statistics about your expenses over time.
+* [ ] Allocate and keep track of your budget.
 
 ## Complementary features
 
-Describe extra features of your project, which contribute significant value to the user. Example:
 
-* [ ] Signup and login with Google and Facebook.
-* [ ] Save you favorite stores for later in a favorites list.
+* [ ] Filter and sort expense/income categories based on money,spent,date, and other parameters.
+* [ ] Invite your friends/family/organization to share the same budget and keep track of their spending habits.
+* [ ] Create target goals to allocate savings to.
