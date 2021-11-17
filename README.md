@@ -1,3 +1,4 @@
+
 # BalanceMe
 
 
@@ -30,3 +31,4 @@ customized for every user.*
 * [ ] Filter and sort expense/income categories based on money,spent,date, and other parameters.
 * [ ] Invite your friends/family/organization to share the same budget and keep track of their spending habits.
 * [ ] Create target goals to allocate savings to.
+
