@@ -25,7 +25,7 @@ customized for every user.*
 * [ ] View statistics about your expenses over time.
 * [ ] Allocate and keep track of your budget.
 
-## Complementary features
+## Complementary Features
 
 
 * [ ] Filter and sort expense/income categories based on money,spent,date, and other parameters.
