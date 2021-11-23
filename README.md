@@ -27,8 +27,8 @@ customized for every user.*
 
 ## Complementary Features
 
-
-* [ ] Filter and sort expense/income categories based on money,spent,date, and other parameters.
-* [ ] Invite your friends/family/organization to share the same budget and keep track of their spending habits.
+* [ ] Set your group of friends/family/organization to share the same budget and keep track of their spending habits.
 * [ ] Create target goals to allocate savings to.
+* [ ] Filter and sort expense/income categories based on money spent,date, and other parameters.
+
 
