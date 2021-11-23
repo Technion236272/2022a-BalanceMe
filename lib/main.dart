@@ -5,12 +5,14 @@ import 'package:provider/provider.dart';
 
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/pages/balance.dart';
 import 'package:balance_me/resources/resources_en.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  GoogleAnalytics.instance.logAppOpen();
   runApp(const BalanceMeApp());
 }
 
