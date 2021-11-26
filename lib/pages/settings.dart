@@ -19,9 +19,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-
-        ),
+      appBar: AppBar(),
       body: mainSettingsList(),
     );
 
@@ -32,71 +30,44 @@ class _SettingsState extends State<Settings> {
     return ListView(
       children: [
         //profile
-        Container(
-          child: Row(
-            children: [
-              Text(Languages.of(context)!.profileSettings),
-              IconButton(onPressed: getProfileScreen, icon: gc.settingArrow),
-            ],
-          ),
+        ListTile(
+
+          leading: Text(Languages.of(context)!.profileSettings),
+          trailing:
+          IconButton(onPressed: getProfileScreen, icon: gc.settingArrow),
         ),
         //group
-        Container(
-          child: Row(
-            children: [
-              Text(Languages.of(context)!.groupSettings),
-              IconButton(onPressed: getGroupScreen, icon: gc.settingArrow)
-            ],
-          ),
+        ListTile(
+          leading: Text(Languages.of(context)!.groupSettings),
+          trailing:
+              IconButton(onPressed: getGroupScreen, icon: gc.settingArrow),
         ),
         //change password
-        Container(
-          child: Row(
-            children: [
-              Text(Languages.of(context)!.passwordSettings),
-              IconButton(
-                  onPressed: getChangePasswordScreen, icon: gc.settingArrow)
-            ],
-          ),
+        ListTile(
+          leading: Text(Languages.of(context)!.passwordSettings),
+          trailing: IconButton(
+              onPressed: getChangePasswordScreen, icon: gc.settingArrow),
         ),
         //Dark mode
-        Container(
-          child: Row(
-            children: [
-              Text(Languages.of(context)!.darkModeSettings),
-              Switch(value: isDark(), onChanged: setDarkMode)
-            ],
-          ),
-        ),
+        ListTile(
+            leading: Text(Languages.of(context)!.darkModeSettings),
+            trailing: Switch(value: isDark(), onChanged: setDarkMode)),
         //End of month
-        Container(
-          child: Row(
-            children: [
-              Text(Languages.of(context)!.endOfMonthSettings),
-           
-            ],
-          ),
+        ListTile(
+          leading: Text(Languages.of(context)!.endOfMonthSettings),
+          trailing: daysOfMonthRadio(),
         ),
         //language
-        Container(
-          child: Row(
-            children: [
-              Text(Languages.of(context)!.languageSettings),
-              //TODO: find out how to pass build of one Stateful widget to another
-              const LanguageDropDown()
-              //drop.LanguageDropDown,
-            ],
-          ),
-        ),
+        ListTile(
+            leading: Text(Languages.of(context)!.languageSettings),
+            trailing: const LanguageDropDown()
+            //drop.LanguageDropDown,
+
+            ),
         //version
-        Container(
-          child: Row(
-            children: [
-              Text(Languages.of(context)!.versionSettings),
-              Text(config.projectVersion)
-            ],
-          ),
-        )
+        ListTile(
+            leading: Text(Languages.of(context)!.versionSettings),
+            trailing: const Text(config.projectVersion))
       ],
     );
   }
@@ -127,10 +98,15 @@ class _SettingsState extends State<Settings> {
   }
 
   //TODO: get day of the month from firebase
-  int getDayOfMonth() {return 1;}
+  int getDayOfMonth() {
+    return 1;
+  }
+
   //TODO: set day of the month according to integer from daysOfMonth list
   void setDayOfMonth(Object? value) {}
 
   //TODO: generate radios for days of month
-  Widget daysOfMonthRadio(){return Container();}
+  Widget daysOfMonthRadio() {
+    return Container();
+  }
 }
