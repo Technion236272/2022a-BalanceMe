@@ -1,10 +1,10 @@
 //this page will contain the settings UI
 
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/widgets/languages_drop_down.dart' as drop;
-import 'package:balance_me/global/project_config.dart' as pro;
+import 'package:balance_me/widgets/languages_drop_down.dart';
+import 'package:balance_me/global/project_config.dart' as config;
 import 'package:flutter/material.dart';
-import 'package:balance_me/global/constants.dart' as co;
+import 'package:balance_me/global/constants.dart' as gc;
 
 //TODO: test this after appBar is implemented
 class Settings extends StatefulWidget {
@@ -14,14 +14,14 @@ class Settings extends StatefulWidget {
   _SettingsState createState() => _SettingsState();
 }
 
+//TODO: put final appbar here
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-        Languages.of(context)!.settingsTitle,
-      )),
+
+        ),
       body: mainSettingsList(),
     );
 
@@ -36,7 +36,7 @@ class _SettingsState extends State<Settings> {
           child: Row(
             children: [
               Text(Languages.of(context)!.profileSettings),
-              IconButton(onPressed: getProfileScreen, icon: co.settingArrow),
+              IconButton(onPressed: getProfileScreen, icon: gc.settingArrow),
             ],
           ),
         ),
@@ -45,7 +45,7 @@ class _SettingsState extends State<Settings> {
           child: Row(
             children: [
               Text(Languages.of(context)!.groupSettings),
-              IconButton(onPressed: getGroupScreen, icon: co.settingArrow)
+              IconButton(onPressed: getGroupScreen, icon: gc.settingArrow)
             ],
           ),
         ),
@@ -55,7 +55,7 @@ class _SettingsState extends State<Settings> {
             children: [
               Text(Languages.of(context)!.passwordSettings),
               IconButton(
-                  onPressed: getChangePasswordScreen, icon: co.settingArrow)
+                  onPressed: getChangePasswordScreen, icon: gc.settingArrow)
             ],
           ),
         ),
@@ -73,19 +73,7 @@ class _SettingsState extends State<Settings> {
           child: Row(
             children: [
               Text(Languages.of(context)!.endOfMonthSettings),
-              //consider changing to constants
-              Radio(
-                  value: co.daysOfMonth[0],
-                  groupValue: getDayOfMonth,
-                  onChanged: setDayOfMonth),
-              Radio(
-                  value: co.daysOfMonth[1],
-                  groupValue: getDayOfMonth,
-                  onChanged: setDayOfMonth),
-              Radio(
-                  value: co.daysOfMonth[2],
-                  groupValue: getDayOfMonth,
-                  onChanged: setDayOfMonth)
+           
             ],
           ),
         ),
@@ -95,7 +83,7 @@ class _SettingsState extends State<Settings> {
             children: [
               Text(Languages.of(context)!.languageSettings),
               //TODO: find out how to pass build of one Stateful widget to another
-              drop.LanguageDropDown as Widget
+              const LanguageDropDown()
               //drop.LanguageDropDown,
             ],
           ),
@@ -105,7 +93,7 @@ class _SettingsState extends State<Settings> {
           child: Row(
             children: [
               Text(Languages.of(context)!.versionSettings),
-              Text(pro.projectVersion)
+              Text(config.projectVersion)
             ],
           ),
         )
@@ -135,11 +123,14 @@ class _SettingsState extends State<Settings> {
 
   //TODO: create a function that checks if the user has dark mode on
   bool isDark() {
-    return co.darkMode;
+    return gc.darkMode;
   }
 
   //TODO: get day of the month from firebase
   int getDayOfMonth() {return 1;}
   //TODO: set day of the month according to integer from daysOfMonth list
   void setDayOfMonth(Object? value) {}
+
+  //TODO: generate radios for days of month
+  Widget daysOfMonthRadio(){return Container();}
 }
