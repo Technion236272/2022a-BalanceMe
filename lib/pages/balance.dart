@@ -1,7 +1,7 @@
 // ================= Balance Page =================
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 
@@ -18,7 +18,7 @@ class _BalancePageState extends State<BalancePage> {
     return Consumer2<AuthRepository, UserStorage>(
         builder: (context, authRepository, userStorage, child) {
           return Scaffold(
-              appBar: AppBar(),
+              appBar: MainAppBar(authRepository),
               body: Container(),
           );
         }
