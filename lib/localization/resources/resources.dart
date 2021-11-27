@@ -1,3 +1,4 @@
+// ================= An Abstract Class For Language =================
 import 'package:flutter/material.dart';
 
 abstract class Languages {
@@ -6,16 +7,20 @@ abstract class Languages {
     return Localizations.of<Languages>(context, Languages);
   }
 
+  // General
   String get languageName;
-
   String get languageCode;
-
   String get appName;
-
   String get appTitle;
 
-  String get loginTitle;
+  // Login
+  String get welcome;
+  String get login;
+  String get logout;
+  String get successfullyLogout;
 
-  String get signUpTitle;
-  String get emailText;
+  // Navigation
+  String get balance;
+  String get statistics;
+  String get settings;
 }

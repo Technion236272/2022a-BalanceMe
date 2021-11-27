@@ -1,6 +1,8 @@
+// ================= A Class For English Language =================
 import 'package:balance_me/localization/resources/resources.dart';
 
 class LanguageEn extends Languages {
+  // General
   @override
   String get languageName => "English";
 
@@ -13,12 +15,26 @@ class LanguageEn extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
+  // Login
   @override
-  String get loginTitle => "Login";
+  String get welcome => "Welcome";
 
   @override
-  String get signUpTitle => "Sign Up";
+  String get login => "Login";
 
   @override
-  String get emailText => "Email";
+  String get logout => "Logout";
+
+  @override
+  String get successfullyLogout => "Successfully logged out";
+
+  // Navigation
+  @override
+  String get balance => "Balance";
+
+  @override
+  String get statistics => "Statistics";
+
+  @override
+  String get settings => "Settings";
 }
