@@ -4,17 +4,12 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
-class BottomNavigation extends StatefulWidget {
+class BottomNavigation extends StatelessWidget {
   const BottomNavigation(this._selectedPage, this._updateSelectedPage, {Key? key}) : super(key: key);
 
   final int _selectedPage;
   final VoidCallbackInt _updateSelectedPage;
 
-  @override
-  State<BottomNavigation> createState() => _BottomNavigationState();
-}
-
-class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -35,9 +30,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
           tooltip: Languages.of(context)!.statistics,
         ),
       ],
-      currentIndex: widget._selectedPage,
+      currentIndex: _selectedPage,
       selectedItemColor: gc.bottomNavigationSelectedColor,
-      onTap: widget._updateSelectedPage,
+      onTap: _updateSelectedPage,
     );
   }
 }
