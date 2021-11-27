@@ -1,4 +1,4 @@
-// ================= App =================
+// ================= Main App =================
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +9,7 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-import 'package:balance_me/pages/balance.dart';
+import 'package:balance_me/pages/home.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 void main() {
@@ -117,7 +117,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
             GlobalCupertinoLocalizations.delegate,
           ],
           localeResolutionCallback: localeResolution,
-          home: const BalancePage(),
+          home: const HomePage(),
         ));
   }
 }
