@@ -4,9 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cross_file/cross_file.dart';
 import 'dart:io';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-
-enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;

@@ -4,7 +4,7 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class UserAvatar extends StatelessWidget {
-  const UserAvatar(this._authRepository, this._radius);
+  const UserAvatar(this._authRepository, this._radius, {Key? key}) : super(key: key);
 
   final AuthRepository _authRepository;
   final double _radius;

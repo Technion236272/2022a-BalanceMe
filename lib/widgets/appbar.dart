@@ -2,14 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:balance_me/widgets/user_avatar.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/global/navigation.dart' as navigation;
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 // MinorAppBar
 class MinorAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MinorAppBar(this.appBarTitle);
+  const MinorAppBar(this.appBarTitle, {Key? key}) : super(key: key);
   final String appBarTitle;
   final double height = kToolbarHeight;
 
@@ -27,9 +28,10 @@ class MinorAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 // MainAppBar
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const MainAppBar(this._authRepository);
+  const MainAppBar(this._authRepository, this._userStorage, {Key? key}) : super(key: key);
 
   final AuthRepository _authRepository;
+  final UserStorage _userStorage;
   final double height = kToolbarHeight;
 
   @override
@@ -49,6 +51,11 @@ class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _MainAppBarState extends State<MainAppBar> {
+  void _loginApp() {
+    // TODO- replace to login screen after it will be implemented
+    navigateToPage(context, const Scaffold());
+  }
+
   void _logoutApp() {
     widget._authRepository.signOut();
     if (Languages.of(context) != null) {
@@ -74,7 +81,7 @@ class _MainAppBarState extends State<MainAppBar> {
               )
             : IconButton(
                 icon: const Icon(gc.unauthenticatedIcon),
-                onPressed: () => navigation.openLoginScreen(context, widget._authRepository),
+                onPressed: () => _loginApp(),
                 tooltip: Languages.of(context)!.login,
               ),
       ],

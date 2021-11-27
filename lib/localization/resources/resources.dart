@@ -18,4 +18,9 @@ abstract class Languages {
   String get login;
   String get logout;
   String get successfullyLogout;
+
+  // Navigation
+  String get balance;
+  String get statistics;
+  String get settings;
 }

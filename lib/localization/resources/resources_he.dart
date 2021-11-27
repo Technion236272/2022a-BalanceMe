@@ -27,4 +27,14 @@ class LanguageHe extends Languages {
 
   @override
   String get successfullyLogout => "‎התנתקת בהצלחה";
+
+  // Navigation
+  @override
+  String get balance => "‎המאזן";
+
+  @override
+  String get statistics => "‎סטטיסטיקות";
+
+  @override
+  String get settings => "‎הגדרות";
 }

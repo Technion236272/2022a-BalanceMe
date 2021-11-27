@@ -27,4 +27,14 @@ class LanguageEn extends Languages {
 
   @override
   String get successfullyLogout => "Successfully logged out";
+
+  // Navigation
+  @override
+  String get balance => "Balance";
+
+  @override
+  String get statistics => "Statistics";
+
+  @override
+  String get settings => "Settings";
 }
