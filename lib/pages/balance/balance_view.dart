@@ -1,4 +1,4 @@
-// ================= Home Page: Balance Page =================
+// ================= Balance Page =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';

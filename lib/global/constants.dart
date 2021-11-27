@@ -16,6 +16,9 @@ const IconData emptyAvatarIcon = Icons.account_circle;
 const IconData balancePage = Icons.home;
 const IconData settingsPage = Icons.settings;
 const IconData statisticsPage = Icons.pie_chart;
+const IconData transactionDetailsIcon = Icons.info;
+const IconData expandIcon = Icons.expand_less;
+const IconData minimizeIcon = Icons.expand_more;
 
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
