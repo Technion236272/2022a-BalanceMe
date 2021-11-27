@@ -12,4 +12,13 @@ class LanguageEn extends Languages {
 
   @override
   String get appTitle => "BalanceMe";
+
+  @override
+  String get loginTitle => "Login";
+
+  @override
+  String get signUpTitle => "Sign Up";
+
+  @override
+  String get emailText => "Email";
 }

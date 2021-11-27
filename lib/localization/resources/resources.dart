@@ -13,4 +13,9 @@ abstract class Languages {
   String get appName;
 
   String get appTitle;
+
+  String get loginTitle;
+
+  String get signUpTitle;
+  String get emailText;
 }

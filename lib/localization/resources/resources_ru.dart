@@ -12,4 +12,12 @@ class LanguageRu extends Languages {
 
   @override
   String get appTitle => "BalanceMe";
+  @override
+  String get loginTitle => "вход";
+
+  @override
+  String get signUpTitle => "регистрация";
+
+  @override
+  String get emailText => "электронный адрес";
 }
