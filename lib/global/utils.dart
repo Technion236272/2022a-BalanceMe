@@ -1,6 +1,7 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
 import 'dart:convert';
+
 // Navigation
 void navigateToPage(context, Widget page) {
   Navigator.of(context).push(
@@ -32,18 +33,22 @@ void displayAlertDialog(BuildContext context, String alertTitle, String alertCon
     ),
   );
 }
+
 //Json generic functions
-Map<String,dynamic> toJson(List<Object> fields)
-{
-Map<String,dynamic> jsonMap={};
-for (var element in fields) {jsonMap[element.toString()]=element;}
-return jsonMap;
+Map<String,dynamic> toJson(List<Object> fields) {
+  Map<String,dynamic> jsonMap={};
+  for (var element in fields) {
+    jsonMap[element.toString()]=element;
+  }
+  return jsonMap;
 }
+
 //requires to json
-String jsonFromObject(Object o)
-{
-  return jsonEncode(o);
+String jsonFromObject(Object object) {
+  return jsonEncode(object);
 }
-// to convert from json to object requires a constructor
-// Object.fromJson(Map json)
-//: this(json['firstfield],json['secondfield'],...)
+
+// Numbers
+double getPercentage(double amount, double total) {
+  return (amount / total) * 100;
+}

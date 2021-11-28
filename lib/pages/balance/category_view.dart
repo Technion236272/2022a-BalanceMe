@@ -36,9 +36,11 @@ class _CategoryWidgetState extends State<CategoryWidget> {
       child: Column(
         children: [
           CategoryHeader(widget._category.name, widget._category.expected, widget._category.inPractice, _isCategoryOpen, _toggleCategory),
+          _isCategoryOpen ?  // TODO- add animation
           Column(
             children: getTransactionWidgets(),
           )
+          : Container(),
         ],
       ),
     );
