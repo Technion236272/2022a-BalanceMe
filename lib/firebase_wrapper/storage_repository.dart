@@ -23,7 +23,8 @@ class UserStorage with ChangeNotifier {
   String get currentLanguageCode => _currentLanguageCode;
 
   // Server Requests
-  void updateLanguage(updatedLanguage) {
+  void updateLanguage(updatedLanguage)
+  {
     // TODO- push updated language to Firebase
    _currentLanguageCode = updatedLanguage;
   }

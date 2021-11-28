@@ -6,8 +6,12 @@ import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:balance_me/pages/home.dart';
 
-late bool _passwordVisible;
+late bool passwordVisible;
+ String? email;
+ String? password;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -31,7 +35,8 @@ void initState ()
 {
 
 super.initState();
-_passwordVisible=false;
+passwordVisible=false;
+
 }
   Widget tabBody()
   {
@@ -50,23 +55,31 @@ return Container(
   Widget loginBody()
   {
     return Form(child: Column(children: [
-      TextFormField(decoration: InputDecoration (
-          hintText:Languages.of(context)!.emailText ),),
-      TextFormField(decoration: InputDecoration (
+      TextFormField(
+        onChanged:(String? value){email=value;},
+        decoration: InputDecoration (
+          hintText:Languages.of(context)!.emailText ),
+
+      ),
+      TextFormField(
+        onChanged:(String? value){password=value;},
+        decoration: InputDecoration (
           hintText:Languages.of(context)!.password,
-      suffixIcon: IconButton(icon:Icon(_passwordVisible? gc.hidePassword:gc.showPassword)
+      suffixIcon: IconButton(icon:Icon(passwordVisible? gc.hidePassword:gc.showPassword)
         ,onPressed:changePasswordVisibility ,),
 
       ),),
-    //TODO: figure out how to set up google and facebook authentication
+    //TODO:enable authentication via Google and Facebook
     Row(children: [SignInButton(Buttons.Google,mini: true, onPressed: signInGoogle),
       SignInButton(Buttons.Facebook,mini: true, onPressed: signInFacebook),
     ],),
     TextButton(onPressed:(){navigateToPage(context,forgotPasswordPage());} ,
   child: Text(Languages.of(context)!.forgotPassword)),
-      TextButton(onPressed:(){ regularSignIn();} ,
+
+
+      TextButton(onPressed:(){ regularSignIn(email,password);} ,
           child: Text(Languages.of(context)!.signIn)),
-     //TODO: consider not adding a don't have an account link since we have tabs
+
     ],),);
   }
   Widget signUpBody()
@@ -79,7 +92,7 @@ return Container(
   }
   void changePasswordVisibility()
   {
-    _passwordVisible=!_passwordVisible;
+    passwordVisible=!passwordVisible;
   }
   void signInGoogle()
   {
@@ -89,9 +102,17 @@ return Container(
   {
 
   }
-  void regularSignIn()
-  {
 
+  void regularSignIn(String? email,String? password)async
+  {
+    if (email==null || password==null)
+    {
+      displaySnackBar(context,Languages.of(context)!.loginError);
+      return;
+    }
+    AuthRepository _auth=AuthRepository.instance();
+  bool signInSuccesful=await _auth.signIn(email, password);
+    navigateToPage(context,HomePage());
   }
 
 

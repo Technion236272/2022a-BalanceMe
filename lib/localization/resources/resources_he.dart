@@ -53,4 +53,6 @@ class LanguageHe extends Languages {
 
   @override
   String get signIn => "‎כניסה";
+  @override
+  String get loginError => "‎המשתמש לא נמצא";
 }

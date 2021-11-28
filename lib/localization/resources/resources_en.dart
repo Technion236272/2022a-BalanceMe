@@ -55,4 +55,7 @@ class LanguageEn extends Languages {
   @override
   String get signIn => "SIGN IN";
 
+  @override
+  String get loginError => "User not found";
+
 }
