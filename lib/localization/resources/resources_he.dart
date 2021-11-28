@@ -45,5 +45,12 @@ class LanguageHe extends Languages {
 
   @override
   String get settings => "‎הגדרות";
+  @override
+  String get password => "‎סיסמה";
 
+  @override
+  String get forgotPassword => "‎שכחת סיסמה?";
+
+  @override
+  String get signIn => "‎כניסה";
 }

@@ -22,7 +22,7 @@ class _TabLoginState extends State<TabLogin> {
   Widget tabs(BuildContext context)
   {
     return Container(child: TabBar(tabs: [Tab(child:
-    Text(Languages.of(context)!.loginTitle)),
+    Text(Languages.of(context)!.login)),
       Tab(child:Text(Languages.of(context)!.signUpTitle) ,)],),);
   }
 }

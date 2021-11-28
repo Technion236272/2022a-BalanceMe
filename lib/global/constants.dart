@@ -16,7 +16,8 @@ const IconData emptyAvatarIcon = Icons.account_circle;
 const IconData balancePage = Icons.home;
 const IconData settingsPage = Icons.settings;
 const IconData statisticsPage = Icons.pie_chart;
-
+const IconData hidePassword = Icons.remove_red_eye_outlined;
+const IconData showPassword = Icons.remove_red_eye;
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
 const Color secondaryColor = Colors.white;  // TODO- change to the chosen color

@@ -45,5 +45,14 @@ class LanguageEn extends Languages {
 
   @override
   String get settings => "Settings";
+  @override
+  String get password => "Password";
+
+
+  @override
+  String get forgotPassword => "FORGOT PASSWORD";
+
+  @override
+  String get signIn => "SIGN IN";
 
 }

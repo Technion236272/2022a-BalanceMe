@@ -7,6 +7,7 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:balance_me/pages/login.dart';
 
 // MinorAppBar
 class MinorAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -53,7 +54,7 @@ class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _MainAppBarState extends State<MainAppBar> {
   void _loginApp() {
     // TODO- replace to login screen after it will be implemented
-    navigateToPage(context, const Scaffold());
+    navigateToPage(context,  LoginPage());
   }
 
   void _logoutApp() {

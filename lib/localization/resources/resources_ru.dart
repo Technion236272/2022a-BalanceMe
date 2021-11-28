@@ -24,16 +24,16 @@ class LanguageRu extends Languages {
 
   // Login
   @override
-  String get welcome => "Welcome";
+  String get welcome => "Добро пожаловать";
 
   @override
   String get login => "вход";
 
   @override
-  String get logout => "Logout";
+  String get logout => "выход";
 
   @override
-  String get successfullyLogout => "Successfully logged out";
+  String get successfullyLogout => "удачный выход";
 
   // Navigation
   @override
@@ -44,5 +44,13 @@ class LanguageRu extends Languages {
 
   @override
   String get settings => "Settings";
+  @override
+  String get password => "пароль";
+  @override
+  String get forgotPassword => "забыл пароль";
+
+
+  @override
+  String get signIn => "войти";
 
 }

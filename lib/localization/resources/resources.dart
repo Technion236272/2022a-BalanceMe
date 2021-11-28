@@ -12,16 +12,21 @@ abstract class Languages {
   String get languageCode;
   String get appName;
   String get appTitle;
-  String get signUpTitle;
-  String get emailText;
+
   // Login
   String get welcome;
   String get login;
   String get logout;
   String get successfullyLogout;
+  String get signUpTitle;
+  String get emailText;
+  String get password;
+  String get forgotPassword;
+  String get signIn;
   // Navigation
   String get balance;
   String get statistics;
   String get settings;
+
 
 }
