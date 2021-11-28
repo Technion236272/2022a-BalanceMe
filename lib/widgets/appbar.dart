@@ -1,4 +1,5 @@
 // ================= AppBar Widget =================
+import 'package:balance_me/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/widgets/user_avatar.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -7,7 +8,7 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:balance_me/pages/login.dart';
+
 
 // MinorAppBar
 class MinorAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -54,7 +55,7 @@ class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _MainAppBarState extends State<MainAppBar> {
   void _loginApp() {
     // TODO- replace to login screen after it will be implemented
-    navigateToPage(context,  LoginPage());
+    navigateToPage(context,  LoginScreen());
   }
 
   void _logoutApp() {

@@ -22,9 +22,13 @@ const IconData showPassword = Icons.remove_red_eye;
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
 const Color secondaryColor = Colors.white;  // TODO- change to the chosen color
 const Color bottomNavigationSelectedColor = primaryColor;
+const Color tabColor=Color(0xffd3ff21);
+const Color tabTextColor=Colors.black;
 
 // AppBar
 const double appBarAvatarRadius = 40;
 
+//tabs
+int loginTabs=2;
 // Navigation
 int defaultPage = AppPages.Balance.index;
