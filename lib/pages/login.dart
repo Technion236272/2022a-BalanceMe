@@ -8,6 +8,7 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/pages/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:auth_buttons/auth_buttons.dart';
 
 late bool passwordVisible;
 String? email;
@@ -90,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
 
       ),
+      
       TextFormField(
         onChanged:(String? value){password=value;},
         decoration: InputDecoration (
@@ -99,10 +101,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
         ),),
       //TODO:enable authentication ios google+facebook
-      Row(children: [SignInButton(Buttons.Google, onPressed: signInGoogle),
-        SignInButton(Buttons.Facebook,mini: true, onPressed: signInFacebook),
+      Row(children: [
+        //SignInButton(Buttons.Google, onPressed: signInGoogle),
+        GoogleAuthButton(
+          onPressed: () {signInGoogle();},
+          darkMode: false,
+          style: AuthButtonStyle(
+            buttonType: AuthButtonType.icon,
+          ),
+        ),
+        FacebookAuthButton(
+          onPressed: () {},
+          darkMode: false,
+          style: AuthButtonStyle(
+            buttonType: AuthButtonType.icon,
+          ),
+        ),
+
       ],),
-      TextButton(onPressed:(){navigateToPage(context,forgotPasswordPage());} ,
+      TextButton(onPressed:(){
+        navigateToPage(context,forgotPasswordPage());} ,
           child: Text(Languages.of(context)!.forgotPassword)),
 
 
@@ -111,6 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     ],),);
   }
+
   @override
   void initState ()
   {
