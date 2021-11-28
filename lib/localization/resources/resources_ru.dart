@@ -1,6 +1,8 @@
+// ================= A Class For Russian Language =================
 import 'package:balance_me/localization/resources/resources.dart';
 
 class LanguageRu extends Languages {
+  // General
   @override
   String get languageName => "русский";
 
@@ -12,12 +14,35 @@ class LanguageRu extends Languages {
 
   @override
   String get appTitle => "BalanceMe";
-  @override
-  String get loginTitle => "вход";
+
 
   @override
   String get signUpTitle => "регистрация";
 
   @override
   String get emailText => "электронный адрес";
+
+  // Login
+  @override
+  String get welcome => "Welcome";
+
+  @override
+  String get login => "вход";
+
+  @override
+  String get logout => "Logout";
+
+  @override
+  String get successfullyLogout => "Successfully logged out";
+
+  // Navigation
+  @override
+  String get balance => "Balance";
+
+  @override
+  String get statistics => "Statistics";
+
+  @override
+  String get settings => "Settings";
+
 }
