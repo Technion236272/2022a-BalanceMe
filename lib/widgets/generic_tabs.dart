@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class TabGeneric extends StatefulWidget {
-  const TabGeneric(this.tabsNum, this.tabsList, this.tabBarViewList, {Key? key})
+  const TabGeneric( this.tabsList, this.tabBarViewList, {Key? key})
       : super(key: key);
 
   final List<Widget> tabBarViewList;
   final List<Tab> tabsList;
-  final int tabsNum;
+
 
   @override
   _TabGenericState createState() => _TabGenericState();
@@ -17,12 +17,12 @@ class _TabGenericState extends State<TabGeneric> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: widget.tabsNum,
+        length: widget.tabsList.length,
         child: genericTabs(
-            context, widget.tabsNum, widget.tabsList, widget.tabBarViewList));
+            context, widget.tabsList, widget.tabBarViewList));
   }
 
-  Widget genericTabs(BuildContext context, int tabsNum, List<Tab> tabsList, List<Widget> tabBarViewList) {
+  Widget genericTabs(BuildContext context, List<Tab> tabsList, List<Widget> tabBarViewList) {
     return Padding(
       padding: EdgeInsets.all(gc.tabPadding),
       child: Column(
