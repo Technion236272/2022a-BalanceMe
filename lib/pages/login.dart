@@ -8,6 +8,7 @@ import 'package:balance_me/pages/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:balance_me/widgets/generic_tabs.dart';
 bool showPassword=true;
 bool signUpPasswordVisible=true;
 bool confirmPasswordVisible=true;
@@ -23,18 +24,26 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  Widget tabs(BuildContext context)
+  //generic tab attempt
+  List<Tab> loginTabs()
   {
-    return Container(color:gc.tabColor,
-      child: TabBar(
-        tabs: [Tab( child:
-        Text(Languages.of(context)!.login,
-          style: const TextStyle(color: gc.tabTextColor),
-        )),
-          Tab(child:Text(Languages.of(context)!.signUpTitle,
-            style: const TextStyle(color: gc.tabTextColor),
-          ) ,)],),);
-  }
+    return [Tab( child:
+  Text(Languages.of(context)!.login,
+  style: const TextStyle(color: gc.tabTextColor),
+  )),
+  Tab(child:Text(Languages.of(context)!.signUpTitle,
+  style: const TextStyle(color: gc.tabTextColor),
+    ) ,)];
+}
+List<Widget> loginTabBarView()
+{
+  return  [
+loginBody(context),
+signUpBody(context),
+
+  ];
+}
+
   //TODO: update UserStorage
   Widget signUpBody(BuildContext context)
   {
@@ -194,6 +203,7 @@ void initState()
     navigateToPage(context,HomePage());
 
   }
+  //TODO: find a free image and attribute it
   Widget forgotPasswordPage()
   {
     return Scaffold(
@@ -310,20 +320,7 @@ void initState()
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: MinorAppBar(Languages.of(context)!.login),
-          body: Column(
-            children: [
-            tabs(context),
-              Expanded(
-                child:  TabBarView(
-                  children: [
-                    loginBody(context),
-                    signUpBody(context),
-
-                  ],
-                ),
-              ),
-            ],
-          ),
+          body: TabGeneric(loginTabs(),loginTabBarView()),
         ),
       );
   }

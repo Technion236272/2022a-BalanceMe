@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class TabGeneric extends StatefulWidget {
-  const TabGeneric( this.tabsList, this.tabBarViewList, {Key? key})
+  const TabGeneric( this.tabsList, this.tabBarViewList, {this.onSwitch,Key? key})
       : super(key: key);
 
   final List<Widget> tabBarViewList;
   final List<Tab> tabsList;
-
+  final void Function(int)? onSwitch;
 
   @override
   _TabGenericState createState() => _TabGenericState();
@@ -19,10 +19,10 @@ class _TabGenericState extends State<TabGeneric> {
     return DefaultTabController(
         length: widget.tabsList.length,
         child: genericTabs(
-            context, widget.tabsList, widget.tabBarViewList));
+            context, widget.tabsList, widget.tabBarViewList,widget.onSwitch));
   }
 
-  Widget genericTabs(BuildContext context, List<Tab> tabsList, List<Widget> tabBarViewList) {
+  Widget genericTabs(BuildContext context, List<Tab> tabsList, List<Widget> tabBarViewList, void Function(int)? onSwitch) {
     return Padding(
       padding: EdgeInsets.all(gc.tabPadding),
       child: Column(
@@ -33,6 +33,7 @@ class _TabGenericState extends State<TabGeneric> {
               borderRadius: BorderRadius.circular(gc.tabBorderRadius),
             ),
             child: TabBar(
+                onTap:(int value) {onSwitch!(value);},
                 indicatorColor: gc.tabIndicatorColor,
                 labelColor: gc.tabLabelColor,
                 indicatorSize: TabBarIndicatorSize.label,

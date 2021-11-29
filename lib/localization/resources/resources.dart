@@ -25,7 +25,9 @@ abstract class Languages {
   String get signIn;
   String get loginError;
   String get confirmPassword;
+  //password recovery
   String get recoverPassword;
+
   // Navigation
   String get balance;
   String get statistics;
