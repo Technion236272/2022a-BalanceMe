@@ -27,3 +27,5 @@ const double appBarAvatarRadius = 40;
 
 // Navigation
 int defaultPage = AppPages.Balance.index;
+
+double tabPadding = 5.0;
