@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:balance_me/widgets/tab_with_controller.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/pages/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:auth_buttons/auth_buttons.dart';
-
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
  bool showPassword=true;
 bool signUpPasswordVisible=true;
  bool confirmPasswordVisible=true;
@@ -132,8 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
       ],),
 
-
-
       SizedBox(
 
         child: ElevatedButton(
@@ -147,10 +143,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   void signInGoogle()async
   {
+
     GoogleSignIn _googleSignIn = GoogleSignIn(
       scopes: [
-        'email',
-        'https://www.googleapis.com/auth/contacts.readonly',
+
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile',
       ],
     );
     GoogleSignInAccount? googleAccount= await _googleSignIn.signIn();
@@ -159,11 +157,20 @@ class _LoginScreenState extends State<LoginScreen> {
       _googleSignIn.disconnect();
       displaySnackBar(context,Languages.of(context)!.loginError);
     }
+
     navigateToPage(context,HomePage());
   }
-  void signInFacebook()
+  void signInFacebook() async
   {
-
+    // final LoginResult result = await FacebookAuth.instance.login();
+    //
+    // if (result.status == LoginStatus.success)
+    // {
+    //   final AccessToken accessToken = result.accessToken!;
+    //   navigateToPage(context, HomePage());
+    // } else {
+    //   displaySnackBar(context,Languages.of(context)!.loginError);
+    // }
   }
 @override
 void initState()
@@ -288,8 +295,6 @@ void initState()
 
     ],),);
   }
-
-
   @override
   Widget build(BuildContext context)
   {
