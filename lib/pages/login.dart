@@ -10,7 +10,9 @@ import 'package:balance_me/pages/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:auth_buttons/auth_buttons.dart';
 
-late bool passwordVisible;
+ bool showPassword=true;
+bool signUpPasswordVisible=true;
+ bool confirmPasswordVisible=true;
 String? email;
 String? password;
 class LoginScreen extends StatefulWidget {
@@ -21,6 +23,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   Widget tabs(BuildContext context)
   {
     return Container(color:gc.tabColor,
@@ -35,7 +38,112 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   Widget signUpBody(BuildContext context)
   {
-    return Container();
+    //showPassword=false;
+    return Form(child: Column(children: [
+
+      Padding(
+        padding: const EdgeInsets.all(gc.paddingBetweenText),
+        child: TextFormField(
+
+          onChanged:(String? value){email=value;},
+          decoration: InputDecoration (
+
+            hintText:Languages.of(context)!.emailText,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(gc.textFieldRadius),
+              borderSide: BorderSide(
+                color: gc.primaryColor,
+                width: 2.0,
+              ),
+            ),
+          ),
+
+        ),
+      ),
+
+      Padding(
+        padding: const EdgeInsets.all(gc.paddingBetweenText),
+        child: TextFormField(
+          obscureText: signUpPasswordVisible,
+          onChanged:(String? value){password=value;},
+          decoration: InputDecoration (
+              hintText:Languages.of(context)!.password,
+
+              suffixIcon: IconButton(icon:Icon(signUpPasswordVisible? gc.hidePassword:gc.showPassword)
+                ,onPressed:(){setState(() {
+                  signUpPasswordVisible=!signUpPasswordVisible;
+                });} ,),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(gc.textFieldRadius),
+                borderSide: BorderSide(
+                  color: gc.primaryColor,
+                  width: 2.0,
+                ),
+              )
+          ),),
+      ),
+      //confirm password works perfectly
+      Padding(
+        padding: const EdgeInsets.all(gc.paddingBetweenText),
+        child: TextFormField(
+          obscureText: confirmPasswordVisible,
+          onChanged:(String? value){password=value;},
+          decoration: InputDecoration (
+              hintText:Languages.of(context)!.confirmPassword,
+              suffixIcon: IconButton(icon:Icon(confirmPasswordVisible? gc.hidePassword:gc.showPassword)
+                ,onPressed:(){setState(() {
+                  confirmPasswordVisible=!confirmPasswordVisible;
+                });} ,),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(gc.textFieldRadius),
+                borderSide: BorderSide(
+                  color: gc.primaryColor,
+                  width: 2.0,
+                ),
+              )
+          ),),
+      ),
+      //TODO:enable authentication ios google+facebook
+      Row(children: [
+
+        Padding(
+
+          padding: const EdgeInsets.fromLTRB(gc.googleButtonPadding,
+              gc.paddingFacebook,gc.paddingFacebook,gc.paddingFacebook),
+
+          child: GoogleAuthButton(
+            onPressed: () {signInGoogle();},
+            darkMode: false,
+            style: const AuthButtonStyle(
+              buttonType: AuthButtonType.icon,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(gc.paddingFacebook),
+          child: FacebookAuthButton(
+            onPressed: () {},
+            darkMode: false,
+            style: const AuthButtonStyle(
+              buttonType: AuthButtonType.icon,
+            ),
+          ),
+        ),
+
+      ],),
+
+
+
+      SizedBox(
+
+        child: ElevatedButton(
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary)),
+            onPressed:(){ regularSignIn(email,password);} ,
+            child: Text(Languages.of(context)!.signUpTitle)),
+      ),
+
+    ],),);
+    ;
   }
   void signInGoogle()async
   {
@@ -57,7 +165,14 @@ class _LoginScreenState extends State<LoginScreen> {
   {
 
   }
+@override
+void initState()
+{
+  super.initState();
+   //passwordVisible=true;
+  confirmPasswordVisible=true;
 
+}
   void regularSignIn(String? email,String? password)async
   {
     if (email==null || password==null)
@@ -76,72 +191,113 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   void changePasswordVisibility()
   {
-    passwordVisible=!passwordVisible;
+    setState(() {
+      showPassword=!showPassword;
+    });
+
   }
   Widget loginBody(BuildContext context)
   {
-    passwordVisible=false;
-    return Form(child: Column(children: [
-      TextFormField(
 
-        onChanged:(String? value){email=value;},
-        decoration: InputDecoration (
-            hintText:Languages.of(context)!.emailText
+    return Form(child: Column(children: [
+
+      Padding(
+        padding: const EdgeInsets.all(gc.paddingBetweenText),
+        child: TextFormField(
+
+          onChanged:(String? value){email=value;},
+          decoration: InputDecoration (
+
+              hintText:Languages.of(context)!.emailText,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(gc.textFieldRadius),
+              borderSide: BorderSide(
+                color: gc.primaryColor,
+                width: 2.0,
+              ),
+            ),
+          ),
 
         ),
-
       ),
       
-      TextFormField(
-        onChanged:(String? value){password=value;},
-        decoration: InputDecoration (
-          hintText:Languages.of(context)!.password,
-          suffixIcon: IconButton(icon:Icon(passwordVisible? gc.hidePassword:gc.showPassword)
-            ,onPressed:changePasswordVisibility ,),
+      Padding(
+        padding: const EdgeInsets.all(gc.paddingBetweenText),
+        child: TextFormField(
+          obscureText: showPassword,
+          onChanged:(String? value){password=value;},
+          decoration: InputDecoration (
+            hintText:Languages.of(context)!.password,
+            suffixIcon: IconButton(icon:Icon(showPassword? gc.hidePassword:gc.showPassword )
+              ,onPressed:(){
+              setState(() {
+                showPassword=!showPassword;
+              }
+              );;} ,),
 
-        ),),
+
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(gc.textFieldRadius),
+                borderSide: BorderSide(
+                  color: gc.primaryColor,
+                  width: 2.0,
+                ),
+              )
+          ),),
+      ),
       //TODO:enable authentication ios google+facebook
       Row(children: [
-        //SignInButton(Buttons.Google, onPressed: signInGoogle),
-        GoogleAuthButton(
-          onPressed: () {signInGoogle();},
-          darkMode: false,
-          style: AuthButtonStyle(
-            buttonType: AuthButtonType.icon,
+
+        Padding(
+
+          padding: const EdgeInsets.fromLTRB(gc.googleButtonPadding,
+              gc.paddingFacebook,gc.paddingFacebook,gc.paddingFacebook),
+
+          child: GoogleAuthButton(
+            onPressed: () {signInGoogle();},
+            darkMode: false,
+            style: const AuthButtonStyle(
+              buttonType: AuthButtonType.icon,
+            ),
           ),
         ),
-        FacebookAuthButton(
-          onPressed: () {},
-          darkMode: false,
-          style: AuthButtonStyle(
-            buttonType: AuthButtonType.icon,
+        Padding(
+          padding: const EdgeInsets.all(gc.paddingFacebook),
+          child: FacebookAuthButton(
+            onPressed: () {},
+            darkMode: false,
+            style: const AuthButtonStyle(
+              buttonType: AuthButtonType.icon,
+            ),
           ),
         ),
 
       ],),
       TextButton(onPressed:(){
         navigateToPage(context,forgotPasswordPage());} ,
-          child: Text(Languages.of(context)!.forgotPassword)),
+          child: Text(Languages.of(context)!.forgotPassword,style: TextStyle(color: gc.linkColors),)),
 
 
-      TextButton(onPressed:(){ regularSignIn(email,password);} ,
-          child: Text(Languages.of(context)!.signIn)),
+      SizedBox(
+
+        child: ElevatedButton(
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary)),
+            onPressed:(){ regularSignIn(email,password);} ,
+            child: Text(Languages.of(context)!.signIn)),
+      ),
 
     ],),);
   }
 
+
   @override
-  void initState ()
+  Widget build(BuildContext context)
   {
-    super.initState();
-    passwordVisible=false;
-  }
-  @override
-  Widget build(BuildContext context) {
     return
        DefaultTabController(
         length: gc.loginTabs,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: MinorAppBar(Languages.of(context)!.login),
           body: Column(
             children: [

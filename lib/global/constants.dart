@@ -22,12 +22,19 @@ const IconData showPassword = Icons.remove_red_eye;
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
 const Color secondaryColor = Colors.white;  // TODO- change to the chosen color
 const Color bottomNavigationSelectedColor = primaryColor;
+const Color alternativePrimary=Color(0xff4e21ff);
 const Color tabColor=Color(0xffd3ff21);
+const Color linkColors=Color(0xffbc21ff);
 const Color tabTextColor=Colors.black;
 
 // AppBar
 const double appBarAvatarRadius = 40;
 
+//login
+const double paddingBetweenText=30.0;
+const double textFieldRadius=25.0;
+const double googleButtonPadding=120.0;
+const double paddingFacebook=10.0;
 //tabs
 int loginTabs=2;
 // Navigation

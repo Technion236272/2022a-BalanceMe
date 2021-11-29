@@ -57,5 +57,7 @@ class LanguageEn extends Languages {
 
   @override
   String get loginError => "User not found";
+  @override
+  String get confirmPassword => "Confirm Password";
 
 }
