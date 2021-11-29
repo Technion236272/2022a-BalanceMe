@@ -54,5 +54,6 @@ class LanguageRu extends Languages {
   String get loginError => "пользователь не нашолса";
   @override
   String get confirmPassword => "подтвердить пароль";
-
+  @override
+  String get recoverPassword => "восстановления пароля";
 }

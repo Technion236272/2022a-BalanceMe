@@ -35,6 +35,7 @@ const double paddingBetweenText=30.0;
 const double textFieldRadius=25.0;
 const double googleButtonPadding=120.0;
 const double paddingFacebook=10.0;
+const List<String> permissionFacebook= ["public_profile","email"];
 //tabs
 int loginTabs=2;
 // Navigation

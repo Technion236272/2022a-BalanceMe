@@ -58,4 +58,6 @@ class LanguageHe extends Languages {
 
   @override
   String get confirmPassword => "אימות סיסמה‎";
+  @override
+  String get recoverPassword => "שחזור סיסמה‎";
 }

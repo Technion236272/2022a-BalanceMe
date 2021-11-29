@@ -8,11 +8,12 @@ import 'package:balance_me/pages/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
- bool showPassword=true;
+bool showPassword=true;
 bool signUpPasswordVisible=true;
- bool confirmPasswordVisible=true;
+bool confirmPasswordVisible=true;
 String? email;
 String? password;
+String? confirmPassword;
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -34,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
             style: const TextStyle(color: gc.tabTextColor),
           ) ,)],),);
   }
+  //TODO: update UserStorage
   Widget signUpBody(BuildContext context)
   {
     //showPassword=false;
@@ -80,12 +82,12 @@ class _LoginScreenState extends State<LoginScreen> {
               )
           ),),
       ),
-      //confirm password works perfectly
+
       Padding(
         padding: const EdgeInsets.all(gc.paddingBetweenText),
         child: TextFormField(
           obscureText: confirmPasswordVisible,
-          onChanged:(String? value){password=value;},
+          onChanged:(String? value){confirmPassword=value;},
           decoration: InputDecoration (
               hintText:Languages.of(context)!.confirmPassword,
               suffixIcon: IconButton(icon:Icon(confirmPasswordVisible? gc.hidePassword:gc.showPassword)
@@ -101,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
               )
           ),),
       ),
-      //TODO:enable authentication ios google+facebook
+
       Row(children: [
 
         Padding(
@@ -162,15 +164,15 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   void signInFacebook() async
   {
-    // final LoginResult result = await FacebookAuth.instance.login();
-    //
-    // if (result.status == LoginStatus.success)
-    // {
-    //   final AccessToken accessToken = result.accessToken!;
-    //   navigateToPage(context, HomePage());
-    // } else {
-    //   displaySnackBar(context,Languages.of(context)!.loginError);
-    // }
+     final LoginResult result = await FacebookAuth.instance.login(permissions:gc.permissionFacebook);
+
+    if (result.status == LoginStatus.success)
+    {
+      final AccessToken accessToken = result.accessToken!;
+      navigateToPage(context, HomePage());
+    } else {
+      displaySnackBar(context,Languages.of(context)!.loginError);
+    }
   }
 @override
 void initState()
@@ -194,7 +196,11 @@ void initState()
   }
   Widget forgotPasswordPage()
   {
-    return Container();
+    return Scaffold(
+      appBar: MinorAppBar(Languages.of(context)!.recoverPassword),
+      body: Container(),
+
+    );
   }
   void changePasswordVisibility()
   {
@@ -252,7 +258,7 @@ void initState()
               )
           ),),
       ),
-      //TODO:enable authentication ios google+facebook
+
       Row(children: [
 
         Padding(
@@ -271,7 +277,7 @@ void initState()
         Padding(
           padding: const EdgeInsets.all(gc.paddingFacebook),
           child: FacebookAuthButton(
-            onPressed: () {},
+            onPressed: () {signInFacebook();},
             darkMode: false,
             style: const AuthButtonStyle(
               buttonType: AuthButtonType.icon,
