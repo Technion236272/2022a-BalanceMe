@@ -1,11 +1,14 @@
 // ================= Auth Repository =================
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cross_file/cross_file.dart';
 import 'dart:io';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;
@@ -53,9 +56,57 @@ class AuthRepository with ChangeNotifier {
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
+
     }
   }
+//TODO: use facebook and google's user data to update required fields
+  //important: Signing in with credential creates an account if none exists
+  Future<bool> signInGoogle() async
+  {
 
+    try {
+      _status = Status.Authenticating;
+      notifyListeners();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+            accessToken: googleAuth?.accessToken,
+            idToken: googleAuth?.idToken,
+          );
+
+      UserCredential userData= await FirebaseAuth.instance.signInWithCredential(credential);
+      _status = Status.Authenticated;
+      _avatarUrl = await getAvatarUrl();
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _status = Status.Unauthenticated;
+      notifyListeners();
+      return false;
+    }
+  }
+  Future<bool> signInWithFacebook() async
+  {
+
+    try {
+
+      final LoginResult loginResult = await FacebookAuth.instance.login();
+
+      final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+      UserCredential userData=await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+      _status = Status.Authenticated;
+      _avatarUrl = await getAvatarUrl();
+      notifyListeners();
+      return true;
+    } catch (e)
+    {
+      _status = Status.Unauthenticated;
+      notifyListeners();
+      return false;
+    }
+  }
   Future signOut() async {
     _auth.signOut();
     _status = Status.Unauthenticated;

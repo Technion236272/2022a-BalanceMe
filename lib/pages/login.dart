@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:balance_me/firebase_wrapper/auth_repository.dart' as auth;
 import 'package:balance_me/pages/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:auth_buttons/auth_buttons.dart';
@@ -15,6 +16,7 @@ bool confirmPasswordVisible=true;
 String? email;
 String? password;
 String? confirmPassword;
+int appBarChoice=0;
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -44,7 +46,12 @@ signUpBody(context),
   ];
 }
 
-  //TODO: update UserStorage
+void changeAppbar(int tabIndex)
+{
+setState(() {
+  appBarChoice=tabIndex;
+});
+}
   Widget signUpBody(BuildContext context)
   {
     //showPassword=false;
@@ -121,7 +128,7 @@ signUpBody(context),
               gc.paddingFacebook,gc.paddingFacebook,gc.paddingFacebook),
 
           child: GoogleAuthButton(
-            onPressed: () {signInGoogle();},
+            onPressed: () {signUpGoogle();},
             darkMode: false,
             style: const AuthButtonStyle(
               buttonType: AuthButtonType.icon,
@@ -131,7 +138,7 @@ signUpBody(context),
         Padding(
           padding: const EdgeInsets.all(gc.paddingFacebook),
           child: FacebookAuthButton(
-            onPressed: () {},
+            onPressed: () {signUpFacebook();},
             darkMode: false,
             style: const AuthButtonStyle(
               buttonType: AuthButtonType.icon,
@@ -145,50 +152,85 @@ signUpBody(context),
 
         child: ElevatedButton(
             style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary)),
-            onPressed:(){ regularSignIn(email,password);} ,
+            onPressed:(){ regularSignUp(email,password);} ,
             child: Text(Languages.of(context)!.signUpTitle)),
       ),
 
     ],),);
-    ;
+
   }
+  //TODO: update UserStorage-and add sign up functions
   void signInGoogle()async
   {
 
-    GoogleSignIn _googleSignIn = GoogleSignIn(
-      scopes: [
-
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/userinfo.profile',
-      ],
-    );
-    GoogleSignInAccount? googleAccount= await _googleSignIn.signIn();
-    if(googleAccount==null)
+    auth.AuthRepository authRepository=auth.AuthRepository.instance();
+   bool signInAttempt=await authRepository.signInGoogle();
+    if(signInAttempt)
     {
-      _googleSignIn.disconnect();
-      displaySnackBar(context,Languages.of(context)!.loginError);
+      navigateToPage(context,HomePage());
     }
+    else
+      {
+        displaySnackBar(context,Languages.of(context)!.loginError);
 
-    navigateToPage(context,HomePage());
+      }
+
   }
   void signInFacebook() async
   {
-     final LoginResult result = await FacebookAuth.instance.login(permissions:gc.permissionFacebook);
-
-    if (result.status == LoginStatus.success)
+    auth.AuthRepository authRepository=auth.AuthRepository.instance();
+    bool signInAttempt=await authRepository.signInWithFacebook();
+    if (signInAttempt)
     {
-      final AccessToken accessToken = result.accessToken!;
       navigateToPage(context, HomePage());
     } else {
       displaySnackBar(context,Languages.of(context)!.loginError);
     }
   }
+
+  void signUpGoogle()async
+  {
+
+    auth.AuthRepository authRepository=auth.AuthRepository.instance();
+    bool signInAttempt=await authRepository.signInGoogle();
+    if(signInAttempt)
+    {
+      navigateToPage(context,HomePage());
+    }
+    else
+    {
+      displaySnackBar(context,Languages.of(context)!.loginError);
+
+    }
+  }
+  void signUpFacebook() async
+  {
+    auth.AuthRepository authRepository=auth.AuthRepository.instance();
+    bool signInAttempt=await authRepository.signInWithFacebook();
+    if (signInAttempt)
+    {
+      navigateToPage(context, HomePage());
+    } else {
+      displaySnackBar(context,Languages.of(context)!.loginError);
+    }
+  }
+  void regularSignUp(String? email,String? password)async
+  {
+    if (email==null || password==null)
+    {
+      displaySnackBar(context,Languages.of(context)!.loginError);
+      return;
+    }
+    auth.AuthRepository _auth=auth.AuthRepository.instance();
+   await _auth.signUp(email, password);
+    navigateToPage(context,HomePage());
+
+  }
 @override
 void initState()
 {
   super.initState();
-   //passwordVisible=true;
-  confirmPasswordVisible=true;
+
 
 }
   void regularSignIn(String? email,String? password)async
@@ -198,7 +240,7 @@ void initState()
       displaySnackBar(context,Languages.of(context)!.loginError);
       return;
     }
-    AuthRepository _auth=AuthRepository.instance();
+    auth.AuthRepository _auth=auth.AuthRepository.instance();
     bool signInSuccesful=await _auth.signIn(email, password);
     navigateToPage(context,HomePage());
 
@@ -221,7 +263,6 @@ void initState()
   }
   Widget loginBody(BuildContext context)
   {
-
     return Form(child: Column(children: [
 
       Padding(
@@ -319,8 +360,8 @@ void initState()
         length: gc.loginTabs,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: MinorAppBar(Languages.of(context)!.login),
-          body: TabGeneric(loginTabs(),loginTabBarView()),
+          appBar:appBarChoice==0? MinorAppBar(Languages.of(context)!.login):MinorAppBar(Languages.of(context)!.signUpTitle),
+          body: TabGeneric(loginTabs(),loginTabBarView(),onSwitch: changeAppbar),
         ),
       );
   }

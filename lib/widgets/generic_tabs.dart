@@ -1,6 +1,6 @@
+import 'package:balance_me/global/types.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-
 class TabGeneric extends StatefulWidget {
   const TabGeneric( this.tabsList, this.tabBarViewList, {this.onSwitch,Key? key})
       : super(key: key);
@@ -8,6 +8,7 @@ class TabGeneric extends StatefulWidget {
   final List<Widget> tabBarViewList;
   final List<Tab> tabsList;
   final void Function(int)? onSwitch;
+
 
   @override
   _TabGenericState createState() => _TabGenericState();
