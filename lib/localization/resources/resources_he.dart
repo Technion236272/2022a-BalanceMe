@@ -66,4 +66,6 @@ class LanguageHe extends Languages {
   String get confirmEmail => "אמת את כתובת הדואר האלקטרוני שלך, ונשלח לך את ההוראות לשחזור סיסמה‎";
   @override
   String get send => "שליחה‎";
+  @override
+  String get emailSent => "‎ההודעה נשלחה";
 }

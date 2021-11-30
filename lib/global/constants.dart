@@ -40,8 +40,8 @@ const List<String> permissionFacebook= ["public_profile","email"];
 int loginTabs=2;
 const double forgotPasswordSize=35;
 const double forgotPasswordMsgSize=20;
-double scaleFactorPadding=4.0;
 double sidePadding=10.0;
+double padWithImage=100.0;
 // Navigation
 int defaultPage = AppPages.Balance.index;
 
@@ -70,3 +70,8 @@ double tabBorderRadius = 30.0;
 double tabBodyHeightResize = 4/5;
 double tabFontSize = 16.0;
 double tabPadding = 5.0;
+
+//images
+String wallet='assets/images/wallet.jpg';
+String lock='assets/images/lock.png';
+double walletScale=5.0;

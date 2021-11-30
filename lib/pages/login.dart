@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -22,6 +23,9 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+//TODO:attribute
+//wallet:<a href="https://www.vecteezy.com/free-vector/wallet-icon">Wallet Icon Vectors by Vecteezy</a>
+//lock:Stockio.com
 class _LoginScreenState extends State<LoginScreen> {
 
   //generic tab attempt
@@ -52,9 +56,9 @@ setState(() {
 }
   Widget signUpBody(BuildContext context)
   {
-    //showPassword=false;
-    return Form(child: Column(children: [
 
+    return Form(child: Column(children: [
+      Image.asset(gc.wallet,height: MediaQuery.of(context).size.height/gc.walletScale,),
       emailTextBox(context),
 
       Padding(
@@ -227,19 +231,36 @@ void initState()
     navigateToPage(context,HomePage());
 
   }
-  //TODO: find a free image and attribute it
+void recoverPassword(String? email)async
+{
+  if(email==null)
+    {
+      displaySnackBar(context,Languages.of(context)!.loginError);
+      return;
+    }
+  FirebaseAuth recover=FirebaseAuth.instance;
+
+  try {
+   await recover.sendPasswordResetEmail(email: email);
+   navigateBack(context);
+   displaySnackBar(context,Languages.of(context)!.emailSent);
+  } catch (e) {
+    displaySnackBar(context,Languages.of(context)!.loginError);
+  }
+
+}
   Widget forgotPasswordPage()
   {
     return Scaffold(
       appBar: MinorAppBar(Languages.of(context)!.recoverPassword),
       body: Padding(
 
-        padding:  EdgeInsets.fromLTRB(gc.sidePadding,MediaQuery.of(context).size.height/gc.scaleFactorPadding,
+        padding:  EdgeInsets.fromLTRB(gc.sidePadding,MediaQuery.of(context).size.height/gc.padWithImage,
             gc.sidePadding,gc.sidePadding),
         child: Column(
 
           children: [
-
+        Image.asset(gc.lock),
             Text(Languages.of(context)!.forgotPasswordLarge,
               style: const TextStyle(fontSize: gc.forgotPasswordSize),),
             Text(Languages.of(context)!.confirmEmail,textAlign: TextAlign.center,
@@ -249,7 +270,7 @@ void initState()
 
   child: ElevatedButton(
   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary)),
-  onPressed:(){ regularSignIn(email,password);} ,
+  onPressed:(){ recoverPassword(email);} ,
   child: Text(Languages.of(context)!.send)),
   )
 
@@ -268,7 +289,7 @@ void initState()
   Widget loginBody(BuildContext context)
   {
     return Form(child: Column(children: [
-
+      Image.asset(gc.wallet,height: MediaQuery.of(context).size.height/gc.walletScale,),
       emailTextBox(context),
       
       Padding(

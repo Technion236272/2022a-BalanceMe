@@ -62,4 +62,6 @@ class LanguageRu extends Languages {
   String get confirmEmail => "подтверди твой электронный адрес и мы Отправим вам инструкцией ";
   @override
   String get send => "поселать";
+  @override
+  String get emailSent => "мейл послан";
 }

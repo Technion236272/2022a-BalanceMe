@@ -30,6 +30,7 @@ abstract class Languages {
   String get forgotPasswordLarge;
   String get confirmEmail;
   String get send;
+  String get emailSent;
   // Navigation
   String get balance;
   String get statistics;
