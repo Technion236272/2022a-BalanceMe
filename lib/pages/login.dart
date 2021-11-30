@@ -12,6 +12,7 @@ import 'package:balance_me/widgets/generic_tabs.dart';
 bool showPassword=true;
 bool signUpPasswordVisible=true;
 bool confirmPasswordVisible=true;
+bool arePasswordsIdentical=true;
 String? email;
 String? password;
 String? confirmPassword;
@@ -58,7 +59,15 @@ setState(() {
   {
 
     return Form(child: Column(children: [
-      Image.asset(gc.wallet,height: MediaQuery.of(context).size.height/gc.walletScale,),
+      Stack(children: [
+        Image.asset(gc.wallet,height: MediaQuery.of(context).size.height/gc.walletScale,),
+        Padding(
+          padding:  EdgeInsets.fromLTRB(gc.padStackLeft,gc.padStackTop,gc.padStackRight,gc.padStackBottom),
+          child: Text(Languages.of(context)!.appName,style: TextStyle(color: gc.secondaryColor,fontSize: 16),),
+        )
+
+      ],),
+
       emailTextBox(context),
 
       Padding(
@@ -89,7 +98,9 @@ setState(() {
         child: TextFormField(
           obscureText: confirmPasswordVisible,
           onChanged:(String? value){confirmPassword=value;},
+
           decoration: InputDecoration (
+            errorText:arePasswordsIdentical?null:Languages.of(context)!.invalidPasswords ,
               hintText:Languages.of(context)!.confirmPassword,
               suffixIcon: IconButton(icon:Icon(confirmPasswordVisible? gc.hidePassword:gc.showPassword)
                 ,color: gc.hidePasswordColor
@@ -98,7 +109,7 @@ setState(() {
                 });} ,),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(gc.textFieldRadius),
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: gc.primaryColor,
                   width: 2.0,
                 ),
@@ -138,7 +149,7 @@ setState(() {
 
         child: ElevatedButton(
             style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary)),
-            onPressed:(){ regularSignUp(email,password);} ,
+            onPressed:(){ regularSignUp(email,password,confirmPassword);} ,
             child: Text(Languages.of(context)!.signUpTitle)),
       ),
 
@@ -200,9 +211,9 @@ setState(() {
       displaySnackBar(context,Languages.of(context)!.loginError);
     }
   }
-  void regularSignUp(String? email,String? password)async
+  void regularSignUp(String? email,String? password,String? confirmPassword)async
   {
-    if (email==null || password==null)
+    if (email==null || password==null ||confirmPassword==null)
     {
       displaySnackBar(context,Languages.of(context)!.loginError);
       return;
@@ -289,7 +300,14 @@ void recoverPassword(String? email)async
   Widget loginBody(BuildContext context)
   {
     return Form(child: Column(children: [
-      Image.asset(gc.wallet,height: MediaQuery.of(context).size.height/gc.walletScale,),
+      Stack(children:[ 
+
+        Image.asset(gc.wallet,height: MediaQuery.of(context).size.height/gc.walletScale,),
+        Padding(
+          padding:  EdgeInsets.fromLTRB(gc.padStackLeft,gc.padStackTop,gc.padStackRight,gc.padStackBottom),
+          child: Text(Languages.of(context)!.appName,style: TextStyle(color: gc.secondaryColor,fontSize: 16),),
+        )
+          ]),
       emailTextBox(context),
       
       Padding(

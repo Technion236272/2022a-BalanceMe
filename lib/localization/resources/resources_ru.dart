@@ -37,13 +37,13 @@ class LanguageRu extends Languages {
 
   // Navigation
   @override
-  String get balance => "Balance";
+  String get balance => "баланс";
 
   @override
-  String get statistics => "Statistics";
+  String get statistics => "статистика";
 
   @override
-  String get settings => "Settings";
+  String get settings => "настройки";
   @override
   String get password => "пароль";
   @override
@@ -64,4 +64,6 @@ class LanguageRu extends Languages {
   String get send => "поселать";
   @override
   String get emailSent => "мейл послан";
+  @override
+  String get invalidPasswords => "пароли не похоже";
 }

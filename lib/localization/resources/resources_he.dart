@@ -68,4 +68,6 @@ class LanguageHe extends Languages {
   String get send => "שליחה‎";
   @override
   String get emailSent => "‎ההודעה נשלחה";
+  @override
+  String get invalidPasswords => "הסיסמאות אינן זהות‎ ";
 }

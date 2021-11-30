@@ -42,6 +42,11 @@ const double forgotPasswordSize=35;
 const double forgotPasswordMsgSize=20;
 double sidePadding=10.0;
 double padWithImage=100.0;
+//45.0,80.0,20.0,40.0
+double padStackLeft=45.0;
+double padStackTop=80.0;
+double padStackRight=20.0;
+double padStackBottom=40.0;
 // Navigation
 int defaultPage = AppPages.Balance.index;
 
@@ -64,6 +69,7 @@ Color cardBGColor = Colors.grey; //TODO - change to chosen color
 //Tabs
 Color tabLabelColor = Colors.black;
 Color tabIndicatorColor = Colors.lime;
+
 Color tabBarColor = Colors.limeAccent;
 Color tabUnselectedLabelColor = Colors.grey.shade600;
 double tabBorderRadius = 30.0;

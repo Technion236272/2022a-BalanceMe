@@ -70,5 +70,6 @@ class LanguageEn extends Languages {
   String get send => "SEND";
   @override
   String get emailSent => "Email sent";
-
+  @override
+  String get invalidPasswords => "Passwords don't match ";
 }
