@@ -56,4 +56,10 @@ class LanguageRu extends Languages {
   String get confirmPassword => "подтвердить пароль";
   @override
   String get recoverPassword => "восстановления пароля";
+  @override
+  String get forgotPasswordLarge => "забыл свой пароль?";
+  @override
+  String get confirmEmail => "подтверди твой электронный адрес и мы Отправим вам инструкцией ";
+  @override
+  String get send => "поселать";
 }

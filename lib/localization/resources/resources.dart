@@ -27,7 +27,9 @@ abstract class Languages {
   String get confirmPassword;
   //password recovery
   String get recoverPassword;
-
+  String get forgotPasswordLarge;
+  String get confirmEmail;
+  String get send;
   // Navigation
   String get balance;
   String get statistics;

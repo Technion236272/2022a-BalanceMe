@@ -26,6 +26,7 @@ const Color alternativePrimary=Color(0xff4e21ff);
 const Color tabColor=Color(0xffd3ff21);
 const Color linkColors=Color(0xffbc21ff);
 const Color tabTextColor=Colors.black;
+const Color hidePasswordColor=Colors.black;
 
 // AppBar
 const double appBarAvatarRadius = 40;
@@ -36,8 +37,11 @@ const double textFieldRadius=25.0;
 const double googleButtonPadding=120.0;
 const double paddingFacebook=10.0;
 const List<String> permissionFacebook= ["public_profile","email"];
-//tabs
 int loginTabs=2;
+const double forgotPasswordSize=35;
+const double forgotPasswordMsgSize=20;
+double scaleFactorPadding=4.0;
+double sidePadding=10.0;
 // Navigation
 int defaultPage = AppPages.Balance.index;
 

@@ -62,5 +62,11 @@ class LanguageEn extends Languages {
 
   @override
   String get recoverPassword => "Password recovery";
+  @override
+  String get forgotPasswordLarge => "Forgot your password?";
+  @override
+  String get confirmEmail => "Confirm your email and we'll send the instructions";
+  @override
+  String get send => "SEND";
 
 }

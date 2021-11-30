@@ -6,9 +6,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart' as auth;
 import 'package:balance_me/pages/home.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:auth_buttons/auth_buttons.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:balance_me/widgets/generic_tabs.dart';
 bool showPassword=true;
 bool signUpPasswordVisible=true;
@@ -57,25 +55,7 @@ setState(() {
     //showPassword=false;
     return Form(child: Column(children: [
 
-      Padding(
-        padding: const EdgeInsets.all(gc.paddingBetweenText),
-        child: TextFormField(
-
-          onChanged:(String? value){email=value;},
-          decoration: InputDecoration (
-
-            hintText:Languages.of(context)!.emailText,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(gc.textFieldRadius),
-              borderSide: BorderSide(
-                color: gc.primaryColor,
-                width: 2.0,
-              ),
-            ),
-          ),
-
-        ),
-      ),
+      emailTextBox(context),
 
       Padding(
         padding: const EdgeInsets.all(gc.paddingBetweenText),
@@ -86,6 +66,7 @@ setState(() {
               hintText:Languages.of(context)!.password,
 
               suffixIcon: IconButton(icon:Icon(signUpPasswordVisible? gc.hidePassword:gc.showPassword)
+                ,color: gc.hidePasswordColor
                 ,onPressed:(){setState(() {
                   signUpPasswordVisible=!signUpPasswordVisible;
                 });} ,),
@@ -107,6 +88,7 @@ setState(() {
           decoration: InputDecoration (
               hintText:Languages.of(context)!.confirmPassword,
               suffixIcon: IconButton(icon:Icon(confirmPasswordVisible? gc.hidePassword:gc.showPassword)
+                ,color: gc.hidePasswordColor
                 ,onPressed:(){setState(() {
                   confirmPasswordVisible=!confirmPasswordVisible;
                 });} ,),
@@ -250,7 +232,29 @@ void initState()
   {
     return Scaffold(
       appBar: MinorAppBar(Languages.of(context)!.recoverPassword),
-      body: Container(),
+      body: Padding(
+
+        padding:  EdgeInsets.fromLTRB(gc.sidePadding,MediaQuery.of(context).size.height/gc.scaleFactorPadding,
+            gc.sidePadding,gc.sidePadding),
+        child: Column(
+
+          children: [
+
+            Text(Languages.of(context)!.forgotPasswordLarge,
+              style: const TextStyle(fontSize: gc.forgotPasswordSize),),
+            Text(Languages.of(context)!.confirmEmail,textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),),
+            emailTextBox(context),
+   SizedBox(
+
+  child: ElevatedButton(
+  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary)),
+  onPressed:(){ regularSignIn(email,password);} ,
+  child: Text(Languages.of(context)!.send)),
+  )
+
+  ],),
+      ),
 
     );
   }
@@ -265,25 +269,7 @@ void initState()
   {
     return Form(child: Column(children: [
 
-      Padding(
-        padding: const EdgeInsets.all(gc.paddingBetweenText),
-        child: TextFormField(
-
-          onChanged:(String? value){email=value;},
-          decoration: InputDecoration (
-
-              hintText:Languages.of(context)!.emailText,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(gc.textFieldRadius),
-              borderSide: BorderSide(
-                color: gc.primaryColor,
-                width: 2.0,
-              ),
-            ),
-          ),
-
-        ),
-      ),
+      emailTextBox(context),
       
       Padding(
         padding: const EdgeInsets.all(gc.paddingBetweenText),
@@ -293,11 +279,13 @@ void initState()
           decoration: InputDecoration (
             hintText:Languages.of(context)!.password,
             suffixIcon: IconButton(icon:Icon(showPassword? gc.hidePassword:gc.showPassword )
+              ,color: gc.hidePasswordColor
               ,onPressed:(){
               setState(() {
                 showPassword=!showPassword;
               }
-              );;} ,),
+              );
+} ,),
 
 
               enabledBorder: OutlineInputBorder(
@@ -342,15 +330,41 @@ void initState()
           child: Text(Languages.of(context)!.forgotPassword,style: TextStyle(color: gc.linkColors),)),
 
 
-      SizedBox(
-
-        child: ElevatedButton(
-            style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary)),
-            onPressed:(){ regularSignIn(email,password);} ,
-            child: Text(Languages.of(context)!.signIn)),
-      ),
+      signInButton(context),
 
     ],),);
+  }
+
+  SizedBox signInButton(BuildContext context) {
+    return SizedBox(
+
+      child: ElevatedButton(
+          style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary)),
+          onPressed:(){ regularSignIn(email,password);} ,
+          child: Text(Languages.of(context)!.signIn)),
+    );
+  }
+
+  Padding emailTextBox(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(gc.paddingBetweenText),
+      child: TextFormField(
+
+        onChanged:(String? value){email=value;},
+        decoration: InputDecoration (
+
+            hintText:Languages.of(context)!.emailText,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(gc.textFieldRadius),
+            borderSide: BorderSide(
+              color: gc.primaryColor,
+              width: 2.0,
+            ),
+          ),
+        ),
+
+      ),
+    );
   }
   @override
   Widget build(BuildContext context)
