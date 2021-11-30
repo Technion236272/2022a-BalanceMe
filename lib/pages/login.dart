@@ -58,7 +58,9 @@ setState(() {
   Widget signUpBody(BuildContext context)
   {
 
-    return Form(child: Column(children: [
+    return Form(child: Column(
+      children: [
+
       Stack(children: [
         Image.asset(gc.wallet,height: MediaQuery.of(context).size.height/gc.walletScale,),
         Padding(
@@ -145,12 +147,14 @@ setState(() {
 
       ],),
 
-      SizedBox(
+      Expanded(
+        child: SizedBox(
 
-        child: ElevatedButton(
-            style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary)),
-            onPressed:(){ regularSignUp(email,password,confirmPassword);} ,
-            child: Text(Languages.of(context)!.signUpTitle)),
+          child: ElevatedButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary)),
+              onPressed:(){ regularSignUp(email,password,confirmPassword);} ,
+              child: Text(Languages.of(context)!.signUpTitle)),
+        ),
       ),
 
     ],),);
@@ -218,6 +222,13 @@ setState(() {
       displaySnackBar(context,Languages.of(context)!.loginError);
       return;
     }
+    if(password!=confirmPassword)
+      {
+        setState(() {
+          arePasswordsIdentical=!arePasswordsIdentical;
+        });
+        return;
+      }
     auth.AuthRepository _auth=auth.AuthRepository.instance();
    await _auth.signUp(email, password);
     navigateToPage(context,HomePage());
