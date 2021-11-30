@@ -67,7 +67,7 @@ class AuthRepository with ChangeNotifier {
 
   void uploadAvatar(XFile? avatarImage) async {
     if (avatarImage != null && _user != null) {
-      Reference storageReference = _storage.ref().child(gc.avatarsCollection + '/' +_user!.email.toString());
+      Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
       UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage.path));
       await uploadedAvatar;
       _avatarUrl = await getAvatarUrl();
@@ -77,7 +77,7 @@ class AuthRepository with ChangeNotifier {
 
   Future<String?> getAvatarUrl() async {
     try {
-      Reference storageReference = _storage.ref().child(gc.avatarsCollection + '/' +_user!.email.toString());
+      Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
       return await storageReference.getDownloadURL();
     } catch (e) {
       return null;
