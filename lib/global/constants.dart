@@ -2,10 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 
-// Firebase
-const String avatarsCollection = "avatars";
-const String storageBucketPath = "gs://balanceme-d6a7b.appspot.com";
-
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
 

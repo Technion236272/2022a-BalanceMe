@@ -5,14 +5,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cross_file/cross_file.dart';
 import 'dart:io';
 import 'package:balance_me/global/types.dart';
-import 'package:balance_me/global/constants.dart' as gc;
+import 'package:balance_me/global/project_config.dart' as config;
 
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;
   User? _user;
   Status _status = Status.Uninitialized;
   String? _avatarUrl;
-  final FirebaseStorage _storage = FirebaseStorage.instanceFor(bucket: gc.storageBucketPath);
+  final FirebaseStorage _storage = FirebaseStorage.instanceFor(bucket: config.storageBucketPath);
 
   AuthRepository.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onAuthStateChanged);
