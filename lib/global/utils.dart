@@ -22,8 +22,7 @@ void displaySnackBar(BuildContext context, String msg) {
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
-void displayAlertDialog(BuildContext context, String alertTitle,
-    String alertContent, List<Widget> alertActions) {
+void displayAlertDialog(BuildContext context, String alertTitle, String alertContent, List<Widget> alertActions) {
   showDialog<String>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
