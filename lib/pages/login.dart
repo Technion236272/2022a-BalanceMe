@@ -258,7 +258,15 @@ void initState()
     }
     auth.AuthRepository _auth=auth.AuthRepository.instance();
     bool signInSuccesful=await _auth.signIn(email, password);
-    navigateToPage(context,HomePage());
+    if(signInSuccesful)
+      {
+        navigateToPage(context,HomePage());
+      }
+    else
+      {
+        displaySnackBar(context,Languages.of(context)!.loginError);
+      }
+
 
   }
 void recoverPassword(String? email)async

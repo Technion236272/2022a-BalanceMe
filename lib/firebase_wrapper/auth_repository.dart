@@ -79,7 +79,6 @@ class AuthRepository with ChangeNotifier {
             accessToken: googleAuth?.accessToken,
             idToken: googleAuth?.idToken,
           );
-
       UserCredential userData= await FirebaseAuth.instance.signInWithCredential(credential);
       _status = Status.Authenticated;
       _avatarUrl = await getAvatarUrl();
@@ -91,6 +90,7 @@ class AuthRepository with ChangeNotifier {
       return false;
     }
   }
+
   Future<bool> signInWithFacebook() async
   {
 
@@ -107,6 +107,7 @@ class AuthRepository with ChangeNotifier {
       return true;
     } catch (e)
     {
+
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
