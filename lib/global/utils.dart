@@ -1,6 +1,5 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
-import 'dart:convert';
 
 // Navigation
 void navigateToPage(context, Widget page) {
@@ -33,17 +32,4 @@ void displayAlertDialog(BuildContext context, String alertTitle,
       actions: alertActions,
     ),
   );
-}
-
-//JSON
-Map<String, dynamic> toJson(List<Object> fields) {
-  Map<String, dynamic> jsonMap = {};
-  for (var element in fields) {
-    jsonMap[element.toString()] = element;
-  }
-  return jsonMap;
-}
-
-String jsonFromObject(Object object) {
-  return jsonEncode(object);
 }

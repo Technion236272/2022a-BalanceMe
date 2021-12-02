@@ -1,15 +1,12 @@
 // ================= User Data Model =================
-import 'dart:convert';
-import 'package:balance_me/global/utils.dart' as utils;
-
 class UserModel {
-  UserModel(this.groupName, [this.endOfMonthDay = 10, this.userCurrency = "NIS", this.firstName = "", this.lastName = ""]);
+  UserModel(this.groupName, [this.endOfMonthDay = 10, this.userCurrency = "NIS"]);
 
   String groupName;
   int endOfMonthDay;
   String userCurrency;
-  String firstName;
-  String lastName;
+  String? firstName;
+  String? lastName;
 
   void updateFromJson(Map<String, dynamic> json) {
     if (json["groupName"] != null) {
@@ -29,7 +26,11 @@ class UserModel {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    return utils.toJson([groupName, endOfMonthDay, userCurrency, firstName, lastName]);
-  }
+  Map<String, dynamic> toJson() => {
+    'groupName': groupName,
+    'endOfMonthDay': endOfMonthDay,
+    'userCurrency': userCurrency,
+    'firstName': firstName,
+    'lastName': lastName,
+  };
 }

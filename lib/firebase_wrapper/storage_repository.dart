@@ -36,12 +36,14 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  // SET
-  void SET_generalInfo() async {
+  // SEND
+  void SEND_generalInfo() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
       await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).set({
       config.generalInfoDoc: _userData!.toJson(),
       });
     }
   }
+
+  Map<String, dynamic> toJason() => _userData!.toJson();  // TODO- remove
 }
