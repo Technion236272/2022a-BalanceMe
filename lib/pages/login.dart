@@ -290,20 +290,23 @@ void recoverPassword(String? email)async
   Widget forgotPasswordPage()
   {
     return Scaffold(
+        //resizeToAvoidBottomInset: false,
       appBar: MinorAppBar(Languages.of(context)!.recoverPassword),
-      body: Padding(
+      body: SingleChildScrollView(
+          //physics: const NeverScrollableScrollPhysics(),
+        child: Padding(
 
-        padding:  EdgeInsets.fromLTRB(gc.sidePadding,MediaQuery.of(context).size.height/gc.padWithImage,
-            gc.sidePadding,gc.sidePadding),
-        child: Column(
+          padding:  EdgeInsets.fromLTRB(gc.sidePadding,MediaQuery.of(context).size.height/gc.padWithImage,
+              gc.sidePadding,gc.sidePadding),
+          child: Column(
 
-          children: [
-        Image.asset(gc.lock),
-            Text(Languages.of(context)!.forgotPasswordLarge,
-              style: const TextStyle(fontSize: gc.forgotPasswordSize),),
-            Text(Languages.of(context)!.confirmEmail,textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),),
-            emailTextBox(context),
+            children: [
+          Image.asset(gc.lock),
+              Text(Languages.of(context)!.forgotPasswordLarge,
+                style: const TextStyle(fontSize: gc.forgotPasswordSize),),
+              Text(Languages.of(context)!.confirmEmail,textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),),
+              emailTextBox(context),
    SizedBox(
 
   child: ElevatedButton(
@@ -313,6 +316,7 @@ void recoverPassword(String? email)async
   )
 
   ],),
+        ),
       ),
 
     );
@@ -439,9 +443,9 @@ void recoverPassword(String? email)async
        DefaultTabController(
         length: gc.loginTabs,
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
+          //resizeToAvoidBottomInset: false,
           appBar:appBarChoice==0? MinorAppBar(Languages.of(context)!.login):MinorAppBar(Languages.of(context)!.signUpTitle),
-          body: TabGeneric(loginTabs(),loginTabBarView(),onSwitch: changeAppbar),
+          body: SingleChildScrollView(child: TabGeneric(loginTabs(),loginTabBarView(),onSwitch: changeAppbar)),
         ),
       );
   }
