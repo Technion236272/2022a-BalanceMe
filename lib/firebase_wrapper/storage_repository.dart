@@ -2,6 +2,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/global/project_config.dart' as config;
 
@@ -25,14 +26,18 @@ class UserStorage with ChangeNotifier {
   UserModel? _userData;
 
   // GET
-  void GET_postLogin() async {  // Get General Info
+  Future<void> GET_postLogin() async {  // Get General Info
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
       await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).get().then((generalInfo) {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
           notifyListeners();
+        } else {
+          GoogleAnalytics.instance.logPostLoginFailed(generalInfo);
         }
       });
+    } else if (_authRepository != null) {
+      GoogleAnalytics.instance.logPreCheckFailed("GET_postLogin", _authRepository!);
     }
   }
 
@@ -42,8 +47,8 @@ class UserStorage with ChangeNotifier {
       await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).set({
       config.generalInfoDoc: _userData!.toJson(),
       });
+    } else if (_authRepository != null) {
+      GoogleAnalytics.instance.logPreCheckFailed("SEND_generalInfo", _authRepository!);
     }
   }
-
-  Map<String, dynamic> toJason() => _userData!.toJson();  // TODO- remove
 }
