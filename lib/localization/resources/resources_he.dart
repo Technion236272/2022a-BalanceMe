@@ -70,4 +70,8 @@ class LanguageHe extends Languages {
   String get emailSent => "‎ההודעה נשלחה";
   @override
   String get invalidPasswords => "הסיסמאות אינן זהות‎ ";
+  @override
+  String get nullDetails => "עליך לרשום מייל וסיסמה אם ברצונך להירשם‎";
+  @override
+  String get signUpError => "ההרשמה נכשלה, בדוק את חיבורך לרשת ונסה שוב ‎";
 }

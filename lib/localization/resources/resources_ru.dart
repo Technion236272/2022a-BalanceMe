@@ -66,4 +66,8 @@ class LanguageRu extends Languages {
   String get emailSent => "мейл послан";
   @override
   String get invalidPasswords => "пароли не похоже";
+  @override
+  String get nullDetails => "дла окончания регистраций напишите ваш мейл и пароль";
+  @override
+  String get signUpError => "регистрация провалилась, праверти ваш связь к интернету ";
 }

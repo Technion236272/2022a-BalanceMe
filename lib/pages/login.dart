@@ -219,7 +219,7 @@ setState(() {
   {
     if (email==null || password==null ||confirmPassword==null)
     {
-      displaySnackBar(context,Languages.of(context)!.loginError);
+      displaySnackBar(context,Languages.of(context)!.nullDetails);
       return;
     }
     if(password!=confirmPassword)
@@ -230,8 +230,16 @@ setState(() {
         return;
       }
     auth.AuthRepository _auth=auth.AuthRepository.instance();
-   await _auth.signUp(email, password);
-    navigateToPage(context,HomePage());
+  bool attempt= await _auth.signUp(email, password);
+  if(attempt)
+    {
+      navigateToPage(context,HomePage());
+    }
+  else
+    {
+      displaySnackBar(context,Languages.of(context)!.signUpError);
+    }
+
 
   }
 @override

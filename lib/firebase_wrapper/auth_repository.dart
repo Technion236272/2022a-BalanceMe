@@ -31,15 +31,20 @@ class AuthRepository with ChangeNotifier {
 
   String? get avatarUrl => _avatarUrl;
 
-  Future<void> signUp(String email, String password) async {
+
+  Future<bool> signUp(String email, String password) async {
     try {
       _status = Status.Authenticating;
       notifyListeners();
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      await signIn(email, password);
+      _status = Status.Authenticated;
+      _avatarUrl = await getAvatarUrl();
+      notifyListeners();
+      return true;
     } catch (e) {
       _status = Status.Unauthenticated;
       notifyListeners();
+      return false;
     }
   }
 

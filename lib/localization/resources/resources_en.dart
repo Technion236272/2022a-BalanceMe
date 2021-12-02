@@ -72,4 +72,8 @@ class LanguageEn extends Languages {
   String get emailSent => "Email sent";
   @override
   String get invalidPasswords => "Passwords don't match ";
+  @override
+  String get nullDetails => "To sign up, you must type both your email and password ";
+  @override
+  String get signUpError => "sign up failed, check your connection and try again";
 }
