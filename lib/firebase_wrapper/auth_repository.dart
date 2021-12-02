@@ -15,7 +15,8 @@ class AuthRepository with ChangeNotifier {
   User? _user;
   Status _status = Status.Uninitialized;
   String? _avatarUrl;
-  final FirebaseStorage _storage = FirebaseStorage.instanceFor(bucket: gc.storageBucketPath);
+  final FirebaseStorage _storage =
+      FirebaseStorage.instanceFor(bucket: gc.storageBucketPath);
 
   AuthRepository.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onAuthStateChanged);
@@ -31,12 +32,12 @@ class AuthRepository with ChangeNotifier {
 
   String? get avatarUrl => _avatarUrl;
 
-
   Future<bool> signUp(String email, String password) async {
     try {
       _status = Status.Authenticating;
       notifyListeners();
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       _status = Status.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
@@ -61,25 +62,23 @@ class AuthRepository with ChangeNotifier {
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
-
     }
   }
-//TODO: use facebook and google's user data to update required fields
-  //important: Signing in with credential creates an account if none exists
-  Future<bool> signInGoogle() async
-  {
 
+
+  Future<bool> signInGoogle() async {
     try {
       _status = Status.Authenticating;
       notifyListeners();
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
       final credential = GoogleAuthProvider.credential(
-            accessToken: googleAuth?.accessToken,
-            idToken: googleAuth?.idToken,
-          );
-      UserCredential userData= await FirebaseAuth.instance.signInWithCredential(credential);
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+          await FirebaseAuth.instance.signInWithCredential(credential);
       _status = Status.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
@@ -91,28 +90,26 @@ class AuthRepository with ChangeNotifier {
     }
   }
 
-  Future<bool> signInWithFacebook() async
-  {
-
+  Future<bool> signInWithFacebook() async {
     try {
-
       final LoginResult loginResult = await FacebookAuth.instance.login();
 
-      final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
+      final OAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
-      UserCredential userData=await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+       await FirebaseAuth.instance
+          .signInWithCredential(facebookAuthCredential);
       _status = Status.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
-    } catch (e)
-    {
-
+    } catch (e) {
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
     }
   }
+
   Future signOut() async {
     _auth.signOut();
     _status = Status.Unauthenticated;
@@ -124,8 +121,11 @@ class AuthRepository with ChangeNotifier {
 
   void uploadAvatar(XFile? avatarImage) async {
     if (avatarImage != null && _user != null) {
-      Reference storageReference = _storage.ref().child(gc.avatarsCollection + '/' +_user!.email.toString());
-      UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage.path));
+      Reference storageReference = _storage
+          .ref()
+          .child(gc.avatarsCollection + '/' + _user!.email.toString());
+      UploadTask uploadedAvatar =
+          storageReference.putFile(File(avatarImage.path));
       await uploadedAvatar;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
@@ -134,7 +134,9 @@ class AuthRepository with ChangeNotifier {
 
   Future<String?> getAvatarUrl() async {
     try {
-      Reference storageReference = _storage.ref().child(gc.avatarsCollection + '/' +_user!.email.toString());
+      Reference storageReference = _storage
+          .ref()
+          .child(gc.avatarsCollection + '/' + _user!.email.toString());
       return await storageReference.getDownloadURL();
     } catch (e) {
       return null;

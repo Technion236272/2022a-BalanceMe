@@ -20,33 +20,33 @@ const IconData hidePassword = Icons.remove_red_eye_outlined;
 const IconData showPassword = Icons.remove_red_eye;
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
-const Color secondaryColor = Colors.white;  // TODO- change to the chosen color
+const Color secondaryColor = Colors.white; // TODO- change to the chosen color
 const Color bottomNavigationSelectedColor = primaryColor;
-const Color alternativePrimary=Color(0xff4e21ff);
-const Color tabColor=Color(0xffd3ff21);
-const Color linkColors=Color(0xffbc21ff);
-const Color tabTextColor=Colors.black;
-const Color hidePasswordColor=Colors.black;
+const Color alternativePrimary = Color(0xff4e21ff);
+const Color tabColor = Color(0xffd3ff21);
+const Color linkColors = Color(0xffbc21ff);
+const Color tabTextColor = Colors.black;
+const Color hidePasswordColor = Colors.black;
 
 // AppBar
 const double appBarAvatarRadius = 40;
 
 //login
-const double paddingBetweenText=30.0;
-const double textFieldRadius=25.0;
-const double googleButtonPadding=120.0;
-const double paddingFacebook=10.0;
-const List<String> permissionFacebook= ["public_profile","email"];
-int loginTabs=2;
-const double forgotPasswordSize=35;
-const double forgotPasswordMsgSize=20;
-double sidePadding=10.0;
-double padWithImage=100.0;
-//45.0,80.0,20.0,40.0
-double padStackLeft=45.0;
-double padStackTop=80.0;
-double padStackRight=20.0;
-double padStackBottom=40.0;
+const double paddingBetweenText = 30.0;
+const double textFieldRadius = 25.0;
+const double googleButtonPadding = 120.0;
+const double paddingFacebook = 10.0;
+const List<String> permissionFacebook = ["public_profile", "email"];
+int loginTabs = 2;
+const double forgotPasswordSize = 35;
+const double forgotPasswordMsgSize = 20;
+double sidePadding = 10.0;
+double padWithImage = 100.0;
+
+double padStackLeft = 45.0;
+double padStackTop = 80.0;
+double padStackRight = 20.0;
+double padStackBottom = 40.0;
 // Navigation
 int defaultPage = AppPages.Balance.index;
 
@@ -73,11 +73,11 @@ Color tabIndicatorColor = Colors.lime;
 Color tabBarColor = Colors.limeAccent;
 Color tabUnselectedLabelColor = Colors.grey.shade600;
 double tabBorderRadius = 30.0;
-double tabBodyHeightResize = 4/5;
+double tabBodyHeightResize = 4 / 5;
 double tabFontSize = 16.0;
 double tabPadding = 5.0;
 
 //images
-String wallet='assets/images/wallet.jpg';
-String lock='assets/images/lock.png';
-double walletScale=5.0;
+String wallet = 'assets/images/wallet.jpg';
+String lock = 'assets/images/lock.png';
+double walletScale = 5.0;
