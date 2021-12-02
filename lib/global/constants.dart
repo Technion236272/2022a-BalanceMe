@@ -1,6 +1,7 @@
 // ================= Global Constants =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Firebase
 const String avatarsCollection = "avatars";
@@ -53,3 +54,10 @@ double tabBorderRadius = 30.0;
 double tabBodyHeightResize = 4/5;
 double tabFontSize = 16.0;
 double tabPadding = 5.0;
+
+// RingPieChart
+const String pieChartInnerRadius = '65%';
+const LegendPosition pieChartLegendPosition = LegendPosition.bottom;
+Color pieChartCenterText = Colors.grey.shade600;
+const String pieCharDefaultCategory = 'Still Available';
+Color pieCharDefaultCategoryColor = Colors.white;
