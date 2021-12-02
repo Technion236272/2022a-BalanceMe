@@ -42,10 +42,10 @@ class RingPieChart extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        FittedBox(child: Text(
+        Text(
           _totalPercentage!.toInt().toString() + "%",
           style: TextStyle(color: gc.pieChartCenterText),
-        )),
+        ),
         SfCircularChart(
             legend: Legend(
               isVisible: _legendTitle != null,
