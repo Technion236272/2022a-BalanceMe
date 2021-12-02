@@ -4,8 +4,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 /*
-* The widget receives a List of Json, each includes 'name' [String], 'percentage' [num], and 'color' [Color]:
-* [{"name": [String], 'percentage': [num], 'color': [Color]}, ... ]
+* The widget receives a List of Json, each includes 'name' [String], 'percentage' [num]:
+* [{"name": [String], 'percentage': [num]}, ... ]
 * The widgets presents a ring pie chart and the total percentage (can be above 100%) in the middle.
 * If the total percentage is below 100%, the widgets complete it to 100% automatically.
 * For presenting a legend (names fields in data), pass legendTitle to the constructor- else pass null.
@@ -26,7 +26,7 @@ class RingPieChart extends StatelessWidget {
 
     for (var data in chartDataList) {
       totalPercentage += (data['percentage'] as num).toDouble();
-      chartData.add(ChartData(data['name'] as String, (data['percentage'] as num).toDouble(), data['color'] as Color));
+      chartData.add(ChartData(data['name'] as String, (data['percentage'] as num).toDouble()));
     }
 
     if (totalPercentage < 100) {
@@ -44,7 +44,7 @@ class RingPieChart extends StatelessWidget {
       children: [
         FittedBox(child: Text(
           _totalPercentage!.toInt().toString() + "%",
-          style: TextStyle(fontSize: 50, color: gc.pieChartCenterText),
+          style: TextStyle(color: gc.pieChartCenterText),
         )),
         SfCircularChart(
             legend: Legend(
