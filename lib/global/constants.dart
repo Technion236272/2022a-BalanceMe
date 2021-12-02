@@ -2,12 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 
-// Firebase
-const String avatarsCollection = "avatars";
-const String storageBucketPath = "gs://balanceme-d6a7b.appspot.com";
-
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
+
+// Defaults
+
+const int defaultEndOfMonthDay = 10;
+const String defaultUserCurrency = "NIS";
 
 // Icons
 const IconData unauthenticatedIcon = Icons.login;
@@ -30,6 +31,7 @@ const Color hidePasswordColor = Colors.black;
 
 // AppBar
 const double appBarAvatarRadius = 40;
+
 
 //login
 const double paddingBetweenText = 30.0;
@@ -77,7 +79,9 @@ double tabBodyHeightResize = 4 / 5;
 double tabFontSize = 16.0;
 double tabPadding = 5.0;
 
+
 //images
 String wallet = 'assets/images/wallet.jpg';
 String lock = 'assets/images/lock.png';
 double walletScale = 5.0;
+

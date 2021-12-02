@@ -6,17 +6,20 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cross_file/cross_file.dart';
 import 'dart:io';
 import 'package:balance_me/global/types.dart';
-import 'package:balance_me/global/constants.dart' as gc;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:balance_me/global/project_config.dart' as config;
+
 
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;
   User? _user;
   Status _status = Status.Uninitialized;
   String? _avatarUrl;
-  final FirebaseStorage _storage =
-      FirebaseStorage.instanceFor(bucket: gc.storageBucketPath);
+
+
+  final FirebaseStorage _storage = FirebaseStorage.instanceFor(bucket: config.storageBucketPath);
+
 
   AuthRepository.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onAuthStateChanged);
@@ -120,29 +123,23 @@ class AuthRepository with ChangeNotifier {
   }
 
   void uploadAvatar(XFile? avatarImage) async {
-    if (avatarImage != null && _user != null) {
-      Reference storageReference = _storage
-          .ref()
-          .child(gc.avatarsCollection + '/' + _user!.email.toString());
-      UploadTask uploadedAvatar =
-          storageReference.putFile(File(avatarImage.path));
+      Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
+      UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage!.path));
+
       await uploadedAvatar;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
     }
-  }
-
   Future<String?> getAvatarUrl() async {
     try {
-      Reference storageReference = _storage
-          .ref()
-          .child(gc.avatarsCollection + '/' + _user!.email.toString());
+
+      Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
+
       return await storageReference.getDownloadURL();
     } catch (e) {
       return null;
     }
   }
-
   Future<void> _onAuthStateChanged(User? firebaseUser) async {
     if (firebaseUser == null) {
       _user = null;
@@ -153,4 +150,8 @@ class AuthRepository with ChangeNotifier {
     }
     notifyListeners();
   }
+
 }
+
+
+

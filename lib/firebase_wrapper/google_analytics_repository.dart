@@ -1,5 +1,7 @@
 // ================= Google Analytics =================
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Singleton that is used for sending logs to Google Analytics.
 // you should use it as "GoogleAnalytics.instance.LogSomething();"
@@ -20,5 +22,13 @@ class GoogleAnalytics {
 
   Future<void> logEvent(String name, Map<String, Object?>? parameters) async {
     await _analytics.logEvent(name: name, parameters: parameters);
+  }
+
+  void logPreCheckFailed(String functionName, AuthRepository authRepository) {
+    logEvent("$functionName has failed since pre-check failed", {"authRepository": authRepository, "user": authRepository.user, "email": authRepository.user!.email!});
+  }
+
+  void logPostLoginFailed(DocumentSnapshot<Map<String, dynamic>> generalInfo) {
+    logEvent("PostLoginFailed", {"dataExists": generalInfo.exists, "data": generalInfo.data()});
   }
 }
