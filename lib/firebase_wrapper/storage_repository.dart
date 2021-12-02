@@ -32,19 +32,19 @@ class UserStorage with ChangeNotifier {
 
   void setGroupName(String groupName) {
     if (_userData != null) {
-      _userData!.firstName = groupName;
+      _userData!.groupName = groupName;
     }
   }
 
-  void setEndOfMonthDay(String endOfMonthDay) {
+  void setEndOfMonthDay(int endOfMonthDay) {
     if (_userData != null) {
-      _userData!.firstName = endOfMonthDay;
+      _userData!.endOfMonthDay = endOfMonthDay;
     }
   }
 
   void setUserCurrency(String userCurrency) {
     if (_userData != null) {
-      _userData!.firstName = userCurrency;
+      _userData!.userCurrency = userCurrency;
     }
   }
 
@@ -56,7 +56,7 @@ class UserStorage with ChangeNotifier {
 
   void setLastName(String lastName) {
     if (_userData != null) {
-      _userData!.firstName = lastName;
+      _userData!.lastName = lastName;
     }
   }
 
