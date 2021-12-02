@@ -10,6 +10,13 @@ class ChartData {
   final Color? color;
 }
 
+/*
+* The widget receives a List of Json, each includes 'name' [String], 'percentage' [num], and 'color' [Color]:
+* [{"name": [String], 'percentage': [num], 'color': [Color]}, ... ]
+* The widgets presents a ring pie chart and the total percentage (can be above 100%) in the middle.
+* If the total percentage is below 100%, the widgets complete it to 100% automatically.
+*/
+
 class RingPieChart extends StatelessWidget {
   RingPieChart(List<Map<String, Object>> chartDataList, this._legendTitle, {Key? key}) : super(key: key) {
     parseChartData(chartDataList);
