@@ -1,6 +1,8 @@
 // ================= User Data Model =================
+import "package:balance_me/global/constants.dart" as gc;
+
 class UserModel {
-  UserModel(this.groupName, [this.endOfMonthDay = 10, this.userCurrency = "NIS"]);
+  UserModel(this.groupName, [this.endOfMonthDay = gc.defaultEndOfMonthDay, this.userCurrency = gc.defaultUserCurrency]);
 
   String groupName;
   int endOfMonthDay;

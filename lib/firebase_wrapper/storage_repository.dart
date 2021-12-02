@@ -20,10 +20,47 @@ class UserStorage with ChangeNotifier {
     _userData = (authRepository.user != null) ? UserModel(authRepository.user!.email!) : null;
   }
 
-  // Private fields
+  // ================== Private Fields ==================
+
+  // Declaration
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   AuthRepository? _authRepository;
   UserModel? _userData;
+
+  // Handling
+  UserModel? get userData => _userData;
+
+  void setGroupName(String groupName) {
+    if (_userData != null) {
+      _userData!.firstName = groupName;
+    }
+  }
+
+  void setEndOfMonthDay(String endOfMonthDay) {
+    if (_userData != null) {
+      _userData!.firstName = endOfMonthDay;
+    }
+  }
+
+  void setUserCurrency(String userCurrency) {
+    if (_userData != null) {
+      _userData!.firstName = userCurrency;
+    }
+  }
+
+  void setFirstName(String firstName) {
+    if (_userData != null) {
+      _userData!.firstName = firstName;
+    }
+  }
+
+  void setLastName(String lastName) {
+    if (_userData != null) {
+      _userData!.firstName = lastName;
+    }
+  }
+
+  // ================== Requests ==================
 
   // GET
   Future<void> GET_postLogin() async {  // Get General Info

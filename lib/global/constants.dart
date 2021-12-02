@@ -5,6 +5,11 @@ import 'package:balance_me/global/types.dart';
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
 
+// Defaults
+int defaultPage = AppPages.Balance.index;
+const int defaultEndOfMonthDay = 10;
+const String defaultUserCurrency = "NIS";
+
 // Icons
 const IconData unauthenticatedIcon = Icons.login;
 const IconData authenticatedIcon = Icons.exit_to_app;
@@ -20,9 +25,6 @@ const Color bottomNavigationSelectedColor = primaryColor;
 
 // AppBar
 const double appBarAvatarRadius = 40;
-
-// Navigation
-int defaultPage = AppPages.Balance.index;
 
 //Cards
 double cardElevationHeight = 5.0;
