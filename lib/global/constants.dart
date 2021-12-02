@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-// Firebase
-const String avatarsCollection = "avatars";
-const String storageBucketPath = "gs://balanceme-d6a7b.appspot.com";
-
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
+
+// Defaults
+int defaultPage = AppPages.Balance.index;
+const int defaultEndOfMonthDay = 10;
+const String defaultUserCurrency = "NIS";
 
 // Icons
 const IconData unauthenticatedIcon = Icons.login;
@@ -25,9 +26,6 @@ const Color bottomNavigationSelectedColor = primaryColor;
 
 // AppBar
 const double appBarAvatarRadius = 40;
-
-// Navigation
-int defaultPage = AppPages.Balance.index;
 
 //Cards
 double cardElevationHeight = 5.0;
