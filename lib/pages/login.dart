@@ -73,6 +73,7 @@ setState(() {
       emailTextBox(context),
 
       Padding(
+        // padding: const EdgeInsets.all(gc.paddingBetweenText),
         padding: const EdgeInsets.all(gc.paddingBetweenText),
         child: TextFormField(
           obscureText: signUpPasswordVisible,
@@ -291,6 +292,7 @@ void recoverPassword(String? email)async
   {
     return Scaffold(
         //resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: MinorAppBar(Languages.of(context)!.recoverPassword),
       body: SingleChildScrollView(
           //physics: const NeverScrollableScrollPhysics(),
@@ -331,7 +333,7 @@ void recoverPassword(String? email)async
   Widget loginBody(BuildContext context)
   {
     return Form(child: Column(children: [
-      Stack(children:[ 
+      Stack(children:[
 
         Image.asset(gc.wallet,height: MediaQuery.of(context).size.height/gc.walletScale,),
         Padding(
@@ -340,7 +342,7 @@ void recoverPassword(String? email)async
         )
           ]),
       emailTextBox(context),
-      
+
       Padding(
         padding: const EdgeInsets.all(gc.paddingBetweenText),
         child: TextFormField(
@@ -443,7 +445,7 @@ void recoverPassword(String? email)async
        DefaultTabController(
         length: gc.loginTabs,
         child: Scaffold(
-          //resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           appBar:appBarChoice==0? MinorAppBar(Languages.of(context)!.login):MinorAppBar(Languages.of(context)!.signUpTitle),
           body: SingleChildScrollView(child: TabGeneric(loginTabs(),loginTabBarView(),onSwitch: changeAppbar)),
         ),
