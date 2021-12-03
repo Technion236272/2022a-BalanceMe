@@ -1,6 +1,7 @@
 // ================= Ring Pie Chart Widget =================
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 /*
@@ -12,25 +13,24 @@ import 'package:balance_me/global/constants.dart' as gc;
 */
 
 class RingPieChart extends StatelessWidget {
-  RingPieChart(List<Map<String, Object>> chartDataList, this._legendTitle, {Key? key}) : super(key: key) {
-    parseChartData(chartDataList);
-  }
+  RingPieChart(this._chartDataList, this._legendTitle, {Key? key}) : super(key: key);
 
   final String? _legendTitle;
+  final List<Map<String, Object>>? _chartDataList;
   List<ChartData>? _chartData;
   double? _totalPercentage;
 
-  void parseChartData(List<Map<String, Object>> chartDataList) {
+  void parseChartData(BuildContext context) {
     List<ChartData> chartData = [];
     double totalPercentage = 0;
 
-    for (var data in chartDataList) {
-      totalPercentage += (data['percentage'] as num).toDouble();
-      chartData.add(ChartData(data['name'] as String, (data['percentage'] as num).toDouble()));
+    for (var data in _chartDataList!) {
+      totalPercentage += data['percentage'] as num;
+      chartData.add(ChartData(data['name'] as String, data['percentage'] as num));
     }
 
     if (totalPercentage < 100) {
-      chartData.add(ChartData(gc.pieCharDefaultCategory, 100 - totalPercentage, gc.pieCharDefaultCategoryColor));
+      chartData.add(ChartData(Languages.of(context)!.available, 100 - totalPercentage, gc.pieCharDefaultCategoryColor));
     }
 
     _chartData = chartData;
@@ -39,6 +39,7 @@ class RingPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    parseChartData(context);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -70,6 +71,6 @@ class RingPieChart extends StatelessWidget {
 class ChartData {
   ChartData(this.x, this.y, [this.color]);
   final String x;
-  final double y;
+  final num y;
   final Color? color;
 }

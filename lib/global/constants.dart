@@ -55,7 +55,6 @@ double tabPadding = 5.0;
 
 // RingPieChart
 const String pieChartInnerRadius = '65%';
-const LegendPosition pieChartLegendPosition = LegendPosition.bottom;
+const LegendPosition pieChartLegendPosition = LegendPosition.top;
 Color pieChartCenterText = Colors.grey.shade600;
-const String pieCharDefaultCategory = 'Still Available';
 Color pieCharDefaultCategoryColor = Colors.white;
