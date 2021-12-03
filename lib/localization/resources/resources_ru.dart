@@ -15,13 +15,6 @@ class LanguageRu extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
-
-  @override
-  String get signUpTitle => "регистрация";
-
-  @override
-  String get emailText => "электронный адрес";
-
   // Login
   @override
   String get welcome => "Добро пожаловать";
@@ -35,25 +28,37 @@ class LanguageRu extends Languages {
   @override
   String get successfullyLogout => "удачный выход";
 
-  // Navigation
   @override
-  String get balance => "баланс";
+  String get signUpTitle => "регистрация";
 
   @override
-  String get statistics => "статистика";
+  String get emailText => "электронный адрес";
 
-  @override
-  String get settings => "настройки";
   @override
   String get password => "пароль";
+
   @override
   String get forgotPassword => "забыл пароль";
+
   @override
   String get signIn => "войти";
+
   @override
   String get loginError => "пользователь не нашолса";
+
+  @override
+  String get nullDetails => "дла окончания регистраций напишите ваш мейл и пароль";
+
+  @override
+  String get signUpError => "регистрация провалилась, праверти ваш связь к интернету ";
+
   @override
   String get confirmPassword => "подтвердить пароль";
+
+  @override
+  String get invalidPasswords => "пароли не похоже";
+
+  //password recovery
   @override
   String get recoverPassword => "восстановления пароля";
   @override
@@ -64,10 +69,18 @@ class LanguageRu extends Languages {
   String get send => "поселать";
   @override
   String get emailSent => "мейл послан";
+
+  // Navigation
   @override
-  String get invalidPasswords => "пароли не похоже";
+  String get balance => "баланс";
+
   @override
-  String get nullDetails => "дла окончания регистраций напишите ваш мейл и пароль";
+  String get statistics => "статистика";
+
   @override
-  String get signUpError => "регистрация провалилась, праверти ваш связь к интернету ";
+  String get settings => "настройки";
+
+
+
+
 }

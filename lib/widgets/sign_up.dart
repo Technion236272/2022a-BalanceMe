@@ -61,9 +61,6 @@ class _SignUpState extends State<SignUp> {
             child: TextFormField(
               controller: controllerPassword,
               obscureText: signUpPasswordVisible,
-              // onChanged: (String? value) {
-              //   password = value;
-              // },
               decoration: InputDecoration(
                   hintText: Languages.of(context)!.password,
                   suffixIcon: IconButton(
@@ -98,9 +95,6 @@ class _SignUpState extends State<SignUp> {
             child: TextFormField(
               controller: controllerConfirmPassword,
               obscureText: confirmPasswordVisible,
-              // onChanged: (String? value) {
-              //   confirmPassword = value;
-              // },
               decoration: InputDecoration(
                   errorText: arePasswordsIdentical
                       ? null
@@ -188,9 +182,6 @@ class _SignUpState extends State<SignUp> {
       padding: const EdgeInsets.all(gc.paddingBetweenText),
       child: TextFormField(
         controller: controllerEmail,
-        // onChanged: (String? value) {
-        //   email = value;
-        // },
         decoration: InputDecoration(
           hintText: Languages.of(context)!.emailText,
           focusedBorder: OutlineInputBorder(

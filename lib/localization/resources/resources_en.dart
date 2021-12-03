@@ -16,14 +16,7 @@ class LanguageEn extends Languages {
   String get appTitle => "BalanceMe";
 
 
-
-  @override
-  String get signUpTitle => "Sign Up";
-
-  @override
-  String get emailText => "Email";
-
-  // Login
+// Login
   @override
   String get welcome => "Welcome";
 
@@ -36,18 +29,14 @@ class LanguageEn extends Languages {
   @override
   String get successfullyLogout => "Successfully logged out";
 
-  // Navigation
   @override
-  String get balance => "Balance";
+  String get signUpTitle => "Sign Up";
 
   @override
-  String get statistics => "Statistics";
+  String get emailText => "Email";
 
-  @override
-  String get settings => "Settings";
   @override
   String get password => "Password";
-
 
   @override
   String get forgotPassword => "FORGOT PASSWORD";
@@ -57,23 +46,43 @@ class LanguageEn extends Languages {
 
   @override
   String get loginError => "User not found";
+
+  @override
+  String get nullDetails => "To sign up, you must type both your email and password ";
+
+  @override
+  String get signUpError => "sign up failed, check your connection and try again";
+
   @override
   String get confirmPassword => "Confirm Password";
 
   @override
+  String get invalidPasswords => "Passwords don't match ";
+
+
+  //password recovery
+  @override
   String get recoverPassword => "Password recovery";
+
   @override
   String get forgotPasswordLarge => "Forgot your password?";
+
   @override
   String get confirmEmail => "Confirm your email and we'll send the instructions";
+
   @override
   String get send => "SEND";
+
   @override
   String get emailSent => "Email sent";
+
+  // Navigation
   @override
-  String get invalidPasswords => "Passwords don't match ";
+  String get balance => "Balance";
+
   @override
-  String get nullDetails => "To sign up, you must type both your email and password ";
+  String get statistics => "Statistics";
+
   @override
-  String get signUpError => "sign up failed, check your connection and try again";
+  String get settings => "Settings";
 }

@@ -3,11 +3,12 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 void signInGoogle(BuildContext context) async {
   auth.AuthRepository authRepository = auth.AuthRepository.instance();
   bool signInAttempt = await authRepository.signInGoogle();
   if (signInAttempt) {
+   await UserStorage.instance(authRepository).GET_postLogin();
     navigateBack(context);
   } else {
     displaySnackBar(context, Languages.of(context)!.loginError);
@@ -18,6 +19,7 @@ void signInFacebook(BuildContext context) async {
   auth.AuthRepository authRepository = auth.AuthRepository.instance();
   bool signInAttempt = await authRepository.signInWithFacebook();
   if (signInAttempt) {
+    await UserStorage.instance(authRepository).GET_postLogin();
     navigateBack(context);
   } else {
     displaySnackBar(context, Languages.of(context)!.loginError);
@@ -28,6 +30,7 @@ void signUpGoogle(BuildContext context) async {
   auth.AuthRepository authRepository = auth.AuthRepository.instance();
   bool signInAttempt = await authRepository.signInGoogle();
   if (signInAttempt) {
+     UserStorage.instance(authRepository).SEND_generalInfo();
     navigateBack(context);
   } else {
     displaySnackBar(context, Languages.of(context)!.loginError);
@@ -38,6 +41,7 @@ void signUpFacebook(BuildContext context) async {
   auth.AuthRepository authRepository = auth.AuthRepository.instance();
   bool signInAttempt = await authRepository.signInWithFacebook();
   if (signInAttempt) {
+    UserStorage.instance(authRepository).SEND_generalInfo();
     navigateBack(context);
   } else {
     displaySnackBar(context, Languages.of(context)!.loginError);
@@ -50,15 +54,11 @@ void emailPasswordSignUp(String? email, String? password,
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-  // if (password != confirmPassword) {
-  //   setState(() {
-  //     arePasswordsIdentical = !arePasswordsIdentical;
-  //   });
-  //   return;
-  // }
-  auth.AuthRepository _auth = auth.AuthRepository.instance();
-  bool attempt = await _auth.signUp(email, password);
+
+  auth.AuthRepository authRepository = auth.AuthRepository.instance();
+  bool attempt = await authRepository.signUp(email, password);
   if (attempt) {
+    UserStorage.instance(authRepository).SEND_generalInfo();
     navigateBack(context);
   } else {
     displaySnackBar(context, Languages.of(context)!.signUpError);
@@ -68,12 +68,13 @@ void emailPasswordSignUp(String? email, String? password,
 void emailPasswordSignIn(
     String? email, String? password, BuildContext context) async {
   if (email == null || password == null) {
-    displaySnackBar(context, Languages.of(context)!.loginError);
+    displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-  auth.AuthRepository _auth = auth.AuthRepository.instance();
-  bool signInSuccesful = await _auth.signIn(email, password);
-  if (signInSuccesful) {
+  auth.AuthRepository authRepository = auth.AuthRepository.instance();
+  bool signInSuccessful = await authRepository.signIn(email, password);
+  if (signInSuccessful) {
+    await UserStorage.instance(authRepository).GET_postLogin();
     navigateBack(context);
   } else {
     displaySnackBar(context, Languages.of(context)!.loginError);

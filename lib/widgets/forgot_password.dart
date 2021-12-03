@@ -78,14 +78,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           hintText: Languages.of(context)!.emailText,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(gc.textFieldRadius),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: gc.primaryColor,
               width: 2.0,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(gc.textFieldRadius),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: gc.primaryColor,
               width: 2.0,
             ),
