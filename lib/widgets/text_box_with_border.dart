@@ -6,25 +6,10 @@ Padding emailTextBox(BuildContext context,TextEditingController controllerEmail)
     padding:  const EdgeInsets.all(gc.paddingBetweenText),
     child: TextFormField(
       controller: controllerEmail,
-      // onChanged: (String? value) {
-      //   email = value;
-      // },
       decoration: InputDecoration(
         hintText: Languages.of(context)!.emailText,
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(gc.textFieldRadius),
-          borderSide: BorderSide(
-            color: gc.primaryColor,
-            width: 2.0,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(gc.textFieldRadius),
-          borderSide: BorderSide(
-            color: gc.primaryColor,
-            width: 2.0,
-          ),
-        ),
+        focusedBorder: focusBorder(),
+        enabledBorder: focusBorder(),
       ),
     ),
   );
@@ -46,21 +31,18 @@ Padding passwordTextBox(BuildContext context,bool showPassword,
              hideText();
             },
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(gc.textFieldRadius),
-            borderSide: BorderSide(
-              color: gc.primaryColor,
-              width: gc.borderWidth,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(gc.textFieldRadius),
-            borderSide: BorderSide(
-              color: gc.primaryColor,
-              width: gc.borderWidth,
-            ),
-          )),
+          focusedBorder: focusBorder(),
+          enabledBorder: focusBorder()),
     ),
   );
+}
+OutlineInputBorder focusBorder() {
+  return OutlineInputBorder(
+          borderRadius: BorderRadius.circular(gc.textFieldRadius),
+          borderSide: BorderSide(
+            color: gc.primaryColor,
+            width: gc.borderWidth,
+          ),
+        );
 }
 
