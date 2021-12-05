@@ -29,3 +29,38 @@ Padding emailTextBox(BuildContext context,TextEditingController controllerEmail)
     ),
   );
 }
+Padding passwordTextBox(BuildContext context,bool showPassword,
+    TextEditingController controllerPassword,void Function() hideText,[String? text]) {
+  return Padding(
+    padding: const EdgeInsets.all(gc.paddingBetweenText),
+    child: TextFormField(
+      obscureText: showPassword,
+      controller: controllerPassword,
+      decoration: InputDecoration(
+          hintText:text==null ?Languages.of(context)!.password:text,
+          suffixIcon: IconButton(
+            icon:
+            Icon(showPassword ? gc.hidePassword : gc.showPassword),
+            color: gc.hidePasswordColor,
+            onPressed: () {
+             hideText();
+            },
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(gc.textFieldRadius),
+            borderSide: BorderSide(
+              color: gc.primaryColor,
+              width: gc.borderWidth,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(gc.textFieldRadius),
+            borderSide: BorderSide(
+              color: gc.primaryColor,
+              width: gc.borderWidth,
+            ),
+          )),
+    ),
+  );
+}
+

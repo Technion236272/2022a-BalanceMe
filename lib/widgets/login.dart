@@ -1,4 +1,3 @@
-
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:balance_me/global/login_utils.dart' as util;
 import 'package:balance_me/widgets/forgot_password.dart';
 import 'package:balance_me/widgets/third_party_authentication.dart';
 import 'package:balance_me/widgets/login_image.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -41,51 +41,17 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         children: [
           loginImage(context),
-          emailTextBox(context,controllerEmail),
-          Padding(
-            padding: const EdgeInsets.all(gc.paddingBetweenText),
-            child: TextFormField(
-              obscureText: showPassword,
-              controller: controllerPassword,
-              decoration: InputDecoration(
-                  hintText: Languages.of(context)!.password,
-                  suffixIcon: IconButton(
-                    icon:
-                    Icon(showPassword ? gc.hidePassword : gc.showPassword),
-                    color: gc.hidePasswordColor,
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(gc.textFieldRadius),
-                    borderSide: BorderSide(
-                      color: gc.primaryColor,
-                      width: gc.borderWidth,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(gc.textFieldRadius),
-                    borderSide: BorderSide(
-                      color: gc.primaryColor,
-                      width: gc.borderWidth,
-                    ),
-                  )),
-            ),
-          ),
-
-googlebutton(context),
-facebookButton(context),
-
+          emailTextBox(context, controllerEmail),
+          passwordTextBox(context, showPassword, controllerPassword, hideText),
+          googlebutton(context),
+          facebookButton(context),
           TextButton(
               onPressed: () {
-                navigateToPage(context, ForgotPassword());
+                navigateToPage(context,  ForgotPassword());
               },
               child: Text(
                 Languages.of(context)!.forgotPassword,
-                style: TextStyle(color: gc.linkColors),
+                style: const TextStyle(color: gc.linkColors),
               )),
           signInButton(context),
         ],
@@ -93,12 +59,18 @@ facebookButton(context),
     );
   }
 
+  void hideText() {
+    setState(() {
+      showPassword = !showPassword;
+    });
+  }
+
   SizedBox signInButton(BuildContext context) {
     return SizedBox(
       child: ElevatedButton(
           style: ButtonStyle(
               backgroundColor:
-              MaterialStateProperty.all<Color>(gc.alternativePrimary)),
+                  MaterialStateProperty.all<Color>(gc.alternativePrimary)),
           onPressed: () {
             util.emailPasswordSignIn(
                 controllerEmail.text, controllerPassword.text, context);
@@ -107,10 +79,8 @@ facebookButton(context),
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return loginBody(context);
   }
 }
-

@@ -5,6 +5,7 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/login_utils.dart' as util;
 import 'package:balance_me/widgets/third_party_authentication.dart';
 import 'package:balance_me/widgets/login_image.dart';
+import 'package:balance_me/widgets/text_box_with_border.dart';
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -39,77 +40,9 @@ class _SignUpState extends State<SignUp> {
         children: [
           loginImage(context),
           emailTextBox(context,controllerEmail),
-          Padding(
-            padding: const EdgeInsets.all(gc.paddingBetweenText),
-            child: TextFormField(
-              controller: controllerPassword,
-              obscureText: signUpPasswordVisible,
-              decoration: InputDecoration(
-                  hintText: Languages.of(context)!.password,
-                  suffixIcon: IconButton(
-                    icon: Icon(signUpPasswordVisible
-                        ? gc.hidePassword
-                        : gc.showPassword),
-                    color: gc.hidePasswordColor,
-                    onPressed: () {
-                      setState(() {
-                        signUpPasswordVisible = !signUpPasswordVisible;
-                      });
-                    },
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(gc.textFieldRadius),
-                    borderSide: BorderSide(
-                      color: gc.primaryColor,
-                      width: gc.borderWidth,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(gc.textFieldRadius),
-                    borderSide: BorderSide(
-                      color: gc.primaryColor,
-                      width: gc.borderWidth,
-                    ),
-                  )),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(gc.paddingBetweenText),
-            child: TextFormField(
-              controller: controllerConfirmPassword,
-              obscureText: confirmPasswordVisible,
-              decoration: InputDecoration(
-                  errorText: arePasswordsIdentical
-                      ? null
-                      : Languages.of(context)!.invalidPasswords,
-                  hintText: Languages.of(context)!.confirmPassword,
-                  suffixIcon: IconButton(
-                    icon: Icon(confirmPasswordVisible
-                        ? gc.hidePassword
-                        : gc.showPassword),
-                    color: gc.hidePasswordColor,
-                    onPressed: () {
-                      setState(() {
-                        confirmPasswordVisible = !confirmPasswordVisible;
-                      });
-                    },
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(gc.textFieldRadius),
-                    borderSide: BorderSide(
-                      color: gc.primaryColor,
-                      width: gc.borderWidth,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(gc.textFieldRadius),
-                    borderSide:  BorderSide(
-                      color: gc.primaryColor,
-                      width: gc.borderWidth,
-                    ),
-                  )),
-            ),
-          ),
+          passwordTextBox(context,signUpPasswordVisible,controllerPassword,hideText),
+          passwordTextBox(context,confirmPasswordVisible,controllerConfirmPassword,
+              hideConfirmText,Languages.of(context)!.confirmPassword),
 
               googlebutton(context),
               facebookButton(context),
@@ -120,8 +53,45 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-
-
+  // Padding passwordTextBox(BuildContext context) {
+  //   return Padding(
+  //         padding: const EdgeInsets.all(gc.paddingBetweenText),
+  //         child: TextFormField(
+  //           controller: controllerConfirmPassword,
+  //           obscureText: confirmPasswordVisible,
+  //           decoration: InputDecoration(
+  //               errorText: arePasswordsIdentical
+  //                   ? null
+  //                   : Languages.of(context)!.invalidPasswords,
+  //               hintText: Languages.of(context)!.confirmPassword,
+  //               suffixIcon: IconButton(
+  //                 icon: Icon(confirmPasswordVisible
+  //                     ? gc.hidePassword
+  //                     : gc.showPassword),
+  //                 color: gc.hidePasswordColor,
+  //                 onPressed: () {
+  //                   setState(() {
+  //                     confirmPasswordVisible = !confirmPasswordVisible;
+  //                   });
+  //                 },
+  //               ),
+  //               focusedBorder: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.circular(gc.textFieldRadius),
+  //                 borderSide: BorderSide(
+  //                   color: gc.primaryColor,
+  //                   width: gc.borderWidth,
+  //                 ),
+  //               ),
+  //               enabledBorder: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.circular(gc.textFieldRadius),
+  //                 borderSide:  BorderSide(
+  //                   color: gc.primaryColor,
+  //                   width: gc.borderWidth,
+  //                 ),
+  //               )),
+  //         ),
+  //       );
+  // }
 
   SizedBox signUpEmailPasswordButton(BuildContext context) {
     return SizedBox(
@@ -139,5 +109,16 @@ class _SignUpState extends State<SignUp> {
                 child: Text(Languages.of(context)!.signUpTitle)),
           );
   }
-
+void hideText()
+{
+  setState(() {
+    signUpPasswordVisible = !signUpPasswordVisible;
+  });
+}
+  void hideConfirmText()
+  {
+    setState(() {
+      confirmPasswordVisible = !confirmPasswordVisible;
+    });
+  }
 }
