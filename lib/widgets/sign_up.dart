@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:auth_buttons/auth_buttons.dart';
-import 'package:balance_me/firebase_wrapper/auth_repository.dart' as auth;
-import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/pages/home.dart';
 import 'package:balance_me/global/login_utils.dart' as util;
-
+import 'package:balance_me/widgets/third_party_authentication.dart';
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -78,14 +75,14 @@ class _SignUpState extends State<SignUp> {
                     borderRadius: BorderRadius.circular(gc.textFieldRadius),
                     borderSide: BorderSide(
                       color: gc.primaryColor,
-                      width: 2.0,
+                      width: gc.borderWidth,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(gc.textFieldRadius),
                     borderSide: BorderSide(
                       color: gc.primaryColor,
-                      width: 2.0,
+                      width: gc.borderWidth,
                     ),
                   )),
             ),
@@ -115,66 +112,46 @@ class _SignUpState extends State<SignUp> {
                     borderRadius: BorderRadius.circular(gc.textFieldRadius),
                     borderSide: BorderSide(
                       color: gc.primaryColor,
-                      width: 2.0,
+                      width: gc.borderWidth,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(gc.textFieldRadius),
-                    borderSide: const BorderSide(
+                    borderSide:  BorderSide(
                       color: gc.primaryColor,
-                      width: 2.0,
+                      width: gc.borderWidth,
                     ),
                   )),
             ),
           ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(gc.googleButtonPadding,
-                    gc.paddingFacebook, gc.paddingFacebook, gc.paddingFacebook),
-                child: GoogleAuthButton(
-                  onPressed: () {
-                    util.signUpGoogle(context);
-                  },
-                  darkMode: false,
-                  style: const AuthButtonStyle(
-                    buttonType: AuthButtonType.icon,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(gc.paddingFacebook),
-                child: FacebookAuthButton(
-                  onPressed: () {
-                    util.signUpFacebook(context);
-                  },
-                  darkMode: false,
-                  style: const AuthButtonStyle(
-                    buttonType: AuthButtonType.icon,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: SizedBox(
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          gc.alternativePrimary)),
-                  onPressed: () {
-                    util.emailPasswordSignUp(
-                        controllerEmail.text,
-                        controllerPassword.text,
-                        controllerConfirmPassword.text,
-                        context);
-                  },
-                  child: Text(Languages.of(context)!.signUpTitle)),
-            ),
-          ),
+
+              googlebutton(context),
+              facebookButton(context),
+             signUpEmailPasswordButton(context),
+
         ],
       ),
     );
+  }
+
+
+
+
+  SizedBox signUpEmailPasswordButton(BuildContext context) {
+    return SizedBox(
+            child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        gc.alternativePrimary)),
+                onPressed: () {
+                  util.emailPasswordSignUp(
+                      controllerEmail.text,
+                      controllerPassword.text,
+                      controllerConfirmPassword.text,
+                      context);
+                },
+                child: Text(Languages.of(context)!.signUpTitle)),
+          );
   }
 
   Padding emailTextBox(BuildContext context) {
@@ -188,14 +165,14 @@ class _SignUpState extends State<SignUp> {
             borderRadius: BorderRadius.circular(gc.textFieldRadius),
             borderSide: BorderSide(
               color: gc.primaryColor,
-              width: 2.0,
+              width: gc.borderWidth,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(gc.textFieldRadius),
             borderSide: BorderSide(
               color: gc.primaryColor,
-              width: 2.0,
+              width: gc.borderWidth,
             ),
           ),
         ),

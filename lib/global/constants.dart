@@ -34,9 +34,9 @@ const double appBarAvatarRadius = 40;
 
 
 //login
-const double paddingBetweenText = 30.0;
+const double paddingBetweenText = 20.0;
 const double textFieldRadius = 25.0;
-const double googleButtonPadding = 120.0;
+const double googleButtonPadding = 20.0;
 const double paddingFacebook = 10.0;
 const List<String> permissionFacebook = ["public_profile", "email"];
 int loginTabs = 2;
@@ -49,6 +49,7 @@ double padStackLeft = 45.0;
 double padStackTop = 80.0;
 double padStackRight = 20.0;
 double padStackBottom = 40.0;
+double borderWidth=2.0;
 // Navigation
 int defaultPage = AppPages.Balance.index;
 

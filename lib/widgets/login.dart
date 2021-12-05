@@ -2,15 +2,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
 import 'package:auth_buttons/auth_buttons.dart';
-import 'package:balance_me/widgets/generic_tabs.dart';
-import 'package:balance_me/widgets/sign_up.dart';
 import 'package:balance_me/global/login_utils.dart' as util;
 import 'package:balance_me/widgets/forgot_password.dart';
-
+import 'package:balance_me/widgets/third_party_authentication.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -93,35 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   )),
             ),
           ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(gc.googleButtonPadding,
-                    gc.paddingFacebook, gc.paddingFacebook, gc.paddingFacebook),
-                child: GoogleAuthButton(
-                  onPressed: () {
-                    util.signInGoogle(context);
-                  },
-                  darkMode: false,
-                  style: const AuthButtonStyle(
-                    buttonType: AuthButtonType.icon,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(gc.paddingFacebook),
-                child: FacebookAuthButton(
-                  onPressed: () {
-                    util.signInFacebook(context);
-                  },
-                  darkMode: false,
-                  style: const AuthButtonStyle(
-                    buttonType: AuthButtonType.icon,
-                  ),
-                ),
-              ),
-            ],
-          ),
+
+googlebutton(context),
+facebookButton(context),
+
           TextButton(
               onPressed: () {
                 navigateToPage(context, ForgotPassword());
