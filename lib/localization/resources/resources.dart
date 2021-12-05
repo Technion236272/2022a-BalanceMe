@@ -23,4 +23,7 @@ abstract class Languages {
   String get balance;
   String get statistics;
   String get settings;
+
+  // Charts
+  String get available;
 }

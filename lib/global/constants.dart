@@ -1,6 +1,7 @@
 // ================= Global Constants =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
@@ -51,3 +52,9 @@ double tabBorderRadius = 30.0;
 double tabBodyHeightResize = 4/5;
 double tabFontSize = 16.0;
 double tabPadding = 5.0;
+
+// RingPieChart
+const String pieChartInnerRadius = '65%';
+const LegendPosition pieChartLegendPosition = LegendPosition.top;
+Color pieChartCenterText = Colors.grey.shade600;
+Color pieCharDefaultCategoryColor = Colors.white;
