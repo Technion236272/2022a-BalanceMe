@@ -37,4 +37,8 @@ class LanguageRu extends Languages {
 
   @override
   String get settings => "Settings";
+
+  // Charts
+  @override
+  String get available => "Available";
 }
