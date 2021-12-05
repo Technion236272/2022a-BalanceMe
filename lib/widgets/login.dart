@@ -54,13 +54,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextButton forgotPasswordLink(BuildContext context) {
     return TextButton(
-            onPressed: () {
-              navigateToPage(context,  const ForgotPassword());
-            },
-            child: Text(
-              Languages.of(context)!.forgotPassword,
-              style: const TextStyle(color: gc.linkColors),
-            ));
+        onPressed: () {
+          navigateToPage(context, const ForgotPassword());
+        },
+        child: Text(
+          Languages.of(context)!.forgotPassword,
+          style: const TextStyle(color: gc.linkColors),
+        ));
   }
 
   void hideText() {
