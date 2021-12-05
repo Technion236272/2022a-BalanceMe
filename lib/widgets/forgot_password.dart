@@ -1,4 +1,5 @@
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -48,7 +49,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),
               ),
-              emailTextBox(context),
+              emailTextBox(context,controllerEmail),
               SizedBox(
                 child: ElevatedButton(
                     style: ButtonStyle(
@@ -66,32 +67,5 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 
-  Padding emailTextBox(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(gc.paddingBetweenText),
-      child: TextFormField(
-        controller: controllerEmail,
-        // onChanged: (String? value) {
-        //   email = value;
-        // },
-        decoration: InputDecoration(
-          hintText: Languages.of(context)!.emailText,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(gc.textFieldRadius),
-            borderSide: const BorderSide(
-              color: gc.primaryColor,
-              width: 2.0,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(gc.textFieldRadius),
-            borderSide: const BorderSide(
-              color: gc.primaryColor,
-              width: 2.0,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+
 }

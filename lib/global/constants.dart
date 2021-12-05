@@ -50,6 +50,7 @@ double padStackTop = 80.0;
 double padStackRight = 20.0;
 double padStackBottom = 40.0;
 double borderWidth=2.0;
+double fontSizeLoginImage=16;
 // Navigation
 int defaultPage = AppPages.Balance.index;
 

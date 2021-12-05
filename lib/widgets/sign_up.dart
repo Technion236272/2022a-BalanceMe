@@ -1,9 +1,10 @@
+import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:auth_buttons/auth_buttons.dart';
 import 'package:balance_me/global/login_utils.dart' as util;
 import 'package:balance_me/widgets/third_party_authentication.dart';
+import 'package:balance_me/widgets/login_image.dart';
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -36,23 +37,8 @@ class _SignUpState extends State<SignUp> {
     return Form(
       child: Column(
         children: [
-          Stack(
-            children: [
-              Image.asset(
-                gc.wallet,
-                height: MediaQuery.of(context).size.height / gc.walletScale,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(gc.padStackLeft, gc.padStackTop,
-                    gc.padStackRight, gc.padStackBottom),
-                child: Text(
-                  Languages.of(context)!.appName,
-                  style: TextStyle(color: gc.secondaryColor, fontSize: 16),
-                ),
-              )
-            ],
-          ),
-          emailTextBox(context),
+          loginImage(context),
+          emailTextBox(context,controllerEmail),
           Padding(
             padding: const EdgeInsets.all(gc.paddingBetweenText),
             child: TextFormField(
@@ -154,29 +140,4 @@ class _SignUpState extends State<SignUp> {
           );
   }
 
-  Padding emailTextBox(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(gc.paddingBetweenText),
-      child: TextFormField(
-        controller: controllerEmail,
-        decoration: InputDecoration(
-          hintText: Languages.of(context)!.emailText,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(gc.textFieldRadius),
-            borderSide: BorderSide(
-              color: gc.primaryColor,
-              width: gc.borderWidth,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(gc.textFieldRadius),
-            borderSide: BorderSide(
-              color: gc.primaryColor,
-              width: gc.borderWidth,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
