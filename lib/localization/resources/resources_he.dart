@@ -83,4 +83,8 @@ class LanguageHe extends Languages {
 
   @override
   String get settings => "‎הגדרות";
+
+  // Charts
+  @override
+  String get available => "‎זמין";
 }

@@ -80,7 +80,8 @@ class LanguageRu extends Languages {
   @override
   String get settings => "настройки";
 
-
-
+  // Charts
+  @override
+  String get available => "имеющиеся";
 
 }

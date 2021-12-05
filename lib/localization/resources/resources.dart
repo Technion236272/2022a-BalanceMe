@@ -39,5 +39,7 @@ abstract class Languages {
   String get statistics;
   String get settings;
 
+  // Charts
+  String get available;
 
 }

@@ -1,6 +1,7 @@
 // ================= Global Constants =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
@@ -73,7 +74,6 @@ Color cardBGColor = Colors.grey; //TODO - change to chosen color
 //Tabs
 Color tabLabelColor = Colors.black;
 Color tabIndicatorColor = Colors.lime;
-
 Color tabBarColor = Colors.limeAccent;
 Color tabUnselectedLabelColor = Colors.grey.shade600;
 double tabBorderRadius = 30.0;
@@ -81,9 +81,14 @@ double tabBodyHeightResize = 4 / 5;
 double tabFontSize = 16.0;
 double tabPadding = 5.0;
 
-
 //images
 String wallet = 'assets/images/wallet.jpg';
 String lock = 'assets/images/lock.png';
 double walletScale = 5.0;
+
+// RingPieChart
+const String pieChartInnerRadius = '65%';
+const LegendPosition pieChartLegendPosition = LegendPosition.top;
+Color pieChartCenterText = Colors.grey.shade600;
+Color pieCharDefaultCategoryColor = Colors.white;
 
