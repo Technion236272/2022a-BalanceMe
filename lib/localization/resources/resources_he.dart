@@ -41,4 +41,23 @@ class LanguageHe extends Languages {
   // Charts
   @override
   String get available => "‎זמין";
+
+  // Balance
+  @override
+  String get balanceInfo =>  "‎כאן תוכל לנהל את ההוצאות וההכנסות שלך";
+
+  @override
+  String get toGetStartedInfo =>  "‎כדי להתחיל התחבר או נסה את האפליקציה";
+
+  @override
+  String get expenses => "‎הוצאות";
+
+  @override
+  String get income => "‎הכנסות";
+
+  @override
+  String get target => "‎בפועל";
+
+  @override
+  String get expected => "צפוי‎";
 }

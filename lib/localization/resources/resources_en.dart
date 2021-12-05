@@ -41,4 +41,23 @@ class LanguageEn extends Languages {
   // Charts
   @override
   String get available => "Available";
+
+  // Balance
+  @override
+  String get balanceInfo => "Here you can manage your income and expenses";
+
+  @override
+  String get toGetStartedInfo => "To get started you can login or just experience the app";
+
+  @override
+  String get expenses => "Expenses";
+
+  @override
+  String get income => "Income";
+
+  @override
+  String get target => "Target";
+
+  @override
+  String get expected => "Expected";
 }

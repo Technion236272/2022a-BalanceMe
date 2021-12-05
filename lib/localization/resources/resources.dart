@@ -26,4 +26,12 @@ abstract class Languages {
 
   // Charts
   String get available;
+
+  // Balance
+  String get balanceInfo;
+  String get toGetStartedInfo;
+  String get expenses;
+  String get income;
+  String get target;
+  String get expected;
 }

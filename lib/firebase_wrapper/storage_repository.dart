@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/common_models/user_model.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/project_config.dart' as config;
 
 class UserStorage with ChangeNotifier {
@@ -78,6 +79,21 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  Future<void> GET_categoriesForBalance(JsonCallbackJson callback) async {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
+      await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc).get().then((categories) {
+        if (categories.exists && categories.data() != null) {
+          notifyListeners();
+          callback.call(categories.data()![config.categoriesDoc]);
+        } else {
+          GoogleAnalytics.instance.logPostLoginFailed(categories);
+        }
+      });
+    } else if (_authRepository != null) {
+      GoogleAnalytics.instance.logPreCheckFailed("GET_categoriesForBalance", _authRepository!);
+    }
+  }
+
   // SEND
   void SEND_generalInfo() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
@@ -86,6 +102,16 @@ class UserStorage with ChangeNotifier {
       });
     } else if (_authRepository != null) {
       GoogleAnalytics.instance.logPreCheckFailed("SEND_generalInfo", _authRepository!);
+    }
+  }
+
+  void SEND_categories(Json categories) async {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
+      await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc).set({
+        config.categoriesDoc: categories,
+      });
+    } else if (_authRepository != null) {
+      GoogleAnalytics.instance.logPreCheckFailed("SEND_categories", _authRepository!);
     }
   }
 }

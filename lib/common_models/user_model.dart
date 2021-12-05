@@ -1,4 +1,5 @@
 // ================= User Data Model =================
+import 'package:balance_me/global/types.dart';
 import "package:balance_me/global/constants.dart" as gc;
 
 class UserModel {
@@ -10,7 +11,7 @@ class UserModel {
   String? firstName;
   String? lastName;
 
-  void updateFromJson(Map<String, dynamic> json) {
+  void updateFromJson(Json json) {
     if (json["groupName"] != null) {
       groupName = json["groupName"];
     }
@@ -28,7 +29,7 @@ class UserModel {
     }
   }
 
-  Map<String, dynamic> toJson() => {
+  Json toJson() => {
     'groupName': groupName,
     'endOfMonthDay': endOfMonthDay,
     'userCurrency': userCurrency,
