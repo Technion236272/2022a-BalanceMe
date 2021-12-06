@@ -39,21 +39,42 @@ class _SignUpState extends State<SignUp> {
     return Form(
       child: Column(
         children: [
-          loginImage(context),
-          emailTextBox(context, controllerEmail),
-          passwordTextBox(
-              context, signUpPasswordVisible, controllerPassword, hideText),
-          passwordTextBox(
-              context,
-              confirmPasswordVisible,
-              controllerConfirmPassword,
-              hideConfirmText,
-              Languages.of(context)!.confirmPassword),
-          googlebutton(context),
-          facebookButton(context),
+          const LoginImage(),
+          TextBox(controllerEmail, Languages.of(context)!.emailText),
+          TextBox(controllerPassword, Languages.of(context)!.password,hideText: signUpPasswordVisible,suffix: hidingPasswordEye(),),
+          TextBox(controllerConfirmPassword, Languages.of(context)!.confirmPassword,hideText: confirmPasswordVisible,suffix: hidingConfirmPasswordEye(),),
+         GoogleButton(),
+          FacebookButton(),
           signUpEmailPasswordButton(context),
         ],
       ),
+    );
+  }
+  IconButton hidingPasswordEye()
+  {
+    return IconButton(
+      icon:
+      Icon(signUpPasswordVisible ? gc.hidePassword : gc.showPassword),
+      color: gc.hidePasswordColor,
+      onPressed: () {
+        setState(() {
+          signUpPasswordVisible = !signUpPasswordVisible;
+        });
+      },
+    );
+  }
+
+  IconButton hidingConfirmPasswordEye()
+  {
+    return IconButton(
+      icon:
+      Icon(confirmPasswordVisible ? gc.hidePassword : gc.showPassword),
+      color: gc.hidePasswordColor,
+      onPressed: () {
+        setState(() {
+          confirmPasswordVisible = !confirmPasswordVisible;
+        });
+      },
     );
   }
 
@@ -72,17 +93,5 @@ class _SignUpState extends State<SignUp> {
           },
           child: Text(Languages.of(context)!.signUpTitle)),
     );
-  }
-
-  void hideText() {
-    setState(() {
-      signUpPasswordVisible = !signUpPasswordVisible;
-    });
-  }
-
-  void hideConfirmText() {
-    setState(() {
-      confirmPasswordVisible = !confirmPasswordVisible;
-    });
   }
 }

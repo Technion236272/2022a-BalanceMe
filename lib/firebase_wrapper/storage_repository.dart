@@ -60,6 +60,12 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  void setDarkMode(bool isDarkMode) {
+    if (_userData != null) {
+      _userData!.isDarkMode = isDarkMode;
+    }
+  }
+
   // ================== Requests ==================
 
   // GET

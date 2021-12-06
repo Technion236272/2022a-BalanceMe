@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/widgets/login.dart';
 import 'package:balance_me/widgets/sign_up.dart';
+
 class LoginManager extends StatefulWidget {
   const LoginManager({Key? key}) : super(key: key);
 
@@ -29,32 +30,27 @@ class _LoginManagerState extends State<LoginManager> {
       ),
     );
   }
+
   void changeAppbar(int tabIndex) {
     setState(() {
       appBarChoice = tabIndex;
     });
   }
+List<String> tabNames()
+{
+  return [Languages.of(context)!.login,Languages.of(context)!.signUpTitle];
+}
+
   List<Tab> loginTabs() {
-    return [
-      Tab(
-          child: Text(
-            Languages.of(context)!.login,
-            style: const TextStyle(color: gc.tabTextColor),
-          )),
-      Tab(
-        child: Text(
-          Languages.of(context)!.signUpTitle,
-          style: const TextStyle(color: gc.tabTextColor),
-        ),
-      )
-    ];
+    List<Tab> tabs=[];
+    tabNames().forEach((element) {tabs.add(Tab(child: Text(element,style:const TextStyle(color: gc.tabTextColor) ,),)); });
+    return tabs;
   }
+
   List<Widget> loginTabBarView() {
     return [
-      LoginScreen(),
-      SignUp(),
+      const LoginScreen(),
+      const SignUp(),
     ];
   }
-
-
 }

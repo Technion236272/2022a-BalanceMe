@@ -45,13 +45,15 @@ const double forgotPasswordSize = 35;
 const double forgotPasswordMsgSize = 20;
 double sidePadding = 10.0;
 double padWithImage = 100.0;
-
 double padStackLeft = 45.0;
 double padStackTop = 80.0;
 double padStackRight = 20.0;
 double padStackBottom = 40.0;
 double borderWidth=2.0;
 double fontSizeLoginImage=16;
+String googleMethod="signInGoogle";
+String facebookMethod="signInWithFacebook";
+String emailWithPasswordMethod="signIn";
 // Navigation
 int defaultPage = AppPages.Balance.index;
 

@@ -4,48 +4,26 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
+import 'package:balance_me/global/constants.dart' as gc;
+
 void signInGoogle(BuildContext context) async {
-  auth.AuthRepository authRepository = auth.AuthRepository.instance();
-  bool signInAttempt = await authRepository.signInGoogle();
-  if (signInAttempt) {
-   await UserStorage.instance(authRepository).GET_postLogin();
-    navigateBack(context);
-  } else {
-    displaySnackBar(context, Languages.of(context)!.loginError);
-  }
+
+  startLoginProcess(context, auth.AuthRepository.instance().signInGoogle(), true,gc.googleMethod);
 }
 
 void signInFacebook(BuildContext context) async {
-  auth.AuthRepository authRepository = auth.AuthRepository.instance();
-  bool signInAttempt = await authRepository.signInWithFacebook();
-  if (signInAttempt) {
-    await UserStorage.instance(authRepository).GET_postLogin();
-    navigateBack(context);
-  } else {
-    displaySnackBar(context, Languages.of(context)!.loginError);
-  }
+
+  startLoginProcess(context, auth.AuthRepository.instance().signInWithFacebook(), true,gc.facebookMethod);
 }
 
 void signUpGoogle(BuildContext context) async {
-  auth.AuthRepository authRepository = auth.AuthRepository.instance();
-  bool signInAttempt = await authRepository.signInGoogle();
-  if (signInAttempt) {
-     UserStorage.instance(authRepository).SEND_generalInfo();
-    navigateBack(context);
-  } else {
-    displaySnackBar(context, Languages.of(context)!.loginError);
-  }
+
+  startLoginProcess(context, auth.AuthRepository.instance().signInGoogle(), false,gc.googleMethod);
 }
 
 void signUpFacebook(BuildContext context) async {
-  auth.AuthRepository authRepository = auth.AuthRepository.instance();
-  bool signInAttempt = await authRepository.signInWithFacebook();
-  if (signInAttempt) {
-    UserStorage.instance(authRepository).SEND_generalInfo();
-    navigateBack(context);
-  } else {
-    displaySnackBar(context, Languages.of(context)!.loginError);
-  }
+  startLoginProcess(context, auth.AuthRepository.instance().signInWithFacebook(), false,gc.facebookMethod);
 }
 
 void emailPasswordSignUp(String? email, String? password,
@@ -54,15 +32,8 @@ void emailPasswordSignUp(String? email, String? password,
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
+startLoginProcess(context, auth.AuthRepository.instance().signUp(email, password), false,gc.emailWithPasswordMethod);
 
-  auth.AuthRepository authRepository = auth.AuthRepository.instance();
-  bool attempt = await authRepository.signUp(email, password);
-  if (attempt) {
-    UserStorage.instance(authRepository).SEND_generalInfo();
-    navigateBack(context);
-  } else {
-    displaySnackBar(context, Languages.of(context)!.signUpError);
-  }
 }
 
 void emailPasswordSignIn(
@@ -71,14 +42,7 @@ void emailPasswordSignIn(
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-  auth.AuthRepository authRepository = auth.AuthRepository.instance();
-  bool signInSuccessful = await authRepository.signIn(email, password);
-  if (signInSuccessful) {
-    await UserStorage.instance(authRepository).GET_postLogin();
-    navigateBack(context);
-  } else {
-    displaySnackBar(context, Languages.of(context)!.loginError);
-  }
+  startLoginProcess(context, auth.AuthRepository.instance().signIn(email, password), true,gc.emailWithPasswordMethod);
 }
 
 void recoverPassword(String? email, BuildContext context) async {
@@ -93,6 +57,21 @@ void recoverPassword(String? email, BuildContext context) async {
     navigateBack(context);
     displaySnackBar(context, Languages.of(context)!.emailSent);
   } catch (e) {
+    displaySnackBar(context, Languages.of(context)!.loginError);
+  }
+}
+
+
+void startLoginProcess(BuildContext context,Future<bool> loginFunction,bool signedInBefore, String signUpMethod) async {
+  auth.AuthRepository authRepository = auth.AuthRepository.instance();
+  bool signInAttempt = await loginFunction;
+  if (signInAttempt) {
+
+   signedInBefore?await UserStorage.instance(authRepository).GET_postLogin():
+   UserStorage.instance(authRepository).SEND_generalInfo();
+   GoogleAnalytics.instance.logSignUp(signUpMethod);
+    navigateBack(context);
+  } else {
     displaySnackBar(context, Languages.of(context)!.loginError);
   }
 }

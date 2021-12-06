@@ -42,7 +42,7 @@ class AuthRepository with ChangeNotifier {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       _status = Status.Authenticated;
-      _avatarUrl = await getAvatarUrl();
+      _avatarUrl = null;
       notifyListeners();
       return true;
     } catch (e) {

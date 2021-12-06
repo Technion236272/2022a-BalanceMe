@@ -16,8 +16,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-//wallet:<a href="https://www.vecteezy.com/free-vector/wallet-icon">Wallet Icon Vectors by Vecteezy</a>
-//lock:Stockio.com
+
 class _LoginScreenState extends State<LoginScreen> {
   bool showPassword = true;
   TextEditingController controllerEmail = TextEditingController();
@@ -35,16 +34,26 @@ class _LoginScreenState extends State<LoginScreen> {
       showPassword = !showPassword;
     });
   }
-
+IconButton hidingPasswordEye()
+{
+  return IconButton(
+    icon:
+    Icon(showPassword ? gc.hidePassword : gc.showPassword),
+    color: gc.hidePasswordColor,
+    onPressed: () {
+      hideText();
+    },
+  );
+}
   Widget loginBody(BuildContext context) {
     return Form(
       child: Column(
         children: [
-          loginImage(context),
-          emailTextBox(context, controllerEmail),
-          passwordTextBox(context, showPassword, controllerPassword, hideText),
-          googlebutton(context),
-          facebookButton(context),
+          const LoginImage(),
+          TextBox(controllerEmail, Languages.of(context)!.emailText),
+          TextBox(controllerPassword, Languages.of(context)!.password,hideText: showPassword,suffix: hidingPasswordEye(),),
+          GoogleButton(),
+          FacebookButton(),
           forgotPasswordLink(context),
           signInButton(context),
         ],

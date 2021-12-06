@@ -23,11 +23,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return forgotPasswordPage(context);
-  }
-
-  Widget forgotPasswordPage(BuildContext context) {
-    return Scaffold(
+         return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: MinorAppBar(Languages.of(context)!.recoverPassword),
       body: SingleChildScrollView(
@@ -49,7 +45,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),
               ),
-              emailTextBox(context, controllerEmail),
+              TextBox(controllerEmail,Languages.of(context)!.emailText),
               SizedBox(
                 child: ElevatedButton(
                     style: ButtonStyle(
