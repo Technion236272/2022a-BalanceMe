@@ -17,28 +17,71 @@ class LanguageRu extends Languages {
 
   // Login
   @override
-  String get welcome => "Welcome";
+  String get welcome => "Добро пожаловать";
 
   @override
-  String get login => "Login";
+  String get login => "вход";
 
   @override
-  String get logout => "Logout";
+  String get logout => "выход";
 
   @override
-  String get successfullyLogout => "Successfully logged out";
+  String get successfullyLogout => "удачный выход";
+
+  @override
+  String get signUpTitle => "регистрация";
+
+  @override
+  String get emailText => "электронный адрес";
+
+  @override
+  String get password => "пароль";
+
+  @override
+  String get forgotPassword => "забыл пароль";
+
+  @override
+  String get signIn => "войти";
+
+  @override
+  String get loginError => "пользователь не нашолса";
+
+  @override
+  String get nullDetails => "дла окончания регистраций напишите ваш мейл и пароль";
+
+  @override
+  String get signUpError => "регистрация провалилась, праверти ваш связь к интернету ";
+
+  @override
+  String get confirmPassword => "подтвердить пароль";
+
+  @override
+  String get invalidPasswords => "пароли не похоже";
+
+  //password recovery
+  @override
+  String get recoverPassword => "восстановления пароля";
+  @override
+  String get forgotPasswordLarge => "забыл свой пароль?";
+  @override
+  String get confirmEmail => "подтверди твой электронный адрес и мы Отправим вам инструкцией ";
+  @override
+  String get send => "поселать";
+  @override
+  String get emailSent => "мейл послан";
 
   // Navigation
   @override
-  String get balance => "Balance";
+  String get balance => "баланс";
 
   @override
-  String get statistics => "Statistics";
+  String get statistics => "статистика";
 
   @override
-  String get settings => "Settings";
+  String get settings => "настройки";
 
   // Charts
   @override
-  String get available => "Available";
+  String get available => "имеющиеся";
+
 }

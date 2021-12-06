@@ -60,6 +60,12 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  void setDarkMode(bool isDarkMode) {
+    if (_userData != null) {
+      _userData!.isDarkMode = isDarkMode;
+    }
+  }
+
   // ================== Requests ==================
 
   // GET
@@ -77,6 +83,9 @@ class UserStorage with ChangeNotifier {
       GoogleAnalytics.instance.logPreCheckFailed("GET_postLogin", _authRepository!);
     }
   }
+
+
+  // Server Requests
 
   // SEND
   void SEND_generalInfo() async {
