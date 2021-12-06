@@ -15,6 +15,7 @@ class LoginManager extends StatefulWidget {
 
 class _LoginManagerState extends State<LoginManager> {
   int appBarChoice = 0;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -36,14 +37,21 @@ class _LoginManagerState extends State<LoginManager> {
       appBarChoice = tabIndex;
     });
   }
-List<String> tabNames()
-{
-  return [Languages.of(context)!.login,Languages.of(context)!.signUpTitle];
-}
+
+  List<String> tabNames() {
+    return [Languages.of(context)!.login, Languages.of(context)!.signUpTitle];
+  }
 
   List<Tab> loginTabs() {
-    List<Tab> tabs=[];
-    tabNames().forEach((element) {tabs.add(Tab(child: Text(element,style:const TextStyle(color: gc.tabTextColor) ,),)); });
+    List<Tab> tabs = [];
+    tabNames().forEach((element) {
+      tabs.add(Tab(
+        child: Text(
+          element,
+          style: const TextStyle(color: gc.tabTextColor),
+        ),
+      ));
+    });
     return tabs;
   }
 

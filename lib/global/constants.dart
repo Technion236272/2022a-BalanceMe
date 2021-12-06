@@ -33,7 +33,6 @@ const Color hidePasswordColor = Colors.black;
 // AppBar
 const double appBarAvatarRadius = 40;
 
-
 //login
 const double paddingBetweenText = 20.0;
 const double textFieldRadius = 25.0;
@@ -49,11 +48,8 @@ double padStackLeft = 45.0;
 double padStackTop = 80.0;
 double padStackRight = 20.0;
 double padStackBottom = 40.0;
-double borderWidth=2.0;
-double fontSizeLoginImage=16;
-String googleMethod="signInGoogle";
-String facebookMethod="signInWithFacebook";
-String emailWithPasswordMethod="signIn";
+double borderWidth = 2.0;
+double fontSizeLoginImage = 16;
 // Navigation
 int defaultPage = AppPages.Balance.index;
 
@@ -93,4 +89,3 @@ const String pieChartInnerRadius = '65%';
 const LegendPosition pieChartLegendPosition = LegendPosition.top;
 Color pieChartCenterText = Colors.grey.shade600;
 Color pieCharDefaultCategoryColor = Colors.white;
-

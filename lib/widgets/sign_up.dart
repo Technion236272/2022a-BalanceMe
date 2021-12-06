@@ -41,20 +41,29 @@ class _SignUpState extends State<SignUp> {
         children: [
           const LoginImage(),
           TextBox(controllerEmail, Languages.of(context)!.emailText),
-          TextBox(controllerPassword, Languages.of(context)!.password,hideText: signUpPasswordVisible,suffix: hidingPasswordEye(),),
-          TextBox(controllerConfirmPassword, Languages.of(context)!.confirmPassword,hideText: confirmPasswordVisible,suffix: hidingConfirmPasswordEye(),),
-         GoogleButton(),
+          TextBox(
+            controllerPassword,
+            Languages.of(context)!.password,
+            hideText: signUpPasswordVisible,
+            suffix: hidingPasswordEye(),
+          ),
+          TextBox(
+            controllerConfirmPassword,
+            Languages.of(context)!.confirmPassword,
+            hideText: confirmPasswordVisible,
+            suffix: hidingConfirmPasswordEye(),
+          ),
+          GoogleButton(),
           FacebookButton(),
           signUpEmailPasswordButton(context),
         ],
       ),
     );
   }
-  IconButton hidingPasswordEye()
-  {
+
+  IconButton hidingPasswordEye() {
     return IconButton(
-      icon:
-      Icon(signUpPasswordVisible ? gc.hidePassword : gc.showPassword),
+      icon: Icon(signUpPasswordVisible ? gc.hidePassword : gc.showPassword),
       color: gc.hidePasswordColor,
       onPressed: () {
         setState(() {
@@ -64,11 +73,9 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  IconButton hidingConfirmPasswordEye()
-  {
+  IconButton hidingConfirmPasswordEye() {
     return IconButton(
-      icon:
-      Icon(confirmPasswordVisible ? gc.hidePassword : gc.showPassword),
+      icon: Icon(confirmPasswordVisible ? gc.hidePassword : gc.showPassword),
       color: gc.hidePasswordColor,
       onPressed: () {
         setState(() {

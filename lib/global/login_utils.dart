@@ -1,3 +1,4 @@
+import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart' as auth;
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -8,22 +9,23 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 void signInGoogle(BuildContext context) async {
-
-  startLoginProcess(context, auth.AuthRepository.instance().signInGoogle(), true,gc.googleMethod);
+  startLoginProcess(
+      context, auth.AuthRepository.instance().signInGoogle(), true);
 }
 
 void signInFacebook(BuildContext context) async {
-
-  startLoginProcess(context, auth.AuthRepository.instance().signInWithFacebook(), true,gc.facebookMethod);
+  startLoginProcess(
+      context, auth.AuthRepository.instance().signInWithFacebook(), true);
 }
 
 void signUpGoogle(BuildContext context) async {
-
-  startLoginProcess(context, auth.AuthRepository.instance().signInGoogle(), false,gc.googleMethod);
+  startLoginProcess(
+      context, auth.AuthRepository.instance().signInGoogle(), false);
 }
 
 void signUpFacebook(BuildContext context) async {
-  startLoginProcess(context, auth.AuthRepository.instance().signInWithFacebook(), false,gc.facebookMethod);
+  startLoginProcess(
+      context, auth.AuthRepository.instance().signInWithFacebook(), false);
 }
 
 void emailPasswordSignUp(String? email, String? password,
@@ -32,8 +34,8 @@ void emailPasswordSignUp(String? email, String? password,
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-startLoginProcess(context, auth.AuthRepository.instance().signUp(email, password), false,gc.emailWithPasswordMethod);
-
+  startLoginProcess(
+      context, auth.AuthRepository.instance().signUp(email, password), false);
 }
 
 void emailPasswordSignIn(
@@ -42,7 +44,8 @@ void emailPasswordSignIn(
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-  startLoginProcess(context, auth.AuthRepository.instance().signIn(email, password), true,gc.emailWithPasswordMethod);
+  startLoginProcess(
+      context, auth.AuthRepository.instance().signIn(email, password), true);
 }
 
 void recoverPassword(String? email, BuildContext context) async {
@@ -61,15 +64,23 @@ void recoverPassword(String? email, BuildContext context) async {
   }
 }
 
-
-void startLoginProcess(BuildContext context,Future<bool> loginFunction,bool signedInBefore, String signUpMethod) async {
+void startLoginProcess(BuildContext context, Future<bool> loginFunction,
+    bool signedInBefore) async {
   auth.AuthRepository authRepository = auth.AuthRepository.instance();
   bool signInAttempt = await loginFunction;
   if (signInAttempt) {
-
-   signedInBefore?await UserStorage.instance(authRepository).GET_postLogin():
-   UserStorage.instance(authRepository).SEND_generalInfo();
-   GoogleAnalytics.instance.logSignUp(signUpMethod);
+    signedInBefore
+        ? await UserStorage.instance(authRepository).GET_postLogin()
+        : UserStorage.instance(authRepository).SEND_generalInfo();
+    User? user = authRepository.user;
+    if (user != null) {
+      String? email = authRepository.user!.email;
+      if (email != null) {
+        signedInBefore
+            ? GoogleAnalytics.instance.logLogin(email)
+            : GoogleAnalytics.instance.logSignUp(email);
+      }
+    }
     navigateBack(context);
   } else {
     displaySnackBar(context, Languages.of(context)!.loginError);
