@@ -123,10 +123,12 @@ class AuthRepository with ChangeNotifier {
   }
 
   void uploadAvatar(XFile? avatarImage) async {
-      Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
-      UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage!.path));
 
-      await uploadedAvatar;
+      if (avatarImage!=null && _user!=null) {
+        Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
+        UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage!.path));
+        await uploadedAvatar;
+      }
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
     }
