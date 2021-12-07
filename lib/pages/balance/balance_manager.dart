@@ -18,8 +18,8 @@ class BalanceManager extends StatefulWidget {
   }
 
   void init() {
-    if (_authRepository.status == Status.Authenticated) {
-      _userStorage.GET_categoriesForBalance(parseBalanceDataCB);
+    if (_authRepository.status == Status.Authenticated) {  // TODO- verify the case that user doesn't have data
+      _userStorage.GET_balanceModel(parseBalanceDataCB);
     }
   }
 

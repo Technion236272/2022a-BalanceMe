@@ -20,7 +20,10 @@ class CategoriesType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [CategoriesTypeHeader(_categories), ...getCategories()],
+      children: [
+        CategoriesTypeHeader(_categories),
+        ...getCategories(),
+      ],
     );
   }
 }

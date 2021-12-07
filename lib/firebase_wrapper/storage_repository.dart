@@ -86,7 +86,7 @@ class UserStorage with ChangeNotifier {
   }
 
 
-  Future<void> GET_categoriesForBalance(JsonCallbackJson callback) async {
+  Future<void> GET_balanceModel(JsonCallbackJson callback) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc).get().then((categories) {
         if (categories.exists && categories.data() != null) {
