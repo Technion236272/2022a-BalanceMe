@@ -1,49 +1,54 @@
 // ================= Category Model =================
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/utils.dart';
 
 class Category {
   Category(this.name, this.isIncome, this.expected, this.description) {
     transactions = [];
-    totalAmount = calcTotalAmount();
+    amount = calcTotalAmount();
   }
 
   Category.fromJson(Json categoryJson) {  // TODO- extract strings to firebase_config (also from user_model and transaction)
     name = categoryJson["name"];
     expected = categoryJson["expected"];
     expected = categoryJson["description"];
-    totalAmount = categoryJson["totalAmount"];
+    amount = categoryJson["amount"];
     isIncome = categoryJson["isIncome"];
-    transactions = arrayToTransactions(categoryJson["transactions"]);
-  }
-
-  List<Transaction> arrayToTransactions(List transactionsArray) {
-    List<Transaction> transactionsBatch = [];
-    for (var transaction in transactionsArray) {
-      transactionsBatch.add(Transaction.fromJson(transaction));
-    }
-    return transactionsBatch;
+    transactions = jsonToElementList(categoryJson["transactions"], Transaction) as List<Transaction>;
   }
 
   double calcTotalAmount() {
-    // TODO
-    return 1.0;
+    double totalAmount = 0;
+    for (var transaction in transactions) {
+      totalAmount += transaction.amount;
+    }
+    return totalAmount;
   }
 
   late String name;
   late bool isIncome;
   late double expected;
   late String description;
-  late double totalAmount;
+  late double amount;
   late List<Transaction> transactions = [];
 
   void addTransaction(Transaction transaction) {
     transactions.add(transaction);
-    totalAmount += transaction.amount;
+    amount += transaction.amount;
   }
 
   void removeTransaction(Transaction transaction) {
     transactions.remove(transaction);
-    totalAmount -= transaction.amount;
+    amount -= transaction.amount;
   }
+
+  Json toJson() => {
+    'name': name,
+    'isIncome': isIncome,
+    'expected': expected,
+    'description': description,
+    'amount': amount,
+    'transactions': listToJsonList(transactions)
+  };
 }

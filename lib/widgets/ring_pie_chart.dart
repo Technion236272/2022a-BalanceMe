@@ -2,12 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 /*
-* The widget receives a List of Json, each includes 'name' [String], 'percentage' [num]:
-* [{gc.pieChartNameJson: [String], gc.pieChartPercentageJson: [num]}, ... ]
+* The widget receives a List of objects that implement name and amount fields.
 * The widgets presents a ring pie chart and the total percentage (can be above 100%) in the middle.
 * If the total percentage is below 100%, the widgets complete it to 100% automatically.
 */
@@ -17,7 +15,7 @@ class RingPieChart extends StatelessWidget {
 
   final bool _showLegend;
   final String? _legendTitle;
-  final List<Json>? _chartDataList;
+  final List<dynamic> _chartDataList;
   List<ChartData>? _chartData;
   double? _totalPercentage;
 
@@ -25,9 +23,9 @@ class RingPieChart extends StatelessWidget {
     List<ChartData> chartData = [];
     double totalPercentage = 0;
 
-    for (var data in _chartDataList!) {
-      totalPercentage += data[gc.pieChartPercentageJson] as num;
-      chartData.add(ChartData(data[gc.pieChartNameJson] as String, data[gc.pieChartPercentageJson] as num));
+    for (var data in _chartDataList) {
+      totalPercentage += data.amount as num;
+      chartData.add(ChartData(data.name as String, data.amount as num));
     }
 
     if (totalPercentage < 100) {

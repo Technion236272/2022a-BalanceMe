@@ -1,5 +1,6 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/global/types.dart';
 
 // Navigation
 void navigateToPage(context, Widget page) {
@@ -46,4 +47,21 @@ String moneyFormattedString(String string) {
 
 String percentageFormattedString(String string) {
   return string + "%";
+}
+
+// Json Converters
+List<Json> listToJsonList(List elements) {
+  List<Json> jsonList = [];
+  for (var element in elements) {
+    jsonList.add(element.toJson());
+  }
+  return jsonList;
+}
+
+List<dynamic> jsonToElementList(List<Json> jsonList, elementType) {
+  List elementList = [];
+  for (var element in jsonList) {
+    elementList.add(elementType.fromJson(element));
+  }
+  return elementList;
 }

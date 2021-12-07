@@ -1,6 +1,7 @@
 // ================= Balance Model =================
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/firebase_config.dart' as config;
 
 class BalanceModel {
@@ -10,24 +11,15 @@ class BalanceModel {
   }
 
   BalanceModel.fromJson(Json categories) {
-    incomeCategories = arrayToCategories(categories[config.incomeDoc]);
-    expensesCategories = arrayToCategories(categories[config.expenseDoc]);
+    incomeCategories = jsonToElementList(categories[config.incomeDoc], Category) as List<Category>;
+    expensesCategories = jsonToElementList(categories[config.expenseDoc], Category) as List<Category>;
   }
 
   late List<Category> incomeCategories;
   late List<Category> expensesCategories;
 
-  List<Category> arrayToCategories(List categoriesArray) {
-    List<Category> categoriesBatch = [];
-    for (var category in categoriesArray) {
-      categoriesBatch.add(Category.fromJson(category));
-    }
-    return categoriesBatch;
-  }
-
   Json toJson() => {
-    // TODO
-    'incomeCategories': incomeCategories,
-    'expensesCategories': expensesCategories,
+    'incomeCategories': listToJsonList(incomeCategories),
+    'expensesCategories': listToJsonList(expensesCategories)
   };
 }

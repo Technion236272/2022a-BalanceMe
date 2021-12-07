@@ -18,14 +18,14 @@ class CategoryHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double progressPercentage = getPercentage(_category.totalAmount, _category.expected);
+    double progressPercentage = getPercentage(_category.amount, _category.expected);
 
     return Column(
         children: [
           Row(
             children: [
               Text(_category.name),
-              Text(moneyFormattedString(_category.totalAmount.toString()) + gc.inPracticeExpectedSeperator + moneyFormattedString(_category.expected.toString())),
+              Text(moneyFormattedString(_category.amount.toString()) + gc.inPracticeExpectedSeperator + moneyFormattedString(_category.expected.toString())),
               IconButton(
                   onPressed: _openAddTransaction,
                   icon: const Icon(gc.addIcon),

@@ -88,8 +88,6 @@ String lock = 'assets/images/lock.png';
 double walletScale = 5.0;
 
 // RingPieChart
-const String pieChartNameJson = 'name';
-const String pieChartPercentageJson = 'percentage';
 const String pieChartInnerRadius = '65%';
 const LegendPosition pieChartLegendPosition = LegendPosition.top;
 Color pieChartCenterText = Colors.grey.shade600;

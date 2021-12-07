@@ -17,4 +17,12 @@ class Transaction {
   late double amount;
   late String description;
   late bool isConstant;
+
+  Json toJson() => {
+    'name': name,
+    'date': date,
+    'amount': amount,
+    'description': description,
+    'isConstant': isConstant
+  };
 }

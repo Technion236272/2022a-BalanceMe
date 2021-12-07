@@ -47,7 +47,7 @@ class _BalanceManagerState extends State<BalanceManager> {
     });
 
     if (widget._authRepository.status == Status.Authenticated) {
-      widget._userStorage.SEND_balanceModel(widget._balanceModel!.toJson());  // TODO- convert to Json
+      widget._userStorage.SEND_balanceModel(widget._balanceModel!.toJson());
     }
   }
 
@@ -61,7 +61,7 @@ class _BalanceManagerState extends State<BalanceManager> {
       resizeToAvoidBottomInset: true,
       body: (widget._balanceModel == null) ?
         const WelcomePage() : BalancePage(widget._authRepository, widget._userStorage, widget._balanceModel!),
-      floatingActionButton: FloatingActionButton(  // TODO- add functionality
+      floatingActionButton: FloatingActionButton(
         onPressed: openAddCategory,
         child: const Icon(gc.addIcon),
         tooltip: Languages.of(context)!.addCategory,
