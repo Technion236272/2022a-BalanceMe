@@ -15,7 +15,8 @@ class LanguageEn extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
-  // Login
+
+// Login
   @override
   String get welcome => "Welcome";
 
@@ -27,6 +28,53 @@ class LanguageEn extends Languages {
 
   @override
   String get successfullyLogout => "Successfully logged out";
+
+  @override
+  String get signUpTitle => "Sign Up";
+
+  @override
+  String get emailText => "Email";
+
+  @override
+  String get password => "Password";
+
+  @override
+  String get forgotPassword => "FORGOT PASSWORD";
+
+  @override
+  String get signIn => "SIGN IN";
+
+  @override
+  String get loginError => "User not found";
+
+  @override
+  String get nullDetails => "To sign up, you must type both your email and password ";
+
+  @override
+  String get signUpError => "sign up failed, check your connection and try again";
+
+  @override
+  String get confirmPassword => "Confirm Password";
+
+  @override
+  String get invalidPasswords => "Passwords don't match ";
+
+
+  //password recovery
+  @override
+  String get recoverPassword => "Password recovery";
+
+  @override
+  String get forgotPasswordLarge => "Forgot your password?";
+
+  @override
+  String get confirmEmail => "Confirm your email and we'll send the instructions";
+
+  @override
+  String get send => "SEND";
+
+  @override
+  String get emailSent => "Email sent";
 
   // Navigation
   @override

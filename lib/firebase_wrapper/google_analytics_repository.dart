@@ -20,6 +20,9 @@ class GoogleAnalytics {
   Future<void> logSignUp(String signUpMethod) async {
     await _analytics.logSignUp(signUpMethod: signUpMethod);
   }
+  Future<void> logLogin(String loginMethod) async {
+    await _analytics.logLogin(loginMethod: loginMethod);
+  }
 
   Future<void> logEvent(String name, Map<String, Object?>? parameters) async {
     await _analytics.logEvent(name: name, parameters: parameters);

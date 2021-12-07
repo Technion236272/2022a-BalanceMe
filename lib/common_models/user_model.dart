@@ -3,13 +3,17 @@ import 'package:balance_me/global/types.dart';
 import "package:balance_me/global/constants.dart" as gc;
 
 class UserModel {
-  UserModel(this.groupName, [this.endOfMonthDay = gc.defaultEndOfMonthDay, this.userCurrency = gc.defaultUserCurrency]);
+  UserModel(this.groupName,
+      [this.endOfMonthDay = gc.defaultEndOfMonthDay,
+      this.userCurrency = gc.defaultUserCurrency,
+      this.isDarkMode = false]);
 
   String groupName;
   int endOfMonthDay;
   String userCurrency;
   String? firstName;
   String? lastName;
+  bool isDarkMode;
 
   void updateFromJson(Json json) {
     if (json["groupName"] != null) {
@@ -27,6 +31,9 @@ class UserModel {
     if (json["lastName"] != null) {
       lastName = json["lastName"];
     }
+    if (json["isDarkMode"] != null) {
+      isDarkMode = json["isDarkMode"];
+    }
   }
 
   Json toJson() => {
@@ -35,5 +42,6 @@ class UserModel {
     'userCurrency': userCurrency,
     'firstName': firstName,
     'lastName': lastName,
+    'isDarkMode': isDarkMode
   };
 }

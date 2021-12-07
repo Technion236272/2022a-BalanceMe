@@ -18,7 +18,22 @@ abstract class Languages {
   String get login;
   String get logout;
   String get successfullyLogout;
-
+  String get signUpTitle;
+  String get emailText;
+  String get password;
+  String get forgotPassword;
+  String get signIn;
+  String get loginError;
+  String get nullDetails;
+  String get signUpError;
+  String get confirmPassword;
+  String get invalidPasswords;
+  //password recovery
+  String get recoverPassword;
+  String get forgotPasswordLarge;
+  String get confirmEmail;
+  String get send;
+  String get emailSent;
   // Navigation
   String get balance;
   String get statistics;
