@@ -61,12 +61,16 @@ class LanguageRu extends Languages {
   //password recovery
   @override
   String get recoverPassword => "восстановления пароля";
+
   @override
   String get forgotPasswordLarge => "забыл свой пароль?";
+
   @override
   String get confirmEmail => "подтверди твой электронный адрес и мы Отправим вам инструкцией ";
+
   @override
   String get send => "поселать";
+
   @override
   String get emailSent => "мейл послан";
 
@@ -82,7 +86,7 @@ class LanguageRu extends Languages {
 
   // Charts
   @override
-  String get available => "Available";
+  String get available => "имеющиеся";
 
   // Balance
   @override
@@ -102,5 +106,4 @@ class LanguageRu extends Languages {
 
   @override
   String get expected => "Expected";
-  String get available => "имеющиеся";
 }

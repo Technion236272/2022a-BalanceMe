@@ -15,7 +15,6 @@ class LanguageHe extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
-
   // Login
   @override
   String get welcome => "‎ברוך הבא";

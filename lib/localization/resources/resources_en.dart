@@ -15,7 +15,6 @@ class LanguageEn extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
-
 // Login
   @override
   String get welcome => "Welcome";
@@ -58,7 +57,6 @@ class LanguageEn extends Languages {
 
   @override
   String get invalidPasswords => "Passwords don't match ";
-
 
   //password recovery
   @override

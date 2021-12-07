@@ -10,7 +10,7 @@ class UserModel {
 
   String groupName;
   int endOfMonthDay;
-  String userCurrency;
+  Currency userCurrency;
   String? firstName;
   String? lastName;
   bool isDarkMode;
@@ -22,7 +22,7 @@ class UserModel {
     if (json["endOfMonthDay"] != null) {
       endOfMonthDay = json["endOfMonthDay"];
     }
-    if (json["userCurrency"] != null) {
+    if (json["userCurrency"] != null) {  // TODO (Sprint2)- verify that Currency type is saved in FB
       userCurrency = json["userCurrency"];
     }
     if (json["firstName"] != null) {

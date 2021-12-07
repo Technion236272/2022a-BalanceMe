@@ -9,7 +9,7 @@ const String prefSelectedLanguageCode = "SelectedLanguageCode";
 // Defaults
 int defaultPage = AppPages.Balance.index;
 const int defaultEndOfMonthDay = 10;
-const String defaultUserCurrency = "NIS";
+const Currency defaultUserCurrency = Currency.NIS;
 
 // Icons
 const IconData unauthenticatedIcon = Icons.login;
@@ -54,8 +54,6 @@ double padStackRight = 20.0;
 double padStackBottom = 40.0;
 double borderWidth = 2.0;
 double fontSizeLoginImage = 16;
-// Navigation
-int defaultPage = AppPages.Balance.index;
 
 //Cards
 double cardElevationHeight = 5.0;

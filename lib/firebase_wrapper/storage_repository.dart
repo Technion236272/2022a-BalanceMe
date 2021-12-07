@@ -43,7 +43,7 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void setUserCurrency(String userCurrency) {
+  void setUserCurrency(Currency userCurrency) {
     if (_userData != null) {
       _userData!.userCurrency = userCurrency;
     }
