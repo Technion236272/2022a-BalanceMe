@@ -105,4 +105,19 @@ class LanguageHe extends Languages {
 
   @override
   String get expected => "צפוי‎";
+
+  @override
+  String get addCategory => "‎הוספת קטגוריה";
+
+  @override
+  String get editCategory => "‎עריכת קטגוריה";
+
+  @override
+  String get categoryName => "‎שם הקטגוריה";
+
+  @override
+  String get addDescription => "‎הוסף תיאור...";
+
+  @override
+  String get save => "‎שמור";
 }

@@ -45,7 +45,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),
               ),
-              TextBox(controllerEmail,Languages.of(context)!.emailText),
+              BorderTextBox(controllerEmail,Languages.of(context)!.emailText),
               SizedBox(
                 child: ElevatedButton(
                     style: ButtonStyle(

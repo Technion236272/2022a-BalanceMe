@@ -106,4 +106,19 @@ class LanguageEn extends Languages {
 
   @override
   String get expected => "Expected";
+
+  @override
+  String get addCategory => "Add Category";
+
+  @override
+  String get editCategory => "Edit Category";
+
+  @override
+  String get categoryName => "Category Name";
+
+  @override
+  String get addDescription => "Add Description...";
+
+  @override
+  String get save => "SAVE";
 }

@@ -40,14 +40,14 @@ class _SignUpState extends State<SignUp> {
       child: Column(
         children: [
           const LoginImage(),
-          TextBox(controllerEmail, Languages.of(context)!.emailText),
-          TextBox(
+          BorderTextBox(controllerEmail, Languages.of(context)!.emailText),
+          BorderTextBox(
             controllerPassword,
             Languages.of(context)!.password,
             hideText: signUpPasswordVisible,
             suffix: hidingPasswordEye(),
           ),
-          TextBox(
+          BorderTextBox(
             controllerConfirmPassword,
             Languages.of(context)!.confirmPassword,
             hideText: confirmPasswordVisible,

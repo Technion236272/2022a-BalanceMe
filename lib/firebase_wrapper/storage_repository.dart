@@ -112,10 +112,10 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_categories(Json categories) async {
+  void SEND_balanceModel(Json balanceModel) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc).set({
-        config.categoriesDoc: categories,
+        config.categoriesDoc: balanceModel,
       });
     } else if (_authRepository != null) {
       GoogleAnalytics.instance.logPreCheckFailed("SEND_categories", _authRepository!);

@@ -4,6 +4,11 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/firebase_config.dart' as config;
 
 class BalanceModel {
+  BalanceModel(){
+    incomeCategories = [];
+    expensesCategories = [];
+  }
+
   BalanceModel.fromJson(Json categories) {
     incomeCategories = arrayToCategories(categories[config.incomeDoc]);
     expensesCategories = arrayToCategories(categories[config.expenseDoc]);
@@ -19,4 +24,10 @@ class BalanceModel {
     }
     return categoriesBatch;
   }
+
+  Json toJson() => {
+    // TODO
+    'incomeCategories': incomeCategories,
+    'expensesCategories': expensesCategories,
+  };
 }

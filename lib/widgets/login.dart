@@ -50,8 +50,8 @@ IconButton hidingPasswordEye()
       child: Column(
         children: [
           const LoginImage(),
-          TextBox(controllerEmail, Languages.of(context)!.emailText),
-          TextBox(controllerPassword, Languages.of(context)!.password,hideText: showPassword,suffix: hidingPasswordEye(),),
+          BorderTextBox(controllerEmail, Languages.of(context)!.emailText),
+          BorderTextBox(controllerPassword, Languages.of(context)!.password,hideText: showPassword,suffix: hidingPasswordEye(),),
           GoogleButton(),
           FacebookButton(),
           forgotPasswordLink(context),

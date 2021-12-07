@@ -3,7 +3,7 @@ import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/global/types.dart';
 
 class Category {
-  Category(this.name, this.isIncome, this.expected) {  // TODO- check if needed
+  Category(this.name, this.isIncome, this.expected, this.description) {
     transactions = [];
     totalAmount = calcTotalAmount();
   }
@@ -11,6 +11,7 @@ class Category {
   Category.fromJson(Json categoryJson) {  // TODO- extract strings to firebase_config (also from user_model and transaction)
     name = categoryJson["name"];
     expected = categoryJson["expected"];
+    expected = categoryJson["description"];
     totalAmount = categoryJson["totalAmount"];
     isIncome = categoryJson["isIncome"];
     transactions = arrayToTransactions(categoryJson["transactions"]);
@@ -25,13 +26,14 @@ class Category {
   }
 
   double calcTotalAmount() {
-    // TODO- if Category constructor is needed
+    // TODO
     return 1.0;
   }
 
   late String name;
   late bool isIncome;
   late double expected;
+  late String description;
   late double totalAmount;
   late List<Transaction> transactions = [];
 

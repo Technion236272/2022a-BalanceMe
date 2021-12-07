@@ -51,4 +51,9 @@ abstract class Languages {
   String get income;
   String get now;
   String get expected;
+  String get addCategory;
+  String get editCategory;
+  String get categoryName;
+  String get addDescription;
+  String get save;
 }

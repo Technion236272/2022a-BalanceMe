@@ -6,7 +6,7 @@ import 'package:balance_me/pages/balance/balance_model.dart';
 import 'package:balance_me/widgets/balance/categories_type.dart';
 
 class BalancePage extends StatefulWidget {
-  BalancePage(this._authRepository, this._userStorage, this._balanceModel, {Key? key}) : super(key: key);
+  const BalancePage(this._authRepository, this._userStorage, this._balanceModel, {Key? key}) : super(key: key);
 
   final AuthRepository _authRepository;
   final UserStorage _userStorage;
