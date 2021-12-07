@@ -1,3 +1,4 @@
+// ================= Generic Radio Button =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
@@ -10,46 +11,56 @@ import 'package:balance_me/global/constants.dart' as gc;
 */
 
 class GenericRadioButton extends StatefulWidget {
-  const GenericRadioButton(this.options, {Key? key}) : super(key: key);
-  final List<String> options;
+  GenericRadioButton(this._options, this._radioButtonController,
+      {this.onTapCallback, Key? key})
+      : super(key: key);
+  final List<String> _options;
+  late String _radioButtonController;
+  final VoidCallback? onTapCallback;
+
+
+  set radioButtonController(String value) {
+    _radioButtonController = value;
+  }
 
   @override
   State<GenericRadioButton> createState() => _GenericRadioButtonState();
 }
 
 class _GenericRadioButtonState extends State<GenericRadioButton> {
-  String? _character;
+
+  void _activateRadioButton(String? value){
+    setState(() {
+      widget._radioButtonController = value!;
+      widget.onTapCallback;
+    });
+  }
+  List<Widget> _radioButtonOptions() {
+    List<Widget> buttonOptions = [];
+    for (String data in widget._options) {
+      buttonOptions.add(
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Radio<String>(
+                activeColor: gc.primaryColor,
+                value: data,
+                groupValue: widget._radioButtonController,
+                onChanged: (String? value) => _activateRadioButton(value),
+              ),
+              Text(data)
+            ],
+          ));
+    }
+    return buttonOptions;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       direction: Axis.horizontal,
-      children: radioButtonOptions(widget.options),
+      children: _radioButtonOptions(),
     );
   }
 
-  List<Widget> radioButtonOptions(List<String> options) {
-    List<Widget> buttonOptions = [];
-    for (String data in options) {
-      buttonOptions.add(SafeArea(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Radio<String>(
-              activeColor: gc.primaryColor,
-              value: data,
-              groupValue: _character,
-              onChanged: (String? value) {
-                setState(() {
-                  _character = value;
-                });
-              },
-            ),
-            Text(data)
-          ],
-        ),
-      ));
-    }
-    return buttonOptions;
-  }
 }
