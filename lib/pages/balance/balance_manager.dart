@@ -6,6 +6,7 @@ import 'package:balance_me/pages/balance/balance_model.dart';
 import 'package:balance_me/pages/balance/balance_page.dart';
 import 'package:balance_me/pages/welcome.dart';
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class BalanceManager extends StatefulWidget {
   BalanceManager(this._authRepository, this._userStorage, {Key? key}) : super(key: key) {
@@ -33,12 +34,20 @@ class BalanceManager extends StatefulWidget {
 }
 
 class _BalanceManagerState extends State<BalanceManager> {
+  void openAddCategory() {
+    // TODO
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: (widget._balanceModel == null) ?
         const WelcomePage() : BalancePage(widget._authRepository, widget._userStorage, widget._balanceModel!),
+      floatingActionButton: FloatingActionButton(  // TODO- add functionality
+        onPressed: openAddCategory,
+        child: const Icon(gc.addIcon),
+      ),
     );
   }
 }

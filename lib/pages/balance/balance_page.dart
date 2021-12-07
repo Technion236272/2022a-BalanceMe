@@ -1,10 +1,9 @@
 // ================= Balance Page =================
 import 'package:flutter/material.dart';
-import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/pages/balance/balance_model.dart';
-import 'package:balance_me/widgets/ring_pie_chart.dart';
+import 'package:balance_me/widgets/balance/categories_type.dart';
 
 class BalancePage extends StatefulWidget {
   BalancePage(this._authRepository, this._userStorage, this._balanceModel, {Key? key}) : super(key: key);
@@ -22,11 +21,8 @@ class _BalancePageState extends State<BalancePage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            RingPieChart([], Languages.of(context)!.income),
-          ],
-        )
+        CategoriesType(widget._balanceModel.incomeCategories),
+        CategoriesType(widget._balanceModel.expensesCategories),
       ],
     );
   }

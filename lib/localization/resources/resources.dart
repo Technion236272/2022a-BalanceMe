@@ -49,6 +49,6 @@ abstract class Languages {
   String get toGetStartedInfo;
   String get expenses;
   String get income;
-  String get target;
+  String get now;
   String get expected;
 }

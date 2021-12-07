@@ -2,21 +2,22 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 /*
 * The widget receives a List of Json, each includes 'name' [String], 'percentage' [num]:
-* [{"name": [String], 'percentage': [num]}, ... ]
+* [{gc.pieChartNameJson: [String], gc.pieChartPercentageJson: [num]}, ... ]
 * The widgets presents a ring pie chart and the total percentage (can be above 100%) in the middle.
 * If the total percentage is below 100%, the widgets complete it to 100% automatically.
-* For presenting a legend (names fields in data), pass legendTitle to the constructor- else pass null.
 */
 
 class RingPieChart extends StatelessWidget {
-  RingPieChart(this._chartDataList, this._legendTitle, {Key? key}) : super(key: key);
+  RingPieChart(this._chartDataList, this._showLegend, this._legendTitle, {Key? key}) : super(key: key);
 
+  final bool _showLegend;
   final String? _legendTitle;
-  final List<Map<String, Object>>? _chartDataList;
+  final List<Json>? _chartDataList;
   List<ChartData>? _chartData;
   double? _totalPercentage;
 
@@ -25,8 +26,8 @@ class RingPieChart extends StatelessWidget {
     double totalPercentage = 0;
 
     for (var data in _chartDataList!) {
-      totalPercentage += data['percentage'] as num;
-      chartData.add(ChartData(data['name'] as String, data['percentage'] as num));
+      totalPercentage += data[gc.pieChartPercentageJson] as num;
+      chartData.add(ChartData(data[gc.pieChartNameJson] as String, data[gc.pieChartPercentageJson] as num));
     }
 
     if (totalPercentage < 100) {
@@ -49,11 +50,11 @@ class RingPieChart extends StatelessWidget {
         ),
         SfCircularChart(
             legend: Legend(
-              isVisible: _legendTitle != null,
+              isVisible: _showLegend,
               position: gc.pieChartLegendPosition,
-              title: LegendTitle(
+              title: _legendTitle != null ? LegendTitle(
                 text: _legendTitle,
-              ),
+              ) : null,
             ),
             series: <CircularSeries>[
               DoughnutSeries<ChartData, String>(

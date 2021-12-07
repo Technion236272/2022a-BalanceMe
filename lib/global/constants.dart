@@ -23,6 +23,7 @@ const IconData showPassword = Icons.remove_red_eye;
 const IconData transactionDetailsIcon = Icons.info;
 const IconData expandIcon = Icons.expand_less;
 const IconData minimizeIcon = Icons.expand_more;
+const IconData addIcon = Icons.add;
 
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
@@ -87,7 +88,12 @@ String lock = 'assets/images/lock.png';
 double walletScale = 5.0;
 
 // RingPieChart
+const String pieChartNameJson = 'name';
+const String pieChartPercentageJson = 'percentage';
 const String pieChartInnerRadius = '65%';
 const LegendPosition pieChartLegendPosition = LegendPosition.top;
 Color pieChartCenterText = Colors.grey.shade600;
 Color pieCharDefaultCategoryColor = Colors.white;
+
+// Balance
+const String inPracticeExpectedSeperator = "/";

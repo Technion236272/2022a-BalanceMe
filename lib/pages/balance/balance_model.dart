@@ -5,12 +5,12 @@ import 'package:balance_me/global/firebase_config.dart' as config;
 
 class BalanceModel {
   BalanceModel.fromJson(Json categories) {
-    _incomeCategories = arrayToCategories(categories[config.incomeDoc]);
-    _expensesCategories = arrayToCategories(categories[config.expenseDoc]);
+    incomeCategories = arrayToCategories(categories[config.incomeDoc]);
+    expensesCategories = arrayToCategories(categories[config.expenseDoc]);
   }
 
-  late List<Category> _incomeCategories;
-  late List<Category> _expensesCategories;
+  late List<Category> incomeCategories;
+  late List<Category> expensesCategories;
 
   List<Category> arrayToCategories(List categoriesArray) {
     List<Category> categoriesBatch = [];

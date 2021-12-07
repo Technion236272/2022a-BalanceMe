@@ -1,6 +1,5 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
-import 'dart:convert';
 
 // Navigation
 void navigateToPage(context, Widget page) {
@@ -34,21 +33,17 @@ void displayAlertDialog(BuildContext context, String alertTitle, String alertCon
   );
 }
 
-//Json generic functions
-Map<String,dynamic> toJson(List<Object> fields) {
-  Map<String,dynamic> jsonMap={};
-  for (var element in fields) {
-    jsonMap[element.toString()]=element;
-  }
-  return jsonMap;
-}
-
-//requires to json
-String jsonFromObject(Object object) {
-  return jsonEncode(object);
-}
-
 // Numbers
 double getPercentage(double amount, double total) {
   return (amount / total) * 100;
+}
+
+// Format
+String moneyFormattedString(String string) {
+  // TODO- Refactor in Sprint2. find a way to add the symbol in the correct direction according to the locale
+  return string + "₪";
+}
+
+String percentageFormattedString(String string) {
+  return string + "%";
 }

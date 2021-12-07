@@ -1,30 +1,37 @@
-// ================= Category Header Widget =================
+// ================= Category Header =================
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class CategoryHeader extends StatelessWidget {
-  const CategoryHeader(this._name, this._expected, this._inPractice, this._isCategoryOpen, this._toggleCategory, {Key? key}) : super(key: key);
+  const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, {Key? key}) : super(key: key);
 
-  final String _name;
-  final double _expected;
-  final double _inPractice;
+  final Category _category;
   final bool _isCategoryOpen;
   final VoidCallback _toggleCategory;
 
+  void _openAddTransaction() {
+    // TODO
+  }
+
   @override
   Widget build(BuildContext context) {
-    double progressPercentage = getPercentage(_inPractice, _expected);
+    double progressPercentage = getPercentage(_category.totalAmount, _category.expected);
 
     return Column(
         children: [
           Row(
             children: [
-              Text(_name),
-              Text(_inPractice.toString() + "/" + _expected.toString()),  // TODO- add currency
+              Text(_category.name),
+              Text(moneyFormattedString(_category.totalAmount.toString()) + gc.inPracticeExpectedSeperator + moneyFormattedString(_category.expected.toString())),
               IconButton(
-                onPressed: () => _toggleCategory(),
+                  onPressed: _openAddTransaction,
+                  icon: const Icon(gc.addIcon),
+              ),
+              IconButton(
+                onPressed: _toggleCategory,
                 icon: Icon(_isCategoryOpen ? gc.expandIcon : gc.minimizeIcon),
               )
             ],
@@ -37,7 +44,7 @@ class CategoryHeader extends StatelessWidget {
               lineHeight: 20.0,
               animationDuration: 2500,
               percent: progressPercentage,
-              center: Text(progressPercentage.toString()),
+              center: Text(percentageFormattedString(progressPercentage.toString())),
               linearStrokeCap: LinearStrokeCap.roundAll,
               progressColor: gc.primaryColor,
             ),

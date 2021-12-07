@@ -101,7 +101,7 @@ class LanguageHe extends Languages {
   String get income => "‎הכנסות";
 
   @override
-  String get target => "‎בפועל";
+  String get now => "‎בפועל";
 
   @override
   String get expected => "צפוי‎";
