@@ -5,7 +5,7 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/global/types.dart';
-import 'package:balance_me/global/project_config.dart' as config;
+import 'package:balance_me/global/firebase_config.dart' as config;
 
 class UserStorage with ChangeNotifier {
   UserStorage.instance(AuthRepository authRepository) {

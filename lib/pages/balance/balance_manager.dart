@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/pages/balance/balance_model.dart';
-import 'package:balance_me/pages/balance/balance_view.dart';
+import 'package:balance_me/pages/balance/balance_page.dart';
 import 'package:balance_me/pages/welcome.dart';
 import 'package:balance_me/global/types.dart';
 

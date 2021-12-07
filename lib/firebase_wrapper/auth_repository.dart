@@ -8,7 +8,7 @@ import 'dart:io';
 import 'package:balance_me/global/types.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:balance_me/global/project_config.dart' as config;
+import 'package:balance_me/global/firebase_config.dart' as config;
 
 
 class AuthRepository with ChangeNotifier {
