@@ -72,7 +72,7 @@ class _BalanceManagerState extends State<BalanceManager> {
       resizeToAvoidBottomInset: true,
       body: _waitingForData ? const Center(child: CircularProgressIndicator())  // TODO- consider to create generic ProgressIndicator widget (used also in main)
       : (_balanceModel == null) ?
-        const WelcomePage() : BalancePage(_balanceModel!, _saveBalanceModel),
+        const WelcomePage() : SingleChildScrollView(child: BalancePage(_balanceModel!, _saveBalanceModel)),
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddCategory, // TODO- add it in another place
         child: const Icon(gc.addIcon),

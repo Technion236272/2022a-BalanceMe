@@ -48,7 +48,7 @@ class _SetCategoryState extends State<SetCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MinorAppBar(widget.currentCategory != null ? Languages.of(context)!.editCategory : Languages.of(context)!.addCategory),
-      body: Form(
+      body: Form(  // TODO- add validation (empty fields)
         child: Column(
           children: [
             BorderTextBox(

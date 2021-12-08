@@ -56,6 +56,10 @@ String getCurrentMonthPerEndMonthDay(int endOfMonth) {
   return currentMonth + currentTime.year.toString();
 }
 
+String getFullDate(DateTime date) {
+  return "${date.day}-${date.month}-${date.year}";
+}
+
 // Converters
 List<Json> listToJsonList(List elements) {
   List<Json> jsonList = [];

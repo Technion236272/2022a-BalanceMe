@@ -17,9 +17,10 @@ class CategoryHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double progressPercentage = getPercentage(_category.amount, _category.expected);
+    double progressPercentage = getPercentage(_category.amount, _category.expected) / 100;
+    progressPercentage = (progressPercentage >= 1) ? 1 : progressPercentage;
 
-    return Column(
+    return Column(  // TODO- add Remove Category
         children: [
           Row(
             children: [

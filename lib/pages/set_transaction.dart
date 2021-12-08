@@ -35,8 +35,8 @@ class _SetTransactionState extends State<SetTransaction> {
     // TODO- use generic RadioButton for isConstant
     Transaction newTransaction = Transaction(
         _transactionNameController.text.toString(),
-        DateTime.now(),
-        _transactionAmountController.text.toString() as double,
+        getFullDate(DateTime.now()),
+        double.parse(_transactionAmountController.text.toString()),
         _transactionDescriptionController.text.toString(),
         true
     );
@@ -46,10 +46,10 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  // TODO- consider build generic Form
     return Scaffold(
       appBar: MinorAppBar(widget.currentTransaction != null ? Languages.of(context)!.editTransaction : Languages.of(context)!.addTransaction),
-      body: Form(
+      body: Form(  // TODO- add validation (empty fields)
         child: Column(
           children: [
             BorderTextBox(
