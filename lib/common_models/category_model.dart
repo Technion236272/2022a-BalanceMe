@@ -12,10 +12,10 @@ class Category {
   Category.fromJson(Json categoryJson) {  // TODO- extract strings to firebase_config (also from user_model and transaction)
     name = categoryJson["name"];
     expected = categoryJson["expected"];
-    expected = categoryJson["description"];
+    description = categoryJson["description"];
     amount = categoryJson["amount"];
     isIncome = categoryJson["isIncome"];
-    transactions = jsonToElementList(categoryJson["transactions"], Transaction) as List<Transaction>;
+    transactions = jsonToElementList(categoryJson["transactions"], (json) => Transaction.fromJson(json)).cast<Transaction>();
   }
 
   double calcTotalAmount() {

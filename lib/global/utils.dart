@@ -65,10 +65,10 @@ List<Json> listToJsonList(List elements) {
   return jsonList;
 }
 
-List<dynamic> jsonToElementList(List<Json> jsonList, elementType) {
+List<dynamic> jsonToElementList(List<dynamic> jsonList, Function createElementFunction) {
   List elementList = [];
-  for (var element in jsonList) {
-    elementList.add(elementType.fromJson(element));
+  for (var json in jsonList) {
+    elementList.add(createElementFunction(json));
   }
   return elementList;
 }

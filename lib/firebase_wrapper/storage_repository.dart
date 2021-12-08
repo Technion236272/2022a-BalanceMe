@@ -90,8 +90,8 @@ class UserStorage with ChangeNotifier {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).get().then((categories) {
         if (categories.exists && categories.data() != null) {
-          notifyListeners();
           callback.call(categories.data()![config.categoriesDoc]);
+          notifyListeners();
         } else {
           GoogleAnalytics.instance.logPostLoginFailed(categories);
         }
