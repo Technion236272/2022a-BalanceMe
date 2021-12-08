@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 /*
-* The widget receives a List of String: ["hello", "world", ... ], controller of type PrimitiveWrapper(String value),
-* initial String from the provided List, and callBack function.
+* The widget receives a List of String: ["hello", "world", ... ], controller of type PrimitiveWrapper(String initialSelected),
+* and callBack function.
 * The widgets presents a row of radio buttons with the strings in the list.
-* The initial selected button is the one which is provided as _initialValue.
 * in order to use the PrimitiveWrapper first create variable for example:
-* PrimitiveWrapper controller = PrimitiveWrapper("");
+* PrimitiveWrapper controller = PrimitiveWrapper("world");
 * And then pass it to the constructor of this widget:
 * GenericRadioButton(..., controller, ... , ...);
+* The initial selected button will be the "world" button.
 * The value of the selected radio button stored at the _radioButtonController.value.
 * The callBack function is called when you change selection.
 * The order of the buttons is the same order as the list.
@@ -19,11 +19,10 @@ import 'package:balance_me/global/constants.dart' as gc;
 */
 
 class GenericRadioButton extends StatefulWidget {
-  const GenericRadioButton(this._options, this._radioButtonController, this._initialValue, {this.onTapCallback, Key? key}) : super(key: key);
+  const GenericRadioButton(this._options, this._radioButtonController,  {this.onTapCallback, Key? key}) : super(key: key);
 
   final List<String> _options;
   final PrimitiveWrapper _radioButtonController;
-  final String _initialValue;
   final VoidCallback? onTapCallback;
 
   @override
@@ -65,11 +64,8 @@ class _GenericRadioButtonState extends State<GenericRadioButton> {
 
   @override
   void initState() {
-    if (widget._options.contains(widget._initialValue)) {
-      widget._radioButtonController.value = widget._initialValue;
-    }
-    else {
-      throw Exception("The _initialValue is not in the list");
+    if (!widget._options.contains(widget._radioButtonController.value)) {
+        throw Exception("The parameter which provided to the PrimitiveWrapper constructor is not in the list");
     }
     super.initState();
   }
