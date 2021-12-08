@@ -1,17 +1,16 @@
 // ================= Set Category =================
-import 'package:balance_me/common_models/category_model.dart';
-import 'package:balance_me/widgets/text_box_without_border.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
+import 'package:balance_me/common_models/category_model.dart';
+import 'package:balance_me/widgets/text_box_without_border.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 
 class SetCategory extends StatefulWidget {
-  const SetCategory(this._setCategoryType, this._callback, {this.currentCategory, Key? key}) : super(key: key);
+  const SetCategory(this._callback, {this.currentCategory, Key? key}) : super(key: key);
 
-  final SetCategoryType _setCategoryType;
   final VoidCallbackCategory _callback;
   final Category? currentCategory;
 
@@ -42,7 +41,7 @@ class _SetCategoryState extends State<SetCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MinorAppBar(widget._setCategoryType == SetCategoryType.Add ? Languages.of(context)!.addCategory : Languages.of(context)!.editCategory),
+      appBar: MinorAppBar(widget.currentCategory != null ? Languages.of(context)!.editCategory : Languages.of(context)!.addCategory),
       body: Form(
         child: Column(
           children: [

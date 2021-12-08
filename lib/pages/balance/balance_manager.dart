@@ -38,6 +38,7 @@ class BalanceManager extends StatefulWidget {
 }
 
 class _BalanceManagerState extends State<BalanceManager> {
+
   void _addCategory(Category newCategory) {
     widget._balanceModel ??= BalanceModel();  // if the user is not logged in or doesn't have date, create am empty BalanceModel
     List<Category> categoryListType = newCategory.isIncome ? widget._balanceModel!.incomeCategories : widget._balanceModel!.expensesCategories;
@@ -46,13 +47,17 @@ class _BalanceManagerState extends State<BalanceManager> {
       categoryListType.add(newCategory);
     });
 
+    _saveBalanceModel();
+  }
+
+  void _saveBalanceModel() {
     if (widget._authRepository.status == Status.Authenticated) {
       widget._userStorage.SEND_balanceModel(widget._balanceModel!.toJson());
     }
   }
 
   void openAddCategory() {
-    navigateToPage(context, SetCategory(SetCategoryType.Add, _addCategory));
+    navigateToPage(context, SetCategory(_addCategory));
   }
 
   @override
@@ -60,9 +65,9 @@ class _BalanceManagerState extends State<BalanceManager> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: (widget._balanceModel == null) ?
-        const WelcomePage() : BalancePage(widget._authRepository, widget._userStorage, widget._balanceModel!),
+        const WelcomePage() : BalancePage(widget._balanceModel!, _saveBalanceModel),
       floatingActionButton: FloatingActionButton(
-        onPressed: openAddCategory,
+        onPressed: openAddCategory, // TODO- add it in another place
         child: const Icon(gc.addIcon),
         tooltip: Languages.of(context)!.addCategory,
       ),
