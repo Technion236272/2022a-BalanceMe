@@ -19,7 +19,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 */
 
 class GenericRadioButton extends StatefulWidget {
-  const GenericRadioButton(this._options, this._radioButtonController,this._initialValue, {this.onTapCallback, Key? key}) : super(key: key);
+  const GenericRadioButton(this._options, this._radioButtonController, this._initialValue, {this.onTapCallback, Key? key}) : super(key: key);
 
   final List<String> _options;
   final PrimitiveWrapper _radioButtonController;
@@ -56,21 +56,24 @@ class _GenericRadioButtonState extends State<GenericRadioButton> {
                 onChanged: (String? value) => _activateRadioButton(value),
               ),
               Text(data),
-        ],
-      ));
+            ],
+          )
+      );
     }
     return buttonOptions;
   }
 
   @override
-  void initState(){
+  void initState() {
     if (widget._options.contains(widget._initialValue)) {
       widget._radioButtonController.value = widget._initialValue;
-    }else {
+    }
+    else {
       throw Exception("The _initialValue is not in the list");
     }
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Wrap(
