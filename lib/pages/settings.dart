@@ -1,9 +1,10 @@
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
 import 'package:balance_me/global/project_config.dart' as config;
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-
+import 'package:balance_me/global/utils.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -29,17 +30,17 @@ class _SettingsState extends State<Settings> {
 
            leading: Text(Languages.of(context)!.profileSettings),
            trailing:
-           IconButton(onPressed: getProfileScreen, icon: gc.settingArrow),
+           IconButton(onPressed:(){navigateToPage(context, getProfileScreen()) ;}, icon: gc.settingArrow),
          ),
           Divider(color: gc.dividerColor,),
           ListTile(
             leading: Text(Languages.of(context)!.groupSettings),
-              trailing:  IconButton(onPressed: getGroupScreen, icon: gc.settingArrow),
+              trailing:  IconButton(onPressed:(){navigateToPage(context, getGroupScreen()) ;}, icon: gc.settingArrow),
           ),
         Divider(color: gc.dividerColor,),
           ListTile(
             leading: Text(Languages.of(context)!.passwordSettings),
-    trailing: IconButton(onPressed: getChangePasswordScreen, icon: gc.settingArrow),
+    trailing: IconButton(onPressed:(){navigateToPage(context, getChangePasswordScreen()) ;}, icon: gc.settingArrow),
           ),
         Divider(color: gc.dividerColor,),
         ListTile(
@@ -77,7 +78,9 @@ class _SettingsState extends State<Settings> {
 
   //TODO: create a password editing screen
   Widget getChangePasswordScreen() {
-    return Container();
+    return Scaffold(
+      appBar: MinorAppBar(Languages.of(context)!.newPassword),
+    );
   }
 
   //TODO: read how to add dark mode and add a boolean to track it.

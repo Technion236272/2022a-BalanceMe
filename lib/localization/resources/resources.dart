@@ -22,6 +22,7 @@ abstract class Languages {
   String get endOfMonthSettings;
   String get languageSettings;
   String get versionSettings;
+  String get newPassword;
 
   // Login
   String get welcome;

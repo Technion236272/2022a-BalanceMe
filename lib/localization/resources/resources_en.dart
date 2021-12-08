@@ -38,6 +38,8 @@ class LanguageEn extends Languages {
   @override
   String get versionSettings => "Version";
 
+  @override
+  String get newPassword => "New Password";
 
 // Login
   @override
