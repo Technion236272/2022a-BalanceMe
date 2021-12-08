@@ -135,9 +135,12 @@ class AuthRepository with ChangeNotifier {
   Future<String?> getAvatarUrl() async {
     try {
 
-      Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
+      if (user!=null) {
+        Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
+        return await storageReference.getDownloadURL();
+      }
 
-      return await storageReference.getDownloadURL();
+
     } catch (e) {
       return null;
     }
