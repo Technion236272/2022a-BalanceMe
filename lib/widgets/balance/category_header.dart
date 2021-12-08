@@ -31,10 +31,11 @@ class CategoryHeader extends StatelessWidget {
                   },
                   icon: const Icon(gc.addIcon),
               ),
+              _category.transactions.isNotEmpty ?
               IconButton(
                 onPressed: _toggleCategory,
                 icon: Icon(_isCategoryOpen ? gc.expandIcon : gc.minimizeIcon),
-              )
+              ) : Container(),
             ],
           ),
           Padding(  // TODO- consider if Padding is necessary and put all constants in gc

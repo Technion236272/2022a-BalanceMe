@@ -89,9 +89,9 @@ double walletScale = 5.0;
 
 // RingPieChart
 const String pieChartInnerRadius = '65%';
-const LegendPosition pieChartLegendPosition = LegendPosition.top;
+const LegendPosition pieChartLegendPosition = LegendPosition.bottom;
 Color pieChartCenterText = Colors.grey.shade600;
-Color pieCharDefaultCategoryColor = Colors.white;
+Color pieCharDefaultCategoryColor = Colors.grey.shade300;
 
 // Balance
 const String inPracticeExpectedSeperator = "/";

@@ -13,8 +13,8 @@ class BalancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(  // TODO- change to tabs
       children: [
-        _balanceModel.incomeCategories != [] ? CategoriesType(_balanceModel.incomeCategories, _saveBalanceModelCB) : Container(),
-        _balanceModel.expensesCategories != [] ? CategoriesType(_balanceModel.expensesCategories, _saveBalanceModelCB) : Container(),
+        _balanceModel.incomeCategories.isNotEmpty ? CategoriesType(_balanceModel.incomeCategories, _saveBalanceModelCB) : Container(),
+        _balanceModel.expensesCategories.isNotEmpty ? CategoriesType(_balanceModel.expensesCategories, _saveBalanceModelCB) : Container(),
       ],
     );
   }
