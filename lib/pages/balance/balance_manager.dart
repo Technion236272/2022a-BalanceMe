@@ -19,7 +19,7 @@ class BalanceManager extends StatefulWidget {
 
   void init() {
     if (_authRepository.status == Status.Authenticated) {  // TODO- verify the case that user doesn't have data
-      _userStorage.GET_balanceModel(parseBalanceDataCB);
+      _userStorage.GET_balanceModel(parseBalanceDataCB, getCurrentMonthPerEndMonthDay(gc.defaultEndOfMonthDay));
     }
   }
 
@@ -50,9 +50,9 @@ class _BalanceManagerState extends State<BalanceManager> {
     _saveBalanceModel();
   }
 
-  void _saveBalanceModel() {
+  void _saveBalanceModel() {  // TODO- think what should we do with constants transactions
     if (widget._authRepository.status == Status.Authenticated) {
-      widget._userStorage.SEND_balanceModel(widget._balanceModel!.toJson());
+      widget._userStorage.SEND_balanceModel(widget._balanceModel!.toJson(), getCurrentMonthPerEndMonthDay(gc.defaultEndOfMonthDay));
     }
   }
 

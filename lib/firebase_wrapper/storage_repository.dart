@@ -86,9 +86,9 @@ class UserStorage with ChangeNotifier {
   }
 
 
-  Future<void> GET_balanceModel(JsonCallbackJson callback) async {
+  Future<void> GET_balanceModel(JsonCallbackJson callback, String date) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc).get().then((categories) {
+      await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).get().then((categories) {
         if (categories.exists && categories.data() != null) {
           notifyListeners();
           callback.call(categories.data()![config.categoriesDoc]);
@@ -112,9 +112,9 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_balanceModel(Json balanceModel) async {
+  void SEND_balanceModel(Json balanceModel, String date) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc).set({
+      await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).set({
         config.categoriesDoc: balanceModel,
       });
     } else if (_authRepository != null) {

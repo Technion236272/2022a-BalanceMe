@@ -49,6 +49,13 @@ String percentageFormattedString(String string) {
   return string + "%";
 }
 
+// Time
+String getCurrentMonthPerEndMonthDay(int endOfMonth) {
+  DateTime currentTime = DateTime.now();
+  String currentMonth = currentTime.day < endOfMonth ? (currentTime.month - 1).toString() : currentTime.month.toString();
+  return currentMonth + currentTime.year.toString();
+}
+
 // Json Converters
 List<Json> listToJsonList(List elements) {
   List<Json> jsonList = [];
