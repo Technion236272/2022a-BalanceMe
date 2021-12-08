@@ -51,8 +51,8 @@ class _BalanceManagerState extends State<BalanceManager> {
   }
 
   void _saveBalanceModel() {  // TODO- think what should we do with constants transactions
-    if (widget._authRepository.status == Status.Authenticated) {
-      widget._userStorage.SEND_balanceModel(widget._balanceModel!.toJson(), getCurrentMonthPerEndMonthDay(gc.defaultEndOfMonthDay));
+    if (widget._authRepository.status == Status.Authenticated && widget._userStorage.userData != null) {
+      widget._userStorage.SEND_balanceModel(widget._balanceModel!.toJson(), getCurrentMonthPerEndMonthDay(widget._userStorage.userData!.endOfMonthDay));
     }
   }
 

@@ -56,7 +56,7 @@ String getCurrentMonthPerEndMonthDay(int endOfMonth) {
   return currentMonth + currentTime.year.toString();
 }
 
-// Json Converters
+// Converters
 List<Json> listToJsonList(List elements) {
   List<Json> jsonList = [];
   for (var element in elements) {
@@ -71,4 +71,13 @@ List<dynamic> jsonToElementList(List<Json> jsonList, elementType) {
     elementList.add(elementType.fromJson(element));
   }
   return elementList;
+}
+
+dynamic indexToEnum(List values, int index) {
+  for (var value in values) {
+    if (value.index == index) {
+      return values[index];
+    }
+    return null;
+  }
 }

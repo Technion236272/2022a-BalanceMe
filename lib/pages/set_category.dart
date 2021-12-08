@@ -31,7 +31,7 @@ class _SetCategoryState extends State<SetCategory> {
     super.dispose();
   }
 
-  void _saveCategory() {
+  void _saveCategory() {  // TODO- log to GA, also in Transaction
     // TODO- use generic RadioButton
     Category newCategory = Category(_categoryNameController.text.toString(), true, _categoryExpectedController.text as double, _categoryDescriptionController.text.toString());
     widget._callback.call(newCategory);

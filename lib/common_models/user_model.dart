@@ -1,5 +1,6 @@
 // ================= User Data Model =================
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/utils.dart';
 import "package:balance_me/global/constants.dart" as gc;
 
 class UserModel {
@@ -23,7 +24,8 @@ class UserModel {
       endOfMonthDay = json["endOfMonthDay"];
     }
     if (json["userCurrency"] != null) {  // TODO (Sprint2)- verify that Currency type is saved in FB
-      userCurrency = json["userCurrency"];
+      Currency? currency = indexToEnum(Currency.values, json["userCurrency"]);
+      userCurrency = currency ?? gc.defaultUserCurrency;
     }
     if (json["firstName"] != null) {
       firstName = json["firstName"];
@@ -39,7 +41,7 @@ class UserModel {
   Json toJson() => {
     'groupName': groupName,
     'endOfMonthDay': endOfMonthDay,
-    'userCurrency': userCurrency,
+    'userCurrency': userCurrency.index,
     'firstName': firstName,
     'lastName': lastName,
     'isDarkMode': isDarkMode
