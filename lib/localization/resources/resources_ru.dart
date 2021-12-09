@@ -18,6 +18,12 @@ class LanguageRu extends Languages {
   @override
   String get essentialField => "this is an essential field";
 
+  @override
+  String get yes => "Yes";
+
+  @override
+  String get no => "No";
+
   // Login
   @override
   String get welcome => "Добро пожаловать";
@@ -151,4 +157,10 @@ class LanguageRu extends Languages {
 
   @override
   String get saveSucceeded => "The % saved successfully";
+
+  @override
+  String get delete => "delete %";
+
+  @override
+  String get verifyRemoval => "Are you sure you want to remove this %?";
 }

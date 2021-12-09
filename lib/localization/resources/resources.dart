@@ -13,6 +13,8 @@ abstract class Languages {
   String get appName;
   String get appTitle;
   String get essentialField;
+  String get yes;
+  String get no;
 
   // Login
   String get welcome;
@@ -66,4 +68,6 @@ abstract class Languages {
   String get addDescription;
   String get save;
   String get saveSucceeded;
+  String get delete;
+  String get verifyRemoval;
 }

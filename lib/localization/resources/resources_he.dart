@@ -18,15 +18,21 @@ class LanguageHe extends Languages {
   @override
   String get essentialField => "‎זהו שדה הכרחי";
 
+  @override
+  String get yes => "‎כן";
+
+  @override
+  String get no => "‎לא";
+
   // Login
   @override
-  String get welcome => "‎ברוך הבא";
+  String get welcome => "‎ברוכים הבאים";
 
   @override
-  String get login => "‎התחבר";
+  String get login => "‎התחברות";
 
   @override
-  String get logout => "‎התנתק";
+  String get logout => "‎התנתקות";
 
   @override
   String get successfullyLogout => "‎התנתקת בהצלחה";
@@ -53,7 +59,7 @@ class LanguageHe extends Languages {
   String get nullDetails => "עליך לרשום מייל וסיסמה אם ברצונך להירשם‎";
 
   @override
-  String get signUpError => "ההרשמה נכשלה, בדוק את חיבורך לרשת ונסה שוב ‎";
+  String get signUpError => "ההרשמה נכשלה, יש לבדוק את החיבור לרשת ולנסות שנית ‎";
 
   @override
   String get confirmPassword => "אימות סיסמה‎";
@@ -69,7 +75,7 @@ class LanguageHe extends Languages {
   String get forgotPasswordLarge => "שכחת את הסיסמה שלך?‎";
 
   @override
-  String get confirmEmail => "אמת את כתובת הדואר האלקטרוני שלך, ונשלח לך את ההוראות לשחזור סיסמה‎";
+  String get confirmEmail => "יש לאמת את כתובת הדואר האלקטרוני שלך. לאחר מכן ההוראות לשחזור הסיסמה ישלחו‎";
 
   @override
   String get send => "שליחה‎";
@@ -92,10 +98,10 @@ class LanguageHe extends Languages {
 
   // Balance
   @override
-  String get balanceInfo =>  "‎כאן תוכל לנהל את ההוצאות וההכנסות\n שלך"; //TODO - need to check the view
+  String get balanceInfo =>  "‎באפליקציה ניתן לנהל את ההוצאות וההכנסות\n שלך"; //TODO - need to check the view
 
   @override
-  String get toGetStartedInfo =>  "‎כדי להתחיל התחבר או נסה את \n האפליקציה"; //TODO - need to check the view
+  String get toGetStartedInfo =>  "‎כדי להתחיל יש להתחבר או פשוט לנסות את \n האפליקציה"; //TODO - need to check the view
 
   @override
   String get expense => "‎הוצאה";
@@ -143,11 +149,17 @@ class LanguageHe extends Languages {
   String get transactionName => "‎שם התנועה";
 
   @override
-  String get addDescription => "‎הוסף תיאור...";
+  String get addDescription => "‎תיאור...";
 
   @override
-  String get save => "‎שמור";
+  String get save => "‎שמירה";
 
   @override
   String get saveSucceeded => "‎ה% נשמרה בהצלחה";
+
+  @override
+  String get delete => "‎מחיקת %";
+
+  @override
+  String get verifyRemoval => "‎האם למחוק את ה%?";
 }
