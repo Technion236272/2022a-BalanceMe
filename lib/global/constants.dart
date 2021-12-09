@@ -107,3 +107,5 @@ const double circleLeftOrRight = 10.0;
       double welcomeTop = leftCircleTop + 30;
       double balanceInfoTop = leftCircleTop + 80;
       double startedInfoTop = leftCircleTop + 130;
+      Color backgroundDesignColor = Colors.grey.shade300;
+      

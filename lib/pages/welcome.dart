@@ -24,21 +24,21 @@ class WelcomePage extends StatelessWidget {
           left: gc.circleLeftOrRight,
           child: CircleAvatar(
             radius: gc.circleRadius,
-            backgroundColor: Colors.grey.shade300,
+            backgroundColor: gc.backgroundDesignColor,
           )),
       Positioned(
           top: gc.rightCircleTop,
           right: gc.circleLeftOrRight,
           child: CircleAvatar(
             radius: gc.circleRadius,
-            backgroundColor: Colors.grey.shade300,
+            backgroundColor: gc.backgroundDesignColor,
           )),
       Positioned(
         top: gc.welcomeTop,
         left: gc.textLeft,
         child: Text(
           Languages.of(context)!.welcome,
-          style: TextStyle(fontSize: 25),
+          style: const TextStyle(fontSize: 25),
         ),
       ),
       Positioned(
@@ -46,7 +46,7 @@ class WelcomePage extends StatelessWidget {
         left: gc.textLeft,
         child: Text(
           Languages.of(context)!.balanceInfo,
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
       ),
       Positioned(
@@ -54,7 +54,7 @@ class WelcomePage extends StatelessWidget {
         left: gc.textLeft,
         child: Text(
           Languages.of(context)!.toGetStartedInfo,
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
       ),
     ]);
