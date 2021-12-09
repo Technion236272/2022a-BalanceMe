@@ -82,7 +82,7 @@ class _SetCategoryState extends State<SetCategory> {
                 [Languages.of(context)!.income, Languages.of(context)!.expense],
                 _categoryTypeController!,
             ),
-            BorderTextBox(
+            BorderTextBox(  // TODO- support long TextField
                 _categoryDescriptionController,
                 Languages.of(context)!.addDescription,
                 initialValue: widget.currentCategory != null? widget.currentCategory!.description : null,
