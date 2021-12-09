@@ -89,10 +89,10 @@ class LanguageHe extends Languages {
 
   // Balance
   @override
-  String get balanceInfo =>  "‎כאן תוכל לנהל את ההוצאות וההכנסות שלך";
+  String get balanceInfo =>  "‎כאן תוכל לנהל את ההוצאות וההכנסות\n שלך"; //TODO - need to check the view
 
   @override
-  String get toGetStartedInfo =>  "‎כדי להתחיל התחבר או נסה את האפליקציה";
+  String get toGetStartedInfo =>  "‎כדי להתחיל התחבר או נסה את \n האפליקציה"; //TODO - need to check the view
 
   @override
   String get expenses => "‎הוצאות";
