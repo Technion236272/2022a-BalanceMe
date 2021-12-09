@@ -93,10 +93,10 @@ class LanguageEn extends Languages {
 
   // Balance
   @override
-  String get balanceInfo => "Here you can manage your income and expenses";
+  String get balanceInfo => "Here you can manage your income \nand expenses";
 
   @override
-  String get toGetStartedInfo => "To get started you can login or just experience the app";
+  String get toGetStartedInfo => "To get started you can login or just \nexperience the app";
 
   @override
   String get expenses => "Expenses";

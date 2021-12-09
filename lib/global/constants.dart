@@ -84,6 +84,7 @@ double tabPadding = 5.0;
 
 //images
 String wallet = 'assets/images/wallet.jpg';
+String balance = 'assets/images/balance-circle.png';
 String lock = 'assets/images/lock.png';
 double walletScale = 5.0;
 
@@ -95,3 +96,16 @@ Color pieCharDefaultCategoryColor = Colors.grey.shade300;
 
 // Balance
 const String inPracticeExpectedSeperator = "/";
+
+//Welcome
+const double imageTop = -40;
+const double circleRadius = 120.0;
+const double leftCircleTop = 200.0;
+const double circleLeftOrRight = 10.0;
+      double textLeft = circleLeftOrRight + 60;
+      double rightCircleTop = leftCircleTop + 30;
+      double welcomeTop = leftCircleTop + 30;
+      double balanceInfoTop = leftCircleTop + 80;
+      double startedInfoTop = leftCircleTop + 130;
+      Color backgroundDesignColor = Colors.grey.shade300;
+      
