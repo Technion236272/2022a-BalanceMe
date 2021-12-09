@@ -86,13 +86,14 @@ class UserStorage with ChangeNotifier {
   }
 
 
-  Future<void> GET_balanceModel(JsonCallbackJson callback, String date) async {
+  Future<void> GET_balanceModel(JsonCallbackJson successCallback, VoidCallback failedCallback, String date) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).get().then((categories) {
         if (categories.exists && categories.data() != null) {
-          callback.call(categories.data()![config.categoriesDoc]);
+          successCallback(categories.data()![config.categoriesDoc]);
           notifyListeners();
         } else {
+          failedCallback();
           GoogleAnalytics.instance.logGetBalanceFailed(categories);
         }
       });

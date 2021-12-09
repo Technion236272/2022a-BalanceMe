@@ -38,7 +38,7 @@ class GoogleAnalytics {
   }
 
   void logGetBalanceFailed(DocumentSnapshot<Json> generalInfo) {
-    logEvent("logGetBalanceFailed", {"dataExists": generalInfo.exists, "data": generalInfo.data()});
+    logEvent("logGetBalanceFailed", {"dataExists": generalInfo.exists, "data": generalInfo.exists ? generalInfo.data() : ""});
   }
 
   void logSaveEntry(String logTitle, String entryType, dynamic entry) {
