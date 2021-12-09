@@ -4,12 +4,10 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
-/*
-* The widget receives a List of objects that implement name and amount fields.
-* The widgets presents a ring pie chart and the total percentage (can be above 100%) in the middle.
-* If the total percentage is below 100%, the widgets complete it to 100% automatically.
-*/
 
+/// The widget receives a List of objects that implement name and amount fields.
+/// The widgets presents a ring pie chart and the total percentage (can be above 100%) in the middle.
+/// If the total percentage is below 100%, the widgets complete it to 100% automatically.
 class RingPieChart extends StatelessWidget {
   RingPieChart(this._chartDataList, this._showLegend, this._legendTitle, {Key? key}) : super(key: key);
 

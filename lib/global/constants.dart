@@ -24,6 +24,7 @@ const IconData transactionDetailsIcon = Icons.info;
 const IconData expandIcon = Icons.expand_less;
 const IconData minimizeIcon = Icons.expand_more;
 const IconData addIcon = Icons.add;
+const IconData deleteIcon = Icons.delete;
 
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
@@ -95,17 +96,17 @@ Color pieChartCenterText = Colors.grey.shade600;
 Color pieCharDefaultCategoryColor = Colors.grey.shade300;
 
 // Balance
-const String inPracticeExpectedSeperator = "/";
+const String inPracticeExpectedSeparator = "/";
+const DismissDirection removeDirection = DismissDirection.startToEnd;
 
 //Welcome
 const double imageTop = -40;
 const double circleRadius = 120.0;
 const double leftCircleTop = 200.0;
 const double circleLeftOrRight = 10.0;
-      double textLeft = circleLeftOrRight + 60;
-      double rightCircleTop = leftCircleTop + 30;
-      double welcomeTop = leftCircleTop + 30;
-      double balanceInfoTop = leftCircleTop + 80;
-      double startedInfoTop = leftCircleTop + 130;
-      Color backgroundDesignColor = Colors.grey.shade300;
-      
+double textLeft = circleLeftOrRight + 60;
+double rightCircleTop = leftCircleTop + 30;
+double welcomeTop = leftCircleTop + 30;
+double balanceInfoTop = leftCircleTop + 80;
+double startedInfoTop = leftCircleTop + 130;
+Color backgroundDesignColor = Colors.grey.shade300;

@@ -1,5 +1,6 @@
 // ================= Category Header =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/localization/resources/resources.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/pages/set_transaction.dart';
@@ -7,7 +8,7 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
-class CategoryHeader extends StatelessWidget {
+class CategoryHeader extends StatefulWidget {
   const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, this._saveTransactionCallback, {Key? key}) : super(key: key);
 
   final Category _category;
@@ -16,43 +17,78 @@ class CategoryHeader extends StatelessWidget {
   final VoidCallbackTransaction _saveTransactionCallback;
 
   @override
+  State<CategoryHeader> createState() => _CategoryHeaderState();
+}
+
+class _CategoryHeaderState extends State<CategoryHeader> {
+
+  void _addTransaction() {
+    navigateToPage(context, SetTransaction(widget._saveTransactionCallback));
+  }
+
+  void _deleteCategory() {
+    // TODO
+  }
+
+  Future<void> _confirmRemoval() async {
+    await showYesNoAlertDialog(
+        context,
+        Languages.of(context)!.verifyRemoval.replaceAll("%", Languages.of(context)!.category),
+        _confirmRemovalCallback,
+        _closeDialogCallback);
+  }
+
+  void _confirmRemovalCallback() {
+    _deleteCategory();
+    _closeDialogCallback();
+  }
+
+  void _closeDialogCallback() {
+    navigateBack(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    double progressPercentage = getPercentage(_category.amount, _category.expected) / 100;
+    double progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
     progressPercentage = (progressPercentage >= 1) ? 1 : progressPercentage;
 
-    return Column(  // TODO- add Remove Category
+    return Column(children: [
+      Row(
         children: [
-          Row(
-            children: [
-              Text(_category.name),
-              Text(moneyFormattedString(_category.amount.toString()) + gc.inPracticeExpectedSeperator + moneyFormattedString(_category.expected.toString())),
-              IconButton(
-                  onPressed: () {
-                    navigateToPage(context, SetTransaction(_saveTransactionCallback));
-                  },
-                  icon: const Icon(gc.addIcon),
-              ),
-              _category.transactions.isNotEmpty ?
-              IconButton(
-                onPressed: _toggleCategory,
-                icon: Icon(_isCategoryOpen ? gc.expandIcon : gc.minimizeIcon),
-              ) : Container(),
-            ],
+          Text(widget._category.name),
+          Text(moneyFormattedString(widget._category.amount.toString()) +
+              gc.inPracticeExpectedSeparator +
+              moneyFormattedString(widget._category.expected.toString())),
+          IconButton(
+            onPressed: _addTransaction,
+            icon: const Icon(gc.addIcon),
           ),
-          Padding(  // TODO- consider if Padding is necessary and put all constants in gc
-            padding: const EdgeInsets.all(15.0),
-            child: LinearPercentIndicator(
-              width: MediaQuery.of(context).size.width - 50,
-              animation: true,
-              lineHeight: 20.0,
-              animationDuration: 2500,
-              percent: progressPercentage,
-              center: Text(percentageFormattedString(progressPercentage.toString())),
-              linearStrokeCap: LinearStrokeCap.roundAll,
-              progressColor: gc.primaryColor,
-            ),
+          IconButton(
+            onPressed: _confirmRemoval,
+            icon: const Icon(gc.deleteIcon),
           ),
-        ]
-    );
+          widget._category.transactions.isNotEmpty ?
+              IconButton(
+                  onPressed: widget._toggleCategory,
+                  icon: Icon(widget._isCategoryOpen ? gc.expandIcon : gc.minimizeIcon))
+              : Container(),
+        ],
+      ),
+      Padding(
+        // TODO- consider if Padding is necessary and put all constants in gc
+        padding: const EdgeInsets.all(15.0),
+        child: LinearPercentIndicator(
+          width: MediaQuery.of(context).size.width - 50,
+          animation: true,
+          lineHeight: 20.0,
+          animationDuration: 2500,
+          percent: progressPercentage,
+          center:
+              Text(percentageFormattedString(progressPercentage.toString())),
+          linearStrokeCap: LinearStrokeCap.roundAll,
+          progressColor: gc.primaryColor,
+        ),
+      ),
+    ]);
   }
 }

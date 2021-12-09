@@ -1,5 +1,6 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
 
 // Navigation
@@ -23,14 +24,32 @@ void displaySnackBar(BuildContext context, String msg) {
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
-void displayAlertDialog(BuildContext context, String alertTitle, String alertContent, List<Widget> alertActions) {
+Future<void> showAlertDialog(BuildContext context, String alertContent, {String? alertTitle, List<Widget>? alertActions}) async {
   showDialog<String>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
-      title: Text(alertTitle),
+      title: alertTitle == null ? null : Text(alertTitle),
       content: Text(alertContent),
       actions: alertActions,
     ),
+  );
+}
+
+Future<void> showYesNoAlertDialog(BuildContext context, String alertContent, VoidCallback _yesCallback, VoidCallback _noCallback, {String? alertTitle}) async {
+  return showAlertDialog(
+    context,
+    alertContent,
+    alertTitle: alertTitle,
+    alertActions: [
+      TextButton(
+        child: Text(Languages.of(context)!.yes),
+        onPressed: _yesCallback,
+      ),
+      TextButton(
+        child: Text(Languages.of(context)!.no),
+        onPressed: _noCallback,
+      ),
+    ]
   );
 }
 
