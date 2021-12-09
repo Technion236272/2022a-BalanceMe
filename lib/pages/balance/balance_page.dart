@@ -1,28 +1,20 @@
 // ================= Balance Page =================
 import 'package:flutter/material.dart';
-import 'package:balance_me/firebase_wrapper/auth_repository.dart';
-import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/pages/balance/balance_model.dart';
 import 'package:balance_me/widgets/balance/categories_type.dart';
 
-class BalancePage extends StatefulWidget {
-  const BalancePage(this._authRepository, this._userStorage, this._balanceModel, {Key? key}) : super(key: key);
+class BalancePage extends StatelessWidget {
+  const BalancePage(this._balanceModel, this._saveBalanceModelCB, {Key? key}) : super(key: key);
 
-  final AuthRepository _authRepository;
-  final UserStorage _userStorage;
   final BalanceModel _balanceModel;
+  final VoidCallback _saveBalanceModelCB;
 
-  @override
-  _BalancePageState createState() => _BalancePageState();
-}
-
-class _BalancePageState extends State<BalancePage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Column(  // TODO- change to tabs- in scroll they should be gone
       children: [
-        CategoriesType(widget._balanceModel.incomeCategories),
-        CategoriesType(widget._balanceModel.expensesCategories),
+        _balanceModel.incomeCategories.isNotEmpty ? CategoriesType(_balanceModel.incomeCategories, _saveBalanceModelCB) : Container(),
+        _balanceModel.expensesCategories.isNotEmpty ? CategoriesType(_balanceModel.expensesCategories, _saveBalanceModelCB) : Container(),
       ],
     );
   }

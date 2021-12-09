@@ -21,7 +21,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(  // TODO- add functionality
+    return Dismissible(  // TODO- add functionality and Icon for removal
         key: ValueKey<String>(widget._transaction.name),
         child: Column(
           children: [

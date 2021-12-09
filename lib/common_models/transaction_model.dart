@@ -7,13 +7,13 @@ class Transaction {
   Transaction.fromJson(Json transactionJson) {
     name = transactionJson["name"];
     date = transactionJson["date"];
-    amount = transactionJson["amount"];
+    amount = transactionJson["amount"].toDouble();
     description = transactionJson["description"];
     isConstant = transactionJson["isConstant"];
   }
 
   late String name;
-  late DateTime date;
+  late String date;
   late double amount;
   late String description;
   late bool isConstant;

@@ -11,15 +11,16 @@ class BalanceModel {
   }
 
   BalanceModel.fromJson(Json categories) {
-    incomeCategories = jsonToElementList(categories[config.incomeDoc], Category) as List<Category>;
-    expensesCategories = jsonToElementList(categories[config.expenseDoc], Category) as List<Category>;
+    var _createCategoryFromJson = (json) => Category.fromJson(json);
+    incomeCategories = jsonToElementList(categories[config.incomeCategoriesField], _createCategoryFromJson).cast<Category>();
+    expensesCategories = jsonToElementList(categories[config.expenseCategoriesField], _createCategoryFromJson).cast<Category>();
   }
 
   late List<Category> incomeCategories;
   late List<Category> expensesCategories;
 
   Json toJson() => {
-    'incomeCategories': listToJsonList(incomeCategories),
-    'expensesCategories': listToJsonList(expensesCategories)
+    config.incomeCategoriesField: listToJsonList(incomeCategories),
+    config.expenseCategoriesField: listToJsonList(expensesCategories)
   };
 }

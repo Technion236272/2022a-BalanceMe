@@ -13,56 +13,70 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class BalanceManager extends StatefulWidget {
-  BalanceManager(this._authRepository, this._userStorage, {Key? key}) : super(key: key) {
-    init();
-  }
-
-  void init() {
-    if (_authRepository.status == Status.Authenticated) {  // TODO- verify the case that user doesn't have data
-      _userStorage.GET_balanceModel(parseBalanceDataCB);
-    }
-  }
-
-  void parseBalanceDataCB(Json? categories) {
-    if (categories != null) {
-      _balanceModel = BalanceModel.fromJson(categories);
-    }
-  }
+  const BalanceManager(this._authRepository, this._userStorage, {Key? key}) : super(key: key);
 
   final AuthRepository _authRepository;
   final UserStorage _userStorage;
-  BalanceModel? _balanceModel;
 
   @override
   _BalanceManagerState createState() => _BalanceManagerState();
 }
 
 class _BalanceManagerState extends State<BalanceManager> {
+  BalanceModel? _balanceModel;
+  bool _waitingForData = true;
+
+  void _init() {
+    if (widget._authRepository.status == Status.Authenticated) {  // TODO- verify the case that user doesn't have data
+      widget._userStorage.GET_balanceModel(_parseBalanceDataCB, getCurrentMonthPerEndMonthDay(gc.defaultEndOfMonthDay));
+    } else {
+      _waitingForData = false;
+    }
+  }
+
+  void _parseBalanceDataCB(Json? categories) {
+    if (categories != null) {
+      _balanceModel = BalanceModel.fromJson(categories);
+    }
+    _waitingForData = false;
+  }
+
+  @override
+  void initState() {
+    _init();
+    super.initState();
+  }
+
   void _addCategory(Category newCategory) {
-    widget._balanceModel ??= BalanceModel();  // if the user is not logged in or doesn't have date, create am empty BalanceModel
-    List<Category> categoryListType = newCategory.isIncome ? widget._balanceModel!.incomeCategories : widget._balanceModel!.expensesCategories;
+    _balanceModel ??= BalanceModel();  // if the user is not logged in or doesn't have date, create am empty BalanceModel
+    List<Category> categoryListType = newCategory.isIncome ? _balanceModel!.incomeCategories : _balanceModel!.expensesCategories;
 
     setState(() {
       categoryListType.add(newCategory);
     });
 
-    if (widget._authRepository.status == Status.Authenticated) {
-      widget._userStorage.SEND_balanceModel(widget._balanceModel!.toJson());
+    _saveBalanceModel();
+  }
+
+  void _saveBalanceModel() {  // TODO- think what should we do with constants transactions
+    if (widget._authRepository.status == Status.Authenticated && widget._userStorage.userData != null) {
+      widget._userStorage.SEND_balanceModel(_balanceModel!.toJson(), getCurrentMonthPerEndMonthDay(widget._userStorage.userData!.endOfMonthDay));  // TODO- verify precision digit
     }
   }
 
-  void openAddCategory() {
-    navigateToPage(context, SetCategory(SetCategoryType.Add, _addCategory));
+  void _openAddCategory() {
+    navigateToPage(context, SetCategory(_addCategory));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: (widget._balanceModel == null) ?
-        const WelcomePage() : BalancePage(widget._authRepository, widget._userStorage, widget._balanceModel!),
+      body: _waitingForData ? const Center(child: CircularProgressIndicator())  // TODO- consider to create generic ProgressIndicator widget (used also in main)
+      : (_balanceModel == null) ?
+        const WelcomePage() : SingleChildScrollView(child: BalancePage(_balanceModel!, _saveBalanceModel)),
       floatingActionButton: FloatingActionButton(
-        onPressed: openAddCategory,
+        onPressed: _openAddCategory, // TODO- add it in another place
         child: const Icon(gc.addIcon),
         tooltip: Languages.of(context)!.addCategory,
       ),

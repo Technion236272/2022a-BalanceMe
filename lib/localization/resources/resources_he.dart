@@ -15,6 +15,9 @@ class LanguageHe extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
+  @override
+  String get essentialField => "‎זהו שדה הכרחי";
+
   // Login
   @override
   String get welcome => "‎ברוך הבא";
@@ -107,17 +110,38 @@ class LanguageHe extends Languages {
   String get expected => "צפוי‎";
 
   @override
+  String get amount => "‎כמות";
+
+  @override
+  String get category => "‎קטגוריה";
+
+  @override
   String get addCategory => "‎הוספת קטגוריה";
+
+  @override
+  String get transaction => "‎תנועה";
+
+  @override
+  String get addTransaction => "‎הוספת תנועה";
 
   @override
   String get editCategory => "‎עריכת קטגוריה";
 
   @override
+  String get editTransaction => "‎עריכת התנועה";
+
+  @override
   String get categoryName => "‎שם הקטגוריה";
+
+  @override
+  String get transactionName => "‎שם התנועה";
 
   @override
   String get addDescription => "‎הוסף תיאור...";
 
   @override
   String get save => "‎שמור";
+
+  @override
+  String get saveSucceeded => "‎ה% נשמר בהצלחה";
 }

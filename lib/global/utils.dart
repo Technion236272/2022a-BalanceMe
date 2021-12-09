@@ -39,6 +39,14 @@ double getPercentage(double amount, double total) {
   return (amount / total) * 100;
 }
 
+// Validators
+String? essentialFieldValidator(String? value, String userMessage) {
+  if (value == null || value.isEmpty) {
+    return userMessage;
+  }
+  return null;
+}
+
 // Format
 String moneyFormattedString(String string) {
   // TODO- Refactor in Sprint2. find a way to add the symbol in the correct direction according to the locale
@@ -49,7 +57,18 @@ String percentageFormattedString(String string) {
   return string + "%";
 }
 
-// Json Converters
+// Time
+String getCurrentMonthPerEndMonthDay(int endOfMonth) {
+  DateTime currentTime = DateTime.now();
+  String currentMonth = currentTime.day < endOfMonth ? (currentTime.month - 1).toString() : currentTime.month.toString();
+  return currentMonth + currentTime.year.toString();
+}
+
+String getFullDate(DateTime date) {  // TODO- find a way to add the symbol in the correct direction according to the locale
+  return "${date.day}-${date.month}-${date.year}";
+}
+
+// Converters
 List<Json> listToJsonList(List elements) {
   List<Json> jsonList = [];
   for (var element in elements) {
@@ -58,10 +77,19 @@ List<Json> listToJsonList(List elements) {
   return jsonList;
 }
 
-List<dynamic> jsonToElementList(List<Json> jsonList, elementType) {
+List<dynamic> jsonToElementList(List<dynamic> jsonList, Function createElementFunction) {
   List elementList = [];
-  for (var element in jsonList) {
-    elementList.add(elementType.fromJson(element));
+  for (var json in jsonList) {
+    elementList.add(createElementFunction(json));
   }
   return elementList;
+}
+
+dynamic indexToEnum(List values, int index) {
+  for (var value in values) {
+    if (value.index == index) {
+      return values[index];
+    }
+    return null;
+  }
 }

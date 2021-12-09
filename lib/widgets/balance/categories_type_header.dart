@@ -29,13 +29,13 @@ class CategoriesTypeHeader extends StatelessWidget {
               Column(
                 children: [
                   Text(Languages.of(context)!.now),
-                  Text(moneyFormattedString(_getTotalCategoriesListAmount(true).toString())),
+                  Text(moneyFormattedString(_getTotalCategoriesListAmount(false).toString())),
                 ],
               ),
               Column(
                 children: [
                   Text(Languages.of(context)!.expected),
-                  Text(moneyFormattedString(_getTotalCategoriesListAmount(false).toString())),
+                  Text(moneyFormattedString(_getTotalCategoriesListAmount(true).toString())),
                 ],
               ),
             ],

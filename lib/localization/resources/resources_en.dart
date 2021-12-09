@@ -15,6 +15,9 @@ class LanguageEn extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
+  @override
+  String get essentialField => "this is an essential field";
+
 // Login
   @override
   String get welcome => "Welcome";
@@ -108,17 +111,38 @@ class LanguageEn extends Languages {
   String get expected => "Expected";
 
   @override
+  String get amount => "Amount";
+
+  @override
+  String get category => "category";
+
+  @override
   String get addCategory => "Add Category";
+
+  @override
+  String get transaction => "transaction";
+
+  @override
+  String get addTransaction => "Add Transaction";
 
   @override
   String get editCategory => "Edit Category";
 
   @override
+  String get editTransaction => "Edit Transaction";
+
+  @override
   String get categoryName => "Category Name";
+
+  @override
+  String get transactionName => "Transaction Name";
 
   @override
   String get addDescription => "Add Description...";
 
   @override
   String get save => "SAVE";
+
+  @override
+  String get saveSucceeded => "The % saved successfully";
 }

@@ -12,6 +12,7 @@ abstract class Languages {
   String get languageCode;
   String get appName;
   String get appTitle;
+  String get essentialField;
 
   // Login
   String get welcome;
@@ -51,9 +52,16 @@ abstract class Languages {
   String get income;
   String get now;
   String get expected;
+  String get amount;
+  String get category;
   String get addCategory;
+  String get transaction;
+  String get addTransaction;
   String get editCategory;
+  String get editTransaction;
   String get categoryName;
+  String get transactionName;
   String get addDescription;
   String get save;
+  String get saveSucceeded;
 }
