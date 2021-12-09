@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 
@@ -41,7 +42,7 @@ class RingPieChart extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Text(
-          _totalPercentage!.toInt().toString() + "%",
+          _totalPercentage!.toInt().toPercentageFormat(),
           style: TextStyle(color: gc.pieChartCenterText),
         ),
         SfCircularChart(

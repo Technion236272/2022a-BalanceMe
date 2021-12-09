@@ -23,13 +23,13 @@ class BalanceManager extends StatefulWidget {
 }
 
 class _BalanceManagerState extends State<BalanceManager> {
-  BalanceModel? _balanceModel;
+  BalanceModel _balanceModel = BalanceModel();
   bool _waitingForData = true;
   bool _isIncomeTab = true;
 
   void _init() {
     if (widget._authRepository.status == Status.Authenticated) {  // TODO- verify the case that user doesn't have data
-      widget._userStorage.GET_balanceModel(_parseBalanceDataCB, _failedCB, getCurrentMonthPerEndMonthDay(gc.defaultEndOfMonthDay));
+      widget._userStorage.GET_balanceModel(_parseBalanceDataCB, _createNewBalanceCB, getCurrentMonthPerEndMonthDay(gc.defaultEndOfMonthDay));
     } else {
       _waitingForData = false;
     }
@@ -42,7 +42,8 @@ class _BalanceManagerState extends State<BalanceManager> {
     _waitingForData = false;
   }
 
-  void _failedCB() {
+  void _createNewBalanceCB() {
+    _saveBalanceModel();
     setState(() {
       _waitingForData = false;
     });
@@ -55,8 +56,7 @@ class _BalanceManagerState extends State<BalanceManager> {
   }
 
   void _addCategory(Category newCategory) {
-    _balanceModel ??= BalanceModel();  // if the user is not logged in or doesn't have date, create am empty BalanceModel
-    List<Category> categoryListType = newCategory.isIncome ? _balanceModel!.incomeCategories : _balanceModel!.expensesCategories;
+    List<Category> categoryListType = newCategory.isIncome ? _balanceModel.incomeCategories : _balanceModel.expensesCategories;
 
     setState(() {
       categoryListType.add(newCategory);
@@ -67,7 +67,7 @@ class _BalanceManagerState extends State<BalanceManager> {
 
   void _saveBalanceModel() {  // TODO- think what should we do with constants transactions
     if (widget._authRepository.status == Status.Authenticated && widget._userStorage.userData != null) {
-      widget._userStorage.SEND_balanceModel(_balanceModel!.toJson(), getCurrentMonthPerEndMonthDay(widget._userStorage.userData!.endOfMonthDay));  // TODO- verify precision digit
+      widget._userStorage.SEND_balanceModel(_balanceModel.toJson(), getCurrentMonthPerEndMonthDay(widget._userStorage.userData!.endOfMonthDay));
     }
   }
 
@@ -86,8 +86,8 @@ class _BalanceManagerState extends State<BalanceManager> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: _waitingForData ? const Center(child: CircularProgressIndicator())
-      : (_balanceModel == null) ?
-        const WelcomePage() : SingleChildScrollView(child: BalancePage(_balanceModel!, _saveBalanceModel, _setCurrentTab)),
+      : (_balanceModel.isEmpty) ?
+        const WelcomePage() : SingleChildScrollView(child: BalancePage(_balanceModel, _saveBalanceModel, _setCurrentTab)),
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddCategory,
         child: const Icon(gc.addIcon),

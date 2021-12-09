@@ -10,6 +10,7 @@ const String prefSelectedLanguageCode = "SelectedLanguageCode";
 int defaultPage = AppPages.Balance.index;
 const int defaultEndOfMonthDay = 10;
 const Currency defaultUserCurrency = Currency.NIS;
+const int defaultPrecision = 2;
 
 // Icons
 const IconData unauthenticatedIcon = Icons.login;

@@ -19,6 +19,8 @@ class BalanceModel {
   late List<Category> incomeCategories;
   late List<Category> expensesCategories;
 
+  bool get isEmpty => incomeCategories.isEmpty && expensesCategories.isEmpty;
+
   Json toJson() => {
     config.incomeCategoriesField: listToJsonList(incomeCategories),
     config.expenseCategoriesField: listToJsonList(expensesCategories)

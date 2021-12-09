@@ -50,15 +50,15 @@ class _CategoryHeaderState extends State<CategoryHeader> {
   @override
   Widget build(BuildContext context) {
     double progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
-    progressPercentage = (progressPercentage >= 1) ? 1 : progressPercentage;
+    progressPercentage = (progressPercentage >= 1) ? 1 : progressPercentage.toPrecision();
 
     return Column(children: [
       Row(
         children: [
           Text(widget._category.name),
-          Text(moneyFormattedString(widget._category.amount.toString()) +
+          Text(widget._category.amount.toMoneyFormat() +
               gc.inPracticeExpectedSeparator +
-              moneyFormattedString(widget._category.expected.toString())),
+              widget._category.expected.toMoneyFormat()),
           IconButton(
             onPressed: _addTransaction,
             icon: const Icon(gc.addIcon),
@@ -84,7 +84,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
           animationDuration: 2500,
           percent: progressPercentage,
           center:
-              Text(percentageFormattedString(progressPercentage.toString())),
+              Text(progressPercentage.toPercentageFormat()),
           linearStrokeCap: LinearStrokeCap.roundAll,
           progressColor: gc.primaryColor,
         ),

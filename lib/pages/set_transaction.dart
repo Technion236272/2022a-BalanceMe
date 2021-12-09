@@ -48,7 +48,7 @@ class _SetTransactionState extends State<SetTransaction> {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       Transaction newTransaction = Transaction(
           _transactionNameController.text.toString(),
-          getFullDate(DateTime.now()),
+          DateTime.now().toFullDate(),
           double.parse(_transactionAmountController.text.toString()),
           _transactionDescriptionController.text.toString(),
           false

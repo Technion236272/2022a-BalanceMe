@@ -76,7 +76,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
           Row(
             children: [
               Text(widget._transaction.name),
-              Text(moneyFormattedString(widget._transaction.amount.toString())),
+              Text(widget._transaction.amount.toMoneyFormat()),
               IconButton(
                 onPressed: _openTransactionDetails,
                 icon: const Icon(gc.transactionDetailsIcon),
