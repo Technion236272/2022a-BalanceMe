@@ -8,7 +8,7 @@ import 'package:balance_me/widgets/generic_tabs.dart';
 import 'package:balance_me/global/types.dart';
 
 class BalancePage extends StatelessWidget {
-  BalancePage(this._balanceModel, this._saveBalanceModelCB, this._changeCurrentTab, {Key? key}) : super(key: key);
+  const BalancePage(this._balanceModel, this._saveBalanceModelCB, this._changeCurrentTab, {Key? key}) : super(key: key);
 
   final BalanceModel _balanceModel;
   final VoidCallback _saveBalanceModelCB;

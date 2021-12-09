@@ -5,6 +5,7 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/generic_radio_button.dart';
+import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/text_box_without_border.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/types.dart';
@@ -27,6 +28,15 @@ class _SetCategoryState extends State<SetCategory> {
   final TextEditingController _categoryExpectedController = TextEditingController();
   final TextEditingController _categoryDescriptionController = TextEditingController();
   PrimitiveWrapper? _categoryTypeController;
+  bool _performingSave = false;
+
+  bool get performingSave => _performingSave;
+
+  void _updatePerformingSave(bool state) {
+    setState(() {
+      _performingSave = state;
+    });
+  }
 
   @override
   void dispose() {
@@ -37,6 +47,7 @@ class _SetCategoryState extends State<SetCategory> {
   }
 
   void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
+    _updatePerformingSave(true);
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       Category newCategory = Category(
           _categoryNameController.text.toString(),
@@ -50,6 +61,7 @@ class _SetCategoryState extends State<SetCategory> {
       displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.category));
       GoogleAnalytics.instance.logCategorySaved(widget.currentCategory == null, newCategory);
     }
+    _updatePerformingSave(false);
   }
 
   String? _validatorFunction(String? value) {
@@ -88,9 +100,10 @@ class _SetCategoryState extends State<SetCategory> {
                 Languages.of(context)!.addDescription,
                 initialValue: widget.currentCategory != null? widget.currentCategory!.description : null,
             ),
-            ElevatedButton(
-                onPressed: _saveCategory,
-                child: Text(Languages.of(context)!.save),
+            ActionButton(  // TODO- you can design this button by giving "style" parameter
+                performingSave,
+                Languages.of(context)!.save,
+                _saveCategory,
             ),
           ],
         ),
