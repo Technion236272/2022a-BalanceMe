@@ -25,6 +25,7 @@ class BalanceManager extends StatefulWidget {
 class _BalanceManagerState extends State<BalanceManager> {
   BalanceModel? _balanceModel;
   bool _waitingForData = true;
+  bool _isIncomeTab = true;
 
   void _init() {
     if (widget._authRepository.status == Status.Authenticated) {  // TODO- verify the case that user doesn't have data
@@ -64,8 +65,14 @@ class _BalanceManagerState extends State<BalanceManager> {
     }
   }
 
+  bool get isIncomeTab => _isIncomeTab;
+
+  void _setCurrentTab(int currentTab) {
+    _isIncomeTab = currentTab == 0;
+  }
+
   void _openAddCategory() {
-    navigateToPage(context, SetCategory(_addCategory));
+    navigateToPage(context, SetCategory(_addCategory, isIncomeTab));
   }
 
   @override
@@ -74,9 +81,9 @@ class _BalanceManagerState extends State<BalanceManager> {
       resizeToAvoidBottomInset: true,
       body: _waitingForData ? const Center(child: CircularProgressIndicator())  // TODO- consider to create generic ProgressIndicator widget (used also in main)
       : (_balanceModel == null) ?
-        const WelcomePage() : SingleChildScrollView(child: BalancePage(_balanceModel!, _saveBalanceModel)),
+        const WelcomePage() : SingleChildScrollView(child: BalancePage(_balanceModel!, _saveBalanceModel, _setCurrentTab)),
       floatingActionButton: FloatingActionButton(
-        onPressed: _openAddCategory, // TODO- add it in another place
+        onPressed: _openAddCategory,
         child: const Icon(gc.addIcon),
         tooltip: Languages.of(context)!.addCategory,
       ),

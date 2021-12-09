@@ -49,7 +49,9 @@ abstract class Languages {
   String get balanceInfo;
   String get toGetStartedInfo;
   String get expense;
+  String get expenses;
   String get income;
+  String get incomes;
   String get now;
   String get expected;
   String get amount;

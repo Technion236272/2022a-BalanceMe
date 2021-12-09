@@ -11,9 +11,10 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 
 class SetCategory extends StatefulWidget {
-  const SetCategory(this._callback, {this.currentCategory, Key? key}) : super(key: key);
+  const SetCategory(this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key);
 
   final VoidCallbackCategory _callback;
+  final bool _isIncomeTab;  // TODO- check adding income in tab expenses
   final Category? currentCategory;
 
   @override
@@ -57,7 +58,7 @@ class _SetCategoryState extends State<SetCategory> {
 
   @override
   Widget build(BuildContext context) {
-    _categoryTypeController = PrimitiveWrapper(Languages.of(context)!.income);
+    _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
 
     return Scaffold(
       appBar: MinorAppBar(widget.currentCategory != null ? Languages.of(context)!.editCategory : Languages.of(context)!.addCategory),

@@ -52,3 +52,17 @@ class _TabGenericState extends State<TabGeneric> {
         ));
   }
 }
+
+List<Tab> getGenericTabs(List<String> tabNames) {
+  List<Tab> tabs = [];
+  for (var name in tabNames) {
+    tabs.add(
+        Tab(
+           child: Text(
+          name,
+          style: const TextStyle(color: gc.tabTextColor),
+      ),
+    ));
+  }
+  return tabs;
+}

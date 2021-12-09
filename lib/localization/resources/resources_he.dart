@@ -101,7 +101,13 @@ class LanguageHe extends Languages {
   String get expense => "‎הוצאה";
 
   @override
+  String get expenses => "‎הוצאות";
+
+  @override
   String get income => "‎הכנסה";
+
+  @override
+  String get incomes => "‎הכנסות";
 
   @override
   String get now => "‎בפועל";
