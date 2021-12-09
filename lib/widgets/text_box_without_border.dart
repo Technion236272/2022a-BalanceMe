@@ -1,15 +1,16 @@
 // ================= No Border Text Box =================
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class NoBorderTextBox extends StatefulWidget {
-  const NoBorderTextBox(this._controller, this._hintText, {this.hideText = false, this.isMultiline, this.suffix, this.initialValue, this.validatorFunction, this.decoration, Key? key}) : super(key: key);
+  const NoBorderTextBox(this._controller, this._hintText, {this.hideText = false, this.isNumeric, this.suffix, this.initialValue, this.validatorFunction, this.decoration, Key? key}) : super(key: key);
 
   final TextEditingController _controller;
   final String? _hintText;
   final bool hideText;
-  final bool? isMultiline;
+  final bool? isNumeric;
   final Widget? suffix;
   final String? initialValue;
   final StringCallbackStringNullable? validatorFunction;
@@ -27,7 +28,8 @@ class _NoBorderTextBoxState extends State<NoBorderTextBox> {
       child: TextFormField(
         controller: widget._controller,
         obscureText: widget.hideText,
-        keyboardType: widget.isMultiline == true ? TextInputType.multiline : null,
+        keyboardType: widget.isNumeric == true ? TextInputType.number : null,
+        inputFormatters: widget.isNumeric == true ? [FilteringTextInputFormatter.digitsOnly] : [],
         initialValue: widget.initialValue?? widget.initialValue,
         validator: widget.validatorFunction,
         decoration: widget.decoration ?? InputDecoration(

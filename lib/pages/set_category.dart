@@ -35,7 +35,7 @@ class _SetCategoryState extends State<SetCategory> {
     super.dispose();
   }
 
-  void _saveCategory() {  // TODO- (verify SnackBar shows above the FAB- also after login)
+  void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       Category newCategory = Category(
           _categoryNameController.text.toString(),
@@ -74,6 +74,7 @@ class _SetCategoryState extends State<SetCategory> {
             NoBorderTextBox(
                 _categoryExpectedController,
                 Languages.of(context)!.expected,
+                isNumeric: true,
                 initialValue: widget.currentCategory != null? widget.currentCategory!.expected.toString() : null,
                 validatorFunction: _validatorFunction,
             ),
@@ -84,7 +85,6 @@ class _SetCategoryState extends State<SetCategory> {
             BorderTextBox(
                 _categoryDescriptionController,
                 Languages.of(context)!.addDescription,
-                isMultiline: true,
                 initialValue: widget.currentCategory != null? widget.currentCategory!.description : null,
             ),
             ElevatedButton(

@@ -69,6 +69,7 @@ class _SetTransactionState extends State<SetTransaction> {
             NoBorderTextBox(
               _transactionAmountController,
               Languages.of(context)!.amount,
+              isNumeric: true,
               initialValue: widget.currentTransaction != null? widget.currentTransaction!.amount.toString() : null,
               validatorFunction: _validatorFunction,
             ),
@@ -76,7 +77,6 @@ class _SetTransactionState extends State<SetTransaction> {
             BorderTextBox(
               _transactionDescriptionController,
               Languages.of(context)!.addDescription,
-              isMultiline: true,
               initialValue: widget.currentTransaction != null? widget.currentTransaction!.description : null,
             ),
             ElevatedButton(
