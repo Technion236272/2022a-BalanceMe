@@ -39,6 +39,14 @@ double getPercentage(double amount, double total) {
   return (amount / total) * 100;
 }
 
+// Validators
+String? essentialFieldValidator(String? value, String userMessage) {
+  if (value == null || value.isEmpty) {
+    return userMessage;
+  }
+  return null;
+}
+
 // Format
 String moneyFormattedString(String string) {
   // TODO- Refactor in Sprint2. find a way to add the symbol in the correct direction according to the locale
@@ -56,7 +64,7 @@ String getCurrentMonthPerEndMonthDay(int endOfMonth) {
   return currentMonth + currentTime.year.toString();
 }
 
-String getFullDate(DateTime date) {
+String getFullDate(DateTime date) {  // TODO- find a way to add the symbol in the correct direction according to the locale
   return "${date.day}-${date.month}-${date.year}";
 }
 

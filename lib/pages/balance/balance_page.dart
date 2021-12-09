@@ -11,7 +11,7 @@ class BalancePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(  // TODO- change to tabs
+    return Column(  // TODO- change to tabs- in scroll they should be gone
       children: [
         _balanceModel.incomeCategories.isNotEmpty ? CategoriesType(_balanceModel.incomeCategories, _saveBalanceModelCB) : Container(),
         _balanceModel.expensesCategories.isNotEmpty ? CategoriesType(_balanceModel.expensesCategories, _saveBalanceModelCB) : Container(),

@@ -19,6 +19,7 @@ class SetTransaction extends StatefulWidget {
 }
 
 class _SetTransactionState extends State<SetTransaction> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _transactionNameController = TextEditingController();
   final TextEditingController _transactionAmountController = TextEditingController();
   final TextEditingController _transactionDescriptionController = TextEditingController();
@@ -43,24 +44,32 @@ class _SetTransactionState extends State<SetTransaction> {
 
     widget._callback.call(newTransaction);
     navigateBack(context);
+    displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.transaction));
+  }
+
+  String? _validatorFunction(String? value) {
+    return essentialFieldValidator(value, Languages.of(context)!.essentialField);
   }
 
   @override
   Widget build(BuildContext context) {  // TODO- consider build generic Form
     return Scaffold(
       appBar: MinorAppBar(widget.currentTransaction != null ? Languages.of(context)!.editTransaction : Languages.of(context)!.addTransaction),
-      body: Form(  // TODO- add validation (empty fields)
+      body: Form(
+        key: _formKey,
         child: Column(
           children: [
             BorderTextBox(
               _transactionNameController,
               Languages.of(context)!.transactionName,
               initialValue: widget.currentTransaction != null? widget.currentTransaction!.name : null,
+              validatorFunction: _validatorFunction,
             ),
             NoBorderTextBox(
               _transactionAmountController,
               Languages.of(context)!.amount,
               initialValue: widget.currentTransaction != null? widget.currentTransaction!.amount.toString() : null,
+              validatorFunction: _validatorFunction,
             ),
             // TODO- use here generic datePicker for date
             // TODO- use here generic radio button for isConstant

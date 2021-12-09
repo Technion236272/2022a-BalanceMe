@@ -18,4 +18,6 @@ typedef VoidCallbackCategory = void Function(Category);
 
 typedef VoidCallbackTransaction = void Function(Transaction);
 
+typedef StringCallbackStringNullable =  String? Function(String?);
+
 typedef JsonCallbackJson = void Function(Json);

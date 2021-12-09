@@ -19,6 +19,7 @@ class SetCategory extends StatefulWidget {
 }
 
 class _SetCategoryState extends State<SetCategory> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _categoryNameController = TextEditingController();
   final TextEditingController _categoryExpectedController = TextEditingController();
   final TextEditingController _categoryDescriptionController = TextEditingController();
@@ -31,35 +32,46 @@ class _SetCategoryState extends State<SetCategory> {
     super.dispose();
   }
 
-  void _saveCategory() {  // TODO- log to GA, also in Transaction
+  void _saveCategory() {  // TODO- log to GA and SnackBar (verify above the FAB- also after login), also in Transaction
     // TODO- use generic RadioButton
-    Category newCategory = Category(
-        _categoryNameController.text.toString(),
-        true,
-        double.parse(_categoryExpectedController.text.toString()),
-        _categoryDescriptionController.text.toString()
-    );
+    print(_formKey.currentState);
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      Category newCategory = Category(
+          _categoryNameController.text.toString(),
+          true,
+          double.parse(_categoryExpectedController.text.toString()),
+          _categoryDescriptionController.text.toString()
+      );
 
-    widget._callback.call(newCategory);
-    navigateBack(context);
+      widget._callback.call(newCategory);
+      navigateBack(context);
+      displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.category));
+    }
+  }
+
+  String? _validatorFunction(String? value) {
+    return essentialFieldValidator(value, Languages.of(context)!.essentialField);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MinorAppBar(widget.currentCategory != null ? Languages.of(context)!.editCategory : Languages.of(context)!.addCategory),
-      body: Form(  // TODO- add validation (empty fields)
+      body: Form(
+        key: _formKey,
         child: Column(
           children: [
             BorderTextBox(
                 _categoryNameController,
                 Languages.of(context)!.categoryName,
                 initialValue: widget.currentCategory != null? widget.currentCategory!.name : null,
+                validatorFunction: _validatorFunction,
             ),
             NoBorderTextBox(
                 _categoryExpectedController,
                 Languages.of(context)!.expected,
                 initialValue: widget.currentCategory != null? widget.currentCategory!.expected.toString() : null,
+                validatorFunction: _validatorFunction,
             ),
             // TODO- use here generic radio button
             BorderTextBox(

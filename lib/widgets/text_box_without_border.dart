@@ -1,9 +1,10 @@
 // ================= No Border Text Box =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class NoBorderTextBox extends StatefulWidget {
-  const NoBorderTextBox(this._controller, this._hintText, {this.hideText = false, this.isMultiline, this.suffix, this.initialValue, this.decoration, Key? key}) : super(key: key);
+  const NoBorderTextBox(this._controller, this._hintText, {this.hideText = false, this.isMultiline, this.suffix, this.initialValue, this.validatorFunction, this.decoration, Key? key}) : super(key: key);
 
   final TextEditingController _controller;
   final String? _hintText;
@@ -11,6 +12,7 @@ class NoBorderTextBox extends StatefulWidget {
   final bool? isMultiline;
   final Widget? suffix;
   final String? initialValue;
+  final StringCallbackStringNullable? validatorFunction;
   final InputDecoration? decoration;
 
   @override
@@ -27,6 +29,7 @@ class _NoBorderTextBoxState extends State<NoBorderTextBox> {
         obscureText: widget.hideText,
         keyboardType: widget.isMultiline == true ? TextInputType.multiline : null,
         initialValue: widget.initialValue?? widget.initialValue,
+        validator: widget.validatorFunction,
         decoration: widget.decoration ?? InputDecoration(
           hintText: widget._hintText,
           suffixIcon: widget.suffix,

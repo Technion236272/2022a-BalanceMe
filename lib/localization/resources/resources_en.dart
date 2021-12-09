@@ -15,6 +15,9 @@ class LanguageEn extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
+  @override
+  String get essentialField => "this is an essential field";
+
 // Login
   @override
   String get welcome => "Welcome";
@@ -111,7 +114,13 @@ class LanguageEn extends Languages {
   String get amount => "Amount";
 
   @override
+  String get category => "category";
+
+  @override
   String get addCategory => "Add Category";
+
+  @override
+  String get transaction => "transaction";
 
   @override
   String get addTransaction => "Add Transaction";
@@ -133,4 +142,7 @@ class LanguageEn extends Languages {
 
   @override
   String get save => "SAVE";
+
+  @override
+  String get saveSucceeded => "The % saved successfully";
 }
