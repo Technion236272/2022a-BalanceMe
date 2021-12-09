@@ -1,8 +1,10 @@
 // ================= Set Category =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/common_models/category_model.dart';
+import 'package:balance_me/widgets/generic_radio_button.dart';
 import 'package:balance_me/widgets/text_box_without_border.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/types.dart';
@@ -23,6 +25,7 @@ class _SetCategoryState extends State<SetCategory> {
   final TextEditingController _categoryNameController = TextEditingController();
   final TextEditingController _categoryExpectedController = TextEditingController();
   final TextEditingController _categoryDescriptionController = TextEditingController();
+  PrimitiveWrapper? _categoryTypeController;
 
   @override
   void dispose() {
@@ -32,13 +35,11 @@ class _SetCategoryState extends State<SetCategory> {
     super.dispose();
   }
 
-  void _saveCategory() {  // TODO- log to GA and SnackBar (verify above the FAB- also after login), also in Transaction
-    // TODO- use generic RadioButton
-    print(_formKey.currentState);
+  void _saveCategory() {  // TODO- (verify SnackBar shows above the FAB- also after login)
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       Category newCategory = Category(
           _categoryNameController.text.toString(),
-          true,
+          _categoryTypeController!.value == Languages.of(context)!.income,
           double.parse(_categoryExpectedController.text.toString()),
           _categoryDescriptionController.text.toString()
       );
@@ -46,6 +47,7 @@ class _SetCategoryState extends State<SetCategory> {
       widget._callback.call(newCategory);
       navigateBack(context);
       displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.category));
+      GoogleAnalytics.instance.logCategorySaved(widget.currentCategory == null, newCategory);
     }
   }
 
@@ -55,6 +57,8 @@ class _SetCategoryState extends State<SetCategory> {
 
   @override
   Widget build(BuildContext context) {
+    _categoryTypeController = PrimitiveWrapper(Languages.of(context)!.income);
+
     return Scaffold(
       appBar: MinorAppBar(widget.currentCategory != null ? Languages.of(context)!.editCategory : Languages.of(context)!.addCategory),
       body: Form(
@@ -73,7 +77,10 @@ class _SetCategoryState extends State<SetCategory> {
                 initialValue: widget.currentCategory != null? widget.currentCategory!.expected.toString() : null,
                 validatorFunction: _validatorFunction,
             ),
-            // TODO- use here generic radio button
+            GenericRadioButton(
+                [Languages.of(context)!.income, Languages.of(context)!.expense],
+                _categoryTypeController!,
+            ),
             BorderTextBox(
                 _categoryDescriptionController,
                 Languages.of(context)!.addDescription,
@@ -83,7 +90,7 @@ class _SetCategoryState extends State<SetCategory> {
             ElevatedButton(
                 onPressed: _saveCategory,
                 child: Text(Languages.of(context)!.save),
-            )
+            ),
           ],
         ),
       ),

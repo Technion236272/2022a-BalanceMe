@@ -20,6 +20,7 @@ class GoogleAnalytics {
   Future<void> logSignUp(String signUpMethod) async {
     await _analytics.logSignUp(signUpMethod: signUpMethod);
   }
+
   Future<void> logLogin(String loginMethod) async {
     await _analytics.logLogin(loginMethod: loginMethod);
   }
@@ -36,7 +37,21 @@ class GoogleAnalytics {
     logEvent("PostLoginFailed", {"dataExists": generalInfo.exists, "data": generalInfo.data()});
   }
 
-  void logCategoriesForBalanceFailed(DocumentSnapshot<Json> generalInfo) {
-    logEvent("categoriesForBalanceFailed", {"dataExists": generalInfo.exists, "data": generalInfo.data()});
+  void logGetBalanceFailed(DocumentSnapshot<Json> generalInfo) {
+    logEvent("logGetBalanceFailed", {"dataExists": generalInfo.exists, "data": generalInfo.data()});
+  }
+
+  void logSaveEntry(String logTitle, String entryType, dynamic entry) {
+    AuthRepository authRepository = AuthRepository.instance();
+    String? userEmail = (authRepository.user != null && authRepository.user!.email != null) ? authRepository.user!.email! : null;
+    logEvent(logTitle, {"user": userEmail, entryType: entry.toJson()});
+  }
+
+  void logCategorySaved(bool isNewCategory, dynamic category) {
+    logSaveEntry(isNewCategory ? "logCategoryAdded" : "logCategoryEdited", "category", category);
+  }
+
+  void logTransactionSaved(bool isNewTransaction, dynamic transaction) {
+    logSaveEntry(isNewTransaction ? "logTransactionAdded" : "logTransactionEdited", "transaction", transaction);
   }
 }

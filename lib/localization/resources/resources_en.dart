@@ -99,7 +99,7 @@ class LanguageEn extends Languages {
   String get toGetStartedInfo => "To get started you can login or just \nexperience the app";
 
   @override
-  String get expenses => "Expenses";
+  String get expense => "Expense";
 
   @override
   String get income => "Income";

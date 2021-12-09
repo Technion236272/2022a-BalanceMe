@@ -93,7 +93,7 @@ class UserStorage with ChangeNotifier {
           callback.call(categories.data()![config.categoriesDoc]);
           notifyListeners();
         } else {
-          GoogleAnalytics.instance.logPostLoginFailed(categories);
+          GoogleAnalytics.instance.logGetBalanceFailed(categories);
         }
       });
     } else if (_authRepository != null) {

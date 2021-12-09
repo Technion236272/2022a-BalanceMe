@@ -98,10 +98,10 @@ class LanguageHe extends Languages {
   String get toGetStartedInfo =>  "‎כדי להתחיל התחבר או נסה את \n האפליקציה"; //TODO - need to check the view
 
   @override
-  String get expenses => "‎הוצאות";
+  String get expense => "‎הוצאה";
 
   @override
-  String get income => "‎הכנסות";
+  String get income => "‎הכנסה";
 
   @override
   String get now => "‎בפועל";
@@ -143,5 +143,5 @@ class LanguageHe extends Languages {
   String get save => "‎שמור";
 
   @override
-  String get saveSucceeded => "‎ה% נשמר בהצלחה";
+  String get saveSucceeded => "‎ה% נשמרה בהצלחה";
 }

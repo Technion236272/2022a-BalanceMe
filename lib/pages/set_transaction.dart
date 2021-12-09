@@ -1,4 +1,5 @@
 // ================= Set Transaction =================
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
@@ -32,19 +33,19 @@ class _SetTransactionState extends State<SetTransaction> {
     super.dispose();
   }
 
-  void _saveTransaction() {
-    // TODO- use generic RadioButton for isConstant
+  void _saveTransaction() {  // TODO- use generic RadioButton for isConstant
     Transaction newTransaction = Transaction(
         _transactionNameController.text.toString(),
         getFullDate(DateTime.now()),
         double.parse(_transactionAmountController.text.toString()),
         _transactionDescriptionController.text.toString(),
-        true
+        false
     );
 
     widget._callback.call(newTransaction);
     navigateBack(context);
     displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.transaction));
+    GoogleAnalytics.instance.logTransactionSaved(widget.currentTransaction == null, newTransaction);
   }
 
   String? _validatorFunction(String? value) {
@@ -52,7 +53,7 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   @override
-  Widget build(BuildContext context) {  // TODO- consider build generic Form
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: MinorAppBar(widget.currentTransaction != null ? Languages.of(context)!.editTransaction : Languages.of(context)!.addTransaction),
       body: Form(
@@ -72,7 +73,6 @@ class _SetTransactionState extends State<SetTransaction> {
               validatorFunction: _validatorFunction,
             ),
             // TODO- use here generic datePicker for date
-            // TODO- use here generic radio button for isConstant
             BorderTextBox(
               _transactionDescriptionController,
               Languages.of(context)!.addDescription,
