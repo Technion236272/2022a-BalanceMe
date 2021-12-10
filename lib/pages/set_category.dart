@@ -55,36 +55,52 @@ class _SetCategoryState extends State<SetCategory> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       appBar: MinorAppBar(widget.currentCategory != null ? Languages.of(context)!.editCategory : Languages.of(context)!.addCategory),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            BorderTextBox(
-                _categoryNameController,
-                Languages.of(context)!.categoryName,
-                initialValue: widget.currentCategory != null? widget.currentCategory!.name : null,
-                validatorFunction: _validatorFunction,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 40.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 280,
+                  child: BorderTextBox(
+                      _categoryNameController,
+                      Languages.of(context)!.categoryName,
+                      initialValue: widget.currentCategory != null? widget.currentCategory!.name : null,
+                      validatorFunction: _validatorFunction,
+                  ),
+                ),
+                SizedBox(
+                  width: 280,
+                  child: NoBorderTextBox(
+                      _categoryExpectedController,
+                      Languages.of(context)!.expected,
+                      initialValue: widget.currentCategory != null? widget.currentCategory!.expected.toString() : null,
+                      validatorFunction: _validatorFunction,
+                  ),
+                ),
+                // TODO- use here generic radio button
+                SizedBox(
+                  height: 200,
+                  child: BorderTextBox(
+                      _categoryDescriptionController,
+                      Languages.of(context)!.addDescription,
+                      isMultiline: true,
+                      initialValue: widget.currentCategory != null? widget.currentCategory!.description : null,
+                  ),
+                ),
+                ElevatedButton(
+                    onPressed: _saveCategory,
+                    child: Text(Languages.of(context)!.save),
+                )
+              ],
             ),
-            NoBorderTextBox(
-                _categoryExpectedController,
-                Languages.of(context)!.expected,
-                initialValue: widget.currentCategory != null? widget.currentCategory!.expected.toString() : null,
-                validatorFunction: _validatorFunction,
-            ),
-            // TODO- use here generic radio button
-            BorderTextBox(
-                _categoryDescriptionController,
-                Languages.of(context)!.addDescription,
-                isMultiline: true,
-                initialValue: widget.currentCategory != null? widget.currentCategory!.description : null,
-            ),
-            ElevatedButton(
-                onPressed: _saveCategory,
-                child: Text(Languages.of(context)!.save),
-            )
-          ],
+          ),
         ),
       ),
     );
