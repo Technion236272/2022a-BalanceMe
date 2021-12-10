@@ -112,3 +112,6 @@ double welcomeTop = leftCircleTop + 30;
 double balanceInfoTop = leftCircleTop + 80;
 double startedInfoTop = leftCircleTop + 130;
 Color backgroundDesignColor = Colors.grey.shade300;
+
+//ListView
+Color dividerColor=Colors.blueGrey;
