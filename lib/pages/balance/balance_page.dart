@@ -8,14 +8,13 @@ import 'package:balance_me/widgets/generic_tabs.dart';
 import 'package:balance_me/global/types.dart';
 
 class BalancePage extends StatelessWidget {
-  const BalancePage(this._balanceModel, this._saveBalanceModelCB, this._changeCurrentTab, {Key? key}) : super(key: key);
+  const BalancePage(this._balanceModel, this._changeCurrentTab, {Key? key}) : super(key: key);
 
   final BalanceModel _balanceModel;
-  final VoidCallback _saveBalanceModelCB;
   final VoidCallbackInt _changeCurrentTab;
 
   Widget _getTabBarView(List<Category> categoriesList){
-    return categoriesList.isNotEmpty ? CategoriesType(categoriesList, _saveBalanceModelCB) : Container();
+    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : Container();
   }
 
   @override

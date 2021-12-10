@@ -1,5 +1,7 @@
 // ================= Category Header =================
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:balance_me/common_models/category_model.dart';
@@ -26,8 +28,10 @@ class _CategoryHeaderState extends State<CategoryHeader> {
     navigateToPage(context, SetTransaction(widget._saveTransactionCallback));
   }
 
-  void _deleteCategory() {
-    // TODO
+  void _deleteCategory() {  // TODO- setState might render only the header and not the all tree
+    setState(() {
+      Provider.of<UserStorage>(context, listen: false).removeCategory(widget._category);
+    });
   }
 
   Future<void> _confirmRemoval() async {

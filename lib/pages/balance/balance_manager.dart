@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/pages/balance/balance_model.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/pages/balance/balance_page.dart';
 import 'package:balance_me/pages/welcome.dart';
@@ -23,27 +22,18 @@ class BalanceManager extends StatefulWidget {
 }
 
 class _BalanceManagerState extends State<BalanceManager> {
-  BalanceModel _balanceModel = BalanceModel();
   bool _waitingForData = true;
   bool _isIncomeTab = true;
 
   void _init() {
     if (widget._authRepository.status == Status.Authenticated) {  // TODO- verify the case that user doesn't have data
-      widget._userStorage.GET_balanceModel(_parseBalanceDataCB, _createNewBalanceCB, getCurrentMonthPerEndMonthDay(gc.defaultEndOfMonthDay));
+      widget._userStorage.GET_balanceModel(callback: _stopWaitingForDataCB);
     } else {
       _waitingForData = false;
     }
   }
 
-  void _parseBalanceDataCB(Json? categories) {
-    if (categories != null) {
-      _balanceModel = BalanceModel.fromJson(categories);
-    }
-    _waitingForData = false;
-  }
-
-  void _createNewBalanceCB() {
-    _saveBalanceModel();
+  void _stopWaitingForDataCB() {
     setState(() {
       _waitingForData = false;
     });
@@ -55,21 +45,23 @@ class _BalanceManagerState extends State<BalanceManager> {
     super.initState();
   }
 
-  void _addCategory(Category newCategory) {
-    List<Category> categoryListType = newCategory.isIncome ? _balanceModel.incomeCategories : _balanceModel.expensesCategories;
-
-    setState(() {
-      categoryListType.add(newCategory);
-    });
-
-    _saveBalanceModel();
-  }
-
-  void _saveBalanceModel() {  // TODO- think what should we do with constants transactions
-    if (widget._authRepository.status == Status.Authenticated && widget._userStorage.userData != null) {
-      widget._userStorage.SEND_balanceModel(_balanceModel.toJson(), getCurrentMonthPerEndMonthDay(widget._userStorage.userData!.endOfMonthDay));
-    }
-  }
+  // void _changeCategory(Category newCategory, bool toAdd) {
+  //   List<Category> categoryListType = newCategory.isIncome ? widget._userStorage.balance.incomeCategories : widget._userStorage.balance.expensesCategories;
+  //
+  //   setState(() {
+  //     toAdd ? categoryListType.add(newCategory) : categoryListType.remove(newCategory);
+  //   });
+  //
+  //   widget._userStorage.SEND_balanceModel();
+  // }
+  //
+  // void _addCategory(Category newCategory) {
+  //   _changeCategory(newCategory, true);
+  // }
+  //
+  // void _removeCategory(Category newCategory) {
+  //   _changeCategory(newCategory, false);
+  // }
 
   bool get isIncomeTab => _isIncomeTab;
 
@@ -78,7 +70,7 @@ class _BalanceManagerState extends State<BalanceManager> {
   }
 
   void _openAddCategory() {
-    navigateToPage(context, SetCategory(_addCategory, isIncomeTab));
+    navigateToPage(context, SetCategory(widget._userStorage.addCategory, isIncomeTab));
   }
 
   @override
@@ -86,8 +78,8 @@ class _BalanceManagerState extends State<BalanceManager> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: _waitingForData ? const Center(child: CircularProgressIndicator())
-      : (_balanceModel.isEmpty) ?
-        const WelcomePage() : SingleChildScrollView(child: BalancePage(_balanceModel, _saveBalanceModel, _setCurrentTab)),
+      : (widget._userStorage.balance.isEmpty) ?
+        const WelcomePage() : SingleChildScrollView(child: BalancePage(widget._userStorage.balance, _setCurrentTab)),
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddCategory,
         child: const Icon(gc.addIcon),

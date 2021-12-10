@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class TransactionEntry extends StatefulWidget {
-  const TransactionEntry(this._transaction, {Key? key}) : super(key: key);
+  const TransactionEntry(this._transaction, this._removeTransactionCB, {Key? key}) : super(key: key);
 
   final Transaction _transaction;
+  final VoidCallbackTransaction _removeTransactionCB;
 
   @override
   _TransactionEntryState createState() => _TransactionEntryState();
@@ -16,16 +18,15 @@ class TransactionEntry extends StatefulWidget {
 
 class _TransactionEntryState extends State<TransactionEntry> {
   void _openTransactionDetails() {
-    // TODO- replace to Details screen after it will be implemented. probably parameters: _transaction and isIncome (take from parent)
-    navigateToPage(context, Scaffold());
-  }
-
-  void _deleteTransaction() {
-
+    // TODO
   }
 
   void _editTransaction() {
     // TODO
+  }
+
+  void _closeDialogCallback() {
+    navigateBack(context);
   }
 
   Future<void> _confirmRemoval() async {
@@ -37,12 +38,8 @@ class _TransactionEntryState extends State<TransactionEntry> {
   }
 
   void _confirmRemovalCallback() {
-    _deleteTransaction();
+    widget._removeTransactionCB(widget._transaction);
     _closeDialogCallback();
-  }
-
-  void _closeDialogCallback() {
-    navigateBack(context);
   }
 
   Future<bool?> _transactionDismissed(DismissDirection direction) async {
@@ -62,9 +59,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
                 color: gc.secondaryColor,
               ),
               Text(
-                Languages.of(context)!
-                    .delete
-                    .replaceAll("%", Languages.of(context)!.transaction),
+                Languages.of(context)!.delete.replaceAll("%", Languages.of(context)!.transaction),
                 style: const TextStyle(
                   color: gc.secondaryColor,
                 ),
