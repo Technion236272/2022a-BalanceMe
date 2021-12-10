@@ -139,8 +139,7 @@ class AuthRepository with ChangeNotifier {
         Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
         return await storageReference.getDownloadURL();
       }
-
-
+      return null;
     } catch (e) {
       return null;
     }
