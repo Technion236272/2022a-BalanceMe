@@ -27,11 +27,6 @@ class _CategoryComplexState extends State<CategoryComplex> {
     });
   }
 
-  void _addTransaction(Transaction transaction) {
-    Provider.of<UserStorage>(context, listen: false).addTransaction(widget._category, transaction);
-    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
-  }
-
   void _removeTransaction(Transaction transaction) {
     Provider.of<UserStorage>(context, listen: false).removeTransaction(widget._category, transaction);
     displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
@@ -50,7 +45,7 @@ class _CategoryComplexState extends State<CategoryComplex> {
     return Card(
       child: Column(
         children: [
-          CategoryHeader(widget._category, _isCategoryOpen, _toggleCategory, _addTransaction),
+          CategoryHeader(widget._category, _isCategoryOpen, _toggleCategory),
           _isCategoryOpen ?  // TODO- add animation
           Column(
             children: getTransactions(),

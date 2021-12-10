@@ -5,18 +5,17 @@ import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:balance_me/common_models/category_model.dart';
+import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/pages/set_transaction.dart';
 import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class CategoryHeader extends StatefulWidget {
-  const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, this._saveTransactionCallback, {Key? key}) : super(key: key);
+  const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, {Key? key}) : super(key: key);
 
   final Category _category;
   final bool _isCategoryOpen;
   final VoidCallback _toggleCategory;
-  final VoidCallbackTransaction _saveTransactionCallback;
 
   @override
   State<CategoryHeader> createState() => _CategoryHeaderState();
@@ -24,11 +23,16 @@ class CategoryHeader extends StatefulWidget {
 
 class _CategoryHeaderState extends State<CategoryHeader> {
 
-  void _addTransaction() {
-    navigateToPage(context, SetTransaction(widget._saveTransactionCallback));
+  void _addTransaction(Transaction transaction) {
+    Provider.of<UserStorage>(context, listen: false).addTransaction(widget._category, transaction);
+    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
   }
 
-  void _deleteCategory() {
+  void _openAddTransactionPage() {
+    navigateToPage(context, SetTransaction(_addTransaction));
+  }
+
+  void _removeCategory() {
     Provider.of<UserStorage>(context, listen: false).removeCategory(widget._category);
     displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.category));
   }
@@ -42,7 +46,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
   }
 
   void _confirmRemovalCallback() {
-    _deleteCategory();
+    _removeCategory();
     _closeDialogCallback();
   }
 
@@ -63,7 +67,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               gc.inPracticeExpectedSeparator +
               widget._category.expected.toMoneyFormat()),
           IconButton(
-            onPressed: _addTransaction,
+            onPressed: _openAddTransactionPage,
             icon: const Icon(gc.addIcon),
           ),
           IconButton(

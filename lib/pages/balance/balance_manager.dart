@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/pages/balance/balance_page.dart';
 import 'package:balance_me/pages/welcome.dart';
 import 'package:balance_me/pages/set_category.dart';
@@ -25,11 +24,19 @@ class _BalanceManagerState extends State<BalanceManager> {
   bool _waitingForData = true;
   bool _isIncomeTab = true;
 
+  bool get isIncomeTab => _isIncomeTab;
+
+  @override
+  void initState() {
+    _init();
+    super.initState();
+  }
+
   void _init() {
     if (widget._authRepository.status == Status.Authenticated) {  // TODO- verify the case that user doesn't have data
       widget._userStorage.GET_balanceModel(callback: _stopWaitingForDataCB);
     } else {
-      _waitingForData = false;
+      _stopWaitingForDataCB();
     }
   }
 
@@ -38,32 +45,6 @@ class _BalanceManagerState extends State<BalanceManager> {
       _waitingForData = false;
     });
   }
-
-  @override
-  void initState() {
-    _init();
-    super.initState();
-  }
-
-  // void _changeCategory(Category newCategory, bool toAdd) {
-  //   List<Category> categoryListType = newCategory.isIncome ? widget._userStorage.balance.incomeCategories : widget._userStorage.balance.expensesCategories;
-  //
-  //   setState(() {
-  //     toAdd ? categoryListType.add(newCategory) : categoryListType.remove(newCategory);
-  //   });
-  //
-  //   widget._userStorage.SEND_balanceModel();
-  // }
-  //
-  // void _addCategory(Category newCategory) {
-  //   _changeCategory(newCategory, true);
-  // }
-  //
-  // void _removeCategory(Category newCategory) {
-  //   _changeCategory(newCategory, false);
-  // }
-
-  bool get isIncomeTab => _isIncomeTab;
 
   void _setCurrentTab(int currentTab) {
     _isIncomeTab = currentTab == 0;
