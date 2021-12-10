@@ -146,8 +146,19 @@ class _SetCategoryState extends State<SetCategory> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: gc.bigTextFieldsPadding,
-                      right: gc.bigTextFieldsPadding),
+                      top: gc.generalTextFieldsPadding,
+                      bottom: gc.generalTextFieldsPadding),
+                  child: IconButton(
+                    onPressed: (){},
+                    icon: const Icon(Icons.edit),
+                    iconSize: gc.editIconSize,
+                    color: gc.primaryColor,
+                    disabledColor: gc.disabledColor.withOpacity(0.0),),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: gc.generalTextFieldsPadding,
+                      right: gc.generalTextFieldsPadding),
                   child: ListViewGeneric(leadingWidgets: [
                     Text(Languages.of(context)!.typeSelection),
                   ], trailingWidgets: [
@@ -162,9 +173,9 @@ class _SetCategoryState extends State<SetCategory> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: gc.bigTextFieldsPadding,
-                      left: gc.bigTextFieldsPadding,
-                      right: gc.bigTextFieldsPadding),
+                      top: gc.generalTextFieldsPadding,
+                      left: gc.generalTextFieldsPadding,
+                      right: gc.generalTextFieldsPadding),
                   child: _textFieldDesign(
                       _categoryDescriptionController,
                       gc.maxLinesExpended,
