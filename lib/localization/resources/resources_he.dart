@@ -165,4 +165,8 @@ class LanguageHe extends Languages {
 
   @override
   String get verifyRemoval => "‎האם למחוק את ה%?";
+
+  //Add category
+  @override
+  String get typeSelection => "‎סוג";
 }

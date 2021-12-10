@@ -71,4 +71,7 @@ abstract class Languages {
   String get removeSucceeded;
   String get delete;
   String get verifyRemoval;
+
+  //Add category
+  String get typeSelection;
 }

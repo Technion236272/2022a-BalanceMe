@@ -124,4 +124,6 @@ const EdgeInsets topPadding = EdgeInsets.only(top: 40.0);
 const double smallTextFields = 280;
 const double bigTextFieldsPadding = 8.0;
 const double inputFontSize = 45;
-const int maxLinesExpended = 8;
+Color inputFontColor = Colors.grey.shade700;
+const int maxLinesExpended = 10;
+const double buttonPadding = 120.0;

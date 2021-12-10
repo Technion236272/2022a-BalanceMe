@@ -44,6 +44,7 @@ class _ListViewGenericState extends State<ListViewGeneric> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      shrinkWrap: true,
       children: listViewTilesBuild(),
     );
   }
