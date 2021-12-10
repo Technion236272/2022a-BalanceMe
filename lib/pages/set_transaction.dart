@@ -9,6 +9,7 @@ import 'package:balance_me/widgets/text_box_without_border.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
   const SetTransaction(this._callback, {this.currentTransaction, Key? key}) : super(key: key);
@@ -69,36 +70,49 @@ class _SetTransactionState extends State<SetTransaction> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: MinorAppBar(widget.currentTransaction != null ? Languages.of(context)!.editTransaction : Languages.of(context)!.addTransaction),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            BorderTextBox(
-              _transactionNameController,
-              Languages.of(context)!.transactionName,
-              initialValue: widget.currentTransaction != null? widget.currentTransaction!.name : null,
-              validatorFunction: _validatorFunction,
-            ),
-            NoBorderTextBox(
-              _transactionAmountController,
-              Languages.of(context)!.amount,
-              isNumeric: true,
-              initialValue: widget.currentTransaction != null? widget.currentTransaction!.amount.toString() : null,
-              validatorFunction: _validatorFunction,
-            ),
-            // TODO- use here generic datePicker for date
-            BorderTextBox(
-              _transactionDescriptionController,
-              Languages.of(context)!.addDescription,
-              initialValue: widget.currentTransaction != null? widget.currentTransaction!.description : null,
-            ),
-            ActionButton(  // TODO- you can design this button by giving "style" parameter
-              performingSave,
-              Languages.of(context)!.save,
-              _saveTransaction,
-            ),
-          ],
+      body: Padding(
+        padding:  gc.topPadding,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              SizedBox(
+                width: gc.smallTextFields,
+                child: BorderTextBox(
+                  _transactionNameController,
+                  Languages.of(context)!.transactionName,
+                  initialValue: widget.currentTransaction != null? widget.currentTransaction!.name : null,
+                  validatorFunction: _validatorFunction,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(
+                width: gc.smallTextFields,
+                child: NoBorderTextBox(
+                  _transactionAmountController,
+                  Languages.of(context)!.amount,
+                  isNumeric: true,
+                  initialValue: widget.currentTransaction != null? widget.currentTransaction!.amount.toString() : null,
+                  validatorFunction: _validatorFunction,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: gc.inputFontSize, color: Colors.grey.shade700),
+                ),
+              ),
+              // TODO- use here generic datePicker for date
+              BorderTextBox(
+                _transactionDescriptionController,
+                Languages.of(context)!.addDescription,
+                initialValue: widget.currentTransaction != null? widget.currentTransaction!.description : null,
+              ),
+              ActionButton(  // TODO- you can design this button by giving "style" parameter
+                performingSave,
+                Languages.of(context)!.save,
+                _saveTransaction,
+              ),
+            ],
+          ),
         ),
       ),
     );
