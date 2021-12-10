@@ -36,6 +36,7 @@ const Color tabColor = Color(0xffd3ff21);
 const Color linkColors = Color(0xffbc21ff);
 const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
+const Color disabledColor = Colors.black38;
 
 // AppBar
 const double appBarAvatarRadius = 40;
@@ -84,7 +85,7 @@ double tabBodyHeightResize = 4 / 5;
 double tabFontSize = 16.0;
 double tabPadding = 5.0;
 
-//Images
+//images
 String wallet = 'assets/images/wallet.jpg';
 String balance = 'assets/images/balance-circle.png';
 String lock = 'assets/images/lock.png';
@@ -111,6 +112,9 @@ double welcomeTop = leftCircleTop + 30;
 double balanceInfoTop = leftCircleTop + 80;
 double startedInfoTop = leftCircleTop + 130;
 Color backgroundDesignColor = Colors.grey.shade300;
+
+//ListView
+Color dividerColor=Colors.blueGrey;
 
 //TextBox
 const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
