@@ -10,6 +10,7 @@ import 'package:balance_me/widgets/text_box_without_border.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class SetCategory extends StatefulWidget {
   const SetCategory(this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key);
@@ -79,13 +80,13 @@ class _SetCategoryState extends State<SetCategory> {
       appBar: MinorAppBar(widget.currentCategory != null ? Languages.of(context)!.editCategory : Languages.of(context)!.addCategory),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 40.0),
+          padding: gc.topPadding,
           child: Form(
             key: _formKey,
             child: Column(
               children: [
                 SizedBox(
-                  width: 280,
+                  width: gc.smallTextFields,
                   child: BorderTextBox(
                       _categoryNameController,
                       Languages.of(context)!.categoryName,
@@ -95,7 +96,7 @@ class _SetCategoryState extends State<SetCategory> {
                   ),
                 ),
                 SizedBox(
-                  width: 280,
+                  width: gc.smallTextFields,
                   child: NoBorderTextBox(
                     _categoryExpectedController,
                     Languages.of(context)!.expected,
@@ -103,28 +104,20 @@ class _SetCategoryState extends State<SetCategory> {
                     initialValue: widget.currentCategory != null? widget.currentCategory!.expected.toString() : null,
                     validatorFunction: _validatorFunction,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 45, color: Colors.grey.shade700),
+                    style: TextStyle(fontSize: gc.inputFontSize, color: Colors.grey.shade700),
                   ),
                 ),
                 GenericRadioButton(
                   [Languages.of(context)!.income, Languages.of(context)!.expense],
                   _categoryTypeController!,
                 ),
-                SizedBox(
-                  height: 200,
-                  child: NoBorderTextBox(  // TODO- support long TextField
-                    _categoryDescriptionController,
-                    Languages.of(context)!.addDescription,
-                    initialValue: widget.currentCategory != null? widget.currentCategory!.description : null,
-                    style: const TextStyle(
-                      height: 10
-                    ),
-                    decoration: InputDecoration(
-                      hintText: widget.currentCategory!.description,
-                      border: OutlineInputBorder(
-                      )
-                    ),
+                BorderTextBox(  // TODO- support long TextField
+                  _categoryDescriptionController,
+                  Languages.of(context)!.addDescription,
+                  initialValue: widget.currentCategory != null? widget.currentCategory!.description : null,
+                  style: const TextStyle(
                   ),
+                  maxLine: gc.maxLinesExpended,
                 ),
                 ActionButton(  // TODO- you can design this button by giving "style" parameter
                   performingSave,
