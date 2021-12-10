@@ -29,6 +29,7 @@ const Color tabColor = Color(0xffd3ff21);
 const Color linkColors = Color(0xffbc21ff);
 const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
+const Color disabledColor = Colors.black38;
 
 // AppBar
 const double appBarAvatarRadius = 40;
