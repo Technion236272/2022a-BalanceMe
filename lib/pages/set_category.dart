@@ -69,6 +69,17 @@ class _SetCategoryState extends State<SetCategory> {
     return essentialFieldValidator(value, Languages.of(context)!.essentialField);
   }
 
+  OutlineInputBorder focusBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(gc.textFieldRadius),
+      borderSide: BorderSide(
+        color: gc.primaryColor,
+        width: gc.borderWidth,
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
@@ -85,12 +96,22 @@ class _SetCategoryState extends State<SetCategory> {
               children: [
                 SizedBox(
                   width: gc.smallTextFields,
-                  child: BorderTextBox(
-                      _categoryNameController,
-                      Languages.of(context)!.categoryName,
+                  child: TextFormField(
+                      controller: _categoryNameController,
+                      keyboardType: TextInputType.multiline,
+                      minLines: 1,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: Languages.of(context)!.categoryName,
+                        hintStyle: gc.defaultHintStyle,
+                        border: focusBorder(),
+                        focusedBorder: focusBorder(),
+                        enabledBorder: focusBorder(),
+                        errorBorder: focusBorder(),
+                      ),
+                      textAlign: TextAlign.center,
                       initialValue: widget.currentCategory != null? widget.currentCategory!.name : null,
-                      validatorFunction: _validatorFunction,
-                    textAlign: TextAlign.center,
+                      validator: _validatorFunction,
                   ),
                 ),
                 SizedBox(
@@ -109,13 +130,25 @@ class _SetCategoryState extends State<SetCategory> {
                   [Languages.of(context)!.income, Languages.of(context)!.expense],
                   _categoryTypeController!,
                 ),
-                BorderTextBox(  // TODO- support long TextField
-                  _categoryDescriptionController,
-                  Languages.of(context)!.addDescription,
-                  initialValue: widget.currentCategory != null? widget.currentCategory!.description : null,
-                  style: const TextStyle(
+                Padding(
+                  padding: const EdgeInsets.only(left: gc.bigTextFieldsPadding, right: gc.bigTextFieldsPadding),
+                  child: TextFormField(
+                    controller: _categoryNameController,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 1,
+                    maxLines: gc.maxLinesExpended,
+                    decoration: InputDecoration(
+                      hintText: Languages.of(context)!.addDescription,
+                      hintStyle: gc.defaultHintStyle,
+                      border: focusBorder(),
+                      focusedBorder: focusBorder(),
+                      enabledBorder: focusBorder(),
+                      errorBorder: focusBorder(),
+                    ),
+                    textAlign: TextAlign.center,
+                    initialValue: widget.currentCategory != null? widget.currentCategory!.name : null,
+                    validator: _validatorFunction,
                   ),
-                  maxLine: gc.maxLinesExpended,
                 ),
                 ActionButton(  // TODO- you can design this button by giving "style" parameter
                   performingSave,
