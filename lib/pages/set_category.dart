@@ -1,17 +1,21 @@
 // ================= Set Category =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/common_models/category_model.dart';
+import 'package:balance_me/widgets/generic_radio_button.dart';
+import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/text_box_without_border.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 
 class SetCategory extends StatefulWidget {
-  const SetCategory(this._callback, {this.currentCategory, Key? key}) : super(key: key);
+  const SetCategory(this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key);
 
   final VoidCallbackCategory _callback;
+  final bool _isIncomeTab;  // TODO- check adding income in tab expenses
   final Category? currentCategory;
 
   @override
@@ -23,6 +27,16 @@ class _SetCategoryState extends State<SetCategory> {
   final TextEditingController _categoryNameController = TextEditingController();
   final TextEditingController _categoryExpectedController = TextEditingController();
   final TextEditingController _categoryDescriptionController = TextEditingController();
+  PrimitiveWrapper? _categoryTypeController;
+  bool _performingSave = false;
+
+  bool get performingSave => _performingSave;
+
+  void _updatePerformingSave(bool state) {
+    setState(() {
+      _performingSave = state;
+    });
+  }
 
   @override
   void dispose() {
@@ -32,13 +46,12 @@ class _SetCategoryState extends State<SetCategory> {
     super.dispose();
   }
 
-  void _saveCategory() {  // TODO- log to GA and SnackBar (verify above the FAB- also after login), also in Transaction
-    // TODO- use generic RadioButton
-    print(_formKey.currentState);
+  void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
+    _updatePerformingSave(true);
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       Category newCategory = Category(
           _categoryNameController.text.toString(),
-          true,
+          _categoryTypeController!.value == Languages.of(context)!.income,
           double.parse(_categoryExpectedController.text.toString()),
           _categoryDescriptionController.text.toString()
       );
@@ -46,7 +59,9 @@ class _SetCategoryState extends State<SetCategory> {
       widget._callback.call(newCategory);
       navigateBack(context);
       displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.category));
+      GoogleAnalytics.instance.logCategorySaved(widget.currentCategory == null, newCategory);
     }
+    _updatePerformingSave(false);
   }
 
   String? _validatorFunction(String? value) {
@@ -57,7 +72,10 @@ class _SetCategoryState extends State<SetCategory> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
+
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: MinorAppBar(widget.currentCategory != null ? Languages.of(context)!.editCategory : Languages.of(context)!.addCategory),
       body: SingleChildScrollView(
         child: Padding(
@@ -73,31 +91,46 @@ class _SetCategoryState extends State<SetCategory> {
                       Languages.of(context)!.categoryName,
                       initialValue: widget.currentCategory != null? widget.currentCategory!.name : null,
                       validatorFunction: _validatorFunction,
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 SizedBox(
                   width: 280,
                   child: NoBorderTextBox(
-                      _categoryExpectedController,
-                      Languages.of(context)!.expected,
-                      initialValue: widget.currentCategory != null? widget.currentCategory!.expected.toString() : null,
-                      validatorFunction: _validatorFunction,
+                    _categoryExpectedController,
+                    Languages.of(context)!.expected,
+                    isNumeric: true,
+                    initialValue: widget.currentCategory != null? widget.currentCategory!.expected.toString() : null,
+                    validatorFunction: _validatorFunction,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 45, color: Colors.grey.shade700),
                   ),
                 ),
-                // TODO- use here generic radio button
+                GenericRadioButton(
+                  [Languages.of(context)!.income, Languages.of(context)!.expense],
+                  _categoryTypeController!,
+                ),
                 SizedBox(
                   height: 200,
-                  child: BorderTextBox(
-                      _categoryDescriptionController,
-                      Languages.of(context)!.addDescription,
-                      isMultiline: true,
-                      initialValue: widget.currentCategory != null? widget.currentCategory!.description : null,
+                  child: NoBorderTextBox(  // TODO- support long TextField
+                    _categoryDescriptionController,
+                    Languages.of(context)!.addDescription,
+                    initialValue: widget.currentCategory != null? widget.currentCategory!.description : null,
+                    style: const TextStyle(
+                      height: 10
+                    ),
+                    decoration: InputDecoration(
+                      hintText: widget.currentCategory!.description,
+                      border: OutlineInputBorder(
+                      )
+                    ),
                   ),
                 ),
-                ElevatedButton(
-                    onPressed: _saveCategory,
-                    child: Text(Languages.of(context)!.save),
-                )
+                ActionButton(  // TODO- you can design this button by giving "style" parameter
+                  performingSave,
+                  Languages.of(context)!.save,
+                  _saveCategory,
+                ),
               ],
             ),
           ),

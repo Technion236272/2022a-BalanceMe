@@ -5,12 +5,12 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class BorderTextBox extends StatelessWidget {
-  const BorderTextBox(this._controller, this._hintText, {this.hideText = false, this.suffix, this.isMultiline, this.initialValue, this.validatorFunction, Key? key}) : super(key: key);
+  const BorderTextBox(this._controller, this._hintText, {this.hideText = false, this.suffix, this.isNumeric, this.initialValue, this.validatorFunction, Key? key}) : super(key: key);
 
   final TextEditingController _controller;
   final String? _hintText;
   final bool hideText;
-  final bool? isMultiline;
+  final bool? isNumeric;
   final String? initialValue;
   final Widget? suffix;
   final StringCallbackStringNullable? validatorFunction;
@@ -30,7 +30,7 @@ class BorderTextBox extends StatelessWidget {
     return NoBorderTextBox(_controller, _hintText,
         hideText: hideText,
         suffix: suffix,
-        isMultiline: isMultiline,
+        isNumeric: isNumeric,
         initialValue: initialValue,
         validatorFunction: validatorFunction,
         decoration: InputDecoration(

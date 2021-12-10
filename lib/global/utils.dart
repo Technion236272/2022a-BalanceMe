@@ -1,6 +1,8 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 // Navigation
 void navigateToPage(context, Widget page) {
@@ -23,20 +25,49 @@ void displaySnackBar(BuildContext context, String msg) {
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
-void displayAlertDialog(BuildContext context, String alertTitle, String alertContent, List<Widget> alertActions) {
+Future<void> showAlertDialog(BuildContext context, String alertContent, {String? alertTitle, List<Widget>? alertActions}) async {
   showDialog<String>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
-      title: Text(alertTitle),
+      title: alertTitle == null ? null : Text(alertTitle),
       content: Text(alertContent),
       actions: alertActions,
     ),
   );
 }
 
+Future<void> showYesNoAlertDialog(BuildContext context, String alertContent, VoidCallback _yesCallback, VoidCallback _noCallback, {String? alertTitle}) async {
+  return showAlertDialog(
+    context,
+    alertContent,
+    alertTitle: alertTitle,
+    alertActions: [
+      TextButton(
+        child: Text(Languages.of(context)!.yes),
+        onPressed: _yesCallback,
+      ),
+      TextButton(
+        child: Text(Languages.of(context)!.no),
+        onPressed: _noCallback,
+      ),
+    ]
+  );
+}
+
 // Numbers
 double getPercentage(double amount, double total) {
   return (amount / total) * 100;
+}
+
+// Format
+extension Ex on num {
+  double toPrecision() => double.parse(toStringAsFixed(gc.defaultPrecision));
+  String toMoneyFormat() => toString() + "₪";  // TODO- Refactor in Sprint2. find a way to add the symbol in the correct direction according to the locale
+  String toPercentageFormat() => toString() + "%";
+}
+
+extension Dt on DateTime {
+  String toFullDate() => "$day-$month-$year";  // TODO- find a way to add the symbol in the correct direction according to the locale
 }
 
 // Validators
@@ -47,25 +78,11 @@ String? essentialFieldValidator(String? value, String userMessage) {
   return null;
 }
 
-// Format
-String moneyFormattedString(String string) {
-  // TODO- Refactor in Sprint2. find a way to add the symbol in the correct direction according to the locale
-  return string + "₪";
-}
-
-String percentageFormattedString(String string) {
-  return string + "%";
-}
-
 // Time
 String getCurrentMonthPerEndMonthDay(int endOfMonth) {
   DateTime currentTime = DateTime.now();
   String currentMonth = currentTime.day < endOfMonth ? (currentTime.month - 1).toString() : currentTime.month.toString();
   return currentMonth + currentTime.year.toString();
-}
-
-String getFullDate(DateTime date) {  // TODO- find a way to add the symbol in the correct direction according to the locale
-  return "${date.day}-${date.month}-${date.year}";
 }
 
 // Converters

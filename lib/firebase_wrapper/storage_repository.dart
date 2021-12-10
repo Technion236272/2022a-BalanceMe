@@ -4,7 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/common_models/user_model.dart';
+import 'package:balance_me/pages/balance/balance_model.dart';
+import 'package:balance_me/common_models/category_model.dart' as model;
+import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/firebase_config.dart' as config;
 
 class UserStorage with ChangeNotifier {
@@ -19,6 +23,8 @@ class UserStorage with ChangeNotifier {
   void _buildUserStorage(AuthRepository authRepository) {
     _authRepository = authRepository;
     _userData = (authRepository.user != null) ? UserModel(authRepository.user!.email!) : null;
+    _balance = BalanceModel();
+    notifyListeners();
   }
 
   // ================== Private Fields ==================
@@ -27,9 +33,11 @@ class UserStorage with ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   AuthRepository? _authRepository;
   UserModel? _userData;
+  BalanceModel _balance = BalanceModel();
 
   // Handling
   UserModel? get userData => _userData;
+  BalanceModel get balance => _balance;
 
   void setGroupName(String groupName) {
     if (_userData != null) {
@@ -67,6 +75,35 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  void _changeCategory(model.Category category, bool toAdd) {
+    List<model.Category> categoryListType = category.isIncome ? _balance.incomeCategories : balance.expensesCategories;
+    toAdd ? categoryListType.add(category) : categoryListType.remove(category);
+    SEND_balanceModel();
+    notifyListeners();
+  }
+
+  void addCategory(model.Category category) {
+    _changeCategory(category, true);
+  }
+
+  void removeCategory(model.Category category) {
+    _changeCategory(category, false);
+  }
+
+  void _changeTransaction(model.Category category, model.Transaction transaction, bool toAdd) {
+    toAdd ? category.addTransaction(transaction) : category.removeTransaction(transaction);
+    SEND_balanceModel();
+    notifyListeners();
+  }
+
+  void addTransaction(model.Category category, model.Transaction transaction) {
+    _changeTransaction(category, transaction, true);
+  }
+
+  void removeTransaction(model.Category category, model.Transaction transaction) {
+    _changeTransaction(category, transaction, false);
+  }
+
   // ================== Requests ==================
 
   // GET
@@ -86,14 +123,18 @@ class UserStorage with ChangeNotifier {
   }
 
 
-  Future<void> GET_balanceModel(JsonCallbackJson callback, String date) async {
+  Future<void> GET_balanceModel({VoidCallback? callback, String? date}) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
+      date = date ?? getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay);
       await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).get().then((categories) {
         if (categories.exists && categories.data() != null) {
-          callback.call(categories.data()![config.categoriesDoc]);
+          _balance = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
+          callback != null ? callback() : null;
           notifyListeners();
         } else {
-          GoogleAnalytics.instance.logPostLoginFailed(categories);
+          callback != null ? callback() : null;
+          notifyListeners();
+          GoogleAnalytics.instance.logGetBalanceFailed(categories);
         }
       });
     } else if (_authRepository != null) {
@@ -112,10 +153,11 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_balanceModel(Json balanceModel, String date) async {
+  void SEND_balanceModel({String? date}) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
+      date = date ?? getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay);
       await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).set({
-        config.categoriesDoc: balanceModel,
+        config.categoriesDoc: _balance.toJson()
       });
     } else if (_authRepository != null) {
       GoogleAnalytics.instance.logPreCheckFailed("SEND_categories", _authRepository!);

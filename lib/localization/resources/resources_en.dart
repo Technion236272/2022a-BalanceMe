@@ -18,6 +18,12 @@ class LanguageEn extends Languages {
   @override
   String get essentialField => "this is an essential field";
 
+  @override
+  String get yes => "Yes";
+
+  @override
+  String get no => "No";
+
 // Login
   @override
   String get welcome => "Welcome";
@@ -99,10 +105,16 @@ class LanguageEn extends Languages {
   String get toGetStartedInfo => "To get started you can login or just \nexperience the app";
 
   @override
+  String get expense => "Expense";
+
+  @override
   String get expenses => "Expenses";
 
   @override
   String get income => "Income";
+
+  @override
+  String get incomes => "Incomes";
 
   @override
   String get now => "Now";
@@ -144,5 +156,14 @@ class LanguageEn extends Languages {
   String get save => "SAVE";
 
   @override
-  String get saveSucceeded => "The % saved successfully";
+  String get saveSucceeded => "The % has been saved successfully";
+
+  @override
+  String get removeSucceeded => "The % has been removed successfully";
+
+  @override
+  String get delete => "Delete %";
+
+  @override
+  String get verifyRemoval => "Are you sure you want to remove this %?";
 }
