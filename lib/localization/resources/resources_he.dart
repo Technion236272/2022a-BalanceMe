@@ -45,6 +45,12 @@ class LanguageHe extends Languages {
   @override
   String get newPassword => "‎סיסמה חדשה";
 
+  @override
+  String get passwordUpdate => "הקלד סיסמה חדשה למשתמש שלך‎";
+
+  @override
+  String get finish => "‎סיום";
+
   // Login
   @override
   String get welcome => "‎ברוך הבא";

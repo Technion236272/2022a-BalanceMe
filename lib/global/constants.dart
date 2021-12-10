@@ -92,6 +92,8 @@ double tabPadding = 5.0;
 //images
 String wallet = 'assets/images/wallet.jpg';
 String lock = 'assets/images/lock.png';
+String key = 'assets/images/key.jpg';
+double keyScale=4.0;
 double walletScale = 5.0;
 
 // RingPieChart
@@ -104,4 +106,5 @@ Color pieCharDefaultCategoryColor = Colors.white;
 Color dividerColor=Colors.blueGrey;
 
 //settings
+const double newPasswordSize=22.0;
 

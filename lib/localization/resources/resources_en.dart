@@ -27,8 +27,10 @@ class LanguageEn extends Languages {
 
   @override
   String get passwordSettings => "Change Password";
+
   @override
   String get darkModeSettings => "Dark mode";
+
   @override
   String get endOfMonthSettings => "End of month";
 
@@ -40,6 +42,12 @@ class LanguageEn extends Languages {
 
   @override
   String get newPassword => "New Password";
+
+  @override
+  String get passwordUpdate => "Type in a new password for your user";
+
+  @override
+  String get finish => "FINISH";
 
 // Login
   @override

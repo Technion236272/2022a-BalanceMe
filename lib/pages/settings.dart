@@ -4,12 +4,12 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
 import 'package:balance_me/global/project_config.dart' as config;
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/widgets/generic_radio_button.dart';
+import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 
@@ -20,8 +20,10 @@ class Settings extends StatefulWidget {
   _SettingsState createState() => _SettingsState();
 }
 
-
 class _SettingsState extends State<Settings> {
+  TextEditingController controllerNewPassword = TextEditingController();
+  TextEditingController controllerConfirmPassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,19 +34,40 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget mainSettingsList() {
-    List<Widget?>leadingSettings=[Text(Languages.of(context)!.profileSettings),
-      Text(Languages.of(context)!.groupSettings),Text(Languages.of(context)!.passwordSettings),
-      Text(Languages.of(context)!.darkModeSettings),Text(Languages.of(context)!.endOfMonthSettings),
-      Text(Languages.of(context)!.languageSettings), Text(Languages.of(context)!.versionSettings)];
-    List<Widget?>trailingSettings=[IconButton(onPressed:(){navigateToPage(context, getProfileScreen()) ;}, icon: gc.settingArrow),
-    IconButton(onPressed:(){navigateToPage(context, getGroupScreen()) ;}, icon: gc.settingArrow,)
-   ,IconButton(onPressed:(){navigateToPage(context, getChangePasswordScreen()) ;}, icon: gc.settingArrow)
-    ,Switch(value: isDark(), onChanged: setDarkMode),
-      daysOfMonthRadio(),LanguageDropDown(),Text(config.projectVersion)
+    List<Widget?> leadingSettings = [
+      Text(Languages.of(context)!.profileSettings),
+      Text(Languages.of(context)!.groupSettings),
+      Text(Languages.of(context)!.passwordSettings),
+      Text(Languages.of(context)!.darkModeSettings),
+      Text(Languages.of(context)!.endOfMonthSettings),
+      Text(Languages.of(context)!.languageSettings),
+      Text(Languages.of(context)!.versionSettings)
     ];
-    return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings);
+    List<Widget?> trailingSettings = [
+      IconButton(
+          onPressed: () {
+            navigateToPage(context, getProfileScreen());
+          },
+          icon: gc.settingArrow),
+      IconButton(
+        onPressed: () {
+          navigateToPage(context, getGroupScreen());
+        },
+        icon: gc.settingArrow,
+      ),
+      IconButton(
+          onPressed: () {
+            navigateToPage(context, getChangePasswordScreen());
+          },
+          icon: gc.settingArrow),
+      Switch(value: isDark(), onChanged: setDarkMode),
+      daysOfMonthRadio(),
+      LanguageDropDown(),
+      Text(config.projectVersion)
+    ];
+    return ListViewGeneric(
+        leadingWidgets: leadingSettings, trailingWidgets: trailingSettings);
   }
-
 
   Widget getProfileScreen() {
     return Container();
@@ -55,10 +78,34 @@ class _SettingsState extends State<Settings> {
     return Container();
   }
 
-  //TODO: create a password editing screen
+  @override
+  void dispose() {
+    controllerNewPassword.dispose();
+    controllerConfirmPassword.dispose();
+    super.dispose();
+  }
+
+  //TODO: create a password update function
   Widget getChangePasswordScreen() {
     return Scaffold(
       appBar: MinorAppBar(Languages.of(context)!.newPassword),
+      body: Column(
+        children: [
+          Image.asset(gc.key,height: MediaQuery.of(context).size.height/gc.keyScale,),
+          Text(Languages.of(context)!.passwordUpdate,style: TextStyle(fontSize: gc.newPasswordSize),),
+          TextBox(controllerNewPassword, Languages.of(context)!.newPassword),
+          TextBox(controllerConfirmPassword,
+              Languages.of(context)!.confirmPassword),
+          SizedBox(
+            child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        gc.alternativePrimary)),
+                onPressed: () {},
+                child: Text(Languages.of(context)!.finish)),
+          )
+        ],
+      ),
     );
   }
 
@@ -72,21 +119,22 @@ class _SettingsState extends State<Settings> {
     return gc.darkMode;
   }
 
-
   //TODO: set day of the month according to integer from daysOfMonth list
   void setDayOfMonth(Object? value) {}
 
   Widget daysOfMonthRadio() {
-    List<String>options=[];
-    gc.daysOfMonth.forEach((element) {options.add(element.toString());});
-    UserModel? currentUser=UserStorage.instance(AuthRepository.instance()).userData;
-   if(currentUser!=null)
-     {
-       return GenericRadioButton(options, PrimitiveWrapper(currentUser.endOfMonthDay.toString()));
-     }
-   else
-     {
-       return GenericRadioButton(options, PrimitiveWrapper(gc.defaultEndOfMonthDay.toString()));
-     }
+    List<String> options = [];
+    gc.daysOfMonth.forEach((element) {
+      options.add(element.toString());
+    });
+    UserModel? currentUser =
+        UserStorage.instance(AuthRepository.instance()).userData;
+    if (currentUser != null) {
+      return GenericRadioButton(
+          options, PrimitiveWrapper(currentUser.endOfMonthDay.toString()));
+    } else {
+      return GenericRadioButton(
+          options, PrimitiveWrapper(gc.defaultEndOfMonthDay.toString()));
+    }
   }
 }

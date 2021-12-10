@@ -23,6 +23,8 @@ abstract class Languages {
   String get languageSettings;
   String get versionSettings;
   String get newPassword;
+  String get passwordUpdate;
+  String get finish;
 
   // Login
   String get welcome;
