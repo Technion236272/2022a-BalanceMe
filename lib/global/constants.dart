@@ -84,7 +84,7 @@ double tabBodyHeightResize = 4 / 5;
 double tabFontSize = 16.0;
 double tabPadding = 5.0;
 
-//images
+//Images
 String wallet = 'assets/images/wallet.jpg';
 String balance = 'assets/images/balance-circle.png';
 String lock = 'assets/images/lock.png';
@@ -111,3 +111,12 @@ double welcomeTop = leftCircleTop + 30;
 double balanceInfoTop = leftCircleTop + 80;
 double startedInfoTop = leftCircleTop + 130;
 Color backgroundDesignColor = Colors.grey.shade300;
+
+//TextBox
+const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
+
+//Category and Transaction
+const EdgeInsets topPadding = EdgeInsets.only(top: 40.0);
+const double smallTextFields = 280;
+const double inputFontSize = 45;
+const int maxLinesExpended = 8;
