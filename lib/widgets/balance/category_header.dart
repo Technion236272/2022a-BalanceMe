@@ -28,10 +28,9 @@ class _CategoryHeaderState extends State<CategoryHeader> {
     navigateToPage(context, SetTransaction(widget._saveTransactionCallback));
   }
 
-  void _deleteCategory() {  // TODO- setState might render only the header and not the all tree
-    setState(() {
-      Provider.of<UserStorage>(context, listen: false).removeCategory(widget._category);
-    });
+  void _deleteCategory() {
+    Provider.of<UserStorage>(context, listen: false).removeCategory(widget._category);
+    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.category));
   }
 
   Future<void> _confirmRemoval() async {
@@ -88,7 +87,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
           animationDuration: 2500,
           percent: progressPercentage,
           center:
-              Text(progressPercentage.toPercentageFormat()),
+              Text((progressPercentage * 100).toPercentageFormat()),
           linearStrokeCap: LinearStrokeCap.roundAll,
           progressColor: gc.primaryColor,
         ),

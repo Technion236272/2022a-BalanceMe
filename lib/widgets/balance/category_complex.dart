@@ -1,11 +1,13 @@
 // ================= Category Complex =================
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/balance/transaction_entry.dart';
 import 'package:balance_me/widgets/balance/category_header.dart';
+import 'package:balance_me/global/utils.dart';
 
 class CategoryComplex extends StatefulWidget {
   const CategoryComplex(this._category, {Key? key}) : super(key: key);
@@ -26,17 +28,13 @@ class _CategoryComplexState extends State<CategoryComplex> {
   }
 
   void _addTransaction(Transaction transaction) {
-    setState(() {
-      widget._category.addTransaction(transaction);
-    });
-    Provider.of<UserStorage>(context, listen: false).SEND_balanceModel();
+    Provider.of<UserStorage>(context, listen: false).addTransaction(widget._category, transaction);
+    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
   }
 
   void _removeTransaction(Transaction transaction) {
-    setState(() {
-      widget._category.removeTransaction(transaction);
-    });
-    Provider.of<UserStorage>(context, listen: false).SEND_balanceModel();
+    Provider.of<UserStorage>(context, listen: false).removeTransaction(widget._category, transaction);
+    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
   }
 
   List<Widget> getTransactions() {

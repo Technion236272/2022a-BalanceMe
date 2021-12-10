@@ -68,6 +68,7 @@ abstract class Languages {
   String get addDescription;
   String get save;
   String get saveSucceeded;
+  String get removeSucceeded;
   String get delete;
   String get verifyRemoval;
 }

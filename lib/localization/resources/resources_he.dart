@@ -158,6 +158,9 @@ class LanguageHe extends Languages {
   String get saveSucceeded => "‎ה% נשמרה בהצלחה";
 
   @override
+  String get removeSucceeded => "‎ה% הוסר בהצלחה";
+
+  @override
   String get delete => "‎מחיקת %";
 
   @override

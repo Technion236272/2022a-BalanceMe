@@ -6,7 +6,7 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 
-/// The widget receives a List of objects that implement name and amount fields.
+/// The widget receives a List of objects that implement name, amount, and expected fields.
 /// The widgets presents a ring pie chart and the total percentage (can be above 100%) in the middle.
 /// If the total percentage is below 100%, the widgets complete it to 100% automatically.
 class RingPieChart extends StatelessWidget {
@@ -20,19 +20,21 @@ class RingPieChart extends StatelessWidget {
 
   void parseChartData(BuildContext context) {
     List<ChartData> chartData = [];
-    double totalPercentage = 0;
+    double totalAmount = 0;
+    double totalExpected = 0;
 
     for (var data in _chartDataList) {
-      totalPercentage += data.amount as num;
+      totalAmount += data.amount as num;
+      totalExpected += data.expected as num;
       chartData.add(ChartData(data.name as String, data.amount as num));
     }
 
-    if (totalPercentage < 100) {
-      chartData.add(ChartData(Languages.of(context)!.available, 100 - totalPercentage, gc.pieCharDefaultCategoryColor));
+    if (totalAmount < 100) {
+      chartData.add(ChartData(Languages.of(context)!.available, 100 - totalAmount, gc.pieCharDefaultCategoryColor));
     }
 
     _chartData = chartData;
-    _totalPercentage = totalPercentage;
+    _totalPercentage = getPercentage(totalAmount, totalExpected) ;
   }
 
   @override

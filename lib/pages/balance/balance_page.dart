@@ -14,7 +14,7 @@ class BalancePage extends StatelessWidget {
   final VoidCallbackInt _changeCurrentTab;
 
   Widget _getTabBarView(List<Category> categoriesList){
-    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : Container();
+    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : Container();  // TODO- create "Nothing To Show Here page"
   }
 
   @override

@@ -156,10 +156,13 @@ class LanguageRu extends Languages {
   String get save => "SAVE";
 
   @override
-  String get saveSucceeded => "The % saved successfully";
+  String get saveSucceeded => "The % has been saved successfully";
 
   @override
-  String get delete => "delete %";
+  String get removeSucceeded => "The % has been removed successfully";
+
+  @override
+  String get delete => "Delete %";
 
   @override
   String get verifyRemoval => "Are you sure you want to remove this %?";

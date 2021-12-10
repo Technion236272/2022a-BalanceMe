@@ -5,8 +5,8 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/pages/balance/balance_model.dart';
-import 'package:balance_me/common_models/category_model.dart' as category_model;
-import 'package:balance_me/common_models/transaction_model.dart' as category_model;
+import 'package:balance_me/common_models/category_model.dart' as model;
+import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/firebase_config.dart' as config;
@@ -73,19 +73,33 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void _changeCategory(category_model.Category newCategory, bool toAdd) {
-    List<category_model.Category> categoryListType = newCategory.isIncome ? _balance.incomeCategories : balance.expensesCategories;
-    toAdd ? categoryListType.add(newCategory) : categoryListType.remove(newCategory);
+  void _changeCategory(model.Category category, bool toAdd) {
+    List<model.Category> categoryListType = category.isIncome ? _balance.incomeCategories : balance.expensesCategories;
+    toAdd ? categoryListType.add(category) : categoryListType.remove(category);
     SEND_balanceModel();
     notifyListeners();
   }
 
-  void addCategory(category_model.Category newCategory) {
-    _changeCategory(newCategory, true);
+  void addCategory(model.Category category) {
+    _changeCategory(category, true);
   }
 
-  void removeCategory(category_model.Category newCategory) {
-    _changeCategory(newCategory, false);
+  void removeCategory(model.Category category) {
+    _changeCategory(category, false);
+  }
+
+  void _changeTransaction(model.Category category, model.Transaction transaction, bool toAdd) {
+    toAdd ? category.addTransaction(transaction) : category.removeTransaction(transaction);
+    SEND_balanceModel();
+    notifyListeners();
+  }
+
+  void addTransaction(model.Category category, model.Transaction transaction) {
+    _changeTransaction(category, transaction, true);
+  }
+
+  void removeTransaction(model.Category category, model.Transaction transaction) {
+    _changeTransaction(category, transaction, false);
   }
 
   // ================== Requests ==================
