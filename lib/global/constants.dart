@@ -100,5 +100,5 @@ const LegendPosition pieChartLegendPosition = LegendPosition.top;
 Color pieChartCenterText = Colors.grey.shade600;
 Color pieCharDefaultCategoryColor = Colors.white;
 
-//settings
+//ListView
 Color dividerColor=Colors.blueGrey;
