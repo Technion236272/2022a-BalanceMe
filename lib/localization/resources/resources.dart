@@ -15,6 +15,7 @@ abstract class Languages {
   String get essentialField;
   String get yes;
   String get no;
+  String get date;
 
   // Login
   String get welcome;
@@ -72,6 +73,7 @@ abstract class Languages {
   String get delete;
   String get verifyRemoval;
 
-  //Add category
+  //Add category or transaction
   String get typeSelection;
+  String get constantSwitch;
 }

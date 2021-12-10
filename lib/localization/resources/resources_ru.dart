@@ -24,6 +24,9 @@ class LanguageRu extends Languages {
   @override
   String get no => "No";
 
+  @override
+  String get date =>"Date";
+
   // Login
   @override
   String get welcome => "Добро пожаловать";
@@ -170,4 +173,7 @@ class LanguageRu extends Languages {
   //Add category
   @override
   String get typeSelection => "Type";
+
+  @override
+  String get constantSwitch => "Constant";
 }
