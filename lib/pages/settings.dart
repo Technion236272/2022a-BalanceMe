@@ -1,10 +1,17 @@
+import 'package:balance_me/common_models/user_model.dart';
+import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
 import 'package:balance_me/global/project_config.dart' as config;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/widgets/generic_listview.dart';
+import 'package:balance_me/widgets/generic_radio_button.dart';
+import 'package:balance_me/global/types.dart';
+import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -13,7 +20,7 @@ class Settings extends StatefulWidget {
   _SettingsState createState() => _SettingsState();
 }
 
-//TODO: put final appbar here
+
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
@@ -25,48 +32,20 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget mainSettingsList() {
-    return ListView(
-      children: [    ListTile(
-
-           leading: Text(Languages.of(context)!.profileSettings),
-           trailing:
-           IconButton(onPressed:(){navigateToPage(context, getProfileScreen()) ;}, icon: gc.settingArrow),
-         ),
-          Divider(color: gc.dividerColor,),
-          ListTile(
-            leading: Text(Languages.of(context)!.groupSettings),
-              trailing:  IconButton(onPressed:(){navigateToPage(context, getGroupScreen()) ;}, icon: gc.settingArrow),
-          ),
-        Divider(color: gc.dividerColor,),
-          ListTile(
-            leading: Text(Languages.of(context)!.passwordSettings),
-    trailing: IconButton(onPressed:(){navigateToPage(context, getChangePasswordScreen()) ;}, icon: gc.settingArrow),
-          ),
-        Divider(color: gc.dividerColor,),
-        ListTile(
-            leading:Text(Languages.of(context)!.darkModeSettings),
-            trailing: Switch(value: isDark(), onChanged: setDarkMode),
-        ),
-        Divider(color: gc.dividerColor,),
-        ListTile(
-            leading: Text(Languages.of(context)!.endOfMonthSettings),
-            // trailing: daysOfMonthRadio(),
-        ),
-        Divider(color: gc.dividerColor,),
-        ListTile(
-            leading: Text(Languages.of(context)!.languageSettings),
-            trailing:  LanguageDropDown(),
-        ),
-        Divider(color: gc.dividerColor,),
-        ListTile(
-          leading:Text(Languages.of(context)!.versionSettings) ,
-            trailing: const Text(config.projectVersion)
-        ),
-      ],
-    );
+    List<Widget?>leadingSettings=[Text(Languages.of(context)!.profileSettings),
+      Text(Languages.of(context)!.groupSettings),Text(Languages.of(context)!.passwordSettings),
+      Text(Languages.of(context)!.darkModeSettings),Text(Languages.of(context)!.endOfMonthSettings),
+      Text(Languages.of(context)!.languageSettings), Text(Languages.of(context)!.versionSettings)];
+    List<Widget?>trailingSettings=[IconButton(onPressed:(){navigateToPage(context, getProfileScreen()) ;}, icon: gc.settingArrow),
+    IconButton(onPressed:(){navigateToPage(context, getGroupScreen()) ;}, icon: gc.settingArrow,)
+   ,IconButton(onPressed:(){navigateToPage(context, getChangePasswordScreen()) ;}, icon: gc.settingArrow)
+    ,Switch(value: isDark(), onChanged: setDarkMode),
+      daysOfMonthRadio(),LanguageDropDown(),Text(config.projectVersion)
+    ];
+    return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings);
   }
 
-  //TODO: create a profile editing screen
+
   Widget getProfileScreen() {
     return Container();
   }
@@ -93,18 +72,21 @@ class _SettingsState extends State<Settings> {
     return gc.darkMode;
   }
 
-  //TODO: get day of the month from firebase
-  int getDayOfMonth() {
-    return 1;
-  }
 
   //TODO: set day of the month according to integer from daysOfMonth list
   void setDayOfMonth(Object? value) {}
 
-  //TODO: generate radios for days of month
   Widget daysOfMonthRadio() {
-    return Row(
-      // children: [Radio(value: value, groupValue: groupValue, onChanged: onChanged)],
-    );
+    List<String>options=[];
+    gc.daysOfMonth.forEach((element) {options.add(element.toString());});
+    UserModel? currentUser=UserStorage.instance(AuthRepository.instance()).userData;
+   if(currentUser!=null)
+     {
+       return GenericRadioButton(options, PrimitiveWrapper(currentUser.endOfMonthDay.toString()));
+     }
+   else
+     {
+       return GenericRadioButton(options, PrimitiveWrapper(gc.defaultEndOfMonthDay.toString()));
+     }
   }
 }

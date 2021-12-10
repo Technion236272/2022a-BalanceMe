@@ -32,7 +32,7 @@ const IconData hidePassword = Icons.remove_red_eye_outlined;
 const IconData showPassword = Icons.remove_red_eye;
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
-const Color secondaryColor = Colors.white; // TODO- change to the chosen color
+const Color secondaryColor = Colors.white;
 const Color bottomNavigationSelectedColor = primaryColor;
 const Color alternativePrimary = Color(0xff4e21ff);
 const Color tabColor = Color(0xffd3ff21);
@@ -102,3 +102,6 @@ Color pieCharDefaultCategoryColor = Colors.white;
 
 //ListView
 Color dividerColor=Colors.blueGrey;
+
+//settings
+
