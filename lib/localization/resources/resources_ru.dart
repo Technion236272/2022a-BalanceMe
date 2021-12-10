@@ -166,4 +166,8 @@ class LanguageRu extends Languages {
 
   @override
   String get verifyRemoval => "Are you sure you want to remove this %?";
+
+  //Add category
+  @override
+  String get typeSelection => "Type";
 }
