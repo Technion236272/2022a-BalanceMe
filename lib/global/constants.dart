@@ -118,5 +118,6 @@ const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
 //Category and Transaction
 const EdgeInsets topPadding = EdgeInsets.only(top: 40.0);
 const double smallTextFields = 280;
+const double bigTextFieldsPadding = 8.0;
 const double inputFontSize = 45;
 const int maxLinesExpended = 8;
