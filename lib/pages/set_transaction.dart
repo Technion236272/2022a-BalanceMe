@@ -1,5 +1,6 @@
 // ================= Set Transaction =================
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
+import 'package:balance_me/widgets/generic_drop_down_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/widgets/generic_radio_button.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class _SetTransactionState extends State<SetTransaction> {
   final TextEditingController _transactionNameController = TextEditingController();
   final TextEditingController _transactionAmountController = TextEditingController();
   final TextEditingController _transactionDescriptionController = TextEditingController();
+  PrimitiveWrapper? _dropDownController;
   bool _performingSave = false;
 
   bool get performingSave => _performingSave;
@@ -108,6 +110,7 @@ class _SetTransactionState extends State<SetTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    _dropDownController = PrimitiveWrapper("hello"); //TODO - need to initiate with real value from category list
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: MinorAppBar(widget.currentTransaction != null ? Languages.of(context)!.editTransaction : Languages.of(context)!.addTransaction),
@@ -128,7 +131,14 @@ class _SetTransactionState extends State<SetTransaction> {
                   child: _textFieldDesign(_transactionAmountController, 1, 1,
                       Languages.of(context)!.amount, isValid: true, isNumeric: true),
                 ),
-                //TODO - insert a drop down button
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: gc.generalTextFieldsPadding,
+                      bottom: gc.generalTextFieldsPadding),
+                  child: SizedBox(
+                      width: gc.smallTextFields,
+                      child: GenericDropDownButton(const ["hello", "world"], _dropDownController!)),
+                ), //TODO - pass a real list of categories
                 // TODO- use here generic datePicker for date
                 Padding(
                   padding: const EdgeInsets.only(
