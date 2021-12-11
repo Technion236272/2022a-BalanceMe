@@ -55,12 +55,12 @@ class _GenericDropDownButtonState extends State<GenericDropDownButton> {
     return AwesomeDropDown(
       dropDownList: widget._list,
       dropDownBGColor: gc.primaryColor,
-      dropDownBottomBorderRadius: 20,
-      dropDownTopBorderRadius: 20,
-      dropDownBorderRadius: 100,
+      dropDownBottomBorderRadius: gc.dropDownRadius,
+      dropDownTopBorderRadius: gc.dropDownRadius,
+      dropDownBorderRadius: gc.dropDownRadius,
       onDropDownItemClick: _activateDropDownButton,
       selectedItem: widget._dropDownButtonController.value,
-      numOfListItemToShow: 10,
+      numOfListItemToShow: gc.numOfItems,
 
     );
   }

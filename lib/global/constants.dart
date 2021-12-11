@@ -128,3 +128,7 @@ Color inputFontColor = Colors.grey.shade700;
 const int maxLinesExpended = 10;
 const double buttonPadding = 50.0;
 const double editIconSize = 30.0;
+
+//Dropdown widget
+const double dropDownRadius = 20;
+const int numOfItems = 10;
