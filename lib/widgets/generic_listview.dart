@@ -13,11 +13,12 @@ import 'package:balance_me/global/constants.dart' as gc;
 
 class ListViewGeneric extends StatefulWidget {
   const ListViewGeneric(
-      {Key? key, required this.leadingWidgets, required this.trailingWidgets})
+      {Key? key, required this.leadingWidgets, required this.trailingWidgets, this.listTileHeight})
       : super(key: key);
 
   final List<Widget?> leadingWidgets;
   final List<Widget?> trailingWidgets;
+  final double? listTileHeight;
 
   @override
   _ListViewGenericState createState() => _ListViewGenericState();
@@ -44,7 +45,9 @@ class _ListViewGenericState extends State<ListViewGeneric> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      shrinkWrap: true,
       children: listViewTilesBuild(),
+      itemExtent: widget.listTileHeight,
     );
   }
 }

@@ -28,12 +28,13 @@ class _NoBorderTextBoxState extends State<NoBorderTextBox> {
       child: TextFormField(
         controller: widget._controller,
         obscureText: widget.hideText,
-        keyboardType: widget.isNumeric == true ? TextInputType.number : null,
+        keyboardType: widget.isNumeric == true ? TextInputType.number : TextInputType.multiline,
         inputFormatters: widget.isNumeric == true ? [FilteringTextInputFormatter.digitsOnly] : [],
         initialValue: widget.initialValue?? widget.initialValue,
         validator: widget.validatorFunction,
         decoration: widget.decoration ?? InputDecoration(
           hintText: widget._hintText,
+          hintStyle: gc.defaultHintStyle ,
           suffixIcon: widget.suffix,
         ),
       ),

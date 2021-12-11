@@ -24,6 +24,9 @@ class LanguageHe extends Languages {
   @override
   String get no => "‎לא";
 
+  @override
+  String get date =>"‎תאריך";
+
   // Login
   @override
   String get welcome => "‎ברוכים הבאים";
@@ -165,4 +168,11 @@ class LanguageHe extends Languages {
 
   @override
   String get verifyRemoval => "‎האם למחוק את ה%?";
+
+  //Add category
+  @override
+  String get typeSelection => "‎סוג";
+
+  @override
+  String get constantSwitch => "‎הוצאה קבועה";
 }

@@ -115,3 +115,20 @@ Color backgroundDesignColor = Colors.grey.shade300;
 
 //ListView
 Color dividerColor=Colors.blueGrey;
+
+//TextBox
+const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
+
+//Category and Transaction
+const EdgeInsets topPadding = EdgeInsets.only(top: 40.0);
+const double smallTextFields = 280;
+const double generalTextFieldsPadding = 8.0;
+const double inputFontSize = 45;
+Color inputFontColor = Colors.grey.shade700;
+const int maxLinesExpended = 10;
+const double buttonPadding = 50.0;
+const double editIconSize = 30.0;
+
+//Dropdown widget
+const double dropDownRadius = 40;
+const int numOfItems = 10;

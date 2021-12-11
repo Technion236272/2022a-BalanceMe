@@ -24,6 +24,9 @@ class LanguageEn extends Languages {
   @override
   String get no => "No";
 
+  @override
+  String get date =>"Date";
+
 // Login
   @override
   String get welcome => "Welcome";
@@ -166,4 +169,11 @@ class LanguageEn extends Languages {
 
   @override
   String get verifyRemoval => "Are you sure you want to remove this %?";
+
+  //Add category
+  @override
+  String get typeSelection => "Type";
+
+  @override
+  String get constantSwitch => "Constant";
 }
