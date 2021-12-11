@@ -130,5 +130,5 @@ const double buttonPadding = 50.0;
 const double editIconSize = 30.0;
 
 //Dropdown widget
-const double dropDownRadius = 20;
+const double dropDownRadius = 40;
 const int numOfItems = 10;
