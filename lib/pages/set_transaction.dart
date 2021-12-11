@@ -156,7 +156,8 @@ class _SetTransactionState extends State<SetTransaction> {
                         print(val);
                       },
                     ),
-                  ]),
+                  ],
+                  listTileHeight: 30,),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
