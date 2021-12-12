@@ -50,6 +50,18 @@ class _SetCategoryState extends State<SetCategory> {
     super.dispose();
   }
 
+  String _getPageTitle() {
+    switch (widget.mode) {
+      case DetailsPageMode.Add:
+        return Languages.of(context)!.addCategory;
+      case DetailsPageMode.Edit:
+        return Languages.of(context)!.editCategory;
+      case DetailsPageMode.Details:
+      default:
+        return Languages.of(context)!.detailsCategory;
+    }
+  }
+
   void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
     _updatePerformingSave(true);
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
@@ -79,7 +91,7 @@ class _SetCategoryState extends State<SetCategory> {
 
   //TODO - better location in the utils but too complicated to change
   TextFormField _textFieldDesign(TextEditingController? controller, int minLines, int maxLines, String hintText,
-      {bool isBordered = false, bool isValid = false, bool isNumeric = false}) {
+      {bool isBordered = false, bool isValid = false, bool isNumeric = false, String? initialValue, bool isEnabled = true}) {
 
     return TextFormField(
       controller: controller,
@@ -96,7 +108,8 @@ class _SetCategoryState extends State<SetCategory> {
         errorBorder: isBordered ? focusBorder() : null,
       ),
       textAlign: isValid ? TextAlign.center : TextAlign.start,
-      initialValue: widget.currentCategory != null ? widget.currentCategory!.name : null,
+      initialValue: initialValue,
+      enabled: isEnabled,
       validator: isValid ? _validatorFunction : null,
       style: isBordered ? null : TextStyle(
           fontSize: gc.inputFontSize,
@@ -121,9 +134,7 @@ class _SetCategoryState extends State<SetCategory> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: MinorAppBar(widget.currentCategory != null
-          ? Languages.of(context)!.editCategory
-          : Languages.of(context)!.addCategory),
+      appBar: MinorAppBar(_getPageTitle()),
       body: SingleChildScrollView(
         child: Padding(
           padding: gc.topPadding,
@@ -133,13 +144,13 @@ class _SetCategoryState extends State<SetCategory> {
               children: [
                 SizedBox(
                   width: gc.smallTextFields,
-                  child: _textFieldDesign(_categoryNameController, 1, 1,
-                      Languages.of(context)!.categoryName, isBordered: true, isValid: true, ),
+                  child: _textFieldDesign(widget.currentCategory == null ? _categoryNameController : null, 1, 1, Languages.of(context)!.categoryName,
+                      isBordered: true, isValid: true, initialValue: widget.currentCategory == null ? null : widget.currentCategory!.name, isEnabled: widget.mode != DetailsPageMode.Details),
                 ),
                 SizedBox(
                   width: gc.smallTextFields,
-                  child: _textFieldDesign(_categoryExpectedController, 1, 1,
-                      Languages.of(context)!.expected, isValid: true, isNumeric: true),
+                  child: _textFieldDesign(widget.currentCategory == null ? _categoryExpectedController : null, 1, 1, Languages.of(context)!.expected,
+                      isValid: true, isNumeric: true, initialValue: widget.currentCategory == null ? null : widget.currentCategory!.expected.toString(), isEnabled: widget.mode != DetailsPageMode.Details),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -167,6 +178,7 @@ class _SetCategoryState extends State<SetCategory> {
                           Languages.of(context)!.expense
                         ],
                           _categoryTypeController!,
+                          isDisabled: widget.mode == DetailsPageMode.Details,
                         ),
                       ]
                   ),
@@ -177,20 +189,16 @@ class _SetCategoryState extends State<SetCategory> {
                       left: gc.generalTextFieldsPadding,
                       right: gc.generalTextFieldsPadding
                   ),
-                  child: _textFieldDesign(
-                      _categoryDescriptionController,
-                      gc.maxLinesExpended,
-                      gc.maxLinesExpended,
-                      Languages.of(context)!.addDescription, isBordered: true
-                  ),
+                  child: _textFieldDesign(widget.currentCategory == null ? _categoryDescriptionController : null, gc.maxLinesExpended, gc.maxLinesExpended,
+                      Languages.of(context)!.addDescription, isBordered: true, initialValue: widget.currentCategory == null ? null : widget.currentCategory!.description, isEnabled: widget.mode != DetailsPageMode.Details),
                 ),
-                widget.mode == DetailsPageMode.Add ?
+                widget.mode == DetailsPageMode.Details ?
                 Container() :
                 Padding(
                   padding: const EdgeInsets.only(top: gc.buttonPadding),
                   child: ActionButton(
                     performingAction,
-                    widget.mode == DetailsPageMode.Details ? Languages.of(context)!.save : Languages.of(context)!.save,
+                    Languages.of(context)!.save,
                     widget.mode == DetailsPageMode.Details ? _toggleEditDetailsMode : _saveCategory,
                   ),
                 ),

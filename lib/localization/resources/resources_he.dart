@@ -134,6 +134,9 @@ class LanguageHe extends Languages {
   String get addCategory => "‎הוספת קטגוריה";
 
   @override
+  String get detailsCategory => "‎פרטי הקטגוריה";
+
+  @override
   String get transaction => "‎תנועה";
 
   @override
@@ -144,6 +147,9 @@ class LanguageHe extends Languages {
 
   @override
   String get editTransaction => "‎עריכת התנועה";
+
+  @override
+  String get detailsTransaction => "‎פרטי התנועה";
 
   @override
   String get categoryName => "‎שם הקטגוריה";
