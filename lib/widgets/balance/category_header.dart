@@ -11,7 +11,8 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class CategoryHeader extends StatefulWidget {
-  const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, {Key? key}) : super(key: key);
+  const CategoryHeader(
+      this._category, this._isCategoryOpen, this._toggleCategory, {Key? key}) : super(key: key);
 
   final Category _category;
   final bool _isCategoryOpen;
@@ -22,10 +23,14 @@ class CategoryHeader extends StatefulWidget {
 }
 
 class _CategoryHeaderState extends State<CategoryHeader> {
-
   void _addTransaction(Transaction transaction) {
-    Provider.of<UserStorage>(context, listen: false).addTransaction(widget._category, transaction);
-    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
+    Provider.of<UserStorage>(context, listen: false)
+        .addTransaction(widget._category, transaction);
+    displaySnackBar(
+        context,
+        Languages.of(context)!
+            .removeSucceeded
+            .replaceAll("%", Languages.of(context)!.transaction));
   }
 
   void _openAddTransactionPage() {
@@ -33,14 +38,21 @@ class _CategoryHeaderState extends State<CategoryHeader> {
   }
 
   void _removeCategory() {
-    Provider.of<UserStorage>(context, listen: false).removeCategory(widget._category);
-    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.category));
+    Provider.of<UserStorage>(context, listen: false)
+        .removeCategory(widget._category);
+    displaySnackBar(
+        context,
+        Languages.of(context)!
+            .removeSucceeded
+            .replaceAll("%", Languages.of(context)!.category));
   }
 
   Future<void> _confirmRemoval() async {
     await showYesNoAlertDialog(
         context,
-        Languages.of(context)!.verifyRemoval.replaceAll("%", Languages.of(context)!.category),
+        Languages.of(context)!
+            .verifyRemoval
+            .replaceAll("%", Languages.of(context)!.category),
         _confirmRemovalCallback,
         _closeDialogCallback);
   }
@@ -56,46 +68,88 @@ class _CategoryHeaderState extends State<CategoryHeader> {
 
   @override
   Widget build(BuildContext context) {
-    double progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
-    progressPercentage = (progressPercentage >= 1) ? 1 : progressPercentage.toPrecision();
+    double progressPercentage =
+        getPercentage(widget._category.amount, widget._category.expected) / 100;
+    progressPercentage =
+        (progressPercentage >= 1) ? 1 : progressPercentage.toPrecision();
 
-    return Column(children: [
-      Row(
-        children: [
-          Text(widget._category.name),
-          Text(widget._category.amount.toMoneyFormat() +
-              gc.inPracticeExpectedSeparator +
-              widget._category.expected.toMoneyFormat()),
-          IconButton(
-            onPressed: _openAddTransactionPage,
-            icon: const Icon(gc.addIcon),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(children: [
+        Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                widget._category.name,
+                style: TextStyle(
+                    color: gc.primaryColor,
+                    fontSize: gc.fontSizeLoginImage,
+                    fontWeight: FontWeight.bold),
+              ),
+              Text(
+                widget._category.amount.toMoneyFormat() +
+                    gc.inPracticeExpectedSeparator +
+                    widget._category.expected.toMoneyFormat(),
+                style: TextStyle(
+                    color: gc.primaryColor,
+                    fontSize: gc.fontSizeLoginImage,
+                    fontWeight: FontWeight.bold),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    color: gc.primaryColor,
+                    onPressed: _openAddTransactionPage,
+                    icon: const Icon(gc.addIcon),
+                  ),
+                  IconButton(
+                    color: gc.primaryColor,
+                    onPressed: _confirmRemoval,
+                    icon: const Icon(gc.deleteIcon),
+                  ),
+                  Center(
+                    child: Visibility(
+                      visible: widget._category.transactions.isNotEmpty,
+                      child: IconButton(
+                          color: gc.primaryColor,
+                          onPressed: widget._toggleCategory,
+                          icon: Icon(widget._isCategoryOpen
+                              ? gc.expandIcon
+                              : gc.minimizeIcon)),
+                    ),
+                  )
+                ],
+              ),
+            ]),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: gc.categoryTopPadding,
+                right: gc.categoryAroundPadding,
+                left: gc.categoryAroundPadding,
+                bottom: gc.categoryAroundPadding),
+            child: LinearPercentIndicator(
+              animation: true,
+              lineHeight: gc.lineBarHeight,
+              animationDuration: gc.lineAnimationDuration,
+              percent: progressPercentage,
+              center: Text((progressPercentage * 100).toPercentageFormat()),
+              linearStrokeCap: LinearStrokeCap.roundAll,
+              progressColor: gc.primaryColor,
+            ),
           ),
-          IconButton(
-            onPressed: _confirmRemoval,
-            icon: const Icon(gc.deleteIcon),
-          ),
-          widget._category.transactions.isNotEmpty ?
-              IconButton(
-                  onPressed: widget._toggleCategory,
-                  icon: Icon(widget._isCategoryOpen ? gc.expandIcon : gc.minimizeIcon))
-              : Container(),
-        ],
-      ),
-      Padding(
-        // TODO- consider if Padding is necessary and put all constants in gc
-        padding: const EdgeInsets.all(15.0),
-        child: LinearPercentIndicator(
-          width: MediaQuery.of(context).size.width - 50,
-          animation: true,
-          lineHeight: 20.0,
-          animationDuration: 2500,
-          percent: progressPercentage,
-          center:
-              Text((progressPercentage * 100).toPercentageFormat()),
-          linearStrokeCap: LinearStrokeCap.roundAll,
-          progressColor: gc.primaryColor,
         ),
-      ),
-    ]);
+        Visibility(
+            visible: widget._isCategoryOpen,
+            child: const Padding(
+              padding: EdgeInsets.only(bottom: gc.categoryAroundPadding),
+              child: Divider(
+                  color: gc.primaryColor, thickness: gc.dividerThickness),
+            ))
+      ]),
+    );
   }
 }

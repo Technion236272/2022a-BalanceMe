@@ -140,3 +140,10 @@ Color entryShadow = Colors.grey.withOpacity(0.5);
 const double shadowDesignConstant = 3;
 Color incomeEntryColor = Colors.green.shade600;
 Color expenseEntryColor = Colors.red.shade600;
+
+//Category Header
+const double categoryTopPadding = 10.0;
+const double categoryAroundPadding = 5.0;
+const double lineBarHeight = 14.0;
+const int lineAnimationDuration = 2500;
+const double dividerThickness = 1.0;
