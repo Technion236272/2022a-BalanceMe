@@ -1,15 +1,16 @@
 // ================= Set Transaction =================
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/generic_drop_down_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:flutter/services.dart';
 
 class SetTransaction extends StatefulWidget {
   const SetTransaction(this._callback, {this.currentTransaction, Key? key}) : super(key: key);
@@ -35,6 +36,12 @@ class _SetTransactionState extends State<SetTransaction> {
     setState(() {
       _performingSave = state;
     });
+  }
+
+  @override
+  void initState() {
+    GoogleAnalytics.instance.logPageOpened(AppPages.SetTransaction);
+    super.initState();
   }
 
   @override

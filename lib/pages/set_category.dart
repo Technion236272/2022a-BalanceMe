@@ -1,22 +1,26 @@
 // ================= Set Category =================
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/generic_radio_button.dart';
 import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:flutter/services.dart';
 
 class SetCategory extends StatefulWidget {
-  const SetCategory(this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key);
+  SetCategory(this.mode, this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key) {
+    GoogleAnalytics.instance.logPageOpened(AppPages.SetCategory);
+  }
 
   final VoidCallbackCategory _callback;
   final bool _isIncomeTab; // TODO- check adding income in tab expenses
   final Category? currentCategory;
+  DetailsPageMode mode;
 
   @override
   State<SetCategory> createState() => _SetCategoryState();
@@ -30,7 +34,7 @@ class _SetCategoryState extends State<SetCategory> {
   PrimitiveWrapper? _categoryTypeController;
   bool _performingSave = false;
 
-  bool get performingSave => _performingSave;
+  bool get performingAction => _performingSave;
 
   void _updatePerformingSave(bool state) {
     setState(() {
@@ -63,6 +67,12 @@ class _SetCategoryState extends State<SetCategory> {
     _updatePerformingSave(false);
   }
 
+  void _toggleEditDetailsMode() {
+    setState(() {
+      widget.mode = widget.mode == DetailsPageMode.Details ? DetailsPageMode.Edit : DetailsPageMode.Details;
+    });
+  }
+
   String? _validatorFunction(String? value) {
     return essentialFieldValidator(value, Languages.of(context)!.essentialField);
   }
@@ -86,12 +96,12 @@ class _SetCategoryState extends State<SetCategory> {
         errorBorder: isBordered ? focusBorder() : null,
       ),
       textAlign: isValid ? TextAlign.center : TextAlign.start,
-      initialValue:
-          widget.currentCategory != null ? widget.currentCategory!.name : null,
+      initialValue: widget.currentCategory != null ? widget.currentCategory!.name : null,
       validator: isValid ? _validatorFunction : null,
       style: isBordered ? null : TextStyle(
           fontSize: gc.inputFontSize,
-          color: gc.inputFontColor),
+          color: gc.inputFontColor
+      ),
     );
   }
 
@@ -134,47 +144,54 @@ class _SetCategoryState extends State<SetCategory> {
                 Padding(
                   padding: const EdgeInsets.only(
                       top: gc.generalTextFieldsPadding,
-                      bottom: gc.generalTextFieldsPadding),
+                      bottom: gc.generalTextFieldsPadding
+                  ),
                   child: IconButton(
-                    onPressed: (){},
+                    onPressed: widget.mode == DetailsPageMode.Details ? _toggleEditDetailsMode : null,
                     icon: const Icon(gc.editIcon),
                     iconSize: gc.editIconSize,
                     color: gc.primaryColor,
-                    disabledColor: gc.disabledColor.withOpacity(0.0),),
+                    disabledColor: gc.disabledColor.withOpacity(0.0),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       left: gc.generalTextFieldsPadding,
-                      right: gc.generalTextFieldsPadding),
-                  child: ListViewGeneric(leadingWidgets: [
-                    Text(Languages.of(context)!.typeSelection),
-                  ], trailingWidgets: [
-                    GenericRadioButton(
-                      [
-                        Languages.of(context)!.income,
-                        Languages.of(context)!.expense
-                      ],
-                      _categoryTypeController!,
-                    ),
-                  ]),
+                      right: gc.generalTextFieldsPadding
+                  ),
+                  child: ListViewGeneric(
+                      leadingWidgets: [Text(Languages.of(context)!.typeSelection),],
+                      trailingWidgets: [
+                        GenericRadioButton([
+                          Languages.of(context)!.income,
+                          Languages.of(context)!.expense
+                        ],
+                          _categoryTypeController!,
+                        ),
+                      ]
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       top: gc.generalTextFieldsPadding,
                       left: gc.generalTextFieldsPadding,
-                      right: gc.generalTextFieldsPadding),
+                      right: gc.generalTextFieldsPadding
+                  ),
                   child: _textFieldDesign(
                       _categoryDescriptionController,
                       gc.maxLinesExpended,
                       gc.maxLinesExpended,
-                      Languages.of(context)!.addDescription, isBordered: true),
+                      Languages.of(context)!.addDescription, isBordered: true
+                  ),
                 ),
+                widget.mode == DetailsPageMode.Add ?
+                Container() :
                 Padding(
                   padding: const EdgeInsets.only(top: gc.buttonPadding),
                   child: ActionButton(
-                    performingSave,
-                    Languages.of(context)!.save,
-                    _saveCategory,
+                    performingAction,
+                    widget.mode == DetailsPageMode.Details ? Languages.of(context)!.save : Languages.of(context)!.save,
+                    widget.mode == DetailsPageMode.Details ? _toggleEditDetailsMode : _saveCategory,
                   ),
                 ),
               ],

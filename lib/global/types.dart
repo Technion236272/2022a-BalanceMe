@@ -12,7 +12,7 @@ enum Entry {Category, Transaction}
 
 enum CategoryType {Income, Expenses}
 
-enum DetailsScreenMode {Add, Edit, Details}
+enum DetailsPageMode {Add, Edit, Details}
 
 enum EntryOperation {Add, Edit, Remove}
 

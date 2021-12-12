@@ -92,6 +92,11 @@ class UserStorage with ChangeNotifier {
     GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, category);
   }
 
+  void editCategory(model.Category category) {
+    // TODO
+    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Edit, category);
+  }
+
   void _changeTransaction(model.Category category, model.Transaction transaction, EntryOperation operation) {
     operation == EntryOperation.Add ? category.addTransaction(transaction) : category.removeTransaction(transaction);
     SEND_balanceModel();
@@ -106,6 +111,11 @@ class UserStorage with ChangeNotifier {
   void removeTransaction(model.Category category, model.Transaction transaction) {
     _changeTransaction(category, transaction, EntryOperation.Remove);
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
+  }
+
+  void editTransaction(model.Category category, model.Transaction transaction) {
+    // TODO
+    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Edit, transaction);
   }
 
   // ================== Requests ==================

@@ -6,8 +6,10 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
+import 'package:balance_me/pages/set_category.dart';
 import 'package:balance_me/pages/set_transaction.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class CategoryHeader extends StatefulWidget {
@@ -30,6 +32,10 @@ class _CategoryHeaderState extends State<CategoryHeader> {
 
   void _openAddTransactionPage() {
     navigateToPage(context, SetTransaction(_addTransaction));
+  }
+
+  void _openCategoryDetails() {
+    navigateToPage(context, SetCategory(DetailsPageMode.Details, Provider.of<UserStorage>(context, listen: false).editCategory, widget._category.isIncome, currentCategory: widget._category));
   }
 
   void _removeCategory() {
@@ -69,6 +75,10 @@ class _CategoryHeaderState extends State<CategoryHeader> {
           IconButton(
             onPressed: _openAddTransactionPage,
             icon: const Icon(gc.addIcon),
+          ),
+          IconButton(
+            onPressed: _openCategoryDetails,
+            icon: const Icon(gc.transactionDetailsIcon),
           ),
           IconButton(
             onPressed: _confirmRemoval,
