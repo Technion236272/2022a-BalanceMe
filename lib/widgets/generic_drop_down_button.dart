@@ -4,7 +4,6 @@ import 'package:balance_me/global/types.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
-
 /// The widget receives a List of String: ["hello", "world", ... ], controller of type PrimitiveWrapper(String initialSelected),
 /// and callBack function.
 /// The widgets presents a Dropdown button with the strings in the list.
@@ -17,7 +16,6 @@ import 'package:balance_me/global/constants.dart' as gc;
 /// The callBack function is called when you change selection.
 /// The order of the buttons is the same order as the list.
 /// If the list is too long the widget will continue in the next line.
-
 class GenericDropDownButton extends StatefulWidget {
   const GenericDropDownButton(this._list, this._dropDownButtonController, {this.onChangedCallback, Key? key}) : super(key: key);
 

@@ -26,7 +26,7 @@ Locale _locale(String languageCode) {
 void changeLanguage(BuildContext context, String selectedLanguageCode) async {
   Locale _locale = await setLocale(selectedLanguageCode);
   BalanceMeApp.setLocale(context, _locale);
-  GoogleAnalytics.instance.logEvent("ChangeLanguage", {'language': selectedLanguageCode});
+  GoogleAnalytics.instance.logChangeLanguage(selectedLanguageCode);
 }
 
 List<Locale> getSupportedLocales() {

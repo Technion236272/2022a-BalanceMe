@@ -75,33 +75,37 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void _changeCategory(model.Category category, bool toAdd) {
+  void _changeCategory(model.Category category, EntryOperation operation) {
     List<model.Category> categoryListType = category.isIncome ? _balance.incomeCategories : balance.expensesCategories;
-    toAdd ? categoryListType.add(category) : categoryListType.remove(category);
+    operation == EntryOperation.Add ? categoryListType.add(category) : categoryListType.remove(category);
     SEND_balanceModel();
     notifyListeners();
   }
 
   void addCategory(model.Category category) {
-    _changeCategory(category, true);
+    _changeCategory(category, EntryOperation.Add);
+    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, category);
   }
 
   void removeCategory(model.Category category) {
-    _changeCategory(category, false);
+    _changeCategory(category, EntryOperation.Remove);
+    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, category);
   }
 
-  void _changeTransaction(model.Category category, model.Transaction transaction, bool toAdd) {
-    toAdd ? category.addTransaction(transaction) : category.removeTransaction(transaction);
+  void _changeTransaction(model.Category category, model.Transaction transaction, EntryOperation operation) {
+    operation == EntryOperation.Add ? category.addTransaction(transaction) : category.removeTransaction(transaction);
     SEND_balanceModel();
     notifyListeners();
   }
 
   void addTransaction(model.Category category, model.Transaction transaction) {
-    _changeTransaction(category, transaction, true);
+    _changeTransaction(category, transaction, EntryOperation.Add);
+    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Add, category);
   }
 
   void removeTransaction(model.Category category, model.Transaction transaction) {
-    _changeTransaction(category, transaction, false);
+    _changeTransaction(category, transaction, EntryOperation.Remove);
+    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
   }
 
   // ================== Requests ==================

@@ -1,15 +1,11 @@
 // ================= Set Transaction =================
-import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-import 'package:balance_me/widgets/generic_drop_down_button.dart';
-import 'package:balance_me/widgets/generic_listview.dart';
-import 'package:balance_me/widgets/generic_radio_button.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/widgets/action_button.dart';
-import 'package:balance_me/widgets/text_box_without_border.dart';
-import 'package:balance_me/widgets/text_box_with_border.dart';
+import 'package:balance_me/widgets/generic_drop_down_button.dart';
+import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -63,7 +59,6 @@ class _SetTransactionState extends State<SetTransaction> {
       widget._callback.call(newTransaction);
       navigateBack(context);
       displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.transaction));
-      GoogleAnalytics.instance.logTransactionSaved(widget.currentTransaction == null, newTransaction);
     }
     _updatePerformingSave(false);
   }

@@ -1,21 +1,18 @@
 // ================= Set Category =================
-import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/generic_radio_button.dart';
 import 'package:balance_me/widgets/action_button.dart';
+import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:flutter/services.dart';
 
 class SetCategory extends StatefulWidget {
-  const SetCategory(this._callback, this._isIncomeTab,
-      {this.currentCategory, Key? key})
-      : super(key: key);
+  const SetCategory(this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key);
 
   final VoidCallbackCategory _callback;
   final bool _isIncomeTab; // TODO- check adding income in tab expenses
@@ -28,10 +25,8 @@ class SetCategory extends StatefulWidget {
 class _SetCategoryState extends State<SetCategory> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _categoryNameController = TextEditingController();
-  final TextEditingController _categoryExpectedController =
-      TextEditingController();
-  final TextEditingController _categoryDescriptionController =
-      TextEditingController();
+  final TextEditingController _categoryExpectedController = TextEditingController();
+  final TextEditingController _categoryDescriptionController = TextEditingController();
   PrimitiveWrapper? _categoryTypeController;
   bool _performingSave = false;
 
@@ -51,37 +46,31 @@ class _SetCategoryState extends State<SetCategory> {
     super.dispose();
   }
 
-  void _saveCategory() {
-    // TODO- verify SnackBar shows above the FAB- also after login
+  void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
     _updatePerformingSave(true);
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       Category newCategory = Category(
           _categoryNameController.text.toString(),
           _categoryTypeController!.value == Languages.of(context)!.income,
           double.parse(_categoryExpectedController.text.toString()),
-          _categoryDescriptionController.text.toString());
+          _categoryDescriptionController.text.toString()
+      );
 
       widget._callback.call(newCategory);
       navigateBack(context);
-      displaySnackBar(
-          context,
-          Languages.of(context)!
-              .saveSucceeded
-              .replaceAll("%", Languages.of(context)!.category));
-      GoogleAnalytics.instance
-          .logCategorySaved(widget.currentCategory == null, newCategory);
+      displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.category));
     }
     _updatePerformingSave(false);
   }
 
   String? _validatorFunction(String? value) {
-    return essentialFieldValidator(
-        value, Languages.of(context)!.essentialField);
+    return essentialFieldValidator(value, Languages.of(context)!.essentialField);
   }
+
   //TODO - better location in the utils but too complicated to change
-  TextFormField _textFieldDesign(TextEditingController? controller,
-      int minLines, int maxLines, String hintText,
+  TextFormField _textFieldDesign(TextEditingController? controller, int minLines, int maxLines, String hintText,
       {bool isBordered = false, bool isValid = false, bool isNumeric = false}) {
+
     return TextFormField(
       controller: controller,
       keyboardType: isNumeric ? TextInputType.number : TextInputType.multiline,
@@ -118,9 +107,7 @@ class _SetCategoryState extends State<SetCategory> {
 
   @override
   Widget build(BuildContext context) {
-    _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab
-        ? Languages.of(context)!.income
-        : Languages.of(context)!.expense);
+    _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -150,7 +137,7 @@ class _SetCategoryState extends State<SetCategory> {
                       bottom: gc.generalTextFieldsPadding),
                   child: IconButton(
                     onPressed: (){},
-                    icon: const Icon(Icons.edit),
+                    icon: const Icon(gc.editIcon),
                     iconSize: gc.editIconSize,
                     color: gc.primaryColor,
                     disabledColor: gc.disabledColor.withOpacity(0.0),),

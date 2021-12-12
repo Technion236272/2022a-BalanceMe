@@ -101,10 +101,10 @@ class LanguageHe extends Languages {
 
   // Balance
   @override
-  String get balanceInfo =>  "‎באפליקציה ניתן לנהל את ההוצאות וההכנסות\n שלך"; //TODO - need to check the view
+  String get balanceInfo =>  "‎באפליקציה ניתן לנהל את ההוצאות וההכנסות\n שלך"; //TODO - need to check the view in different screens
 
   @override
-  String get toGetStartedInfo =>  "‎כדי להתחיל יש להתחבר או פשוט לנסות את \n האפליקציה"; //TODO - need to check the view
+  String get toGetStartedInfo =>  "‎כדי להתחיל יש להתחבר או פשוט לנסות את \n האפליקציה"; //TODO - need to check the view in different screens
 
   @override
   String get expense => "‎הוצאה";
@@ -174,5 +174,5 @@ class LanguageHe extends Languages {
   String get typeSelection => "‎סוג";
 
   @override
-  String get constantSwitch => "‎הוצאה קבועה";
+  String get constantSwitch => "‎קבוע";
 }
