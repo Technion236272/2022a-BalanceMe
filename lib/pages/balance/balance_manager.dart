@@ -60,7 +60,7 @@ class _BalanceManagerState extends State<BalanceManager> {
       resizeToAvoidBottomInset: true,
       body: _waitingForData ? const Center(child: CircularProgressIndicator())
       : (widget._userStorage.balance.isEmpty) ?
-        const WelcomePage() : SingleChildScrollView(child: BalancePage(widget._userStorage.balance, _setCurrentTab)),
+        const WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]),
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddCategory,
         child: const Icon(gc.addIcon),
