@@ -8,6 +8,7 @@ import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/balance/transaction_entry.dart';
 import 'package:balance_me/widgets/balance/category_header.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class CategoryComplex extends StatefulWidget {
   const CategoryComplex(this._category, {Key? key}) : super(key: key);
@@ -28,14 +29,20 @@ class _CategoryComplexState extends State<CategoryComplex> {
   }
 
   void _removeTransaction(Transaction transaction) {
-    Provider.of<UserStorage>(context, listen: false).removeTransaction(widget._category, transaction);
-    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
+    Provider.of<UserStorage>(context, listen: false)
+        .removeTransaction(widget._category, transaction);
+    displaySnackBar(
+        context,
+        Languages.of(context)!
+            .removeSucceeded
+            .replaceAll("%", Languages.of(context)!.transaction));
   }
 
   List<Widget> getTransactions() {
     List<Widget> transactionWidgets = [];
     for (var transaction in widget._category.transactions) {
-      transactionWidgets.add(TransactionEntry(transaction, _removeTransaction, widget._category.isIncome));
+      transactionWidgets.add(TransactionEntry(
+          transaction, _removeTransaction, widget._category.isIncome));
     }
     return transactionWidgets;
   }
@@ -43,14 +50,19 @@ class _CategoryComplexState extends State<CategoryComplex> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: gc.cardElevationHeight,
+      shadowColor: gc.primaryColor.withOpacity(0.5),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(gc.cardBorderRadius)),
       child: Column(
         children: [
           CategoryHeader(widget._category, _isCategoryOpen, _toggleCategory),
-          _isCategoryOpen ?  // TODO- add animation
-          Column(
-            children: getTransactions(),
+          // TODO- add animation
+          Visibility(
+            visible: _isCategoryOpen,
+            child: Column(
+              children: getTransactions(),
+            ),
           )
-          : Container(),
         ],
       ),
     );
