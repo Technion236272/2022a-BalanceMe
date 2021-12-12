@@ -4,6 +4,7 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/ring_pie_chart.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class CategoriesTypeHeader extends StatelessWidget {
   const CategoriesTypeHeader(this._categories, {Key? key}) : super(key: key);
@@ -21,22 +22,64 @@ class CategoriesTypeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         RingPieChart(_categories, true, null),
         Card(
+          shadowColor: gc.primaryColor.withOpacity(0.5),
+          elevation: gc.cardElevationHeight,
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(
+                color: gc.primaryColor, width: gc.cardBorderWidth),
+            borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+          ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Column(
-                children: [
-                  Text(Languages.of(context)!.now),
-                  Text(_getTotalCategoriesListAmount(false).toMoneyFormat()),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(gc.categoryTopPadding),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: gc.categoryAroundPadding),
+                      child: Text(
+                        Languages.of(context)!.current,
+                        style: TextStyle(
+                            color: gc.disabledColor,
+                            fontSize: gc.fontSizeLoginImage,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Text(_getTotalCategoriesListAmount(false).toMoneyFormat(),
+                        style: TextStyle(
+                            color: gc.incomeEntryColor,
+                            fontSize: gc.fontSizeLoginImage,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
-              Column(
-                children: [
-                  Text(Languages.of(context)!.expected),
-                  Text(_getTotalCategoriesListAmount(true).toMoneyFormat()),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(gc.categoryTopPadding),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: gc.categoryAroundPadding),
+                      child: Text(Languages.of(context)!.expected,
+                          style: TextStyle(
+                              color: gc.disabledColor,
+                              fontSize: gc.fontSizeLoginImage,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    Text(_getTotalCategoriesListAmount(true).toMoneyFormat(),
+                        style: TextStyle(
+                            color: gc.primaryColor,
+                            fontSize: gc.fontSizeLoginImage,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
             ],
           ),
