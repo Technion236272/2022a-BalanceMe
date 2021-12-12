@@ -35,7 +35,7 @@ class _CategoryComplexState extends State<CategoryComplex> {
   List<Widget> getTransactions() {
     List<Widget> transactionWidgets = [];
     for (var transaction in widget._category.transactions) {
-      transactionWidgets.add(TransactionEntry(transaction, _removeTransaction));
+      transactionWidgets.add(TransactionEntry(transaction, _removeTransaction, widget._category.isIncome));
     }
     return transactionWidgets;
   }
