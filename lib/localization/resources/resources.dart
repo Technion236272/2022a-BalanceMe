@@ -55,7 +55,7 @@ abstract class Languages {
   String get expenses;
   String get income;
   String get incomes;
-  String get now;
+  String get current;
   String get expected;
   String get amount;
   String get category;

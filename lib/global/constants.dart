@@ -96,6 +96,8 @@ const String pieChartInnerRadius = '65%';
 const LegendPosition pieChartLegendPosition = LegendPosition.bottom;
 Color pieChartCenterText = Colors.grey.shade600;
 Color pieCharDefaultCategoryColor = Colors.grey.shade300;
+const EdgeInsets centerPadding = EdgeInsets.only(bottom: 30.0, left: 10.0);
+const double percentSize = 40.0;
 
 // Balance
 const String inPracticeExpectedSeparator = "/";
@@ -147,3 +149,4 @@ const double categoryAroundPadding = 5.0;
 const double lineBarHeight = 14.0;
 const int lineAnimationDuration = 2500;
 const double dividerThickness = 1.0;
+const double cardBorderWidth = 2.0;
