@@ -184,7 +184,7 @@ class _SetTransactionState extends State<SetTransaction> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: gc.generalTextFieldsPadding),
-                  child: ActionButton(  // TODO- you can design this button by giving "style" parameter
+                  child: ActionButton(
                     performingSave,
                     Languages.of(context)!.save,
                     _saveTransaction,

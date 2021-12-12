@@ -26,7 +26,7 @@ class CategoryHeader extends StatefulWidget {
 class _CategoryHeaderState extends State<CategoryHeader> {
 
   void _addTransaction(Transaction transaction) {
-    Provider.of<UserStorage>(context, listen: false).addTransaction(widget._category, transaction);
+    Provider.of<UserStorage>(context, listen: false).addTransaction(widget._category, transaction, null);
     displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
   }
 
@@ -39,7 +39,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
   }
 
   void _removeCategory() {
-    Provider.of<UserStorage>(context, listen: false).removeCategory(widget._category);
+    Provider.of<UserStorage>(context, listen: false).removeCategory(widget._category, null);
     displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.category));
   }
 

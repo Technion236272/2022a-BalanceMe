@@ -162,6 +162,12 @@ class LanguageRu extends Languages {
   String get addDescription => "Add Description...";
 
   @override
+  String get emptyDescription => "There is no description";
+
+  @override
+  String get back => "Back";
+
+  @override
   String get save => "SAVE";
 
   @override

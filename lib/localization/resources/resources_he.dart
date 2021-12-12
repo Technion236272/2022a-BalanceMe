@@ -161,6 +161,12 @@ class LanguageHe extends Languages {
   String get addDescription => "‎תיאור...";
 
   @override
+  String get emptyDescription => "‎אין תיאור זמין";
+
+  @override
+  String get back => "‎חזור";
+
+  @override
   String get save => "‎שמירה";
 
   @override

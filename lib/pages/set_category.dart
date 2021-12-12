@@ -1,12 +1,12 @@
 // ================= Set Category =================
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/generic_radio_button.dart';
 import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
+import 'package:balance_me/widgets/form_text_field.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
@@ -62,6 +62,10 @@ class _SetCategoryState extends State<SetCategory> {
     }
   }
 
+  String _getDescriptionInitialValue() {
+    return widget.currentCategory != null  &&  widget.currentCategory!.description != "" ? widget.currentCategory!.description : Languages.of(context)!.emptyDescription;
+  }
+
   void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
     _updatePerformingSave(true);
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
@@ -72,7 +76,7 @@ class _SetCategoryState extends State<SetCategory> {
           _categoryDescriptionController.text.toString()
       );
 
-      widget._callback.call(newCategory);
+      widget._callback.call(newCategory, widget.currentCategory);
       navigateBack(context);
       displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.category));
     }
@@ -87,45 +91,6 @@ class _SetCategoryState extends State<SetCategory> {
 
   String? _validatorFunction(String? value) {
     return essentialFieldValidator(value, Languages.of(context)!.essentialField);
-  }
-
-  //TODO - better location in the utils but too complicated to change
-  TextFormField _textFieldDesign(TextEditingController? controller, int minLines, int maxLines, String hintText,
-      {bool isBordered = false, bool isValid = false, bool isNumeric = false, String? initialValue, bool isEnabled = true}) {
-
-    return TextFormField(
-      controller: controller,
-      keyboardType: isNumeric ? TextInputType.number : TextInputType.multiline,
-      inputFormatters: isNumeric == true ? [FilteringTextInputFormatter.digitsOnly] : [],
-      minLines: minLines,
-      maxLines: maxLines,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: gc.defaultHintStyle,
-        border: isBordered ? focusBorder() : null,
-        focusedBorder: isBordered ? focusBorder() : null,
-        enabledBorder: isBordered ? focusBorder() : null,
-        errorBorder: isBordered ? focusBorder() : null,
-      ),
-      textAlign: isValid ? TextAlign.center : TextAlign.start,
-      initialValue: initialValue,
-      enabled: isEnabled,
-      validator: isValid ? _validatorFunction : null,
-      style: isBordered ? null : TextStyle(
-          fontSize: gc.inputFontSize,
-          color: gc.inputFontColor
-      ),
-    );
-  }
-
-  OutlineInputBorder focusBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(gc.textFieldRadius),
-      borderSide: BorderSide(
-        color: gc.primaryColor,
-        width: gc.borderWidth,
-      ),
-    );
   }
 
   @override
@@ -144,13 +109,32 @@ class _SetCategoryState extends State<SetCategory> {
               children: [
                 SizedBox(
                   width: gc.smallTextFields,
-                  child: _textFieldDesign(widget.currentCategory == null ? _categoryNameController : null, 1, 1, Languages.of(context)!.categoryName,
-                      isBordered: true, isValid: true, initialValue: widget.currentCategory == null ? null : widget.currentCategory!.name, isEnabled: widget.mode != DetailsPageMode.Details),
+                  child: FormTextField(
+                    widget.currentCategory == null ? _categoryNameController : null,
+                    1,
+                    1,
+                    Languages.of(context)!.categoryName,
+                    isBordered: true,
+                    isValid: true,
+                    initialValue:
+                    widget.currentCategory == null ? null : widget.currentCategory!.name,
+                    isEnabled: widget.mode != DetailsPageMode.Details,
+                    validatorFunction: _validatorFunction,
+                  ),
                 ),
                 SizedBox(
                   width: gc.smallTextFields,
-                  child: _textFieldDesign(widget.currentCategory == null ? _categoryExpectedController : null, 1, 1, Languages.of(context)!.expected,
-                      isValid: true, isNumeric: true, initialValue: widget.currentCategory == null ? null : widget.currentCategory!.expected.toString(), isEnabled: widget.mode != DetailsPageMode.Details),
+                  child: FormTextField(
+                      widget.currentCategory == null ? _categoryExpectedController : null,
+                      1,
+                      1,
+                      Languages.of(context)!.expected,
+                      isValid: true,
+                      isNumeric: true,
+                      initialValue: widget.currentCategory == null ? null : widget.currentCategory!.expected.toString(),
+                      isEnabled: widget.mode != DetailsPageMode.Details,
+                      validatorFunction: _validatorFunction,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -189,8 +173,15 @@ class _SetCategoryState extends State<SetCategory> {
                       left: gc.generalTextFieldsPadding,
                       right: gc.generalTextFieldsPadding
                   ),
-                  child: _textFieldDesign(widget.currentCategory == null ? _categoryDescriptionController : null, gc.maxLinesExpended, gc.maxLinesExpended,
-                      Languages.of(context)!.addDescription, isBordered: true, initialValue: widget.currentCategory == null ? null : widget.currentCategory!.description, isEnabled: widget.mode != DetailsPageMode.Details),
+                  child: FormTextField(
+                      widget.currentCategory == null ? _categoryDescriptionController : null,
+                      gc.maxLinesExpended,
+                      gc.maxLinesExpended,
+                      Languages.of(context)!.addDescription,
+                      isBordered: true,
+                      initialValue: widget.currentCategory == null ? null : _getDescriptionInitialValue(),
+                      isEnabled: widget.mode != DetailsPageMode.Details
+                  ),
                 ),
                 widget.mode == DetailsPageMode.Details ?
                 Container() :
@@ -199,7 +190,7 @@ class _SetCategoryState extends State<SetCategory> {
                   child: ActionButton(
                     performingAction,
                     Languages.of(context)!.save,
-                    widget.mode == DetailsPageMode.Details ? _toggleEditDetailsMode : _saveCategory,
+                    _saveCategory,
                   ),
                 ),
               ],
