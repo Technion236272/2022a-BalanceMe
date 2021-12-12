@@ -122,7 +122,7 @@ const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
 //Category and Transaction
 const EdgeInsets topPadding = EdgeInsets.only(top: 40.0);
 const double smallTextFields = 280;
-const double generalTextFieldsPadding = 8.0;
+const double generalTextFieldPadding = 8.0;
 const double inputFontSize = 45;
 Color inputFontColor = Colors.grey.shade700;
 const int maxLinesExpended = 10;
@@ -132,3 +132,11 @@ const double editIconSize = 30.0;
 //Dropdown widget
 const double dropDownRadius = 40;
 const int numOfItems = 10;
+
+//Transaction Entry
+const double entryPadding = 8.0;
+const double entryBorderRadius = 10;
+Color entryShadow = Colors.grey.withOpacity(0.5);
+const double shadowDesignConstant = 3;
+Color incomeEntryColor = Colors.green.shade600;
+Color expenseEntryColor = Colors.red.shade600;
