@@ -49,6 +49,12 @@ class LanguageEn extends Languages {
   @override
   String get finish => "FINISH";
 
+  @override
+  String get firstName => "First name";
+
+  @override
+  String get lastName => "Last name";
+
 // Login
   @override
   String get welcome => "Welcome";

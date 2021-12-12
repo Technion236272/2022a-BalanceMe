@@ -51,6 +51,12 @@ class LanguageHe extends Languages {
   @override
   String get finish => "‎סיום";
 
+  @override
+  String get firstName => "שם פרטי ‎";
+
+  @override
+  String get lastName => "שם משפחה ‎";
+
   // Login
   @override
   String get welcome => "‎ברוך הבא";

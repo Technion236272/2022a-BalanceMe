@@ -4,6 +4,7 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
 import 'package:balance_me/global/project_config.dart' as config;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
@@ -12,10 +13,11 @@ import 'package:balance_me/widgets/generic_radio_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
+import 'package:balance_me/widgets/profile_settings.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
-
+  const Settings(this.authRepository,{Key? key}) : super(key: key);
+final AuthRepository authRepository;
   @override
   _SettingsState createState() => _SettingsState();
 }
@@ -23,7 +25,6 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   TextEditingController controllerNewPassword = TextEditingController();
   TextEditingController controllerConfirmPassword = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +47,7 @@ class _SettingsState extends State<Settings> {
     List<Widget?> trailingSettings = [
       IconButton(
           onPressed: () {
-            navigateToPage(context, getProfileScreen());
+            navigateToPage(context, ProfileSettings(authRepository: widget.authRepository,));
           },
           icon: gc.settingArrow),
       IconButton(
@@ -69,9 +70,6 @@ class _SettingsState extends State<Settings> {
         leadingWidgets: leadingSettings, trailingWidgets: trailingSettings);
   }
 
-  Widget getProfileScreen() {
-    return Container();
-  }
 
   //TODO: create a group editing screen
   Widget getGroupScreen() {

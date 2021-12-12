@@ -1,5 +1,4 @@
 // ================= Global Constants =================
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
@@ -30,6 +29,7 @@ const IconData settingsPage = Icons.settings;
 const IconData statisticsPage = Icons.pie_chart;
 const IconData hidePassword = Icons.remove_red_eye_outlined;
 const IconData showPassword = Icons.remove_red_eye;
+const IconData editPencil=Icons.create_sharp;
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
 const Color secondaryColor = Colors.white;
@@ -62,6 +62,7 @@ double borderWidth = 2.0;
 double fontSizeLoginImage = 16;
 // Navigation
 int defaultPage = AppPages.Balance.index;
+int settingPageIndex = AppPages.Settings.index;
 
 //Cards
 double cardElevationHeight = 5.0;
@@ -107,4 +108,6 @@ Color dividerColor=Colors.blueGrey;
 
 //settings
 const double newPasswordSize=22.0;
-
+const double ProfileAvatarRadius = 150.0;
+const double padProfileAvatar=80.0;
+const double padAroundPencil=0.0;

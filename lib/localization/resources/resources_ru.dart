@@ -48,6 +48,12 @@ class LanguageRu extends Languages {
   @override
   String get finish => "закончить";
 
+  @override
+  String get firstName => "имя";
+
+  @override
+  String get lastName => "фамилия";
+
   // Login
   @override
   String get welcome => "Добро пожаловать";

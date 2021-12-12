@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   Widget _getCurrentPage(AuthRepository authRepository, UserStorage userStorage) {
     // TODO- replace to Settings and Statistics screens after they will be implemented
     if (_selectedPage == AppPages.Settings.index) {  // Settings
-      return Settings();
+      return Settings(authRepository);
     }
     if (_selectedPage == AppPages.Statistics.index) {  // Statistics
       return const Scaffold();

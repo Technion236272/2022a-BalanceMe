@@ -25,6 +25,8 @@ abstract class Languages {
   String get newPassword;
   String get passwordUpdate;
   String get finish;
+  String get firstName;
+  String get lastName;
 
   // Login
   String get welcome;
