@@ -136,6 +136,10 @@ const double listTileHeight = 30.0;
 const double dropDownRadius = 40;
 const int numOfItems = 10;
 
+// Generic Info Widget
+const double infoTitleFontSize = 25;
+const double infoFontSize = 18;
+
 //Transaction Entry
 const double entryPadding = 8.0;
 const double entryBorderRadius = 10;

@@ -102,6 +102,9 @@ class LanguageEn extends Languages {
 
   // Balance
   @override
+  String get nothingToShow => "There is nothing to show here";
+
+  @override
   String get balanceInfo => "Here you can manage your income \nand expenses";
 
   @override

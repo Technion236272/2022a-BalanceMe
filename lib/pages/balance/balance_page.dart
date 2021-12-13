@@ -5,6 +5,7 @@ import 'package:balance_me/pages/balance/balance_model.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/balance/categories_type.dart';
 import 'package:balance_me/widgets/generic_tabs.dart';
+import 'package:balance_me/widgets/generic_info.dart';
 import 'package:balance_me/global/types.dart';
 
 class BalancePage extends StatelessWidget {
@@ -13,8 +14,8 @@ class BalancePage extends StatelessWidget {
   final BalanceModel _balanceModel;
   final VoidCallbackInt _changeCurrentTab;
 
-  Widget _getTabBarView(List<Category> categoriesList){
-    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : Container();  // TODO- create "Nothing To Show Here page"
+  Widget _getTabBarView(BuildContext context, List<Category> categoriesList){
+    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : GenericInfo(null, Languages.of(context)!.nothingToShow, null);
   }
 
   @override
@@ -22,8 +23,8 @@ class BalancePage extends StatelessWidget {
     return TabGeneric(
       getGenericTabs([Languages.of(context)!.incomes, Languages.of(context)!.expenses]),
       [
-        _getTabBarView(_balanceModel.incomeCategories),
-        _getTabBarView(_balanceModel.expensesCategories),
+        _getTabBarView(context, _balanceModel.incomeCategories),
+        _getTabBarView(context, _balanceModel.expensesCategories),
       ],
       onSwitch: _changeCurrentTab,
     );
