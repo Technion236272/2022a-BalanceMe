@@ -111,3 +111,6 @@ const double newPasswordSize=22.0;
 const double ProfileAvatarRadius = 150.0;
 const double padProfileAvatar=80.0;
 const double padAroundPencil=0.0;
+
+//firebase error codes
+const String weakPassword="weak-password";

@@ -55,6 +55,15 @@ class LanguageEn extends Languages {
   @override
   String get lastName => "Last name";
 
+  @override
+  String get weakPassword => "Your password is too weak, type in a stronger password";
+
+  @override
+  String get changePasswordError => " No signed in account detected. make sure you are registered and logged in and try again";
+
+  @override
+  String get notSignedIn => "changing password failed. sign in and try again";
+
 // Login
   @override
   String get welcome => "Welcome";

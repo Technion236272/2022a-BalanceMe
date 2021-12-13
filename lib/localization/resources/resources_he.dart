@@ -57,6 +57,15 @@ class LanguageHe extends Languages {
   @override
   String get lastName => "שם משפחה ‎";
 
+  @override
+  String get weakPassword => "‎הסיסמה שלך חלשה מדי, רשום סיסמה חזקה יותר";
+
+  @override
+  String get changePasswordError => "שינוי הסיסמה נכשל, וודא שנכנסת לחשבונך ונסה שוב ‎";
+
+  @override
+  String get notSignedIn => "‎אין חשבון רשום כעת, וודא שנכנסת לחשבונך ונסה שוב";
+
   // Login
   @override
   String get welcome => "‎ברוך הבא";

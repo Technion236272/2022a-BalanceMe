@@ -54,6 +54,15 @@ class LanguageRu extends Languages {
   @override
   String get lastName => "фамилия";
 
+  @override
+  String get weakPassword => "ваш пароль слишком слабый, напишите сильны пароль.";
+
+  @override
+  String get changePasswordError => "Ошибка при смене пароля. убедитесь, что вы зарегистрированы и вошли в систему, и повторите попытку";
+
+  @override
+  String get notSignedIn => "Не обнаружено записаней аккаунт.убедитесь, что вы зарегистрированы и попробуйте снова ";
+
   // Login
   @override
   String get welcome => "Добро пожаловать";

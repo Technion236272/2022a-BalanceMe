@@ -1,30 +1,28 @@
 import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/widgets/appbar.dart';
+import 'package:balance_me/widgets/change_password.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
 import 'package:balance_me/global/project_config.dart' as config;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/widgets/generic_radio_button.dart';
-import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/profile_settings.dart';
 
 class Settings extends StatefulWidget {
-  const Settings(this.authRepository,{Key? key}) : super(key: key);
+  const Settings(this.authRepository,this.userStorage,{Key? key}) : super(key: key);
 final AuthRepository authRepository;
+final UserStorage userStorage;
   @override
   _SettingsState createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
-  TextEditingController controllerNewPassword = TextEditingController();
-  TextEditingController controllerConfirmPassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +45,7 @@ class _SettingsState extends State<Settings> {
     List<Widget?> trailingSettings = [
       IconButton(
           onPressed: () {
-            navigateToPage(context, ProfileSettings(authRepository: widget.authRepository,));
+            navigateToPage(context, ProfileSettings(authRepository: widget.authRepository,userStorage: widget.userStorage,));
           },
           icon: gc.settingArrow),
       IconButton(
@@ -58,66 +56,37 @@ class _SettingsState extends State<Settings> {
       ),
       IconButton(
           onPressed: () {
-            navigateToPage(context, getChangePasswordScreen());
+            navigateToPage(context, ChangePassword(authRepository: widget.authRepository,));
           },
           icon: gc.settingArrow),
       Switch(value: isDark(), onChanged: setDarkMode),
       daysOfMonthRadio(),
       LanguageDropDown(),
-      Text(config.projectVersion)
+      const Text(config.projectVersion)
     ];
     return ListViewGeneric(
         leadingWidgets: leadingSettings, trailingWidgets: trailingSettings);
   }
 
 
-  //TODO: create a group editing screen
   Widget getGroupScreen() {
     return Container();
   }
 
-  @override
-  void dispose() {
-    controllerNewPassword.dispose();
-    controllerConfirmPassword.dispose();
-    super.dispose();
-  }
 
-  //TODO: create a password update function
-  Widget getChangePasswordScreen() {
-    return Scaffold(
-      appBar: MinorAppBar(Languages.of(context)!.newPassword),
-      body: Column(
-        children: [
-          Image.asset(gc.key,height: MediaQuery.of(context).size.height/gc.keyScale,),
-          Text(Languages.of(context)!.passwordUpdate,style: TextStyle(fontSize: gc.newPasswordSize),),
-          TextBox(controllerNewPassword, Languages.of(context)!.newPassword),
-          TextBox(controllerConfirmPassword,
-              Languages.of(context)!.confirmPassword),
-          SizedBox(
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        gc.alternativePrimary)),
-                onPressed: () {},
-                child: Text(Languages.of(context)!.finish)),
-          )
-        ],
-      ),
-    );
-  }
+
+
 
   //TODO: read how to add dark mode and add a boolean to track it.
   void setDarkMode(bool isDark) {
-    ;
-  }
+      }
 
   //TODO: create a function that checks if the user has dark mode on
   bool isDark() {
     return gc.darkMode;
   }
 
-  //TODO: set day of the month according to integer from daysOfMonth list
+
   void setDayOfMonth(Object? value) {}
 
   Widget daysOfMonthRadio() {

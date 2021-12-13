@@ -27,6 +27,9 @@ abstract class Languages {
   String get finish;
   String get firstName;
   String get lastName;
+  String get weakPassword;
+  String get changePasswordError;
+  String get notSignedIn;
 
   // Login
   String get welcome;
