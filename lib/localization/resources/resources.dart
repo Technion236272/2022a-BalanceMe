@@ -63,7 +63,9 @@ abstract class Languages {
   String get transaction;
   String get addTransaction;
   String get editCategory;
+  String get detailsCategory;
   String get editTransaction;
+  String get detailsTransaction;
   String get categoryName;
   String get transactionName;
   String get addDescription;

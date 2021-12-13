@@ -26,6 +26,7 @@ const IconData expandIcon = Icons.expand_less;
 const IconData minimizeIcon = Icons.expand_more;
 const IconData addIcon = Icons.add;
 const IconData deleteIcon = Icons.delete;
+const IconData editIcon = Icons.edit;
 
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color

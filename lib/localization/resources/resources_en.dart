@@ -144,7 +144,13 @@ class LanguageEn extends Languages {
   String get editCategory => "Edit Category";
 
   @override
+  String get detailsCategory => "Category Details";
+
+  @override
   String get editTransaction => "Edit Transaction";
+
+  @override
+  String get detailsTransaction => "Category Transaction";
 
   @override
   String get categoryName => "Category Name";

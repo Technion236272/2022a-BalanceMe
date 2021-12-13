@@ -68,9 +68,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
                   color: gc.secondaryColor,
                 ),
                 Text(
-                  Languages.of(context)!
-                      .delete
-                      .replaceAll("%", Languages.of(context)!.transaction),
+                  Languages.of(context)!.delete.replaceAll("%", Languages.of(context)!.transaction),
                   style: const TextStyle(
                     color: gc.secondaryColor,
                   ),

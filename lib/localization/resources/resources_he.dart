@@ -101,10 +101,10 @@ class LanguageHe extends Languages {
 
   // Balance
   @override
-  String get balanceInfo =>  "‎באפליקציה ניתן לנהל את ההוצאות וההכנסות\n שלך"; //TODO - need to check the view
+  String get balanceInfo =>  "‎באפליקציה ניתן לנהל את ההוצאות וההכנסות\n שלך"; //TODO - need to check the view in different screens
 
   @override
-  String get toGetStartedInfo =>  "‎כדי להתחיל יש להתחבר או פשוט לנסות את \n האפליקציה"; //TODO - need to check the view
+  String get toGetStartedInfo =>  "‎כדי להתחיל יש להתחבר או פשוט לנסות את \n האפליקציה"; //TODO - need to check the view in different screens
 
   @override
   String get expense => "‎הוצאה";
@@ -134,6 +134,9 @@ class LanguageHe extends Languages {
   String get addCategory => "‎הוספת קטגוריה";
 
   @override
+  String get detailsCategory => "‎פרטי הקטגוריה";
+
+  @override
   String get transaction => "‎תנועה";
 
   @override
@@ -144,6 +147,9 @@ class LanguageHe extends Languages {
 
   @override
   String get editTransaction => "‎עריכת התנועה";
+
+  @override
+  String get detailsTransaction => "‎פרטי התנועה";
 
   @override
   String get categoryName => "‎שם הקטגוריה";
@@ -174,5 +180,5 @@ class LanguageHe extends Languages {
   String get typeSelection => "‎סוג";
 
   @override
-  String get constantSwitch => "‎הוצאה קבועה";
+  String get constantSwitch => "‎קבוע";
 }

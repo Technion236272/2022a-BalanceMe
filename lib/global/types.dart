@@ -4,11 +4,17 @@ import 'package:balance_me/common_models/transaction_model.dart';
 
 enum Status {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
-enum AppPages {Settings, Balance, Statistics, Login}
+enum AppPages {Settings, Balance, Statistics, Login, SetCategory, SetTransaction}
 
 enum Currency {NIS, USD, EURO}
 
+enum Entry {Category, Transaction}
+
 enum CategoryType {Income, Expenses}
+
+enum DetailsPageMode {Add, Edit, Details}
+
+enum EntryOperation {Add, Edit, Remove}
 
 typedef Json = Map<String, dynamic>;
 

@@ -51,7 +51,7 @@ class _BalanceManagerState extends State<BalanceManager> {
   }
 
   void _openAddCategory() {
-    navigateToPage(context, SetCategory(widget._userStorage.addCategory, isIncomeTab));
+    navigateToPage(context, SetCategory(DetailsPageMode.Add, widget._userStorage.addCategory, isIncomeTab));
   }
 
   @override
