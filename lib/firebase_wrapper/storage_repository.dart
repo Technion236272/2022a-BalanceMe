@@ -87,7 +87,7 @@ class UserStorage with ChangeNotifier {
     GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, newCategory);
   }
 
-  void removeCategory(model.Category newCategory, model.Category? oldCategory) {
+  void removeCategory(model.Category newCategory) {
     _changeCategory(newCategory, EntryOperation.Remove);
     GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, newCategory);
   }
@@ -108,7 +108,7 @@ class UserStorage with ChangeNotifier {
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Add, category);
   }
 
-  void removeTransaction(model.Category category, model.Transaction newTransaction, model.Transaction? oldTransaction) {
+  void removeTransaction(model.Category category, model.Transaction newTransaction) {
     _changeTransaction(category, newTransaction, EntryOperation.Remove);
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
   }

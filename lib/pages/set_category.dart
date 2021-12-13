@@ -13,14 +13,14 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetCategory extends StatefulWidget {
-  SetCategory(this.mode, this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key) {
+  SetCategory(this._mode, this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key) {
     GoogleAnalytics.instance.logPageOpened(AppPages.SetCategory);
   }
 
+  DetailsPageMode _mode;
   final VoidCallbackCategory _callback;
   final bool _isIncomeTab; // TODO- check adding income in tab expenses
   final Category? currentCategory;
-  DetailsPageMode mode;
 
   @override
   State<SetCategory> createState() => _SetCategoryState();
@@ -51,7 +51,7 @@ class _SetCategoryState extends State<SetCategory> {
   }
 
   String _getPageTitle() {
-    switch (widget.mode) {
+    switch (widget._mode) {
       case DetailsPageMode.Add:
         return Languages.of(context)!.addCategory;
       case DetailsPageMode.Edit:
@@ -63,7 +63,15 @@ class _SetCategoryState extends State<SetCategory> {
   }
 
   String _getDescriptionInitialValue() {
-    return widget.currentCategory != null  &&  widget.currentCategory!.description != "" ? widget.currentCategory!.description : Languages.of(context)!.emptyDescription;
+    switch (widget._mode) {
+      case DetailsPageMode.Details:
+        return widget.currentCategory != null && widget.currentCategory!.description != "" ? widget.currentCategory!.description : Languages.of(context)!.emptyDescription;
+      case DetailsPageMode.Edit:
+        return widget.currentCategory != null && widget.currentCategory!.description != "" ? widget.currentCategory!.description : Languages.of(context)!.addDescription;
+      case DetailsPageMode.Add:
+      default:
+        return Languages.of(context)!.addDescription;
+    }
   }
 
   void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
@@ -85,7 +93,7 @@ class _SetCategoryState extends State<SetCategory> {
 
   void _toggleEditDetailsMode() {
     setState(() {
-      widget.mode = widget.mode == DetailsPageMode.Details ? DetailsPageMode.Edit : DetailsPageMode.Details;
+      widget._mode = (widget._mode == DetailsPageMode.Details) ? DetailsPageMode.Edit : DetailsPageMode.Details;
     });
   }
 
@@ -116,9 +124,8 @@ class _SetCategoryState extends State<SetCategory> {
                     Languages.of(context)!.categoryName,
                     isBordered: true,
                     isValid: true,
-                    initialValue:
-                    widget.currentCategory == null ? null : widget.currentCategory!.name,
-                    isEnabled: widget.mode != DetailsPageMode.Details,
+                    initialValue: widget.currentCategory == null ? null : widget.currentCategory!.name,
+                    isEnabled: widget._mode != DetailsPageMode.Details,
                     validatorFunction: _validatorFunction,
                   ),
                 ),
@@ -132,7 +139,7 @@ class _SetCategoryState extends State<SetCategory> {
                       isValid: true,
                       isNumeric: true,
                       initialValue: widget.currentCategory == null ? null : widget.currentCategory!.expected.toString(),
-                      isEnabled: widget.mode != DetailsPageMode.Details,
+                      isEnabled: widget._mode != DetailsPageMode.Details,
                       validatorFunction: _validatorFunction,
                   ),
                 ),
@@ -142,7 +149,7 @@ class _SetCategoryState extends State<SetCategory> {
                       bottom: gc.generalTextFieldsPadding
                   ),
                   child: IconButton(
-                    onPressed: widget.mode == DetailsPageMode.Details ? _toggleEditDetailsMode : null,
+                    onPressed: widget._mode == DetailsPageMode.Details ? _toggleEditDetailsMode : null,
                     icon: const Icon(gc.editIcon),
                     iconSize: gc.editIconSize,
                     color: gc.primaryColor,
@@ -162,7 +169,7 @@ class _SetCategoryState extends State<SetCategory> {
                           Languages.of(context)!.expense
                         ],
                           _categoryTypeController!,
-                          isDisabled: widget.mode == DetailsPageMode.Details,
+                          isDisabled: widget._mode == DetailsPageMode.Details,
                         ),
                       ]
                   ),
@@ -179,11 +186,11 @@ class _SetCategoryState extends State<SetCategory> {
                       gc.maxLinesExpended,
                       Languages.of(context)!.addDescription,
                       isBordered: true,
-                      initialValue: widget.currentCategory == null ? null : _getDescriptionInitialValue(),
-                      isEnabled: widget.mode != DetailsPageMode.Details
+                      initialValue: _getDescriptionInitialValue(),
+                      isEnabled: widget._mode != DetailsPageMode.Details,
                   ),
                 ),
-                widget.mode == DetailsPageMode.Details ?
+                widget._mode == DetailsPageMode.Details ?
                 Container() :
                 Padding(
                   padding: const EdgeInsets.only(top: gc.buttonPadding),

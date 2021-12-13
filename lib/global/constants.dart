@@ -11,6 +11,7 @@ int defaultPage = AppPages.Balance.index;
 const int defaultEndOfMonthDay = 10;
 const Currency defaultUserCurrency = Currency.NIS;
 const int defaultPrecision = 2;
+const bool defaultIsConstant = false;
 
 // Icons
 const IconData unauthenticatedIcon = Icons.login;
@@ -129,6 +130,7 @@ Color inputFontColor = Colors.grey.shade700;
 const int maxLinesExpended = 10;
 const double buttonPadding = 50.0;
 const double editIconSize = 30.0;
+const double listTileHeight = 30.0;
 
 //Dropdown widget
 const double dropDownRadius = 40;
@@ -137,6 +139,7 @@ const int numOfItems = 10;
 //Transaction Entry
 const double entryPadding = 8.0;
 const double entryBorderRadius = 10;
+Color entryColor = Colors.white;
 Color entryShadow = Colors.grey.withOpacity(0.5);
 const double shadowDesignConstant = 3;
 Color incomeEntryColor = Colors.green.shade600;
