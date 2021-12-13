@@ -72,6 +72,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
+                flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.only(left: gc.categoryAroundPadding),
                   child: Text(
