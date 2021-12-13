@@ -54,7 +54,11 @@ class CategoriesTypeHeader extends StatelessWidget {
                     ),
                     Text(_getTotalCategoriesListAmount(false).toMoneyFormat(),
                         style: TextStyle(
-                            color: gc.incomeEntryColor,
+                            color: (_categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(false)>=_getTotalCategoriesListAmount(true))
+                                    ? gc.incomeEntryColor
+                                    : (!_categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(true)>_getTotalCategoriesListAmount(false))
+                                    ? gc.incomeEntryColor
+                                    : gc.expenseEntryColor,
                             fontSize: gc.fontSizeLoginImage,
                             fontWeight: FontWeight.bold)),
                   ],

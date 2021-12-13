@@ -91,25 +91,22 @@ class _TransactionEntryState extends State<TransactionEntry> {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Text(widget._transaction.date),
-            trailing: SizedBox(
-              width: MediaQuery.of(context).size.width / 4,
-              child: Wrap(
-                alignment: WrapAlignment.end,
-                direction: Axis.horizontal,
-                children: [
-                  Center(
-                      child: Text(
-                          widget._transaction.amount.toMoneyFormat(),
-                          style: TextStyle(fontWeight: FontWeight.bold,
-                          color: widget._isIncome ? gc.incomeEntryColor : gc.expenseEntryColor),)),
-                  Center(
-                    child: IconButton(
-                      onPressed: _openTransactionDetails,
-                      icon: const Icon(gc.transactionDetailsIcon),
-                    ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Center(
+                    child: Text(
+                        widget._transaction.amount.toMoneyFormat(),
+                        style: TextStyle(fontWeight: FontWeight.bold,
+                        color: widget._isIncome ? gc.incomeEntryColor : gc.expenseEntryColor),)),
+                Center(
+                  child: IconButton(
+                    onPressed: _openTransactionDetails,
+                    icon: const Icon(gc.transactionDetailsIcon),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

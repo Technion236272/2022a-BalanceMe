@@ -160,4 +160,5 @@ const double dividerThickness = 1.0;
 const double cardBorderWidth = 2.0;
 const double cardThinBorderWidth = 1.0;
 const double iconPadding = 10.0;
-const double iconSize = 21.0;
+const double iconSize = 24.0;
+const double listViewBottomPadding = 100;
