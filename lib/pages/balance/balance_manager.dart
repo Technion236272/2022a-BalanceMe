@@ -1,5 +1,6 @@
 // ================= Balance Page =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -48,6 +49,7 @@ class _BalanceManagerState extends State<BalanceManager> {
 
   void _setCurrentTab(int currentTab) {
     _isIncomeTab = currentTab == 0;
+    GoogleAnalytics.instance.logPageOpened(_isIncomeTab ? AppPages.Incomes : AppPages.Expenses);
   }
 
   void _openAddCategory() {
@@ -60,7 +62,7 @@ class _BalanceManagerState extends State<BalanceManager> {
       resizeToAvoidBottomInset: true,
       body: _waitingForData ? const Center(child: CircularProgressIndicator())
       : (widget._userStorage.balance.isEmpty) ?
-        const WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]),
+      WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]),
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddCategory,
         child: const Icon(gc.addIcon),

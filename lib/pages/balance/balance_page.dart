@@ -1,4 +1,5 @@
 // ================= Balance Page =================
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/balance/balance_model.dart';
@@ -9,7 +10,9 @@ import 'package:balance_me/widgets/generic_info.dart';
 import 'package:balance_me/global/types.dart';
 
 class BalancePage extends StatelessWidget {
-  const BalancePage(this._balanceModel, this._changeCurrentTab, {Key? key}) : super(key: key);
+  BalancePage(this._balanceModel, this._changeCurrentTab, {Key? key}) : super(key: key) {
+    GoogleAnalytics.instance.logPageOpened(AppPages.Balance);
+  }
 
   final BalanceModel _balanceModel;
   final VoidCallbackInt _changeCurrentTab;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/bottom_navigation.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/pages/balance/balance_manager.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -28,9 +29,11 @@ class _HomePageState extends State<HomePage> {
   Widget _getCurrentPage(AuthRepository authRepository, UserStorage userStorage) {
     // TODO- replace to Settings and Statistics screens after they will be implemented
     if (_selectedPage == AppPages.Settings.index) {  // Settings
+      GoogleAnalytics.instance.logPageOpened(AppPages.Settings);
       return const Scaffold();
     }
     if (_selectedPage == AppPages.Statistics.index) {  // Statistics
+      GoogleAnalytics.instance.logPageOpened(AppPages.Statistics);
       return const Scaffold();
     }  // Statistics
     return BalanceManager(authRepository, userStorage);  // default: Balance
