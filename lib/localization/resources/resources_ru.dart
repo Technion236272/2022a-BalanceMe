@@ -61,7 +61,28 @@ class LanguageRu extends Languages {
   String get changePasswordError => "Ошибка при смене пароля. убедитесь, что вы зарегистрированы и вошли в систему, и повторите попытку";
 
   @override
-  String get notSignedIn => "Не обнаружено записаней аккаунт.убедитесь, что вы зарегистрированы и попробуйте снова ";
+  String get notSignedIn => "Не обнаружено записаней аккаунт.убедитесь, что вы зарегистрированы и попробуйте снова";
+
+  @override
+  String get groupScreenTitle => "моя група";
+
+  @override
+  String get leaveGroup => "покинуть группу";
+
+  @override
+  String get members => "члены группы";
+
+  @override
+  String get description => "описание";
+
+  @override
+  String get create => "создания";
+
+  @override
+  String get join => "присоединиться ";
+
+  @override
+  String get group => "группы";
 
   // Login
   @override

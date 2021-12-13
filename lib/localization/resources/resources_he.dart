@@ -66,6 +66,27 @@ class LanguageHe extends Languages {
   @override
   String get notSignedIn => "‎אין חשבון רשום כעת, וודא שנכנסת לחשבונך ונסה שוב";
 
+  @override
+  String get groupScreenTitle => "הקבוצה שלי‎ ";
+
+  @override
+  String get leaveGroup => "עזיבת קבוצה ‎";
+
+  @override
+  String get members => "חברי הקבוצה‎";
+
+  @override
+  String get description => "‎תיאור ";
+
+  @override
+  String get create => "‎יצירה";
+
+  @override
+  String get join => "הצטרפות‎";
+
+  @override
+  String get group => "קבוצה‎";
+
   // Login
   @override
   String get welcome => "‎ברוך הבא";

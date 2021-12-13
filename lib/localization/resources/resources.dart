@@ -30,6 +30,13 @@ abstract class Languages {
   String get weakPassword;
   String get changePasswordError;
   String get notSignedIn;
+  String get groupScreenTitle;
+  String get leaveGroup;
+  String get members;
+  String get description;
+  String get create;
+  String get join;
+  String get group;
 
   // Login
   String get welcome;

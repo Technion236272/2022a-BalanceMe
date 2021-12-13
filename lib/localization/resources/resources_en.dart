@@ -107,6 +107,26 @@ class LanguageEn extends Languages {
   @override
   String get invalidPasswords => "Passwords don't match ";
 
+  @override
+  String get groupScreenTitle => "My group";
+
+  @override
+  String get leaveGroup => "LEAVE GROUP";
+
+  @override
+  String get members => "Members";
+
+  @override
+  String get description => "Description";
+
+  @override
+  String get create => "CREATE";
+
+  @override
+  String get join => "JOIN";
+
+  @override
+  String get group => "group";
 
   //password recovery
   @override
