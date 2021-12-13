@@ -49,6 +49,7 @@ abstract class Languages {
   String get available;
 
   // Balance
+  String get nothingToShow;
   String get balanceInfo;
   String get toGetStartedInfo;
   String get expense;

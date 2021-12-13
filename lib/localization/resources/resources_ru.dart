@@ -102,6 +102,9 @@ class LanguageRu extends Languages {
 
   // Balance
   @override
+  String get nothingToShow => "There is nothing to show here";
+
+  @override
   String get balanceInfo => "Here you can manage your income \n and expenses";
 
   @override

@@ -1,20 +1,24 @@
 // ================= Balance Page =================
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/balance/balance_model.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/balance/categories_type.dart';
 import 'package:balance_me/widgets/generic_tabs.dart';
+import 'package:balance_me/widgets/generic_info.dart';
 import 'package:balance_me/global/types.dart';
 
 class BalancePage extends StatelessWidget {
-  const BalancePage(this._balanceModel, this._changeCurrentTab, {Key? key}) : super(key: key);
+  BalancePage(this._balanceModel, this._changeCurrentTab, {Key? key}) : super(key: key) {
+    GoogleAnalytics.instance.logPageOpened(AppPages.Balance);
+  }
 
   final BalanceModel _balanceModel;
   final VoidCallbackInt _changeCurrentTab;
 
-  Widget _getTabBarView(List<Category> categoriesList){
-    return Visibility(visible: categoriesList.isNotEmpty , child: CategoriesType(categoriesList));
+  Widget _getTabBarView(BuildContext context, List<Category> categoriesList){
+    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : GenericInfo(null, Languages.of(context)!.nothingToShow, null);
   }
 
   @override
@@ -22,8 +26,8 @@ class BalancePage extends StatelessWidget {
     return TabGeneric(
       getGenericTabs([Languages.of(context)!.incomes, Languages.of(context)!.expenses]),
       [
-        _getTabBarView(_balanceModel.incomeCategories),
-        _getTabBarView(_balanceModel.expensesCategories),
+        _getTabBarView(context, _balanceModel.incomeCategories),
+        _getTabBarView(context, _balanceModel.expensesCategories),
       ],
       onSwitch: _changeCurrentTab,
     );

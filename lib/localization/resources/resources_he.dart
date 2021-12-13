@@ -101,6 +101,9 @@ class LanguageHe extends Languages {
 
   // Balance
   @override
+  String get nothingToShow => "‎בינתיים אין מה להציג כאן";
+
+  @override
   String get balanceInfo =>  "‎באפליקציה ניתן לנהל את ההוצאות וההכנסות\n שלך"; //TODO - need to check the view in different screens
 
   @override
