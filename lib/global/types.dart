@@ -4,7 +4,7 @@ import 'package:balance_me/common_models/transaction_model.dart';
 
 enum Status {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
-enum AppPages {Settings, Welcome, Balance, Statistics, Login, SetCategory, SetTransaction, Incomes, Expenses}
+enum AppPages {Settings, Balance, Statistics, Welcome, Login, SetCategory, SetTransaction, Incomes, Expenses}
 
 enum Currency {NIS, USD, EURO}
 
