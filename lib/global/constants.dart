@@ -154,5 +154,6 @@ const double lineBarHeight = 14.0;
 const int lineAnimationDuration = 2500;
 const double dividerThickness = 1.0;
 const double cardBorderWidth = 2.0;
-const double iconPadding = 0.0;
+const double cardThinBorderWidth = 1.0;
+const double iconPadding = 10.0;
 const double iconSize = 21.0;

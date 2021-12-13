@@ -95,7 +95,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
               width: MediaQuery.of(context).size.width / 4,
               child: Wrap(
                 alignment: WrapAlignment.end,
-                direction: Axis.vertical,
+                direction: Axis.horizontal,
                 children: [
                   Center(
                       child: Text(
@@ -108,10 +108,6 @@ class _TransactionEntryState extends State<TransactionEntry> {
                       icon: const Icon(gc.transactionDetailsIcon),
                     ),
                   ),
-                  IconButton(
-                  onPressed: _confirmRemoval,
-                  icon: const Icon(gc.deleteIcon),
-                ),
                 ],
               ),
             ),

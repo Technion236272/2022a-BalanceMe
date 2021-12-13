@@ -20,7 +20,7 @@ class CategoriesType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.only(bottom: 50),
+      padding: const EdgeInsets.only(bottom: 80),
       children: [
         CategoriesTypeHeader(_categories),
         ...getCategories(),

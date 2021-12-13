@@ -72,9 +72,9 @@ class _CategoryHeaderState extends State<CategoryHeader> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: gc.categoryAroundPadding),
+                  padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
                   child: Text(
                     widget._category.name,
                     style: TextStyle(
@@ -90,7 +90,8 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                 children: [
                   IconButton(
                     iconSize: gc.iconSize,
-                    padding: const EdgeInsets.only(top: gc.iconPadding, bottom: gc.iconPadding,),
+                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                    constraints: BoxConstraints(),
                     color: gc.primaryColor,
                     onPressed: _openAddTransactionPage,
                     icon: const Icon(gc.addIcon),
@@ -98,13 +99,17 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                   IconButton(
                     iconSize: gc.iconSize,
                     padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                    constraints: BoxConstraints(),
                     color: gc.primaryColor,
                     onPressed: _openCategoryDetails,
                     icon: const Icon(gc.transactionDetailsIcon),
                   ),
                   IconButton(
                     iconSize: gc.iconSize,
-                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                    padding: widget._category.transactions.isNotEmpty
+                        ? const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,)
+                    : const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding, right: gc.iconPadding,),
+                    constraints: BoxConstraints(),
                     color: gc.primaryColor,
                     onPressed: _confirmRemoval,
                     icon: const Icon(gc.deleteIcon),
@@ -113,7 +118,8 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                     visible: widget._category.transactions.isNotEmpty,
                     child: IconButton(
                         iconSize: gc.iconSize,
-                        padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                        padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding, right: gc.iconPadding,),
+                        constraints: BoxConstraints(),
                         color: gc.primaryColor,
                         onPressed: widget._toggleCategory,
                         icon: Icon(widget._isCategoryOpen
