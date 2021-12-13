@@ -63,15 +63,7 @@ class _SetCategoryState extends State<SetCategory> {
   }
 
   String _getDescriptionInitialValue() {
-    switch (widget._mode) {
-      case DetailsPageMode.Details:
-        return widget.currentCategory != null && widget.currentCategory!.description != "" ? widget.currentCategory!.description : Languages.of(context)!.emptyDescription;
-      case DetailsPageMode.Edit:
-        return widget.currentCategory != null && widget.currentCategory!.description != "" ? widget.currentCategory!.description : Languages.of(context)!.addDescription;
-      case DetailsPageMode.Add:
-      default:
-        return Languages.of(context)!.addDescription;
-    }
+    return widget.currentCategory != null && widget.currentCategory!.description != "" ? widget.currentCategory!.description : Languages.of(context)!.emptyDescription;
   }
 
   void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
@@ -181,12 +173,12 @@ class _SetCategoryState extends State<SetCategory> {
                       right: gc.generalTextFieldsPadding
                   ),
                   child: FormTextField(
-                      widget.currentCategory == null ? _categoryDescriptionController : null,
+                      widget._mode == DetailsPageMode.Details ? null : _categoryDescriptionController,
                       gc.maxLinesExpended,
                       gc.maxLinesExpended,
                       Languages.of(context)!.addDescription,
                       isBordered: true,
-                      initialValue: _getDescriptionInitialValue(),
+                      initialValue: widget._mode == DetailsPageMode.Details ? _getDescriptionInitialValue() : null,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                   ),
                 ),
