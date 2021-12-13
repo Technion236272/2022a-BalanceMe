@@ -28,21 +28,19 @@ class _CategoryComplexState extends State<CategoryComplex> {
     });
   }
 
-  void _removeTransaction(Transaction transaction) {
-    Provider.of<UserStorage>(context, listen: false)
-        .removeTransaction(widget._category, transaction);
-    displaySnackBar(
-        context,
-        Languages.of(context)!
-            .removeSucceeded
-            .replaceAll("%", Languages.of(context)!.transaction));
+  void _removeTransaction(Transaction newTransaction) {
+    Provider.of<UserStorage>(context, listen: false).removeTransaction(widget._category, newTransaction);
+    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
+  }
+
+  void _editTransaction(Transaction newTransaction, Transaction? oldTransaction) {
+    Provider.of<UserStorage>(context, listen: false).editTransaction(widget._category, newTransaction, oldTransaction);
   }
 
   List<Widget> getTransactions() {
     List<Widget> transactionWidgets = [];
     for (var transaction in widget._category.transactions) {
-      transactionWidgets.add(TransactionEntry(
-          transaction, _removeTransaction, widget._category.isIncome));
+      transactionWidgets.add(TransactionEntry(transaction, _removeTransaction, _editTransaction, widget._category.name, widget._category.isIncome));
     }
     return transactionWidgets;
   }

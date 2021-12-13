@@ -82,40 +82,40 @@ class UserStorage with ChangeNotifier {
     notifyListeners();
   }
 
-  void addCategory(model.Category category) {
-    _changeCategory(category, EntryOperation.Add);
-    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, category);
+  void addCategory(model.Category newCategory, model.Category? oldCategory) {
+    _changeCategory(newCategory, EntryOperation.Add);
+    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, newCategory);
   }
 
-  void removeCategory(model.Category category) {
-    _changeCategory(category, EntryOperation.Remove);
-    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, category);
+  void removeCategory(model.Category newCategory) {
+    _changeCategory(newCategory, EntryOperation.Remove);
+    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, newCategory);
   }
 
-  void editCategory(model.Category category) {
+  void editCategory(model.Category newCategory, model.Category? oldCategory) {
     // TODO
-    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Edit, category);
+    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Edit, newCategory);
   }
 
-  void _changeTransaction(model.Category category, model.Transaction transaction, EntryOperation operation) {
-    operation == EntryOperation.Add ? category.addTransaction(transaction) : category.removeTransaction(transaction);
+  void _changeTransaction(model.Category category, model.Transaction newTransaction, EntryOperation operation) {
+    operation == EntryOperation.Add ? category.addTransaction(newTransaction) : category.removeTransaction(newTransaction);
     SEND_balanceModel();
     notifyListeners();
   }
 
-  void addTransaction(model.Category category, model.Transaction transaction) {
-    _changeTransaction(category, transaction, EntryOperation.Add);
+  void addTransaction(model.Category category, model.Transaction newTransaction, model.Transaction? oldTransaction) {
+    _changeTransaction(category, newTransaction, EntryOperation.Add);
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Add, category);
   }
 
-  void removeTransaction(model.Category category, model.Transaction transaction) {
-    _changeTransaction(category, transaction, EntryOperation.Remove);
+  void removeTransaction(model.Category category, model.Transaction newTransaction) {
+    _changeTransaction(category, newTransaction, EntryOperation.Remove);
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
   }
 
-  void editTransaction(model.Category category, model.Transaction transaction) {
+  void editTransaction(model.Category category, model.Transaction newTransaction, model.Transaction? oldTransaction) {
     // TODO
-    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Edit, transaction);
+    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Edit, newTransaction);
   }
 
   // ================== Requests ==================

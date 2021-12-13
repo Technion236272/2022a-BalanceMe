@@ -150,7 +150,7 @@ class LanguageEn extends Languages {
   String get editTransaction => "Edit Transaction";
 
   @override
-  String get detailsTransaction => "Category Transaction";
+  String get detailsTransaction => "Transaction Details";
 
   @override
   String get categoryName => "Category Name";
@@ -160,6 +160,12 @@ class LanguageEn extends Languages {
 
   @override
   String get addDescription => "Add Description...";
+
+  @override
+  String get emptyDescription => "There is no description";
+
+  @override
+  String get back => "Back";
 
   @override
   String get save => "SAVE";

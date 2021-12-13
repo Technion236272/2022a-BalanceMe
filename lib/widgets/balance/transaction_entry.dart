@@ -3,16 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
+import 'package:balance_me/pages/set_transaction.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class TransactionEntry extends StatefulWidget {
-  const TransactionEntry(this._transaction, this._removeTransactionCB, this._isIncome, {Key? key}) : super(key: key);
+  const TransactionEntry(this._transaction, this._removeTransactionCB, this._editTransactionCB, this._currentCategoryName, this._isIncome, {Key? key}) : super(key: key);
 
   final Transaction _transaction;
   final bool _isIncome;
   final VoidCallbackTransaction _removeTransactionCB;
+  final VoidCallbackTwoTransactions _editTransactionCB;
+  final String _currentCategoryName;
 
   @override
   _TransactionEntryState createState() => _TransactionEntryState();
@@ -20,11 +23,7 @@ class TransactionEntry extends StatefulWidget {
 
 class _TransactionEntryState extends State<TransactionEntry> {
   void _openTransactionDetails() {
-    // TODO
-  }
-
-  void _editTransaction() {
-    // TODO
+    navigateToPage(context, SetTransaction(DetailsPageMode.Details, widget._editTransactionCB, widget._currentCategoryName, currentTransaction: widget._transaction));
   }
 
   void _closeDialogCallback() {
@@ -34,9 +33,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
   Future<void> _confirmRemoval() async {
     await showYesNoAlertDialog(
         context,
-        Languages.of(context)!
-            .verifyRemoval
-            .replaceAll("%", Languages.of(context)!.transaction),
+        Languages.of(context)!.verifyRemoval.replaceAll("%", Languages.of(context)!.transaction),
         _confirmRemovalCallback,
         _closeDialogCallback);
   }
@@ -77,7 +74,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
             )),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: gc.entryColor,
               boxShadow: [
                 BoxShadow(
                   color: gc.entryShadow,
@@ -111,10 +108,10 @@ class _TransactionEntryState extends State<TransactionEntry> {
                       icon: const Icon(gc.transactionDetailsIcon),
                     ),
                   ),
-                  /* IconButton(
+                  IconButton(
                   onPressed: _confirmRemoval,
                   icon: const Icon(gc.deleteIcon),
-                ),*/
+                ),
                 ],
               ),
             ),

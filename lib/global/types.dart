@@ -20,9 +20,11 @@ typedef Json = Map<String, dynamic>;
 
 typedef VoidCallbackInt = void Function(int);
 
-typedef VoidCallbackCategory = void Function(Category);
+typedef VoidCallbackCategory = void Function(Category, Category?);
 
 typedef VoidCallbackTransaction = void Function(Transaction);
+
+typedef VoidCallbackTwoTransactions = void Function(Transaction, Transaction?);
 
 typedef StringCallbackStringNullable =  String? Function(String?);
 

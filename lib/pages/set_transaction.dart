@@ -1,10 +1,12 @@
 // ================= Set Transaction =================
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
+import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/widgets/action_button.dart';
+import 'package:balance_me/widgets/form_text_field.dart';
 import 'package:balance_me/widgets/generic_drop_down_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
@@ -13,9 +15,13 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
-  const SetTransaction(this._callback, {this.currentTransaction, Key? key}) : super(key: key);
+  SetTransaction(this._mode, this._callback, this._currentCategoryName, {this.currentTransaction, Key? key}) : super(key: key) {
+    GoogleAnalytics.instance.logPageOpened(AppPages.SetTransaction);
+  }
 
-  final VoidCallbackTransaction _callback;
+  DetailsPageMode _mode;
+  final VoidCallbackTwoTransactions _callback;
+  final String _currentCategoryName;
   final Transaction? currentTransaction;
 
   @override
@@ -27,21 +33,17 @@ class _SetTransactionState extends State<SetTransaction> {
   final TextEditingController _transactionNameController = TextEditingController();
   final TextEditingController _transactionAmountController = TextEditingController();
   final TextEditingController _transactionDescriptionController = TextEditingController();
+  final String _date = DateTime.now().toFullDate();  // TODO- connect with date picker
   PrimitiveWrapper? _dropDownController;
+  bool _isConstant = gc.defaultIsConstant;
   bool _performingSave = false;
 
-  bool get performingSave => _performingSave;
+  bool get performingAction => _performingSave;
 
   void _updatePerformingSave(bool state) {
     setState(() {
       _performingSave = state;
     });
-  }
-
-  @override
-  void initState() {
-    GoogleAnalytics.instance.logPageOpened(AppPages.SetTransaction);
-    super.initState();
   }
 
   @override
@@ -52,70 +54,83 @@ class _SetTransactionState extends State<SetTransaction> {
     super.dispose();
   }
 
-  void _saveTransaction() {  // TODO- use generic RadioButton for isConstant
+  String _getPageTitle() {
+    switch (widget._mode) {
+      case DetailsPageMode.Add:
+        return Languages.of(context)!.addTransaction;
+      case DetailsPageMode.Edit:
+        return Languages.of(context)!.editTransaction;
+      case DetailsPageMode.Details:
+      default:
+        return Languages.of(context)!.detailsTransaction;
+    }
+  }
+
+  String _getDescriptionInitialValue() {
+    switch (widget._mode) {
+      case DetailsPageMode.Details:
+        return widget.currentTransaction != null && widget.currentTransaction!.description != "" ? widget.currentTransaction!.description : Languages.of(context)!.emptyDescription;
+      case DetailsPageMode.Edit:
+        return widget.currentTransaction != null && widget.currentTransaction!.description != "" ? widget.currentTransaction!.description : Languages.of(context)!.addDescription;
+      case DetailsPageMode.Add:
+      default:
+        return Languages.of(context)!.addDescription;
+    }
+  }
+
+  void _saveTransaction() {  // TODO- support change category according _dropDownController (probably get the category itself in constructor)
     _updatePerformingSave(true);
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       Transaction newTransaction = Transaction(
           _transactionNameController.text.toString(),
-          DateTime.now().toFullDate(),
+          _date,
           double.parse(_transactionAmountController.text.toString()),
           _transactionDescriptionController.text.toString(),
-          false
+          _isConstant
       );
 
-      widget._callback.call(newTransaction);
+      widget._callback.call(newTransaction, widget.currentTransaction);
       navigateBack(context);
       displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.transaction));
     }
     _updatePerformingSave(false);
   }
 
+  void _switchConstant(bool isConstant) {
+    setState(() {
+      _isConstant = isConstant;
+    });
+  }
+
+  void _toggleEditDetailsMode() {
+    setState(() {
+      widget._mode = (widget._mode == DetailsPageMode.Details) ? DetailsPageMode.Edit : DetailsPageMode.Details;
+    });
+  }
+
   String? _validatorFunction(String? value) {
     return essentialFieldValidator(value, Languages.of(context)!.essentialField);
   }
 
-  TextFormField _textFieldDesign(TextEditingController? controller,
-      int minLines, int maxLines, String hintText,
-      {bool isBordered = false, bool isValid = false, bool isNumeric = false}) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: isNumeric ? TextInputType.number : TextInputType.multiline,
-      inputFormatters: isNumeric == true ? [FilteringTextInputFormatter.digitsOnly] : [],
-      minLines: minLines,
-      maxLines: maxLines,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: gc.defaultHintStyle,
-        border: isBordered ? focusBorder() : null,
-        focusedBorder: isBordered ? focusBorder() : null,
-        enabledBorder: isBordered ? focusBorder() : null,
-        errorBorder: isBordered ? focusBorder() : null,
-      ),
-      textAlign: isValid ? TextAlign.center : TextAlign.start,
-      validator: isValid ? _validatorFunction : null,
-      initialValue: widget.currentTransaction != null? widget.currentTransaction!.amount.toString() : null,
-      style: isBordered ? null : TextStyle(
-          fontSize: gc.inputFontSize,
-          color: gc.inputFontColor),
-    );
-  }
-
-  OutlineInputBorder focusBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(gc.textFieldRadius),
-      borderSide: BorderSide(
-        color: gc.primaryColor,
-        width: gc.borderWidth,
-      ),
-    );
+  List<String> _getCategoriesNameList(BuildContext context) {
+    List<String> categoriesName = [];
+    for (var category in Provider.of<UserStorage>(context, listen: false).balance.expensesCategories) {
+      categoriesName.add(category.name);
+    }
+    for (var category in Provider.of<UserStorage>(context, listen: false).balance.incomeCategories) {
+      categoriesName.add(category.name);
+    }
+    return categoriesName;
   }
 
   @override
   Widget build(BuildContext context) {
-    _dropDownController = PrimitiveWrapper("hello"); //TODO - need to initiate with real value from category list
+    _dropDownController = PrimitiveWrapper(widget._currentCategoryName);
+    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: MinorAppBar(widget.currentTransaction != null ? Languages.of(context)!.editTransaction : Languages.of(context)!.addTransaction),
+      appBar: MinorAppBar(_getPageTitle()),
       body: SingleChildScrollView(
         child: Padding(
           padding:  gc.topPadding,
@@ -125,67 +140,99 @@ class _SetTransactionState extends State<SetTransaction> {
               children: [
                 SizedBox(
                   width: gc.smallTextFields,
-                  child: _textFieldDesign(_transactionNameController, 1, 1,
-                    Languages.of(context)!.transactionName, isBordered: true, isValid: true, ),
+                  child: FormTextField(
+                    widget.currentTransaction == null ? _transactionNameController : null,
+                    1,
+                    1,
+                    Languages.of(context)!.transactionName,
+                    isBordered: true,
+                    isValid: true,
+                    initialValue: widget.currentTransaction == null ? null : widget.currentTransaction!.name,
+                    isEnabled: widget._mode != DetailsPageMode.Details,
+                    validatorFunction: _validatorFunction,
+                  ),
                 ),
                 SizedBox(
                   width: gc.smallTextFields,
-                  child: _textFieldDesign(_transactionAmountController, 1, 1,
-                      Languages.of(context)!.amount, isValid: true, isNumeric: true),
+                  child: FormTextField(
+                    widget.currentTransaction == null ? _transactionAmountController : null,
+                    1,
+                    1,
+                    Languages.of(context)!.amount,
+                    isValid: true,
+                    isNumeric: true,
+                    initialValue: widget.currentTransaction == null ? null : widget.currentTransaction!.amount.toString(),
+                    isEnabled: widget._mode != DetailsPageMode.Details,
+                    validatorFunction: _validatorFunction,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       top: gc.generalTextFieldsPadding,
-                      bottom: gc.generalTextFieldsPadding),
+                      bottom: gc.generalTextFieldsPadding
+                  ),
                   child: SizedBox(
                       width: gc.smallTextFields,
-                      child: GenericDropDownButton(const ["hello", "world"], _dropDownController!)),
-                ), //TODO - pass a real list of categories
-                // TODO- use here generic datePicker for date
+                      child: (widget._mode == DetailsPageMode.Details) ?
+                      Text(_dropDownController!.value)
+                      : GenericDropDownButton(_getCategoriesNameList(context), _dropDownController!),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(
                       top: gc.generalTextFieldsPadding,
-                      bottom: gc.generalTextFieldsPadding),
+                      bottom: gc.generalTextFieldsPadding,
+                  ),
                   child: IconButton(
-                    onPressed: (){},
-                    icon: const Icon(Icons.edit),
+                    onPressed: (widget._mode == DetailsPageMode.Details) ? _toggleEditDetailsMode : null,
+                    icon: const Icon(gc.editIcon),
                     iconSize: gc.editIconSize,
                     color: gc.primaryColor,
-                    disabledColor: gc.disabledColor.withOpacity(0.0),),
+                    disabledColor: gc.disabledColor.withOpacity(0.0),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       left: gc.generalTextFieldsPadding,
-                      right: gc.generalTextFieldsPadding),
-                  child: ListViewGeneric(leadingWidgets: [
+                      right: gc.generalTextFieldsPadding
+                  ),
+                  child: ListViewGeneric(
+                    leadingWidgets: [
                     Text(Languages.of(context)!.date),
                     Text(Languages.of(context)!.constantSwitch),
-                  ], trailingWidgets: [
-                    null, //TODO - insert a date picker
-                    Switch(
-                      value: true,
-                      onChanged: (val){
-                        print(val);
-                      },
-                    ),
+                    ],
+                    trailingWidgets: [
+                      Text(_date),  // TODO- switch with date picker
+                      Switch(
+                        value: _isConstant,
+                        onChanged: (widget._mode == DetailsPageMode.Details) ? null : _switchConstant,
+                      ),
                   ],
-                  listTileHeight: 30,),
+                  listTileHeight: gc.listTileHeight,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       top: gc.generalTextFieldsPadding,
                       left: gc.generalTextFieldsPadding,
-                      right: gc.generalTextFieldsPadding),
-                  child: _textFieldDesign(
-                      _transactionDescriptionController,
-                      gc.maxLinesExpended-2,
-                      gc.maxLinesExpended-2,
-                      Languages.of(context)!.addDescription, isBordered: true),
+                      right: gc.generalTextFieldsPadding,
+                  ),
+                  child: FormTextField(
+                    widget.currentTransaction == null ? _transactionDescriptionController : null,
+                    gc.maxLinesExpended - 2,
+                    gc.maxLinesExpended - 2,
+                    Languages.of(context)!.addDescription,
+                    isBordered: true,
+                    initialValue: _getDescriptionInitialValue(),
+                    isEnabled: widget._mode != DetailsPageMode.Details,
+                  ),
                 ),
+                widget._mode == DetailsPageMode.Details ?
+                Container() :
                 Padding(
                   padding: const EdgeInsets.only(top: gc.generalTextFieldsPadding),
-                  child: ActionButton(  // TODO- you can design this button by giving "style" parameter
-                    performingSave,
+                  child: ActionButton(
+                    performingAction,
                     Languages.of(context)!.save,
                     _saveTransaction,
                   ),
