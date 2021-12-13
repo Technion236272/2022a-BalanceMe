@@ -84,6 +84,15 @@ class LanguageRu extends Languages {
   @override
   String get group => "группы";
 
+  @override
+  String get createGroupInstructions => "для создания новой группы, выбираете уникальное имя";
+
+  @override
+  String get groupName => "имя группы";
+
+  @override
+  String get descriptionInstruction => "добавьте описание...";
+
   // Login
   @override
   String get welcome => "Добро пожаловать";

@@ -37,6 +37,9 @@ abstract class Languages {
   String get create;
   String get join;
   String get group;
+  String get createGroupInstructions;
+  String get groupName;
+  String get descriptionInstruction;
 
   // Login
   String get welcome;

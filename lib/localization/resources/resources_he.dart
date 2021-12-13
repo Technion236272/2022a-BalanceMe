@@ -87,6 +87,15 @@ class LanguageHe extends Languages {
   @override
   String get group => "קבוצה‎";
 
+  @override
+  String get createGroupInstructions => "ליצירת קבוצה חדשה, בחר שם יחודי‎";
+
+  @override
+  String get groupName => "שם הקבוצה ‎";
+
+  @override
+  String get descriptionInstruction => "הוספת תיאור...‎";
+
   // Login
   @override
   String get welcome => "‎ברוך הבא";

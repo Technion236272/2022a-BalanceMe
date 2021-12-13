@@ -128,6 +128,15 @@ class LanguageEn extends Languages {
   @override
   String get group => "group";
 
+  @override
+  String get createGroupInstructions => "To create a new group,you need to choose a unique name";
+
+  @override
+  String get groupName => "Group name";
+
+  @override
+  String get descriptionInstruction => "Add description...";
+
   //password recovery
   @override
   String get recoverPassword => "Password recovery";

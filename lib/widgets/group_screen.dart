@@ -2,7 +2,6 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
-import 'package:balance_me/widgets/generic_tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/widgets/login_image.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -16,7 +15,7 @@ class GroupScreen extends StatefulWidget {
 }
 
 class _GroupScreenState extends State<GroupScreen> {
-  int appBarChoice = 0;
+
   Widget groupScreenHasGroup() {
     return Column(
         children: [
@@ -39,54 +38,14 @@ class _GroupScreenState extends State<GroupScreen> {
         ],
     );
   }
-  List<String> tabNames() {
-    return [Languages.of(context)!.create, Languages.of(context)!.join];
-  }
-  List<Tab> tabsList() {
-    List<Tab> tabs = [];
-    tabNames().forEach((element) {
-      tabs.add(Tab(
-        child: Text(
-          element,
-          style: const TextStyle(color: gc.tabTextColor),
-        ),
-      ));
-    });
-    return tabs;
-  }
-  bool hasGroup()
-{
-  return widget.authRepository.isAuthenticated && widget.userStorage.userData!=null
-  && widget.userStorage.userData!.groupName!=widget.authRepository.user!.email
-  ;
 
-}
 
-  List<Widget> groupTabBarView() {
-    return [
-    
-    ];
-  }
 
-  String capitalize(String s)
-  {
-    return s[0].toUpperCase()+s.substring(1).toLowerCase();
-  }
-Widget createJoinGroup()
-{
-
-  return Scaffold(
-    appBar: appBarChoice == 0
-        ? MinorAppBar(capitalize(Languages.of(context)!.create)+Languages.of(context)!.group)
-        : MinorAppBar(capitalize(Languages.of(context)!.join)+Languages.of(context)!.group),
-    body:TabGeneric(tabsList(), groupTabBarView()),
-  );
-}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MinorAppBar(Languages.of(context)!.groupScreenTitle),
-      body:hasGroup()? groupScreenHasGroup():createJoinGroup(),
+      body: groupScreenHasGroup(),
     );
   }
 }

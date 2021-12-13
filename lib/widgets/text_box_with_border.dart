@@ -1,15 +1,17 @@
-import 'package:balance_me/localization/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class TextBox extends StatefulWidget {
-  const TextBox(this.controller,this.hintText,{this.hideText =false,this.labelText,this.haveBorder=true,this.suffix,Key? key}) : super(key: key);
+  const TextBox(this.controller,this.hintText,{this.hideText =false,this.labelText,this.haveBorder=true,this.suffix,this.textBoxHeight,
+    this.textBoxSize,Key? key}) : super(key: key);
 final TextEditingController controller;
 final bool hideText;
 final String? hintText;
 final Widget? labelText;
 final Widget? suffix;
 final bool haveBorder;
+final double? textBoxHeight;
+final EdgeInsetsGeometry? textBoxSize;
 
   @override
   _TextBoxState createState() => _TextBoxState();
@@ -18,18 +20,22 @@ final bool haveBorder;
 class _TextBoxState extends State<TextBox> {
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: const EdgeInsets.all(gc.paddingBetweenText),
-    child: TextFormField(
-      controller: widget.controller,
-      obscureText:widget.hideText,
-      decoration: InputDecoration(
-        hintText: widget.hintText,
-        label: widget.labelText,
-        focusedBorder:widget.haveBorder? focusBorder():null,
-        enabledBorder:widget.haveBorder? focusBorder():null,
-        suffixIcon: widget.suffix,
+    return Container(
+      height: widget.textBoxHeight,
+      child: Padding(padding: const EdgeInsets.all(gc.paddingBetweenText),
+      child: TextFormField(
+        controller: widget.controller,
+        obscureText:widget.hideText,
+        decoration: InputDecoration(
+          contentPadding:widget.textBoxSize ,
+          hintText: widget.hintText,
+          label: widget.labelText,
+          focusedBorder:widget.haveBorder? focusBorder():null,
+          enabledBorder:widget.haveBorder? focusBorder():null,
+          suffixIcon: widget.suffix,
+        ),
       ),
-    ),
+      ),
     );
   }
   OutlineInputBorder focusBorder() {
@@ -38,6 +44,7 @@ class _TextBoxState extends State<TextBox> {
       borderSide: BorderSide(
         color: gc.primaryColor,
         width: gc.borderWidth,
+
       ),
     );
   }

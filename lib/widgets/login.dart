@@ -1,3 +1,4 @@
+import 'package:balance_me/widgets/generic_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -78,18 +79,11 @@ IconButton hidingPasswordEye()
     });
   }
 
-  SizedBox signInButton(BuildContext context) {
-    return SizedBox(
-      child: ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(gc.alternativePrimary)),
-          onPressed: () {
-            util.emailPasswordSignIn(
-                controllerEmail.text, controllerPassword.text, context);
-          },
-          child: Text(Languages.of(context)!.signIn)),
-    );
+  Widget signInButton(BuildContext context) {
+   return GenericButton(buttonText: Languages.of(context)!.signIn,
+   buttonColor: gc.alternativePrimary,
+     onPressed: (){},
+   );
   }
 
   @override

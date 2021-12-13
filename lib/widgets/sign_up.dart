@@ -34,29 +34,31 @@ class _SignUpState extends State<SignUp> {
     controllerConfirmPassword.dispose();
     super.dispose();
   }
-
+//TODO: check if it scrolls
   Widget signUpBody(BuildContext context) {
-    return Form(
-      child: Column(
-        children: [
-          const LoginImage(),
-          TextBox(controllerEmail, Languages.of(context)!.emailText),
-          TextBox(
-            controllerPassword,
-            Languages.of(context)!.password,
-            hideText: signUpPasswordVisible,
-            suffix: hidingPasswordEye(),
-          ),
-          TextBox(
-            controllerConfirmPassword,
-            Languages.of(context)!.confirmPassword,
-            hideText: confirmPasswordVisible,
-            suffix: hidingConfirmPasswordEye(),
-          ),
-          GoogleButton(),
-          FacebookButton(),
-          signUpEmailPasswordButton(context),
-        ],
+    return SingleChildScrollView(
+      child: Form(
+        child: Column(
+          children: [
+            const LoginImage(),
+            TextBox(controllerEmail, Languages.of(context)!.emailText),
+            TextBox(
+              controllerPassword,
+              Languages.of(context)!.password,
+              hideText: signUpPasswordVisible,
+              suffix: hidingPasswordEye(),
+            ),
+            TextBox(
+              controllerConfirmPassword,
+              Languages.of(context)!.confirmPassword,
+              hideText: confirmPasswordVisible,
+              suffix: hidingConfirmPasswordEye(),
+            ),
+            GoogleButton(),
+            FacebookButton(),
+            signUpEmailPasswordButton(context),
+          ],
+        ),
       ),
     );
   }

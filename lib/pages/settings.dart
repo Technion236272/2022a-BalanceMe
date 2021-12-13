@@ -2,6 +2,8 @@ import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/change_password.dart';
+import 'package:balance_me/widgets/create_join_group.dart';
+import 'package:balance_me/widgets/group_screen.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
 import 'package:balance_me/global/project_config.dart' as config;
 import 'package:flutter/material.dart';
@@ -37,11 +39,18 @@ class _SettingsState extends State<Settings> {
       Text(Languages.of(context)!.profileSettings),
       Text(Languages.of(context)!.groupSettings),
       Text(Languages.of(context)!.passwordSettings),
+      //TODO: remove dark mode and group for now
       Text(Languages.of(context)!.darkModeSettings),
+      //TODO: as text (day)
       Text(Languages.of(context)!.endOfMonthSettings),
       Text(Languages.of(context)!.languageSettings),
       Text(Languages.of(context)!.versionSettings)
     ];
+    bool hasGroup()
+    {
+      return widget.authRepository.isAuthenticated && widget.userStorage.userData!=null;
+
+    }
     List<Widget?> trailingSettings = [
       IconButton(
           onPressed: () {
@@ -50,7 +59,9 @@ class _SettingsState extends State<Settings> {
           icon: gc.settingArrow),
       IconButton(
         onPressed: () {
-          navigateToPage(context, getGroupScreen());
+
+          hasGroup()?navigateToPage(context, GroupScreen(authRepository: widget.authRepository,userStorage: widget.userStorage,)):
+          navigateToPage(context, CreateJoinGroup());
         },
         icon: gc.settingArrow,
       ),
@@ -69,9 +80,7 @@ class _SettingsState extends State<Settings> {
   }
 
 
-  Widget getGroupScreen() {
-    return Container();
-  }
+
 
 
 
