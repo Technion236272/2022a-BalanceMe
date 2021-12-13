@@ -145,9 +145,11 @@ Color incomeEntryColor = Colors.green.shade600;
 Color expenseEntryColor = Colors.red.shade600;
 
 //Category Header
-const double categoryTopPadding = 10.0;
+const double categoryTopPadding = 7.0;
 const double categoryAroundPadding = 5.0;
 const double lineBarHeight = 14.0;
 const int lineAnimationDuration = 2500;
 const double dividerThickness = 1.0;
 const double cardBorderWidth = 2.0;
+const double iconPadding = 0.0;
+const double iconSize = 21.0;

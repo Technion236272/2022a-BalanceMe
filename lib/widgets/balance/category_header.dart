@@ -1,4 +1,5 @@
 // ================= Category Header =================
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -70,52 +71,55 @@ class _CategoryHeaderState extends State<CategoryHeader> {
       child: Column(children: [
         Row(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                widget._category.name,
-                style: TextStyle(
-                    color: gc.primaryColor,
-                    fontSize: gc.fontSizeLoginImage,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                widget._category.amount.toMoneyFormat() +
-                    gc.inPracticeExpectedSeparator +
-                    widget._category.expected.toMoneyFormat(),
-                style: TextStyle(
-                    color: gc.primaryColor,
-                    fontSize: gc.fontSizeLoginImage,
-                    fontWeight: FontWeight.bold),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: gc.categoryAroundPadding),
+                  child: Text(
+                    widget._category.name,
+                    style: TextStyle(
+                        color: gc.primaryColor,
+                        fontSize: gc.fontSizeLoginImage,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
+                    iconSize: gc.iconSize,
+                    padding: const EdgeInsets.only(top: gc.iconPadding, bottom: gc.iconPadding,),
                     color: gc.primaryColor,
                     onPressed: _openAddTransactionPage,
                     icon: const Icon(gc.addIcon),
                   ),
                   IconButton(
+                    iconSize: gc.iconSize,
+                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                    color: gc.primaryColor,
                     onPressed: _openCategoryDetails,
                     icon: const Icon(gc.transactionDetailsIcon),
                   ),
                   IconButton(
+                    iconSize: gc.iconSize,
+                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
                     color: gc.primaryColor,
                     onPressed: _confirmRemoval,
                     icon: const Icon(gc.deleteIcon),
                   ),
-                  Center(
-                    child: Visibility(
-                      visible: widget._category.transactions.isNotEmpty,
-                      child: IconButton(
-                          color: gc.primaryColor,
-                          onPressed: widget._toggleCategory,
-                          icon: Icon(widget._isCategoryOpen
-                              ? gc.expandIcon
-                              : gc.minimizeIcon)),
-                    ),
+                  Visibility(
+                    visible: widget._category.transactions.isNotEmpty,
+                    child: IconButton(
+                        iconSize: gc.iconSize,
+                        padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                        color: gc.primaryColor,
+                        onPressed: widget._toggleCategory,
+                        icon: Icon(widget._isCategoryOpen
+                            ? gc.expandIcon
+                            : gc.minimizeIcon)),
                   )
                 ],
               ),
@@ -123,7 +127,23 @@ class _CategoryHeaderState extends State<CategoryHeader> {
         Center(
           child: Padding(
             padding: const EdgeInsets.only(
-                top: gc.categoryTopPadding,
+                right: gc.categoryAroundPadding,
+                left: gc.categoryAroundPadding,
+                bottom: gc.categoryAroundPadding),
+            child: Text(
+              widget._category.amount.toMoneyFormat() +
+                  gc.inPracticeExpectedSeparator +
+                  widget._category.expected.toMoneyFormat(),
+              style: TextStyle(
+                  color: gc.primaryColor,
+                  fontSize: gc.fontSizeLoginImage,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(
                 right: gc.categoryAroundPadding,
                 left: gc.categoryAroundPadding,
                 bottom: gc.categoryAroundPadding),
