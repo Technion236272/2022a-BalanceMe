@@ -47,6 +47,12 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   @override
+  void initState(){
+    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _transactionNameController.dispose();
     _transactionAmountController.dispose();
@@ -67,15 +73,7 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   String _getDescriptionInitialValue() {
-    switch (widget._mode) {
-      case DetailsPageMode.Details:
-        return widget.currentTransaction != null && widget.currentTransaction!.description != "" ? widget.currentTransaction!.description : Languages.of(context)!.emptyDescription;
-      case DetailsPageMode.Edit:
-        return widget.currentTransaction != null && widget.currentTransaction!.description != "" ? widget.currentTransaction!.description : Languages.of(context)!.addDescription;
-      case DetailsPageMode.Add:
-      default:
-        return Languages.of(context)!.addDescription;
-    }
+    return widget.currentTransaction != null && widget.currentTransaction!.description != "" ? widget.currentTransaction!.description : Languages.of(context)!.emptyDescription;
   }
 
   void _saveTransaction() {  // TODO- support change category according _dropDownController (probably get the category itself in constructor)
@@ -98,6 +96,7 @@ class _SetTransactionState extends State<SetTransaction> {
 
   void _switchConstant(bool isConstant) {
     setState(() {
+      print("%%%%%%%");
       _isConstant = isConstant;
     });
   }
@@ -126,7 +125,6 @@ class _SetTransactionState extends State<SetTransaction> {
   @override
   Widget build(BuildContext context) {
     _dropDownController = PrimitiveWrapper(widget._currentCategoryName);
-    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -218,12 +216,12 @@ class _SetTransactionState extends State<SetTransaction> {
                       right: gc.generalTextFieldsPadding,
                   ),
                   child: FormTextField(
-                    widget.currentTransaction == null ? _transactionDescriptionController : null,
+                    widget._mode == DetailsPageMode.Details ? null : _transactionDescriptionController,
                     gc.maxLinesExpended - 2,
                     gc.maxLinesExpended - 2,
                     Languages.of(context)!.addDescription,
                     isBordered: true,
-                    initialValue: _getDescriptionInitialValue(),
+                    initialValue: widget._mode == DetailsPageMode.Details ? _getDescriptionInitialValue() : null,
                     isEnabled: widget._mode != DetailsPageMode.Details,
                   ),
                 ),
