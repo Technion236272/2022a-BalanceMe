@@ -54,7 +54,7 @@ class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _MainAppBarState extends State<MainAppBar> {
   void _loginApp() {
-    navigateToPage(context,  LoginManager());
+    navigateToPage(context,  const LoginManager(), null);
   }
 
   void _logoutApp() {

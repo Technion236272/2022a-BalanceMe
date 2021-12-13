@@ -1,11 +1,12 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 // Navigation
-void navigateToPage(context, Widget page) {
+void navigateToPage(context, Widget page, AppPages? pageEnum) {
   Navigator.of(context).push(
     MaterialPageRoute<void>(
       builder: (BuildContext context) {
@@ -13,10 +14,12 @@ void navigateToPage(context, Widget page) {
       },
     ),
   );
+  GoogleAnalytics.instance.logPageOpened(pageEnum);
 }
 
 void navigateBack(context) {
   Navigator.pop(context);
+  GoogleAnalytics.instance.logNavigateBack();
 }
 
 // Messages

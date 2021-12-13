@@ -9,15 +9,12 @@ import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
 import 'package:balance_me/widgets/generic_drop_down_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
-import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
-  SetTransaction(this._mode, this._callback, this._currentCategoryName, {this.currentTransaction, Key? key}) : super(key: key) {
-    GoogleAnalytics.instance.logPageOpened(AppPages.SetTransaction);
-  }
+  SetTransaction(this._mode, this._callback, this._currentCategoryName, {this.currentTransaction, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final VoidCallbackTwoTransactions _callback;

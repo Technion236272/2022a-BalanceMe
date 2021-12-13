@@ -25,11 +25,11 @@ class CategoryHeader extends StatefulWidget {
 
 class _CategoryHeaderState extends State<CategoryHeader> {
   void _openAddTransactionPage() {
-    navigateToPage(context, SetTransaction(DetailsPageMode.Add, _addTransaction, widget._category.name));
+    navigateToPage(context, SetTransaction(DetailsPageMode.Add, _addTransaction, widget._category.name), AppPages.SetTransaction);
   }
 
   void _openCategoryDetails() {
-    navigateToPage(context, SetCategory(DetailsPageMode.Details, Provider.of<UserStorage>(context, listen: false).editCategory, widget._category.isIncome, currentCategory: widget._category));
+    navigateToPage(context, SetCategory(DetailsPageMode.Details, Provider.of<UserStorage>(context, listen: false).editCategory, widget._category.isIncome, currentCategory: widget._category), AppPages.SetCategory);
   }
 
   void _removeCategory() {

@@ -23,7 +23,7 @@ class TransactionEntry extends StatefulWidget {
 
 class _TransactionEntryState extends State<TransactionEntry> {
   void _openTransactionDetails() {
-    navigateToPage(context, SetTransaction(DetailsPageMode.Details, widget._editTransactionCB, widget._currentCategoryName, currentTransaction: widget._transaction));
+    navigateToPage(context, SetTransaction(DetailsPageMode.Details, widget._editTransactionCB, widget._currentCategoryName, currentTransaction: widget._transaction), AppPages.SetTransaction);
   }
 
   void _closeDialogCallback() {

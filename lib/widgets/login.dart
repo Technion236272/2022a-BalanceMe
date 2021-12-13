@@ -1,3 +1,5 @@
+import 'package:balance_me/global/types.dart';
+import 'package:balance_me/main.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +66,7 @@ IconButton hidingPasswordEye()
   TextButton forgotPasswordLink(BuildContext context) {
     return TextButton(
         onPressed: () {
-          navigateToPage(context, const ForgotPassword());
+          navigateToPage(context, const ForgotPassword(), AppPages.ForgotPassword);
         },
         child: Text(
           Languages.of(context)!.forgotPassword,

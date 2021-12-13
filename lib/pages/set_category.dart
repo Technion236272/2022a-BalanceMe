@@ -7,15 +7,12 @@ import 'package:balance_me/widgets/generic_radio_button.dart';
 import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
-import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetCategory extends StatefulWidget {
-  SetCategory(this._mode, this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key) {
-    GoogleAnalytics.instance.logPageOpened(AppPages.SetCategory);
-  }
+  SetCategory(this._mode, this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final VoidCallbackCategory _callback;
