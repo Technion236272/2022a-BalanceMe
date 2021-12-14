@@ -81,6 +81,10 @@ extension St on String {
   }
 }
 
+extension En on Enum {
+  String toCleanString() => toString().split(".")[1];
+}
+
 // Validators
 String? essentialFieldValidator(String? value, String userMessage) {
   if (value == null || value.isEmpty) {

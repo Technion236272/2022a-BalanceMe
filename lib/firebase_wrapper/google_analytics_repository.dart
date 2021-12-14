@@ -3,6 +3,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/utils.dart';
 
 /// Singleton that is used for sending logs to Google Analytics.
 /// you should use it as "GoogleAnalytics.instance.LogSomething();"
@@ -23,33 +24,6 @@ class GoogleAnalytics {
     return (authRepository.user != null && authRepository.user!.email != null) ? authRepository.user!.email! : "";
   }
 
-  String? getPageName(AppPages? page) {
-    switch (page) {
-      case AppPages.Settings:
-        return "Settings";
-      case AppPages.Balance:
-        return "Balance";
-      case AppPages.Statistics:
-        return "Statistics";
-      case AppPages.Welcome:
-        return "Welcome";
-      case AppPages.Login:
-        return "Login";
-      case AppPages.SetCategory:
-        return "SetCategory";
-      case AppPages.SetTransaction:
-        return "SetTransaction";
-      case AppPages.Incomes:
-        return "Incomes";
-      case AppPages.Expenses:
-        return "Expenses";
-      case AppPages.ForgotPassword:
-        return "ForgotPassword";
-      default:
-        return null;
-    }
-  }
-
   // ================== Logs ==================
 
   // Pages
@@ -58,9 +32,8 @@ class GoogleAnalytics {
   }
 
   void logPageOpened(AppPages? page) {
-    String? pageName = getPageName(page);
-    if (pageName != null) {
-      _logEvent("${pageName}Opened", {"user": _getUserEmail()});
+    if (page != null) {
+      _logEvent("${page.toCleanString()}Opened", {"user": _getUserEmail()});
     }
   }
 
@@ -69,7 +42,7 @@ class GoogleAnalytics {
   }
 
   void logEntrySaved(Entry entry, EntryOperation operation, dynamic entryObj) {
-    _logEvent("log${entry.toString()}${operation.toString()}", {"user": _getUserEmail(), entry.toString(): entryObj.toJson()});
+    _logEvent("log${entry.toCleanString()}${operation.toCleanString()}", {"user": _getUserEmail(), entry.toCleanString(): entryObj.toJson()});
   }
 
   // Operations

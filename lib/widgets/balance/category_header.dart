@@ -74,13 +74,15 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               Expanded(
                 flex: 3,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                  padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,
+                  ),
                   child: Text(
                     widget._category.name,
                     style: TextStyle(
                         color: gc.primaryColor,
                         fontSize: gc.fontSizeLoginImage,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -91,7 +93,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                   IconButton(
                     iconSize: gc.iconSize,
                     padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     color: gc.primaryColor,
                     onPressed: _openAddTransactionPage,
                     icon: const Icon(gc.addIcon),
@@ -99,7 +101,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                   IconButton(
                     iconSize: gc.iconSize,
                     padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     color: gc.primaryColor,
                     onPressed: _openCategoryDetails,
                     icon: const Icon(gc.transactionDetailsIcon),
@@ -109,7 +111,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                     padding: widget._category.transactions.isNotEmpty
                         ? const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,)
                     : const EdgeInsets.all(gc.iconPadding),
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     color: gc.primaryColor,
                     onPressed: _confirmRemoval,
                     icon: const Icon(gc.deleteIcon),
@@ -119,7 +121,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                     child: IconButton(
                         iconSize: gc.iconSize,
                         padding: const EdgeInsets.all(gc.iconPadding),
-                        constraints: BoxConstraints(),
+                        constraints: const BoxConstraints(),
                         color: gc.primaryColor,
                         onPressed: widget._toggleCategory,
                         icon: Icon(widget._isCategoryOpen
@@ -157,7 +159,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               lineHeight: gc.lineBarHeight,
               animationDuration: gc.lineAnimationDuration,
               percent: progressPercentage,
-              center: Text((progressPercentage * 100).toPercentageFormat()),
+              center: Text((progressPercentage * 100).toPrecision().toPercentageFormat()),
               linearStrokeCap: LinearStrokeCap.roundAll,
               progressColor: gc.primaryColor,
             ),
