@@ -14,7 +14,7 @@ void navigateToPage(context, Widget page, AppPages? pageEnum) {
       },
     ),
   );
-  GoogleAnalytics.instance.logPageOpened(pageEnum);
+  GoogleAnalytics.instance.logPageOpened(pageEnum!); //TODO - Add a null check before this line
 }
 
 void navigateBack(context) {
