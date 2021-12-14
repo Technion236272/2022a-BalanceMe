@@ -23,6 +23,33 @@ class GoogleAnalytics {
     return (authRepository.user != null && authRepository.user!.email != null) ? authRepository.user!.email! : null;
   }
 
+  String? getPageName(AppPages? page) {
+    switch (page) {
+      case AppPages.Settings:
+        return "Settings";
+      case AppPages.Balance:
+        return "Balance";
+      case AppPages.Statistics:
+        return "Statistics";
+      case AppPages.Welcome:
+        return "Welcome";
+      case AppPages.Login:
+        return "Login";
+      case AppPages.SetCategory:
+        return "SetCategory";
+      case AppPages.SetTransaction:
+        return "SetTransaction";
+      case AppPages.Incomes:
+        return "Incomes";
+      case AppPages.Expenses:
+        return "Expenses";
+      case AppPages.ForgotPassword:
+        return "ForgotPassword";
+      default:
+        return null;
+    }
+  }
+
   // ================== Logs ==================
 
   // Pages
@@ -30,8 +57,15 @@ class GoogleAnalytics {
     await _analytics.logAppOpen();
   }
 
-  void logPageOpened(AppPages page) {
-    _logEvent("${page.toString()}Opened", {"user": _getUserEmail()});
+  void logPageOpened(AppPages? page) {
+    String? pageName = getPageName(page);
+    if (pageName != null) {
+      _logEvent("${pageName}Opened", {"user": _getUserEmail()});
+    }
+  }
+
+  void logNavigateBack() {
+    _logEvent("NavigateBack", {"user": _getUserEmail()});
   }
 
   void logEntrySaved(Entry entry, EntryOperation operation, dynamic entryObj) {
