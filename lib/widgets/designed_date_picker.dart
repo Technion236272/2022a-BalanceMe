@@ -1,3 +1,4 @@
+import 'package:balance_me/global/types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -18,7 +19,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 /// The callBack function is called when you change selection.
 
 class DesignedDatePicker extends StatefulWidget {
-  const DesignedDatePicker({required this.dateController, this.onSelectDate, this.width = 150.0, this.height = 35.0, this.buttonColor = gc.primaryColor, this.datePickerColor = Colors.white, this.datePickerWidth = 180.0, this.datePickerHeight = 300.0, this.isRange = false,  Key? key}) : super(key: key);
+  const DesignedDatePicker({required this.dateController, this.onSelectDate, this.width = 150.0, this.height = 35.0, this.buttonColor = gc.primaryColor, this.datePickerColor = Colors.white, this.datePickerWidth = 180.0, this.datePickerHeight = 300.0, this.isRange = false, this.viewSelector = DatePickerType.Day,  Key? key}) : super(key: key);
   final DateRangePickerController dateController;
   final VoidCallback? onSelectDate;
   final double width;
@@ -28,6 +29,7 @@ class DesignedDatePicker extends StatefulWidget {
   final double datePickerWidth;
   final double datePickerHeight;
   final bool isRange;
+  final DatePickerType viewSelector;
 
   @override
   _DesignedDatePickerState createState() => _DesignedDatePickerState();
@@ -42,8 +44,16 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
 
   @override
   void initState() {
-    startDateString = startDate.year.toString() + "/" + startDate.month.toString() + "/" + startDate.day.toString();
-    endDateString = endDate.year.toString() + "/" + endDate.month.toString() + "/" + endDate.day.toString();
+    startDateString = (widget.viewSelector == DatePickerType.Day)
+        ? startDate.year.toString() + "/" + startDate.month.toString() + "/" + startDate.day.toString()
+        : widget.viewSelector == DatePickerType.Month
+        ? startDate.year.toString() + "/" + startDate.month.toString()
+        : startDate.year.toString();
+    endDateString = (widget.viewSelector == DatePickerType.Day)
+        ? endDate.year.toString() + "/" + endDate.month.toString() + "/" + endDate.day.toString()
+        : widget.viewSelector == DatePickerType.Month
+        ? endDate.year.toString() + "/" + endDate.month.toString()
+        : endDate.year.toString();
     super.initState();
   }
   @override
@@ -107,25 +117,42 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
                   selectionMode: widget.isRange ? DateRangePickerSelectionMode.range : DateRangePickerSelectionMode.single,
                   minDate: DateTime(2020),
                   maxDate: DateTime.now(),
+                  view: widget.viewSelector == DatePickerType.Day
+                      ? DateRangePickerView.month
+                      : widget.viewSelector == DatePickerType.Month
+                      ? DateRangePickerView.year
+                      : DateRangePickerView.decade,
                   backgroundColor: widget.datePickerColor,
                   initialSelectedDate: DateTime.now(),
                   initialSelectedRange: PickerDateRange(startDate, endDate),
                   selectionTextStyle: const TextStyle(color: gc.secondaryColor),
                   showNavigationArrow: true,
                   showActionButtons: true,
-                  allowViewNavigation: true,
+                  allowViewNavigation: false,
                   controller: widget.dateController,
                   onSubmit: (Object val) {
                     setState(() {
                       if (val is DateTime) {
-                        startDateString = val.year.toString() + "/" + val.month.toString() + "/" + val.day.toString();
+                        startDateString = (widget.viewSelector == DatePickerType.Day)
+                            ? val.year.toString() + "/" + val.month.toString() + "/" + val.day.toString()
+                            : widget.viewSelector == DatePickerType.Month
+                            ? val.year.toString() + "/" + val.month.toString()
+                            : val.year.toString();
                         widget.dateController.selectedDate = val;
                       }
                       if (val is PickerDateRange) {
                         startDate = val.startDate!;
                         endDate = val.endDate!;
-                        startDateString = startDate.year.toString() + "/" + startDate.month.toString() + "/" + startDate.day.toString();
-                        endDateString = endDate.year.toString() + "/" + endDate.month.toString() + "/" + endDate.day.toString();
+                        startDateString = (widget.viewSelector == DatePickerType.Day)
+                            ? startDate.year.toString() + "/" + startDate.month.toString() + "/" + startDate.day.toString()
+                            : widget.viewSelector == DatePickerType.Month
+                            ? startDate.year.toString() + "/" + startDate.month.toString()
+                            : startDate.year.toString();
+                        endDateString = (widget.viewSelector == DatePickerType.Day)
+                            ? endDate.year.toString() + "/" + endDate.month.toString() + "/" + endDate.day.toString()
+                            : widget.viewSelector == DatePickerType.Month
+                            ? endDate.year.toString() + "/" + endDate.month.toString()
+                            : endDate.year.toString();
                         widget.dateController.selectedRange = val;
                       }
                       widget.onSelectDate != null ? widget.onSelectDate!() : null;

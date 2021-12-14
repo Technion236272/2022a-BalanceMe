@@ -16,6 +16,8 @@ enum DetailsPageMode {Add, Edit, Details}
 
 enum EntryOperation {Add, Edit, Remove}
 
+enum DatePickerType {Day, Month, Year}
+
 typedef Json = Map<String, dynamic>;
 
 typedef VoidCallbackInt = void Function(int);

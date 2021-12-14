@@ -81,7 +81,7 @@ class _SetTransactionState extends State<SetTransaction> {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       Transaction newTransaction = Transaction(
           _transactionNameController.text.toString(),
-          _date,
+          _dateRangePickerController.selectedDate!.toFullDate(),
           double.parse(_transactionAmountController.text.toString()),
           _transactionDescriptionController.text.toString(),
           _isConstant
@@ -240,8 +240,8 @@ class _SetTransactionState extends State<SetTransaction> {
               ),
                   Positioned(
                       top: MediaQuery.of(context).size.height/2.65,
-                      right: 20,
-                      child: DesignedDatePicker(dateController: _dateRangePickerController, width: 150, height: 20,)),  // TODO- pass a callback function],
+                      right: 5,
+                      child: DesignedDatePicker(dateController: _dateRangePickerController, width: 120, height: 20, viewSelector: DatePickerType.Month,)),  // TODO- pass a callback function],
             ]),
           ),
         ),
