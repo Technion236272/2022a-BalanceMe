@@ -18,9 +18,9 @@ class GoogleAnalytics {
     await _analytics.logEvent(name: name, parameters: parameters);
   }
 
-  String? _getUserEmail() {
+  String _getUserEmail() {
     AuthRepository authRepository = AuthRepository.instance();
-    return (authRepository.user != null && authRepository.user!.email != null) ? authRepository.user!.email! : null;
+    return (authRepository.user != null && authRepository.user!.email != null) ? authRepository.user!.email! : "";
   }
 
   String? getPageName(AppPages? page) {

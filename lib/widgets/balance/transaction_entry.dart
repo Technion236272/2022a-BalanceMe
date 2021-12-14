@@ -1,6 +1,6 @@
 // ================= Transaction Entry =================
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/pages/set_transaction.dart';
@@ -84,7 +84,8 @@ class _TransactionEntryState extends State<TransactionEntry> {
                 ),
               ],
               borderRadius: BorderRadius.circular(gc.entryBorderRadius),
-              border: Border.all(color: widget._isIncome ? gc.incomeEntryColor : gc.expenseEntryColor),),
+              border: Border.all(color: widget._isIncome ? gc.incomeEntryColor : gc.expenseEntryColor),
+          ),
           child: ListTile(
             title: Text(
               widget._transaction.name,
@@ -99,7 +100,9 @@ class _TransactionEntryState extends State<TransactionEntry> {
                     child: Text(
                         widget._transaction.amount.toMoneyFormat(),
                         style: TextStyle(fontWeight: FontWeight.bold,
-                        color: widget._isIncome ? gc.incomeEntryColor : gc.expenseEntryColor),)),
+                        color: widget._isIncome ? gc.incomeEntryColor : gc.expenseEntryColor),
+                    ),
+                ),
                 Center(
                   child: IconButton(
                     onPressed: _openTransactionDetails,
