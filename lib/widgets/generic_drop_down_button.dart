@@ -51,11 +51,13 @@ class _GenericDropDownButtonState extends State<GenericDropDownButton> {
   @override
   Widget build(BuildContext context) {
     return AwesomeDropDown(
+      selectedItemTextStyle: TextStyle(color: Colors.white, fontSize: gc.tabFontSize),
       dropDownList: widget._list,
       dropDownBGColor: gc.primaryColor,
       dropDownBottomBorderRadius: gc.dropDownRadius,
       dropDownTopBorderRadius: gc.dropDownRadius,
       dropDownBorderRadius: gc.dropDownRadius,
+      dropDownIcon: const Icon(gc.minimizeIcon,color: Colors.white, ),
       onDropDownItemClick: _activateDropDownButton,
       selectedItem: widget._dropDownButtonController.value,
       numOfListItemToShow: gc.numOfItems,

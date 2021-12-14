@@ -143,7 +143,10 @@ const double infoTitleFontSize = 25;
 const double infoFontSize = 18;
 
 //Generic Date Picker
-const double datePickerPadding = 2.0;
+const double datePickerFontSize = 15.0;
+const double datePickerGeneralPadding = 2.0;
+const double datePickerRightPadding = 15.0;
+const double datePickerIconSize = 18.0;
 
 //Transaction Entry
 const double entryPadding = 8.0;

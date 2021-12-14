@@ -66,7 +66,7 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
                 ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(gc.datePickerPadding),
+                  padding: const EdgeInsets.all(gc.datePickerGeneralPadding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,13 +74,14 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
                       Text(widget.isRange
                         ? startDateString + ' - ' + endDateString
                         : startDateString,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: gc.secondaryColor,
-                            fontSize: gc.tabFontSize),
+                            fontSize: gc.datePickerFontSize),
                       ),
                       Icon(isVisible
                           ? gc.expandIcon
                           : gc.minimizeIcon,
+                      size: gc.datePickerIconSize,
                       color: gc.secondaryColor,)
                     ],
                   ),
@@ -100,41 +101,44 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
               width: widget.datePickerWidth,
               height: widget.datePickerHeight,
               child:
-              SfDateRangePicker(
-                selectionMode: widget.isRange ? DateRangePickerSelectionMode.range : DateRangePickerSelectionMode.single,
-                minDate: DateTime(2020),
-                maxDate: DateTime.now(),
-                backgroundColor: widget.datePickerColor,
-                initialSelectedDate: DateTime.now(),
-                initialSelectedRange: PickerDateRange(startDate, endDate),
-                selectionTextStyle: const TextStyle(color: gc.secondaryColor),
-                showNavigationArrow: true,
-                showActionButtons: true,
-                allowViewNavigation: true,
-                controller: widget.dateController,
-                onSubmit: (Object val) {
-                  setState(() {
-                    if (val is DateTime) {
-                      startDateString = val.year.toString() + "/" + val.month.toString() + "/" + val.day.toString();
-                      widget.dateController.selectedDate = val;
-                    }
-                    if (val is PickerDateRange) {
-                      startDate = val.startDate!;
-                      endDate = val.endDate!;
-                      startDateString = startDate.year.toString() + "/" + startDate.month.toString() + "/" + startDate.day.toString();
-                      endDateString = endDate.year.toString() + "/" + endDate.month.toString() + "/" + endDate.day.toString();
-                      widget.dateController.selectedRange = val;
-                    }
-                    widget.onSelectDate != null ? widget.onSelectDate!() : null;
-                    isVisible = false;
-                  });
-                },
-                onCancel: () {
-                  setState(() {
-                    widget.dateController.selectedDate = DateTime.now();
-                    isVisible = false;
-                  });
-                },
+              Padding(
+                padding: const EdgeInsets.only(top: gc.datePickerGeneralPadding, right: gc.datePickerRightPadding),
+                child: SfDateRangePicker(
+                  selectionMode: widget.isRange ? DateRangePickerSelectionMode.range : DateRangePickerSelectionMode.single,
+                  minDate: DateTime(2020),
+                  maxDate: DateTime.now(),
+                  backgroundColor: widget.datePickerColor,
+                  initialSelectedDate: DateTime.now(),
+                  initialSelectedRange: PickerDateRange(startDate, endDate),
+                  selectionTextStyle: const TextStyle(color: gc.secondaryColor),
+                  showNavigationArrow: true,
+                  showActionButtons: true,
+                  allowViewNavigation: true,
+                  controller: widget.dateController,
+                  onSubmit: (Object val) {
+                    setState(() {
+                      if (val is DateTime) {
+                        startDateString = val.year.toString() + "/" + val.month.toString() + "/" + val.day.toString();
+                        widget.dateController.selectedDate = val;
+                      }
+                      if (val is PickerDateRange) {
+                        startDate = val.startDate!;
+                        endDate = val.endDate!;
+                        startDateString = startDate.year.toString() + "/" + startDate.month.toString() + "/" + startDate.day.toString();
+                        endDateString = endDate.year.toString() + "/" + endDate.month.toString() + "/" + endDate.day.toString();
+                        widget.dateController.selectedRange = val;
+                      }
+                      widget.onSelectDate != null ? widget.onSelectDate!() : null;
+                      isVisible = false;
+                    });
+                  },
+                  onCancel: () {
+                    setState(() {
+                      widget.dateController.selectedDate = DateTime.now();
+                      isVisible = false;
+                    });
+                  },
+                ),
               ),
             ),
           ),
