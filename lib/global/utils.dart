@@ -86,12 +86,9 @@ extension En on Enum {
 }
 
 // Validators
-String? essentialFieldValidator(String? value, String userMessage) {
-  if (value == null || value.isEmpty) {
-    return userMessage;
-  }
-  return null;
-}
+bool essentialFieldValidator(String? value) => (value != null && value.isNotEmpty);
+
+bool lineLimitValidator(String? value) => (essentialFieldValidator(value) && value!.length <= gc.defaultMaxCharactersLimit);
 
 // Time
 String getCurrentMonthPerEndMonthDay(int endOfMonth) {

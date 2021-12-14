@@ -106,8 +106,12 @@ class _SetTransactionState extends State<SetTransaction> {
     });
   }
 
-  String? _validatorFunction(String? value) {
-    return essentialFieldValidator(value, Languages.of(context)!.essentialField);
+  String? _essentialFieldValidatorFunction(String? value) {
+    return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
+  }
+
+  String? _lineLimitValidatorFunction(String? value) {
+    return lineLimitValidator(value) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
   }
 
   List<String> _getCategoriesNameList(BuildContext context) {
@@ -147,7 +151,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       isValid: true,
                       initialValue: widget.currentTransaction == null ? null : widget.currentTransaction!.name,
                       isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _validatorFunction,
+                      validatorFunction: _lineLimitValidatorFunction,
                     ),
                   ),
                   SizedBox(
@@ -161,7 +165,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       isNumeric: true,
                       initialValue: widget.currentTransaction == null ? null : widget.currentTransaction!.amount.toString(),
                       isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _validatorFunction,
+                      validatorFunction: _essentialFieldValidatorFunction,
                     ),
                   ),
                   Padding(

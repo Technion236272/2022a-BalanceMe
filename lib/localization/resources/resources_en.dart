@@ -19,6 +19,9 @@ class LanguageEn extends Languages {
   String get essentialField => "this is an essential field";
 
   @override
+  String get maxCharactersLimit => "The maximum number of characters is %";
+
+  @override
   String get yes => "Yes";
 
   @override

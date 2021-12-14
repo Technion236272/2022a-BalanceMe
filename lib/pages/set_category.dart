@@ -86,8 +86,12 @@ class _SetCategoryState extends State<SetCategory> {
     });
   }
 
-  String? _validatorFunction(String? value) {
-    return essentialFieldValidator(value, Languages.of(context)!.essentialField);
+  String? _essentialFieldValidatorFunction(String? value) {
+    return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
+  }
+
+  String? _lineLimitValidatorFunction(String? value) {
+    return lineLimitValidator(value) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
   }
 
   @override
@@ -115,7 +119,7 @@ class _SetCategoryState extends State<SetCategory> {
                     isValid: true,
                     initialValue: widget.currentCategory == null ? null : widget.currentCategory!.name,
                     isEnabled: widget._mode != DetailsPageMode.Details,
-                    validatorFunction: _validatorFunction,
+                    validatorFunction: _lineLimitValidatorFunction,
                   ),
                 ),
                 SizedBox(
@@ -129,7 +133,7 @@ class _SetCategoryState extends State<SetCategory> {
                       isNumeric: true,
                       initialValue: widget.currentCategory == null ? null : widget.currentCategory!.expected.toString(),
                       isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _validatorFunction,
+                      validatorFunction: _essentialFieldValidatorFunction,
                   ),
                 ),
                 Padding(

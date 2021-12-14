@@ -19,6 +19,9 @@ class LanguageHe extends Languages {
   String get essentialField => "‎זהו שדה הכרחי";
 
   @override
+  String get maxCharactersLimit => "‎מספר התווים המקסימלי הינו %";
+
+  @override
   String get yes => "‎כן";
 
   @override

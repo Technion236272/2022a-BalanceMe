@@ -12,6 +12,7 @@ const int defaultEndOfMonthDay = 10;
 const Currency defaultUserCurrency = Currency.NIS;
 const int defaultPrecision = 2;
 const bool defaultIsConstant = false;
+const int defaultMaxCharactersLimit = 20;
 
 // Icons
 const IconData unauthenticatedIcon = Icons.login;
