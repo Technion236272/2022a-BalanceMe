@@ -1,4 +1,5 @@
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/widgets/generic_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/widgets/appbar.dart';
@@ -46,16 +47,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),
               ),
               TextBox(controllerEmail,Languages.of(context)!.emailText),
-              SizedBox(
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            gc.alternativePrimary)),
-                    onPressed: () {
-                      util.recoverPassword(controllerEmail.text, context);
-                    },
-                    child: Text(Languages.of(context)!.send)),
-              )
+              GenericButton(buttonText: Languages.of(context)!.send,
+            buttonColor:gc.alternativePrimary,onPressed:() {util.recoverPassword(controllerEmail.text, context);},),
             ],
           ),
         ),

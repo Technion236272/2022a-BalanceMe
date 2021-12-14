@@ -41,6 +41,7 @@ abstract class Languages {
   String get groupName;
   String get descriptionInstruction;
   String get changePasswordSuccess;
+  String get profileChangeSuccessful;
 
   // Login
   String get welcome;

@@ -6,8 +6,8 @@ import 'package:auth_buttons/auth_buttons.dart';
 import 'package:balance_me/global/login_utils.dart' as util;
 
 class GoogleButton extends StatelessWidget {
-   GoogleButton({Key? key}) : super(key: key);
-
+   GoogleButton({Key? key, this.isSignUp=true}) : super(key: key);
+final bool isSignUp;
 AuthRepository authRepository=AuthRepository.instance();
 
   @override
@@ -17,7 +17,15 @@ AuthRepository authRepository=AuthRepository.instance();
           gc.paddingFacebook, gc.paddingFacebook, gc.paddingFacebook),
       child: GoogleAuthButton(
         onPressed: () {
-          util.signUpGoogle(context);
+
+          if (isSignUp)
+          {
+            util.signUpGoogle(context);
+          }
+          else
+            {
+              util.signInGoogle(context);
+            }
         },
         darkMode:UserStorage.instance(authRepository).userData!=null?
           UserStorage.instance(authRepository).userData!.isDarkMode:false,
@@ -27,7 +35,8 @@ AuthRepository authRepository=AuthRepository.instance();
 }
 
 class FacebookButton extends StatelessWidget {
-   FacebookButton({Key? key}) : super(key: key);
+   FacebookButton({Key? key, this.isSignUp=true}) : super(key: key);
+   final bool isSignUp;
   AuthRepository authRepository=AuthRepository.instance();
   @override
   Widget build(BuildContext context) {
@@ -35,7 +44,14 @@ class FacebookButton extends StatelessWidget {
       padding: const EdgeInsets.all(gc.paddingFacebook),
       child: FacebookAuthButton(
         onPressed: () {
-          util.signUpFacebook(context);
+
+          if (isSignUp) {
+            util.signUpFacebook(context);
+          }
+          else
+            {
+              util.signInFacebook(context);
+            }
         },
         darkMode: UserStorage.instance(authRepository).userData!=null?
         UserStorage.instance(authRepository).userData!.isDarkMode:false,

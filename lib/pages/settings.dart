@@ -11,7 +11,6 @@ import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/widgets/generic_radio_button.dart';
-import 'package:balance_me/global/types.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/profile_settings.dart';
 
@@ -31,17 +30,14 @@ class _SettingsState extends State<Settings> {
       body: mainSettingsList(),
     );
 
-    //return Container();
   }
 
   Widget mainSettingsList() {
     List<Widget?> leadingSettings = [
       Text(Languages.of(context)!.profileSettings),
-      Text(Languages.of(context)!.groupSettings),
+      // Text(Languages.of(context)!.groupSettings),
       Text(Languages.of(context)!.passwordSettings),
-      //TODO: remove dark mode and group for now
-      Text(Languages.of(context)!.darkModeSettings),
-      //TODO: as text (day)
+      // Text(Languages.of(context)!.darkModeSettings),
       Text(Languages.of(context)!.endOfMonthSettings),
       Text(Languages.of(context)!.languageSettings),
       Text(Languages.of(context)!.versionSettings)
@@ -57,20 +53,20 @@ class _SettingsState extends State<Settings> {
             navigateToPage(context, ProfileSettings(authRepository: widget.authRepository,userStorage: widget.userStorage,));
           },
           icon: gc.settingArrow),
-      IconButton(
-        onPressed: () {
-
-          hasGroup()?navigateToPage(context, GroupScreen(authRepository: widget.authRepository,userStorage: widget.userStorage,)):
-          navigateToPage(context, CreateJoinGroup());
-        },
-        icon: gc.settingArrow,
-      ),
+      // IconButton(
+      //   onPressed: () {
+      //
+      //     hasGroup()?navigateToPage(context, GroupScreen(authRepository: widget.authRepository,userStorage: widget.userStorage,)):
+      //     navigateToPage(context, CreateJoinGroup());
+      //   },
+      //   icon: gc.settingArrow,
+      // ),
       IconButton(
           onPressed: () {
             navigateToPage(context, ChangePassword(authRepository: widget.authRepository,));
           },
           icon: gc.settingArrow),
-      Switch(value: isDark(), onChanged: setDarkMode),
+      // Switch(value: isDark(), onChanged: setDarkMode),
       daysOfMonthRadio(),
       LanguageDropDown(),
       const Text(config.projectVersion)
@@ -86,31 +82,32 @@ class _SettingsState extends State<Settings> {
 
 
 
-  //TODO: read how to add dark mode and add a boolean to track it.
-  void setDarkMode(bool isDark) {
-      }
 
-  //TODO: create a function that checks if the user has dark mode on
-  bool isDark() {
-    return gc.darkMode;
-  }
+  // void setDarkMode(bool isDark) {
+  //     }
+  //
+  //
+  // bool isDark() {
+  //   return gc.darkMode;
+  // }
 
 
   void setDayOfMonth(Object? value) {}
 
   Widget daysOfMonthRadio() {
-    List<String> options = [];
-    gc.daysOfMonth.forEach((element) {
-      options.add(element.toString());
-    });
-    UserModel? currentUser =
-        UserStorage.instance(AuthRepository.instance()).userData;
-    if (currentUser != null) {
-      return GenericRadioButton(
-          options, PrimitiveWrapper(currentUser.endOfMonthDay.toString()));
-    } else {
-      return GenericRadioButton(
-          options, PrimitiveWrapper(gc.defaultEndOfMonthDay.toString()));
-    }
+    // List<String> options = [];
+    // gc.daysOfMonth.forEach((element) {
+    //   options.add(element.toString());
+    // });
+    // UserModel? currentUser =
+    //     UserStorage.instance(AuthRepository.instance()).userData;
+    // if (currentUser != null) {
+    //   return GenericRadioButton(
+    //       options, PrimitiveWrapper(currentUser.endOfMonthDay.toString()));
+    // } else {
+    //   return GenericRadioButton(
+    //       options, PrimitiveWrapper(gc.defaultEndOfMonthDay.toString()));
+    // }
+    return Text(gc.defaultEndOfMonthDay.toString());
   }
 }

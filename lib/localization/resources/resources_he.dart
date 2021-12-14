@@ -99,6 +99,9 @@ class LanguageHe extends Languages {
   @override
   String get changePasswordSuccess => "סיסמה שונתה בהצלחה‎";
 
+  @override
+  String get profileChangeSuccessful => "‎הפרופיל עודכן בהצלחה";
+
   // Login
   @override
   String get welcome => "‎ברוך הבא";

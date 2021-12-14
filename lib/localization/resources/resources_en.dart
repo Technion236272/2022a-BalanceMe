@@ -138,7 +138,10 @@ class LanguageEn extends Languages {
   String get descriptionInstruction => "Add description...";
 
   @override
-  String get   changePasswordSuccess => "Password successfully changed";
+  String get changePasswordSuccess => "Password successfully changed";
+
+  @override
+  String get profileChangeSuccessful => "Profile successfully updated";
 
   //password recovery
   @override

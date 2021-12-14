@@ -96,6 +96,9 @@ class LanguageRu extends Languages {
   @override
   String get changePasswordSuccess => "успешно изменен пароль";
 
+  @override
+  String get profileChangeSuccessful => "Профиль успешно обновлен";
+
   // Login
   @override
   String get welcome => "Добро пожаловать";

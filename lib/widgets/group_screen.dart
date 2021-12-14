@@ -2,6 +2,7 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
+import 'package:balance_me/widgets/generic_button.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/widgets/login_image.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -25,16 +26,12 @@ class _GroupScreenState extends State<GroupScreen> {
           //TODO: request the group members from server
           Text(Languages.of(context)!.description),
           //TODO: get group description
-          SizedBox(
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        gc.leaveColor)),
-                onPressed: () {
-                  //TODO: set a leave group function
-                },
-                child: Text(Languages.of(context)!.leaveGroup)),
-          )
+          GenericButton(buttonText: Languages.of(context)!.leaveGroup,
+    buttonColor: gc.leaveColor, onPressed: () {
+                //TODO: set a leave group function
+         }
+    ),
+
         ],
     );
   }
