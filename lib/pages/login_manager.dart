@@ -1,3 +1,5 @@
+import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/generic_tabs.dart';
@@ -7,8 +9,9 @@ import 'package:balance_me/widgets/login.dart';
 import 'package:balance_me/widgets/sign_up.dart';
 
 class LoginManager extends StatefulWidget {
-  const LoginManager({Key? key}) : super(key: key);
-
+  const LoginManager(this._authRepository,this._userStorage,{Key? key}) : super(key: key);
+  final AuthRepository _authRepository;
+  final UserStorage _userStorage;
   @override
   _LoginManagerState createState() => _LoginManagerState();
 }
@@ -57,8 +60,8 @@ class _LoginManagerState extends State<LoginManager> {
 
   List<Widget> loginTabBarView() {
     return [
-      const LoginScreen(),
-      const SignUp(),
+       LoginScreen(widget._authRepository,widget._userStorage),
+       SignUp(widget._authRepository,widget._userStorage),
     ];
   }
 }

@@ -75,7 +75,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           TextBox(controllerLastName, null, labelText: getLastName(),
             haveBorder: false,
             suffix: pencilButton(() {
-              updateLastName(controllerLastName.text)
+              updateLastName(controllerLastName.text);
             }),),
         ],
       ),
@@ -111,7 +111,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   void updateLastName(String lastName) {
-    widget.userStorage.setFirstName(lastName);
+    widget.userStorage.setLastName(lastName);
     widget.userStorage.SEND_generalInfo();
     displaySnackBar(context, Languages.of(context)!.profileChangeSuccessful);
   }

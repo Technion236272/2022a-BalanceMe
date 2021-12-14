@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _getCurrentPage(AuthRepository authRepository, UserStorage userStorage) {
-    // TODO- replace to Settings and Statistics screens after they will be implemented
+    // TODO- replace Statistics screens after they will be implemented
     if (_selectedPage == AppPages.Settings.index) {  // Settings
       return Settings(authRepository,userStorage);
     }

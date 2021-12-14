@@ -42,11 +42,11 @@ class _SettingsState extends State<Settings> {
       Text(Languages.of(context)!.languageSettings),
       Text(Languages.of(context)!.versionSettings)
     ];
-    bool hasGroup()
-    {
-      return widget.authRepository.isAuthenticated && widget.userStorage.userData!=null;
-
-    }
+    // bool hasGroup()
+    // {
+    //   return widget.authRepository.isAuthenticated && widget.userStorage.userData!=null;
+    //
+    // }
     List<Widget?> trailingSettings = [
       IconButton(
           onPressed: () {

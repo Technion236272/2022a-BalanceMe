@@ -6,10 +6,10 @@ import 'package:auth_buttons/auth_buttons.dart';
 import 'package:balance_me/global/login_utils.dart' as util;
 
 class GoogleButton extends StatelessWidget {
-   GoogleButton({Key? key, this.isSignUp=true}) : super(key: key);
+   GoogleButton(this._authRepository,this._userStorage,{Key? key, this.isSignUp=true}) : super(key: key);
 final bool isSignUp;
-AuthRepository authRepository=AuthRepository.instance();
-
+final AuthRepository _authRepository;
+final UserStorage _userStorage;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,24 +20,25 @@ AuthRepository authRepository=AuthRepository.instance();
 
           if (isSignUp)
           {
-            util.signUpGoogle(context);
+            util.signUpGoogle(context,_authRepository,_userStorage);
           }
           else
             {
-              util.signInGoogle(context);
+              util.signInGoogle(context,_authRepository,_userStorage);
             }
         },
-        darkMode:UserStorage.instance(authRepository).userData!=null?
-          UserStorage.instance(authRepository).userData!.isDarkMode:false,
+        darkMode:_userStorage.userData!=null?
+        _userStorage.userData!.isDarkMode:false,
       ),
     );
   }
 }
 
 class FacebookButton extends StatelessWidget {
-   FacebookButton({Key? key, this.isSignUp=true}) : super(key: key);
+   FacebookButton(this._authRepository,this._userStorage,{Key? key, this.isSignUp=true}) : super(key: key);
    final bool isSignUp;
-  AuthRepository authRepository=AuthRepository.instance();
+   final AuthRepository _authRepository;
+   final UserStorage _userStorage;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,15 +47,15 @@ class FacebookButton extends StatelessWidget {
         onPressed: () {
 
           if (isSignUp) {
-            util.signUpFacebook(context);
+            util.signUpFacebook(context,_authRepository,_userStorage);
           }
           else
             {
-              util.signInFacebook(context);
+              util.signInFacebook(context,_authRepository,_userStorage);
             }
         },
-        darkMode: UserStorage.instance(authRepository).userData!=null?
-        UserStorage.instance(authRepository).userData!.isDarkMode:false,
+        darkMode: _userStorage.userData!=null?
+        _userStorage.userData!.isDarkMode:false,
       ),
     );
   }
