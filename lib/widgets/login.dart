@@ -82,7 +82,9 @@ IconButton hidingPasswordEye()
   Widget signInButton(BuildContext context) {
    return GenericButton(buttonText: Languages.of(context)!.signIn,
    buttonColor: gc.alternativePrimary,
-     onPressed: (){},
+     onPressed: (){
+     util.emailPasswordSignIn(controllerEmail.text, controllerPassword.text, context);
+     },
    );
   }
 

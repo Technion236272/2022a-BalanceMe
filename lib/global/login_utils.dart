@@ -1,4 +1,3 @@
-import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart' as auth;
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-import 'package:balance_me/global/constants.dart' as gc;
 
 void signInGoogle(BuildContext context) async {
   startLoginProcess(

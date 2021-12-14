@@ -164,6 +164,7 @@ class AuthRepository with ChangeNotifier {
         try {
           await _user!.updatePassword(newPassword);
           notifyListeners();
+          displaySnackBar(context,Languages.of(context)!.changePasswordSuccess);
         }
         on FirebaseAuthException catch (e) {
          if(e.code==gc.weakPassword)

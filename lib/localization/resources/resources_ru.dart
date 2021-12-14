@@ -93,6 +93,9 @@ class LanguageRu extends Languages {
   @override
   String get descriptionInstruction => "добавьте описание...";
 
+  @override
+  String get changePasswordSuccess => "успешно изменен пароль";
+
   // Login
   @override
   String get welcome => "Добро пожаловать";

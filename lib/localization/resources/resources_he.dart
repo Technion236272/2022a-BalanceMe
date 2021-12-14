@@ -96,6 +96,9 @@ class LanguageHe extends Languages {
   @override
   String get descriptionInstruction => "הוספת תיאור...‎";
 
+  @override
+  String get changePasswordSuccess => "סיסמה שונתה בהצלחה‎";
+
   // Login
   @override
   String get welcome => "‎ברוך הבא";

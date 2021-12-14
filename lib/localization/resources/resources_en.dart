@@ -137,6 +137,9 @@ class LanguageEn extends Languages {
   @override
   String get descriptionInstruction => "Add description...";
 
+  @override
+  String get   changePasswordSuccess => "Password successfully changed";
+
   //password recovery
   @override
   String get recoverPassword => "Password recovery";

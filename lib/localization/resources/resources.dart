@@ -40,6 +40,7 @@ abstract class Languages {
   String get createGroupInstructions;
   String get groupName;
   String get descriptionInstruction;
+  String get changePasswordSuccess;
 
   // Login
   String get welcome;
