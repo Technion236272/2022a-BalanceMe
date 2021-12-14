@@ -18,7 +18,6 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-
 class _LoginScreenState extends State<LoginScreen> {
   bool showPassword = true;
   TextEditingController controllerEmail = TextEditingController();
@@ -36,24 +35,29 @@ class _LoginScreenState extends State<LoginScreen> {
       showPassword = !showPassword;
     });
   }
-IconButton hidingPasswordEye()
-{
-  return IconButton(
-    icon:
-    Icon(showPassword ? gc.hidePassword : gc.showPassword),
-    color: gc.hidePasswordColor,
-    onPressed: () {
-      hideText();
-    },
-  );
-}
+
+  IconButton hidingPasswordEye() {
+    return IconButton(
+      icon: Icon(showPassword ? gc.hidePassword : gc.showPassword),
+      color: gc.hidePasswordColor,
+      onPressed: () {
+        hideText();
+      },
+    );
+  }
+
   Widget loginBody(BuildContext context) {
     return Form(
       child: Column(
         children: [
           const LoginImage(),
           BorderTextBox(controllerEmail, Languages.of(context)!.emailText),
-          BorderTextBox(controllerPassword, Languages.of(context)!.password,hideText: showPassword,suffix: hidingPasswordEye(),),
+          BorderTextBox(
+            controllerPassword,
+            Languages.of(context)!.password,
+            hideText: showPassword,
+            suffix: hidingPasswordEye(),
+          ),
           GoogleButton(),
           FacebookButton(),
           forgotPasswordLink(context),
@@ -66,7 +70,8 @@ IconButton hidingPasswordEye()
   TextButton forgotPasswordLink(BuildContext context) {
     return TextButton(
         onPressed: () {
-          navigateToPage(context, const ForgotPassword(), AppPages.ForgotPassword);
+          navigateToPage(
+              context, const ForgotPassword(), AppPages.ForgotPassword);
         },
         child: Text(
           Languages.of(context)!.forgotPassword,
@@ -90,7 +95,10 @@ IconButton hidingPasswordEye()
             util.emailPasswordSignIn(
                 controllerEmail.text, controllerPassword.text, context);
           },
-          child: Text(Languages.of(context)!.signIn)),
+          child: Text(
+            Languages.of(context)!.signIn,
+            style: const TextStyle(fontSize: gc.signInOrUpFontSize),
+          )),
     );
   }
 
