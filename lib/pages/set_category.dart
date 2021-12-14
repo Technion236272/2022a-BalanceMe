@@ -179,14 +179,15 @@ class _SetCategoryState extends State<SetCategory> {
                       isEnabled: widget._mode != DetailsPageMode.Details,
                   ),
                 ),
-                widget._mode == DetailsPageMode.Details ?
-                Container() :
-                Padding(
-                  padding: const EdgeInsets.only(top: gc.buttonPadding),
-                  child: ActionButton(
-                    performingAction,
-                    Languages.of(context)!.save,
-                    _saveCategory,
+                Visibility(
+                  visible: widget._mode != DetailsPageMode.Details,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: gc.buttonPadding),
+                    child: ActionButton(
+                      performingAction,
+                      Languages.of(context)!.save,
+                      _saveCategory,
+                    ),
                   ),
                 ),
               ],

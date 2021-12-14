@@ -101,6 +101,8 @@ const String pieChartInnerRadius = '65%';
 const LegendPosition pieChartLegendPosition = LegendPosition.bottom;
 Color pieChartCenterText = Colors.grey.shade600;
 Color pieCharDefaultCategoryColor = Colors.grey.shade300;
+const EdgeInsets centerPadding = EdgeInsets.only(bottom: 30.0, left: 10.0);
+const double percentSize = 40.0;
 
 // Balance
 const String inPracticeExpectedSeparator = "/";
@@ -143,6 +145,12 @@ const int numOfItems = 10;
 const double infoTitleFontSize = 25;
 const double infoFontSize = 18;
 
+//Generic Date Picker
+const double datePickerFontSize = 15.0;
+const double datePickerGeneralPadding = 2.0;
+const double datePickerRightPadding = 15.0;
+const double datePickerIconSize = 18.0;
+
 //Transaction Entry
 const double entryPadding = 8.0;
 const double entryBorderRadius = 10;
@@ -151,3 +159,15 @@ Color entryShadow = Colors.grey.withOpacity(0.5);
 const double shadowDesignConstant = 3;
 Color incomeEntryColor = Colors.green.shade600;
 Color expenseEntryColor = Colors.red.shade600;
+
+//Category Header
+const double categoryTopPadding = 7.0;
+const double categoryAroundPadding = 5.0;
+const double lineBarHeight = 14.0;
+const int lineAnimationDuration = 2500;
+const double dividerThickness = 1.0;
+const double cardBorderWidth = 2.0;
+const double cardThinBorderWidth = 1.0;
+const double iconPadding = 10.0;
+const double iconSize = 24.0;
+const double listViewBottomPadding = 100;

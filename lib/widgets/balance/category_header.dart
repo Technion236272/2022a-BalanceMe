@@ -1,4 +1,5 @@
 // ================= Category Header =================
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -63,47 +64,113 @@ class _CategoryHeaderState extends State<CategoryHeader> {
     double progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
     progressPercentage = (progressPercentage >= 1) ? 1 : progressPercentage.toPrecision();
 
-    return Column(children: [
-      Row(
-        children: [
-          Text(widget._category.name),
-          Text(widget._category.amount.toMoneyFormat() +
-              gc.inPracticeExpectedSeparator +
-              widget._category.expected.toMoneyFormat()),
-          IconButton(
-            onPressed: _openAddTransactionPage,
-            icon: const Icon(gc.addIcon),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(children: [
+        Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                  child: Text(
+                    widget._category.name,
+                    style: TextStyle(
+                        color: gc.primaryColor,
+                        fontSize: gc.fontSizeLoginImage,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    iconSize: gc.iconSize,
+                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                    constraints: BoxConstraints(),
+                    color: gc.primaryColor,
+                    onPressed: _openAddTransactionPage,
+                    icon: const Icon(gc.addIcon),
+                  ),
+                  IconButton(
+                    iconSize: gc.iconSize,
+                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                    constraints: BoxConstraints(),
+                    color: gc.primaryColor,
+                    onPressed: _openCategoryDetails,
+                    icon: const Icon(gc.transactionDetailsIcon),
+                  ),
+                  IconButton(
+                    iconSize: gc.iconSize,
+                    padding: widget._category.transactions.isNotEmpty
+                        ? const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,)
+                    : const EdgeInsets.all(gc.iconPadding),
+                    constraints: BoxConstraints(),
+                    color: gc.primaryColor,
+                    onPressed: _confirmRemoval,
+                    icon: const Icon(gc.deleteIcon),
+                  ),
+                  Visibility(
+                    visible: widget._category.transactions.isNotEmpty,
+                    child: IconButton(
+                        iconSize: gc.iconSize,
+                        padding: const EdgeInsets.all(gc.iconPadding),
+                        constraints: BoxConstraints(),
+                        color: gc.primaryColor,
+                        onPressed: widget._toggleCategory,
+                        icon: Icon(widget._isCategoryOpen
+                            ? gc.expandIcon
+                            : gc.minimizeIcon)),
+                  )
+                ],
+              ),
+            ]),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                right: gc.categoryAroundPadding,
+                left: gc.categoryAroundPadding,
+                bottom: gc.categoryAroundPadding),
+            child: Text(
+              widget._category.amount.toMoneyFormat() +
+                  gc.inPracticeExpectedSeparator +
+                  widget._category.expected.toMoneyFormat(),
+              style: TextStyle(
+                  color: gc.primaryColor,
+                  fontSize: gc.fontSizeLoginImage,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
-          IconButton(
-            onPressed: _openCategoryDetails,
-            icon: const Icon(gc.transactionDetailsIcon),
-          ),
-          IconButton(
-            onPressed: _confirmRemoval,
-            icon: const Icon(gc.deleteIcon),
-          ),
-          widget._category.transactions.isNotEmpty ?
-              IconButton(
-                  onPressed: widget._toggleCategory,
-                  icon: Icon(widget._isCategoryOpen ? gc.expandIcon : gc.minimizeIcon))
-              : Container(),
-        ],
-      ),
-      Padding(
-        // TODO- consider if Padding is necessary and put all constants in gc
-        padding: const EdgeInsets.all(15.0),
-        child: LinearPercentIndicator(
-          width: MediaQuery.of(context).size.width - 50,
-          animation: true,
-          lineHeight: 20.0,
-          animationDuration: 2500,
-          percent: progressPercentage,
-          center:
-              Text((progressPercentage * 100).toPercentageFormat()),
-          linearStrokeCap: LinearStrokeCap.roundAll,
-          progressColor: gc.primaryColor,
         ),
-      ),
-    ]);
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                right: gc.categoryAroundPadding,
+                left: gc.categoryAroundPadding,
+                bottom: gc.categoryAroundPadding),
+            child: LinearPercentIndicator(
+              animation: true,
+              lineHeight: gc.lineBarHeight,
+              animationDuration: gc.lineAnimationDuration,
+              percent: progressPercentage,
+              center: Text((progressPercentage * 100).toPercentageFormat()),
+              linearStrokeCap: LinearStrokeCap.roundAll,
+              progressColor: gc.primaryColor,
+            ),
+          ),
+        ),
+        Visibility(
+            visible: widget._isCategoryOpen && widget._category.transactions.isNotEmpty,
+            child: const Padding(
+              padding: EdgeInsets.only(bottom: gc.categoryAroundPadding),
+              child: Divider(
+                  color: gc.primaryColor, thickness: gc.dividerThickness),
+            ))
+      ]),
+    );
   }
 }

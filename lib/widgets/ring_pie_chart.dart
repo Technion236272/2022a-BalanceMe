@@ -43,26 +43,33 @@ class RingPieChart extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Text(
-          _totalPercentage!.toInt().toPercentageFormat(),
-          style: TextStyle(color: gc.pieChartCenterText),
-        ),
-        SfCircularChart(
-            legend: Legend(
-              isVisible: _showLegend,
-              position: gc.pieChartLegendPosition,
-              title: _legendTitle != null ? LegendTitle(
-                text: _legendTitle,
-              ) : null,
+        Center(
+          child: Padding(
+            padding: gc.centerPadding,
+            child: Text(
+              _totalPercentage!.toInt().toPercentageFormat(),
+              style: TextStyle(color: gc.pieChartCenterText, fontSize: gc.percentSize),
             ),
-            series: <CircularSeries>[
-              DoughnutSeries<ChartData, String>(
-                  dataSource: _chartData!,
-                  pointColorMapper: (ChartData data, _) => data.color,
-                  xValueMapper: (ChartData data, _) => data.x,
-                  yValueMapper: (ChartData data, _) => data.y,
-                  innerRadius: gc.pieChartInnerRadius),
-            ]),
+          ),
+        ),
+        Center(
+          child: SfCircularChart(
+              legend: Legend(
+                isVisible: _showLegend,
+                position: gc.pieChartLegendPosition,
+                title: _legendTitle != null ? LegendTitle(
+                  text: _legendTitle,
+                ) : null,
+              ),
+              series: <CircularSeries>[
+                DoughnutSeries<ChartData, String>(
+                    dataSource: _chartData!,
+                    pointColorMapper: (ChartData data, _) => data.color,
+                    xValueMapper: (ChartData data, _) => data.x,
+                    yValueMapper: (ChartData data, _) => data.y,
+                    innerRadius: gc.pieChartInnerRadius),
+              ]),
+        ),
       ],
     );
   }

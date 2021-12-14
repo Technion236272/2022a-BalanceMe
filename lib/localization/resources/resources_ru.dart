@@ -123,7 +123,7 @@ class LanguageRu extends Languages {
   String get incomes => "Incomes";
 
   @override
-  String get now => "Target";
+  String get current => "Current";
 
   @override
   String get expected => "Expected";

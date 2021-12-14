@@ -123,7 +123,7 @@ class LanguageEn extends Languages {
   String get incomes => "Incomes";
 
   @override
-  String get now => "Now";
+  String get current => "Current";
 
   @override
   String get expected => "Expected";
