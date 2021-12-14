@@ -1,4 +1,5 @@
 // ================= Global Types =================
+import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 
@@ -31,6 +32,10 @@ typedef VoidCallbackTwoTransactions = void Function(Transaction, Transaction?);
 typedef StringCallbackStringNullable =  String? Function(String?);
 
 typedef JsonCallbackJson = void Function(Json);
+
+SortedList<Category> getCategorySortedList() => SortedList<Category>((a, b) => a.compareTo(b));
+
+SortedList<Transaction> getTransactionSortedList() => SortedList<Transaction>((a, b) => a.compareTo(b));
 
 class PrimitiveWrapper{
   var value;

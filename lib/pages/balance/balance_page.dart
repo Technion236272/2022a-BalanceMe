@@ -2,7 +2,7 @@
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/pages/balance/balance_model.dart';
+import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/balance/categories_type.dart';
 import 'package:balance_me/widgets/generic_tabs.dart';

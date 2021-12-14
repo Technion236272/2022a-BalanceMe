@@ -17,9 +17,11 @@ import 'package:balance_me/global/constants.dart' as gc;
 /// The value of the selected date\dates is stored in the controller.selectedDate or
 /// controller.selectedRange.(startDate or endDate).
 /// The callBack function is called when you change selection.
+class DesignedDatePicker extends StatefulWidget {  // TODO- refactor
+  const DesignedDatePicker({required this.dateController, this.onSelectDate, this.width = 150.0, this.height = 35.0,
+    this.buttonColor = gc.primaryColor, this.datePickerColor = Colors.white, this.datePickerWidth = 180.0, this.datePickerHeight = 300.0,
+    this.isRange = false, this.viewSelector = DatePickerType.Day,  Key? key}) : super(key: key);
 
-class DesignedDatePicker extends StatefulWidget {
-  const DesignedDatePicker({required this.dateController, this.onSelectDate, this.width = 150.0, this.height = 35.0, this.buttonColor = gc.primaryColor, this.datePickerColor = Colors.white, this.datePickerWidth = 180.0, this.datePickerHeight = 300.0, this.isRange = false, this.viewSelector = DatePickerType.Day,  Key? key}) : super(key: key);
   final DateRangePickerController dateController;
   final VoidCallback? onSelectDate;
   final double width;
@@ -49,11 +51,13 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
         : widget.viewSelector == DatePickerType.Month
         ? startDate.year.toString() + "/" + startDate.month.toString()
         : startDate.year.toString();
+
     endDateString = (widget.viewSelector == DatePickerType.Day)
         ? endDate.year.toString() + "/" + endDate.month.toString() + "/" + endDate.day.toString()
         : widget.viewSelector == DatePickerType.Month
         ? endDate.year.toString() + "/" + endDate.month.toString()
         : endDate.year.toString();
+
     super.initState();
   }
   @override
@@ -70,7 +74,7 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
                           (states) => widget.buttonColor.withOpacity(0.95)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(widget.height/2),
+                            borderRadius: BorderRadius.circular(widget.height / 2),
                             side: BorderSide(color: widget.buttonColor),
                         )
                 ),
@@ -86,13 +90,15 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
                         : startDateString,
                         style: const TextStyle(
                             color: gc.secondaryColor,
-                            fontSize: gc.datePickerFontSize),
+                            fontSize: gc.datePickerFontSize,
+                        ),
                       ),
                       Icon(isVisible
                           ? gc.expandIcon
                           : gc.minimizeIcon,
                       size: gc.datePickerIconSize,
-                      color: gc.secondaryColor,)
+                      color: gc.secondaryColor,
+                      ),
                     ],
                   ),
                 ),
@@ -115,7 +121,7 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
                 padding: const EdgeInsets.only(top: gc.datePickerGeneralPadding, right: gc.datePickerRightPadding),
                 child: SfDateRangePicker(
                   selectionMode: widget.isRange ? DateRangePickerSelectionMode.range : DateRangePickerSelectionMode.single,
-                  minDate: DateTime(2020),
+                  minDate: DateTime(2020),  // TODO- move to gc
                   maxDate: DateTime.now(),
                   view: widget.viewSelector == DatePickerType.Day
                       ? DateRangePickerView.month

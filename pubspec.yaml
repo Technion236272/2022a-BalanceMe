@@ -52,6 +52,7 @@ dependencies:
   flutter_facebook_auth: ^3.5.6
   awesome_dropdown: ^0.0.4
   syncfusion_flutter_datepicker: ^19.3.57
+  sorted_list: ^1.0.0
 
 dev_dependencies:
   flutter_test:

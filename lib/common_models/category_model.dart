@@ -1,21 +1,24 @@
 // ================= Category Model =================
+import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 
 class Category {
   Category(this.name, this.isIncome, this.expected, this.description) {
-    transactions = [];
+    transactions = getTransactionSortedList();
     amount = calcTotalAmount();
   }
 
-  Category.fromJson(Json categoryJson) {  // TODO- extract strings to firebase_config (also from user_model and transaction)
+  Category.fromJson(Json categoryJson) {
     name = categoryJson["name"];
     expected = categoryJson["expected"].toDouble();
     description = categoryJson["description"];
     amount = categoryJson["amount"].toDouble();
     isIncome = categoryJson["isIncome"];
-    transactions = jsonToElementList(categoryJson["transactions"], (json) => Transaction.fromJson(json)).cast<Transaction>();
+
+    transactions = getTransactionSortedList();
+    transactions.addAll(jsonToElementList(categoryJson["transactions"], (json) => Transaction.fromJson(json)).cast<Transaction>());
   }
 
   double calcTotalAmount() {
@@ -31,7 +34,7 @@ class Category {
   late double expected;
   late String description;
   late double amount;
-  late List<Transaction> transactions = [];
+  late SortedList<Transaction> transactions;
 
   void addTransaction(Transaction transaction) {
     transactions.add(transaction);
@@ -51,4 +54,6 @@ class Category {
     'amount': amount,
     'transactions': listToJsonList(transactions)
   };
+
+  int compareTo(Category other) => name.toLowerCase().compareTo(other.name.toLowerCase());
 }

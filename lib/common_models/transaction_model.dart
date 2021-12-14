@@ -1,5 +1,6 @@
 // ================= Transaction Model =================
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/utils.dart';
 
 class Transaction {
   Transaction(this.name, this.date, this.amount, this.description, this.isConstant);
@@ -25,4 +26,14 @@ class Transaction {
     'description': description,
     'isConstant': isConstant
   };
+
+  int compareTo(Transaction other){
+    int comparePerDate = date.toDateTime().compareTo(other.date.toDateTime());
+    if (comparePerDate == 0) {
+      return name.compareTo(other.name);
+    }
+    else {
+      return comparePerDate;
+    }
+  }
 }

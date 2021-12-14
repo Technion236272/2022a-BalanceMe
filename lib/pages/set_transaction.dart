@@ -1,5 +1,4 @@
 // ================= Set Transaction =================
-import 'package:balance_me/widgets/designed_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -10,10 +9,11 @@ import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
 import 'package:balance_me/widgets/generic_drop_down_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
+import 'package:balance_me/widgets/designed_date_picker.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class SetTransaction extends StatefulWidget {
   SetTransaction(this._mode, this._callback, this._currentCategoryName, {this.currentTransaction, Key? key}) : super(key: key);
@@ -33,7 +33,6 @@ class _SetTransactionState extends State<SetTransaction> {
   final TextEditingController _transactionAmountController = TextEditingController();
   final TextEditingController _transactionDescriptionController = TextEditingController();
   final DateRangePickerController _dateRangePickerController = DateRangePickerController();
-  final String _date = DateTime.now().toFullDate();  // TODO- connect with date picker
   PrimitiveWrapper? _dropDownController;
   bool _isConstant = gc.defaultIsConstant;
   bool _performingSave = false;
@@ -57,6 +56,7 @@ class _SetTransactionState extends State<SetTransaction> {
     _transactionNameController.dispose();
     _transactionAmountController.dispose();
     _transactionDescriptionController.dispose();
+    _dateRangePickerController.dispose();
     super.dispose();
   }
 
@@ -96,7 +96,6 @@ class _SetTransactionState extends State<SetTransaction> {
 
   void _switchConstant(bool isConstant) {
     setState(() {
-      print("%%%%%%%");
       _isConstant = isConstant;
     });
   }
@@ -238,10 +237,10 @@ class _SetTransactionState extends State<SetTransaction> {
                   ),
                 ],
               ),
-                  Positioned(
+                  Positioned(  // TODO- remove, add choose in callback
                       top: MediaQuery.of(context).size.height/2.65,
                       right: 5,
-                      child: DesignedDatePicker(dateController: _dateRangePickerController, width: 120, height: 20, viewSelector: DatePickerType.Month,)),  // TODO- pass a callback function],
+                      child: DesignedDatePicker(dateController: _dateRangePickerController, width: 120, height: 20, viewSelector: DatePickerType.Day,)),  // TODO- pass a callback function
             ]),
           ),
         ),

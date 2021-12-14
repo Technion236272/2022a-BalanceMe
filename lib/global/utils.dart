@@ -1,5 +1,6 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
+import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
@@ -71,6 +72,13 @@ extension Ex on num {
 
 extension Dt on DateTime {
   String toFullDate() => "$day-$month-$year";  // TODO- find a way to add the symbol in the correct direction according to the locale
+}
+
+extension St on String {
+  DateTime toDateTime() {
+    List<String> dateTokens = split("-");
+    return DateTime(int.parse(dateTokens[2]), int.parse(dateTokens[1]), int.parse(dateTokens[0]));  // year, month, day
+  }
 }
 
 // Validators
