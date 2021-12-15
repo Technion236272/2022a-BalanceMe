@@ -43,6 +43,8 @@ abstract class Languages {
   String get changePasswordSuccess;
   String get profileChangeSuccessful;
   String get noImagePicked;
+  String get gallery;
+  String get camera;
 
   // Login
   String get welcome;

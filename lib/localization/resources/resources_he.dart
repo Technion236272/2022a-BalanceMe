@@ -105,6 +105,12 @@ class LanguageHe extends Languages {
   @override
   String get noImagePicked => "‎לא בחרת תמונה, בחר תמונה, כדי לעדכן את האווטאר שלך";
 
+  @override
+  String get gallery => "גלריה‎";
+
+  @override
+  String get camera => "מצלמה‎";
+
   // Login
   @override
   String get welcome => "‎ברוך הבא";

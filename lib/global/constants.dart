@@ -9,9 +9,6 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 const bool darkMode=false;
 const List<int> daysOfMonth=[1,10,15];
 
-//Icons
-const Icon settingArrow=Icon(Icons.arrow_forward_ios_sharp);
-
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
 
@@ -21,6 +18,7 @@ const int defaultEndOfMonthDay = 10;
 const String defaultUserCurrency = "NIS";
 
 // Icons
+const IconData settingArrow=Icons.arrow_forward_ios_sharp;
 const IconData unauthenticatedIcon = Icons.login;
 const IconData authenticatedIcon = Icons.exit_to_app;
 const IconData emptyAvatarIcon = Icons.account_circle;
@@ -30,6 +28,8 @@ const IconData statisticsPage = Icons.pie_chart;
 const IconData hidePassword = Icons.remove_red_eye_outlined;
 const IconData showPassword = Icons.remove_red_eye;
 const IconData editPencil=Icons.create_sharp;
+const IconData galleryChoice=Icons.photo_library;
+const IconData cameraChoice=Icons.photo_camera;
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
 const Color secondaryColor = Colors.white;

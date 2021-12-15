@@ -4,14 +4,13 @@ import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/pages/balance.dart';
 import 'package:balance_me/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'appbar.dart';
-import 'bottom_navigation.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings(
@@ -54,7 +53,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   padding: const EdgeInsets.fromLTRB(
                       gc.padAroundPencil, gc.padProfileAvatar,
                       gc.padAroundPencil, gc.padAroundPencil),
-                  child: pencilButton(() async {await updateAvatar();}),
+                  child: pencilButton(() async { imagePicker(context);}),
                 ),
               ]),
           TextBox(controllerFirstName, null, labelText: getFirstName()
@@ -104,18 +103,58 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     widget.userStorage.SEND_generalInfo();
     displaySnackBar(context, Languages.of(context)!.profileChangeSuccessful);
   }
+  void imagePicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: const Icon(gc.galleryChoice),
+                    title: Text(Languages.of(context)!.gallery),
+                    onTap: () async {
 
-  Future<void> updateAvatar()
+                      if (await Permission.storage.request().isGranted) {
+                        await updateAvatar(ImageSource.gallery);
+                      }
+                      navigateBack(context);
+                    }),
+                ListTile(
+                  leading:const Icon(gc.cameraChoice) ,
+                  title: Text(Languages.of(context)!.camera),
+                  onTap: () async {
+                    if( await Permission.camera.request().isGranted)
+                    {
+                      await updateAvatar(ImageSource.camera);
+                    }
+
+                    navigateBack(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+    );
+  }
+
+  Future<void> updateAvatar(ImageSource image)
   async {
     ImagePicker picker = ImagePicker();
-    XFile? pickedImage=await picker.pickImage(source: ImageSource.gallery);
+
+    XFile? pickedImage=await picker.pickImage(source:image);
+
     if(pickedImage==null)
       {
         displaySnackBar(context, Languages.of(context)!.noImagePicked);
       }
     else
       {
-       widget.authRepository.uploadAvatar(pickedImage);
+        setState(() {
+          widget.authRepository.uploadAvatar(pickedImage);
+        });
+
       }
   }
 

@@ -102,6 +102,12 @@ class LanguageRu extends Languages {
   @override
   String get noImagePicked => "Вы не выбрали образ. выберите образ, чтобы изменить свой аватар";
 
+  @override
+  String get gallery => "галерея";
+
+  @override
+  String get camera => "камера";
+
   // Login
   @override
   String get welcome => "Добро пожаловать";

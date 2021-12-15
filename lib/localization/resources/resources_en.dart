@@ -146,6 +146,12 @@ class LanguageEn extends Languages {
   @override
   String get noImagePicked => "You haven't picked an image. pick an image to change your avatar";
 
+  @override
+  String get gallery => "Gallery";
+
+  @override
+  String get camera => "Camera";
+
   //password recovery
   @override
   String get recoverPassword => "Password recovery";

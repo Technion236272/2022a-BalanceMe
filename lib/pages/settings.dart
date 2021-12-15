@@ -49,7 +49,7 @@ class _SettingsState extends State<Settings> {
           onPressed: () {
             navigateToPage(context, ProfileSettings(authRepository: widget.authRepository,userStorage: widget.userStorage,));
           },
-          icon: gc.settingArrow),
+          icon: Icon(gc.settingArrow)),
       // IconButton(
       //   onPressed: () {
       //
@@ -62,32 +62,15 @@ class _SettingsState extends State<Settings> {
           onPressed: () {
             navigateToPage(context, ChangePassword(authRepository: widget.authRepository,));
           },
-          icon: gc.settingArrow),
+          icon: const Icon(gc.settingArrow)),
       // Switch(value: isDark(), onChanged: setDarkMode),
       daysOfMonthRadio(),
-      LanguageDropDown(),
+      const LanguageDropDown(),
       const Text(config.projectVersion)
     ];
     return ListViewGeneric(
         leadingWidgets: leadingSettings, trailingWidgets: trailingSettings);
   }
-
-
-
-
-
-
-
-
-
-  // void setDarkMode(bool isDark) {
-  //     }
-  //
-  //
-  // bool isDark() {
-  //   return gc.darkMode;
-  // }
-
 
   void setDayOfMonth(Object? value) {}
 
