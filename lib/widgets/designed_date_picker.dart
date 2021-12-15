@@ -18,13 +18,12 @@ import 'package:balance_me/global/constants.dart' as gc;
 /// controller.selectedRange.(startDate or endDate).
 /// The callBack function is called when you change selection.
 class DesignedDatePicker extends StatefulWidget {  // TODO- refactor
-  const DesignedDatePicker({required this.dateController, this.onSelectDate, this.width = 150.0, this.height = 35.0,
+  const DesignedDatePicker({required this.dateController, this.onSelectDate, this.height = 35.0,
     this.buttonColor = gc.primaryColor, this.datePickerColor = Colors.white, this.datePickerWidth = 180.0, this.datePickerHeight = 300.0,
     this.isRange = false, this.viewSelector = DatePickerType.Day,  Key? key}) : super(key: key);
 
   final DateRangePickerController dateController;
   final VoidCallback? onSelectDate;
-  final double width;
   final double height;
   final Color buttonColor;
   final Color datePickerColor;
@@ -66,7 +65,11 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
       child: Column(
         children: [
           SizedBox(
-            width: widget.isRange ? (1.7 * widget.width) : widget.width,
+            width: (widget.viewSelector == DatePickerType.Day)
+                ? (widget.isRange) ? gc.dateRangePickerDayViewWidth : gc.datePickerDayViewWidth
+                : widget.viewSelector == DatePickerType.Month
+                ? (widget.isRange) ? gc.dateRangePickerMonthViewWidth : gc.datePickerMonthViewWidth
+                : (widget.isRange) ? gc.dateRangePickerYearViewWidth : gc.datePickerYearViewWidth,
             height: widget.height,
             child: OutlinedButton(
                 style: ButtonStyle(

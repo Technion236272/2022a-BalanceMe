@@ -130,7 +130,6 @@ class _SetTransactionState extends State<SetTransaction> {
     _dropDownController = PrimitiveWrapper(widget._currentCategoryName);
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: MinorAppBar(_getPageTitle()),
       body: SingleChildScrollView(
         child: Padding(
@@ -243,8 +242,8 @@ class _SetTransactionState extends State<SetTransaction> {
               ),
                   Positioned(  // TODO- remove, add choose in callback
                       top: MediaQuery.of(context).size.height/2.65,
-                      right: 5,
-                      child: DesignedDatePicker(dateController: _dateRangePickerController, width: 120, height: 20, viewSelector: DatePickerType.Day,)),  // TODO- pass a callback function
+                      right: 20,
+                      child: DesignedDatePicker(dateController: _dateRangePickerController, height: 20, viewSelector: DatePickerType.Day,)),  // TODO- pass a callback function
             ]),
           ),
         ),
