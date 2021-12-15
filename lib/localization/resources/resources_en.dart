@@ -143,6 +143,9 @@ class LanguageEn extends Languages {
   @override
   String get profileChangeSuccessful => "Profile successfully updated";
 
+  @override
+  String get noImagePicked => "You haven't picked an image. pick an image to change your avatar";
+
   //password recovery
   @override
   String get recoverPassword => "Password recovery";

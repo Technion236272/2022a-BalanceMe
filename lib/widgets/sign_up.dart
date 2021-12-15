@@ -1,3 +1,4 @@
+// ================= sign up page =================
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';

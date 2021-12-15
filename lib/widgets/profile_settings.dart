@@ -1,3 +1,4 @@
+// ================= Profile settings page =================
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/global/types.dart';
@@ -10,6 +11,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 import 'appbar.dart';
 import 'bottom_navigation.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings(
@@ -23,7 +25,7 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
-  int _selectedPage = gc.settingPageIndex;
+
   TextEditingController controllerFirstName = TextEditingController();
   TextEditingController controllerLastName = TextEditingController();
 
@@ -33,26 +35,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }
 
-  void _updateSelectedPage(int index) {
-    setState(() {
-      _selectedPage = index;
-    });
-  }
 
-  Widget _getCurrentPage(AuthRepository authRepository,
-      UserStorage userStorage) {
-    if (_selectedPage == AppPages.Settings.index) { // Settings
-      return getProfileScreen();
-    }
-    if (_selectedPage == AppPages.Statistics.index) { // Statistics
-      return const Scaffold();
-    } // Statistics
-    return BalancePage(authRepository, userStorage); // default: Balance
-  }
+
+
 
   Widget getProfileScreen() {
     return Scaffold(
-      bottomNavigationBar: BottomNavigation(_selectedPage, _updateSelectedPage),
+
       appBar: MinorAppBar(Languages.of(context)!.profileSettings + ' ' +
           Languages.of(context)!.settings),
       body: Column(
@@ -60,12 +49,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                UserAvatar(widget.authRepository, gc.ProfileAvatarRadius),
+                UserAvatar(widget.authRepository, gc.profileAvatarRadius),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(
                       gc.padAroundPencil, gc.padProfileAvatar,
                       gc.padAroundPencil, gc.padAroundPencil),
-                  child: pencilButton(updateAvatar),
+                  child: pencilButton(() async {await updateAvatar();}),
                 ),
               ]),
           TextBox(controllerFirstName, null, labelText: getFirstName()
@@ -116,8 +105,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     displaySnackBar(context, Languages.of(context)!.profileChangeSuccessful);
   }
 
-  void updateAvatar() {
-
+  Future<void> updateAvatar()
+  async {
+    ImagePicker picker = ImagePicker();
+    XFile? pickedImage=await picker.pickImage(source: ImageSource.gallery);
+    if(pickedImage==null)
+      {
+        displaySnackBar(context, Languages.of(context)!.noImagePicked);
+      }
+    else
+      {
+       widget.authRepository.uploadAvatar(pickedImage);
+      }
   }
 
   @override
@@ -129,6 +128,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   @override
   Widget build(BuildContext context) {
-    return _getCurrentPage(widget.authRepository, widget.userStorage);
+    return getProfileScreen();
   }
 }

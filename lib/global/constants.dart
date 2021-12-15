@@ -108,7 +108,7 @@ Color dividerColor=Colors.blueGrey;
 
 //settings
 const double newPasswordSize=22.0;
-const double ProfileAvatarRadius = 150.0;
+const double profileAvatarRadius = 150.0;
 const double padProfileAvatar=80.0;
 const double padAroundPencil=0.0;
 

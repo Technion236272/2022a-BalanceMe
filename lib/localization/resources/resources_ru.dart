@@ -99,6 +99,9 @@ class LanguageRu extends Languages {
   @override
   String get profileChangeSuccessful => "Профиль успешно обновлен";
 
+  @override
+  String get noImagePicked => "Вы не выбрали образ. выберите образ, чтобы изменить свой аватар";
+
   // Login
   @override
   String get welcome => "Добро пожаловать";

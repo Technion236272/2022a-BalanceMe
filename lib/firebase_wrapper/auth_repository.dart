@@ -12,6 +12,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:balance_me/global/project_config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:path/path.dart';
 
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;
@@ -127,7 +128,7 @@ class AuthRepository with ChangeNotifier {
   void uploadAvatar(XFile? avatarImage) async {
 
       if (avatarImage!=null && _user!=null) {
-        Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
+         Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
         UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage.path));
         await uploadedAvatar;
       }

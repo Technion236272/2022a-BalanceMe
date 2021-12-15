@@ -102,6 +102,9 @@ class LanguageHe extends Languages {
   @override
   String get profileChangeSuccessful => "‎הפרופיל עודכן בהצלחה";
 
+  @override
+  String get noImagePicked => "‎לא בחרת תמונה, בחר תמונה, כדי לעדכן את האווטאר שלך";
+
   // Login
   @override
   String get welcome => "‎ברוך הבא";
