@@ -99,7 +99,6 @@ class _SetCategoryState extends State<SetCategory> {
     _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: MinorAppBar(_getPageTitle()),
       body: SingleChildScrollView(
         child: Padding(
@@ -164,7 +163,8 @@ class _SetCategoryState extends State<SetCategory> {
                           _categoryTypeController!,
                           isDisabled: widget._mode == DetailsPageMode.Details,
                         ),
-                      ]
+                      ],
+                    isScrollable: false,
                   ),
                 ),
                 Padding(

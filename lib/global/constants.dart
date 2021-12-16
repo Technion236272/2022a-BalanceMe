@@ -128,7 +128,7 @@ Color dividerColor=Colors.blueGrey;
 const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
 
 //Category and Transaction
-const EdgeInsets topPadding = EdgeInsets.only(top: 40.0);
+const EdgeInsets topPadding = EdgeInsets.only(top: 20.0);
 const double smallTextFields = 280;
 const double generalTextFieldsPadding = 8.0;
 const double inputFontSize = 45;
@@ -151,6 +151,12 @@ const double datePickerFontSize = 15.0;
 const double datePickerGeneralPadding = 2.0;
 const double datePickerRightPadding = 15.0;
 const double datePickerIconSize = 18.0;
+const double datePickerDayViewWidth = 150.0;
+const double datePickerMonthViewWidth = 120.0;
+const double datePickerYearViewWidth = 100.0;
+const double dateRangePickerDayViewWidth = datePickerDayViewWidth * 1.6;
+const double dateRangePickerMonthViewWidth = datePickerMonthViewWidth * 1.6;
+const double dateRangePickerYearViewWidth = datePickerYearViewWidth * 1.4;
 
 //Transaction Entry
 const double entryPadding = 8.0;
