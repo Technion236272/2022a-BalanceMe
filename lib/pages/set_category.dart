@@ -163,7 +163,8 @@ class _SetCategoryState extends State<SetCategory> {
                           _categoryTypeController!,
                           isDisabled: widget._mode == DetailsPageMode.Details,
                         ),
-                      ]
+                      ],
+                    isScrollable: false,
                   ),
                 ),
                 Padding(

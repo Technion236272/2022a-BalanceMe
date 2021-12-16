@@ -198,6 +198,7 @@ class _SetTransactionState extends State<SetTransaction> {
                         right: gc.generalTextFieldsPadding
                     ),
                     child: ListViewGeneric(
+                      listTileHeight: gc.listTileHeight,
                       leadingWidgets: [
                       Text(Languages.of(context)!.date),
                       Text(Languages.of(context)!.constantSwitch),
@@ -209,7 +210,7 @@ class _SetTransactionState extends State<SetTransaction> {
                           onChanged: (widget._mode == DetailsPageMode.Details) ? null : _switchConstant,
                         ),
                     ],
-                    listTileHeight: gc.listTileHeight,
+                      isScrollable: false,
                     ),
                   ),
                   Padding(
