@@ -23,8 +23,8 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
-  TextEditingController controllerFirstName = TextEditingController();
-  TextEditingController controllerLastName = TextEditingController();
+  final TextEditingController _controllerFirstName = TextEditingController();
+  final TextEditingController _controllerLastName = TextEditingController();
 
   Widget pencilButton(GestureTapCallback? onPressed) {
     return IconButton(
@@ -32,46 +32,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       icon: const Icon(
         gc.editPencil,
         color: gc.alternativePrimary,
-      ),
-    );
-  }
-
-  Widget getProfileScreen() {
-    return Scaffold(
-      appBar: MinorAppBar(Languages.of(context)!.profileSettings +
-          ' ' +
-          Languages.of(context)!.settings),
-      body: Column(
-        children: [
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            UserAvatar(widget.authRepository, gc.profileAvatarRadius),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(gc.padAroundPencil,
-                  gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
-              child: pencilButton(() async {
-                imagePicker(context);
-              }),
-            ),
-          ]),
-          TextBox(
-            controllerFirstName,
-            null,
-            labelText: getFirstName(),
-            haveBorder: false,
-            suffix: pencilButton(() {
-              updateFirstName(controllerFirstName.text);
-            }),
-          ),
-          TextBox(
-            controllerLastName,
-            null,
-            labelText: getLastName(),
-            haveBorder: false,
-            suffix: pencilButton(() {
-              updateLastName(controllerLastName.text);
-            }),
-          ),
-        ],
       ),
     );
   }
@@ -98,14 +58,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   void updateFirstName(String firstName) {
     widget.userStorage.setFirstName(firstName);
+    _saveProfile();
+  }
+
+  void _saveProfile() {
     widget.userStorage.SEND_generalInfo();
     displaySnackBar(context, Languages.of(context)!.profileChangeSuccessful);
   }
 
   void updateLastName(String lastName) {
     widget.userStorage.setLastName(lastName);
-    widget.userStorage.SEND_generalInfo();
-    displaySnackBar(context, Languages.of(context)!.profileChangeSuccessful);
+    _saveProfile();
   }
 
   void imagePicker(BuildContext context) {
@@ -156,13 +119,49 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   @override
   void dispose() {
-    controllerFirstName.dispose();
-    controllerLastName.dispose();
+    _controllerFirstName.dispose();
+    _controllerLastName.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return getProfileScreen();
+    return Scaffold(
+      appBar: MinorAppBar(Languages.of(context)!.profileSettings +
+          ' ' +
+          Languages.of(context)!.settings),
+      body: Column(
+        children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            UserAvatar(widget.authRepository, gc.profileAvatarRadius),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(gc.padAroundPencil,
+                  gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
+              child: pencilButton(() async {
+                imagePicker(context);
+              }),
+            ),
+          ]),
+          TextBox(
+            _controllerFirstName,
+            null,
+            labelText: getFirstName(),
+            haveBorder: false,
+            suffix: pencilButton(() {
+              updateFirstName(_controllerFirstName.text);
+            }),
+          ),
+          TextBox(
+            _controllerLastName,
+            null,
+            labelText: getLastName(),
+            haveBorder: false,
+            suffix: pencilButton(() {
+              updateLastName(_controllerLastName.text);
+            }),
+          ),
+        ],
+      ),
+    );
   }
 }

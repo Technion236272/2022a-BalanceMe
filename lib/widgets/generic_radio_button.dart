@@ -20,12 +20,12 @@ import 'package:balance_me/global/constants.dart' as gc;
 
 class GenericRadioButton extends StatefulWidget {
   const GenericRadioButton(this._options, this._radioButtonController,
-      {this.onTapCallback, this.isDisabled = false, Key? key})
+      {this.onChangeCallback, this.isDisabled = false, Key? key})
       : super(key: key);
 
   final List<String> _options;
   final PrimitiveWrapper _radioButtonController;
-  final GestureTapCallback? onTapCallback;
+  final GestureTapCallback? onChangeCallback;
   final bool isDisabled;
 
   @override
@@ -37,8 +37,8 @@ class _GenericRadioButtonState extends State<GenericRadioButton> {
     if (value != null) {
       setState(() {
         widget._radioButtonController.value = value;
-        if (widget.onTapCallback != null) {
-          widget.onTapCallback!();
+        if (widget.onChangeCallback != null) {
+          widget.onChangeCallback!();
         }
       });
     }

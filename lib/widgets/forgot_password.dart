@@ -1,10 +1,11 @@
+// ================= Forgot password link page =================
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/generic_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:balance_me/global/login_utils.dart' as util;
+import 'package:balance_me/global/login_utils.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -21,10 +22,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     controllerEmail.dispose();
     super.dispose();
   }
+void changePassword()
+{
+  recoverPassword(controllerEmail.text, context);
+}
 
   @override
   Widget build(BuildContext context) {
-         return Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: MinorAppBar(Languages.of(context)!.recoverPassword),
       body: SingleChildScrollView(
@@ -46,9 +51,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),
               ),
-              TextBox(controllerEmail,Languages.of(context)!.emailText),
-              GenericButton(buttonText: Languages.of(context)!.send,
-            buttonColor:gc.alternativePrimary,onPressed:() {util.recoverPassword(controllerEmail.text, context);},),
+              TextBox(controllerEmail, Languages.of(context)!.emailText),
+              GenericButton(
+                buttonText: Languages.of(context)!.send,
+                buttonColor: gc.alternativePrimary,
+                onPressed: changePassword,
+              ),
             ],
           ),
         ),

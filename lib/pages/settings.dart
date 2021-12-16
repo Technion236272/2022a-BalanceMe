@@ -1,7 +1,7 @@
 // ================= Settings main page =================
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/widgets/change_password.dart';
+import 'package:balance_me/pages/change_password.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
 import 'package:balance_me/global/project_config.dart' as config;
 import 'package:flutter/material.dart';
@@ -71,8 +71,6 @@ class _SettingsState extends State<Settings> {
     return ListViewGeneric(
         leadingWidgets: leadingSettings, trailingWidgets: trailingSettings);
   }
-
-  void setDayOfMonth(Object? value) {}
 
   Widget daysOfMonthRadio() {
     // List<String> options = [];
