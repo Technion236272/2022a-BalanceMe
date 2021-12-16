@@ -6,8 +6,6 @@ enum AppPages {Settings, Balance, Statistics, Login}
 
 typedef VoidCallbackInt = void Function(int);
 
-typedef VoidCallback = void Function();
-
 class PrimitiveWrapper{
   var value;
 

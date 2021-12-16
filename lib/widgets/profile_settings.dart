@@ -1,7 +1,6 @@
 // ================= Profile settings page =================
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
-import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/user_avatar.dart';
@@ -24,47 +23,54 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
-
   TextEditingController controllerFirstName = TextEditingController();
   TextEditingController controllerLastName = TextEditingController();
 
-  Widget pencilButton(VoidCallback? onPressed) {
-    return IconButton(onPressed: onPressed, icon:
-    const Icon(gc.editPencil, color: gc.alternativePrimary,),
+  Widget pencilButton(GestureTapCallback? onPressed) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: const Icon(
+        gc.editPencil,
+        color: gc.alternativePrimary,
+      ),
     );
   }
 
-
-
-
-
   Widget getProfileScreen() {
     return Scaffold(
-
-      appBar: MinorAppBar(Languages.of(context)!.profileSettings + ' ' +
+      appBar: MinorAppBar(Languages.of(context)!.profileSettings +
+          ' ' +
           Languages.of(context)!.settings),
       body: Column(
         children: [
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                UserAvatar(widget.authRepository, gc.profileAvatarRadius),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      gc.padAroundPencil, gc.padProfileAvatar,
-                      gc.padAroundPencil, gc.padAroundPencil),
-                  child: pencilButton(() async { imagePicker(context);}),
-                ),
-              ]),
-          TextBox(controllerFirstName, null, labelText: getFirstName()
-            , haveBorder: false, suffix: pencilButton(() {
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            UserAvatar(widget.authRepository, gc.profileAvatarRadius),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(gc.padAroundPencil,
+                  gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
+              child: pencilButton(() async {
+                imagePicker(context);
+              }),
+            ),
+          ]),
+          TextBox(
+            controllerFirstName,
+            null,
+            labelText: getFirstName(),
+            haveBorder: false,
+            suffix: pencilButton(() {
               updateFirstName(controllerFirstName.text);
-            }),),
-          TextBox(controllerLastName, null, labelText: getLastName(),
+            }),
+          ),
+          TextBox(
+            controllerLastName,
+            null,
+            labelText: getLastName(),
             haveBorder: false,
             suffix: pencilButton(() {
               updateLastName(controllerLastName.text);
-            }),),
+            }),
+          ),
         ],
       ),
     );
@@ -72,22 +78,20 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   Widget getFirstName() {
     if (widget.authRepository.isAuthenticated &&
-        widget.userStorage.userData != null
-        && widget.userStorage.userData!.firstName != null) {
+        widget.userStorage.userData != null &&
+        widget.userStorage.userData!.firstName != null) {
       return Text(widget.userStorage.userData!.firstName!);
-    }
-    else {
+    } else {
       return Text(Languages.of(context)!.firstName);
     }
   }
 
   Widget getLastName() {
     if (widget.authRepository.isAuthenticated &&
-        widget.userStorage.userData != null
-        && widget.userStorage.userData!.lastName != null) {
+        widget.userStorage.userData != null &&
+        widget.userStorage.userData!.lastName != null) {
       return Text(widget.userStorage.userData!.lastName!);
-    }
-    else {
+    } else {
       return Text(Languages.of(context)!.lastName);
     }
   }
@@ -103,6 +107,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     widget.userStorage.SEND_generalInfo();
     displaySnackBar(context, Languages.of(context)!.profileChangeSuccessful);
   }
+
   void imagePicker(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -114,48 +119,39 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     leading: const Icon(gc.galleryChoice),
                     title: Text(Languages.of(context)!.gallery),
                     onTap: () async {
-
                       if (await Permission.storage.request().isGranted) {
                         await updateAvatar(ImageSource.gallery);
                       }
                       navigateBack(context);
                     }),
                 ListTile(
-                  leading:const Icon(gc.cameraChoice) ,
+                  leading: const Icon(gc.cameraChoice),
                   title: Text(Languages.of(context)!.camera),
                   onTap: () async {
-                    if( await Permission.camera.request().isGranted)
-                    {
+                    if (await Permission.camera.request().isGranted) {
                       await updateAvatar(ImageSource.camera);
                     }
-
                     navigateBack(context);
                   },
                 ),
               ],
             ),
           );
-        }
-    );
+        });
   }
 
-  Future<void> updateAvatar(ImageSource image)
-  async {
+  Future<void> updateAvatar(ImageSource image) async {
     ImagePicker picker = ImagePicker();
 
-    XFile? pickedImage=await picker.pickImage(source:image);
+    XFile? pickedImage = await picker.pickImage(source: image);
 
-    if(pickedImage==null)
-      {
-        displaySnackBar(context, Languages.of(context)!.noImagePicked);
-      }
-    else
-      {
-        setState(() {
-          widget.authRepository.uploadAvatar(pickedImage);
-        });
-
-      }
+    if (pickedImage == null) {
+      displaySnackBar(context, Languages.of(context)!.noImagePicked);
+    } else {
+      setState(() {
+        widget.authRepository.uploadAvatar(pickedImage);
+      });
+    }
   }
 
   @override

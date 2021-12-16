@@ -38,7 +38,6 @@ class _SignUpState extends State<SignUp> {
     controllerConfirmPassword.dispose();
     super.dispose();
   }
-//TODO: check if it scrolls
   Widget signUpBody(BuildContext context) {
     return SingleChildScrollView(
       child: Form(

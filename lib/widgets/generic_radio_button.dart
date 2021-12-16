@@ -23,7 +23,7 @@ class GenericRadioButton extends StatefulWidget {
 
   final List<String> _options;
   final PrimitiveWrapper _radioButtonController;
-  final VoidCallback? onTapCallback;
+  final GestureTapCallback? onTapCallback;
 
   @override
   State<GenericRadioButton> createState() => _GenericRadioButtonState();

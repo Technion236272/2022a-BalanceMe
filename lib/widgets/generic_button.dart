@@ -1,5 +1,12 @@
+// ================= Generic button widget =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+
+/*
+* The widget receives the text which will show up on the button,
+*  the color of the button (filled as shown in the UI)
+* and an optional function which it will perform when pressed (a void function)
+*/
 
 class GenericButton extends StatefulWidget {
   const GenericButton(

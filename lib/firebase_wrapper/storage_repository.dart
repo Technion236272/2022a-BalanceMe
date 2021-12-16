@@ -65,9 +65,6 @@ class UserStorage with ChangeNotifier {
       _userData!.isDarkMode = isDarkMode;
     }
   }
-
-
-
   // ================== Requests ==================
 
   // GET
