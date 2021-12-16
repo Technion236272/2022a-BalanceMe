@@ -241,7 +241,7 @@ class _SetTransactionState extends State<SetTransaction> {
                   ),
                 ],
               ),
-                  Positioned(  // TODO- remove, add choose in callback
+                  Positioned(
                       top: MediaQuery.of(context).size.height/2.65,
                       right: 20,
                       child: DesignedDatePicker(dateController: _dateRangePickerController, height: 20, viewSelector: DatePickerType.Day,)),  // TODO- pass a callback function
