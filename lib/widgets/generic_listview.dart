@@ -13,12 +13,13 @@ import 'package:balance_me/global/constants.dart' as gc;
 
 class ListViewGeneric extends StatefulWidget {
   const ListViewGeneric(
-      {Key? key, required this.leadingWidgets, required this.trailingWidgets, this.listTileHeight})
+      {Key? key, required this.leadingWidgets, required this.trailingWidgets, this.listTileHeight, this.isScrollable = true})
       : super(key: key);
 
   final List<Widget?> leadingWidgets;
   final List<Widget?> trailingWidgets;
   final double? listTileHeight;
+  final bool isScrollable;
 
   @override
   _ListViewGenericState createState() => _ListViewGenericState();
@@ -48,6 +49,7 @@ class _ListViewGenericState extends State<ListViewGeneric> {
       shrinkWrap: true,
       children: listViewTilesBuild(),
       itemExtent: widget.listTileHeight,
+      physics: widget.isScrollable ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
     );
   }
 }
