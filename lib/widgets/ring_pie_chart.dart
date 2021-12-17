@@ -29,7 +29,7 @@ class RingPieChart extends StatelessWidget {
       chartData.add(ChartData(data.name as String, data.amount as num));
     }
 
-    if (totalAmount < 100) {
+    if (getPercentage(totalAmount, totalExpected) < 100) {
       chartData.add(ChartData(Languages.of(context)!.available, 100 - totalAmount, gc.pieCharDefaultCategoryColor));
     }
 
