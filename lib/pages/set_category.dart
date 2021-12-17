@@ -1,5 +1,7 @@
 // ================= Set Category =================
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/common_models/category_model.dart';
@@ -12,10 +14,9 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetCategory extends StatefulWidget {
-  SetCategory(this._mode, this._callback, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key);
+  SetCategory(this._mode, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
-  final VoidCallbackCategory _callback;
   final bool _isIncomeTab; // TODO- check adding income in tab expenses
   final Category? currentCategory;
 
@@ -63,22 +64,48 @@ class _SetCategoryState extends State<SetCategory> {
     return widget.currentCategory != null && widget.currentCategory!.description != "" ? widget.currentCategory!.description : Languages.of(context)!.emptyDescription;
   }
 
+  Category createNewCategory() {
+    return Category(
+      _categoryNameController!.text.toString(),
+      _categoryTypeController!.value == Languages.of(context)!.income,
+      double.parse(_categoryExpectedController!.text.toString()),
+      _categoryDescriptionController!.text.toString(),
+      widget.currentCategory == null ? null : widget.currentCategory!.amount,
+      widget.currentCategory == null ? null : widget.currentCategory!.transactions,
+    );
+  }
+
+  void _addNewCategory() {
+    Provider.of<UserStorage>(context, listen: false).addCategory(createNewCategory());
+  }
+
+  void _editCategory() {
+    if (widget.currentCategory == null) {
+      return; // Should not get here
+    }
+
+    if (widget.currentCategory!.isIncome == _categoryTypeController!.value) {  // Category stays in the same list
+      widget.currentCategory!.update(
+          _categoryNameController!.text.toString(),
+          double.parse(_categoryExpectedController!.text.toString()),
+          _categoryDescriptionController!.text.toString()
+      );
+      Provider.of<UserStorage>(context, listen: false).updateCategory(widget.currentCategory!);
+
+    } else {  // Category move to the other list
+      Provider.of<UserStorage>(context, listen: false).replaceCategory(createNewCategory(), widget.currentCategory!);
+    }
+  }
+
   void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
     _updatePerformingSave(true);
-    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      Category newCategory = Category(
-          _categoryNameController!.text.toString(),
-          _categoryTypeController!.value == Languages.of(context)!.income,
-          double.parse(_categoryExpectedController!.text.toString()),
-          _categoryDescriptionController!.text.toString(),
-          widget.currentCategory == null ? null : widget.currentCategory!.amount,
-          widget.currentCategory == null ? null : widget.currentCategory!.transactions,
-      );
 
-      widget._callback.call(newCategory, widget.currentCategory);
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      (widget._mode == DetailsPageMode.Add) ? _addNewCategory() : _editCategory();
       navigateBack(context);
       displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.category));
     }
+
     _updatePerformingSave(false);
   }
 

@@ -30,7 +30,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
   }
 
   void _openCategoryDetails() {
-    navigateToPage(context, SetCategory(DetailsPageMode.Details, Provider.of<UserStorage>(context, listen: false).editCategory, widget._category.isIncome, currentCategory: widget._category), AppPages.SetCategory);
+    navigateToPage(context, SetCategory(DetailsPageMode.Details, widget._category.isIncome, currentCategory: widget._category), AppPages.SetCategory);
   }
 
   void _removeCategory() {
