@@ -12,6 +12,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:balance_me/global/project_config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:sentry/sentry.dart';
 
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;
@@ -47,7 +48,11 @@ class AuthRepository with ChangeNotifier {
       _avatarUrl = null;
       notifyListeners();
       return true;
-    } catch (e) {
+    } catch (e,stackTrace) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
@@ -63,7 +68,11 @@ class AuthRepository with ChangeNotifier {
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
-    } catch (e) {
+    } catch (e,stackTrace) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
@@ -88,7 +97,11 @@ class AuthRepository with ChangeNotifier {
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
-    } catch (e) {
+    } catch (e,stackTrace) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
@@ -108,7 +121,11 @@ class AuthRepository with ChangeNotifier {
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
-    } catch (e) {
+    } catch (e,stackTrace) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
@@ -141,7 +158,11 @@ class AuthRepository with ChangeNotifier {
         return await storageReference.getDownloadURL();
       }
       return null;
-    } catch (e) {
+    } catch (e,stackTrace) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
       return null;
     }
   }
@@ -165,13 +186,21 @@ class AuthRepository with ChangeNotifier {
           notifyListeners();
           displaySnackBar(context,Languages.of(context)!.changePasswordSuccess);
         }
-        on FirebaseAuthException catch (e) {
+        on FirebaseAuthException catch (e,stackTrace) {
+          await Sentry.captureException(
+            e,
+            stackTrace: stackTrace,
+          );
          if(e.code==gc.weakPassword)
            {
               displaySnackBar(context,Languages.of(context)!.weakPassword);
            }
         }
-        catch (e) {
+        catch (e,stackTrace) {
+          await Sentry.captureException(
+            e,
+            stackTrace: stackTrace,
+          );
           displaySnackBar(context,Languages.of(context)!.changePasswordError);
         }
       }

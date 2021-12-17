@@ -2,10 +2,11 @@
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void signInGoogle(BuildContext context,AuthRepository authRepository
     ,UserStorage userStorage) async {
@@ -59,7 +60,11 @@ void recoverPassword(String? email, BuildContext context) async {
     await recover.sendPasswordResetEmail(email: email);
     navigateBack(context);
     displaySnackBar(context, Languages.of(context)!.emailSent);
-  } catch (e) {
+  } catch (e,stackTrace) {
+    await Sentry.captureException(
+      e,
+      stackTrace: stackTrace,
+    );
     displaySnackBar(context, Languages.of(context)!.loginError);
   }
 }

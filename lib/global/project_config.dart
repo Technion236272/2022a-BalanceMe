@@ -6,4 +6,6 @@ const String storageBucketPath = "gs://balanceme-d6a7b.appspot.com";
 const String imageStorePath=storageBucketPath+"/AppImage";
 const String avatarsCollection = "avatars";
 const String generalInfoDoc = "generalInfo";
+const String dsnForSentry='https://789c12b26df3418db5e7c6956794189f@o1092925.ingest.sentry.io/6111884';
+const String releaseName="com.technion.balanceme.balance_me@"+projectVersion;
 
