@@ -94,6 +94,8 @@ bool essentialFieldValidator(String? value) => (value != null && value.isNotEmpt
 
 bool lineLimitValidator(String? value) => (essentialFieldValidator(value) && value!.length <= gc.defaultMaxCharactersLimit);
 
+bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toString()) && value! > 0);
+
 // Time
 String getCurrentMonthPerEndMonthDay(int endOfMonth) {
   DateTime currentTime = DateTime.now();

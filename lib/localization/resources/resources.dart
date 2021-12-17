@@ -14,6 +14,7 @@ abstract class Languages {
   String get appTitle;
   String get essentialField;
   String get maxCharactersLimit;
+  String get mustPositiveNum;
   String get yes;
   String get no;
   String get date;

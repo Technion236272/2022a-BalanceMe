@@ -22,6 +22,9 @@ class LanguageRu extends Languages {
   String get maxCharactersLimit => "The maximum number of characters is %";
 
   @override
+  String get mustPositiveNum => "The number must be above 0";
+
+  @override
   String get yes => "Yes";
 
   @override

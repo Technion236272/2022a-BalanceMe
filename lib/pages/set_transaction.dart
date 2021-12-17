@@ -90,7 +90,19 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   String? _lineLimitValidatorFunction(String? value) {
-    return lineLimitValidator(value) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+    String? message = _essentialFieldValidatorFunction(value);
+    if (message == null) {
+      return lineLimitValidator(value) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+    }
+    return message;
+  }
+
+  String? _positiveNumberValidatorFunction(String? value) {
+    String? message = _essentialFieldValidatorFunction(value);
+    if (message == null) {
+      return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.mustPositiveNum;
+    }
+    return message;
   }
 
   List<String> _getCategoriesNameList(BuildContext context) {
@@ -176,7 +188,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       isValid: true,
                       isNumeric: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _essentialFieldValidatorFunction,
+                      validatorFunction: _positiveNumberValidatorFunction,
                     ),
                   ),
                   Padding(

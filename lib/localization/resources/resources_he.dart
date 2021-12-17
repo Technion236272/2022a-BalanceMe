@@ -22,6 +22,9 @@ class LanguageHe extends Languages {
   String get maxCharactersLimit => "‎מספר התווים המקסימלי הינו %";
 
   @override
+  String get mustPositiveNum => "‎המספר חייב להיות גדול מ-0";
+
+  @override
   String get yes => "‎כן";
 
   @override

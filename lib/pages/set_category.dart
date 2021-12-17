@@ -78,7 +78,19 @@ class _SetCategoryState extends State<SetCategory> {
   }
 
   String? _lineLimitValidatorFunction(String? value) {
-    return lineLimitValidator(value) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+    String? message = _essentialFieldValidatorFunction(value);
+    if (message == null) {
+      return lineLimitValidator(value) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+    }
+    return message;
+  }
+
+  String? _positiveNumberValidatorFunction(String? value) {
+    String? message = _essentialFieldValidatorFunction(value);
+    if (message == null) {
+      return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.mustPositiveNum;
+    }
+    return message;
   }
 
   Category createNewCategory() {
@@ -92,7 +104,7 @@ class _SetCategoryState extends State<SetCategory> {
     );
   }
 
-  void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
+  void _saveCategory() {
     _updatePerformingSave(true);
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
@@ -151,7 +163,7 @@ class _SetCategoryState extends State<SetCategory> {
                       isValid: true,
                       isNumeric: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _essentialFieldValidatorFunction,
+                      validatorFunction: _positiveNumberValidatorFunction,
                   ),
                 ),
                 Padding(
