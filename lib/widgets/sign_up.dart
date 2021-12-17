@@ -1,3 +1,6 @@
+// ================= sign up page =================
+import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -5,10 +8,11 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/login_utils.dart' as util;
 import 'package:balance_me/widgets/third_party_authentication.dart';
 import 'package:balance_me/widgets/login_image.dart';
-import 'package:balance_me/widgets/text_box_with_border.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+  const SignUp(this._authRepository,this._userStorage,{Key? key}) : super(key: key);
+  final AuthRepository _authRepository;
+  final UserStorage _userStorage;
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -34,29 +38,30 @@ class _SignUpState extends State<SignUp> {
     controllerConfirmPassword.dispose();
     super.dispose();
   }
-
   Widget signUpBody(BuildContext context) {
-    return Form(
-      child: Column(
-        children: [
-          const LoginImage(),
-          TextBox(controllerEmail, Languages.of(context)!.emailText),
-          TextBox(
-            controllerPassword,
-            Languages.of(context)!.password,
-            hideText: signUpPasswordVisible,
-            suffix: hidingPasswordEye(),
-          ),
-          TextBox(
-            controllerConfirmPassword,
-            Languages.of(context)!.confirmPassword,
-            hideText: confirmPasswordVisible,
-            suffix: hidingConfirmPasswordEye(),
-          ),
-          GoogleButton(),
-          FacebookButton(),
-          signUpEmailPasswordButton(context),
-        ],
+    return SingleChildScrollView(
+      child: Form(
+        child: Column(
+          children: [
+            const LoginImage(),
+            TextBox(controllerEmail, Languages.of(context)!.emailText),
+            TextBox(
+              controllerPassword,
+              Languages.of(context)!.password,
+              hideText: signUpPasswordVisible,
+              suffix: hidingPasswordEye(),
+            ),
+            TextBox(
+              controllerConfirmPassword,
+              Languages.of(context)!.confirmPassword,
+              hideText: confirmPasswordVisible,
+              suffix: hidingConfirmPasswordEye(),
+            ),
+            GoogleButton(widget._authRepository,widget._userStorage),
+            FacebookButton(widget._authRepository,widget._userStorage),
+            signUpEmailPasswordButton(context),
+          ],
+        ),
       ),
     );
   }
@@ -96,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                 controllerEmail.text,
                 controllerPassword.text,
                 controllerConfirmPassword.text,
-                context);
+                context,widget._authRepository,widget._userStorage);
           },
           child: Text(Languages.of(context)!.signUpTitle)),
     );

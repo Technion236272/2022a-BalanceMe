@@ -19,11 +19,13 @@ import 'package:balance_me/global/constants.dart' as gc;
 */
 
 class GenericRadioButton extends StatefulWidget {
-  const GenericRadioButton(this._options, this._radioButtonController, {this.onChangeCallback, this.isDisabled = false, Key? key}) : super(key: key);
+  const GenericRadioButton(this._options, this._radioButtonController,
+      {this.onChangeCallback, this.isDisabled = false, Key? key})
+      : super(key: key);
 
   final List<String> _options;
   final PrimitiveWrapper _radioButtonController;
-  final VoidCallback? onChangeCallback;
+  final GestureTapCallback? onChangeCallback;
   final bool isDisabled;
 
   @override
@@ -45,20 +47,18 @@ class _GenericRadioButtonState extends State<GenericRadioButton> {
   List<Widget> _radioButtonOptions() {
     List<Widget> buttonOptions = [];
     for (String data in widget._options) {
-      buttonOptions.add(
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Radio<String>(
-                activeColor: widget.isDisabled ? gc.disabledColor : gc.primaryColor,
-                value: data,
-                groupValue: widget._radioButtonController.value,
-                onChanged: widget.isDisabled ? null : _activateRadioButton,
-              ),
-              Text(data),
-            ],
-          )
-      );
+      buttonOptions.add(Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Radio<String>(
+            activeColor: widget.isDisabled ? gc.disabledColor : gc.primaryColor,
+            value: data,
+            groupValue: widget._radioButtonController.value,
+            onChanged: widget.isDisabled ? null : _activateRadioButton,
+          ),
+          Text(data),
+        ],
+      ));
     }
     return buttonOptions;
   }
@@ -66,7 +66,8 @@ class _GenericRadioButtonState extends State<GenericRadioButton> {
   @override
   void initState() {
     if (!widget._options.contains(widget._radioButtonController.value)) {
-        throw Exception("The parameter which provided to the PrimitiveWrapper constructor is not in the list");
+      throw Exception(
+          "The parameter which provided to the PrimitiveWrapper constructor is not in the list");
     }
     super.initState();
   }

@@ -4,6 +4,8 @@ import 'package:balance_me/localization/resources/resources.dart';
 class LanguageHe extends Languages {
   // General
   @override
+
+  //important- LRM- string from right to left
   String get languageName => "‎עברית";
 
   @override
@@ -15,6 +17,99 @@ class LanguageHe extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
+  //settings
+  @override
+  String get settingsTitle => "‎הגדרות";
+
+  @override
+  String get profileSettings => "‎פרופיל";
+
+  @override
+  String get groupSettings => "קבוצה‎";
+
+  @override
+  String get passwordSettings => "שינוי סיסמה‎ ";
+
+  @override
+  String get darkModeSettings => "‎מצב כהה";
+
+  @override
+  String get endOfMonthSettings => "סוף החודש‎";
+
+  @override
+  String get languageSettings => "‎שפה";
+
+  @override
+  String get versionSettings => "גרסה‎";
+
+  @override
+  String get newPassword => "‎סיסמה חדשה";
+
+  @override
+  String get passwordUpdate => "הקלד סיסמה חדשה למשתמש שלך‎";
+
+  @override
+  String get finish => "‎סיום";
+
+  @override
+  String get firstName => "שם פרטי ‎";
+
+  @override
+  String get lastName => "שם משפחה ‎";
+
+  @override
+  String get weakPassword => "‎הסיסמה שלך חלשה מדי, רשום סיסמה חזקה יותר";
+
+  @override
+  String get changePasswordError => "שינוי הסיסמה נכשל, וודא שנכנסת לחשבונך ונסה שוב ‎";
+
+  @override
+  String get notSignedIn => "‎אין חשבון רשום כעת, וודא שנכנסת לחשבונך ונסה שוב";
+
+  @override
+  String get groupScreenTitle => "הקבוצה שלי‎ ";
+
+  @override
+  String get leaveGroup => "עזיבת קבוצה ‎";
+
+  @override
+  String get members => "חברי הקבוצה‎";
+
+  @override
+  String get description => "‎תיאור ";
+
+  @override
+  String get create => "‎יצירה";
+
+  @override
+  String get join => "הצטרפות‎";
+
+  @override
+  String get group => "קבוצה‎";
+
+  @override
+  String get createGroupInstructions => "ליצירת קבוצה חדשה, בחר שם יחודי‎";
+
+  @override
+  String get groupName => "שם הקבוצה ‎";
+
+  @override
+  String get descriptionInstruction => "הוספת תיאור...‎";
+
+  @override
+  String get changePasswordSuccess => "סיסמה שונתה בהצלחה‎";
+
+  @override
+  String get profileChangeSuccessful => "‎הפרופיל עודכן בהצלחה";
+
+  @override
+  String get noImagePicked => "‎לא בחרת תמונה, בחר תמונה, כדי לעדכן את האווטאר שלך";
+
+  @override
+  String get gallery => "גלריה‎";
+
+  @override
+  String get camera => "מצלמה‎";
 
   // Login
   @override
@@ -87,4 +182,5 @@ class LanguageHe extends Languages {
   // Charts
   @override
   String get available => "‎זמין";
+
 }

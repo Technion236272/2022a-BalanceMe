@@ -1,4 +1,5 @@
 // ================= Home Page =================
+import 'package:balance_me/localization/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/appbar.dart';
@@ -8,6 +9,7 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:balance_me/pages/settings.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,9 +28,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _getCurrentPage(AuthRepository authRepository, UserStorage userStorage) {
-    // TODO- replace to Settings and Statistics screens after they will be implemented
+    // TODO- replace Statistics screens after they will be implemented
     if (_selectedPage == AppPages.Settings.index) {  // Settings
-      return const Scaffold();
+      return Settings(authRepository,userStorage);
     }
     if (_selectedPage == AppPages.Statistics.index) {  // Statistics
       return const Scaffold();
@@ -41,7 +43,7 @@ class _HomePageState extends State<HomePage> {
     return Consumer2<AuthRepository, UserStorage>(
         builder: (context, authRepository, userStorage, child) {
           return Scaffold(
-            appBar: MainAppBar(authRepository, userStorage),
+            appBar:_selectedPage!=AppPages.Settings.index? MainAppBar(authRepository, userStorage):MinorAppBar(Languages.of(context)!.settings),
             body: _getCurrentPage(authRepository, userStorage),
             bottomNavigationBar: BottomNavigation(_selectedPage, _updateSelectedPage),
           );
