@@ -5,9 +5,9 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 
 class Category {
-  Category(this.name, this.isIncome, this.expected, this.description) {
-    transactions = getTransactionSortedList();
-    amount = calcTotalAmount();
+  Category(this.name, this.isIncome, this.expected, this.description, [double? amount, SortedList<Transaction>? transactions]) {
+    this.transactions = transactions ?? getTransactionSortedList();
+    this.amount = amount ?? calcTotalAmount();
   }
 
   Category.fromJson(Json categoryJson) {
@@ -55,5 +55,5 @@ class Category {
     'transactions': listToJsonList(transactions)
   };
 
-  int compareTo(Category other) => name.toLowerCase().compareTo(other.name.toLowerCase());
+  int compareTo(Category other) => name.compareStrings(other.name);
 }

@@ -5,10 +5,10 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/common_models/balance_model.dart';
-import 'package:balance_me/common_models/category_model.dart' as model;
-import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/common_models/category_model.dart' as model;
+import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/firebase_config.dart' as config;
 
 class UserStorage with ChangeNotifier {
@@ -82,18 +82,25 @@ class UserStorage with ChangeNotifier {
     notifyListeners();
   }
 
-  void addCategory(model.Category newCategory, model.Category? oldCategory) {
+  void addCategory(model.Category newCategory, model.Category? oldCategory, [bool sendLog = true]) {
     _changeCategory(newCategory, EntryOperation.Add);
-    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, newCategory);
+    if (!sendLog) {
+      GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, newCategory);
+    }
   }
 
-  void removeCategory(model.Category newCategory) {
+  void removeCategory(model.Category newCategory, [bool sendLog = true]) {
     _changeCategory(newCategory, EntryOperation.Remove);
-    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, newCategory);
+    if (!sendLog) {
+      GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, newCategory);
+    }
   }
 
   void editCategory(model.Category newCategory, model.Category? oldCategory) {
-    // TODO
+    if (oldCategory != null) {
+      removeCategory(oldCategory, false);
+    }
+    addCategory(newCategory, null, false);
     GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Edit, newCategory);
   }
 

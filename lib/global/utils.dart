@@ -79,6 +79,10 @@ extension St on String {
     List<String> dateTokens = split("-");
     return DateTime(int.parse(dateTokens[2]), int.parse(dateTokens[1]), int.parse(dateTokens[0]));  // year, month, day
   }
+
+  int compareStrings(String other) {
+    return toLowerCase().compareTo(other.toLowerCase());
+  }
 }
 
 extension En on Enum {

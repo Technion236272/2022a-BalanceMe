@@ -25,9 +25,9 @@ class SetCategory extends StatefulWidget {
 
 class _SetCategoryState extends State<SetCategory> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _categoryNameController = TextEditingController();
-  final TextEditingController _categoryExpectedController = TextEditingController();
-  final TextEditingController _categoryDescriptionController = TextEditingController();
+  TextEditingController? _categoryNameController;
+  TextEditingController? _categoryExpectedController;
+  TextEditingController? _categoryDescriptionController;
   PrimitiveWrapper? _categoryTypeController;
   bool _performingSave = false;
 
@@ -41,9 +41,9 @@ class _SetCategoryState extends State<SetCategory> {
 
   @override
   void dispose() {
-    _categoryNameController.dispose();
-    _categoryExpectedController.dispose();
-    _categoryDescriptionController.dispose();
+    _categoryNameController!.dispose();
+    _categoryExpectedController!.dispose();
+    _categoryDescriptionController!.dispose();
     super.dispose();
   }
 
@@ -67,10 +67,12 @@ class _SetCategoryState extends State<SetCategory> {
     _updatePerformingSave(true);
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       Category newCategory = Category(
-          _categoryNameController.text.toString(),
+          _categoryNameController!.text.toString(),
           _categoryTypeController!.value == Languages.of(context)!.income,
-          double.parse(_categoryExpectedController.text.toString()),
-          _categoryDescriptionController.text.toString()
+          double.parse(_categoryExpectedController!.text.toString()),
+          _categoryDescriptionController!.text.toString(),
+          widget.currentCategory == null ? null : widget.currentCategory!.amount,
+          widget.currentCategory == null ? null : widget.currentCategory!.transactions,
       );
 
       widget._callback.call(newCategory, widget.currentCategory);
@@ -96,6 +98,9 @@ class _SetCategoryState extends State<SetCategory> {
 
   @override
   Widget build(BuildContext context) {
+    _categoryNameController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.name);
+    _categoryExpectedController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.expected.toString());
+    _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
 
     return Scaffold(
@@ -111,13 +116,12 @@ class _SetCategoryState extends State<SetCategory> {
                 SizedBox(
                   width: gc.smallTextFields,
                   child: FormTextField(
-                    widget.currentCategory == null ? _categoryNameController : null,
+                    _categoryNameController,
                     1,
                     1,
                     Languages.of(context)!.categoryName,
                     isBordered: true,
                     isValid: true,
-                    initialValue: widget.currentCategory == null ? null : widget.currentCategory!.name,
                     isEnabled: widget._mode != DetailsPageMode.Details,
                     validatorFunction: _lineLimitValidatorFunction,
                   ),
@@ -125,13 +129,12 @@ class _SetCategoryState extends State<SetCategory> {
                 SizedBox(
                   width: gc.smallTextFields,
                   child: FormTextField(
-                      widget.currentCategory == null ? _categoryExpectedController : null,
+                      _categoryExpectedController,
                       1,
                       1,
                       Languages.of(context)!.expected,
                       isValid: true,
                       isNumeric: true,
-                      initialValue: widget.currentCategory == null ? null : widget.currentCategory!.expected.toString(),
                       isEnabled: widget._mode != DetailsPageMode.Details,
                       validatorFunction: _essentialFieldValidatorFunction,
                   ),
@@ -174,12 +177,11 @@ class _SetCategoryState extends State<SetCategory> {
                       right: gc.generalTextFieldsPadding
                   ),
                   child: FormTextField(
-                      widget._mode == DetailsPageMode.Details ? null : _categoryDescriptionController,
+                      _categoryDescriptionController,
                       gc.maxLinesExpended,
                       gc.maxLinesExpended,
                       Languages.of(context)!.addDescription,
                       isBordered: true,
-                      initialValue: widget._mode == DetailsPageMode.Details ? _getDescriptionInitialValue() : null,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                   ),
                 ),

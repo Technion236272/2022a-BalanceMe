@@ -29,11 +29,6 @@ class Transaction {
 
   int compareTo(Transaction other){
     int comparePerDate = date.toDateTime().compareTo(other.date.toDateTime());
-    if (comparePerDate == 0) {
-      return name.compareTo(other.name);
-    }
-    else {
-      return comparePerDate;
-    }
+    return (comparePerDate == 0) ? name.compareStrings(other.name) : comparePerDate;
   }
 }

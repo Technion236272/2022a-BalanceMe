@@ -42,7 +42,7 @@ class GoogleAnalytics {
   }
 
   void logEntrySaved(Entry entry, EntryOperation operation, dynamic entryObj) {
-    _logEvent("log${entry.toCleanString()}${operation.toCleanString()}", {"user": _getUserEmail(), entry.toCleanString(): entryObj.toJson()});
+    _logEvent("${entry.toCleanString()}${operation.toCleanString()}", {"user": _getUserEmail(), entry.toCleanString(): entryObj.toJson()});
   }
 
   // Operations
