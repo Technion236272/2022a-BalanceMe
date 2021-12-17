@@ -29,6 +29,23 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  void navigateToProfileSettings() {
+    navigateToPage(
+        context,
+        ProfileSettings(
+          authRepository: widget.authRepository,
+          userStorage: widget.userStorage,
+        ));
+  }
+
+  void navigateToChangePassword() {
+    navigateToPage(
+        context,
+        ChangePassword(
+          authRepository: widget.authRepository,
+        ));
+  }
+
   Widget mainSettingsList() {
     List<Widget?> leadingSettings = [
       Text(Languages.of(context)!.profileSettings),
@@ -37,28 +54,14 @@ class _SettingsState extends State<Settings> {
       Text(Languages.of(context)!.languageSettings),
       Text(Languages.of(context)!.versionSettings)
     ];
-    void goToProfileSettings() {
-      navigateToPage(
-          context,
-          ProfileSettings(
-            authRepository: widget.authRepository,
-            userStorage: widget.userStorage,
-          ));
-    }
-
-    void goToChangePassword() {
-      navigateToPage(
-          context,
-          ChangePassword(
-            authRepository: widget.authRepository,
-          ));
-    }
 
     List<Widget?> trailingSettings = [
       IconButton(
-          onPressed: goToProfileSettings, icon: const Icon(gc.settingArrow)),
+          onPressed: navigateToProfileSettings,
+          icon: const Icon(gc.settingArrow)),
       IconButton(
-          onPressed: goToChangePassword, icon: const Icon(gc.settingArrow)),
+          onPressed: navigateToChangePassword,
+          icon: const Icon(gc.settingArrow)),
       daysOfMonthRadio(),
       const LanguageDropDown(),
       const Text(config.projectVersion)

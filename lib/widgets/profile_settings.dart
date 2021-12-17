@@ -64,19 +64,26 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     _saveProfile();
   }
 
-  List<GestureTapCallback?> actions() {
-    List<GestureTapCallback?> imageOptions = [];
-    imageOptions.add(() async {
+  Future<void> chooseAvatarSource(ImageSource source) async {
+    if (source == ImageSource.gallery) {
       if (await Permission.storage.request().isGranted) {
         await updateAvatar(ImageSource.gallery);
       }
-      navigateBack(context);
-    });
-    imageOptions.add(() async {
+    } else {
       if (await Permission.camera.request().isGranted) {
         await updateAvatar(ImageSource.camera);
       }
-      navigateBack(context);
+    }
+    navigateBack(context);
+  }
+
+  List<GestureTapCallback?> actions() {
+    List<GestureTapCallback?> imageOptions = [];
+    imageOptions.add(() async {
+      await chooseAvatarSource(ImageSource.gallery);
+    });
+    imageOptions.add(() async {
+      await chooseAvatarSource(ImageSource.camera);
     });
     return imageOptions;
   }
@@ -107,7 +114,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         widget.authRepository.uploadAvatar(pickedImage);
       });
     }
-    GoogleAnalytics.instance.logPictureChange(widget.authRepository);
+    GoogleAnalytics.instance.logAvatarChange(widget.authRepository);
   }
 
   @override
@@ -115,6 +122,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     _controllerFirstName.dispose();
     _controllerLastName.dispose();
     super.dispose();
+  }
+
+  void showImageSourceChoice() async {
+    imagePicker(context, actions(), iconsLeading(), optionTitles());
   }
 
   @override
@@ -130,9 +141,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             Padding(
               padding: const EdgeInsets.fromLTRB(gc.padAroundPencil,
                   gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
-              child: GenericIconButton(onTap: () async {
-                imagePicker(context, actions(), iconsLeading(), optionTitles());
-              }),
+              child: GenericIconButton(onTap: showImageSourceChoice),
             ),
           ]),
           TextBox(

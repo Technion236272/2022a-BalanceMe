@@ -5,7 +5,7 @@ import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:balance_me/global/login_utils.dart';
+import 'package:balance_me/global/login_utils.dart' as util;
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -22,10 +22,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     controllerEmail.dispose();
     super.dispose();
   }
-void changePassword()
-{
-  recoverPassword(controllerEmail.text, context);
-}
+
+  void recoverPassword() {
+    util.recoverPassword(controllerEmail.text, context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ void changePassword()
               GenericButton(
                 buttonText: Languages.of(context)!.send,
                 buttonColor: gc.alternativePrimary,
-                onPressed: changePassword,
+                onPressed: recoverPassword,
               ),
             ],
           ),

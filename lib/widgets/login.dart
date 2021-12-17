@@ -45,9 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return IconButton(
       icon: Icon(showPassword ? gc.hidePassword : gc.showPassword),
       color: gc.hidePasswordColor,
-      onPressed: () {
-        hideText();
-      },
+      onPressed: hideText,
     );
   }
 

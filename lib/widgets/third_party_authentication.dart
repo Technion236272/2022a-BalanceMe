@@ -15,11 +15,9 @@ class GoogleButton extends StatelessWidget {
   final UserStorage _userStorage;
 
   void onPressedGoogle(BuildContext context) {
-    if (isSignUp) {
-      signUpGoogle(context, _authRepository, _userStorage);
-    } else {
-      signInGoogle(context, _authRepository, _userStorage);
-    }
+    isSignUp
+        ? signUpGoogle(context, _authRepository, _userStorage)
+        : signInGoogle(context, _authRepository, _userStorage);
   }
 
   @override
@@ -48,11 +46,9 @@ class FacebookButton extends StatelessWidget {
   final UserStorage _userStorage;
 
   void onPressedFacebook(BuildContext context) {
-    if (isSignUp) {
-      signUpFacebook(context, _authRepository, _userStorage);
-    } else {
-      signInFacebook(context, _authRepository, _userStorage);
-    }
+    isSignUp
+        ? signUpFacebook(context, _authRepository, _userStorage)
+        : signInFacebook(context, _authRepository, _userStorage);
   }
 
   @override

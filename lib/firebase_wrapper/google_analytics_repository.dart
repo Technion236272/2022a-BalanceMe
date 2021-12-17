@@ -42,9 +42,9 @@ class GoogleAnalytics {
         {"dataExists": generalInfo.exists, "data": generalInfo.data()});
   }
 
-  void logPictureChange(AuthRepository authRepository) async {
+  void logAvatarChange(AuthRepository authRepository) async {
     if (authRepository.user != null && authRepository.user!.email != null) {
-      logEvent("Profile image was changed", {
+      logEvent("Avatar changed", {
         "authRepository": authRepository,
         "user": authRepository.user,
         "email": authRepository.user!.email!

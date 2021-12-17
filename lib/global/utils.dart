@@ -32,6 +32,3 @@ void displayAlertDialog(BuildContext context, String alertTitle, String alertCon
     ),
   );
 }
-
-
-
