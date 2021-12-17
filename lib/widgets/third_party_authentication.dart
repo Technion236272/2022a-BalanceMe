@@ -1,15 +1,27 @@
+// ================= Google and Facebook buttons=================
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:auth_buttons/auth_buttons.dart';
-import 'package:balance_me/global/login_utils.dart' as util;
+import 'package:balance_me/global/login_utils.dart';
 
 class GoogleButton extends StatelessWidget {
-   GoogleButton(this._authRepository,this._userStorage,{Key? key, this.isSignUp=true}) : super(key: key);
-final bool isSignUp;
-final AuthRepository _authRepository;
-final UserStorage _userStorage;
+  const GoogleButton(this._authRepository, this._userStorage,
+      {Key? key, this.isSignUp = true})
+      : super(key: key);
+  final bool isSignUp;
+  final AuthRepository _authRepository;
+  final UserStorage _userStorage;
+
+  void onPressedGoogle(BuildContext context) {
+    if (isSignUp) {
+      signUpGoogle(context, _authRepository, _userStorage);
+    } else {
+      signInGoogle(context, _authRepository, _userStorage);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,45 +29,43 @@ final UserStorage _userStorage;
           gc.paddingFacebook, gc.paddingFacebook, gc.paddingFacebook),
       child: GoogleAuthButton(
         onPressed: () {
-
-          if (isSignUp)
-          {
-            util.signUpGoogle(context,_authRepository,_userStorage);
-          }
-          else
-            {
-              util.signInGoogle(context,_authRepository,_userStorage);
-            }
+          onPressedGoogle(context);
         },
-        darkMode:_userStorage.userData!=null?
-        _userStorage.userData!.isDarkMode:false,
+        darkMode: _userStorage.userData != null
+            ? _userStorage.userData!.isDarkMode
+            : gc.darkMode,
       ),
     );
   }
 }
 
 class FacebookButton extends StatelessWidget {
-   FacebookButton(this._authRepository,this._userStorage,{Key? key, this.isSignUp=true}) : super(key: key);
-   final bool isSignUp;
-   final AuthRepository _authRepository;
-   final UserStorage _userStorage;
+  const FacebookButton(this._authRepository, this._userStorage,
+      {Key? key, this.isSignUp = true})
+      : super(key: key);
+  final bool isSignUp;
+  final AuthRepository _authRepository;
+  final UserStorage _userStorage;
+
+  void onPressedFacebook(BuildContext context) {
+    if (isSignUp) {
+      signUpFacebook(context, _authRepository, _userStorage);
+    } else {
+      signInFacebook(context, _authRepository, _userStorage);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(gc.paddingFacebook),
       child: FacebookAuthButton(
         onPressed: () {
-
-          if (isSignUp) {
-            util.signUpFacebook(context,_authRepository,_userStorage);
-          }
-          else
-            {
-              util.signInFacebook(context,_authRepository,_userStorage);
-            }
+          onPressedFacebook(context);
         },
-        darkMode: _userStorage.userData!=null?
-        _userStorage.userData!.isDarkMode:false,
+        darkMode: _userStorage.userData != null
+            ? _userStorage.userData!.isDarkMode
+            : gc.darkMode,
       ),
     );
   }

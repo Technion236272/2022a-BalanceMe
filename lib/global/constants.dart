@@ -112,5 +112,6 @@ const double profileAvatarRadius = 150.0;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
 
-//firebase error codes
+//error messages
 const String weakPassword = "weak-password";
+const String differentListLength = "one of your widget lists is shorter than the others";

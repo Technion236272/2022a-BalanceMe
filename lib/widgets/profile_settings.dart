@@ -3,13 +3,16 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/widgets/generic_icon_button.dart';
 import 'package:balance_me/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'appbar.dart';
+import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:balance_me/widgets/image_picker.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings(
@@ -25,16 +28,6 @@ class ProfileSettings extends StatefulWidget {
 class _ProfileSettingsState extends State<ProfileSettings> {
   final TextEditingController _controllerFirstName = TextEditingController();
   final TextEditingController _controllerLastName = TextEditingController();
-
-  Widget pencilButton(GestureTapCallback? onPressed) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: const Icon(
-        gc.editPencil,
-        color: gc.alternativePrimary,
-      ),
-    );
-  }
 
   Widget getFirstName() {
     if (widget.authRepository.isAuthenticated &&
@@ -71,36 +64,35 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     _saveProfile();
   }
 
-  void imagePicker(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                    leading: const Icon(gc.galleryChoice),
-                    title: Text(Languages.of(context)!.gallery),
-                    onTap: () async {
-                      if (await Permission.storage.request().isGranted) {
-                        await updateAvatar(ImageSource.gallery);
-                      }
-                      navigateBack(context);
-                    }),
-                ListTile(
-                  leading: const Icon(gc.cameraChoice),
-                  title: Text(Languages.of(context)!.camera),
-                  onTap: () async {
-                    if (await Permission.camera.request().isGranted) {
-                      await updateAvatar(ImageSource.camera);
-                    }
-                    navigateBack(context);
-                  },
-                ),
-              ],
-            ),
-          );
-        });
+  List<GestureTapCallback?> actions() {
+    List<GestureTapCallback?> imageOptions = [];
+    imageOptions.add(() async {
+      if (await Permission.storage.request().isGranted) {
+        await updateAvatar(ImageSource.gallery);
+      }
+      navigateBack(context);
+    });
+    imageOptions.add(() async {
+      if (await Permission.camera.request().isGranted) {
+        await updateAvatar(ImageSource.camera);
+      }
+      navigateBack(context);
+    });
+    return imageOptions;
+  }
+
+  List<Widget?> iconsLeading() {
+    List<Widget?> icons = [];
+    icons.add(const Icon(gc.galleryChoice));
+    icons.add(const Icon(gc.cameraChoice));
+    return icons;
+  }
+
+  List<String> optionTitles() {
+    List<String> titles = [];
+    titles.add(Languages.of(context)!.gallery);
+    titles.add(Languages.of(context)!.camera);
+    return titles;
   }
 
   Future<void> updateAvatar(ImageSource image) async {
@@ -115,6 +107,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         widget.authRepository.uploadAvatar(pickedImage);
       });
     }
+    GoogleAnalytics.instance.logPictureChange(widget.authRepository);
   }
 
   @override
@@ -137,8 +130,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             Padding(
               padding: const EdgeInsets.fromLTRB(gc.padAroundPencil,
                   gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
-              child: pencilButton(() async {
-                imagePicker(context);
+              child: GenericIconButton(onTap: () async {
+                imagePicker(context, actions(), iconsLeading(), optionTitles());
               }),
             ),
           ]),
@@ -147,7 +140,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             null,
             labelText: getFirstName(),
             haveBorder: false,
-            suffix: pencilButton(() {
+            suffix: GenericIconButton(onTap: () {
               updateFirstName(_controllerFirstName.text);
             }),
           ),
@@ -156,7 +149,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             null,
             labelText: getLastName(),
             haveBorder: false,
-            suffix: pencilButton(() {
+            suffix: GenericIconButton(onTap: () {
               updateLastName(_controllerLastName.text);
             }),
           ),

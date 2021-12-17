@@ -10,6 +10,7 @@ class GoogleAnalytics {
   static final FirebaseAnalytics _analytics = FirebaseAnalytics();
 
   GoogleAnalytics._();
+
   static GoogleAnalytics get instance => _instance;
 
   Future<void> logAppOpen() async {
@@ -19,6 +20,7 @@ class GoogleAnalytics {
   Future<void> logSignUp(String signUpMethod) async {
     await _analytics.logSignUp(signUpMethod: signUpMethod);
   }
+
   Future<void> logLogin(String loginMethod) async {
     await _analytics.logLogin(loginMethod: loginMethod);
   }
@@ -28,10 +30,25 @@ class GoogleAnalytics {
   }
 
   void logPreCheckFailed(String functionName, AuthRepository authRepository) {
-    logEvent("$functionName has failed since pre-check failed", {"authRepository": authRepository, "user": authRepository.user, "email": authRepository.user!.email!});
+    logEvent("$functionName has failed since pre-check failed", {
+      "authRepository": authRepository,
+      "user": authRepository.user,
+      "email": authRepository.user!.email!
+    });
   }
 
   void logPostLoginFailed(DocumentSnapshot<Map<String, dynamic>> generalInfo) {
-    logEvent("PostLoginFailed", {"dataExists": generalInfo.exists, "data": generalInfo.data()});
+    logEvent("PostLoginFailed",
+        {"dataExists": generalInfo.exists, "data": generalInfo.data()});
+  }
+
+  void logPictureChange(AuthRepository authRepository) async {
+    if (authRepository.user != null && authRepository.user!.email != null) {
+      logEvent("Profile image was changed", {
+        "authRepository": authRepository,
+        "user": authRepository.user,
+        "email": authRepository.user!.email!
+      });
+    }
   }
 }

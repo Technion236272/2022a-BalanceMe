@@ -1,3 +1,4 @@
+// ================= login tab bar view widget=================
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/generic_button.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/global/login_utils.dart' as util;
+import 'package:balance_me/global/login_utils.dart';
 import 'package:balance_me/widgets/forgot_password.dart';
 import 'package:balance_me/widgets/third_party_authentication.dart';
 import 'package:balance_me/widgets/login_image.dart';
@@ -62,8 +63,10 @@ class _LoginScreenState extends State<LoginScreen> {
             hideText: showPassword,
             suffix: hidingPasswordEye(),
           ),
-          GoogleButton(widget._authRepository,widget._userStorage, isSignUp: false),
-          FacebookButton(widget._authRepository,widget._userStorage, isSignUp: false),
+          GoogleButton(widget._authRepository, widget._userStorage,
+              isSignUp: false),
+          FacebookButton(widget._authRepository, widget._userStorage,
+              isSignUp: false),
           forgotPasswordLink(context),
           signInButton(context),
         ],
@@ -88,14 +91,16 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  void signIn() {
+    emailPasswordSignIn(controllerEmail.text, controllerPassword.text, context,
+        widget._authRepository, widget._userStorage);
+  }
+
   Widget signInButton(BuildContext context) {
     return GenericButton(
       buttonText: Languages.of(context)!.signIn,
       buttonColor: gc.alternativePrimary,
-      onPressed: () {
-        util.emailPasswordSignIn(
-            controllerEmail.text, controllerPassword.text, context,widget._authRepository,widget._userStorage);
-      },
+      onPressed: signIn,
     );
   }
 

@@ -37,26 +37,28 @@ class _SettingsState extends State<Settings> {
       Text(Languages.of(context)!.languageSettings),
       Text(Languages.of(context)!.versionSettings)
     ];
+    void goToProfileSettings() {
+      navigateToPage(
+          context,
+          ProfileSettings(
+            authRepository: widget.authRepository,
+            userStorage: widget.userStorage,
+          ));
+    }
+
+    void goToChangePassword() {
+      navigateToPage(
+          context,
+          ChangePassword(
+            authRepository: widget.authRepository,
+          ));
+    }
+
     List<Widget?> trailingSettings = [
       IconButton(
-          onPressed: () {
-            navigateToPage(
-                context,
-                ProfileSettings(
-                  authRepository: widget.authRepository,
-                  userStorage: widget.userStorage,
-                ));
-          },
-          icon: const Icon(gc.settingArrow)),
+          onPressed: goToProfileSettings, icon: const Icon(gc.settingArrow)),
       IconButton(
-          onPressed: () {
-            navigateToPage(
-                context,
-                ChangePassword(
-                  authRepository: widget.authRepository,
-                ));
-          },
-          icon: const Icon(gc.settingArrow)),
+          onPressed: goToChangePassword, icon: const Icon(gc.settingArrow)),
       daysOfMonthRadio(),
       const LanguageDropDown(),
       const Text(config.projectVersion)
