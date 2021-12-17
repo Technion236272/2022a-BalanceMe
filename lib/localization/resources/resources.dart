@@ -76,6 +76,7 @@ abstract class Languages {
   String get save;
   String get saveSucceeded;
   String get removeSucceeded;
+  String get alreadyExist;
   String get delete;
   String get verifyRemoval;
 

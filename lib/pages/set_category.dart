@@ -97,9 +97,16 @@ class _SetCategoryState extends State<SetCategory> {
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       UserStorage userStorage = Provider.of<UserStorage>(context, listen: false);
-      (widget._mode == DetailsPageMode.Add) ? userStorage.addCategory(createNewCategory()) : userStorage.editCategory(createNewCategory(), widget.currentCategory!);
+      String message = Languages.of(context)!.saveSucceeded;
+
+      if (widget._mode == DetailsPageMode.Add) {
+        message = userStorage.addCategory(createNewCategory()) ? message : Languages.of(context)!.alreadyExist;
+      } else {
+        message = userStorage.editCategory(createNewCategory(), widget.currentCategory!) ? message : Languages.of(context)!.alreadyExist;
+      }
+
       navigateBack(context);
-      displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.category));
+      displaySnackBar(context, message.replaceAll("%", Languages.of(context)!.category));
     }
 
     _updatePerformingSave(false);

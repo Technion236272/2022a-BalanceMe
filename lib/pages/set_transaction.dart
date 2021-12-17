@@ -46,16 +46,6 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   @override
-  void initState(){
-    _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
-    _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.amount.toString());
-    _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
-    _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
-    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _transactionNameController.dispose();
     _transactionAmountController.dispose();
@@ -76,7 +66,10 @@ class _SetTransactionState extends State<SetTransaction> {
     }
   }
 
-  String _getDescriptionInitialValue() {
+  String? _getDescriptionInitialValue() {
+    if (widget._mode == DetailsPageMode.Add) {
+      return null;
+    }
     return widget.currentTransaction != null && widget.currentTransaction!.description != "" ? widget.currentTransaction!.description : Languages.of(context)!.emptyDescription;
   }
 
@@ -126,15 +119,16 @@ class _SetTransactionState extends State<SetTransaction> {
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       UserStorage userStorage = Provider.of<UserStorage>(context, listen: false);
+      String message = Languages.of(context)!.saveSucceeded;
 
       if (widget._mode == DetailsPageMode.Add) {
-        userStorage.addTransaction(widget._currentCategory, createNewTransaction());
+        message = userStorage.addTransaction(widget._currentCategory, createNewTransaction()) ? message : Languages.of(context)!.alreadyExist;
       } else {
-        userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction());
+        message = userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction()) ? message : Languages.of(context)!.alreadyExist;
       }
 
       navigateBack(context);
-      displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.transaction));
+      displaySnackBar(context, message.replaceAll("%", Languages.of(context)!.transaction));
     }
 
     _updatePerformingSave(false);
@@ -142,15 +136,22 @@ class _SetTransactionState extends State<SetTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
+    _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.amount.toString());
+    _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
+    _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
+    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
+
     return Scaffold(
       appBar: MinorAppBar(_getPageTitle()),
       body: SingleChildScrollView(
         child: Padding(
-          padding:  gc.topPadding,
+          padding: gc.topPadding,
           child: Form(
             key: _formKey,
             child: Stack(
-              children: [Column(
+              children: [
+                Column(
                 children: [
                   SizedBox(
                     width: gc.smallTextFields,
@@ -215,7 +216,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       Text(Languages.of(context)!.constantSwitch),
                       ],
                       trailingWidgets: [
-                        Visibility(visible: widget._mode == DetailsPageMode.Details, child: Text(widget.currentTransaction!.date)),
+                        widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date) : null,
                         Switch(
                           value: _isConstant,
                           onChanged: (widget._mode == DetailsPageMode.Details) ? null : _switchConstant,

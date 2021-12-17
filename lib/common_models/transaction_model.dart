@@ -27,6 +27,9 @@ class Transaction {
     'isConstant': isConstant
   };
 
+  @override
+  bool operator ==(other) => other is Transaction && name.compareStrings(other.name) == 0;
+
   int compareTo(Transaction other){
     int comparePerDate = date.toDateTime().compareTo(other.date.toDateTime());
     return (comparePerDate == 0) ? name.compareStrings(other.name) : comparePerDate;

@@ -55,5 +55,8 @@ class Category {
     'transactions': listToJsonList(transactions)
   };
 
+  @override
+  bool operator ==(other) => other is Category && compareTo(other) == 0;
+
   int compareTo(Category other) => name.compareStrings(other.name);
 }

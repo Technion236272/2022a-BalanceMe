@@ -1,6 +1,7 @@
 // ================= Storage Repository =================
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/common_models/user_model.dart';
@@ -75,22 +76,33 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  bool _isCategoryAlreadyExist(model.Category category) {
+    SortedList<model.Category> categoryList = _balance.getListByCategory(category);
+    return categoryList.contains(category);
+  }
+
+  bool _isTransactionAlreadyExist(model.Category category, model.Transaction transaction) {
+    return category.transactions.contains(transaction);
+  }
+
   void _saveBalance() {
     SEND_balanceModel();
     notifyListeners();
   }
 
   void _changeCategory(model.Category category, EntryOperation operation) {
-    List<model.Category> categoryListType = category.isIncome ? _balance.incomeCategories : balance.expensesCategories;
-    operation == EntryOperation.Add ? categoryListType.add(category) : categoryListType.remove(category);
+    SortedList<model.Category> categoryList = _balance.getListByCategory(category);
+    operation == EntryOperation.Add ? categoryList.add(category) : categoryList.remove(category);
   }
 
-  void addCategory(model.Category newCategory, [bool allFlow = true]) {
-    _changeCategory(newCategory, EntryOperation.Add);
-    if (allFlow) {
-      _saveBalance();
-      GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, newCategory);
+  bool addCategory(model.Category newCategory) {
+    if (_isCategoryAlreadyExist(newCategory)) {
+      return false;
     }
+    _changeCategory(newCategory, EntryOperation.Add);
+    _saveBalance();
+    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, newCategory);
+    return true;
   }
 
   void removeCategory(model.Category newCategory, [bool allFlow = true]) {
@@ -101,19 +113,26 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void editCategory(model.Category newCategory, model.Category oldCategory) {
+  bool editCategory(model.Category newCategory, model.Category oldCategory) {
+    if (_isCategoryAlreadyExist(newCategory)) {
+      return false;
+    }
     removeCategory(oldCategory, false);
-    addCategory(newCategory, false);
+    _changeCategory(newCategory, EntryOperation.Add);
     _saveBalance();
     GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Edit, newCategory);
+    return true;
   }
 
-  void addTransaction(model.Category category, model.Transaction newTransaction, [bool allFlow = true]) {
-    category.addTransaction(newTransaction);
-    if (!allFlow) {
-      _saveBalance();
-      GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Add, category);
+  bool addTransaction(model.Category category, model.Transaction newTransaction) {
+    if (_isTransactionAlreadyExist(category, newTransaction)) {
+      return false;
     }
+
+    category.addTransaction(newTransaction);
+    _saveBalance();
+    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Add, category);
+    return true;
   }
 
   void removeTransaction(model.Category category, model.Transaction newTransaction, [bool allFlow = true]) {
@@ -124,14 +143,19 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction) {
-    removeTransaction(oldCategory, oldTransaction, false);
-
+  bool editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction) {
     model.Category category = (newCategoryName == oldCategory.name) ? oldCategory : _balance.findCategory(newCategoryName);
-    addTransaction(category, newTransaction, false);
+
+    if (_isTransactionAlreadyExist(category, newTransaction)) {
+      return false;
+    }
+
+    removeTransaction(oldCategory, oldTransaction, false);
+    category.addTransaction(newTransaction);
 
     _saveBalance();
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Edit, newTransaction);
+    return true;
   }
 
   // ================== Requests ==================

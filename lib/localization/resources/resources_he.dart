@@ -182,6 +182,9 @@ class LanguageHe extends Languages {
   String get removeSucceeded => "‎ה% הוסר בהצלחה";
 
   @override
+  String get alreadyExist => "‎ה-% כבר קיים במערכת";
+
+  @override
   String get delete => "‎מחיקת %";
 
   @override
