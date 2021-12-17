@@ -26,10 +26,10 @@ class SetCategory extends StatefulWidget {
 
 class _SetCategoryState extends State<SetCategory> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController? _categoryNameController;
-  TextEditingController? _categoryExpectedController;
-  TextEditingController? _categoryDescriptionController;
-  PrimitiveWrapper? _categoryTypeController;
+  late TextEditingController _categoryNameController;
+  late TextEditingController _categoryExpectedController;
+  late TextEditingController _categoryDescriptionController;
+  late PrimitiveWrapper _categoryTypeController;
   bool _performingSave = false;
 
   bool get performingAction => _performingSave;
@@ -42,9 +42,9 @@ class _SetCategoryState extends State<SetCategory> {
 
   @override
   void dispose() {
-    _categoryNameController!.dispose();
-    _categoryExpectedController!.dispose();
-    _categoryDescriptionController!.dispose();
+    _categoryNameController.dispose();
+    _categoryExpectedController.dispose();
+    _categoryDescriptionController.dispose();
     super.dispose();
   }
 
@@ -60,16 +60,33 @@ class _SetCategoryState extends State<SetCategory> {
     }
   }
 
-  String _getDescriptionInitialValue() {
+  String? _getDescriptionInitialValue() {
+    if (widget._mode == DetailsPageMode.Add) {
+      return null;
+    }
     return widget.currentCategory != null && widget.currentCategory!.description != "" ? widget.currentCategory!.description : Languages.of(context)!.emptyDescription;
+  }
+
+  void _toggleEditDetailsMode() {
+    setState(() {
+      widget._mode = (widget._mode == DetailsPageMode.Details) ? DetailsPageMode.Edit : DetailsPageMode.Details;
+    });
+  }
+
+  String? _essentialFieldValidatorFunction(String? value) {
+    return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
+  }
+
+  String? _lineLimitValidatorFunction(String? value) {
+    return lineLimitValidator(value) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
   }
 
   Category createNewCategory() {
     return Category(
-      _categoryNameController!.text.toString(),
-      _categoryTypeController!.value == Languages.of(context)!.income,
-      double.parse(_categoryExpectedController!.text.toString()),
-      _categoryDescriptionController!.text.toString(),
+      _categoryNameController.text.toString(),
+      _categoryTypeController.value == Languages.of(context)!.income,
+      double.parse(_categoryExpectedController.text.toString()),
+      _categoryDescriptionController.text.toString(),
       widget.currentCategory == null ? null : widget.currentCategory!.amount,
       widget.currentCategory == null ? null : widget.currentCategory!.transactions,
     );
@@ -84,11 +101,11 @@ class _SetCategoryState extends State<SetCategory> {
       return; // Should not get here
     }
 
-    if (widget.currentCategory!.isIncome == _categoryTypeController!.value) {  // Category stays in the same list
-      widget.currentCategory!.update(
-          _categoryNameController!.text.toString(),
-          double.parse(_categoryExpectedController!.text.toString()),
-          _categoryDescriptionController!.text.toString()
+    if (widget.currentCategory!.isIncome == _categoryTypeController.value) {  // Category stays in the same list
+      widget.currentCategory!.updateCategory(
+          _categoryNameController.text.toString(),
+          double.parse(_categoryExpectedController.text.toString()),
+          _categoryDescriptionController.text.toString()
       );
       Provider.of<UserStorage>(context, listen: false).updateCategory(widget.currentCategory!);
 
@@ -107,20 +124,6 @@ class _SetCategoryState extends State<SetCategory> {
     }
 
     _updatePerformingSave(false);
-  }
-
-  void _toggleEditDetailsMode() {
-    setState(() {
-      widget._mode = (widget._mode == DetailsPageMode.Details) ? DetailsPageMode.Edit : DetailsPageMode.Details;
-    });
-  }
-
-  String? _essentialFieldValidatorFunction(String? value) {
-    return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
-  }
-
-  String? _lineLimitValidatorFunction(String? value) {
-    return lineLimitValidator(value) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
   }
 
   @override
@@ -190,7 +193,7 @@ class _SetCategoryState extends State<SetCategory> {
                           Languages.of(context)!.income,
                           Languages.of(context)!.expense
                         ],
-                          _categoryTypeController!,
+                          _categoryTypeController,
                           isDisabled: widget._mode == DetailsPageMode.Details,
                         ),
                       ],

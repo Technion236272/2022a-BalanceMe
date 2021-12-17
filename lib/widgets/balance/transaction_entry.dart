@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/pages/set_transaction.dart';
 import 'package:balance_me/global/utils.dart';
@@ -9,13 +10,12 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class TransactionEntry extends StatefulWidget {
-  const TransactionEntry(this._transaction, this._removeTransactionCB, this._editTransactionCB, this._currentCategoryName, this._isIncome, {Key? key}) : super(key: key);
+  const TransactionEntry( this._currentCategory, this._transaction, this._removeTransactionCB, this._isIncome, {Key? key}) : super(key: key);
 
+  final Category _currentCategory;
   final Transaction _transaction;
   final bool _isIncome;
   final VoidCallbackTransaction _removeTransactionCB;
-  final VoidCallbackTwoTransactions _editTransactionCB;
-  final String _currentCategoryName;
 
   @override
   _TransactionEntryState createState() => _TransactionEntryState();
@@ -23,7 +23,7 @@ class TransactionEntry extends StatefulWidget {
 
 class _TransactionEntryState extends State<TransactionEntry> {
   void _openTransactionDetails() {
-    navigateToPage(context, SetTransaction(DetailsPageMode.Details, widget._editTransactionCB, widget._currentCategoryName, currentTransaction: widget._transaction), AppPages.SetTransaction);
+    navigateToPage(context, SetTransaction(DetailsPageMode.Details, widget._currentCategory, currentTransaction: widget._transaction), AppPages.SetTransaction);
   }
 
   void _closeDialogCallback() {

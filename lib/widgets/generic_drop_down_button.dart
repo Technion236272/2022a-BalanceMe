@@ -61,7 +61,6 @@ class _GenericDropDownButtonState extends State<GenericDropDownButton> {
       onDropDownItemClick: _activateDropDownButton,
       selectedItem: widget._dropDownButtonController.value,
       numOfListItemToShow: gc.numOfItems,
-
     );
   }
 }

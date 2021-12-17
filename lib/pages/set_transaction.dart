@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
+import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
@@ -16,11 +17,10 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
-  SetTransaction(this._mode, this._callback, this._currentCategoryName, {this.currentTransaction, Key? key}) : super(key: key);
+  SetTransaction(this._mode, this._currentCategory, {this.currentTransaction, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
-  final VoidCallbackTwoTransactions _callback;
-  final String _currentCategoryName;
+  final Category _currentCategory;
   final Transaction? currentTransaction;
 
   @override
@@ -29,11 +29,11 @@ class SetTransaction extends StatefulWidget {
 
 class _SetTransactionState extends State<SetTransaction> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _transactionNameController = TextEditingController();
-  final TextEditingController _transactionAmountController = TextEditingController();
-  final TextEditingController _transactionDescriptionController = TextEditingController();
+  late TextEditingController _transactionNameController;
+  late TextEditingController _transactionAmountController;
+  late TextEditingController _transactionDescriptionController;
   final DateRangePickerController _dateRangePickerController = DateRangePickerController();
-  PrimitiveWrapper? _dropDownController;
+  late PrimitiveWrapper _dropDownController;
   bool _isConstant = gc.defaultIsConstant;
   bool _performingSave = false;
 
@@ -47,7 +47,7 @@ class _SetTransactionState extends State<SetTransaction> {
 
   @override
   void initState(){
-    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
+    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;  // TODO
     super.initState();
   }
 
@@ -74,24 +74,6 @@ class _SetTransactionState extends State<SetTransaction> {
 
   String _getDescriptionInitialValue() {
     return widget.currentTransaction != null && widget.currentTransaction!.description != "" ? widget.currentTransaction!.description : Languages.of(context)!.emptyDescription;
-  }
-
-  void _saveTransaction() {  // TODO- support change category according _dropDownController (probably get the category itself in constructor)
-    _updatePerformingSave(true);
-    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      Transaction newTransaction = Transaction(
-          _transactionNameController.text.toString(),
-          _dateRangePickerController.selectedDate!.toFullDate(),
-          double.parse(_transactionAmountController.text.toString()),
-          _transactionDescriptionController.text.toString(),
-          _isConstant
-      );
-
-      widget._callback.call(newTransaction, widget.currentTransaction);
-      navigateBack(context);
-      displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.transaction));
-    }
-    _updatePerformingSave(false);
   }
 
   void _switchConstant(bool isConstant) {
@@ -125,9 +107,59 @@ class _SetTransactionState extends State<SetTransaction> {
     return categoriesName;
   }
 
+  Transaction createNewTransaction() {
+    return Transaction(
+        _transactionNameController.text.toString(),
+        _dateRangePickerController.selectedDate!.toFullDate(),
+        double.parse(_transactionAmountController.text.toString()),
+        _transactionDescriptionController.text.toString(),
+        _isConstant
+    );
+  }
+
+  void _addNewTransaction() {
+    Provider.of<UserStorage>(context, listen: false).addTransaction(widget._currentCategory, createNewTransaction());
+  }
+
+  void _editTransaction() {
+    if (widget.currentTransaction == null) {
+      return; // Should not get here
+    }
+
+    if (widget._currentCategory.name == _dropDownController.value) {  // Transaction stays in the same Category
+      widget._currentCategory.updateTransaction(
+          widget.currentTransaction!,
+          _transactionNameController.text.toString(),
+          _dateRangePickerController.selectedDate!.toFullDate(),
+          double.parse(_transactionAmountController.text.toString()),
+          _transactionDescriptionController.text.toString(),
+          _isConstant
+      );
+      Provider.of<UserStorage>(context, listen: false).updateTransaction(widget.currentTransaction!);
+
+    } else {  // Transaction move to the other Category
+      Provider.of<UserStorage>(context, listen: false).replaceTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction());
+    }
+  }
+
+  void _saveTransaction() {
+    _updatePerformingSave(true);
+
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      (widget._mode == DetailsPageMode.Add) ? _addNewTransaction() : _editTransaction();
+      navigateBack(context);
+      displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.transaction));
+    }
+
+    _updatePerformingSave(false);
+  }
+
   @override
   Widget build(BuildContext context) {
-    _dropDownController = PrimitiveWrapper(widget._currentCategoryName);
+    _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
+    _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.amount.toString());
+    _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
+    _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
 
     return Scaffold(
       appBar: MinorAppBar(_getPageTitle()),
@@ -142,13 +174,12 @@ class _SetTransactionState extends State<SetTransaction> {
                   SizedBox(
                     width: gc.smallTextFields,
                     child: FormTextField(
-                      widget.currentTransaction == null ? _transactionNameController : null,
+                      _transactionNameController,
                       1,
                       1,
                       Languages.of(context)!.transactionName,
                       isBordered: true,
                       isValid: true,
-                      initialValue: widget.currentTransaction == null ? null : widget.currentTransaction!.name,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                       validatorFunction: _lineLimitValidatorFunction,
                     ),
@@ -156,13 +187,12 @@ class _SetTransactionState extends State<SetTransaction> {
                   SizedBox(
                     width: gc.smallTextFields,
                     child: FormTextField(
-                      widget.currentTransaction == null ? _transactionAmountController : null,
+                      _transactionAmountController,
                       1,
                       1,
                       Languages.of(context)!.amount,
                       isValid: true,
                       isNumeric: true,
-                      initialValue: widget.currentTransaction == null ? null : widget.currentTransaction!.amount.toString(),
                       isEnabled: widget._mode != DetailsPageMode.Details,
                       validatorFunction: _essentialFieldValidatorFunction,
                     ),
@@ -175,8 +205,8 @@ class _SetTransactionState extends State<SetTransaction> {
                     child: SizedBox(
                         width: gc.smallTextFields,
                         child: (widget._mode == DetailsPageMode.Details) ?
-                        Text(_dropDownController!.value)
-                        : GenericDropDownButton(_getCategoriesNameList(context), _dropDownController!),
+                        Text(_dropDownController.value)
+                        : GenericDropDownButton(_getCategoriesNameList(context), _dropDownController),
                     ),
                   ),
                   Padding(
@@ -220,12 +250,11 @@ class _SetTransactionState extends State<SetTransaction> {
                         right: gc.generalTextFieldsPadding,
                     ),
                     child: FormTextField(
-                      widget._mode == DetailsPageMode.Details ? null : _transactionDescriptionController,
+                      _transactionDescriptionController,
                       gc.maxLinesExpended - 2,
                       gc.maxLinesExpended - 2,
                       Languages.of(context)!.addDescription,
                       isBordered: true,
-                      initialValue: widget._mode == DetailsPageMode.Details ? _getDescriptionInitialValue() : null,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                     ),
                   ),

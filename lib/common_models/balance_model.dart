@@ -31,4 +31,9 @@ class BalanceModel {
     config.incomeCategoriesField: listToJsonList(incomeCategories),
     config.expenseCategoriesField: listToJsonList(expensesCategories)
   };
+
+  Category findCategory(String categoryName) {
+    findCategoryByName (category) => category.name == categoryName;
+    return incomeCategories.firstWhere(findCategoryByName, orElse: () => expensesCategories.firstWhere(findCategoryByName));
+  }
 }

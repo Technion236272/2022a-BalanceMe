@@ -21,10 +21,16 @@ class Category {
     transactions.addAll(jsonToElementList(categoryJson["transactions"], (json) => Transaction.fromJson(json)).cast<Transaction>());
   }
 
-  void update(String newName, double newExpected, String newDescription) {
+  void updateCategory(String newName, double newExpected, String newDescription) {
     name = newName;
     expected = newExpected;
     description = newDescription;
+  }
+
+  void updateTransaction(Transaction transaction, String newName, String newDate, double newAmount, String newDescription, bool newIsConstant) {
+    amount -= transaction.amount;
+    transaction.update(newName, newDate, newAmount, newDescription, newIsConstant);
+    amount += transaction.amount;
   }
 
   double calcTotalAmount() {

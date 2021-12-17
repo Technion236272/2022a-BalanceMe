@@ -26,7 +26,7 @@ class CategoryHeader extends StatefulWidget {
 
 class _CategoryHeaderState extends State<CategoryHeader> {
   void _openAddTransactionPage() {
-    navigateToPage(context, SetTransaction(DetailsPageMode.Add, _addTransaction, widget._category.name), AppPages.SetTransaction);
+    navigateToPage(context, SetTransaction(DetailsPageMode.Add, widget._category), AppPages.SetTransaction);
   }
 
   void _openCategoryDetails() {
@@ -36,10 +36,6 @@ class _CategoryHeaderState extends State<CategoryHeader> {
   void _removeCategory() {
     Provider.of<UserStorage>(context, listen: false).removeCategory(widget._category);
     displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.category));
-  }
-
-  void _addTransaction(Transaction newTransaction, Transaction? oldTransaction) {
-    Provider.of<UserStorage>(context, listen: false).addTransaction(widget._category, newTransaction, null);
   }
 
   Future<void> _confirmRemoval() async {
