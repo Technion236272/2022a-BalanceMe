@@ -1,18 +1,25 @@
+// ================= login tab bar view widget=================
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/main.dart';
+import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:balance_me/firebase_wrapper/storage_repository.dart';
+import 'package:balance_me/widgets/generic_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/global/login_utils.dart' as util;
+import 'package:balance_me/global/login_utils.dart';
 import 'package:balance_me/widgets/forgot_password.dart';
 import 'package:balance_me/widgets/third_party_authentication.dart';
 import 'package:balance_me/widgets/login_image.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen(this._authRepository, this._userStorage, {Key? key})
+      : super(key: key);
+  final AuthRepository _authRepository;
+  final UserStorage _userStorage;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -40,9 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return IconButton(
       icon: Icon(showPassword ? gc.hidePassword : gc.showPassword),
       color: gc.hidePasswordColor,
-      onPressed: () {
-        hideText();
-      },
+      onPressed: hideText,
     );
   }
 
@@ -51,15 +56,17 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         children: [
           const LoginImage(),
-          BorderTextBox(controllerEmail, Languages.of(context)!.emailText),
-          BorderTextBox(
+          TextBox(controllerEmail, Languages.of(context)!.emailText),
+          TextBox(
             controllerPassword,
             Languages.of(context)!.password,
             hideText: showPassword,
             suffix: hidingPasswordEye(),
           ),
-          GoogleButton(),
-          FacebookButton(),
+          GoogleButton(widget._authRepository, widget._userStorage,
+              isSignUp: false),
+          FacebookButton(widget._authRepository, widget._userStorage,
+              isSignUp: false),
           forgotPasswordLink(context),
           signInButton(context),
         ],
@@ -85,20 +92,16 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  SizedBox signInButton(BuildContext context) {
-    return SizedBox(
-      child: ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(gc.alternativePrimary)),
-          onPressed: () {
-            util.emailPasswordSignIn(
-                controllerEmail.text, controllerPassword.text, context);
-          },
-          child: Text(
-            Languages.of(context)!.signIn,
-            style: const TextStyle(fontSize: gc.signInOrUpFontSize),
-          )),
+  void signIn() {
+    emailPasswordSignIn(controllerEmail.text, controllerPassword.text, context,
+        widget._authRepository, widget._userStorage);
+  }
+
+  Widget signInButton(BuildContext context) {
+    return GenericButton(
+      buttonText: Languages.of(context)!.signIn,
+      buttonColor: gc.alternativePrimary,
+      onPressed: signIn,
     );
   }
 

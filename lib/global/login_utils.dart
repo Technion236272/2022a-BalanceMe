@@ -1,51 +1,51 @@
-import 'package:balance_me/common_models/user_model.dart';
-import 'package:balance_me/firebase_wrapper/auth_repository.dart' as auth;
+// ================= login and sign up functions =================
+import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-import 'package:balance_me/global/constants.dart' as gc;
 
-void signInGoogle(BuildContext context) async {
+void signInGoogle(BuildContext context,AuthRepository authRepository
+    ,UserStorage userStorage) async {
   startLoginProcess(
-      context, auth.AuthRepository.instance().signInGoogle(), true);
+      context, authRepository.signInGoogle(), true,authRepository,userStorage);
 }
 
-void signInFacebook(BuildContext context) async {
+void signInFacebook(BuildContext context,AuthRepository authRepository,UserStorage userStorage) async {
   startLoginProcess(
-      context, auth.AuthRepository.instance().signInWithFacebook(), true);
+      context, authRepository.signInWithFacebook(), true,authRepository,userStorage);
 }
 
-void signUpGoogle(BuildContext context) async {
+void signUpGoogle(BuildContext context,AuthRepository authRepository,UserStorage userStorage) async {
   startLoginProcess(
-      context, auth.AuthRepository.instance().signInGoogle(), false);
+      context, authRepository.signInGoogle(), false,authRepository,userStorage);
 }
 
-void signUpFacebook(BuildContext context) async {
+void signUpFacebook(BuildContext context,AuthRepository authRepository,UserStorage userStorage) async {
   startLoginProcess(
-      context, auth.AuthRepository.instance().signInWithFacebook(), false);
+      context, authRepository.signInWithFacebook(), false,authRepository,userStorage);
 }
 
 void emailPasswordSignUp(String? email, String? password,
-    String? confirmPassword, BuildContext context) async {
+    String? confirmPassword, BuildContext context,AuthRepository authRepository,UserStorage userStorage) async {
   if (email == null || password == null || confirmPassword == null) {
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
   startLoginProcess(
-      context, auth.AuthRepository.instance().signUp(email, password), false);
+      context, authRepository.signUp(email, password), false,authRepository,userStorage);
 }
 
 void emailPasswordSignIn(
-    String? email, String? password, BuildContext context) async {
+    String? email, String? password, BuildContext context,AuthRepository authRepository,UserStorage userStorage) async {
   if (email == null || password == null) {
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
   startLoginProcess(
-      context, auth.AuthRepository.instance().signIn(email, password), true);
+      context, authRepository.signIn(email, password), true,authRepository,userStorage);
 }
 
 void recoverPassword(String? email, BuildContext context) async {
@@ -65,13 +65,12 @@ void recoverPassword(String? email, BuildContext context) async {
 }
 
 void startLoginProcess(BuildContext context, Future<bool> loginFunction,
-    bool signedInBefore) async {
-  auth.AuthRepository authRepository = auth.AuthRepository.instance();
+    bool signedInBefore,AuthRepository authRepository,UserStorage userStorage) async {
   bool signInAttempt = await loginFunction;
   if (signInAttempt) {
     signedInBefore
-        ? await UserStorage.instance(authRepository).GET_postLogin()
-        : UserStorage.instance(authRepository).SEND_generalInfo();
+        ? await userStorage.GET_postLogin()
+        : userStorage.SEND_generalInfo();
     User? user = authRepository.user;
     if (user != null) {
       String? email = authRepository.user!.email;

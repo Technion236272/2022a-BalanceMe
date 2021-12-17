@@ -15,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
-  awesome_dropdown:
-    dependency: "direct main"
-    description:
-      name: awesome_dropdown
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -462,13 +455,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
-  percent_indicator:
+  permission_handler:
     dependency: "direct main"
     description:
-      name: percent_indicator
+      name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.4.0"
+    version: "8.3.0"
+  permission_handler_platform_interface:
+    dependency: transitive
+    description:
+      name: permission_handler_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.7.0"
   petitparser:
     dependency: transitive
     description:
@@ -572,13 +572,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  sorted_list:
-    dependency: "direct main"
-    description:
-      name: sorted_list
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   source_span:
     dependency: transitive
     description:
@@ -620,14 +613,7 @@ packages:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.3.57"
-  syncfusion_flutter_datepicker:
-    dependency: "direct main"
-    description:
-      name: syncfusion_flutter_datepicker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "19.3.57"
+    version: "19.3.56"
   term_glyph:
     dependency: transitive
     description:

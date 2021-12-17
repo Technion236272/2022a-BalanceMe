@@ -1,6 +1,7 @@
 // ================= Auth Repository =================
+import 'package:balance_me/localization/resources/resources.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cross_file/cross_file.dart';
@@ -8,6 +9,8 @@ import 'dart:io';
 import 'package:balance_me/global/types.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/firebase_config.dart' as config;
 
 
@@ -123,7 +126,6 @@ class AuthRepository with ChangeNotifier {
   }
 
   void uploadAvatar(XFile? avatarImage) async {
-
       if (avatarImage != null && _user != null) {
         Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
         UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage.path));
@@ -154,8 +156,30 @@ class AuthRepository with ChangeNotifier {
     }
     notifyListeners();
   }
+ Future<void> updatePassword(BuildContext context,String newPassword)async
+  {
+    if(_user!=null)
+      {
 
+        try {
+          await _user!.updatePassword(newPassword);
+          notifyListeners();
+          displaySnackBar(context,Languages.of(context)!.changePasswordSuccess);
+        }
+        on FirebaseAuthException catch (e) {
+         if(e.code==gc.weakPassword)
+           {
+              displaySnackBar(context,Languages.of(context)!.weakPassword);
+           }
+        }
+        catch (e) {
+          displaySnackBar(context,Languages.of(context)!.changePasswordError);
+        }
+      }
+    else
+      {
+        displaySnackBar(context,Languages.of(context)!.notSignedIn);
+      }
+
+  }
 }
-
-
-

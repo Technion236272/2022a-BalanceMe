@@ -19,6 +19,39 @@ abstract class Languages {
   String get no;
   String get date;
 
+//settings
+  String get settingsTitle;
+  String get profileSettings;
+  String get groupSettings;
+  String get passwordSettings;
+  String get darkModeSettings;
+  String get endOfMonthSettings;
+  String get languageSettings;
+  String get versionSettings;
+  String get newPassword;
+  String get passwordUpdate;
+  String get finish;
+  String get firstName;
+  String get lastName;
+  String get weakPassword;
+  String get changePasswordError;
+  String get notSignedIn;
+  String get groupScreenTitle;
+  String get leaveGroup;
+  String get members;
+  String get description;
+  String get create;
+  String get join;
+  String get group;
+  String get createGroupInstructions;
+  String get groupName;
+  String get descriptionInstruction;
+  String get changePasswordSuccess;
+  String get profileChangeSuccessful;
+  String get noImagePicked;
+  String get gallery;
+  String get camera;
+
   // Login
   String get welcome;
   String get login;
@@ -34,7 +67,6 @@ abstract class Languages {
   String get signUpError;
   String get confirmPassword;
   String get invalidPasswords;
-
   //password recovery
   String get recoverPassword;
   String get forgotPasswordLarge;
@@ -50,7 +82,7 @@ abstract class Languages {
   // Charts
   String get available;
 
-  // Balance
+  // Balance  // TODO- MERGE with develop
   String get nothingToShow;
   String get balanceInfo;
   String get toGetStartedInfo;

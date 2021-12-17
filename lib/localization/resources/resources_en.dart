@@ -33,6 +33,55 @@ class LanguageEn extends Languages {
   @override
   String get date =>"Date";
 
+//settings
+  @override
+  String get settingsTitle => "Settings";
+
+  @override
+  String get profileSettings => "Profile";
+
+  @override
+  String get groupSettings => "Group";
+
+  @override
+  String get passwordSettings => "Change Password";
+
+  @override
+  String get darkModeSettings => "Dark mode";
+
+  @override
+  String get endOfMonthSettings => "End of month";
+
+  @override
+  String get languageSettings => "Language";
+
+  @override
+  String get versionSettings => "Version";
+
+  @override
+  String get newPassword => "New Password";
+
+  @override
+  String get passwordUpdate => "Type in a new password for your user";
+
+  @override
+  String get finish => "FINISH";
+
+  @override
+  String get firstName => "First name";
+
+  @override
+  String get lastName => "Last name";
+
+  @override
+  String get weakPassword => "Your password is too weak, type in a stronger password";
+
+  @override
+  String get changePasswordError => " No signed in account detected. make sure you are registered and logged in and try again";
+
+  @override
+  String get notSignedIn => "changing password failed. sign in and try again";
+
 // Login
   @override
   String get welcome => "Welcome";
@@ -75,6 +124,51 @@ class LanguageEn extends Languages {
 
   @override
   String get invalidPasswords => "Passwords don't match ";
+
+  @override
+  String get groupScreenTitle => "My group";
+
+  @override
+  String get leaveGroup => "LEAVE GROUP";
+
+  @override
+  String get members => "Members";
+
+  @override
+  String get description => "Description";
+
+  @override
+  String get create => "CREATE";
+
+  @override
+  String get join => "JOIN";
+
+  @override
+  String get group => "group";
+
+  @override
+  String get createGroupInstructions => "To create a new group,you need to choose a unique name";
+
+  @override
+  String get groupName => "Group name";
+
+  @override
+  String get descriptionInstruction => "Add description...";
+
+  @override
+  String get changePasswordSuccess => "Password successfully changed";
+
+  @override
+  String get profileChangeSuccessful => "Profile successfully updated";
+
+  @override
+  String get noImagePicked => "You haven't picked an image. pick an image to change your avatar";
+
+  @override
+  String get gallery => "Gallery";
+
+  @override
+  String get camera => "Camera";
 
   //password recovery
   @override

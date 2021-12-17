@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-// Localization
-const String prefSelectedLanguageCode = "SelectedLanguageCode";
-
 // Defaults
 int defaultPage = AppPages.Balance.index;
+const bool darkMode = false;
+const List<int> daysOfMonth = [1, 10, 15];
 const int defaultEndOfMonthDay = 10;
 const Currency defaultUserCurrency = Currency.NIS;
 const int defaultPrecision = 2;
 const bool defaultIsConstant = false;
 const int defaultMaxCharactersLimit = 20;
 
+// Localization
+const String prefSelectedLanguageCode = "SelectedLanguageCode";
+
 // Icons
+const IconData settingArrow = Icons.arrow_forward_ios_sharp;
 const IconData unauthenticatedIcon = Icons.login;
 const IconData authenticatedIcon = Icons.exit_to_app;
 const IconData emptyAvatarIcon = Icons.account_circle;
@@ -29,16 +32,20 @@ const IconData minimizeIcon = Icons.expand_more;
 const IconData addIcon = Icons.add;
 const IconData deleteIcon = Icons.delete;
 const IconData editIcon = Icons.edit;
+const IconData editPencil = Icons.create_sharp;
+const IconData galleryChoice = Icons.photo_library;
+const IconData cameraChoice = Icons.photo_camera;
 
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
-const Color secondaryColor = Colors.white; // TODO- change to the chosen color
+const Color secondaryColor = Colors.white;
 const Color bottomNavigationSelectedColor = primaryColor;
 const Color alternativePrimary = Color(0xff4e21ff);
 const Color tabColor = Color(0xffd3ff21);
 const Color linkColors = Color(0xffbc21ff);
 const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
+const Color leaveColor = Color(0xFFE30E0E);
 const Color disabledColor = Colors.black38;
 
 // AppBar
@@ -51,51 +58,55 @@ const double googleButtonPadding = 20.0;
 const double paddingFacebook = 10.0;
 const double buttonTextPadding = 12.0;
 const List<String> permissionFacebook = ["public_profile", "email"];
-int loginTabs = 2;
+const int loginTabs = 2;
 const double forgotPasswordSize = 35;
 const double forgotPasswordMsgSize = 20;
 const double signInOrUpFontSize = 18.0;
 const double signInIconSize = 30.0;
-double sidePadding = 10.0;
-double padWithImage = 100.0;
-double padStackLeft = 45.0;
-double padStackTop = 80.0;
-double padStackRight = 20.0;
-double padStackBottom = 40.0;
-double borderWidth = 2.0;
-double fontSizeLoginImage = 16;
+const double sidePadding = 10.0;
+const double padWithImage = 100.0;
+const double padStackLeft = 45.0;
+const double padStackTop = 80.0;
+const double padStackRight = 20.0;
+const double padStackBottom = 40.0;
+const double borderWidth = 2.0;
+const double fontSizeLoginImage = 16;
+
+// Navigation
+int settingPageIndex = AppPages.Settings.index;
 
 //Cards
-double cardElevationHeight = 5.0;
-double cardBorderRadius = 15.0;
-double smallCardHeightResize = 6.0;
-double smallCardWidthResize = 3.0;
-double mediumCardHeightResize = 3.0;
-double mediumCardWidthResize = 1.5;
-double largeCardHeightResize = 3.0;
-double largeCardWidthResize = 1.0;
-int heightSizeMatching = 5;
-int widthSmallAndMediumSizeMatching = 30;
-int widthLargeSizeMatching = 20;
-EdgeInsetsGeometry cardMargin = const EdgeInsets.all(5.0);
+const double cardElevationHeight = 5.0;
+const double cardBorderRadius = 15.0;
+const double smallCardHeightResize = 6.0;
+const double smallCardWidthResize = 3.0;
+const double mediumCardHeightResize = 3.0;
+const double mediumCardWidthResize = 1.5;
+const double largeCardHeightResize = 3.0;
+const double largeCardWidthResize = 1.0;
+const int heightSizeMatching = 5;
+const int widthSmallAndMediumSizeMatching = 30;
+const int widthLargeSizeMatching = 20;
+const EdgeInsetsGeometry cardMargin = EdgeInsets.all(5.0);
 Color cardShadowColor = Colors.grey.withOpacity(0.5);
-Color cardBGColor = Colors.grey; //TODO - change to chosen color
+const Color cardBGColor = Colors.grey; //TODO - change to chosen color
 
 //Tabs
-Color tabLabelColor = Colors.black;
-Color tabIndicatorColor = Colors.lime;
-Color tabBarColor = Colors.limeAccent;
+const Color tabLabelColor = Colors.black;
+const Color tabIndicatorColor = Colors.lime;
+const Color tabBarColor = Colors.limeAccent;
 Color tabUnselectedLabelColor = Colors.grey.shade600;
-double tabBorderRadius = 30.0;
-double tabBodyHeightResize = 4 / 5;
-double tabFontSize = 16.0;
-double tabPadding = 5.0;
+const double tabBorderRadius = 30.0;
+const double tabBodyHeightResize = 4 / 5;
+const double tabFontSize = 16.0;
+const double tabPadding = 5.0;
 
 //images
-String wallet = 'assets/images/wallet.jpg';
-String balance = 'assets/images/balance-circle.png';
-String lock = 'assets/images/lock.png';
-double walletScale = 5.0;
+const String wallet = 'assets/images/wallet.jpg';
+const String lock = 'assets/images/lock.png';
+const String key = 'assets/images/key.jpg';
+const double keyScale = 4.0;
+const double walletScale = 5.0;
 
 // RingPieChart
 const String pieChartInnerRadius = '65%';
@@ -122,7 +133,17 @@ double startedInfoTop = leftCircleTop + 130;
 Color backgroundDesignColor = Colors.grey.shade300;
 
 //ListView
-Color dividerColor=Colors.blueGrey;
+const Color dividerColor = Colors.blueGrey;
+
+//settings
+const double newPasswordSize = 22.0;
+const double profileAvatarRadius = 150.0;
+const double padProfileAvatar = 80.0;
+const double padAroundPencil = 0.0;
+
+//error messages
+const String weakPassword = "weak-password";
+const String differentListLength = "one of your widget lists is shorter than the others";
 
 //TextBox
 const TextStyle defaultHintStyle = TextStyle( fontSize: 16);

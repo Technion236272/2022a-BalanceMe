@@ -49,7 +49,6 @@ class GoogleAnalytics {
   Future<void> logSignUp(String signUpMethod) async {
     await _analytics.logSignUp(signUpMethod: signUpMethod);
   }
-
   Future<void> logLogin(String loginMethod) async {
     await _analytics.logLogin(loginMethod: loginMethod);
   }
@@ -70,5 +69,15 @@ class GoogleAnalytics {
 
   void logGetBalanceFailed(DocumentSnapshot<Json> generalInfo) {
     _logEvent("logGetBalanceFailed", {"dataExists": generalInfo.exists, "data": generalInfo.exists ? generalInfo.data() : ""});
+  }
+
+  void logAvatarChange(AuthRepository authRepository) async {  // TODO- Refactor
+    if (authRepository.user != null && authRepository.user!.email != null) {
+      _logEvent("AvatarChanged", {
+        "authRepository": authRepository,
+        "user": authRepository.user,
+        "email": authRepository.user!.email!
+      });
+    }
   }
 }

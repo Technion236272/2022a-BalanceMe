@@ -1,4 +1,5 @@
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/widgets/generic_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/widgets/appbar.dart';
@@ -21,9 +22,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     super.dispose();
   }
 
+  void recoverPassword() {
+    util.recoverPassword(controllerEmail.text, context);
+  }
+
   @override
   Widget build(BuildContext context) {
-         return Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: MinorAppBar(Languages.of(context)!.recoverPassword),
       body: SingleChildScrollView(
@@ -45,17 +50,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),
               ),
-              BorderTextBox(controllerEmail,Languages.of(context)!.emailText),
-              SizedBox(
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            gc.alternativePrimary)),
-                    onPressed: () {
-                      util.recoverPassword(controllerEmail.text, context);
-                    },
-                    child: Text(Languages.of(context)!.send)),
-              )
+              TextBox(controllerEmail, Languages.of(context)!.emailText),
+              GenericButton(
+                buttonText: Languages.of(context)!.send,
+                buttonColor: gc.alternativePrimary,
+                onPressed: recoverPassword,
+              ),
             ],
           ),
         ),
