@@ -13,14 +13,6 @@ class Transaction {
     isConstant = transactionJson["isConstant"];
   }
 
-  void update(String newName, String newDate, double newAmount, String newDescription, bool newIsConstant) {
-    name = newName;
-    date = newDate;
-    amount = newAmount;
-    description = newDescription;
-    isConstant = newIsConstant;
-  }
-
   late String name;
   late String date;
   late double amount;

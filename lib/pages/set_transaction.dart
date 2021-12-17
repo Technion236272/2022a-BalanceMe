@@ -47,7 +47,11 @@ class _SetTransactionState extends State<SetTransaction> {
 
   @override
   void initState(){
-    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;  // TODO
+    _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
+    _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.amount.toString());
+    _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
+    _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
+    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
     super.initState();
   }
 
@@ -117,36 +121,18 @@ class _SetTransactionState extends State<SetTransaction> {
     );
   }
 
-  void _addNewTransaction() {
-    Provider.of<UserStorage>(context, listen: false).addTransaction(widget._currentCategory, createNewTransaction());
-  }
-
-  void _editTransaction() {
-    if (widget.currentTransaction == null) {
-      return; // Should not get here
-    }
-
-    if (widget._currentCategory.name == _dropDownController.value) {  // Transaction stays in the same Category
-      widget._currentCategory.updateTransaction(
-          widget.currentTransaction!,
-          _transactionNameController.text.toString(),
-          _dateRangePickerController.selectedDate!.toFullDate(),
-          double.parse(_transactionAmountController.text.toString()),
-          _transactionDescriptionController.text.toString(),
-          _isConstant
-      );
-      Provider.of<UserStorage>(context, listen: false).updateTransaction(widget.currentTransaction!);
-
-    } else {  // Transaction move to the other Category
-      Provider.of<UserStorage>(context, listen: false).replaceTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction());
-    }
-  }
-
   void _saveTransaction() {
     _updatePerformingSave(true);
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      (widget._mode == DetailsPageMode.Add) ? _addNewTransaction() : _editTransaction();
+      UserStorage userStorage = Provider.of<UserStorage>(context, listen: false);
+
+      if (widget._mode == DetailsPageMode.Add) {
+        userStorage.addTransaction(widget._currentCategory, createNewTransaction());
+      } else {
+        userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction());
+      }
+
       navigateBack(context);
       displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.transaction));
     }
@@ -156,11 +142,6 @@ class _SetTransactionState extends State<SetTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
-    _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.amount.toString());
-    _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
-    _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
-
     return Scaffold(
       appBar: MinorAppBar(_getPageTitle()),
       body: SingleChildScrollView(
@@ -234,7 +215,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       Text(Languages.of(context)!.constantSwitch),
                       ],
                       trailingWidgets: [
-                        null,
+                        Visibility(visible: widget._mode == DetailsPageMode.Details, child: Text(widget.currentTransaction!.date)),
                         Switch(
                           value: _isConstant,
                           onChanged: (widget._mode == DetailsPageMode.Details) ? null : _switchConstant,
@@ -258,22 +239,31 @@ class _SetTransactionState extends State<SetTransaction> {
                       isEnabled: widget._mode != DetailsPageMode.Details,
                     ),
                   ),
-                  widget._mode == DetailsPageMode.Details ?
-                  Container() :
-                  Padding(
-                    padding: const EdgeInsets.only(top: gc.generalTextFieldsPadding),
-                    child: ActionButton(
-                      performingAction,
-                      Languages.of(context)!.save,
-                      _saveTransaction,
+                  Visibility(
+                    visible: widget._mode != DetailsPageMode.Details,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: gc.generalTextFieldsPadding),
+                      child: ActionButton(
+                        performingAction,
+                        Languages.of(context)!.save,
+                        _saveTransaction,
+                      ),
                     ),
                   ),
                 ],
               ),
-                  Positioned(
-                      top: MediaQuery.of(context).size.height/2.65,
+                  Visibility(
+                    visible: widget._mode != DetailsPageMode.Details,
+                    child: Positioned(
+                      top: MediaQuery.of(context).size.height / 2.65,
                       right: 20,
-                      child: DesignedDatePicker(dateController: _dateRangePickerController, height: 20, viewSelector: DatePickerType.Day,)),  // TODO- pass a callback function
+                      child: DesignedDatePicker(
+                        dateController: _dateRangePickerController,
+                        height: 20,
+                        viewSelector: DatePickerType.Day,
+                      ),
+                    ),
+                  ),
             ]),
           ),
         ),

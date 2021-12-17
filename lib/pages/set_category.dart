@@ -92,33 +92,12 @@ class _SetCategoryState extends State<SetCategory> {
     );
   }
 
-  void _addNewCategory() {
-    Provider.of<UserStorage>(context, listen: false).addCategory(createNewCategory());
-  }
-
-  void _editCategory() {
-    if (widget.currentCategory == null) {
-      return; // Should not get here
-    }
-
-    if (widget.currentCategory!.isIncome == _categoryTypeController.value) {  // Category stays in the same list
-      widget.currentCategory!.updateCategory(
-          _categoryNameController.text.toString(),
-          double.parse(_categoryExpectedController.text.toString()),
-          _categoryDescriptionController.text.toString()
-      );
-      Provider.of<UserStorage>(context, listen: false).updateCategory(widget.currentCategory!);
-
-    } else {  // Category move to the other list
-      Provider.of<UserStorage>(context, listen: false).replaceCategory(createNewCategory(), widget.currentCategory!);
-    }
-  }
-
   void _saveCategory() {  // TODO- verify SnackBar shows above the FAB- also after login
     _updatePerformingSave(true);
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      (widget._mode == DetailsPageMode.Add) ? _addNewCategory() : _editCategory();
+      UserStorage userStorage = Provider.of<UserStorage>(context, listen: false);
+      (widget._mode == DetailsPageMode.Add) ? userStorage.addCategory(createNewCategory()) : userStorage.editCategory(createNewCategory(), widget.currentCategory!);
       navigateBack(context);
       displaySnackBar(context, Languages.of(context)!.saveSucceeded.replaceAll("%", Languages.of(context)!.category));
     }

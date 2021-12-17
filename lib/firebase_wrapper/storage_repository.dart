@@ -83,57 +83,54 @@ class UserStorage with ChangeNotifier {
   void _changeCategory(model.Category category, EntryOperation operation) {
     List<model.Category> categoryListType = category.isIncome ? _balance.incomeCategories : balance.expensesCategories;
     operation == EntryOperation.Add ? categoryListType.add(category) : categoryListType.remove(category);
-    _saveBalance();
   }
 
-  void addCategory(model.Category newCategory, [bool sendLog = true]) {
+  void addCategory(model.Category newCategory, [bool allFlow = true]) {
     _changeCategory(newCategory, EntryOperation.Add);
-    if (!sendLog) {
+    if (allFlow) {
+      _saveBalance();
       GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, newCategory);
     }
   }
 
-  void removeCategory(model.Category newCategory, [bool sendLog = true]) {
+  void removeCategory(model.Category newCategory, [bool allFlow = true]) {
     _changeCategory(newCategory, EntryOperation.Remove);
-    if (!sendLog) {
+    if (allFlow) {
+      _saveBalance();
       GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, newCategory);
     }
   }
 
-  void updateCategory(model.Category category) {
-    _saveBalance();
-    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Edit, category);
-  }
-
-  void replaceCategory(model.Category newCategory, model.Category oldCategory) {
+  void editCategory(model.Category newCategory, model.Category oldCategory) {
     removeCategory(oldCategory, false);
     addCategory(newCategory, false);
+    _saveBalance();
     GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Edit, newCategory);
   }
 
-  void _changeTransaction(model.Category category, model.Transaction newTransaction, EntryOperation operation) {
-    operation == EntryOperation.Add ? category.addTransaction(newTransaction) : category.removeTransaction(newTransaction);
-    _saveBalance();
+  void addTransaction(model.Category category, model.Transaction newTransaction, [bool allFlow = true]) {
+    category.addTransaction(newTransaction);
+    if (!allFlow) {
+      _saveBalance();
+      GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Add, category);
+    }
   }
 
-  void addTransaction(model.Category category, model.Transaction newTransaction, [bool sendLog = true]) {
-    _changeTransaction(category, newTransaction, EntryOperation.Add);
-    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Add, category);
+  void removeTransaction(model.Category category, model.Transaction newTransaction, [bool allFlow = true]) {
+    category.removeTransaction(newTransaction);
+    if (!allFlow) {
+      _saveBalance();
+      GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
+    }
   }
 
-  void removeTransaction(model.Category category, model.Transaction newTransaction, [bool sendLog = true]) {
-    _changeTransaction(category, newTransaction, EntryOperation.Remove);
-    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
-  }
-
-  void updateTransaction(model.Transaction transaction) {
-    _saveBalance();
-    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Edit, transaction);
-  }
-
-  void replaceTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction) {
+  void editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction) {
     removeTransaction(oldCategory, oldTransaction, false);
-    addTransaction(_balance.findCategory(newCategoryName), newTransaction, false);
+
+    model.Category category = (newCategoryName == oldCategory.name) ? oldCategory : _balance.findCategory(newCategoryName);
+    addTransaction(category, newTransaction, false);
+
+    _saveBalance();
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Edit, newTransaction);
   }
 
