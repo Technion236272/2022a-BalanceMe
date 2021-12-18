@@ -196,11 +196,14 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, {VoidCallback? callback, String? date}) async {
-    await GET_balanceModel(callback: callback, date: date);
+  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool firstGet, {VoidCallback? callback, String? date}) async {
+    if (firstGet) {
+      await GET_balanceModel(callback: callback, date: date);
+    }
     balance.expensesCategories.addAll(lastBalance.expensesCategories);
     balance.incomeCategories.addAll(lastBalance.incomeCategories);
     SEND_balanceModel(date: date);
+    notifyListeners();
   }
 
   // SEND
