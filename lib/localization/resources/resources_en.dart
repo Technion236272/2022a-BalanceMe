@@ -33,21 +33,12 @@ class LanguageEn extends Languages {
   @override
   String get date =>"Date";
 
-//settings
-  @override
-  String get settingsTitle => "Settings";
-
+// Settings
   @override
   String get profileSettings => "Profile";
 
   @override
-  String get groupSettings => "Group";
-
-  @override
   String get passwordSettings => "Change Password";
-
-  @override
-  String get darkModeSettings => "Dark mode";
 
   @override
   String get endOfMonthSettings => "End of month";
@@ -77,10 +68,10 @@ class LanguageEn extends Languages {
   String get weakPassword => "Your password is too weak, type in a stronger password";
 
   @override
-  String get changePasswordError => " No signed in account detected. make sure you are registered and logged in and try again";
+  String get changePasswordError => "No signed in account detected. make sure you are registered and logged in and try again";
 
   @override
-  String get notSignedIn => "changing password failed. sign in and try again";
+  String get notSignedIn => "Changing password failed. sign in and try again";
 
 // Login
   @override
@@ -114,46 +105,13 @@ class LanguageEn extends Languages {
   String get loginError => "User not found";
 
   @override
-  String get nullDetails => "To sign up, you must type both your email and password ";
-
-  @override
-  String get signUpError => "sign up failed, check your connection and try again";
+  String get nullDetails => "To sign up, you must type both your email and password";
 
   @override
   String get confirmPassword => "Confirm Password";
 
   @override
-  String get invalidPasswords => "Passwords don't match ";
-
-  @override
-  String get groupScreenTitle => "My group";
-
-  @override
-  String get leaveGroup => "LEAVE GROUP";
-
-  @override
-  String get members => "Members";
-
-  @override
-  String get description => "Description";
-
-  @override
-  String get create => "CREATE";
-
-  @override
-  String get join => "JOIN";
-
-  @override
-  String get group => "group";
-
-  @override
-  String get createGroupInstructions => "To create a new group,you need to choose a unique name";
-
-  @override
-  String get groupName => "Group name";
-
-  @override
-  String get descriptionInstruction => "Add description...";
+  String get invalidPasswords => "Passwords don't match";
 
   @override
   String get changePasswordSuccess => "Password successfully changed";
@@ -170,7 +128,7 @@ class LanguageEn extends Languages {
   @override
   String get camera => "Camera";
 
-  //password recovery
+  // Password Recovery
   @override
   String get recoverPassword => "Password recovery";
 
@@ -288,7 +246,7 @@ class LanguageEn extends Languages {
   @override
   String get verifyRemoval => "Are you sure you want to remove this %?";
 
-  //Add category
+  // Add Category
   @override
   String get typeSelection => "Type";
 

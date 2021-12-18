@@ -32,7 +32,6 @@ const IconData minimizeIcon = Icons.expand_more;
 const IconData addIcon = Icons.add;
 const IconData deleteIcon = Icons.delete;
 const IconData editIcon = Icons.edit;
-const IconData editPencil = Icons.create_sharp;
 const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
 
@@ -102,6 +101,7 @@ const double tabFontSize = 16.0;
 const double tabPadding = 5.0;
 
 //images
+const String balanceImage = 'assets/images/balance-circle.png';
 const String wallet = 'assets/images/wallet.jpg';
 const String lock = 'assets/images/lock.png';
 const String key = 'assets/images/key.jpg';

@@ -49,18 +49,19 @@ class GoogleAnalytics {
   Future<void> logSignUp(String signUpMethod) async {
     await _analytics.logSignUp(signUpMethod: signUpMethod);
   }
+  
   Future<void> logLogin(String loginMethod) async {
     await _analytics.logLogin(loginMethod: loginMethod);
   }
 
   void logChangeLanguage(String selectedLanguageCode) {
-    _logEvent("ChangeLanguage", {'language': selectedLanguageCode});
+    _logEvent("ChangeLanguage", {'language': selectedLanguageCode, "user": _getUserEmail()});
   }
 
 
   // FireBase
   void logPreCheckFailed(String functionName, AuthRepository authRepository) {
-    _logEvent("$functionName has failed since pre-check failed", {"authRepository": authRepository, "user": authRepository.user, "email": authRepository.user!.email!});
+    _logEvent("$functionName has failed since pre-check failed", {"user": _getUserEmail()});
   }
 
   void logPostLoginFailed(DocumentSnapshot<Json> generalInfo) {
@@ -71,13 +72,7 @@ class GoogleAnalytics {
     _logEvent("logGetBalanceFailed", {"dataExists": generalInfo.exists, "data": generalInfo.exists ? generalInfo.data() : ""});
   }
 
-  void logAvatarChange(AuthRepository authRepository) async {  // TODO- Refactor
-    if (authRepository.user != null && authRepository.user!.email != null) {
-      _logEvent("AvatarChanged", {
-        "authRepository": authRepository,
-        "user": authRepository.user,
-        "email": authRepository.user!.email!
-      });
-    }
+  void logAvatarChange(AuthRepository authRepository) async {
+      _logEvent("AvatarChanged", {"user": _getUserEmail()});
   }
 }

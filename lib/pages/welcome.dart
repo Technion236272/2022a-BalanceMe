@@ -1,7 +1,6 @@
 // ================= Welcome Page =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/generic_info.dart';
 import 'package:balance_me/global/types.dart';
@@ -19,7 +18,7 @@ class WelcomePage extends StatelessWidget {
         left: MediaQuery.of(context).size.width / 3,
         top: gc.imageTop,
         child: Image.asset(
-          gc.balance,
+          gc.balanceImage,
           width: MediaQuery.of(context).size.width / 3,
           height: MediaQuery.of(context).size.height / 3,
         ),
@@ -30,7 +29,7 @@ class WelcomePage extends StatelessWidget {
           child: CircleAvatar(
             radius: gc.circleRadius,
             backgroundColor: gc.backgroundDesignColor,
-          )
+          ),
       ),
       Positioned(
           top: gc.rightCircleTop,
@@ -38,7 +37,7 @@ class WelcomePage extends StatelessWidget {
           child: CircleAvatar(
             radius: gc.circleRadius,
             backgroundColor: gc.backgroundDesignColor,
-          )
+          ),
       ),
       GenericInfo(
         Languages.of(context)!.welcome,

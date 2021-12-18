@@ -15,21 +15,30 @@ class LanguageRu extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
-  //settings
   @override
-  String get settingsTitle => "настройки";
+  String get essentialField => "this is an essential field";
 
+  @override
+  String get maxCharactersLimit => "The maximum number of characters is %";
+
+  @override
+  String get mustPositiveNum => "The number must be above 0";
+
+  @override
+  String get yes => "Yes";
+
+  @override
+  String get no => "No";
+
+  @override
+  String get date =>"Date";
+
+  // Settings
   @override
   String get profileSettings => "профиль";
 
   @override
-  String get groupSettings => "группа";
-
-  @override
   String get passwordSettings => "изменить пароль";
-
-  @override
-  String get darkModeSettings => "темный режим";
 
   @override
   String get endOfMonthSettings => "конец месяца";
@@ -63,69 +72,6 @@ class LanguageRu extends Languages {
 
   @override
   String get notSignedIn => "Не обнаружено записаней аккаунт.убедитесь, что вы зарегистрированы и попробуйте снова";
-
-  @override
-  String get groupScreenTitle => "моя група";
-
-  @override
-  String get leaveGroup => "покинуть группу";
-
-  @override
-  String get members => "члены группы";
-
-  @override
-  String get description => "описание";
-
-  @override
-  String get create => "создания";
-
-  @override
-  String get join => "присоединиться ";
-
-  @override
-  String get group => "группы";
-
-  @override
-  String get createGroupInstructions => "для создания новой группы, выбираете уникальное имя";
-
-  @override
-  String get groupName => "имя группы";
-
-  @override
-  String get descriptionInstruction => "добавьте описание...";
-
-  @override
-  String get changePasswordSuccess => "успешно изменен пароль";
-
-  @override
-  String get profileChangeSuccessful => "Профиль успешно обновлен";
-
-  @override
-  String get noImagePicked => "Вы не выбрали образ. выберите образ, чтобы изменить свой аватар";
-
-  @override
-  String get gallery => "галерея";
-
-  @override
-  String get camera => "камера";
-
-  @override
-  String get essentialField => "this is an essential field";
-
-  @override
-  String get maxCharactersLimit => "The maximum number of characters is %";
-
-  @override
-  String get mustPositiveNum => "The number must be above 0";
-
-  @override
-  String get yes => "Yes";
-
-  @override
-  String get no => "No";
-
-  @override
-  String get date =>"Date";
 
   // Login
   @override
@@ -162,15 +108,27 @@ class LanguageRu extends Languages {
   String get nullDetails => "дла окончания регистраций напишите ваш мейл и пароль";
 
   @override
-  String get signUpError => "регистрация провалилась, праверти ваш связь к интернету ";
-
-  @override
   String get confirmPassword => "подтвердить пароль";
 
   @override
   String get invalidPasswords => "пароли не похоже";
 
-  //password recovery
+  @override
+  String get changePasswordSuccess => "успешно изменен пароль";
+
+  @override
+  String get profileChangeSuccessful => "Профиль успешно обновлен";
+
+  @override
+  String get noImagePicked => "Вы не выбрали образ. выберите образ, чтобы изменить свой аватар";
+
+  @override
+  String get gallery => "галерея";
+
+  @override
+  String get camera => "камера";
+
+  // Password Recovery
   @override
   String get recoverPassword => "восстановления пароля";
 

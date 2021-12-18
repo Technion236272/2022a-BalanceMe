@@ -1,15 +1,16 @@
 // ================= Settings main page =================
+import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/change_password.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
-import 'package:balance_me/global/project_config.dart' as config;
-import 'package:flutter/material.dart';
-import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/profile_settings.dart';
+import 'package:balance_me/global/firebase_config.dart' as config;
+import 'package:balance_me/global/constants.dart' as gc;
 
 class Settings extends StatefulWidget {
   const Settings(this.authRepository, this.userStorage, {Key? key})
@@ -30,20 +31,11 @@ class _SettingsState extends State<Settings> {
   }
 
   void navigateToProfileSettings() {
-    navigateToPage(
-        context,
-        ProfileSettings(
-          authRepository: widget.authRepository,
-          userStorage: widget.userStorage,
-        ));
+    navigateToPage(context, ProfileSettings(authRepository: widget.authRepository, userStorage: widget.userStorage), AppPages.Profile);
   }
 
   void navigateToChangePassword() {
-    navigateToPage(
-        context,
-        ChangePassword(
-          authRepository: widget.authRepository,
-        ));
+    navigateToPage(context, ChangePassword(authRepository: widget.authRepository), AppPages.ChangePassword);
   }
 
   Widget mainSettingsList() {
@@ -58,14 +50,17 @@ class _SettingsState extends State<Settings> {
     List<Widget?> trailingSettings = [
       IconButton(
           onPressed: navigateToProfileSettings,
-          icon: const Icon(gc.settingArrow)),
+          icon: const Icon(gc.settingArrow)
+      ),
       IconButton(
           onPressed: navigateToChangePassword,
-          icon: const Icon(gc.settingArrow)),
+          icon: const Icon(gc.settingArrow)
+      ),
       daysOfMonthRadio(),
       const LanguageDropDown(),
       const Text(config.projectVersion)
     ];
+
     return ListViewGeneric(
         leadingWidgets: leadingSettings, trailingWidgets: trailingSettings);
   }

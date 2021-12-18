@@ -1,6 +1,5 @@
-import 'package:balance_me/global/types.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
@@ -17,7 +16,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 /// The value of the selected date\dates is stored in the controller.selectedDate or
 /// controller.selectedRange.(startDate or endDate).
 /// The callBack function is called when you change selection.
-class DesignedDatePicker extends StatefulWidget {  // TODO- refactor
+class DesignedDatePicker extends StatefulWidget {
   const DesignedDatePicker({required this.dateController, this.onSelectDate, this.height = 35.0,
     this.buttonColor = gc.primaryColor, this.datePickerColor = Colors.white, this.datePickerWidth = 180.0, this.datePickerHeight = 300.0,
     this.isRange = false, this.viewSelector = DatePickerType.Day,  Key? key}) : super(key: key);
@@ -124,7 +123,7 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
                 padding: const EdgeInsets.only(top: gc.datePickerGeneralPadding, right: gc.datePickerRightPadding),
                 child: SfDateRangePicker(
                   selectionMode: widget.isRange ? DateRangePickerSelectionMode.range : DateRangePickerSelectionMode.single,
-                  minDate: DateTime(2020),  // TODO- move to gc
+                  minDate: DateTime(2020),
                   maxDate: DateTime.now(),
                   view: widget.viewSelector == DatePickerType.Day
                       ? DateRangePickerView.month
@@ -139,7 +138,7 @@ class _DesignedDatePickerState extends State<DesignedDatePicker> {
                   showActionButtons: true,
                   allowViewNavigation: false,
                   controller: widget.dateController,
-                  onSubmit: (Object val) {
+                  onSubmit: (Object? val) {
                     setState(() {
                       if (val is DateTime) {
                         startDateString = (widget.viewSelector == DatePickerType.Day)

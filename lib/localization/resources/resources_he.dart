@@ -32,21 +32,13 @@ class LanguageHe extends Languages {
 
   @override
   String get date =>"‎תאריך";
-  //settings
-  @override
-  String get settingsTitle => "‎הגדרות";
 
+  // Settings
   @override
   String get profileSettings => "‎פרופיל";
 
   @override
-  String get groupSettings => "קבוצה‎";
-
-  @override
   String get passwordSettings => "שינוי סיסמה‎ ";
-
-  @override
-  String get darkModeSettings => "‎מצב כהה";
 
   @override
   String get endOfMonthSettings => "סוף החודש‎";
@@ -55,76 +47,31 @@ class LanguageHe extends Languages {
   String get languageSettings => "‎שפה";
 
   @override
-  String get versionSettings => "גרסה‎";
+  String get versionSettings => "גירסה‎";
 
   @override
   String get newPassword => "‎סיסמה חדשה";
 
   @override
-  String get passwordUpdate => "הקלד סיסמה חדשה למשתמש שלך‎";
+  String get passwordUpdate => "יש להקליד סיסמה חדשה למשתמש‎";
 
   @override
   String get finish => "‎סיום";
 
   @override
-  String get firstName => "שם פרטי ‎";
+  String get firstName => "שם פרטי‎";
 
   @override
-  String get lastName => "שם משפחה ‎";
+  String get lastName => "שם משפחה‎";
 
   @override
-  String get weakPassword => "‎הסיסמה שלך חלשה מדי, רשום סיסמה חזקה יותר";
+  String get weakPassword => "‎הסיסמה חלשה מדי, יש לרשום סיסמה חזקה יותר";
 
   @override
-  String get changePasswordError => "שינוי הסיסמה נכשל, וודא שנכנסת לחשבונך ונסה שוב ‎";
+  String get changePasswordError => "שינוי הסיסמה נכשל, יש לנסות שוב‎";
 
   @override
-  String get notSignedIn => "‎אין חשבון רשום כעת, וודא שנכנסת לחשבונך ונסה שוב";
-
-  @override
-  String get groupScreenTitle => "הקבוצה שלי‎ ";
-
-  @override
-  String get leaveGroup => "עזיבת קבוצה ‎";
-
-  @override
-  String get members => "חברי הקבוצה‎";
-
-  @override
-  String get description => "‎תיאור ";
-
-  @override
-  String get create => "‎יצירה";
-
-  @override
-  String get join => "הצטרפות‎";
-
-  @override
-  String get group => "קבוצה‎";
-
-  @override
-  String get createGroupInstructions => "ליצירת קבוצה חדשה, בחר שם יחודי‎";
-
-  @override
-  String get groupName => "שם הקבוצה ‎";
-
-  @override
-  String get descriptionInstruction => "הוספת תיאור...‎";
-
-  @override
-  String get changePasswordSuccess => "סיסמה שונתה בהצלחה‎";
-
-  @override
-  String get profileChangeSuccessful => "‎הפרופיל עודכן בהצלחה";
-
-  @override
-  String get noImagePicked => "‎לא בחרת תמונה, בחר תמונה, כדי לעדכן את האווטאר שלך";
-
-  @override
-  String get gallery => "גלריה‎";
-
-  @override
-  String get camera => "מצלמה‎";
+  String get notSignedIn => "‎אין חשבון רשום כעת, יש לנסות שוב";
 
   // Login
   @override
@@ -158,18 +105,30 @@ class LanguageHe extends Languages {
   String get loginError => "‎המשתמש לא נמצא";
 
   @override
-  String get nullDetails => "עליך לרשום מייל וסיסמה אם ברצונך להירשם‎";
+  String get nullDetails => "יש לרשום כתובת דואר אלקטרוני וסיסמה במידה וברצונך להירשם‎";
 
   @override
-  String get signUpError => "ההרשמה נכשלה, יש לבדוק את החיבור לרשת ולנסות שנית ‎";
+  String get invalidPasswords => "הסיסמאות אינן זהות‎ ";
 
   @override
   String get confirmPassword => "אימות סיסמה‎";
 
   @override
-  String get invalidPasswords => "הסיסמאות אינן זהות‎ ";
+  String get changePasswordSuccess => "הסיסמה שונתה בהצלחה‎";
 
-  //password recovery
+  @override
+  String get profileChangeSuccessful => "‎הפרופיל עודכן בהצלחה";
+
+  @override
+  String get noImagePicked => "‎לא נבחרה תמונה";
+
+  @override
+  String get gallery => "גלריה‎";
+
+  @override
+  String get camera => "מצלמה‎";
+
+  // Password Recovery
   @override
   String get recoverPassword => "שחזור סיסמה‎";
 
@@ -184,6 +143,7 @@ class LanguageHe extends Languages {
 
   @override
   String get emailSent => "‎ההודעה נשלחה";
+
   // Navigation
   @override
   String get balance => "‎המאזן";

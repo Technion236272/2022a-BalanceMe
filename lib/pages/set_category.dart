@@ -9,6 +9,7 @@ import 'package:balance_me/widgets/generic_radio_button.dart';
 import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
+import 'package:balance_me/widgets/generic_edit_button.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -171,12 +172,10 @@ class _SetCategoryState extends State<SetCategory> {
                       top: gc.generalTextFieldsPadding,
                       bottom: gc.generalTextFieldsPadding
                   ),
-                  child: IconButton(
-                    onPressed: widget._mode == DetailsPageMode.Details ? _toggleEditDetailsMode : null,
-                    icon: const Icon(gc.editIcon),
-                    iconSize: gc.editIconSize,
+                  child: GenericIconButton(
+                    onTap: widget._mode == DetailsPageMode.Details ? _toggleEditDetailsMode : null,
                     color: gc.primaryColor,
-                    disabledColor: gc.disabledColor.withOpacity(0.0),
+                    iconSize: gc.editIconSize,
                   ),
                 ),
                 Padding(
