@@ -64,22 +64,23 @@ void recoverPassword(String? email, BuildContext context) async {
   }
 }
 
-void startLoginProcess(BuildContext context, Future<bool> loginFunction, String loginFunctionName, bool signedInBefore, UserStorage userStorage) async {
+void startLoginProcess(BuildContext context, Future<bool> loginFunction, String loginFunctionName, bool isSigningIn, UserStorage userStorage) async {
   BalanceModel lastBalance = userStorage.balance.copy();
-  bool signInAttempt = await loginFunction;
-  if (signInAttempt) {
+  if (await loginFunction) {
 
-    if (signedInBefore) {
-      await userStorage.GET_postLogin();
-      await userStorage.GET_balanceModelAfterLogin(lastBalance);
-      GoogleAnalytics.instance.logLogin(loginFunctionName);
-    } else {
-      userStorage.SEND_generalInfo();
-      userStorage.SEND_balanceModel();
-      GoogleAnalytics.instance.logSignUp(loginFunctionName);
-    }
+    Future.delayed(const Duration(milliseconds: 10), () async {
+      if (isSigningIn) {
+        await userStorage.GET_postLogin();
+        await userStorage.GET_balanceModelAfterLogin(lastBalance);
+        GoogleAnalytics.instance.logLogin(loginFunctionName);
+      } else {
+        userStorage.SEND_generalInfo();
+        userStorage.SEND_balanceModel();
+        GoogleAnalytics.instance.logSignUp(loginFunctionName);
+      }
 
-    navigateBack(context);
+      navigateBack(context);
+    });
 
   } else {
     displaySnackBar(context, Languages.of(context)!.loginError);
