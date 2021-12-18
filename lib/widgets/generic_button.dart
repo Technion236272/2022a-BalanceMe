@@ -1,6 +1,7 @@
 // ================= Generic button widget =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:balance_me/widgets/action_button.dart';
 
 /*
 * The widget receives the text which will show up on the button,
@@ -13,26 +14,32 @@ class GenericButton extends StatefulWidget {
       {Key? key,
       required this.buttonText,
       this.buttonColor = gc.primaryColor,
-      this.onPressed})
+      required this.onPressed})
       : super(key: key);
   final String buttonText;
   final Color buttonColor;
-  final GestureTapCallback? onPressed;
+  final GestureTapCallback onPressed;
 
   @override
   _GenericButtonState createState() => _GenericButtonState();
 }
 
 class _GenericButtonState extends State<GenericButton> {
+    bool _loading=false;
+   void updatePerformingSave(bool state) {
+     setState(() {
+       _loading = state;
+     });
+   }
+  ButtonStyle filledButtonColor()
+  {
+    ButtonStyle fillTheButton=ButtonStyle(
+        backgroundColor:
+        MaterialStateProperty.all<Color>(widget.buttonColor));
+    return fillTheButton;
+  }
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(widget.buttonColor)),
-          onPressed: widget.onPressed,
-          child: Text(widget.buttonText)),
-    );
+    return ActionButton(_loading,widget.buttonText,widget.onPressed,style: filledButtonColor());
   }
 }
