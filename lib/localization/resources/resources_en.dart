@@ -15,21 +15,30 @@ class LanguageEn extends Languages {
   @override
   String get appTitle => "BalanceMe";
 
-//settings
   @override
-  String get settingsTitle => "Settings";
+  String get essentialField => "this is an essential field";
 
+  @override
+  String get maxCharactersLimit => "The maximum number of characters is %";
+
+  @override
+  String get mustPositiveNum => "The number must be above 0";
+
+  @override
+  String get yes => "Yes";
+
+  @override
+  String get no => "No";
+
+  @override
+  String get date =>"Date";
+
+// Settings
   @override
   String get profileSettings => "Profile";
 
   @override
-  String get groupSettings => "Group";
-
-  @override
   String get passwordSettings => "Change Password";
-
-  @override
-  String get darkModeSettings => "Dark mode";
 
   @override
   String get endOfMonthSettings => "End of month";
@@ -59,10 +68,10 @@ class LanguageEn extends Languages {
   String get weakPassword => "Your password is too weak, type in a stronger password";
 
   @override
-  String get changePasswordError => " No signed in account detected. make sure you are registered and logged in and try again";
+  String get changePasswordError => "No signed in account detected. make sure you are registered and logged in and try again";
 
   @override
-  String get notSignedIn => "changing password failed. sign in and try again";
+  String get notSignedIn => "Changing password failed. sign in and try again";
 
 // Login
   @override
@@ -96,46 +105,13 @@ class LanguageEn extends Languages {
   String get loginError => "User not found";
 
   @override
-  String get nullDetails => "To sign up, you must type both your email and password ";
-
-  @override
-  String get signUpError => "sign up failed, check your connection and try again";
+  String get nullDetails => "To sign up, you must type both your email and password";
 
   @override
   String get confirmPassword => "Confirm Password";
 
   @override
-  String get invalidPasswords => "Passwords don't match ";
-
-  @override
-  String get groupScreenTitle => "My group";
-
-  @override
-  String get leaveGroup => "LEAVE GROUP";
-
-  @override
-  String get members => "Members";
-
-  @override
-  String get description => "Description";
-
-  @override
-  String get create => "CREATE";
-
-  @override
-  String get join => "JOIN";
-
-  @override
-  String get group => "group";
-
-  @override
-  String get createGroupInstructions => "To create a new group,you need to choose a unique name";
-
-  @override
-  String get groupName => "Group name";
-
-  @override
-  String get descriptionInstruction => "Add description...";
+  String get invalidPasswords => "Passwords don't match";
 
   @override
   String get changePasswordSuccess => "Password successfully changed";
@@ -152,7 +128,7 @@ class LanguageEn extends Languages {
   @override
   String get camera => "Camera";
 
-  //password recovery
+  // Password Recovery
   @override
   String get recoverPassword => "Password recovery";
 
@@ -182,4 +158,98 @@ class LanguageEn extends Languages {
   @override
   String get available => "Available";
 
+  // Balance
+  @override
+  String get nothingToShow => "There is nothing to show here";
+
+  @override
+  String get balanceInfo => "Here you can manage your income \nand expenses";
+
+  @override
+  String get toGetStartedInfo => "To get started you can login or just \nexperience the app";
+
+  @override
+  String get expense => "Expense";
+
+  @override
+  String get expenses => "Expenses";
+
+  @override
+  String get income => "Income";
+
+  @override
+  String get incomes => "Incomes";
+
+  @override
+  String get current => "Current";
+
+  @override
+  String get expected => "Expected";
+
+  @override
+  String get amount => "Amount";
+
+  @override
+  String get category => "category";
+
+  @override
+  String get addCategory => "Add Category";
+
+  @override
+  String get transaction => "transaction";
+
+  @override
+  String get addTransaction => "Add Transaction";
+
+  @override
+  String get editCategory => "Edit Category";
+
+  @override
+  String get detailsCategory => "Category Details";
+
+  @override
+  String get editTransaction => "Edit Transaction";
+
+  @override
+  String get detailsTransaction => "Transaction Details";
+
+  @override
+  String get categoryName => "Category Name";
+
+  @override
+  String get transactionName => "Transaction Name";
+
+  @override
+  String get addDescription => "Add Description...";
+
+  @override
+  String get emptyDescription => "There is no description";
+
+  @override
+  String get back => "Back";
+
+  @override
+  String get save => "SAVE";
+
+  @override
+  String get saveSucceeded => "The % has been saved successfully";
+
+  @override
+  String get removeSucceeded => "The % has been removed successfully";
+
+  @override
+  String get alreadyExist => "The % is already exist";
+
+  @override
+  String get delete => "Delete %";
+
+  @override
+  String get verifyRemoval => "Are you sure you want to remove this %?";
+
+  // Add Category
+  @override
+  String get typeSelection => "Type";
+
+  @override
+  String get constantSwitch => "Constant";
 }

@@ -3,7 +3,7 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/widgets/generic_icon_button.dart';
+import 'package:balance_me/widgets/generic_edit_button.dart';
 import 'package:balance_me/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -114,7 +114,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         widget.authRepository.uploadAvatar(pickedImage);
       });
     }
-    GoogleAnalytics.instance.logAvatarChange(widget.authRepository);
+    GoogleAnalytics.instance.logAvatarChange();
   }
 
   @override

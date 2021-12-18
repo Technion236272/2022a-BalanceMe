@@ -1,4 +1,6 @@
 // ================= login tab bar view widget=================
+import 'package:balance_me/global/types.dart';
+import 'package:balance_me/main.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/generic_button.dart';
@@ -75,7 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
   TextButton forgotPasswordLink(BuildContext context) {
     return TextButton(
         onPressed: () {
-          navigateToPage(context, const ForgotPassword());
+          navigateToPage(
+              context, const ForgotPassword(), AppPages.ForgotPassword);
         },
         child: Text(
           Languages.of(context)!.forgotPassword,

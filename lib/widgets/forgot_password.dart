@@ -1,4 +1,3 @@
-// ================= Forgot password link page =================
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/generic_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';

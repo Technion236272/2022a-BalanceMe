@@ -20,6 +20,23 @@ class LoginManager extends StatefulWidget {
 class _LoginManagerState extends State<LoginManager> {
   int appBarChoice = 0;
 
+  void changeAppbar(int tabIndex) {
+    setState(() {
+      appBarChoice = tabIndex;
+    });
+  }
+
+  List<String> getTabNames() {
+    return [Languages.of(context)!.login, Languages.of(context)!.signUpTitle];
+  }
+
+  List<Widget> loginTabBarView() {
+    return [
+       LoginScreen(widget._authRepository,widget._userStorage),
+       SignUp(widget._authRepository,widget._userStorage),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -30,39 +47,9 @@ class _LoginManagerState extends State<LoginManager> {
             ? MinorAppBar(Languages.of(context)!.login)
             : MinorAppBar(Languages.of(context)!.signUpTitle),
         body: SingleChildScrollView(
-            child: TabGeneric(loginTabs(), loginTabBarView(),
+            child: TabGeneric(getGenericTabs(getTabNames()), loginTabBarView(),
                 onSwitch: changeAppbar)),
       ),
     );
-  }
-
-  void changeAppbar(int tabIndex) {
-    setState(() {
-      appBarChoice = tabIndex;
-    });
-  }
-
-  List<String> tabNames() {
-    return [Languages.of(context)!.login, Languages.of(context)!.signUpTitle];
-  }
-
-  List<Tab> loginTabs() {
-    List<Tab> tabs = [];
-    tabNames().forEach((element) {
-      tabs.add(Tab(
-        child: Text(
-          element,
-          style: const TextStyle(color: gc.tabTextColor),
-        ),
-      ));
-    });
-    return tabs;
-  }
-
-  List<Widget> loginTabBarView() {
-    return [
-       LoginScreen(widget._authRepository,widget._userStorage),
-       SignUp(widget._authRepository,widget._userStorage),
-    ];
   }
 }

@@ -12,13 +12,16 @@ abstract class Languages {
   String get languageCode;
   String get appName;
   String get appTitle;
+  String get essentialField;
+  String get maxCharactersLimit;
+  String get mustPositiveNum;
+  String get yes;
+  String get no;
+  String get date;
 
-//settings
-  String get settingsTitle;
+// Settings
   String get profileSettings;
-  String get groupSettings;
   String get passwordSettings;
-  String get darkModeSettings;
   String get endOfMonthSettings;
   String get languageSettings;
   String get versionSettings;
@@ -30,21 +33,6 @@ abstract class Languages {
   String get weakPassword;
   String get changePasswordError;
   String get notSignedIn;
-  String get groupScreenTitle;
-  String get leaveGroup;
-  String get members;
-  String get description;
-  String get create;
-  String get join;
-  String get group;
-  String get createGroupInstructions;
-  String get groupName;
-  String get descriptionInstruction;
-  String get changePasswordSuccess;
-  String get profileChangeSuccessful;
-  String get noImagePicked;
-  String get gallery;
-  String get camera;
 
   // Login
   String get welcome;
@@ -58,15 +46,21 @@ abstract class Languages {
   String get signIn;
   String get loginError;
   String get nullDetails;
-  String get signUpError;
   String get confirmPassword;
   String get invalidPasswords;
-  //password recovery
+  String get changePasswordSuccess;
+  String get profileChangeSuccessful;
+  String get noImagePicked;
+  String get gallery;
+  String get camera;
+
+  // Password Recovery
   String get recoverPassword;
   String get forgotPasswordLarge;
   String get confirmEmail;
   String get send;
   String get emailSent;
+
   // Navigation
   String get balance;
   String get statistics;
@@ -75,5 +69,38 @@ abstract class Languages {
   // Charts
   String get available;
 
+  // Balance
+  String get nothingToShow;
+  String get balanceInfo;
+  String get toGetStartedInfo;
+  String get expense;
+  String get expenses;
+  String get income;
+  String get incomes;
+  String get current;
+  String get expected;
+  String get amount;
+  String get category;
+  String get addCategory;
+  String get transaction;
+  String get addTransaction;
+  String get editCategory;
+  String get detailsCategory;
+  String get editTransaction;
+  String get detailsTransaction;
+  String get categoryName;
+  String get transactionName;
+  String get addDescription;
+  String get emptyDescription;
+  String get back;
+  String get save;
+  String get saveSucceeded;
+  String get removeSucceeded;
+  String get alreadyExist;
+  String get delete;
+  String get verifyRemoval;
 
+  //Add category or transaction
+  String get typeSelection;
+  String get constantSwitch;
 }

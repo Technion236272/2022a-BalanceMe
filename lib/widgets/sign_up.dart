@@ -103,7 +103,10 @@ class _SignUpState extends State<SignUp> {
                 controllerConfirmPassword.text,
                 context,widget._authRepository,widget._userStorage);
           },
-          child: Text(Languages.of(context)!.signUpTitle)),
+          child: Text(
+            Languages.of(context)!.signUpTitle,
+            style: const TextStyle(fontSize: gc.signInOrUpFontSize),
+          )),
     );
   }
 }

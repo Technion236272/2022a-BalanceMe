@@ -1,14 +1,17 @@
 // ================= Global Constants =================
-
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-//default settings
+// Defaults
+int defaultPage = AppPages.Balance.index;
 const bool darkMode = false;
 const List<int> daysOfMonth = [1, 10, 15];
 const int defaultEndOfMonthDay = 10;
-const String defaultUserCurrency = "NIS";
+const Currency defaultUserCurrency = Currency.NIS;
+const int defaultPrecision = 2;
+const bool defaultIsConstant = false;
+const int defaultMaxCharactersLimit = 20;
 
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
@@ -23,7 +26,12 @@ const IconData settingsPage = Icons.settings;
 const IconData statisticsPage = Icons.pie_chart;
 const IconData hidePassword = Icons.remove_red_eye_outlined;
 const IconData showPassword = Icons.remove_red_eye;
-const IconData editPencil = Icons.create_sharp;
+const IconData transactionDetailsIcon = Icons.info;
+const IconData expandIcon = Icons.expand_less;
+const IconData minimizeIcon = Icons.expand_more;
+const IconData addIcon = Icons.add;
+const IconData deleteIcon = Icons.delete;
+const IconData editIcon = Icons.edit;
 const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
 
@@ -47,10 +55,13 @@ const double paddingBetweenText = 20.0;
 const double textFieldRadius = 25.0;
 const double googleButtonPadding = 20.0;
 const double paddingFacebook = 10.0;
+const double buttonTextPadding = 12.0;
 const List<String> permissionFacebook = ["public_profile", "email"];
 const int loginTabs = 2;
 const double forgotPasswordSize = 35;
 const double forgotPasswordMsgSize = 20;
+const double signInOrUpFontSize = 18.0;
+const double signInIconSize = 30.0;
 const double sidePadding = 10.0;
 const double padWithImage = 100.0;
 const double padStackLeft = 45.0;
@@ -61,7 +72,6 @@ const double borderWidth = 2.0;
 const double fontSizeLoginImage = 16;
 
 // Navigation
-int defaultPage = AppPages.Balance.index;
 int settingPageIndex = AppPages.Settings.index;
 
 //Cards
@@ -91,6 +101,7 @@ const double tabFontSize = 16.0;
 const double tabPadding = 5.0;
 
 //images
+const String balanceImage = 'assets/images/balance-circle.png';
 const String wallet = 'assets/images/wallet.jpg';
 const String lock = 'assets/images/lock.png';
 const String key = 'assets/images/key.jpg';
@@ -99,9 +110,27 @@ const double walletScale = 5.0;
 
 // RingPieChart
 const String pieChartInnerRadius = '65%';
-const LegendPosition pieChartLegendPosition = LegendPosition.top;
+const LegendPosition pieChartLegendPosition = LegendPosition.bottom;
 Color pieChartCenterText = Colors.grey.shade600;
-const Color pieCharDefaultCategoryColor = Colors.white;
+Color pieCharDefaultCategoryColor = Colors.grey.shade300;
+const EdgeInsets centerPadding = EdgeInsets.only(bottom: 30.0, left: 10.0);
+const double percentSize = 40.0;
+
+// Balance
+const String inPracticeExpectedSeparator = "/";
+const DismissDirection removeDirection = DismissDirection.startToEnd;
+
+//Welcome
+const double imageTop = -40;
+const double circleRadius = 120.0;
+const double leftCircleTop = 200.0;
+const double circleLeftOrRight = 10.0;
+double textLeft = circleLeftOrRight + 60;
+double rightCircleTop = leftCircleTop + 30;
+double welcomeTop = leftCircleTop + 30;
+double balanceInfoTop = leftCircleTop + 80;
+double startedInfoTop = leftCircleTop + 130;
+Color backgroundDesignColor = Colors.grey.shade300;
 
 //ListView
 const Color dividerColor = Colors.blueGrey;
@@ -115,3 +144,58 @@ const double padAroundPencil = 0.0;
 //error messages
 const String weakPassword = "weak-password";
 const String differentListLength = "one of your widget lists is shorter than the others";
+
+//TextBox
+const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
+
+//Category and Transaction
+const EdgeInsets topPadding = EdgeInsets.only(top: 20.0);
+const double smallTextFields = 280;
+const double generalTextFieldsPadding = 8.0;
+const double inputFontSize = 45;
+Color inputFontColor = Colors.grey.shade700;
+const int maxLinesExpended = 10;
+const double buttonPadding = 50.0;
+const double editIconSize = 30.0;
+const double listTileHeight = 30.0;
+
+//Dropdown widget
+const double dropDownRadius = 40;
+const int numOfItems = 10;
+
+// Generic Info Widget
+const double infoTitleFontSize = 25;
+const double infoFontSize = 18;
+
+//Generic Date Picker
+const double datePickerFontSize = 15.0;
+const double datePickerGeneralPadding = 2.0;
+const double datePickerRightPadding = 15.0;
+const double datePickerIconSize = 18.0;
+const double datePickerDayViewWidth = 150.0;
+const double datePickerMonthViewWidth = 120.0;
+const double datePickerYearViewWidth = 100.0;
+const double dateRangePickerDayViewWidth = datePickerDayViewWidth * 1.6;
+const double dateRangePickerMonthViewWidth = datePickerMonthViewWidth * 1.6;
+const double dateRangePickerYearViewWidth = datePickerYearViewWidth * 1.4;
+
+//Transaction Entry
+const double entryPadding = 8.0;
+const double entryBorderRadius = 10;
+Color entryColor = Colors.white;
+Color entryShadow = Colors.grey.withOpacity(0.5);
+const double shadowDesignConstant = 3;
+Color incomeEntryColor = Colors.green.shade600;
+Color expenseEntryColor = Colors.red.shade600;
+
+//Category Header
+const double categoryTopPadding = 7.0;
+const double categoryAroundPadding = 5.0;
+const double lineBarHeight = 14.0;
+const int lineAnimationDuration = 2500;
+const double dividerThickness = 1.0;
+const double cardBorderWidth = 2.0;
+const double cardThinBorderWidth = 1.0;
+const double iconPadding = 10.0;
+const double iconSize = 24.0;
+const double listViewBottomPadding = 100;
