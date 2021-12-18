@@ -12,6 +12,7 @@ const Currency defaultUserCurrency = Currency.NIS;
 const int defaultPrecision = 2;
 const bool defaultIsConstant = false;
 const int defaultMaxCharactersLimit = 20;
+const defaultMinPasswordLimit = 6;
 
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";

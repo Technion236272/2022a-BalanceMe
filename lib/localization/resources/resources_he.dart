@@ -128,6 +128,9 @@ class LanguageHe extends Languages {
   @override
   String get camera => "מצלמה‎";
 
+  @override
+  String get minPasswordLimit => "‎אורך הסיסמה צריך להיות לפחות % תווים";
+
   // Password Recovery
   @override
   String get recoverPassword => "שחזור סיסמה‎";
