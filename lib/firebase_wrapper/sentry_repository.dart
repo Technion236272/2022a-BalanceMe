@@ -1,8 +1,8 @@
 // ================= Sentry performance monitor of transactions =================
+import 'package:flutter/foundation.dart';
 import 'package:sentry/sentry.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:balance_me/global/config.dart' as config;
-
 
 /// This class allows you to create transactions, in order to test the performance of asynchronous operations
 /// you can use the default transaction, or create your own.
@@ -44,9 +44,11 @@ class SentryMonitor {
   }
 
   Future<void> sendToSentry(Object e, dynamic stackTrace) async {
-    await Sentry.captureException(
-      e,
-      stackTrace: stackTrace,
-    );
+    if (!kDebugMode) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
+    }
   }
 }
