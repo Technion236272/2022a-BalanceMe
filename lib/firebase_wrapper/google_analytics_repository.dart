@@ -1,4 +1,5 @@
 // ================= Google Analytics =================
+import 'package:flutter/foundation.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,7 +17,9 @@ class GoogleAnalytics {
 
   // ================== Private ==================
   Future<void> _logEvent(String name, Map<String, Object?>? parameters) async {
-    await _analytics.logEvent(name: name, parameters: parameters);
+    if (!kDebugMode) {
+      await _analytics.logEvent(name: name, parameters: parameters);
+    }
   }
 
   String _getUserEmail() {
@@ -32,7 +35,9 @@ class GoogleAnalytics {
 
   // Pages
   Future<void> logAppOpen() async {
-    await _analytics.logAppOpen();
+    if (!kDebugMode) {
+      await _analytics.logAppOpen();
+    }
   }
 
   void logPageOpened(AppPages? page) {
@@ -51,11 +56,15 @@ class GoogleAnalytics {
 
   // Operations
   Future<void> logSignUp(String signUpMethod) async {
-    await _analytics.logSignUp(signUpMethod: signUpMethod);
+    if (!kDebugMode) {
+      await _analytics.logSignUp(signUpMethod: signUpMethod);
+    }
   }
   
   Future<void> logLogin(String loginMethod) async {
-    await _analytics.logLogin(loginMethod: loginMethod);
+    if (!kDebugMode) {
+      await _analytics.logLogin(loginMethod: loginMethod);
+    }
   }
 
   void logChangeLanguage(String selectedLanguageCode) {
