@@ -75,7 +75,7 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
         GoogleAnalytics.instance.logLogin(loginFunctionName);
       } else {
         userStorage.SEND_generalInfo();
-        userStorage.SEND_balanceModel();
+        await userStorage.GET_balanceModelAfterLogin(lastBalance);
         GoogleAnalytics.instance.logSignUp(loginFunctionName);
       }
 
