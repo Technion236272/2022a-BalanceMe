@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
       GoogleAnalytics.instance.logPageOpened(AppPages.Statistics);
       return const Scaffold();
     }  // Statistics
-    return BalanceManager(authRepository, userStorage);  // default: Balance
+    return BalanceManager(userStorage);  // default: Balance
   }
 
   @override

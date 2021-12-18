@@ -1,12 +1,10 @@
 // ================= Category Header =================
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:balance_me/common_models/category_model.dart';
-import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/pages/set_category.dart';
 import 'package:balance_me/pages/set_transaction.dart';
 import 'package:balance_me/global/utils.dart';
@@ -70,11 +68,10 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               Expanded(
                 flex: 3,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,
-                  ),
+                  padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding),
                   child: Text(
                     widget._category.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: gc.primaryColor,
                         fontSize: gc.fontSizeLoginImage,
                         fontWeight: FontWeight.bold,
@@ -88,7 +85,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                 children: [
                   IconButton(
                     iconSize: gc.iconSize,
-                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding),
                     constraints: const BoxConstraints(),
                     color: gc.primaryColor,
                     onPressed: _openAddTransactionPage,
@@ -96,7 +93,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                   ),
                   IconButton(
                     iconSize: gc.iconSize,
-                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,),
+                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding),
                     constraints: const BoxConstraints(),
                     color: gc.primaryColor,
                     onPressed: _openCategoryDetails,
@@ -105,7 +102,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                   IconButton(
                     iconSize: gc.iconSize,
                     padding: widget._category.transactions.isNotEmpty
-                        ? const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding,)
+                        ? const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding)
                     : const EdgeInsets.all(gc.iconPadding),
                     constraints: const BoxConstraints(),
                     color: gc.primaryColor,
@@ -120,9 +117,12 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                         constraints: const BoxConstraints(),
                         color: gc.primaryColor,
                         onPressed: widget._toggleCategory,
-                        icon: Icon(widget._isCategoryOpen
+                        icon: Icon(
+                            widget._isCategoryOpen
                             ? gc.expandIcon
-                            : gc.minimizeIcon)),
+                            : gc.minimizeIcon
+                        )
+                    ),
                   )
                 ],
               ),
@@ -137,7 +137,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               widget._category.amount.toMoneyFormat() +
                   gc.inPracticeExpectedSeparator +
                   widget._category.expected.toMoneyFormat(),
-              style: TextStyle(
+              style: const TextStyle(
                   color: gc.primaryColor,
                   fontSize: gc.fontSizeLoginImage,
                   fontWeight: FontWeight.bold),

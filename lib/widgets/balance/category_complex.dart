@@ -44,7 +44,6 @@ class _CategoryComplexState extends State<CategoryComplex> {
   @override
   Widget build(BuildContext context) {
     return Card(
-
       elevation: gc.cardElevationHeight,
       shadowColor: gc.primaryColor.withOpacity(0.5),
       shape: RoundedRectangleBorder(
@@ -55,7 +54,6 @@ class _CategoryComplexState extends State<CategoryComplex> {
       child: Column(
         children: [
           CategoryHeader(widget._category, _isCategoryOpen, _toggleCategory),
-          // TODO- add animation
           Visibility(
             visible: _isCategoryOpen,
             child: Column(

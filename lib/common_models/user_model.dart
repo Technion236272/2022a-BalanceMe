@@ -23,7 +23,7 @@ class UserModel {
     if (json["endOfMonthDay"] != null) {
       endOfMonthDay = json["endOfMonthDay"];
     }
-    if (json["userCurrency"] != null) {  // TODO (Sprint2)- verify that Currency type is saved in FB
+    if (json["userCurrency"] != null) {
       Currency? currency = indexToEnum(Currency.values, json["userCurrency"]);
       userCurrency = currency ?? gc.defaultUserCurrency;
     }

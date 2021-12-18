@@ -17,6 +17,13 @@ class BalanceModel {
     expensesCategories.addAll(jsonToElementList(categories[config.expenseCategoriesField], _createCategoryFromJson).cast<Category>());
   }
 
+  BalanceModel copy() {
+    BalanceModel newBalance = BalanceModel();
+    newBalance.incomeCategories.addAll(incomeCategories);
+    newBalance.expensesCategories.addAll(expensesCategories);
+    return newBalance;
+  }
+
   void _emptyConstructor() {
     incomeCategories = getCategorySortedList();
     expensesCategories = getCategorySortedList();

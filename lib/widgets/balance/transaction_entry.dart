@@ -1,6 +1,5 @@
 // ================= Transaction Entry =================
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/common_models/transaction_model.dart';

@@ -18,7 +18,7 @@ class SetCategory extends StatefulWidget {
   SetCategory(this._mode, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
-  final bool _isIncomeTab; // TODO- check adding income in tab expenses
+  final bool _isIncomeTab;
   final Category? currentCategory;
 
   @override
@@ -65,7 +65,7 @@ class _SetCategoryState extends State<SetCategory> {
     if (widget._mode == DetailsPageMode.Add) {
       return null;
     }
-    return widget.currentCategory != null && widget.currentCategory!.description != "" ? widget.currentCategory!.description : Languages.of(context)!.emptyDescription;
+    return widget.currentCategory != null && widget.currentCategory!.description != "" ? widget.currentCategory!.description : null;
   }
 
   void _toggleEditDetailsMode() {
@@ -207,7 +207,7 @@ class _SetCategoryState extends State<SetCategory> {
                       _categoryDescriptionController,
                       gc.maxLinesExpended,
                       gc.maxLinesExpended,
-                      Languages.of(context)!.addDescription,
+                      widget._mode == DetailsPageMode.Details ? Languages.of(context)!.emptyDescription : Languages.of(context)!.addDescription,
                       isBordered: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                   ),

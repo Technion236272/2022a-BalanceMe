@@ -24,6 +24,10 @@ class GoogleAnalytics {
     return (authRepository.user != null && authRepository.user!.email != null) ? authRepository.user!.email! : "";
   }
 
+  String _getDataJsonIfExist(DocumentSnapshot<Json> data) {
+    return data.exists ? data.data().toString() : "";
+  }
+
   // ================== Logs ==================
 
   // Pages
@@ -58,21 +62,21 @@ class GoogleAnalytics {
     _logEvent("ChangeLanguage", {'language': selectedLanguageCode, "user": _getUserEmail()});
   }
 
+  void logRecoverPassword() {
+    _logEvent("RecoverPassword", {"user": _getUserEmail()});
+  }
+
 
   // FireBase
-  void logPreCheckFailed(String functionName, AuthRepository authRepository) {
-    _logEvent("$functionName has failed since pre-check failed", {"user": _getUserEmail()});
+  void logPreCheckFailed(String functionName) {
+    _logEvent("${functionName}PreCheckFailed", {"user": _getUserEmail()});
   }
 
-  void logPostLoginFailed(DocumentSnapshot<Json> generalInfo) {
-    _logEvent("PostLoginFailed", {"dataExists": generalInfo.exists, "data": generalInfo.data()});
+  void logRequestDataNotExists(String request, DocumentSnapshot<Json> data) {
+    _logEvent("${request}DataNotExists", {"dataExists": data.exists, "data": _getDataJsonIfExist(data)});
   }
 
-  void logGetBalanceFailed(DocumentSnapshot<Json> generalInfo) {
-    _logEvent("logGetBalanceFailed", {"dataExists": generalInfo.exists, "data": generalInfo.exists ? generalInfo.data() : ""});
-  }
-
-  void logAvatarChange(AuthRepository authRepository) async {
+  void logAvatarChange() async {
       _logEvent("AvatarChanged", {"user": _getUserEmail()});
   }
 }

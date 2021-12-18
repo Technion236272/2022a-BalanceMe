@@ -19,6 +19,8 @@ enum EntryOperation {Add, Edit, Remove}
 
 enum DatePickerType {Day, Month, Year}
 
+enum LoginMethod {Regular, Facebook, Google}
+
 typedef Json = Map<String, dynamic>;
 
 typedef VoidCallbackInt = void Function(int);

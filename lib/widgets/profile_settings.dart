@@ -114,7 +114,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         widget.authRepository.uploadAvatar(pickedImage);
       });
     }
-    GoogleAnalytics.instance.logAvatarChange(widget.authRepository);
+    GoogleAnalytics.instance.logAvatarChange();
   }
 
   @override
