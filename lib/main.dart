@@ -20,7 +20,7 @@ Future<void> main() async {
   GoogleAnalytics.instance.logAppOpen();
   await SentryFlutter.init((options) {
     options.dsn = dsnForSentry;
-    options.tracesSampleRate = 1.0;
+    options.tracesSampleRate = traceSampleRate;
     options.release = releaseName;
   }, appRunner: () => runApp(App()));
 }

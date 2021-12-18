@@ -12,7 +12,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:balance_me/global/project_config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:sentry/sentry.dart';
+import 'package:balance_me/firebase_wrapper/sentry_repository.dart';
 
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;
@@ -20,9 +20,8 @@ class AuthRepository with ChangeNotifier {
   Status _status = Status.Uninitialized;
   String? _avatarUrl;
 
-
-  final FirebaseStorage _storage = FirebaseStorage.instanceFor(bucket: config.storageBucketPath);
-
+  final FirebaseStorage _storage =
+      FirebaseStorage.instanceFor(bucket: config.storageBucketPath);
 
   AuthRepository.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onAuthStateChanged);
@@ -48,11 +47,8 @@ class AuthRepository with ChangeNotifier {
       _avatarUrl = null;
       notifyListeners();
       return true;
-    } catch (e,stackTrace) {
-      await Sentry.captureException(
-        e,
-        stackTrace: stackTrace,
-      );
+    } catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
@@ -68,17 +64,13 @@ class AuthRepository with ChangeNotifier {
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
-    } catch (e,stackTrace) {
-      await Sentry.captureException(
-        e,
-        stackTrace: stackTrace,
-      );
+    } catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
     }
   }
-
 
   Future<bool> signInGoogle() async {
     try {
@@ -92,16 +84,13 @@ class AuthRepository with ChangeNotifier {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
       _status = Status.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
-    } catch (e,stackTrace) {
-      await Sentry.captureException(
-        e,
-        stackTrace: stackTrace,
-      );
+    } catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
@@ -115,17 +104,13 @@ class AuthRepository with ChangeNotifier {
       final OAuthCredential facebookAuthCredential =
           FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
-       await FirebaseAuth.instance
-          .signInWithCredential(facebookAuthCredential);
+      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
       _status = Status.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
-    } catch (e,stackTrace) {
-      await Sentry.captureException(
-        e,
-        stackTrace: stackTrace,
-      );
+    } catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
@@ -142,30 +127,33 @@ class AuthRepository with ChangeNotifier {
   }
 
   void uploadAvatar(XFile? avatarImage) async {
-      if (avatarImage != null && _user != null) {
-        Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
-        UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage.path));
-        await uploadedAvatar;
-      }
-      _avatarUrl = await getAvatarUrl();
-      notifyListeners();
+    if (avatarImage != null && _user != null) {
+      Reference storageReference = _storage
+          .ref()
+          .child(config.avatarsCollection + '/' + _user!.email.toString());
+      UploadTask uploadedAvatar =
+          storageReference.putFile(File(avatarImage.path));
+      await uploadedAvatar;
     }
+    _avatarUrl = await getAvatarUrl();
+    notifyListeners();
+  }
+
   Future<String?> getAvatarUrl() async {
     try {
-
-      if (user!=null) {
-        Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' +_user!.email.toString());
+      if (user != null) {
+        Reference storageReference = _storage
+            .ref()
+            .child(config.avatarsCollection + '/' + _user!.email.toString());
         return await storageReference.getDownloadURL();
       }
       return null;
-    } catch (e,stackTrace) {
-      await Sentry.captureException(
-        e,
-        stackTrace: stackTrace,
-      );
+    } catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
       return null;
     }
   }
+
   Future<void> _onAuthStateChanged(User? firebaseUser) async {
     if (firebaseUser == null) {
       _user = null;
@@ -176,41 +164,24 @@ class AuthRepository with ChangeNotifier {
     }
     notifyListeners();
   }
- Future<void> updatePassword(BuildContext context,String newPassword)async
-  {
-    if(_user!=null)
-      {
 
-        try {
-          await _user!.updatePassword(newPassword);
-          notifyListeners();
-          displaySnackBar(context,Languages.of(context)!.changePasswordSuccess);
+  Future<void> updatePassword(BuildContext context, String newPassword) async {
+    if (_user != null) {
+      try {
+        await _user!.updatePassword(newPassword);
+        notifyListeners();
+        displaySnackBar(context, Languages.of(context)!.changePasswordSuccess);
+      } on FirebaseAuthException catch (e, stackTrace) {
+        SentryMonitor().sendToSentry(e, stackTrace);
+        if (e.code == gc.weakPassword) {
+          displaySnackBar(context, Languages.of(context)!.weakPassword);
         }
-        on FirebaseAuthException catch (e,stackTrace) {
-          await Sentry.captureException(
-            e,
-            stackTrace: stackTrace,
-          );
-         if(e.code==gc.weakPassword)
-           {
-              displaySnackBar(context,Languages.of(context)!.weakPassword);
-           }
-        }
-        catch (e,stackTrace) {
-          await Sentry.captureException(
-            e,
-            stackTrace: stackTrace,
-          );
-          displaySnackBar(context,Languages.of(context)!.changePasswordError);
-        }
+      } catch (e, stackTrace) {
+        SentryMonitor().sendToSentry(e, stackTrace);
+        displaySnackBar(context, Languages.of(context)!.changePasswordError);
       }
-    else
-      {
-        displaySnackBar(context,Languages.of(context)!.notSignedIn);
-      }
-
+    } else {
+      displaySnackBar(context, Languages.of(context)!.notSignedIn);
+    }
   }
 }
-
-
-
