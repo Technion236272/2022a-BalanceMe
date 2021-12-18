@@ -26,7 +26,7 @@ class GenericButton extends StatefulWidget {
 
 class _GenericButtonState extends State<GenericButton> {
     bool _loading=false;
-   void updatePerformingSave(bool state) {
+   void _updatePerformingSave(bool state) {
      setState(() {
        _loading = state;
      });
@@ -38,8 +38,15 @@ class _GenericButtonState extends State<GenericButton> {
         MaterialStateProperty.all<Color>(widget.buttonColor));
     return fillTheButton;
   }
+  Future<void> waitForFunction()
+  async {
+    _updatePerformingSave(true);
+    widget.onPressed.call();
+    Future.delayed(Duration.zero);
+    _updatePerformingSave(false);
+  }
   @override
   Widget build(BuildContext context) {
-    return ActionButton(_loading,widget.buttonText,widget.onPressed,style: filledButtonColor());
+    return ActionButton(_loading,widget.buttonText,waitForFunction,style: filledButtonColor());
   }
 }
