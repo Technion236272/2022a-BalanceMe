@@ -1,19 +1,17 @@
 // ================= Auth Repository =================
+import 'package:flutter/cupertino.dart';
+import 'dart:io';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:balance_me/firebase_wrapper/sentry_repository.dart';
 import 'package:cross_file/cross_file.dart';
-import 'dart:io';
 import 'package:balance_me/global/types.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:balance_me/firebase_wrapper/sentry_repository.dart';
-import 'package:balance_me/global/firebase_config.dart' as config;
 
 
 class AuthRepository with ChangeNotifier {

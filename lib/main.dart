@@ -9,19 +9,18 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-import 'package:balance_me/pages/home.dart';
-import 'package:balance_me/global/constants.dart' as gc;
-import 'package:flutter/widgets.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:balance_me/global/project_config.dart';
+import 'package:balance_me/pages/home.dart';
+import 'package:balance_me/global/config.dart' as config;
+import 'package:balance_me/global/constants.dart' as gc;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoogleAnalytics.instance.logAppOpen();
   await SentryFlutter.init((options) {
-    options.dsn = dsnForSentry;
-    options.tracesSampleRate = traceSampleRate;
-    options.release = releaseName;
+    options.dsn = config.dsnForSentry;
+    options.tracesSampleRate = config.traceSampleRate;
+    options.release = config.releaseName;
   }, appRunner: () => runApp(App()));
 }
 
@@ -38,8 +37,7 @@ class App extends StatelessWidget {
         if (snapshot.hasError) {
           return Scaffold(
               body: Center(
-                  child: Text(snapshot.error.toString(),
-                      textDirection: TextDirection.ltr)));
+                  child: Text(snapshot.error.toString(), textDirection: TextDirection.ltr)));
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return const BalanceMeApp();
@@ -54,8 +52,7 @@ class BalanceMeApp extends StatefulWidget {
   const BalanceMeApp({Key? key}) : super(key: key);
 
   static void setLocale(BuildContext context, Locale newLocale) {
-    _BalanceMeAppState? state =
-        context.findAncestorStateOfType<_BalanceMeAppState>();
+    _BalanceMeAppState? state = context.findAncestorStateOfType<_BalanceMeAppState>();
     state!.setLocale(newLocale);
   }
 
@@ -96,14 +93,10 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider<AuthRepository>(
-              create: (_) => AuthRepository.instance()),
+          ChangeNotifierProvider<AuthRepository>(create: (_) => AuthRepository.instance()),
           ChangeNotifierProxyProvider<AuthRepository, UserStorage>(
-            create: (BuildContext context) => UserStorage.instance(
-                Provider.of<AuthRepository>(context, listen: false)),
-            update: (BuildContext context, AuthRepository auth,
-                    UserStorage? storage) =>
-                storage!..updates(auth),
+            create: (BuildContext context) => UserStorage.instance(Provider.of<AuthRepository>(context, listen: false)),
+            update: (BuildContext context, AuthRepository auth, UserStorage? storage) => storage!..updates(auth),
           )
         ],
         child: MaterialApp(
@@ -113,9 +106,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             );
           },
-          title: Languages.of(context) == null
-              ? ""
-              : Languages.of(context)!.appTitle,
+          title: Languages.of(context) == null ? "" : Languages.of(context)!.appTitle,
           theme: ThemeData(
             appBarTheme: const AppBarTheme(
               backgroundColor: gc.primaryColor,

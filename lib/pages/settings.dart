@@ -9,7 +9,7 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/profile_settings.dart';
-import 'package:balance_me/global/firebase_config.dart' as config;
+import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
 class Settings extends StatefulWidget {

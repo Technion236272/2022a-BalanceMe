@@ -10,7 +10,7 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/common_models/category_model.dart' as model;
 import 'package:balance_me/common_models/transaction_model.dart' as model;
-import 'package:balance_me/global/firebase_config.dart' as config;
+import 'package:balance_me/global/config.dart' as config;
 
 class UserStorage with ChangeNotifier {
   UserStorage.instance(AuthRepository authRepository) {
