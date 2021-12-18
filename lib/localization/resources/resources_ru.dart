@@ -128,6 +128,9 @@ class LanguageRu extends Languages {
   @override
   String get camera => "камера";
 
+  @override
+  String get minPasswordLimit => "The password should contains at least % characters";
+
   // Password Recovery
   @override
   String get recoverPassword => "восстановления пароля";

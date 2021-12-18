@@ -53,6 +53,7 @@ abstract class Languages {
   String get noImagePicked;
   String get gallery;
   String get camera;
+  String get minPasswordLimit;
 
   // Password Recovery
   String get recoverPassword;

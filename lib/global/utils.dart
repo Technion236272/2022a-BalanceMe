@@ -92,7 +92,9 @@ extension En on Enum {
 // Validators
 bool essentialFieldValidator(String? value) => (value != null && value.isNotEmpty);
 
-bool lineLimitValidator(String? value) => (essentialFieldValidator(value) && value!.length <= gc.defaultMaxCharactersLimit);
+bool lineLimitMaxValidator(String? value, int maxLimit) => (essentialFieldValidator(value) && value!.length <= maxLimit);
+
+bool lineLimitMinValidator(String? value, int minLimit) => (essentialFieldValidator(value) && value!.length >= minLimit);
 
 bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toString()) && value! > 0);
 

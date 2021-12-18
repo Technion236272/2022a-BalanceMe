@@ -128,6 +128,9 @@ class LanguageEn extends Languages {
   @override
   String get camera => "Camera";
 
+  @override
+  String get minPasswordLimit => "The password should contains at least % characters";
+
   // Password Recovery
   @override
   String get recoverPassword => "Password recovery";

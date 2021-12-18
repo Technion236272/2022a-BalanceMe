@@ -81,7 +81,7 @@ class _SetCategoryState extends State<SetCategory> {
   String? _lineLimitValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return lineLimitValidator(value) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+      return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
     }
     return message;
   }
