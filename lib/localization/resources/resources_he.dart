@@ -135,13 +135,13 @@ class LanguageHe extends Languages {
   String get minPasswordLimit => "‎אורך הסיסמה צריך להיות לפחות % תווים";
 
   @override
-  String get badEmail => "‎כתובת הדואר האלקטרוני שלך אינה תקינה, ודא/י שהוספת @ ";
+  String get badEmail => "‎כתובת הדואר האלקטרוני שלך אינה תקינה, יתכן שחסר התו @ ";
 
   @override
   String get incorrectPassword => "‎הסיסמה שכתבת אינה תואמת את כתובת הדואר האלקטרונית";
 
   @override
-  String get emailInUse => "‎קיים חשבון עם כתובת דואר אלקטרוני זו, בחר/י אחרת";
+  String get emailInUse => "‎קיים חשבון עם כתובת הדואר האלקטרונית הזו";
 
   // Password Recovery
   @override
