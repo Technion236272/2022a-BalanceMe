@@ -247,24 +247,24 @@ class LanguageRu extends Languages {
   String get save => "сохранить";
 
   @override
-  String get saveSucceeded => "The % has been saved successfully";
+  String get saveSucceeded => " % успешно сохраняется";
 
   @override
-  String get removeSucceeded => "The % has been removed successfully";
+  String get removeSucceeded => " % успешно удален";
 
   @override
-  String get alreadyExist => "The % is already exist";
+  String get alreadyExist => " % уже существует";
 
   @override
-  String get delete => "Delete %";
+  String get delete => "стереть %";
 
   @override
-  String get verifyRemoval => "Are you sure you want to remove this %?";
+  String get verifyRemoval => "Вы уверены, что хотите стереть это %?";
 
   //Add category
   @override
-  String get typeSelection => "Type";
+  String get typeSelection => "вид";
 
   @override
-  String get constantSwitch => "Constant";
+  String get constantSwitch => "постоянный";
 }
