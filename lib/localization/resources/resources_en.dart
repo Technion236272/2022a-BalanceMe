@@ -75,7 +75,10 @@ class LanguageEn extends Languages {
 
 // Login
   @override
-  String get welcome => "Welcome";
+  String get welcomeBack => "Welcome Back!";
+
+  @override
+  String get welcomeAboard => "Welcome Aboard!";
 
   @override
   String get login => "Login";

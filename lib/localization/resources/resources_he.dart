@@ -75,7 +75,10 @@ class LanguageHe extends Languages {
 
   // Login
   @override
-  String get welcome => "‎ברוכים הבאים";
+  String get welcomeBack => "‎ברוכים השבים!";
+
+  @override
+  String get welcomeAboard => "‎ברוכים הבאים!";
 
   @override
   String get login => "‎התחברות";

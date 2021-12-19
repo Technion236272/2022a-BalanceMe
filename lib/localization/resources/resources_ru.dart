@@ -75,7 +75,10 @@ class LanguageRu extends Languages {
 
   // Login
   @override
-  String get welcome => "Добро пожаловать";
+  String get welcomeBack => "Welcome Back!";
+
+  @override
+  String get welcomeAboard => "Welcome Aboard!";
 
   @override
   String get login => "вход";
