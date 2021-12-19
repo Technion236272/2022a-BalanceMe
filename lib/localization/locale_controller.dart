@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/languages_controller.dart';
-import 'dart:ui';
+import 'dart:io';
 import 'package:balance_me/global/constants.dart' as gc;
 
 Future<Locale> setLocale(String languageCode) async {
@@ -14,8 +14,10 @@ Future<Locale> setLocale(String languageCode) async {
 }
 
 Future<Locale> getLocale() async {
-  SharedPreferences _prefs = await SharedPreferences.getInstance();
-  String languageCode = _prefs.getString(gc.prefSelectedLanguageCode) ?? LanguageController().defaultLanguage.languageCode;
+  String languageCode = Platform.localeName.split('_')[0];
+  if (!LanguageController().supportedLanguageCodesList().contains(languageCode)) {
+    languageCode = LanguageController().defaultLanguage.languageCode;
+  }
   return _locale(languageCode);
 }
 
