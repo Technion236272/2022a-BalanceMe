@@ -17,7 +17,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;
   User? _user;
-  Status _status = Status.Uninitialized;
+  AuthStatus _status = AuthStatus.Uninitialized;
   String? _avatarUrl;
 
 
@@ -30,27 +30,27 @@ class AuthRepository with ChangeNotifier {
     _onAuthStateChanged(_user);
   }
 
-  Status get status => _status;
+  AuthStatus get status => _status;
 
   User? get user => _user;
 
-  bool get isAuthenticated => status == Status.Authenticated;
+  bool get isAuthenticated => status == AuthStatus.Authenticated;
 
   String? get avatarUrl => _avatarUrl;
 
   Future<bool> signUp(String email, String password) async {
     try {
-      _status = Status.Authenticating;
+      _status = AuthStatus.Authenticating;
       notifyListeners();
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      _status = Status.Authenticated;
+      _status = AuthStatus.Authenticated;
       _avatarUrl = null;
       notifyListeners();
       return true;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
-      _status = Status.Unauthenticated;
+      _status = AuthStatus.Unauthenticated;
       notifyListeners();
       return false;
     }
@@ -58,16 +58,16 @@ class AuthRepository with ChangeNotifier {
 
   Future<bool> signIn(String email, String password) async {
     try {
-      _status = Status.Authenticating;
+      _status = AuthStatus.Authenticating;
       notifyListeners();
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      _status = Status.Authenticated;
+      _status = AuthStatus.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
-      _status = Status.Unauthenticated;
+      _status = AuthStatus.Unauthenticated;
       notifyListeners();
       return false;
     }
@@ -75,7 +75,7 @@ class AuthRepository with ChangeNotifier {
 
   Future<bool> signInGoogle() async {
     try {
-      _status = Status.Authenticating;
+      _status = AuthStatus.Authenticating;
       notifyListeners();
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleAuth =
@@ -86,13 +86,13 @@ class AuthRepository with ChangeNotifier {
         idToken: googleAuth?.idToken,
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
-      _status = Status.Authenticated;
+      _status = AuthStatus.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
-      _status = Status.Unauthenticated;
+      _status = AuthStatus.Unauthenticated;
       notifyListeners();
       return false;
     }
@@ -106,13 +106,13 @@ class AuthRepository with ChangeNotifier {
           FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
       await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-      _status = Status.Authenticated;
+      _status = AuthStatus.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
-      _status = Status.Unauthenticated;
+      _status = AuthStatus.Unauthenticated;
       notifyListeners();
       return false;
     }
@@ -120,7 +120,7 @@ class AuthRepository with ChangeNotifier {
 
   Future signOut() async {
     _auth.signOut();
-    _status = Status.Unauthenticated;
+    _status = AuthStatus.Unauthenticated;
     _user = null;
     _avatarUrl = null;
     notifyListeners();
@@ -153,10 +153,10 @@ class AuthRepository with ChangeNotifier {
   Future<void> _onAuthStateChanged(User? firebaseUser) async {
     if (firebaseUser == null) {
       _user = null;
-      _status = Status.Unauthenticated;
+      _status = AuthStatus.Unauthenticated;
     } else {
       _user = firebaseUser;
-      _status = Status.Authenticated;
+      _status = AuthStatus.Authenticated;
     }
     notifyListeners();
   }

@@ -35,7 +35,8 @@ abstract class Languages {
   String get notSignedIn;
 
   // Login
-  String get welcome;
+  String get welcomeBack;
+  String get welcomeAboard;
   String get login;
   String get logout;
   String get successfullyLogout;
