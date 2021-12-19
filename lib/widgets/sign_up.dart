@@ -1,6 +1,7 @@
 // ================= sign up page =================
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
+import 'package:balance_me/global/login_utils.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -8,9 +9,11 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/login_utils.dart' as util;
 import 'package:balance_me/widgets/third_party_authentication.dart';
 import 'package:balance_me/widgets/login_image.dart';
+import 'package:balance_me/widgets/action_button.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp(this._authRepository,this._userStorage,{Key? key}) : super(key: key);
+  const SignUp(this._authRepository, this._userStorage, {Key? key})
+      : super(key: key);
   final AuthRepository _authRepository;
   final UserStorage _userStorage;
 
@@ -25,6 +28,13 @@ class _SignUpState extends State<SignUp> {
   bool signUpPasswordVisible = true;
   bool confirmPasswordVisible = true;
   bool arePasswordsIdentical = true;
+  bool _loading = false;
+
+  void _isLoading(bool state) {
+    setState(() {
+      _loading = state;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +48,7 @@ class _SignUpState extends State<SignUp> {
     controllerConfirmPassword.dispose();
     super.dispose();
   }
+
   Widget signUpBody(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
@@ -57,8 +68,8 @@ class _SignUpState extends State<SignUp> {
               hideText: confirmPasswordVisible,
               suffix: hidingConfirmPasswordEye(),
             ),
-            GoogleButton(widget._authRepository,widget._userStorage),
-            FacebookButton(widget._authRepository,widget._userStorage),
+            GoogleButton(widget._authRepository, widget._userStorage),
+            FacebookButton(widget._authRepository, widget._userStorage),
             signUpEmailPasswordButton(context),
           ],
         ),
@@ -90,23 +101,20 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  SizedBox signUpEmailPasswordButton(BuildContext context) {
-    return SizedBox(
-      child: ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(gc.alternativePrimary)),
-          onPressed: () {
-            util.emailPasswordSignUp(
-                controllerEmail.text,
-                controllerPassword.text,
-                controllerConfirmPassword.text,
-                context,widget._authRepository,widget._userStorage);
-          },
-          child: Text(
-            Languages.of(context)!.signUpTitle,
-            style: const TextStyle(fontSize: gc.signInOrUpFontSize),
-          )),
-    );
+  void onPressed() {
+    _isLoading(false);
+    util.emailPasswordSignUp(
+        controllerEmail.text,
+        controllerPassword.text,
+        controllerConfirmPassword.text,
+        context,
+        widget._authRepository,
+        widget._userStorage);
+    _isLoading(true);
+  }
+
+  ActionButton signUpEmailPasswordButton(BuildContext context) {
+    return ActionButton(_loading, Languages.of(context)!.signUpTitle, onPressed,
+        style: filledButtonColor());
   }
 }

@@ -1,11 +1,8 @@
 // ================= login tab bar view widget=================
 import 'package:balance_me/global/types.dart';
-import 'package:balance_me/main.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
-import 'package:balance_me/widgets/generic_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -14,6 +11,7 @@ import 'package:balance_me/global/login_utils.dart';
 import 'package:balance_me/widgets/forgot_password.dart';
 import 'package:balance_me/widgets/third_party_authentication.dart';
 import 'package:balance_me/widgets/login_image.dart';
+import 'package:balance_me/widgets/action_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen(this._authRepository, this._userStorage, {Key? key})
@@ -29,6 +27,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool showPassword = true;
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  bool _loading = false;
+
+  void _isLoading(bool state) {
+    setState(() {
+      _loading = state;
+    });
+  }
 
   @override
   void dispose() {
@@ -93,16 +98,15 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void signIn() {
+    _isLoading(false);
     emailPasswordSignIn(controllerEmail.text, controllerPassword.text, context,
         widget._authRepository, widget._userStorage);
+    _isLoading(true);
   }
 
   Widget signInButton(BuildContext context) {
-    return GenericButton(
-      buttonText: Languages.of(context)!.signIn,
-      buttonColor: gc.alternativePrimary,
-      onPressed: signIn,
-    );
+    return ActionButton(_loading, Languages.of(context)!.signIn, signIn,
+        style: filledButtonColor());
   }
 
   @override

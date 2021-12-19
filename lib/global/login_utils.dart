@@ -7,6 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
+import 'package:balance_me/global/constants.dart' as gc;
+
+ButtonStyle filledButtonColor()
+{
+  ButtonStyle fillTheButton=ButtonStyle(
+      backgroundColor:
+      MaterialStateProperty.all<Color>(gc.alternativePrimary));
+  return fillTheButton;
+}
 
 void signInGoogle(BuildContext context, AuthRepository authRepository,
     UserStorage userStorage) async {
