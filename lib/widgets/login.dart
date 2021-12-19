@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
-import 'package:balance_me/widgets/generic_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/utils.dart';
@@ -11,6 +10,7 @@ import 'package:balance_me/global/login_utils.dart';
 import 'package:balance_me/widgets/forgot_password.dart';
 import 'package:balance_me/widgets/third_party_authentication.dart';
 import 'package:balance_me/widgets/login_image.dart';
+import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class LoginScreen extends StatefulWidget {
@@ -27,7 +27,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  bool _loading = false;
   bool showPassword = true;
+
+  void _isLoading(bool state) {
+    setState(() {
+      _loading = state;
+    });
+  }
+
 
   @override
   void dispose() {
@@ -80,9 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
               isSignUp: false
           ),
           FacebookButton(
-              widget._authRepository,
-              widget._userStorage,
-              isSignUp: false,
+            widget._authRepository,
+            widget._userStorage,
+            isSignUp: false,
           ),
           _forgotPasswordLink(context),
           _signInButton(context),
@@ -109,18 +117,17 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  Widget _signInButton(BuildContext context) {
+    return ActionButton(_loading, Languages.of(context)!.signIn, _signIn,
+        fillStyle: true,);
+  }
+
   void _signIn() {
+    _isLoading(false);
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       emailPasswordSignIn(controllerEmail.text, controllerPassword.text, context, widget._authRepository, widget._userStorage);
     }
-  }
-
-  Widget _signInButton(BuildContext context) {
-    return GenericButton(
-      buttonText: Languages.of(context)!.signIn,
-      buttonColor: gc.alternativePrimary,
-      onPressed: _signIn,
-    );
+    _isLoading(true);
   }
 
   @override
