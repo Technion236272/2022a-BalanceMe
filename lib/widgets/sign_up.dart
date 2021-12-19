@@ -48,34 +48,6 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-
-  Widget signUpBody(BuildContext context) {
-    return SingleChildScrollView(
-      child: Form(
-        child: Column(
-          children: [
-            const LoginImage(),
-            TextBox(controllerEmail, Languages.of(context)!.emailText),
-            TextBox(
-              controllerPassword,
-              Languages.of(context)!.password,
-              hideText: signUpPasswordVisible,
-              suffix: _hidingPasswordEye(),
-            ),
-            TextBox(
-              controllerConfirmPassword,
-              Languages.of(context)!.confirmPassword,
-              hideText: confirmPasswordVisible,
-              suffix: _hidingConfirmPasswordEye(),
-            ),
-            GoogleButton(widget._authRepository, widget._userStorage),
-            FacebookButton(widget._authRepository, widget._userStorage),
-            _signUpEmailPasswordButton(context),
-          ],
-        ),
-      ),
-    );
-  }
     String? _essentialFieldValidatorFunction(String? value) {
       return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
     }
