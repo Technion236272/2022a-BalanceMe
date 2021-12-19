@@ -32,21 +32,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   bool _isDisabledLasttName=true;
 
   void _enableEditFirstName(String? value) {
-    value != null
-        ? setState(() {
-            _isDisabledFirstName = false;
-          })
-        : setState(() {
-            _isDisabledFirstName = true;
-          });
+    setState(() {
+      _isDisabledFirstName = (value == null);
+    });
   }
+
   void _enableEditLastName(String? value) {
-    value != null
-        ? setState(() {
-      _isDisabledLasttName = false;
-    })
-        : setState(() {
-      _isDisabledLasttName = true;
+    setState(() {
+      _isDisabledLasttName = (value == null);
     });
   }
 
@@ -174,7 +167,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               onTap: () {
                 updateFirstName(_controllerFirstName.text);
               },
-              isDisabled: _isDisabledFirstName,
+              isDisabled: _isDisabledFirstName, opacity: gc.disabledOpacity
             ),
             onChanged: _enableEditFirstName,
           ),
@@ -187,7 +180,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               onTap: () {
                 updateLastName(_controllerLastName.text);
               },
-              isDisabled: _isDisabledLasttName,
+              isDisabled: _isDisabledLasttName, opacity: gc.disabledOpacity,
             ),
             onChanged: _enableEditLastName,
           ),

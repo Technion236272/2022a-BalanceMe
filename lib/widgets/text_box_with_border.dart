@@ -42,7 +42,7 @@ class _TextBoxState extends State<TextBox> {
           controller: widget.controller,
           validator: widget.validatorFunction,
           obscureText: widget.hideText,
-          onChanged:widget.onChanged,
+          onChanged:widget.onChanged ,
           decoration: InputDecoration(
             contentPadding: widget.textBoxSize,
             hintText: widget.hintText,
