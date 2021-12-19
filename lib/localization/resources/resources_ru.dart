@@ -134,6 +134,15 @@ class LanguageRu extends Languages {
   @override
   String get minPasswordLimit => "The password should contains at least % characters";
 
+  @override
+  String get badEmail => "Ваш электронний адрес плохо оформлено, убедитесь, что у вас есть @";
+
+  @override
+  String get incorrectPassword => "Пароль, который вы вводите, не совпадает с электронным адресом";
+
+  @override
+  String get emailInUse => "Учётная запись с этим электронным адресом уже существует, выберите другую";
+
   // Password Recovery
   @override
   String get recoverPassword => "восстановления пароля";

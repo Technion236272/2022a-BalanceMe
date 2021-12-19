@@ -32,7 +32,7 @@ void emailPasswordSignUp(String? email, String? password, String? confirmPasswor
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-  startLoginProcess(context, authRepository.signUp(email, password), LoginMethod.Regular.toCleanString(), false, userStorage);
+  startLoginProcess(context, authRepository.signUp(email, password, context), LoginMethod.Regular.toCleanString(), false, userStorage);
 }
 
 void emailPasswordSignIn(String? email, String? password, BuildContext context,
@@ -41,7 +41,7 @@ void emailPasswordSignIn(String? email, String? password, BuildContext context,
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-  startLoginProcess(context, authRepository.signIn(email, password), LoginMethod.Regular.toCleanString(), true, userStorage);
+  startLoginProcess(context, authRepository.signIn(email, password, context), LoginMethod.Regular.toCleanString(), true, userStorage);
 }
 
 void recoverPassword(String? email, BuildContext context) async {
@@ -82,7 +82,5 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
       navigateBack(context);
     });
 
-  } else {
-    displaySnackBar(context, Languages.of(context)!.loginError);
   }
 }

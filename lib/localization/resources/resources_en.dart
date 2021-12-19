@@ -134,6 +134,15 @@ class LanguageEn extends Languages {
   @override
   String get minPasswordLimit => "The password should contains at least % characters";
 
+  @override
+  String get badEmail => "Your email is badly formed, make sure you have a @";
+
+  @override
+  String get incorrectPassword => "The password you type in doesn't match to your email";
+
+  @override
+  String get emailInUse => "An account with that email already exists, choose another";
+
   // Password Recovery
   @override
   String get recoverPassword => "Password recovery";
