@@ -23,7 +23,7 @@ class Archive extends StatefulWidget {
 
 class _ArchiveState extends State<Archive> {
   final DateRangePickerController _dateController = DateRangePickerController();
-  BalanceModel _monthlyBalance = BalanceModel();
+  BalanceModel _currentBalance = BalanceModel();
   bool _isIncomeTab = true;
 
   bool get isIncomeTab => _isIncomeTab;
@@ -32,12 +32,18 @@ class _ArchiveState extends State<Archive> {
     _isIncomeTab = currentTab == 0;
   }
 
-  void _getMonthlyBalance() {
+  void _updateCurrentBalance(Json data) {
+    setState(() {
+      _currentBalance = BalanceModel.fromJson(data);
+    });
+  }
+
+  void _getCurrentBalance() {
     if (_dateController.selectedDate != null) {
       int endOfMonthDay = (widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay;
       DateTime requestedRange = DateTime(_dateController.selectedDate!.year, _dateController.selectedDate!.month, endOfMonthDay);
       setState(() {
-        widget._userStorage.GET_balanceModel(modifyBalance: _monthlyBalance, specificDate: requestedRange);
+        widget._userStorage.GET_balanceModel(modifyMainBalance: false, specificDate: requestedRange, callback: _updateCurrentBalance);
       });
       GoogleAnalytics.instance.logArchiveDateChange(requestedRange.toFullDate());
     }
@@ -45,7 +51,6 @@ class _ArchiveState extends State<Archive> {
 
   @override
   Widget build(BuildContext context) {
-    print(_monthlyBalance.isEmpty);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Column(
@@ -55,12 +60,12 @@ class _ArchiveState extends State<Archive> {
             child: DesignedDatePicker(
               dateController: _dateController,
               viewSelector: DatePickerType.Month,
-              onSelectDate: _getMonthlyBalance,
+              onSelectDate: _getCurrentBalance,
             ),
           ),
-          (_monthlyBalance.isEmpty) ?
+          (_currentBalance.isEmpty) ?
             GenericInfo(topInfo: Languages.of(context)!.noDataForRange)
-          : ListView(children: [BalancePage(_monthlyBalance, _setCurrentTab)]),
+          : ListView(children: [BalancePage(_currentBalance, _setCurrentTab)]),
         ],
       ),
     );
