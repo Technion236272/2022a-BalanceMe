@@ -25,22 +25,6 @@ class WelcomePage extends StatelessWidget {
           height: MediaQuery.of(context).size.height / 3,
         ),
       ),
-      Positioned(
-          top: gc.leftCircleTop,
-          left: gc.circleLeftOrRight,
-          child: CircleAvatar(
-            radius: gc.circleRadius,
-            backgroundColor: gc.backgroundDesignColor,
-          ),
-      ),
-      Positioned(
-          top: gc.rightCircleTop,
-          right: gc.circleLeftOrRight,
-          child: CircleAvatar(
-            radius: gc.circleRadius,
-            backgroundColor: gc.backgroundDesignColor,
-          ),
-      ),
       GenericInfo(
         Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.welcomeBack : Languages.of(context)!.welcomeAboard,
         Languages.of(context)!.balanceInfo,

@@ -169,10 +169,10 @@ class LanguageEn extends Languages {
   String get nothingToShow => "There is nothing to show here";
 
   @override
-  String get balanceInfo => "Here you can manage your income \nand expenses";
+  String get balanceInfo => "Here you can manage your income and expenses.";
 
   @override
-  String get toGetStartedInfo => "To get started you can login or just \nexperience the app";
+  String get toGetStartedInfo => "To get started you can login or just experience the app.";
 
   @override
   String get expense => "Expense";
