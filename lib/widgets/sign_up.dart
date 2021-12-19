@@ -77,31 +77,23 @@ class _SignUpState extends State<SignUp> {
     );
   }
     String? _essentialFieldValidatorFunction(String? value) {
-      return essentialFieldValidator(value) ? null : Languages.of(context)!
-          .essentialField;
+      return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
     }
 
     String? _passwordValidatorFunction(String? value) {
       String? message = _essentialFieldValidatorFunction(value);
       if (message == null) {
-        return lineLimitMinValidator(value, gc.defaultMinPasswordLimit)
-            ? null
-            : Languages.of(context)!.minPasswordLimit.replaceAll(
-            "%", gc.defaultMinPasswordLimit.toString());
+        return lineLimitMinValidator(value, gc.defaultMinPasswordLimit) ? null : Languages.of(context)!.minPasswordLimit.replaceAll("%", gc.defaultMinPasswordLimit.toString());
       }
       return message;
     }
 
     void _signUp() {
-
+      _isLoading(false);
       if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-        _isLoading(false);
-        util.emailPasswordSignUp(controllerEmail.text, controllerPassword.text,
-            controllerConfirmPassword.text, context, widget._authRepository,
-            widget._userStorage);
-        _isLoading(true);
+        util.emailPasswordSignUp(controllerEmail.text, controllerPassword.text, controllerConfirmPassword.text, context, widget._authRepository, widget._userStorage);
       }
-
+      _isLoading(true);
     }
 
     IconButton _hidingPasswordEye() {
