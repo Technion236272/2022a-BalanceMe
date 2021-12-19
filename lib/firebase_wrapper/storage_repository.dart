@@ -177,7 +177,7 @@ class UserStorage with ChangeNotifier {
   }
 
 
-  Future<void> GET_balanceModel({BalanceModel? modifyBalance, DateTime? specificDate, VoidCallback? callback}) async {
+  Future<void> GET_balanceModel({BalanceModel? modifyBalance, DateTime? specificDate, JsonCallbackJson? callback}) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, specificDate);
       await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).get().then((categories) {
@@ -187,7 +187,7 @@ class UserStorage with ChangeNotifier {
           } else {
             modifyBalance = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
           }
-          callback != null ? callback() : null;
+          callback != null ? callback(categories.data()![config.categoriesDoc]) : null;
           notifyListeners();
         } else {
           if (modifyBalance == null) {
@@ -196,7 +196,7 @@ class UserStorage with ChangeNotifier {
           } else {
             modifyBalance = BalanceModel();
           }
-          callback != null ? callback() : null;
+          callback != null ? callback(categories.data()![config.categoriesDoc]) : null;
           notifyListeners();
         }
       });
@@ -205,7 +205,7 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool firstGet, {VoidCallback? callback, DateTime? specificDate}) async {
+  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool firstGet, {JsonCallbackJson? callback, DateTime? specificDate}) async {
     if (firstGet) {
       await GET_balanceModel(specificDate: specificDate, callback: callback);
     }
