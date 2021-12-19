@@ -14,7 +14,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 /// textBoxSize-optional inner padding in the text box which will increase its size- for longer text
 class TextBox extends StatefulWidget {
   const TextBox(this.controller, this.hintText, {this.hideText = false, this.labelText, this.haveBorder = true,
-    this.suffix, this.textBoxHeight, this.textBoxSize, this.validatorFunction, Key? key}) : super(key: key);
+    this.suffix, this.textBoxHeight, this.textBoxSize, this.validatorFunction, Key? key, this.onChanged}) : super(key: key);
 
   final TextEditingController controller;
   final bool hideText;
@@ -25,6 +25,7 @@ class TextBox extends StatefulWidget {
   final double? textBoxHeight;
   final EdgeInsetsGeometry? textBoxSize;
   final StringCallbackStringNullable? validatorFunction;
+  final VoidCallbackString? onChanged;
 
   @override
   _TextBoxState createState() => _TextBoxState();
@@ -41,6 +42,7 @@ class _TextBoxState extends State<TextBox> {
           controller: widget.controller,
           validator: widget.validatorFunction,
           obscureText: widget.hideText,
+          onChanged:widget.onChanged,
           decoration: InputDecoration(
             contentPadding: widget.textBoxSize,
             hintText: widget.hintText,

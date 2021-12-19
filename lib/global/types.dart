@@ -35,6 +35,8 @@ typedef StringCallbackStringNullable =  String? Function(String?);
 
 typedef JsonCallbackJson = void Function(Json);
 
+typedef VoidCallbackString= void Function(String);
+
 SortedList<Category> getCategorySortedList() => SortedList<Category>((a, b) => a.compareTo(b));
 
 SortedList<Transaction> getTransactionSortedList() => SortedList<Transaction>((a, b) => a.compareTo(b));
