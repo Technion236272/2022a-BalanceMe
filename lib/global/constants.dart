@@ -47,6 +47,7 @@ const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
 const Color leaveColor = Color(0xFFE30E0E);
 const Color disabledColor = Colors.black38;
+const Color constantSettingsColor = Colors.black45;
 
 // AppBar
 const double appBarAvatarRadius = 40;
@@ -141,6 +142,7 @@ const double newPasswordSize = 22.0;
 const double profileAvatarRadius = 150.0;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
+const double padSettingsArrow=20;
 
 //error messages
 const String weakPassword = "weak-password";
