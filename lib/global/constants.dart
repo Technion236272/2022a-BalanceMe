@@ -147,7 +147,10 @@ const double padSettingsArrow=20;
 //error messages
 const String weakPassword = "weak-password";
 const String differentListLength = "one of your widget lists is shorter than the others";
-
+const String badEmail="invalid-email";
+const String userNotFound="user-not-found";
+const String incorrectPassword="wrong-password";
+const String emailInUse="email-already-in-use";
 //TextBox
 const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
 
