@@ -19,19 +19,19 @@ class LanguageRu extends Languages {
   String get essentialField => "this is an essential field";
 
   @override
-  String get maxCharactersLimit => "The maximum number of characters is %";
+  String get maxCharactersLimit => "Максимальное число символов: %";
 
   @override
-  String get mustPositiveNum => "The number must be above 0";
+  String get mustPositiveNum => "Число должно быть больше 0";
 
   @override
-  String get yes => "Yes";
+  String get yes => "да";
 
   @override
-  String get no => "No";
+  String get no => "нет";
 
   @override
-  String get date =>"Date";
+  String get date =>"дата";
 
   // Settings
   @override
@@ -175,96 +175,96 @@ class LanguageRu extends Languages {
 
   // Balance
   @override
-  String get nothingToShow => "There is nothing to show here";
+  String get nothingToShow => "Здесь нечего показывать";
 
   @override
-  String get balanceInfo => "Here you can manage your income \n and expenses";
+  String get balanceInfo => "Здесь вы можете управлять своими доходами \n и расходами";
 
   @override
-  String get toGetStartedInfo => "To get started you can login or just \n experience the app";
+  String get toGetStartedInfo => "Для начала вы можете войти или просто \n испытать приложение";
 
   @override
-  String get expense => "Expense";
+  String get expense => "расход";
 
   @override
-  String get expenses => "Expenses";
+  String get expenses => "расходы";
 
   @override
-  String get income => "Income";
+  String get income => "доход";
 
   @override
-  String get incomes => "Incomes";
+  String get incomes => "доходы";
 
   @override
-  String get current => "Current";
+  String get current => "настоящея";
 
   @override
-  String get expected => "Expected";
+  String get expected => "ожиданная";
 
   @override
-  String get amount => "Amount";
+  String get amount => "сумма";
 
   @override
-  String get category => "category";
+  String get category => "категория";
 
   @override
-  String get addCategory => "Add Category";
+  String get addCategory => "Добавить категорию";
 
   @override
-  String get transaction => "transaction";
+  String get transaction => "транзакция";
 
   @override
-  String get addTransaction => "Add Transaction";
+  String get addTransaction => "Добавить транзакцию";
 
   @override
-  String get editCategory => "Edit Category";
+  String get editCategory => "изменить категорию";
 
   @override
-  String get detailsCategory => "Category Details";
+  String get detailsCategory => "детали категории";
 
   @override
-  String get editTransaction => "Edit Transaction";
+  String get editTransaction => "изменить транзакцию";
 
   @override
-  String get detailsTransaction => "Transaction Details";
+  String get detailsTransaction => "детали транзакции";
 
   @override
-  String get categoryName => "Category Name";
+  String get categoryName => "название категории";
 
   @override
-  String get transactionName => "Transaction Name";
+  String get transactionName => "название транзакции";
 
   @override
-  String get addDescription => "Add Description...";
+  String get addDescription => "Добавить описание...";
 
   @override
-  String get emptyDescription => "There is no description";
+  String get emptyDescription => "Нет никакого описания";
 
   @override
-  String get back => "Back";
+  String get back => "назад";
 
   @override
-  String get save => "SAVE";
+  String get save => "сохранить";
 
   @override
-  String get saveSucceeded => "The % has been saved successfully";
+  String get saveSucceeded => " % успешно сохраняется";
 
   @override
-  String get removeSucceeded => "The % has been removed successfully";
+  String get removeSucceeded => " % успешно удален";
 
   @override
-  String get alreadyExist => "The % is already exist";
+  String get alreadyExist => " % уже существует";
 
   @override
-  String get delete => "Delete %";
+  String get delete => "стереть %";
 
   @override
-  String get verifyRemoval => "Are you sure you want to remove this %?";
+  String get verifyRemoval => "Вы уверены, что хотите стереть это %?";
 
   //Add category
   @override
-  String get typeSelection => "Type";
+  String get typeSelection => "вид";
 
   @override
-  String get constantSwitch => "Constant";
+  String get constantSwitch => "постоянный";
 }

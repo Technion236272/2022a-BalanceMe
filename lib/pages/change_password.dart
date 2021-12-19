@@ -1,7 +1,8 @@
 // ================= Change password signed in page =================
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:balance_me/global/login_utils.dart';
 import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/widgets/generic_button.dart';
+import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/localization/resources/resources.dart';
@@ -20,6 +21,13 @@ class ChangePassword extends StatefulWidget {
 class _ChangePasswordState extends State<ChangePassword> {
   final TextEditingController _controllerNewPassword = TextEditingController();
   final TextEditingController _controllerConfirmPassword = TextEditingController();
+  bool _loading=false;
+
+  void _isLoading(bool state) {
+    setState(() {
+      _loading = state;
+    });
+  }
 
   @override
   void dispose() {
@@ -28,8 +36,10 @@ class _ChangePasswordState extends State<ChangePassword> {
     super.dispose();
   }
 
-  void updatePassword() {
+  void _updatePassword() {
+    _isLoading(false);
     changePassword(_controllerNewPassword.text, _controllerConfirmPassword.text);
+    _isLoading(true);
   }
 
   void changePassword(String newPassword, String confirmPassword) async {
@@ -57,11 +67,9 @@ class _ChangePasswordState extends State<ChangePassword> {
             TextBox(_controllerNewPassword, Languages.of(context)!.newPassword),
             TextBox(_controllerConfirmPassword,
                 Languages.of(context)!.confirmPassword),
-            GenericButton(
-              buttonText: Languages.of(context)!.finish,
-              onPressed: updatePassword,
-              buttonColor: gc.alternativePrimary,
-            ),
+            ActionButton(
+                _loading, Languages.of(context)!.finish, _updatePassword,
+                fillStyle:true),
           ],
         ),
       ),

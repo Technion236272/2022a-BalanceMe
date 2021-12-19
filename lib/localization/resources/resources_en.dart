@@ -253,7 +253,7 @@ class LanguageEn extends Languages {
   String get removeSucceeded => "The % has been removed successfully";
 
   @override
-  String get alreadyExist => "The % is already exist";
+  String get alreadyExist => "The % already exists";
 
   @override
   String get delete => "Delete %";
