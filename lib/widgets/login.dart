@@ -128,11 +128,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _signIn() {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      _isLoading(true);
+      _isLoading(false);
       emailPasswordSignIn(
           controllerEmail.text, controllerPassword.text, context,
           widget._authRepository, widget._userStorage);
-      _isLoading(false);
+      _isLoading(true);
     }
   }
 

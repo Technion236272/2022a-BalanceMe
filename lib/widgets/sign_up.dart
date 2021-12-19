@@ -95,11 +95,11 @@ class _SignUpState extends State<SignUp> {
     void _signUp() {
 
       if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-        _isLoading(true);
+        _isLoading(false);
         util.emailPasswordSignUp(controllerEmail.text, controllerPassword.text,
             controllerConfirmPassword.text, context, widget._authRepository,
             widget._userStorage);
-        _isLoading(false);
+        _isLoading(true);
       }
 
     }
