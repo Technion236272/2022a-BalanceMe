@@ -75,7 +75,10 @@ class LanguageEn extends Languages {
 
 // Login
   @override
-  String get welcome => "Welcome";
+  String get welcomeBack => "Welcome Back!";
+
+  @override
+  String get welcomeAboard => "Welcome Aboard!";
 
   @override
   String get login => "Login";
@@ -127,6 +130,9 @@ class LanguageEn extends Languages {
 
   @override
   String get camera => "Camera";
+
+  @override
+  String get minPasswordLimit => "The password should contains at least % characters";
 
   // Password Recovery
   @override

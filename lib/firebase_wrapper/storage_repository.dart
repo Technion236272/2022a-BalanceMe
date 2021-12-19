@@ -137,7 +137,7 @@ class UserStorage with ChangeNotifier {
 
   void removeTransaction(model.Category category, model.Transaction newTransaction, [bool allFlow = true]) {
     category.removeTransaction(newTransaction);
-    if (!allFlow) {
+    if (allFlow) {
       _saveBalance();
       GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
     }
@@ -162,17 +162,17 @@ class UserStorage with ChangeNotifier {
 
   // GET
   Future<void> GET_postLogin() async {  // Get General Info
-    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).get().then((generalInfo) {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
           notifyListeners();
         } else {
-          GoogleAnalytics.instance.logPostLoginFailed(generalInfo);
+          GoogleAnalytics.instance.logRequestDataNotExists("postLogin", generalInfo);
         }
       });
-    } else if (_authRepository != null) {
-      GoogleAnalytics.instance.logPreCheckFailed("GET_postLogin", _authRepository!);
+    } else {
+      GoogleAnalytics.instance.logPreCheckFailed("GetPostLogin");
     }
   }
 
@@ -188,22 +188,32 @@ class UserStorage with ChangeNotifier {
         } else {
           callback != null ? callback() : null;
           notifyListeners();
-          GoogleAnalytics.instance.logGetBalanceFailed(categories);
+          GoogleAnalytics.instance.logRequestDataNotExists("balanceModel", categories);
         }
       });
-    } else if (_authRepository != null) {
-      GoogleAnalytics.instance.logPreCheckFailed("GET_categoriesForBalance", _authRepository!);
+    } else {
+      GoogleAnalytics.instance.logPreCheckFailed("GetBalanceModel");
     }
+  }
+
+  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool firstGet, {VoidCallback? callback, String? date}) async {
+    if (firstGet) {
+      await GET_balanceModel(callback: callback, date: date);
+    }
+    balance.expensesCategories.addAll(lastBalance.expensesCategories);
+    balance.incomeCategories.addAll(lastBalance.incomeCategories);
+    SEND_balanceModel(date: date);
+    notifyListeners();
   }
 
   // SEND
   void SEND_generalInfo() async {
-    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).set({
       config.generalInfoDoc: _userData!.toJson(),
       });
-    } else if (_authRepository != null) {
-      GoogleAnalytics.instance.logPreCheckFailed("SEND_generalInfo", _authRepository!);
+    } else {
+      GoogleAnalytics.instance.logPreCheckFailed("SendGeneralInfo");
     }
   }
 
@@ -213,8 +223,8 @@ class UserStorage with ChangeNotifier {
       await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).set({
         config.categoriesDoc: _balance.toJson()
       });
-    } else if (_authRepository != null) {
-      GoogleAnalytics.instance.logPreCheckFailed("SEND_categories", _authRepository!);
+    } else {
+      GoogleAnalytics.instance.logPreCheckFailed("SendBalanceModel");
     }
   }
 }

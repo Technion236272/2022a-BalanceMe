@@ -75,7 +75,10 @@ class LanguageRu extends Languages {
 
   // Login
   @override
-  String get welcome => "Добро пожаловать";
+  String get welcomeBack => "Welcome Back!";
+
+  @override
+  String get welcomeAboard => "Welcome Aboard!";
 
   @override
   String get login => "вход";
@@ -127,6 +130,9 @@ class LanguageRu extends Languages {
 
   @override
   String get camera => "камера";
+
+  @override
+  String get minPasswordLimit => "The password should contains at least % characters";
 
   // Password Recovery
   @override

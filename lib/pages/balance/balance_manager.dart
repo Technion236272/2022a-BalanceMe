@@ -12,9 +12,8 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class BalanceManager extends StatefulWidget {
-  const BalanceManager(this._authRepository, this._userStorage, {Key? key}) : super(key: key);
+  const BalanceManager(this._userStorage, {Key? key}) : super(key: key);
 
-  final AuthRepository _authRepository;
   final UserStorage _userStorage;
 
   @override
@@ -22,30 +21,9 @@ class BalanceManager extends StatefulWidget {
 }
 
 class _BalanceManagerState extends State<BalanceManager> {
-  bool _waitingForData = true;
   bool _isIncomeTab = true;
 
   bool get isIncomeTab => _isIncomeTab;
-
-  @override
-  void initState() {
-    _init();
-    super.initState();
-  }
-
-  void _init() {
-    if (widget._authRepository.status == Status.Authenticated) {  // TODO- verify the case that user doesn't have data
-      widget._userStorage.GET_balanceModel(callback: _stopWaitingForDataCB);
-    } else {
-      _stopWaitingForDataCB();
-    }
-  }
-
-  void _stopWaitingForDataCB() {
-    setState(() {
-      _waitingForData = false;
-    });
-  }
 
   void _setCurrentTab(int currentTab) {
     _isIncomeTab = currentTab == 0;
@@ -60,8 +38,7 @@ class _BalanceManagerState extends State<BalanceManager> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: _waitingForData ? const Center(child: CircularProgressIndicator())
-      : (widget._userStorage.balance.isEmpty) ?
+      body: (widget._userStorage.balance.isEmpty) ?
       WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]),
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddCategory,

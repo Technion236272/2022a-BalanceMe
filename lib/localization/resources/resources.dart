@@ -35,7 +35,8 @@ abstract class Languages {
   String get notSignedIn;
 
   // Login
-  String get welcome;
+  String get welcomeBack;
+  String get welcomeAboard;
   String get login;
   String get logout;
   String get successfullyLogout;
@@ -53,6 +54,7 @@ abstract class Languages {
   String get noImagePicked;
   String get gallery;
   String get camera;
+  String get minPasswordLimit;
 
   // Password Recovery
   String get recoverPassword;

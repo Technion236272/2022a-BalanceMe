@@ -1,21 +1,21 @@
-// ================= login tab bar view widget=================
+// ================= Login Page =================
+import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
-import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/login_utils.dart';
 import 'package:balance_me/widgets/forgot_password.dart';
 import 'package:balance_me/widgets/third_party_authentication.dart';
 import 'package:balance_me/widgets/login_image.dart';
 import 'package:balance_me/widgets/action_button.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen(this._authRepository, this._userStorage, {Key? key})
-      : super(key: key);
+  const LoginScreen(this._authRepository, this._userStorage, {Key? key}) : super(key: key);
+
   final AuthRepository _authRepository;
   final UserStorage _userStorage;
 
@@ -24,16 +24,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool showPassword = true;
+  final _formKey = GlobalKey<FormState>();
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   bool _loading = false;
+  bool showPassword = true;
 
   void _isLoading(bool state) {
     setState(() {
       _loading = state;
     });
   }
+
 
   @override
   void dispose() {
@@ -42,44 +44,66 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void changePasswordVisibility() {
-    setState(() {
-      showPassword = !showPassword;
-    });
-  }
-
-  IconButton hidingPasswordEye() {
+  IconButton _hidingPasswordEye() {
     return IconButton(
       icon: Icon(showPassword ? gc.hidePassword : gc.showPassword),
       color: gc.hidePasswordColor,
-      onPressed: hideText,
+      onPressed: _hideText,
     );
   }
 
-  Widget loginBody(BuildContext context) {
+  String? _essentialFieldValidatorFunction(String? value) {
+    return essentialFieldValidator(value) ? null : Languages.of(context)!
+        .essentialField;
+  }
+
+  String? _passwordValidatorFunction(String? value) {
+    String? message = _essentialFieldValidatorFunction(value);
+    if (message == null) {
+      return lineLimitMinValidator(value, gc.defaultMinPasswordLimit)
+          ? null
+          : Languages.of(context)!.minPasswordLimit.replaceAll(
+          "%", gc.defaultMinPasswordLimit.toString());
+    }
+    return message;
+  }
+
+  Widget _loginBody(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
           const LoginImage(),
-          TextBox(controllerEmail, Languages.of(context)!.emailText),
+          TextBox(
+            controllerEmail,
+            Languages.of(context)!.emailText,
+            validatorFunction: _essentialFieldValidatorFunction,
+          ),
           TextBox(
             controllerPassword,
             Languages.of(context)!.password,
             hideText: showPassword,
-            suffix: hidingPasswordEye(),
+            suffix: _hidingPasswordEye(),
+            validatorFunction: _passwordValidatorFunction,
           ),
-          GoogleButton(widget._authRepository, widget._userStorage,
-              isSignUp: false),
-          FacebookButton(widget._authRepository, widget._userStorage,
-              isSignUp: false),
-          forgotPasswordLink(context),
-          signInButton(context),
+          GoogleButton(
+              widget._authRepository,
+              widget._userStorage,
+              isSignUp: false
+          ),
+          FacebookButton(
+            widget._authRepository,
+            widget._userStorage,
+            isSignUp: false,
+          ),
+          _forgotPasswordLink(context),
+          _signInButton(context),
         ],
       ),
     );
   }
 
-  TextButton forgotPasswordLink(BuildContext context) {
+  TextButton _forgotPasswordLink(BuildContext context) {
     return TextButton(
         onPressed: () {
           navigateToPage(
@@ -91,26 +115,30 @@ class _LoginScreenState extends State<LoginScreen> {
         ));
   }
 
-  void hideText() {
+  void _hideText() {
     setState(() {
       showPassword = !showPassword;
     });
   }
 
-  void signIn() {
-    _isLoading(false);
-    emailPasswordSignIn(controllerEmail.text, controllerPassword.text, context,
-        widget._authRepository, widget._userStorage);
-    _isLoading(true);
-  }
-
-  Widget signInButton(BuildContext context) {
-    return ActionButton(_loading, Languages.of(context)!.signIn, signIn,
+  Widget _signInButton(BuildContext context) {
+    return ActionButton(_loading, Languages.of(context)!.signIn, _signIn,
         style: filledButtonColor());
   }
 
+  void _signIn() {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      _isLoading(true);
+      emailPasswordSignIn(
+          controllerEmail.text, controllerPassword.text, context,
+          widget._authRepository, widget._userStorage);
+      _isLoading(false);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return loginBody(context);
+    return _loginBody(context);
   }
 }

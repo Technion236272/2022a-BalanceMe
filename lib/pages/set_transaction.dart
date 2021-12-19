@@ -71,7 +71,7 @@ class _SetTransactionState extends State<SetTransaction> {
     if (widget._mode == DetailsPageMode.Add) {
       return null;
     }
-    return widget.currentTransaction != null && widget.currentTransaction!.description != "" ? widget.currentTransaction!.description : Languages.of(context)!.emptyDescription;
+    return widget.currentTransaction != null && widget.currentTransaction!.description != "" ? widget.currentTransaction!.description : null;
   }
 
   void _switchConstant(bool isConstant) {
@@ -93,7 +93,7 @@ class _SetTransactionState extends State<SetTransaction> {
   String? _lineLimitValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return lineLimitValidator(value) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+      return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
     }
     return message;
   }
@@ -246,7 +246,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       _transactionDescriptionController,
                       gc.maxLinesExpended - 2,
                       gc.maxLinesExpended - 2,
-                      Languages.of(context)!.addDescription,
+                      widget._mode == DetailsPageMode.Details ? Languages.of(context)!.emptyDescription : Languages.of(context)!.addDescription,
                       isBordered: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                     ),

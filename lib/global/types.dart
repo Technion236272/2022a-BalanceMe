@@ -3,7 +3,7 @@ import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 
-enum Status {Uninitialized, Authenticated, Authenticating, Unauthenticated}
+enum AuthStatus {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
 enum AppPages {Settings, Balance, Statistics, Welcome, Login, SetCategory, SetTransaction, Incomes, Expenses, ForgotPassword, Profile, ChangePassword}
 
@@ -18,6 +18,8 @@ enum DetailsPageMode {Add, Edit, Details}
 enum EntryOperation {Add, Edit, Remove}
 
 enum DatePickerType {Day, Month, Year}
+
+enum LoginMethod {Regular, Facebook, Google}
 
 typedef Json = Map<String, dynamic>;
 

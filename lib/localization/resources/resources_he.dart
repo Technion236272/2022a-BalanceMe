@@ -75,7 +75,10 @@ class LanguageHe extends Languages {
 
   // Login
   @override
-  String get welcome => "‎ברוכים הבאים";
+  String get welcomeBack => "‎ברוכים השבים!";
+
+  @override
+  String get welcomeAboard => "‎ברוכים הבאים!";
 
   @override
   String get login => "‎התחברות";
@@ -127,6 +130,9 @@ class LanguageHe extends Languages {
 
   @override
   String get camera => "מצלמה‎";
+
+  @override
+  String get minPasswordLimit => "‎אורך הסיסמה צריך להיות לפחות % תווים";
 
   // Password Recovery
   @override

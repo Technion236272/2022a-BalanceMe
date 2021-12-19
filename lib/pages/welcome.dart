@@ -1,6 +1,8 @@
 // ================= Welcome Page =================
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
+import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/generic_info.dart';
 import 'package:balance_me/global/types.dart';
@@ -40,7 +42,7 @@ class WelcomePage extends StatelessWidget {
           ),
       ),
       GenericInfo(
-        Languages.of(context)!.welcome,
+        Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.welcomeBack : Languages.of(context)!.welcomeAboard,
         Languages.of(context)!.balanceInfo,
         Languages.of(context)!.toGetStartedInfo,
       ),

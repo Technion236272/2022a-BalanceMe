@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
       GoogleAnalytics.instance.logPageOpened(AppPages.Statistics);
       return const Scaffold();
     }  // Statistics
-    return BalanceManager(authRepository, userStorage);  // default: Balance
+    return BalanceManager(userStorage);  // default: Balance
   }
 
   @override
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     return Consumer2<AuthRepository, UserStorage>(
         builder: (context, authRepository, userStorage, child) {
           return Scaffold(
-            appBar: MainAppBar(authRepository, userStorage),
+            appBar: MainAppBar(authRepository, userStorage, _selectedPage),
             body: _getCurrentPage(authRepository, userStorage),
             bottomNavigationBar: BottomNavigation(_selectedPage, _updateSelectedPage),
           );

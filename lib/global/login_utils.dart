@@ -1,13 +1,15 @@
-// ================= login and sign up functions =================
+// ================= Login and SignUp Functions =================
+import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/sentry_repository.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:balance_me/common_models/balance_model.dart';
+import 'package:balance_me/global/types.dart';
 
 ButtonStyle filledButtonColor()
 {
@@ -17,43 +19,32 @@ ButtonStyle filledButtonColor()
   return fillTheButton;
 }
 
+
+
+
 void signInGoogle(BuildContext context, AuthRepository authRepository,
     UserStorage userStorage) async {
-  startLoginProcess(context, authRepository.signInGoogle(), true,
-      authRepository, userStorage);
+  startLoginProcess(context, authRepository.signInGoogle(), LoginMethod.Google.toCleanString(), true, userStorage);
 }
 
-void signInFacebook(BuildContext context, AuthRepository authRepository,
-    UserStorage userStorage) async {
-  startLoginProcess(context, authRepository.signInWithFacebook(), true,
-      authRepository, userStorage);
+void signInFacebook(BuildContext context, AuthRepository authRepository, UserStorage userStorage) async {
+  startLoginProcess(context, authRepository.signInWithFacebook(), LoginMethod.Facebook.toCleanString(), true, userStorage);
 }
 
-void signUpGoogle(BuildContext context, AuthRepository authRepository,
-    UserStorage userStorage) async {
-  startLoginProcess(context, authRepository.signInGoogle(), false,
-      authRepository, userStorage);
+void signUpGoogle(BuildContext context, AuthRepository authRepository, UserStorage userStorage) async {
+  startLoginProcess(context, authRepository.signInGoogle(), LoginMethod.Google.toCleanString(), false, userStorage);
 }
 
-void signUpFacebook(BuildContext context, AuthRepository authRepository,
-    UserStorage userStorage) async {
-  startLoginProcess(context, authRepository.signInWithFacebook(), false,
-      authRepository, userStorage);
+void signUpFacebook(BuildContext context, AuthRepository authRepository, UserStorage userStorage) async {
+  startLoginProcess(context, authRepository.signInWithFacebook(), LoginMethod.Facebook.toCleanString(), false, userStorage);
 }
 
-void emailPasswordSignUp(
-    String? email,
-    String? password,
-    String? confirmPassword,
-    BuildContext context,
-    AuthRepository authRepository,
-    UserStorage userStorage) async {
+void emailPasswordSignUp(String? email, String? password, String? confirmPassword, BuildContext context, AuthRepository authRepository, UserStorage userStorage) async {
   if (email == null || password == null || confirmPassword == null) {
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-  startLoginProcess(context, authRepository.signUp(email, password), false,
-      authRepository, userStorage);
+  startLoginProcess(context, authRepository.signUp(email, password), LoginMethod.Regular.toCleanString(), false, userStorage);
 }
 
 void emailPasswordSignIn(String? email, String? password, BuildContext context,
@@ -62,8 +53,7 @@ void emailPasswordSignIn(String? email, String? password, BuildContext context,
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-  startLoginProcess(context, authRepository.signIn(email, password), true,
-      authRepository, userStorage);
+  startLoginProcess(context, authRepository.signIn(email, password), LoginMethod.Regular.toCleanString(), true, userStorage);
 }
 
 void recoverPassword(String? email, BuildContext context) async {
@@ -71,39 +61,39 @@ void recoverPassword(String? email, BuildContext context) async {
     displaySnackBar(context, Languages.of(context)!.loginError);
     return;
   }
+
   FirebaseAuth recover = FirebaseAuth.instance;
 
   try {
     await recover.sendPasswordResetEmail(email: email);
     navigateBack(context);
     displaySnackBar(context, Languages.of(context)!.emailSent);
+    GoogleAnalytics.instance.logRecoverPassword();
+
   } catch (e, stackTrace) {
     SentryMonitor().sendToSentry(e, stackTrace);
     displaySnackBar(context, Languages.of(context)!.loginError);
   }
 }
 
-void startLoginProcess(
-    BuildContext context,
-    Future<bool> loginFunction,
-    bool signedInBefore,
-    AuthRepository authRepository,
-    UserStorage userStorage) async {
-  bool signInAttempt = await loginFunction;
-  if (signInAttempt) {
-    signedInBefore
-        ? await userStorage.GET_postLogin()
-        : userStorage.SEND_generalInfo();
-    User? user = authRepository.user;
-    if (user != null) {
-      String? email = authRepository.user!.email;
-      if (email != null) {
-        signedInBefore
-            ? GoogleAnalytics.instance.logLogin(email)
-            : GoogleAnalytics.instance.logSignUp(email);
+void startLoginProcess(BuildContext context, Future<bool> loginFunction, String loginFunctionName, bool isSigningIn, UserStorage userStorage) async {
+  BalanceModel lastBalance = userStorage.balance.copy();
+  if (await loginFunction) {
+
+    Future.delayed(const Duration(milliseconds: 10), () async {
+      if (isSigningIn) {
+        await userStorage.GET_postLogin();
+        await userStorage.GET_balanceModelAfterLogin(lastBalance, true);
+        GoogleAnalytics.instance.logLogin(loginFunctionName);
+      } else {
+        userStorage.SEND_generalInfo();
+        await userStorage.GET_balanceModelAfterLogin(lastBalance, false);
+        GoogleAnalytics.instance.logSignUp(loginFunctionName);
       }
-    }
-    navigateBack(context);
+
+      navigateBack(context);
+    });
+
   } else {
     displaySnackBar(context, Languages.of(context)!.loginError);
   }
