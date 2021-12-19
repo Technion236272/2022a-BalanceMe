@@ -53,17 +53,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String? _essentialFieldValidatorFunction(String? value) {
-    return essentialFieldValidator(value) ? null : Languages.of(context)!
-        .essentialField;
+    return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
   }
 
   String? _passwordValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return lineLimitMinValidator(value, gc.defaultMinPasswordLimit)
-          ? null
-          : Languages.of(context)!.minPasswordLimit.replaceAll(
-          "%", gc.defaultMinPasswordLimit.toString());
+      return lineLimitMinValidator(value, gc.defaultMinPasswordLimit) ? null : Languages.of(context)!.minPasswordLimit.replaceAll("%", gc.defaultMinPasswordLimit.toString());
     }
     return message;
   }
@@ -123,19 +119,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _signInButton(BuildContext context) {
     return ActionButton(_loading, Languages.of(context)!.signIn, _signIn,
-        style: filledButtonColor());
+        fillStyle: true,);
   }
 
   void _signIn() {
+    _isLoading(false);
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      _isLoading(false);
-      emailPasswordSignIn(
-          controllerEmail.text, controllerPassword.text, context,
-          widget._authRepository, widget._userStorage);
-      _isLoading(true);
+      emailPasswordSignIn(controllerEmail.text, controllerPassword.text, context, widget._authRepository, widget._userStorage);
     }
+    _isLoading(true);
   }
-
 
   @override
   Widget build(BuildContext context) {

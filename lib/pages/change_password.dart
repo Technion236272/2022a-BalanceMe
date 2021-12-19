@@ -23,10 +23,9 @@ class _ChangePasswordState extends State<ChangePassword> {
   final TextEditingController _controllerConfirmPassword = TextEditingController();
   bool _loading=false;
 
-  void _isLoading(bool state)
-  {
+  void _isLoading(bool state) {
     setState(() {
-      _loading=state;
+      _loading = state;
     });
   }
 
@@ -70,7 +69,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 Languages.of(context)!.confirmPassword),
             ActionButton(
                 _loading, Languages.of(context)!.finish, _updatePassword,
-                style: filledButtonColor()),
+                fillStyle:true),
           ],
         ),
       ),

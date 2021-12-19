@@ -63,7 +63,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               TextBox(controllerEmail, Languages.of(context)!.emailText),
               ActionButton(
                   _loading, Languages.of(context)!.send, _recoverPassword,
-                  style: filledButtonColor()),
+                  fillStyle: true,),
             ],
           ),
         ),

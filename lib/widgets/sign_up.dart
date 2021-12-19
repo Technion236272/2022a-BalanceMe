@@ -132,7 +132,7 @@ class _SignUpState extends State<SignUp> {
     ActionButton _signUpEmailPasswordButton(BuildContext context) {
       return ActionButton(
           _loading, Languages.of(context)!.signUpTitle, _signUp,
-          style: filledButtonColor());
+          fillStyle: true,);
     }
 
       Widget _signUpBody(BuildContext context) {
