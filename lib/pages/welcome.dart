@@ -42,9 +42,9 @@ class WelcomePage extends StatelessWidget {
           ),
       ),
       GenericInfo(
-        Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.welcomeBack : Languages.of(context)!.welcomeAboard,
-        Languages.of(context)!.balanceInfo,
-        Languages.of(context)!.toGetStartedInfo,
+        title: Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.welcomeBack : Languages.of(context)!.welcomeAboard,
+        topInfo: Languages.of(context)!.balanceInfo,
+        bottomInfo: Languages.of(context)!.toGetStartedInfo,
       ),
     ]);
   }

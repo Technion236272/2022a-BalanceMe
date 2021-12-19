@@ -155,7 +155,7 @@ class LanguageEn extends Languages {
   String get balance => "Balance";
 
   @override
-  String get statistics => "Statistics";
+  String get archive => "Archive";
 
   @override
   String get settings => "Settings";
@@ -252,10 +252,14 @@ class LanguageEn extends Languages {
   @override
   String get verifyRemoval => "Are you sure you want to remove this %?";
 
-  // Add Category
+  // Set Category And Transaction
   @override
   String get typeSelection => "Type";
 
   @override
   String get constantSwitch => "Constant";
+
+  // Archive
+  @override
+  String get noDataForRange => "There is no data for the selected range";
 }

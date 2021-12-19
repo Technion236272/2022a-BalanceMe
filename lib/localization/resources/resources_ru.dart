@@ -155,7 +155,7 @@ class LanguageRu extends Languages {
   String get balance => "баланс";
 
   @override
-  String get statistics => "статистика";
+  String get archive => "Archive";
 
   @override
   String get settings => "настройки";
@@ -252,10 +252,14 @@ class LanguageRu extends Languages {
   @override
   String get verifyRemoval => "Are you sure you want to remove this %?";
 
-  //Add category
+  // Set Category And Transaction
   @override
   String get typeSelection => "Type";
 
   @override
   String get constantSwitch => "Constant";
+
+  // Archive
+  @override
+  String get noDataForRange => "There is no data for the selected range";
 }

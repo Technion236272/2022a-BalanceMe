@@ -54,8 +54,8 @@ class _MainAppBarState extends State<MainAppBar> {
     if (widget._pageIndex == AppPages.Settings.index) {
       return Languages.of(context)!.settings;
     }
-    if (widget._pageIndex == AppPages.Statistics.index) {
-      return Languages.of(context)!.statistics;
+    if (widget._pageIndex == AppPages.Archive.index) {
+      return Languages.of(context)!.archive;
     }
 
     return (widget._authRepository.status == AuthStatus.Authenticated) ? Languages.of(context)!.welcomeBack : Languages.of(context)!.welcomeAboard;
