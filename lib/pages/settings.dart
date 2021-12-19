@@ -69,15 +69,14 @@ class _SettingsState extends State<Settings> {
     return Text(gc.defaultEndOfMonthDay.toString(),style: textDesign(),);
   }
 
-  Widget settingsArrow()
-  {
+  Widget settingsArrow() {
     return const Padding(
       padding: EdgeInsets.only(left: gc.padSettingsArrow),
       child: Icon(gc.settingArrow),
     );
   }
-TextStyle textDesign()
-{
- return const TextStyle(color: gc.constantSettingsColor);
-}
+
+  TextStyle textDesign() {
+    return const TextStyle(color: gc.constantSettingsColor);
+  }
 }
