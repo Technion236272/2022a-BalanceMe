@@ -38,36 +38,45 @@ class _ArchiveState extends State<Archive> {
     });
   }
 
+  void _resetCurrentBalance() {
+    setState(() {
+      _currentBalance = BalanceModel();
+    });
+  }
+
   void _getCurrentBalance() {
     if (_dateController.selectedDate != null) {
       int endOfMonthDay = (widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay;
       DateTime requestedRange = DateTime(_dateController.selectedDate!.year, _dateController.selectedDate!.month, endOfMonthDay);
       setState(() {
-        widget._userStorage.GET_balanceModel(modifyMainBalance: false, specificDate: requestedRange, callback: _updateCurrentBalance);
+        widget._userStorage.GET_balanceModel(modifyMainBalance: false, specificDate: requestedRange, successCallback: _updateCurrentBalance, failureCallback: _resetCurrentBalance);
       });
       GoogleAnalytics.instance.logArchiveDateChange(requestedRange.toFullDate());
     }
+  }
+
+  Widget _getArchiveDatePicker() {
+    return Center(
+      child: DesignedDatePicker(
+        dateController: _dateController,
+        viewSelector: DatePickerType.Month,
+        onSelectDate: _getCurrentBalance,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.all(10.0),  // TODO- gc
-            child: DesignedDatePicker(
-              dateController: _dateController,
-              viewSelector: DatePickerType.Month,
-              onSelectDate: _getCurrentBalance,
-            ),
-          ),
-          (_currentBalance.isEmpty) ?
-            GenericInfo(topInfo: Languages.of(context)!.noDataForRange)
-          : ListView(children: [BalancePage(_currentBalance, _setCurrentTab)]),
-        ],
-      ),
-    );
+      body: (_currentBalance.isEmpty) ?
+            Stack(
+              children: [
+                GenericInfo(topInfo: Languages.of(context)!.noDataForRange),
+                _getArchiveDatePicker()
+              ],
+            )
+          : ListView(children: [BalancePage(_currentBalance, _setCurrentTab, additionalWidget: _getArchiveDatePicker())]),
+      );
   }
 }

@@ -177,7 +177,7 @@ class UserStorage with ChangeNotifier {
   }
 
 
-  Future<void> GET_balanceModel({bool modifyMainBalance = true, DateTime? specificDate, JsonCallbackJson? callback}) async {
+  Future<void> GET_balanceModel({bool modifyMainBalance = true, DateTime? specificDate, JsonCallbackJson? successCallback, VoidCallback? failureCallback}) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, specificDate);
       await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).get().then((categories) {
@@ -187,14 +187,14 @@ class UserStorage with ChangeNotifier {
             _balance = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
             notifyListeners();
           }
-          callback != null ? callback(categories.data()![config.categoriesDoc]) : null;
+          successCallback != null ? successCallback(categories.data()![config.categoriesDoc]) : null;
 
         } else {  // There is no data
           if (modifyMainBalance) {
             _balance = BalanceModel();
             GoogleAnalytics.instance.logRequestDataNotExists("balanceModel", categories);
           }
-          callback != null ? callback(categories.data()![config.categoriesDoc]) : null;
+          failureCallback != null ? failureCallback() : null;
           notifyListeners();
         }
       });
@@ -206,7 +206,7 @@ class UserStorage with ChangeNotifier {
 
   Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool firstGet, {JsonCallbackJson? callback, DateTime? specificDate}) async {
     if (firstGet) {
-      await GET_balanceModel(specificDate: specificDate, callback: callback);
+      await GET_balanceModel(specificDate: specificDate, successCallback: callback);
     }
     balance.expensesCategories.addAll(lastBalance.expensesCategories);
     balance.incomeCategories.addAll(lastBalance.incomeCategories);

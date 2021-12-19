@@ -270,5 +270,5 @@ class LanguageRu extends Languages {
 
   // Archive
   @override
-  String get noDataForRange => "There is no data for the selected range";
+  String get noDataForRange => "There is no data for the\nselected range";
 }
