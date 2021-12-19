@@ -55,6 +55,9 @@ abstract class Languages {
   String get gallery;
   String get camera;
   String get minPasswordLimit;
+  String get badEmail;
+  String get incorrectPassword;
+  String get emailInUse;
 
   // Password Recovery
   String get recoverPassword;

@@ -50,15 +50,15 @@ class _SettingsState extends State<Settings> {
     List<Widget?> trailingSettings = [
       IconButton(
           onPressed: navigateToProfileSettings,
-          icon: const Icon(gc.settingArrow)
+          icon: settingsArrow()
       ),
       IconButton(
           onPressed: navigateToChangePassword,
-          icon: const Icon(gc.settingArrow)
+          icon: settingsArrow()
       ),
       daysOfMonthRadio(),
       const LanguageDropDown(),
-      const Text(config.projectVersion)
+       Text(config.projectVersion,style: textDesign())
     ];
 
     return ListViewGeneric(
@@ -66,6 +66,17 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget daysOfMonthRadio() {
-    return Text(gc.defaultEndOfMonthDay.toString());
+    return Text(gc.defaultEndOfMonthDay.toString(),style: textDesign(),);
+  }
+
+  Widget settingsArrow() {
+    return const Padding(
+      padding: EdgeInsets.only(left: gc.padSettingsArrow),
+      child: Icon(gc.settingArrow),
+    );
+  }
+
+  TextStyle textDesign() {
+    return const TextStyle(color: gc.constantSettingsColor);
   }
 }

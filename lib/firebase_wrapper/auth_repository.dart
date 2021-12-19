@@ -38,7 +38,7 @@ class AuthRepository with ChangeNotifier {
 
   String? get avatarUrl => _avatarUrl;
 
-  Future<bool> signUp(String email, String password) async {
+  Future<bool> signUp(String email, String password, BuildContext context) async {
     try {
       _status = AuthStatus.Authenticating;
       notifyListeners();
@@ -48,6 +48,16 @@ class AuthRepository with ChangeNotifier {
       _avatarUrl = null;
       notifyListeners();
       return true;
+    } on FirebaseAuthException catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+      if (e.code == gc.badEmail) {
+        displaySnackBar(context, Languages.of(context)!.badEmail);
+      } else if (e.code == gc.weakPassword) {
+        displaySnackBar(context, Languages.of(context)!.weakPassword);
+      } else if (e.code == gc.emailInUse) {
+        displaySnackBar(context, Languages.of(context)!.emailInUse);
+      }
+      return false;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       _status = AuthStatus.Unauthenticated;
@@ -56,7 +66,7 @@ class AuthRepository with ChangeNotifier {
     }
   }
 
-  Future<bool> signIn(String email, String password) async {
+  Future<bool> signIn(String email, String password,BuildContext context) async {
     try {
       _status = AuthStatus.Authenticating;
       notifyListeners();
@@ -65,6 +75,16 @@ class AuthRepository with ChangeNotifier {
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
+    } on FirebaseAuthException catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+      if (e.code == gc.badEmail) {
+        displaySnackBar(context, Languages.of(context)!.badEmail);
+      } else if (e.code == gc.userNotFound) {
+        displaySnackBar(context, Languages.of(context)!.loginError);
+      } else if (e.code == gc.incorrectPassword) {
+        displaySnackBar(context, Languages.of(context)!.incorrectPassword);
+      }
+      return false;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       _status = AuthStatus.Unauthenticated;

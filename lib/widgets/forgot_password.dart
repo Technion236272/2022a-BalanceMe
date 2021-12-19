@@ -1,10 +1,11 @@
+import 'package:balance_me/global/login_utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/widgets/generic_button.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/global/login_utils.dart' as util;
+import 'package:balance_me/widgets/action_button.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -15,6 +16,13 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController controllerEmail = TextEditingController();
+  bool _loading = false;
+
+  void _isLoading(bool state) {
+    setState(() {
+      _loading = state;
+    });
+  }
 
   @override
   void dispose() {
@@ -22,8 +30,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     super.dispose();
   }
 
-  void recoverPassword() {
+  void _recoverPassword() {
+    _isLoading(false);
     util.recoverPassword(controllerEmail.text, context);
+    _isLoading(true);
   }
 
   @override
@@ -51,11 +61,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),
               ),
               TextBox(controllerEmail, Languages.of(context)!.emailText),
-              GenericButton(
-                buttonText: Languages.of(context)!.send,
-                buttonColor: gc.alternativePrimary,
-                onPressed: recoverPassword,
-              ),
+              ActionButton(
+                  _loading, Languages.of(context)!.send, _recoverPassword,
+                  fillStyle: true,),
             ],
           ),
         ),
