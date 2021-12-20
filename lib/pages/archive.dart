@@ -1,4 +1,5 @@
 // ================= Archive Page =================
+import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -22,7 +23,7 @@ class Archive extends StatefulWidget {
 }
 
 class _ArchiveState extends State<Archive> {
-  final DateRangePickerController _dateController = DateRangePickerController();
+  final PrimitiveWrapper _dateController = PrimitiveWrapper(DateTime.now());
   BalanceModel _currentBalance = BalanceModel();
   bool _isIncomeTab = true;
 
@@ -45,9 +46,9 @@ class _ArchiveState extends State<Archive> {
   }
 
   void _getCurrentBalance() {
-    if (_dateController.selectedDate != null) {
+    if (_dateController.value != null) {
       int endOfMonthDay = (widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay;
-      DateTime requestedRange = DateTime(_dateController.selectedDate!.year, _dateController.selectedDate!.month, endOfMonthDay);
+      DateTime requestedRange = DateTime(_dateController.value!.year, _dateController.value!.month, endOfMonthDay);
       setState(() {
         widget._userStorage.GET_balanceModel(modifyMainBalance: false, specificDate: requestedRange, successCallback: _updateCurrentBalance, failureCallback: _resetCurrentBalance);
       });
@@ -57,10 +58,21 @@ class _ArchiveState extends State<Archive> {
 
   Widget _getArchiveDatePicker() {
     return Center(
-      child: DesignedDatePicker(
-        dateController: _dateController,
-        viewSelector: DatePickerType.Month,
-        onSelectDate: _getCurrentBalance,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width/3,
+          child: DatePicker(
+            dateController: _dateController,
+            //viewSelector: DatePickerType.Month, TODO - need to fix this
+            onSelection: _getCurrentBalance,
+            firstDate: DateTime(DateTime.now().year,DateTime.now().month - 2),
+            lastDate: DateTime(DateTime.now().year,DateTime.now().month - 1),
+            withBorder: true,
+            color: gc.primaryColor,
+            textColor: gc.secondaryColor,
+          ),
+        ),
       ),
     );
   }
@@ -70,7 +82,7 @@ class _ArchiveState extends State<Archive> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: (_currentBalance.isEmpty) ?
-            Stack(
+            Column(
               children: [
                 GenericInfo(topInfo: Languages.of(context)!.noDataForRange),
                 _getArchiveDatePicker()

@@ -1,4 +1,5 @@
 // ================= Set Transaction =================
+import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -33,7 +34,7 @@ class _SetTransactionState extends State<SetTransaction> {
   late TextEditingController _transactionNameController;
   late TextEditingController _transactionAmountController;
   late TextEditingController _transactionDescriptionController;
-  final DateRangePickerController _dateRangePickerController = DateRangePickerController();
+  final PrimitiveWrapper _datePickerController = PrimitiveWrapper(DateTime.now());
   late PrimitiveWrapper _dropDownController;
   bool _isConstant = gc.defaultIsConstant;
   bool _performingSave = false;
@@ -51,7 +52,6 @@ class _SetTransactionState extends State<SetTransaction> {
     _transactionNameController.dispose();
     _transactionAmountController.dispose();
     _transactionDescriptionController.dispose();
-    _dateRangePickerController.dispose();
     super.dispose();
   }
 
@@ -120,7 +120,7 @@ class _SetTransactionState extends State<SetTransaction> {
   Transaction createNewTransaction() {
     return Transaction(
         _transactionNameController.text.toString(),
-        _dateRangePickerController.selectedDate!.toFullDate(),
+        _datePickerController.value!.toFullDate(),
         double.parse(_transactionAmountController.text.toString()),
         _transactionDescriptionController.text.toString(),
         _isConstant
@@ -155,6 +155,8 @@ class _SetTransactionState extends State<SetTransaction> {
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
     _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
 
+    PrimitiveWrapper test = PrimitiveWrapper(DateTimeRange(start:DateTime.now(), end: DateTime.now()) );
+
     return Scaffold(
       appBar: MinorAppBar(_getPageTitle()),
       body: SingleChildScrollView(
@@ -162,121 +164,106 @@ class _SetTransactionState extends State<SetTransaction> {
           padding: gc.topPadding,
           child: Form(
             key: _formKey,
-            child: Stack(
-              children: [
-                Column(
-                children: [
-                  SizedBox(
-                    width: gc.smallTextFields,
-                    child: FormTextField(
-                      _transactionNameController,
-                      1,
-                      1,
-                      Languages.of(context)!.transactionName,
-                      isBordered: true,
-                      isValid: true,
-                      isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _lineLimitValidatorFunction,
-                    ),
-                  ),
-                  SizedBox(
-                    width: gc.smallTextFields,
-                    child: FormTextField(
-                      _transactionAmountController,
-                      1,
-                      1,
-                      Languages.of(context)!.amount,
-                      isValid: true,
-                      isNumeric: true,
-                      isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _positiveNumberValidatorFunction,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: gc.generalTextFieldsPadding,
-                        bottom: gc.generalTextFieldsPadding
-                    ),
-                    child: SizedBox(
-                        width: gc.smallTextFields,
-                        child: (widget._mode == DetailsPageMode.Details) ?
-                        Text(_dropDownController.value)
-                        : GenericDropDownButton(_getCategoriesNameList(context), _dropDownController),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: gc.generalTextFieldsPadding,
-                        bottom: gc.generalTextFieldsPadding,
-                    ),
-                    child: GenericIconButton(
-                      onTap: (widget._mode == DetailsPageMode.Details) ? _toggleEditDetailsMode : null,
-                      color: gc.primaryColor,
-                      iconSize: gc.editIconSize,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: gc.generalTextFieldsPadding,
-                        right: gc.generalTextFieldsPadding
-                    ),
-                    child: ListViewGeneric(
-                      listTileHeight: gc.listTileHeight,
-                      leadingWidgets: [
-                      Text(Languages.of(context)!.date),
-                      Text(Languages.of(context)!.constantSwitch),
-                      ],
-                      trailingWidgets: [
-                        widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date) : null,
-                        Switch(
-                          value: _isConstant,
-                          onChanged: (widget._mode == DetailsPageMode.Details) ? null : _switchConstant,
-                        ),
-                    ],
-                      isScrollable: false,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: gc.generalTextFieldsPadding,
-                        left: gc.generalTextFieldsPadding,
-                        right: gc.generalTextFieldsPadding,
-                    ),
-                    child: FormTextField(
-                      _transactionDescriptionController,
-                      gc.maxLinesExpended - 2,
-                      gc.maxLinesExpended - 2,
-                      widget._mode == DetailsPageMode.Details ? Languages.of(context)!.emptyDescription : Languages.of(context)!.addDescription,
-                      isBordered: true,
-                      isEnabled: widget._mode != DetailsPageMode.Details,
-                    ),
-                  ),
-                  Visibility(
-                    visible: widget._mode != DetailsPageMode.Details,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: gc.generalTextFieldsPadding),
-                      child: ActionButton(
-                        performingAction,
-                        Languages.of(context)!.save,
-                        _saveTransaction,
-                      ),
-                    ),
-                  ),
-                ],
+            child: Column(
+            children: [
+              SizedBox(
+                width: gc.smallTextFields,
+                child: FormTextField(
+                  _transactionNameController,
+                  1,
+                  1,
+                  Languages.of(context)!.transactionName,
+                  isBordered: true,
+                  isValid: true,
+                  isEnabled: widget._mode != DetailsPageMode.Details,
+                  validatorFunction: _lineLimitValidatorFunction,
+                ),
               ),
-                  Visibility(
-                    visible: widget._mode != DetailsPageMode.Details,
-                    child: Positioned(
-                      top: MediaQuery.of(context).size.height / 2.65,
-                      right: 20,
-                      child: DesignedDatePicker(
-                        dateController: _dateRangePickerController,
-                        height: 20,
-                        viewSelector: DatePickerType.Day,
-                      ),
+              SizedBox(
+                width: gc.smallTextFields,
+                child: FormTextField(
+                  _transactionAmountController,
+                  1,
+                  1,
+                  Languages.of(context)!.amount,
+                  isValid: true,
+                  isNumeric: true,
+                  isEnabled: widget._mode != DetailsPageMode.Details,
+                  validatorFunction: _positiveNumberValidatorFunction,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: gc.generalTextFieldsPadding,
+                    bottom: gc.generalTextFieldsPadding
+                ),
+                child: SizedBox(
+                    width: gc.smallTextFields,
+                    child: (widget._mode == DetailsPageMode.Details) ?
+                    Text(_dropDownController.value)
+                    : GenericDropDownButton(_getCategoriesNameList(context), _dropDownController),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: gc.generalTextFieldsPadding,
+                    bottom: gc.generalTextFieldsPadding,
+                ),
+                child: GenericIconButton(
+                  onTap: (widget._mode == DetailsPageMode.Details) ? _toggleEditDetailsMode : null,
+                  color: gc.primaryColor,
+                  iconSize: gc.editIconSize,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: gc.generalTextFieldsPadding,
+                    right: gc.generalTextFieldsPadding
+                ),
+                child: ListViewGeneric(
+                  listTileHeight: gc.listTileHeight,
+                  leadingWidgets: [
+                  Text(Languages.of(context)!.date),
+                  Text(Languages.of(context)!.constantSwitch),
+                  ],
+                  trailingWidgets: [
+                    widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date) : SizedBox( width: MediaQuery.of(context).size.width/3, child: DatePicker(dateController: _datePickerController)),
+                    Switch(
+                      value: _isConstant,
+                      onChanged: (widget._mode == DetailsPageMode.Details) ? null : _switchConstant,
                     ),
+                ],
+                  isScrollable: false,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: gc.generalTextFieldsPadding,
+                    left: gc.generalTextFieldsPadding,
+                    right: gc.generalTextFieldsPadding,
+                ),
+                child: FormTextField(
+                  _transactionDescriptionController,
+                  gc.maxLinesExpended - 2,
+                  gc.maxLinesExpended - 2,
+                  widget._mode == DetailsPageMode.Details ? Languages.of(context)!.emptyDescription : Languages.of(context)!.addDescription,
+                  isBordered: true,
+                  isEnabled: widget._mode != DetailsPageMode.Details,
+                ),
+              ),
+              Visibility(
+                visible: widget._mode != DetailsPageMode.Details,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: gc.generalTextFieldsPadding),
+                  child: ActionButton(
+                    performingAction,
+                    Languages.of(context)!.save,
+                    _saveTransaction,
                   ),
-            ]),
+                ),
+              ),
+            ],
+              ),
           ),
         ),
       ),
