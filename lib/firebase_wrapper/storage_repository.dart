@@ -1,9 +1,10 @@
 // ================= Storage Repository =================
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
+import 'package:balance_me/localization/locale_controller.dart';
 import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/global/types.dart';
@@ -73,6 +74,12 @@ class UserStorage with ChangeNotifier {
   void setDarkMode(bool isDarkMode) {
     if (_userData != null) {
       _userData!.isDarkMode = isDarkMode;
+    }
+  }
+
+  void setLanguage(String language) {
+    if (_userData != null) {
+      _userData!.language = language;
     }
   }
 
@@ -161,11 +168,14 @@ class UserStorage with ChangeNotifier {
   // ================== Requests ==================
 
   // GET
-  Future<void> GET_postLogin() async {  // Get General Info
+  Future<void> GET_postLogin(BuildContext context) async {  // Get General Info
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).get().then((generalInfo) {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
+          if (_userData != null && _userData!.language != "") {
+            changeLanguage(context, _userData!.language);
+          }
           notifyListeners();
         } else {
           GoogleAnalytics.instance.logRequestDataNotExists("postLogin", generalInfo);
