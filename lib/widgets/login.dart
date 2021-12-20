@@ -68,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Form(
       key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const LoginImage(),
           TextBox(
@@ -82,15 +83,21 @@ class _LoginScreenState extends State<LoginScreen> {
             suffix: _hidingPasswordEye(),
             validatorFunction: _passwordValidatorFunction,
           ),
-          GoogleButton(
+          SizedBox(
+            width: MediaQuery.of(context).size.width/gc.buttonsScale,
+            child: GoogleButton(
+                widget._authRepository,
+                widget._userStorage,
+                isSignUp: false
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width/gc.buttonsScale,
+            child: FacebookButton(
               widget._authRepository,
               widget._userStorage,
-              isSignUp: false
-          ),
-          FacebookButton(
-            widget._authRepository,
-            widget._userStorage,
-            isSignUp: false,
+              isSignUp: false,
+            ),
           ),
           _forgotPasswordLink(context),
           _signInButton(context),
