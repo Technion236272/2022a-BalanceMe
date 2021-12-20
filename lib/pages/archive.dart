@@ -59,15 +59,15 @@ class _ArchiveState extends State<Archive> {
   Widget _getArchiveDatePicker() {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+        padding: gc.ArchDatePickerPadd,
         child: SizedBox(
           width: MediaQuery.of(context).size.width/3,
           child: DatePicker(
             dateController: _dateController,
             //viewSelector: DatePickerType.Month, TODO - need to fix this
             onSelection: _getCurrentBalance,
-            firstDate: DateTime(DateTime.now().year,DateTime.now().month - 2),
-            lastDate: DateTime(DateTime.now().year,DateTime.now().month - 1),
+            firstDate: gc.firstDate,
+            lastDate: DateTime(DateTime.now().year,DateTime.now().month - 1 , DateTime.now().day), // TODO - put the last Date you want to see backwards
             withBorder: true,
             color: gc.primaryColor,
             textColor: gc.secondaryColor,

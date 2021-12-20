@@ -152,6 +152,7 @@ const String badEmail="invalid-email";
 const String userNotFound="user-not-found";
 const String incorrectPassword="wrong-password";
 const String emailInUse="email-already-in-use";
+
 //TextBox
 const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
 
@@ -211,3 +212,6 @@ const double cardThinBorderWidth = 1.0;
 const double iconPadding = 10.0;
 const double iconSize = 24.0;
 const double listViewBottomPadding = 100;
+
+//Archive
+const EdgeInsets ArchDatePickerPadd = EdgeInsets.only(top: 8.0, bottom: 8.0);

@@ -26,7 +26,7 @@ class _DatePickerState extends State<DatePicker> {
   void initState() {
     _firstDate = widget.firstDate ?? gc.firstDate;
     _lastDate = widget.lastDate ?? gc.now;
-    _date = _firstDate;
+    _date = _date.isAfter(_lastDate) ? DateTime(_lastDate.year,_lastDate.month - 1, _lastDate.day) : _date;
     super.initState();
   }
 
