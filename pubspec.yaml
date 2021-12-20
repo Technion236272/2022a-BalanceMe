@@ -55,6 +55,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^19.3.57
   sorted_list: ^1.0.0
   permission_handler: ^8.3.0
+  flutter_masked_text2: ^0.9.1
 
 dev_dependencies:
   flutter_test:
