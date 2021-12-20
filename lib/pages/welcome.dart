@@ -15,15 +15,14 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Positioned(
-        left: MediaQuery.of(context).size.width / 3,
-        top: gc.imageTop,
-        child: Image.asset(
-          gc.balanceImage,
-          width: MediaQuery.of(context).size.width / 3,
-          height: MediaQuery.of(context).size.height / 3,
-        ),
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+      Image.asset(
+        gc.balanceImage,
+        width: MediaQuery.of(context).size.width / gc.imageScale,
+        height: MediaQuery.of(context).size.height / gc.imageScale,
       ),
       GenericInfo(
         Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.welcomeBack : Languages.of(context)!.welcomeAboard,
