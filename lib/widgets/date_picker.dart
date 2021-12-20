@@ -3,7 +3,8 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class DatePicker extends StatefulWidget {
-  DatePicker({this.dateController,this.onSelection, this.firstDate, this.lastDate, this.withBorder = false, this.color,this.textColor, Key? key}) : super(key: key);
+  DatePicker({this.dateController,this.onSelection, this.firstDate, this.lastDate, this.withBorder = false,
+              this.color,this.textColor, this.view = DatePickerType.Day, Key? key}) : super(key: key);
 
   PrimitiveWrapper? dateController;
   final VoidCallback? onSelection;
@@ -12,26 +13,27 @@ class DatePicker extends StatefulWidget {
   final bool withBorder;
   final Color? color;
   final Color? textColor;
+  final DatePickerType view;
 
   @override
   _DatePickerState createState() => _DatePickerState();
 }
 
 class _DatePickerState extends State<DatePicker> {
-  DateTime _date = gc.now;
+  DateTime _date = gc.today;
   DateTime _firstDate = gc.firstDate;
-  DateTime _lastDate = gc.now;
+  DateTime _lastDate = gc.today;
 
   @override
   void initState() {
     _firstDate = widget.firstDate ?? gc.firstDate;
-    _lastDate = widget.lastDate ?? gc.now;
+    _lastDate = widget.lastDate ?? gc.today;
     _date = _date.isAfter(_lastDate) ? DateTime(_lastDate.year,_lastDate.month - 1, _lastDate.day) : _date;
     super.initState();
   }
 
   String _getText(){
-      return '${_date.year}/${_date.month}/${_date.day}';
+      return widget.view == DatePickerType.Day ? '${_date.year}/${_date.month}/${_date.day}' : '${_date.year}/${_date.month}';
   }
 
   Future _pickDate(BuildContext context) async {
@@ -47,7 +49,7 @@ class _DatePickerState extends State<DatePicker> {
     if (newDate == null) return;
     setState(() {
       _date = newDate;
-      widget.dateController!.value = _date;
+      widget.dateController!.value = widget.view == DatePickerType.Day ? _date : DateTime(_date.year, _date.month);
       if(widget.onSelection != null){
         widget.onSelection!();
       }
@@ -76,7 +78,7 @@ class _DatePickerState extends State<DatePicker> {
             iconSize: gc.iconSize,
             padding: gc.datePickerRightPadd,
             constraints: const BoxConstraints(),
-            icon: const Icon(gc.calendar),
+            icon: const Icon(gc.calendarIcon),
             color: widget.textColor,
             onPressed: () => _pickDate(context),
           )
@@ -102,14 +104,14 @@ class DateRangePicker extends StatefulWidget {
 }
 
 class _DateRangePickerState extends State<DateRangePicker> {
-  DateTimeRange _dateRange = DateTimeRange(start: gc.now, end: gc.now);
+  DateTimeRange _dateRange = DateTimeRange(start: gc.today, end: gc.today);
   DateTime _firstDate = gc.firstDate;
-  DateTime _lastDate = gc.now;
+  DateTime _lastDate = gc.today;
 
   @override
   void initState() {
     _firstDate = widget.firstDate ?? gc.firstDate;
-    _lastDate = widget.firstDate ?? gc.now;
+    _lastDate = widget.firstDate ?? gc.today;
     super.initState();
   }
 
@@ -159,7 +161,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
             iconSize: gc.iconSize,
             padding: gc.datePickerRightPadd,
             constraints: const BoxConstraints(),
-            icon: const Icon(gc.calendar),
+            icon: const Icon(gc.calendarIcon),
             color: widget.textColor,
             onPressed: () => _pickDateRange(context),
           )

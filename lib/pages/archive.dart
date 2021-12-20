@@ -63,8 +63,8 @@ class _ArchiveState extends State<Archive> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width/3,
           child: DatePicker(
+            view: DatePickerType.Month,
             dateController: _dateController,
-            //viewSelector: DatePickerType.Month, TODO - need to fix this
             onSelection: _getCurrentBalance,
             firstDate: gc.firstDate,
             lastDate: DateTime(DateTime.now().year,DateTime.now().month - 1 , DateTime.now().day), // TODO - put the last Date you want to see backwards

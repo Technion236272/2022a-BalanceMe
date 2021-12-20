@@ -35,7 +35,7 @@ const IconData deleteIcon = Icons.delete;
 const IconData editIcon = Icons.edit;
 const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
-const IconData calendar = Icons.date_range_sharp;
+const IconData calendarIcon = Icons.date_range_sharp;
 
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
@@ -189,7 +189,7 @@ const double dateRangePickerYearViewWidth = datePickerYearViewWidth * 1.4;
 const EdgeInsets datePickerLeftPadd = EdgeInsets.only(left: 8.0);
 const EdgeInsets datePickerRightPadd = EdgeInsets.only(left: 10.0);
 DateTime firstDate = DateTime(1970);
-DateTime now = DateTime.now();
+DateTime today = DateTime.now();
 BorderRadius datePickerRadius = BorderRadius.circular(10);
 
 //Transaction Entry
