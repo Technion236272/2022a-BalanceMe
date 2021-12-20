@@ -172,6 +172,10 @@ const int numOfItems = 10;
 // Generic Info Widget
 const double infoTitleFontSize = 25;
 const double infoFontSize = 18;
+const double generalInfoHeight = 180;
+const double generalInfoWidthCorrection = 20;
+const EdgeInsets outerColumnPadding = EdgeInsets.all(12);
+const EdgeInsets innerColumnPadding = EdgeInsets.only(top: 8.0, bottom: 8.0);
 
 //Generic Date Picker
 const double datePickerFontSize = 15.0;

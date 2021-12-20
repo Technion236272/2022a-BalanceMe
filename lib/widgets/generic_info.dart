@@ -12,50 +12,41 @@ class GenericInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Positioned(
-          top: gc.leftCircleTop,
-          left: gc.circleLeftOrRight,
-          child: CircleAvatar(
-            radius: gc.circleRadius,
-            backgroundColor: gc.backgroundDesignColor,
-          )
-      ),
-      Positioned(
-          top: gc.rightCircleTop,
-          right: gc.circleLeftOrRight,
-          child: CircleAvatar(
-            radius: gc.circleRadius,
-            backgroundColor: gc.backgroundDesignColor,
-          )
-      ),
-      _title == null ? Container()
-      : Positioned(
-        top: gc.welcomeTop,
-        left: gc.textLeft,
-        child: Text(
-          _title!,
-          style: const TextStyle(fontSize: gc.infoTitleFontSize),
+    return Center(
+      child: Container(
+        width: MediaQuery.of(context).size.width - gc.generalInfoWidthCorrection,
+        height: gc.generalInfoHeight,
+        decoration: BoxDecoration(
+          color: gc.backgroundDesignColor,
+          borderRadius: BorderRadius.circular(gc.cardBorderRadius),
+        ),
+        child: Padding(
+          padding: gc.outerColumnPadding,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [_title == null ? Container()
+                : Text(
+                  _title!,
+                  style: const TextStyle(fontSize: gc.infoTitleFontSize),
+                ),
+              _topInfo == null ? Container()
+                  : Padding(
+                    padding: gc.innerColumnPadding,
+                    child: Text(
+                      _topInfo!,
+                      style: const TextStyle(fontSize: gc.infoFontSize),
+                    ),
+                  ),
+              _bottomInfo == null ? Container()
+                  : Text(
+                    _bottomInfo!,
+                    style: const TextStyle(fontSize: gc.infoFontSize),
+                  ),],
+          ),
         ),
       ),
-      _topInfo == null ? Container()
-      : Positioned(
-        top: gc.balanceInfoTop,
-        left: gc.textLeft,
-        child: Text(
-          _topInfo!,
-          style: const TextStyle(fontSize: gc.infoFontSize),
-        ),
-      ),
-      _bottomInfo == null ? Container()
-      : Positioned(
-        top: gc.startedInfoTop,
-        left: gc.textLeft,
-        child: Text(
-          _bottomInfo!,
-          style: const TextStyle(fontSize: gc.infoFontSize),
-        ),
-      ),
-    ]);
+    );
   }
 }
