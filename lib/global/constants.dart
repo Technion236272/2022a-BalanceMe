@@ -209,3 +209,6 @@ const double cardThinBorderWidth = 1.0;
 const double iconPadding = 10.0;
 const double iconSize = 24.0;
 const double listViewBottomPadding = 100;
+
+//generic edit button
+const double disabledOpacity=0.5;
