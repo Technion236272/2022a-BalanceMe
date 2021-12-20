@@ -65,36 +65,38 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _loginBody(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          const LoginImage(),
-          TextBox(
-            controllerEmail,
-            Languages.of(context)!.emailText,
-            validatorFunction: _essentialFieldValidatorFunction,
-          ),
-          TextBox(
-            controllerPassword,
-            Languages.of(context)!.password,
-            hideText: showPassword,
-            suffix: _hidingPasswordEye(),
-            validatorFunction: _passwordValidatorFunction,
-          ),
-          GoogleButton(
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            const LoginImage(),
+            TextBox(
+              controllerEmail,
+              Languages.of(context)!.emailText,
+              validatorFunction: _essentialFieldValidatorFunction,
+            ),
+            TextBox(
+              controllerPassword,
+              Languages.of(context)!.password,
+              hideText: showPassword,
+              suffix: _hidingPasswordEye(),
+              validatorFunction: _passwordValidatorFunction,
+            ),
+            GoogleButton(
+                widget._authRepository,
+                widget._userStorage,
+                isSignUp: false
+            ),
+            FacebookButton(
               widget._authRepository,
               widget._userStorage,
-              isSignUp: false
-          ),
-          FacebookButton(
-            widget._authRepository,
-            widget._userStorage,
-            isSignUp: false,
-          ),
-          _forgotPasswordLink(context),
-          _signInButton(context),
-        ],
+              isSignUp: false,
+            ),
+            _forgotPasswordLink(context),
+            _signInButton(context),
+          ],
+        ),
       ),
     );
   }
