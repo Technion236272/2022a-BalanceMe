@@ -28,7 +28,7 @@ const IconData authenticatedIcon = Icons.exit_to_app;
 const IconData emptyAvatarIcon = Icons.account_circle;
 const IconData balancePage = Icons.home;
 const IconData settingsPage = Icons.settings;
-const IconData statisticsPage = Icons.pie_chart;
+const IconData archivePage = Icons.archive;
 const IconData hidePassword = Icons.remove_red_eye_outlined;
 const IconData showPassword = Icons.remove_red_eye;
 const IconData transactionDetailsIcon = Icons.info;
@@ -39,6 +39,7 @@ const IconData deleteIcon = Icons.delete;
 const IconData editIcon = Icons.edit;
 const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
+const IconData calendarIcon = Icons.date_range_sharp;
 
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
@@ -158,6 +159,7 @@ const String badEmail="invalid-email";
 const String userNotFound="user-not-found";
 const String incorrectPassword="wrong-password";
 const String emailInUse="email-already-in-use";
+
 //TextBox
 const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
 
@@ -202,6 +204,11 @@ const double datePickerYearViewWidth = 100.0;
 const double dateRangePickerDayViewWidth = datePickerDayViewWidth * 1.6;
 const double dateRangePickerMonthViewWidth = datePickerMonthViewWidth * 1.6;
 const double dateRangePickerYearViewWidth = datePickerYearViewWidth * 1.4;
+const EdgeInsets datePickerLeftPadd = EdgeInsets.only(left: 8.0);
+const EdgeInsets datePickerRightPadd = EdgeInsets.only(left: 10.0);
+DateTime firstDate = DateTime(1970);
+DateTime today = DateTime.now();
+BorderRadius datePickerRadius = BorderRadius.circular(10);
 
 //Transaction Entry
 const double entryPadding = 8.0;
@@ -226,3 +233,6 @@ const double listViewBottomPadding = 100;
 
 //generic edit button
 const double disabledOpacity=0.5;
+
+//Archive
+const EdgeInsets ArchDatePickerPadd = EdgeInsets.only(top: 8.0, bottom: 8.0);

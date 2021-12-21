@@ -25,9 +25,9 @@ class BottomNavigation extends StatelessWidget {
           tooltip: Languages.of(context)!.balance,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(gc.statisticsPage),
-          label: Languages.of(context)!.statistics,
-          tooltip: Languages.of(context)!.statistics,
+          icon: const Icon(gc.archivePage),
+          label: Languages.of(context)!.archive,
+          tooltip: Languages.of(context)!.archive,
         ),
       ],
       currentIndex: _selectedPage,

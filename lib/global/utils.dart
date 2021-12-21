@@ -99,10 +99,10 @@ bool lineLimitMinValidator(String? value, int minLimit) => (essentialFieldValida
 bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toString()) && value! > 0);
 
 // Time
-String getCurrentMonthPerEndMonthDay(int endOfMonth) {
-  DateTime currentTime = DateTime.now();
-  String currentMonth = currentTime.day < endOfMonth ? (currentTime.month - 1).toString() : currentTime.month.toString();
-  return currentMonth + currentTime.year.toString();
+String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
+  DateTime time = specificDate ?? DateTime.now();
+  String currentMonth = time.day < endOfMonth ? (time.month - 1).toString() : time.month.toString();
+  return currentMonth + time.year.toString();
 }
 
 // Converters

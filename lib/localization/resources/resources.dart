@@ -69,7 +69,7 @@ abstract class Languages {
 
   // Navigation
   String get balance;
-  String get statistics;
+  String get archive;
   String get settings;
 
   // Charts
@@ -106,7 +106,10 @@ abstract class Languages {
   String get delete;
   String get verifyRemoval;
 
-  //Add category or transaction
+  // Set Category And Transaction
   String get typeSelection;
   String get constantSwitch;
+
+  // Archive
+  String get noDataForRange;
 }
