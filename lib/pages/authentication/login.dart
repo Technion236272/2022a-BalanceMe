@@ -8,9 +8,9 @@ import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/login_utils.dart';
-import 'package:balance_me/widgets/forgot_password.dart';
-import 'package:balance_me/widgets/third_party_authentication.dart';
-import 'package:balance_me/widgets/login_image.dart';
+import 'package:balance_me/pages/authentication/forgot_password.dart';
+import 'package:balance_me/widgets/authentication/third_party_authentication.dart';
+import 'package:balance_me/widgets/authentication/login_image.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class LoginScreen extends StatefulWidget {

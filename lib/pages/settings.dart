@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/pages/change_password.dart';
+import 'package:balance_me/pages/authentication/change_password.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
-import 'package:balance_me/widgets/profile_settings.dart';
+import 'package:balance_me/pages/profile_settings.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
