@@ -42,6 +42,17 @@ class _SetTransactionState extends State<SetTransaction> {
 
   bool get performingAction => _performingSave;
 
+  @override
+  void initState() {
+    _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
+    _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null ? 0.0
+        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator,thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
+    _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
+    _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
+    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
+    super.initState();
+  }
+
   void _updatePerformingSave(bool state) {
     setState(() {
       _performingSave = state;
@@ -160,14 +171,6 @@ class _SetTransactionState extends State<SetTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
-    _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null
-        ? 0.0
-        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator,thousandSeparator: gc.thousandsSeparator, precision: 1);
-    _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
-    _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
-    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
-
     return Scaffold(
       appBar: MinorAppBar(_getPageTitle()),
       body: SingleChildScrollView(
