@@ -38,6 +38,9 @@ class LanguageRu extends Languages {
   String get profileSettings => "профиль";
 
   @override
+  String get profilePageTitle => "Profile Settings";
+
+  @override
   String get passwordSettings => "изменить пароль";
 
   @override
@@ -135,7 +138,7 @@ class LanguageRu extends Languages {
   String get minPasswordLimit => "The password should contains at least % characters";
 
   @override
-  String get badEmail => "Ваш электронний адрес плохо оформлено, убедитесь, что у вас есть @";
+  String get badEmail => "Your email is badly formed";
 
   @override
   String get incorrectPassword => "Пароль, который вы вводите, не совпадает с электронным адресом";

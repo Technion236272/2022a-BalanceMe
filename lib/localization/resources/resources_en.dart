@@ -38,6 +38,9 @@ class LanguageEn extends Languages {
   String get profileSettings => "Profile";
 
   @override
+  String get profilePageTitle => "Profile Settings";
+
+  @override
   String get passwordSettings => "Change Password";
 
   @override
@@ -135,7 +138,7 @@ class LanguageEn extends Languages {
   String get minPasswordLimit => "The password should contains at least % characters";
 
   @override
-  String get badEmail => "Your email is badly formed, make sure you have a @";
+  String get badEmail => "Your email is badly formed";
 
   @override
   String get incorrectPassword => "The password you type in doesn't match to your email";

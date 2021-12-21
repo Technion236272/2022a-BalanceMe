@@ -6,18 +6,18 @@ import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/generic_tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:balance_me/widgets/login.dart';
-import 'package:balance_me/widgets/sign_up.dart';
+import 'package:balance_me/pages/authentication/login.dart';
+import 'package:balance_me/pages/authentication/sign_up.dart';
 
-class LoginManager extends StatefulWidget {
-  const LoginManager(this._authRepository,this._userStorage,{Key? key}) : super(key: key);
+class AuthenticationManager extends StatefulWidget {
+  const AuthenticationManager(this._authRepository,this._userStorage,{Key? key}) : super(key: key);
   final AuthRepository _authRepository;
   final UserStorage _userStorage;
   @override
-  _LoginManagerState createState() => _LoginManagerState();
+  _AuthenticationManagerState createState() => _AuthenticationManagerState();
 }
 
-class _LoginManagerState extends State<LoginManager> {
+class _AuthenticationManagerState extends State<AuthenticationManager> {
   int appBarChoice = 0;
 
   void changeAppbar(int tabIndex) {

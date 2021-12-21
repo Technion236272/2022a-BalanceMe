@@ -1,6 +1,6 @@
 // ================= AppBar Widget =================
 import 'package:flutter/material.dart';
-import 'package:balance_me/pages/login_manager.dart';
+import 'package:balance_me/pages/authentication/authentication_manager.dart';
 import 'package:balance_me/widgets/user_avatar.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -62,7 +62,7 @@ class _MainAppBarState extends State<MainAppBar> {
   }
 
   void _loginApp() {
-    navigateToPage(context, LoginManager(widget._authRepository,widget._userStorage), null);
+    navigateToPage(context, AuthenticationManager(widget._authRepository,widget._userStorage), null);
   }
 
   void _logoutApp() {
