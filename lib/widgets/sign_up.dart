@@ -101,43 +101,46 @@ class _SignUpState extends State<SignUp> {
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
-        child: Column(
-          children: [
-            const LoginImage(),
-            TextBox(
-              controllerEmail,
-              Languages.of(context)!.emailText,
-              validatorFunction: _emailValidatorFunction,
-            ),
-            TextBox(
-              controllerPassword,
-              Languages.of(context)!.password,
-              hideText: signUpPasswordVisible,
-              suffix: _hidingPasswordEye(),
-              validatorFunction: _passwordValidatorFunction,
-            ),
-            TextBox(
-              controllerConfirmPassword,
-              Languages.of(context)!.confirmPassword,
-              hideText: confirmPasswordVisible,
-              suffix: _hidingConfirmPasswordEye(),
-              validatorFunction: _passwordValidatorFunction,
-            ),
-            GoogleButton(widget._authRepository, widget._userStorage),
-            FacebookButton(widget._authRepository, widget._userStorage),
-            _performingLogin
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ElevatedButton(
-                    child: Text(Languages.of(context)!.signIn),
-                    onPressed: _signUp,
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          gc.alternativePrimary),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height*1.3,
+          child: Column(
+            children: [
+              const LoginImage(),
+              TextBox(
+                controllerEmail,
+                Languages.of(context)!.emailText,
+                validatorFunction: _emailValidatorFunction,
+              ),
+              TextBox(
+                controllerPassword,
+                Languages.of(context)!.password,
+                hideText: signUpPasswordVisible,
+                suffix: _hidingPasswordEye(),
+                validatorFunction: _passwordValidatorFunction,
+              ),
+              TextBox(
+                controllerConfirmPassword,
+                Languages.of(context)!.confirmPassword,
+                hideText: confirmPasswordVisible,
+                suffix: _hidingConfirmPasswordEye(),
+                validatorFunction: _passwordValidatorFunction,
+              ),
+              GoogleButton(widget._authRepository, widget._userStorage),
+              FacebookButton(widget._authRepository, widget._userStorage),
+              _performingLogin
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ElevatedButton(
+                      child: Text(Languages.of(context)!.signIn),
+                      onPressed: _signUp,
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            gc.alternativePrimary),
+                      ),
                     ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );
