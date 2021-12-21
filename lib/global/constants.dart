@@ -16,6 +16,10 @@ const defaultMinPasswordLimit = 6;
 
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
+const String decimalSeparator = ".";
+const String thousandsSeparator = "";
+const String NIS = '₪';
+
 
 // Icons
 const IconData settingArrow = Icons.arrow_forward_ios_sharp;
@@ -58,6 +62,8 @@ const double textFieldRadius = 25.0;
 const double googleButtonPadding = 20.0;
 const double paddingFacebook = 10.0;
 const double buttonTextPadding = 12.0;
+const double buttonsScale = 1.3;
+const EdgeInsets googleFacebookAlignment = EdgeInsets.only(left: 11);
 const List<String> permissionFacebook = ["public_profile", "email"];
 const int loginTabs = 2;
 const double forgotPasswordSize = 35;
@@ -103,11 +109,11 @@ const double tabFontSize = 16.0;
 const double tabPadding = 5.0;
 
 //images
-const String balanceImage = 'assets/images/balance-circle.png';
-const String wallet = 'assets/images/wallet.jpg';
-const String lock = 'assets/images/lock.png';
-const String key = 'assets/images/key.jpg';
-const double keyScale = 4.0;
+const String balanceImage = 'assets/images/main.png';
+const String wallet = 'assets/images/wallet.png';
+const String lock = 'assets/images/recovery-password.png';
+const String key = 'assets/images/key.png';
+const double imageScale = 3.0;
 const double walletScale = 5.0;
 
 // RingPieChart
@@ -164,10 +170,17 @@ const int maxLinesExpended = 10;
 const double buttonPadding = 50.0;
 const double editIconSize = 30.0;
 const double listTileHeight = 30.0;
+const double containerWidth = 200;
 
 //Dropdown widget
-const double dropDownRadius = 40;
-const int numOfItems = 10;
+const double dropDownRadius = 30;
+const EdgeInsets dropDownMargin = EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 0);
+const EdgeInsets dropDownPadding = EdgeInsets.symmetric(horizontal: 10);
+const double numOfItems = 150;
+const TextStyle dropDownTextStyle = TextStyle(color: Colors.black, fontSize: 15);
+const double dropDownIconSize = 30;
+Color dropdDownBGcolor = primaryColor.withOpacity(0.2);
+Border dropDownBorder = Border.all(color: primaryColor, width: 2);
 
 // Generic Info Widget
 const double infoTitleFontSize = 25;

@@ -58,7 +58,8 @@ class _ChangePasswordState extends State<ChangePassword> {
           children: [
             Image.asset(
               gc.key,
-              height: MediaQuery.of(context).size.height / gc.keyScale,
+              width: MediaQuery.of(context).size.width / gc.imageScale,
+              height: MediaQuery.of(context).size.height / gc.imageScale,
             ),
             Text(
               Languages.of(context)!.passwordUpdate,

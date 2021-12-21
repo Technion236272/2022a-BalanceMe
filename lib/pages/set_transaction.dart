@@ -1,5 +1,6 @@
 // ================= Set Transaction =================
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
@@ -18,11 +19,12 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
-  SetTransaction(this._mode, this._currentCategory, {this.currentTransaction, Key? key}) : super(key: key);
+  SetTransaction(this._mode, this._currentCategory, {this.currentTransaction, this.currencySign = gc.NIS, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final Category _currentCategory;
   final Transaction? currentTransaction;
+  final String currencySign; //TODO - Initial this currency sign with the user selection
 
   @override
   State<SetTransaction> createState() => _SetTransactionState();
@@ -31,7 +33,7 @@ class SetTransaction extends StatefulWidget {
 class _SetTransactionState extends State<SetTransaction> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _transactionNameController;
-  late TextEditingController _transactionAmountController;
+  late MoneyMaskedTextController _transactionAmountController;
   late TextEditingController _transactionDescriptionController;
   final DateRangePickerController _dateRangePickerController = DateRangePickerController();
   late PrimitiveWrapper _dropDownController;
@@ -87,10 +89,16 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   String? _essentialFieldValidatorFunction(String? value) {
+    if(value != null){
+      value = value.split(widget.currencySign).first;
+    }
     return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
   }
 
   String? _lineLimitValidatorFunction(String? value) {
+    if(value != null){
+      value = value.split(widget.currencySign).first;
+    }
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
       return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
@@ -99,6 +107,9 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   String? _positiveNumberValidatorFunction(String? value) {
+    if(value != null){
+      value = value.split(widget.currencySign).first;
+    }
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
       return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.mustPositiveNum;
@@ -121,7 +132,7 @@ class _SetTransactionState extends State<SetTransaction> {
     return Transaction(
         _transactionNameController.text.toString(),
         _dateRangePickerController.selectedDate!.toFullDate(),
-        double.parse(_transactionAmountController.text.toString()),
+        double.parse(_transactionAmountController.text.toString().split(widget.currencySign).first),
         _transactionDescriptionController.text.toString(),
         _isConstant
     );
@@ -150,7 +161,9 @@ class _SetTransactionState extends State<SetTransaction> {
   @override
   Widget build(BuildContext context) {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
-    _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.amount.toString());
+    _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null
+        ? 0.0
+        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator,thousandSeparator: gc.thousandsSeparator, precision: 1);
     _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
     _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
@@ -198,7 +211,7 @@ class _SetTransactionState extends State<SetTransaction> {
                         bottom: gc.generalTextFieldsPadding
                     ),
                     child: SizedBox(
-                        width: gc.smallTextFields,
+                        width: gc.containerWidth,
                         child: (widget._mode == DetailsPageMode.Details) ?
                         Text(_dropDownController.value)
                         : GenericDropDownButton(_getCategoriesNameList(context), _dropDownController),

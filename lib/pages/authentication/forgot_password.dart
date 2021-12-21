@@ -50,7 +50,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               gc.sidePadding),
           child: Column(
             children: [
-              Image.asset(gc.lock),
+              Image.asset(
+                gc.lock,
+                width: MediaQuery.of(context).size.width / gc.imageScale,
+                height: MediaQuery.of(context).size.height / gc.imageScale,),
               Text(
                 Languages.of(context)!.forgotPasswordLarge,
                 style: const TextStyle(fontSize: gc.forgotPasswordSize),
