@@ -19,7 +19,7 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
-  SetTransaction(this._mode, this._currentCategory, {this.currentTransaction, this.currencySign = '₪', Key? key}) : super(key: key);
+  SetTransaction(this._mode, this._currentCategory, {this.currentTransaction, this.currencySign = gc.NIS, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final Category _currentCategory;
@@ -161,7 +161,9 @@ class _SetTransactionState extends State<SetTransaction> {
   @override
   Widget build(BuildContext context) {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
-    _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null ? 0.0 : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: '.',thousandSeparator: '', precision: 1);
+    _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null
+        ? 0.0
+        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator,thousandSeparator: gc.thousandsSeparator, precision: 1);
     _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
     _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;

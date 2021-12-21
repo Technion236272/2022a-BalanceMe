@@ -16,7 +16,7 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetCategory extends StatefulWidget {
-  SetCategory(this._mode, this._isIncomeTab, {this.currentCategory,this.currencySign = '₪', Key? key}) : super(key: key);
+  SetCategory(this._mode, this._isIncomeTab, {this.currentCategory,this.currencySign = gc.NIS, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final bool _isIncomeTab;
@@ -139,7 +139,9 @@ class _SetCategoryState extends State<SetCategory> {
   @override
   Widget build(BuildContext context) {
     _categoryNameController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.name);
-    _categoryExpectedController = MoneyMaskedTextController(initialValue: widget.currentCategory == null ? 0.0 : widget.currentCategory!.expected, rightSymbol: widget.currencySign, decimalSeparator: '.', thousandSeparator: '', precision: 1);
+    _categoryExpectedController = MoneyMaskedTextController(initialValue: widget.currentCategory == null
+        ? 0.0
+        : widget.currentCategory!.expected, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
     _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
 

@@ -16,6 +16,10 @@ const defaultMinPasswordLimit = 6;
 
 // Localization
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
+const String decimalSeparator = ".";
+const String thousandsSeparator = "";
+const String NIS = '₪';
+
 
 // Icons
 const IconData settingArrow = Icons.arrow_forward_ios_sharp;
