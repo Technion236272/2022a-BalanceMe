@@ -34,8 +34,6 @@ class AuthRepository with ChangeNotifier {
 
   User? get user => _user;
 
-  bool get isAuthenticated => status == AuthStatus.Authenticated;
-
   String? get avatarUrl => _avatarUrl;
 
   Future<bool> signUp(String email, String password, BuildContext context) async {

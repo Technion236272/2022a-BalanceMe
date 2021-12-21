@@ -38,6 +38,9 @@ class LanguageRu extends Languages {
   String get profileSettings => "профиль";
 
   @override
+  String get profilePageTitle => "Profile Settings";
+
+  @override
   String get passwordSettings => "изменить пароль";
 
   @override

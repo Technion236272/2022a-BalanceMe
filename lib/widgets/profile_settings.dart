@@ -1,23 +1,23 @@
-// ================= Profile settings page =================
+// ================= Profile Page =================
+import 'package:balance_me/global/types.dart';
+import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/generic_edit_button.dart';
 import 'package:balance_me/widgets/user_avatar.dart';
-import 'package:flutter/material.dart';
-import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:balance_me/widgets/image_picker.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class ProfileSettings extends StatefulWidget {
-  const ProfileSettings(
-      {Key? key, required this.authRepository, required this.userStorage})
-      : super(key: key);
+  const ProfileSettings({Key? key, required this.authRepository, required this.userStorage}) : super(key: key);
+
   final AuthRepository authRepository;
   final UserStorage userStorage;
 
@@ -26,10 +26,38 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
-  final TextEditingController _controllerFirstName = TextEditingController();
-  final TextEditingController _controllerLastName = TextEditingController();
-  bool _isDisabledFirstName=true;
-  bool _isDisabledLasttName=true;
+  late TextEditingController _controllerFirstName;
+  late TextEditingController _controllerLastName;
+  bool _isDisabledFirstName = true;
+  bool _isDisabledLastName = true;
+
+  @override
+  void dispose() {
+    _controllerFirstName.dispose();
+    _controllerLastName.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controllerFirstName = TextEditingController(text: _getFirstName());
+    _controllerLastName = TextEditingController(text: _getLastName());
+  }
+
+  String? _getFirstName() {
+    if (widget.authRepository.status == AuthStatus.Authenticated && widget.userStorage.userData != null && widget.userStorage.userData!.firstName != null) {
+      return widget.userStorage.userData!.firstName!;
+    }
+    return null;
+  }
+
+  String? _getLastName() {
+    if (widget.authRepository.status == AuthStatus.Authenticated && widget.userStorage.userData != null && widget.userStorage.userData!.lastName != null) {
+      return widget.userStorage.userData!.lastName!;
+    }
+    return null;
+  }
 
   void _enableEditFirstName(String? value) {
     setState(() {
@@ -39,33 +67,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   void _enableEditLastName(String? value) {
     setState(() {
-      _isDisabledLasttName = (value == null);
+      _isDisabledLastName = (value == null);
     });
-  }
-
-  Widget getFirstName() {
-    if (widget.authRepository.isAuthenticated &&
-        widget.userStorage.userData != null &&
-        widget.userStorage.userData!.firstName != null) {
-      return Text(widget.userStorage.userData!.firstName!);
-    } else {
-      return Text(Languages.of(context)!.firstName);
-    }
-  }
-
-  Widget getLastName() {
-    if (widget.authRepository.isAuthenticated &&
-        widget.userStorage.userData != null &&
-        widget.userStorage.userData!.lastName != null) {
-      return Text(widget.userStorage.userData!.lastName!);
-    } else {
-      return Text(Languages.of(context)!.lastName);
-    }
-  }
-
-  void updateFirstName(String firstName) {
-    widget.userStorage.setFirstName(firstName);
-    _saveProfile();
   }
 
   void _saveProfile() {
@@ -73,50 +76,57 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     displaySnackBar(context, Languages.of(context)!.profileChangeSuccessful);
   }
 
-  void updateLastName(String lastName) {
-    widget.userStorage.setLastName(lastName);
+  void _updateFirstName() {
+    widget.userStorage.setFirstName(_controllerFirstName.text);
     _saveProfile();
+    _enableEditFirstName(null);
   }
 
-  Future<void> chooseAvatarSource(ImageSource source) async {
-    if (source == ImageSource.gallery) {
-      if (await Permission.storage.request().isGranted) {
-        await updateAvatar(ImageSource.gallery);
-      }
-    } else {
-      if (await Permission.camera.request().isGranted) {
-        await updateAvatar(ImageSource.camera);
-      }
-    }
-    navigateBack(context);
+  void _updateLastName() {
+    widget.userStorage.setLastName(_controllerLastName.text);
+    _saveProfile();
+    _enableEditLastName(null);
   }
 
-  List<GestureTapCallback?> actions() {
+  List<GestureTapCallback?> _getActions() {
     List<GestureTapCallback?> imageOptions = [];
     imageOptions.add(() async {
-      await chooseAvatarSource(ImageSource.gallery);
+      await _chooseAvatarSource(ImageSource.gallery);
     });
     imageOptions.add(() async {
-      await chooseAvatarSource(ImageSource.camera);
+      await _chooseAvatarSource(ImageSource.camera);
     });
     return imageOptions;
   }
 
-  List<Widget?> iconsLeading() {
+  List<Widget?> _iconsLeading() {
     List<Widget?> icons = [];
     icons.add(const Icon(gc.galleryChoice));
     icons.add(const Icon(gc.cameraChoice));
     return icons;
   }
 
-  List<String> optionTitles() {
+  List<String> _getOptionTitles() {
     List<String> titles = [];
     titles.add(Languages.of(context)!.gallery);
     titles.add(Languages.of(context)!.camera);
     return titles;
   }
 
-  Future<void> updateAvatar(ImageSource image) async {
+  Future<void> _chooseAvatarSource(ImageSource source) async {
+    if (source == ImageSource.gallery) {
+      if (await Permission.storage.request().isGranted) {
+        await _updateAvatar(ImageSource.gallery);
+      }
+    } else {
+      if (await Permission.camera.request().isGranted) {
+        await _updateAvatar(ImageSource.camera);
+      }
+    }
+    navigateBack(context);
+  }
+
+  Future<void> _updateAvatar(ImageSource image) async {
     ImagePicker picker = ImagePicker();
 
     XFile? pickedImage = await picker.pickImage(source: image);
@@ -131,60 +141,51 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     GoogleAnalytics.instance.logAvatarChange();
   }
 
-  @override
-  void dispose() {
-    _controllerFirstName.dispose();
-    _controllerLastName.dispose();
-    super.dispose();
-  }
-
-  void showImageSourceChoice() async {
-    imagePicker(context, actions(), iconsLeading(), optionTitles());
+  void _showImageSourceChoice() async {
+    imagePicker(context, _getActions(), _iconsLeading(), _getOptionTitles());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MinorAppBar(Languages.of(context)!.profileSettings +
-          ' ' +
-          Languages.of(context)!.settings),
-      body: Column(
-        children: [
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            UserAvatar(widget.authRepository, gc.profileAvatarRadius),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(gc.padAroundPencil,
-                  gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
-              child: GenericIconButton(onTap: showImageSourceChoice),
+      appBar: MinorAppBar(Languages.of(context)!.profilePageTitle),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                UserAvatar(widget.authRepository, gc.profileAvatarRadius),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(gc.padAroundPencil, gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
+                  child: GenericIconButton(onTap: _showImageSourceChoice),
+                ),
+              ],
             ),
-          ]),
-          TextBox(
-            _controllerFirstName,
-            null,
-            labelText: getFirstName(),
-            haveBorder: false,
-            suffix: GenericIconButton(
-              onTap: () {
-                updateFirstName(_controllerFirstName.text);
-              },
-              isDisabled: _isDisabledFirstName, opacity: gc.disabledOpacity
+            TextBox(
+              _controllerFirstName,
+              Languages.of(context)!.firstName,
+              haveBorder: false,
+              onChanged: _enableEditFirstName,
+              suffix: GenericIconButton(
+                onTap: _updateFirstName,
+                isDisabled: _isDisabledFirstName,
+                opacity: gc.disabledOpacity,
+              ),
             ),
-            onChanged: _enableEditFirstName,
-          ),
-          TextBox(
-            _controllerLastName,
-            null,
-            labelText: getLastName(),
-            haveBorder: false,
-            suffix: GenericIconButton(
-              onTap: () {
-                updateLastName(_controllerLastName.text);
-              },
-              isDisabled: _isDisabledLasttName, opacity: gc.disabledOpacity,
+            TextBox(
+              _controllerLastName,
+              Languages.of(context)!.lastName,
+              haveBorder: false,
+              onChanged: _enableEditLastName,
+              suffix: GenericIconButton(
+                onTap: _updateLastName,
+                isDisabled: _isDisabledLastName,
+                opacity: gc.disabledOpacity,
+              ),
             ),
-            onChanged: _enableEditLastName,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

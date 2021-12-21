@@ -38,6 +38,9 @@ class LanguageHe extends Languages {
   String get profileSettings => "‎פרופיל";
 
   @override
+  String get profilePageTitle => "‎הגדרות הפרופיל";
+
+  @override
   String get passwordSettings => "שינוי סיסמה‎ ";
 
   @override

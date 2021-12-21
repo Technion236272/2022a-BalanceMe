@@ -38,6 +38,9 @@ class LanguageEn extends Languages {
   String get profileSettings => "Profile";
 
   @override
+  String get profilePageTitle => "Profile Settings";
+
+  @override
   String get passwordSettings => "Change Password";
 
   @override
