@@ -47,6 +47,7 @@ class _TextBoxState extends State<TextBox> {
             contentPadding: widget.textBoxSize,
             hintText: widget.hintText,
             label: widget.labelText,
+            border: focusBorder(),
             focusedBorder: widget.haveBorder ? focusBorder() : null,
             enabledBorder: widget.haveBorder ? focusBorder() : null,
             errorBorder: widget.haveBorder ? focusBorder() : null,
