@@ -23,8 +23,7 @@ class GoogleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(gc.googleButtonPadding,
-          gc.paddingFacebook, gc.paddingFacebook, gc.paddingFacebook),
+      padding: const EdgeInsets.all(gc.paddingFacebook),
       child: GoogleAuthButton(
         onPressed: () {
           onPressedGoogle(context);
@@ -56,6 +55,7 @@ class FacebookButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(gc.paddingFacebook),
       child: FacebookAuthButton(
+        style: const AuthButtonStyle(padding: gc.googleFacebookAlignment),
         onPressed: () {
           onPressedFacebook(context);
         },
