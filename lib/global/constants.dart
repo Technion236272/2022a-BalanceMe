@@ -164,10 +164,17 @@ const int maxLinesExpended = 10;
 const double buttonPadding = 50.0;
 const double editIconSize = 30.0;
 const double listTileHeight = 30.0;
+const double containerWidth = 200;
 
 //Dropdown widget
-const double dropDownRadius = 40;
-const int numOfItems = 10;
+const double dropDownRadius = 30;
+const EdgeInsets dropDownMargin = EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 0);
+const EdgeInsets dropDownPadding = EdgeInsets.symmetric(horizontal: 10);
+const double numOfItems = 150;
+const TextStyle dropDownTextStyle = TextStyle(color: Colors.black, fontSize: 15);
+const double dropDownIconSize = 30;
+Color dropdDownBGcolor = primaryColor.withOpacity(0.2);
+Border dropDownBorder = Border.all(color: primaryColor, width: 2);
 
 // Generic Info Widget
 const double infoTitleFontSize = 25;

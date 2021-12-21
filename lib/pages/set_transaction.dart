@@ -198,7 +198,7 @@ class _SetTransactionState extends State<SetTransaction> {
                         bottom: gc.generalTextFieldsPadding
                     ),
                     child: SizedBox(
-                        width: gc.smallTextFields,
+                        width: gc.containerWidth,
                         child: (widget._mode == DetailsPageMode.Details) ?
                         Text(_dropDownController.value)
                         : GenericDropDownButton(_getCategoriesNameList(context), _dropDownController),
