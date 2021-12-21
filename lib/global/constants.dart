@@ -103,11 +103,11 @@ const double tabFontSize = 16.0;
 const double tabPadding = 5.0;
 
 //images
-const String balanceImage = 'assets/images/balance-circle.png';
-const String wallet = 'assets/images/wallet.jpg';
-const String lock = 'assets/images/lock.png';
-const String key = 'assets/images/key.jpg';
-const double keyScale = 4.0;
+const String balanceImage = 'assets/images/main.png';
+const String wallet = 'assets/images/wallet.png';
+const String lock = 'assets/images/recovery-password.png';
+const String key = 'assets/images/key.png';
+const double imageScale = 3.0;
 const double walletScale = 5.0;
 
 // RingPieChart
