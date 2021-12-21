@@ -24,8 +24,16 @@ class UserStorage with ChangeNotifier {
 
   void _buildUserStorage(AuthRepository authRepository) {
     _authRepository = authRepository;
-    _userData = (authRepository.user == null) ? null : UserModel(authRepository.user!.email!);
-    _balance = (authRepository.user == null) ? BalanceModel() : _balance;
+
+    String userEmail = authRepository.user == null ? "" : authRepository.user!.email!;
+
+    if (authRepository.status == AuthStatus.Authenticated) {
+      _userData = (authRepository.user != null) ? _userData : UserModel(userEmail);
+    } else {
+      _userData = UserModel(userEmail);
+      _balance = BalanceModel();
+    }
+
     notifyListeners();
   }
 
