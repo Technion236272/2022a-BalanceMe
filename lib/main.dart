@@ -66,9 +66,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
   @override
   void didChangeDependencies() async {
     getLocale().then((locale) {
-      setState(() {
-        _locale = locale;
-      });
+      setLocale(locale);
     });
     super.didChangeDependencies();
   }
