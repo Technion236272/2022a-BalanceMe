@@ -1,5 +1,6 @@
 // ================= Set Category =================
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -15,11 +16,12 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetCategory extends StatefulWidget {
-  SetCategory(this._mode, this._isIncomeTab, {this.currentCategory, Key? key}) : super(key: key);
+  SetCategory(this._mode, this._isIncomeTab, {this.currentCategory,this.currencySign = gc.NIS, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final bool _isIncomeTab;
   final Category? currentCategory;
+  final String currencySign; //TODO - Initial this currency sign with the user selection
 
   @override
   State<SetCategory> createState() => _SetCategoryState();
@@ -28,7 +30,7 @@ class SetCategory extends StatefulWidget {
 class _SetCategoryState extends State<SetCategory> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _categoryNameController;
-  late TextEditingController _categoryExpectedController;
+  late MoneyMaskedTextController _categoryExpectedController;
   late TextEditingController _categoryDescriptionController;
   late PrimitiveWrapper _categoryTypeController;
   bool _performingSave = false;
@@ -75,10 +77,16 @@ class _SetCategoryState extends State<SetCategory> {
   }
 
   String? _essentialFieldValidatorFunction(String? value) {
+    if(value != null){
+      value = value.split(widget.currencySign).first;
+    }
     return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
   }
 
   String? _lineLimitValidatorFunction(String? value) {
+    if(value != null){
+      value = value.split(widget.currencySign).first;
+    }
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
       return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
@@ -87,6 +95,9 @@ class _SetCategoryState extends State<SetCategory> {
   }
 
   String? _positiveNumberValidatorFunction(String? value) {
+    if(value != null){
+      value = value.split(widget.currencySign).first;
+    }
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
       return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.mustPositiveNum;
@@ -98,7 +109,7 @@ class _SetCategoryState extends State<SetCategory> {
     return Category(
       _categoryNameController.text.toString(),
       _categoryTypeController.value == Languages.of(context)!.income,
-      double.parse(_categoryExpectedController.text.toString()),
+      double.parse(_categoryExpectedController.text.toString().split(widget.currencySign).first),
       _categoryDescriptionController.text.toString(),
       widget.currentCategory == null ? null : widget.currentCategory!.amount,
       widget.currentCategory == null ? null : widget.currentCategory!.transactions,
@@ -128,7 +139,9 @@ class _SetCategoryState extends State<SetCategory> {
   @override
   Widget build(BuildContext context) {
     _categoryNameController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.name);
-    _categoryExpectedController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.expected.toString());
+    _categoryExpectedController = MoneyMaskedTextController(initialValue: widget.currentCategory == null
+        ? 0.0
+        : widget.currentCategory!.expected, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
     _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
 

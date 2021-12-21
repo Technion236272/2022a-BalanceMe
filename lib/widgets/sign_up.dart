@@ -125,8 +125,12 @@ class _SignUpState extends State<SignUp> {
                   suffix: _hidingConfirmPasswordEye(),
                   validatorFunction: _passwordValidatorFunction,
                 ),
-                GoogleButton(widget._authRepository, widget._userStorage),
-                FacebookButton(widget._authRepository, widget._userStorage),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width/gc.buttonsScale,
+                    child: GoogleButton(widget._authRepository, widget._userStorage)),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width/gc.buttonsScale,
+                    child: FacebookButton(widget._authRepository, widget._userStorage)),
                 _signUpEmailPasswordButton(context),
               ],
             ),
