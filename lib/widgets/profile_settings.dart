@@ -28,6 +28,20 @@ class ProfileSettings extends StatefulWidget {
 class _ProfileSettingsState extends State<ProfileSettings> {
   final TextEditingController _controllerFirstName = TextEditingController();
   final TextEditingController _controllerLastName = TextEditingController();
+  bool _isDisabledFirstName=true;
+  bool _isDisabledLasttName=true;
+
+  void _enableEditFirstName(String? value) {
+    setState(() {
+      _isDisabledFirstName = (value == null);
+    });
+  }
+
+  void _enableEditLastName(String? value) {
+    setState(() {
+      _isDisabledLasttName = (value == null);
+    });
+  }
 
   Widget getFirstName() {
     if (widget.authRepository.isAuthenticated &&
@@ -149,18 +163,26 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             null,
             labelText: getFirstName(),
             haveBorder: false,
-            suffix: GenericIconButton(onTap: () {
-              updateFirstName(_controllerFirstName.text);
-            }),
+            suffix: GenericIconButton(
+              onTap: () {
+                updateFirstName(_controllerFirstName.text);
+              },
+              isDisabled: _isDisabledFirstName, opacity: gc.disabledOpacity
+            ),
+            onChanged: _enableEditFirstName,
           ),
           TextBox(
             _controllerLastName,
             null,
             labelText: getLastName(),
             haveBorder: false,
-            suffix: GenericIconButton(onTap: () {
-              updateLastName(_controllerLastName.text);
-            }),
+            suffix: GenericIconButton(
+              onTap: () {
+                updateLastName(_controllerLastName.text);
+              },
+              isDisabled: _isDisabledLasttName, opacity: gc.disabledOpacity,
+            ),
+            onChanged: _enableEditLastName,
           ),
         ],
       ),

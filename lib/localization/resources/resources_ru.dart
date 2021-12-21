@@ -178,10 +178,10 @@ class LanguageRu extends Languages {
   String get nothingToShow => "Здесь нечего показывать";
 
   @override
-  String get balanceInfo => "Здесь вы можете управлять своими доходами \n и расходами";
+  String get balanceInfo => "Здесь вы можете управлять своими доходами и расходами.";
 
   @override
-  String get toGetStartedInfo => "Для начала вы можете войти или просто \n испытать приложение";
+  String get toGetStartedInfo => "Для начала вы можете войти или просто испытать приложение.";
 
   @override
   String get expense => "расход";

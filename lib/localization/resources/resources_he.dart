@@ -178,10 +178,10 @@ class LanguageHe extends Languages {
   String get nothingToShow => "‎בינתיים אין מה להציג כאן";
 
   @override
-  String get balanceInfo =>  "‎באפליקציה ניתן לנהל את ההוצאות וההכנסות\n שלך"; //TODO - need to check the view in different screens
+  String get balanceInfo =>  "‎באפליקציה ניתן לנהל את ההוצאות וההכנסות שלך."; //TODO - need to check the view in different screens
 
   @override
-  String get toGetStartedInfo =>  "‎כדי להתחיל יש להתחבר או פשוט לנסות את \n האפליקציה"; //TODO - need to check the view in different screens
+  String get toGetStartedInfo =>  "‎כדי להתחיל יש להתחבר או פשוט לנסות את האפליקציה."; //TODO - need to check the view in different screens
 
   @override
   String get expense => "‎הוצאה";
