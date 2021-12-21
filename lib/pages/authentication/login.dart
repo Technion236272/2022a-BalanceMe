@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
               validatorFunction: _passwordValidatorFunction,
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width/gc.buttonsScale,
+              width: MediaQuery.of(context).size.width / gc.buttonsScale,
               child: GoogleButton(
                   widget._authRepository,
                   widget._userStorage,
@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width/gc.buttonsScale,
+              width: MediaQuery.of(context).size.width / gc.buttonsScale,
               child: FacebookButton(
                 widget._authRepository,
                 widget._userStorage,
