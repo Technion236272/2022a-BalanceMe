@@ -40,8 +40,7 @@ class AuthRepository with ChangeNotifier {
     try {
       _status = AuthStatus.Authenticating;
       notifyListeners();
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await handleMultiProviderRegular( email, password,context);
       _status = AuthStatus.Authenticated;
       _avatarUrl = null;
       notifyListeners();
@@ -104,9 +103,13 @@ class AuthRepository with ChangeNotifier {
     if (methods.length > gc.maxAccounts) {
       displaySnackBar(context, Languages.of(context)!.tooManyProviders);
     }
-
+      if(methods.isEmpty)
+        {
+          await _auth.createUserWithEmailAndPassword(email: email, password: password);
+          return;
+        }
     if (methods.contains(gc.regular)) {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return;
     } else {
       final AuthCredential credential =

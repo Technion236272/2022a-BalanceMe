@@ -147,7 +147,7 @@ class LanguageRu extends Languages {
   String get emailInUse => "Учётная запись с этим электронным адресом уже существует, выберите другую";
 
   @override
-  String get tooManyProviders => "";
+  String get tooManyProviders => "Вы не можете иметь больше двух связанных счетов";
 
   // Password Recovery
   @override
