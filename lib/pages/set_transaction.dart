@@ -34,7 +34,7 @@ class _SetTransactionState extends State<SetTransaction> {
   late TextEditingController _transactionNameController;
   late MoneyMaskedTextController _transactionAmountController;
   late TextEditingController _transactionDescriptionController;
-  final PrimitiveWrapper _dateRangePickerController = PrimitiveWrapper("");
+  final PrimitiveWrapper _dateRangePickerController = PrimitiveWrapper(DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day).toString());
   late PrimitiveWrapper _dropDownController;
   bool _isConstant = gc.defaultIsConstant;
   bool _performingSave = false;
@@ -216,7 +216,19 @@ class _SetTransactionState extends State<SetTransaction> {
                     child: SizedBox(
                         width: gc.containerWidth,
                         child: (widget._mode == DetailsPageMode.Details) ?
-                        Text(_dropDownController.value)
+                        Center(
+                            child: Container(
+                              margin: gc.dropDownMargin,
+                              padding: gc.dropDownPadding,
+                              decoration: BoxDecoration(
+                                color: gc.disabledColor.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(gc.dropDownRadius),
+                                border: gc.disabledDropDownBorder,
+                              ),
+                              child: Text(
+                                  _dropDownController.value,
+                              style: TextStyle(fontSize: gc.infoFontSize, color: gc.inputFontColor),),
+                            ))
                         : GenericDropDownButton(_getCategoriesNameList(context), _dropDownController),
                     ),
                   ),

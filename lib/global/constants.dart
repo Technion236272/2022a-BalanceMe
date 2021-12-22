@@ -51,7 +51,7 @@ const Color linkColors = Color(0xffbc21ff);
 const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
 const Color leaveColor = Color(0xFFE30E0E);
-const Color disabledColor = Colors.black38;
+Color disabledColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
 
 // AppBar
@@ -184,6 +184,7 @@ const TextStyle dropDownTextStyle = TextStyle(color: Colors.black, fontSize: 15)
 const double dropDownIconSize = 30;
 Color dropdDownBGcolor = primaryColor.withOpacity(0.2);
 Border dropDownBorder = Border.all(color: primaryColor, width: 2);
+Border disabledDropDownBorder = Border.all(color: disabledColor, width: 2);
 
 // Generic Info Widget
 const double infoTitleFontSize = 25;
