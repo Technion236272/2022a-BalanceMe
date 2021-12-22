@@ -226,3 +226,9 @@ const double listViewBottomPadding = 100;
 
 //generic edit button
 const double disabledOpacity=0.5;
+
+//Login providers
+const String facebook="facebook.com";
+const String google="google.com";
+const String regular="password";
+const int maxAccounts=2;
