@@ -162,7 +162,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
               ],
             ),
-            Text( widget.authRepository.user!.email!),
+
+            Text( widget.authRepository.user?.email! ?? '')
+            ,
             TextBox(
               _controllerFirstName,
               Languages.of(context)!.firstName,
