@@ -252,6 +252,7 @@ class _SetTransactionState extends State<SetTransaction> {
                               child: DatePicker(
                                   dateController: _dateRangePickerController,
                                   view: DatePickerType.Day,
+                                  iconColor: gc.primaryColor,
                         ),
                             ),
                         Switch(

@@ -61,6 +61,7 @@ class _ArchiveState extends State<Archive> {
       child: Padding(
         padding: gc.ArchDatePickerPadd,
         child: SizedBox(
+          height: gc.datePickerHeight,
           width: MediaQuery.of(context).size.width/3,
           child: DatePicker(
             view: DatePickerType.Month,
@@ -71,6 +72,7 @@ class _ArchiveState extends State<Archive> {
             withBorder: true,
             color: gc.primaryColor,
             textColor: gc.secondaryColor,
+            iconColor: gc.secondaryColor,
           ),
         ),
       ),
