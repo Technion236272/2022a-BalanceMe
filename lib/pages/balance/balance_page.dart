@@ -19,7 +19,7 @@ class BalancePage extends StatelessWidget {
   final Widget? additionalWidget;
 
   Widget _getTabBarView(BuildContext context, List<Category> categoriesList){
-    return categoriesList.isNotEmpty ? CategoriesType(categoriesList, additionalWidget: additionalWidget) : GenericInfo(topInfo: Languages.of(context)!.nothingToShow);
+    return categoriesList.isNotEmpty ? CategoriesType(categoriesList, additionalWidget: additionalWidget) : GenericInfo(null, Languages.of(context)!.nothingToShow, null);
   }
 
   @override

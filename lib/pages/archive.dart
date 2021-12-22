@@ -84,8 +84,8 @@ class _ArchiveState extends State<Archive> {
       body: (_currentBalance.isEmpty) ?
             Column(
               children: [
-                GenericInfo(topInfo: Languages.of(context)!.noDataForRange),
-                _getArchiveDatePicker()
+                GenericInfo(null, Languages.of(context)!.noDataForRange, null),
+                _getArchiveDatePicker(),
               ],
             )
           : ListView(children: [BalancePage(_currentBalance, _setCurrentTab, additionalWidget: _getArchiveDatePicker())]),
