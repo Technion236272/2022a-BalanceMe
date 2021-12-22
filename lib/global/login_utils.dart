@@ -1,4 +1,5 @@
 // ================= Login and SignUp Functions =================
+import 'package:balance_me/pages/profile_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/sentry_repository.dart';
@@ -11,19 +12,19 @@ import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/global/types.dart';
 
 void signInGoogle(BuildContext context, AuthRepository authRepository,UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInGoogle(), LoginMethod.Google.toCleanString(), true, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInGoogle(), LoginMethod.Google.toCleanString(), true, userStorage, failureCallback: failureCallback,authRepository: authRepository);
 }
 
 void signInFacebook(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInWithFacebook(), LoginMethod.Facebook.toCleanString(), true, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInWithFacebook(), LoginMethod.Facebook.toCleanString(), true, userStorage, failureCallback: failureCallback,authRepository: authRepository);
 }
 
 void signUpGoogle(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInGoogle(), LoginMethod.Google.toCleanString(), false, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInGoogle(), LoginMethod.Google.toCleanString(), false, userStorage, failureCallback: failureCallback,authRepository: authRepository);
 }
 
 void signUpFacebook(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInWithFacebook(), LoginMethod.Facebook.toCleanString(), false, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInWithFacebook(), LoginMethod.Facebook.toCleanString(), false, userStorage, failureCallback: failureCallback,authRepository: authRepository);
 }
 
 void emailPasswordSignUp(String? email, String? password, String? confirmPassword, BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
@@ -31,7 +32,7 @@ void emailPasswordSignUp(String? email, String? password, String? confirmPasswor
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-  startLoginProcess(context, authRepository.signUp(email, password, context), LoginMethod.Regular.toCleanString(), false, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signUp(email, password, context), LoginMethod.Regular.toCleanString(), false, userStorage, failureCallback: failureCallback,authRepository: authRepository);
 }
 
 void emailPasswordSignIn(String? email, String? password, BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
@@ -39,7 +40,7 @@ void emailPasswordSignIn(String? email, String? password, BuildContext context, 
     displaySnackBar(context, Languages.of(context)!.nullDetails);
     return;
   }
-  startLoginProcess(context, authRepository.signIn(email, password, context), LoginMethod.Regular.toCleanString(), true, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signIn(email, password, context), LoginMethod.Regular.toCleanString(), true, userStorage, failureCallback: failureCallback,authRepository: authRepository);
 }
 
 void recoverPassword(String? email, BuildContext context) async {
@@ -62,10 +63,13 @@ void recoverPassword(String? email, BuildContext context) async {
   }
 }
 
-void startLoginProcess(BuildContext context, Future<bool> loginFunction, String loginFunctionName, bool isSigningIn, UserStorage userStorage, {VoidCallback? failureCallback}) async {
+void startLoginProcess(BuildContext context, Future<bool> loginFunction,
+    String loginFunctionName, bool isSigningIn, UserStorage userStorage,
+    {VoidCallback? failureCallback,
+    required AuthRepository authRepository}) async {
+  bool isPressed=false;
   BalanceModel lastBalance = userStorage.balance.copy();
   if (await loginFunction) {
-
     Future.delayed(const Duration(milliseconds: 10), () async {
       if (isSigningIn) {
         await userStorage.GET_postLogin(context);
@@ -76,11 +80,34 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
         await userStorage.GET_balanceModelAfterLogin(lastBalance, false);
         GoogleAnalytics.instance.logSignUp(loginFunctionName);
       }
+      isPressed= directToSettings(context, authRepository, userStorage);
 
-      navigateBack(context);
     });
-
   } else if (failureCallback != null) {
     failureCallback();
   }
+  if(!isPressed)
+    {
+      navigateBack(context);
+    }
+}
+bool directToSettings(BuildContext context, AuthRepository authRepository,
+    UserStorage userStorage) {
+  bool isPressed=false;
+  displaySnackBar(context, Languages.of(context)!.settingsRedirect,
+      action: SnackBarAction(
+          label: Languages.of(context)!.goSettings,
+          onPressed: () {
+            _navigateToProfile(context, authRepository, userStorage);
+            isPressed=true;
+          }));
+  return isPressed;
+}
+
+void _navigateToProfile(BuildContext context, AuthRepository authRepository,
+    UserStorage userStorage) {
+  navigateToPage(
+      context,
+      ProfileSettings(authRepository: authRepository, userStorage: userStorage),
+      AppPages.Profile);
 }

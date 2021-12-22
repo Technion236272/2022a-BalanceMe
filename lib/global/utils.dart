@@ -24,8 +24,8 @@ void navigateBack(context) {
 }
 
 // Messages
-void displaySnackBar(BuildContext context, String msg) {
-  final snackBar = SnackBar(content: Text(msg));
+void displaySnackBar(BuildContext context, String msg,{SnackBarAction? action}) {
+  final snackBar = SnackBar(content: Text(msg),action: action,);
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 

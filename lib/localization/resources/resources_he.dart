@@ -146,6 +146,12 @@ class LanguageHe extends Languages {
   @override
   String get emailInUse => "‎קיים חשבון עם כתובת הדואר האלקטרונית הזו";
 
+  @override
+  String get settingsRedirect =>  " ברוכים הבאים, ניתן לשנות את הפרופיל בהגדרות‎";
+
+  @override
+  String get goSettings => "‎לעבור לפרופיל שלי";
+
   // Password Recovery
   @override
   String get recoverPassword => "שחזור סיסמה‎";

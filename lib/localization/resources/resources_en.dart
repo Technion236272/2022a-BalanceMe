@@ -146,6 +146,12 @@ class LanguageEn extends Languages {
   @override
   String get emailInUse => "An account with that email already exists, choose another";
 
+  @override
+  String get settingsRedirect => "Welcome to BalanceMe, before you start, you can edit your profile.";
+
+  @override
+  String get goSettings => "Go to my profile";
+
   // Password Recovery
   @override
   String get recoverPassword => "Password recovery";

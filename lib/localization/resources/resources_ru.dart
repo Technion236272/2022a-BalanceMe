@@ -146,6 +146,12 @@ class LanguageRu extends Languages {
   @override
   String get emailInUse => "Учётная запись с этим электронным адресом уже существует, выберите другую";
 
+  @override
+  String get settingsRedirect => "добро пожаловать в BalanceMe, прежде чем начать, вы можете изменить свой профиль.";
+
+  @override
+  String get goSettings => "пойти в мой профиль";
+
   // Password Recovery
   @override
   String get recoverPassword => "восстановления пароля";

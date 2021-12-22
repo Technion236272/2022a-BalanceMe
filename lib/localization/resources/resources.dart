@@ -59,6 +59,8 @@ abstract class Languages {
   String get badEmail;
   String get incorrectPassword;
   String get emailInUse;
+  String get settingsRedirect;
+  String get goSettings;
 
   // Password Recovery
   String get recoverPassword;
