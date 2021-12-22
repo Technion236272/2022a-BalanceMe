@@ -37,6 +37,16 @@ class _SetCategoryState extends State<SetCategory> {
 
   bool get performingAction => _performingSave;
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _categoryNameController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.name);
+    _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
+    _categoryExpectedController = MoneyMaskedTextController(initialValue: widget.currentCategory == null ? 0.0
+        : widget.currentCategory!.expected, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
+    _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
+  }
+
   void _updatePerformingSave(bool state) {
     setState(() {
       _performingSave = state;
@@ -138,13 +148,6 @@ class _SetCategoryState extends State<SetCategory> {
 
   @override
   Widget build(BuildContext context) {
-    _categoryNameController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.name);
-    _categoryExpectedController = MoneyMaskedTextController(initialValue: widget.currentCategory == null
-        ? 0.0
-        : widget.currentCategory!.expected, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
-    _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
-    _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
-
     return Scaffold(
       appBar: MinorAppBar(_getPageTitle()),
       body: SingleChildScrollView(

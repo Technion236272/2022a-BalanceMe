@@ -170,7 +170,7 @@ class LanguageHe extends Languages {
   String get balance => "‎המאזן";
 
   @override
-  String get statistics => "‎סטטיסטיקות";
+  String get archive => "‎ארכיון";
 
   @override
   String get settings => "‎הגדרות";
@@ -267,10 +267,14 @@ class LanguageHe extends Languages {
   @override
   String get verifyRemoval => "‎האם למחוק את ה%?";
 
-  //Add category
+  // Set Category And Transaction
   @override
   String get typeSelection => "‎סוג";
 
   @override
   String get constantSwitch => "‎קבוע";
+
+  // Archive
+  @override
+  String get noDataForRange => "‎אין מידע זמין עבור פרק הזמן הנבחר";
 }

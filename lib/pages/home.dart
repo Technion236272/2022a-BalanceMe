@@ -8,8 +8,9 @@ import 'package:balance_me/pages/balance/balance_manager.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/global/types.dart';
-import 'package:balance_me/global/constants.dart' as gc;
 import 'package:balance_me/pages/settings.dart';
+import 'package:balance_me/pages/archive.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,14 +29,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _getCurrentPage(AuthRepository authRepository, UserStorage userStorage) {
-    // TODO- replace Statistics screens after they will be implemented
     if (_selectedPage == AppPages.Settings.index) {  // Settings
       GoogleAnalytics.instance.logPageOpened(AppPages.Settings);
-      return Settings(authRepository,userStorage);
+      return Settings(authRepository, userStorage);
     }
-    if (_selectedPage == AppPages.Statistics.index) {  // Statistics
-      GoogleAnalytics.instance.logPageOpened(AppPages.Statistics);
-      return const Scaffold();
+    if (_selectedPage == AppPages.Archive.index) {  // Statistics
+      GoogleAnalytics.instance.logPageOpened(AppPages.Archive);
+      return Archive(userStorage);
     }  // Statistics
     return BalanceManager(userStorage);  // default: Balance
   }

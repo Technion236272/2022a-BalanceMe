@@ -1,4 +1,6 @@
 // ================= Set Transaction =================
+import 'package:balance_me/common_models/balance_model.dart';
+import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
@@ -35,12 +37,23 @@ class _SetTransactionState extends State<SetTransaction> {
   late TextEditingController _transactionNameController;
   late MoneyMaskedTextController _transactionAmountController;
   late TextEditingController _transactionDescriptionController;
-  final DateRangePickerController _dateRangePickerController = DateRangePickerController();
+  final PrimitiveWrapper _dateRangePickerController = PrimitiveWrapper("");
   late PrimitiveWrapper _dropDownController;
   bool _isConstant = gc.defaultIsConstant;
   bool _performingSave = false;
 
   bool get performingAction => _performingSave;
+
+  @override
+  void initState() {
+    _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
+    _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null ? 0.0
+        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator,thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
+    _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
+    _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
+    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
+    super.initState();
+  }
 
   void _updatePerformingSave(bool state) {
     setState(() {
@@ -53,7 +66,6 @@ class _SetTransactionState extends State<SetTransaction> {
     _transactionNameController.dispose();
     _transactionAmountController.dispose();
     _transactionDescriptionController.dispose();
-    _dateRangePickerController.dispose();
     super.dispose();
   }
 
@@ -129,9 +141,11 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   Transaction createNewTransaction() {
+    List<String> dateToString = _dateRangePickerController.value!.toString().split(" ");
+    String dateString = dateToString.elementAt(0);
     return Transaction(
         _transactionNameController.text.toString(),
-        _dateRangePickerController.selectedDate!.toFullDate(),
+        dateString,
         double.parse(_transactionAmountController.text.toString().split(widget.currencySign).first),
         _transactionDescriptionController.text.toString(),
         _isConstant
@@ -160,14 +174,6 @@ class _SetTransactionState extends State<SetTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
-    _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null
-        ? 0.0
-        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator,thousandSeparator: gc.thousandsSeparator, precision: 1);
-    _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
-    _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
-    _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
-
     return Scaffold(
       appBar: MinorAppBar(_getPageTitle()),
       body: SingleChildScrollView(
@@ -240,7 +246,15 @@ class _SetTransactionState extends State<SetTransaction> {
                       Text(Languages.of(context)!.constantSwitch),
                       ],
                       trailingWidgets: [
-                        widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date) : null,
+                        widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date)
+                            : SizedBox(
+                          width: MediaQuery.of(context).size.width/2.5,
+                              child: DatePicker(
+                                  dateController: _dateRangePickerController,
+                                  view: DatePickerType.Day,
+                                  iconColor: gc.primaryColor,
+                        ),
+                            ),
                         Switch(
                           value: _isConstant,
                           onChanged: (widget._mode == DetailsPageMode.Details) ? null : _switchConstant,
@@ -277,18 +291,6 @@ class _SetTransactionState extends State<SetTransaction> {
                   ),
                 ],
               ),
-                  Visibility(
-                    visible: widget._mode != DetailsPageMode.Details,
-                    child: Positioned(
-                      top: MediaQuery.of(context).size.height / 2.65,
-                      right: 20,
-                      child: DesignedDatePicker(
-                        dateController: _dateRangePickerController,
-                        height: 20,
-                        viewSelector: DatePickerType.Day,
-                      ),
-                    ),
-                  ),
             ]),
           ),
         ),
