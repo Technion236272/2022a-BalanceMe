@@ -1,5 +1,4 @@
 // ================= Set Transaction =================
-import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -13,8 +12,6 @@ import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
 import 'package:balance_me/widgets/generic_drop_down_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
-import 'package:balance_me/widgets/designed_date_picker.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:balance_me/widgets/generic_edit_button.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';

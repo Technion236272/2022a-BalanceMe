@@ -7,7 +7,6 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/pages/balance/balance_page.dart';
 import 'package:balance_me/common_models/balance_model.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:balance_me/widgets/designed_date_picker.dart';
 import 'package:balance_me/widgets/generic_info.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
@@ -24,8 +23,10 @@ class Archive extends StatefulWidget {
 
 class _ArchiveState extends State<Archive> {
   final PrimitiveWrapper _dateController = PrimitiveWrapper(DateTime.now());
+  final DateRangePickerController _test = DateRangePickerController();
   BalanceModel _currentBalance = BalanceModel();
   bool _isIncomeTab = true;
+  bool _isVisible = false;
 
   bool get isIncomeTab => _isIncomeTab;
 
@@ -56,24 +57,21 @@ class _ArchiveState extends State<Archive> {
     }
   }
 
+  void _hideDatePicker(){
+    setState(() {
+      _isVisible = false;
+    });
+  }
+
   Widget _getArchiveDatePicker() {
-    return Center(
-      child: Padding(
-        padding: gc.ArchDatePickerPadd,
-        child: SizedBox(
-          height: gc.datePickerHeight,
-          width: MediaQuery.of(context).size.width/3,
-          child: DatePicker(
-            view: DatePickerType.Month,
-            dateController: _dateController,
-            onSelection: _getCurrentBalance,
-            firstDate: gc.firstDate,
-            lastDate: DateTime(DateTime.now().year,DateTime.now().month - 1 , DateTime.now().day), // TODO - put the last Date you want to see backwards
-            withBorder: true,
-            color: gc.primaryColor,
-            textColor: gc.secondaryColor,
-            iconColor: gc.secondaryColor,
-          ),
+    return GestureDetector(
+      onTap: _hideDatePicker,
+      child: Container(
+        color: Colors.transparent,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Center(
+          child: ArchiveDatePicker(dateController: _test, onSelectDate: _getCurrentBalance, isVisible: _isVisible,),
         ),
       ),
     );
@@ -84,7 +82,7 @@ class _ArchiveState extends State<Archive> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: (_currentBalance.isEmpty) ?
-            Column(
+            Stack(
               children: [
                 GenericInfo(null, Languages.of(context)!.noDataForRange, null),
                 _getArchiveDatePicker(),

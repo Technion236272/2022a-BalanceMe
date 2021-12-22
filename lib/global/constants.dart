@@ -198,12 +198,11 @@ const double datePickerFontSize = 15.0;
 const double datePickerGeneralPadding = 2.0;
 const double datePickerRightPadding = 15.0;
 const double datePickerIconSize = 18.0;
-const double datePickerDayViewWidth = 150.0;
+const double datePickerDayViewWidth = 120.0;
 const double datePickerMonthViewWidth = 120.0;
 const double datePickerYearViewWidth = 100.0;
-const double dateRangePickerDayViewWidth = datePickerDayViewWidth * 1.6;
-const double dateRangePickerMonthViewWidth = datePickerMonthViewWidth * 1.6;
-const double dateRangePickerYearViewWidth = datePickerYearViewWidth * 1.4;
+const double datePickerWidthScale = 1.7;
+const double datePickerHeightScale = 2.5;
 const EdgeInsets datePickerPadding = EdgeInsets.only(left: 8.0, right: 8.0);
 DateTime firstDate = DateTime(1970);
 DateTime today = DateTime.now();
@@ -236,6 +235,7 @@ const double disabledOpacity=0.5;
 //Archive
 const EdgeInsets ArchDatePickerPadd = EdgeInsets.only(top: 8.0, bottom: 8.0);
 const double datePickerHeight = 35;
+DateTime archiveLastDate = DateTime(DateTime.now().year,DateTime.now().month - 1);
 
 //Login providers
 const String facebook="facebook.com";

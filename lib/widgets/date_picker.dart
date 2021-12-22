@@ -1,10 +1,12 @@
+// ================= Date Picker Widgets =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DatePicker extends StatefulWidget {
-  DatePicker({this.dateController,this.onSelection, this.firstDate, this.lastDate, this.withBorder = false,
-              this.color,this.textColor, this.iconColor, this.view = DatePickerType.Day, Key? key}) : super(key: key);
+  DatePicker({this.dateController, this.onSelection, this.firstDate, this.lastDate, this.withBorder = false, this.color,
+              this.textColor, this.iconColor, this.view = DatePickerType.Day, Key? key}) : super(key: key);
 
   PrimitiveWrapper? dateController;
   final VoidCallback? onSelection;
@@ -29,19 +31,21 @@ class _DatePickerState extends State<DatePicker> {
   void initState() {
     _firstDate = widget.firstDate ?? gc.firstDate;
     _lastDate = widget.lastDate ?? gc.today;
-    _date = _date.isAfter(_lastDate) ? DateTime(_lastDate.year,_lastDate.month - 1, _lastDate.day) : _date;
+    _date = _date.isAfter(_lastDate)
+        ? DateTime(_lastDate.year, _lastDate.month - 1, _lastDate.day)
+        : _date;
     super.initState();
   }
 
-  String _getText(){
-      return widget.view == DatePickerType.Day ? '${_date.year}/${_date.month}/${_date.day}' : '${_date.year}/${_date.month}';
+  String _getText() {
+    return '${_date.day}/${_date.month}/${_date.year}';
   }
 
   Future _pickDate(BuildContext context) async {
     final initialDate = _date;
     final newDate = await showDatePicker(
       useRootNavigator: true,
-      initialDatePickerMode: DatePickerMode.year,
+      initialDatePickerMode: DatePickerMode.day,
       context: context,
       initialDate: initialDate,
       firstDate: _firstDate,
@@ -50,8 +54,8 @@ class _DatePickerState extends State<DatePicker> {
     if (newDate == null) return;
     setState(() {
       _date = newDate;
-      widget.dateController!.value = widget.view == DatePickerType.Day ? _date : DateTime(_date.year, _date.month);
-      if(widget.onSelection != null){
+      widget.dateController!.value = _date;
+      if (widget.onSelection != null) {
         widget.onSelection!();
       }
     });
@@ -62,10 +66,10 @@ class _DatePickerState extends State<DatePicker> {
     return Container(
       decoration: widget.withBorder
           ? BoxDecoration(
-            color: widget.color,
-            border: Border.all(
-                color: Colors.black38, width: gc.cardThinBorderWidth),
-                borderRadius: gc.datePickerRadius)
+              color: widget.color,
+              border: Border.all(
+                  color: Colors.black38, width: gc.cardThinBorderWidth),
+              borderRadius: gc.datePickerRadius)
           : null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,7 +94,8 @@ class _DatePickerState extends State<DatePicker> {
 }
 
 class DateRangePicker extends StatefulWidget {
-  DateRangePicker({this.dateRangeController, this.onSelection, this.firstDate, this.lastDate,this.withBorder = false, this.color, this.textColor,this.iconColor, Key? key}) : super(key: key);
+  DateRangePicker({this.dateRangeController, this.onSelection, this.firstDate, this.lastDate, this.withBorder = false, this.color,
+                   this.textColor, this.iconColor, Key? key}) : super(key: key);
 
   PrimitiveWrapper? dateRangeController;
   final VoidCallback? onSelection;
@@ -117,8 +122,8 @@ class _DateRangePickerState extends State<DateRangePicker> {
     super.initState();
   }
 
-  String _getText(){
-    return '${_dateRange.start.year}/${_dateRange.start.month}/${_dateRange.start.day} - ${_dateRange.end.year}/${_dateRange.end.month}/${_dateRange.end.day}';
+  String _getText() {
+    return '${_dateRange.start.year}/${_dateRange.start.month}/${_dateRange.start.day}-${_dateRange.end.year}/${_dateRange.end.month}/${_dateRange.end.day}';
   }
 
   Future _pickDateRange(BuildContext context) async {
@@ -133,30 +138,32 @@ class _DateRangePickerState extends State<DateRangePicker> {
     setState(() {
       _dateRange = newDate;
       widget.dateRangeController!.value = _dateRange;
-      if(widget.onSelection != null){
+      if (widget.onSelection != null) {
         widget.onSelection!();
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: widget.withBorder
           ? BoxDecoration(
-          color: widget.color,
-          border: Border.all(
-              color: Colors.black38, width: gc.cardThinBorderWidth),
-          borderRadius: gc.datePickerRadius)
+              color: widget.color,
+              border: Border.all(
+                  color: Colors.black38, width: gc.cardThinBorderWidth),
+              borderRadius: gc.datePickerRadius)
           : null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding:gc.datePickerPadding,
-            child: Text(_getText(), style: TextStyle(color: widget.textColor),),
+            padding: gc.datePickerPadding,
+            child: Text(
+              _getText(),
+              style: TextStyle(color: widget.textColor),
+            ),
           ),
           IconButton(
             iconSize: gc.iconSize,
@@ -172,4 +179,132 @@ class _DateRangePickerState extends State<DateRangePicker> {
   }
 }
 
+class ArchiveDatePicker extends StatefulWidget {
+  ArchiveDatePicker({required this.dateController, this.onSelectDate, this.firstDate, this.lastDate, this.height = 35.0, this.isVisible = false, Key? key}): super(key: key);
 
+  final DateRangePickerController dateController;
+  final VoidCallback? onSelectDate;
+  final DateTime? firstDate;
+  final DateTime? lastDate;
+  final double height;
+  late bool isVisible;
+
+  @override
+  _ArchiveDatePickerState createState() => _ArchiveDatePickerState();
+}
+
+class _ArchiveDatePickerState extends State<ArchiveDatePicker> {
+  DateTime initialDate = gc.archiveLastDate;
+  String initialDateString = "";
+
+  @override
+  void initState() {
+    initialDateString =
+        initialDate.year.toString() + "/" + initialDate.month.toString();
+    super.initState();
+  }
+
+  void _hideDatePicker() {
+    setState(() {
+      widget.isVisible = false;
+    });
+  }
+
+  void _showDatePicker() {
+    setState(() {
+      widget.isVisible = true;
+    });
+  }
+
+  void _onSubmit(val) {
+    setState(() {
+      if (val is DateTime) {
+        initialDateString = val.year.toString() + "/" + val.month.toString();
+        widget.dateController.selectedDate = val;
+      }
+      widget.onSelectDate != null ? widget.onSelectDate!() : null;
+      widget.isVisible = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          SizedBox(
+            width: gc.datePickerDayViewWidth,
+            height: widget.height,
+            child: OutlinedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateColor.resolveWith(
+                      (states) => gc.primaryColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(widget.height / 2),
+                    side: const BorderSide(color: gc.primaryColor),
+                  )),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(gc.datePickerGeneralPadding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        initialDateString,
+                        style: const TextStyle(
+                          color: gc.secondaryColor,
+                          fontSize: gc.datePickerFontSize,
+                        ),
+                      ),
+                      Icon(
+                        widget.isVisible ? gc.expandIcon : gc.minimizeIcon,
+                        size: gc.datePickerIconSize,
+                        color: gc.secondaryColor,
+                      ),
+                    ],
+                  ),
+                ),
+                onPressed:
+                    widget.isVisible ? _hideDatePicker : _showDatePicker),
+          ),
+          Visibility(
+            visible: widget.isVisible,
+            maintainAnimation: true,
+            maintainState: true,
+            child: SizedBox(
+              width:
+                  MediaQuery.of(context).size.width / gc.datePickerWidthScale,
+              height:
+                  MediaQuery.of(context).size.height / gc.datePickerHeightScale,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: gc.datePickerGeneralPadding,
+                    right: gc.datePickerRightPadding),
+                child: SfDateRangePicker(
+                  minDate: widget.firstDate != null
+                      ? widget.firstDate!
+                      : gc.firstDate,
+                  maxDate: widget.lastDate != null
+                      ? widget.lastDate!
+                      : gc.archiveLastDate,
+                  view: DateRangePickerView.year,
+                  backgroundColor: gc.secondaryColor,
+                  initialSelectedDate: gc.archiveLastDate,
+                  selectionTextStyle: const TextStyle(color: gc.secondaryColor),
+                  showNavigationArrow: true,
+                  showActionButtons: true,
+                  allowViewNavigation: false,
+                  controller: widget.dateController,
+                  onSubmit: _onSubmit,
+                  onCancel: _hideDatePicker,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
