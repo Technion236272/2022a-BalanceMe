@@ -63,12 +63,69 @@ class AuthRepository with ChangeNotifier {
       return false;
     }
   }
+  LoginMethod getProvider(String provider) {
+    if (provider == gc.facebook) {
+      return LoginMethod.Facebook;
+    } else if (provider == gc.google) {
+      return LoginMethod.Google;
+    }
+    return LoginMethod.Regular;
+  }
+
+  Future<void> linkWithFacebook(AuthCredential credential) async {
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+    final OAuthCredential thirdPartyCredential =
+    FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    await FirebaseAuth.instance.signInWithCredential(thirdPartyCredential);
+    _auth.currentUser?.linkWithCredential(credential);
+  }
+
+  Future<void> linkWithGoogle(AuthCredential credential) async {
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+    await googleUser!.authentication;
+    final OAuthCredential thirdPartyCredential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    await FirebaseAuth.instance.signInWithCredential(thirdPartyCredential);
+    _auth.currentUser?.linkWithCredential(credential);
+  }
+  Future<void> linkRegular(AuthCredential credential,String email,String password) async {
+    final AuthCredential thirdPartyCredential = EmailAuthProvider.credential(email: email, password: password);
+    await FirebaseAuth.instance.signInWithCredential(thirdPartyCredential);
+    _auth.currentUser?.linkWithCredential(credential);
+  }
+  Future<void> handleMultiProviderRegular(
+      String email, String password, BuildContext context) async {
+    List<String> methods = await _auth.fetchSignInMethodsForEmail(email);
+
+    if (methods.length > gc.maxAccounts) {
+      displaySnackBar(context, Languages.of(context)!.tooManyProviders);
+    }
+
+    if (methods.contains(gc.regular)) {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return;
+    } else {
+      final AuthCredential credential =
+      EmailAuthProvider.credential(email: email, password: password);
+      if (getProvider(methods.first) == LoginMethod.Facebook) {
+        await linkWithFacebook(credential);
+      }
+      if (getProvider(methods.first) == LoginMethod.Google) {
+        await linkWithGoogle(credential);
+      }
+    }
+  }
+
 
   Future<bool> signIn(String email, String password,BuildContext context) async {
     try {
       _status = AuthStatus.Authenticating;
       notifyListeners();
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await handleMultiProviderRegular( email, password,context);
       _status = AuthStatus.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();

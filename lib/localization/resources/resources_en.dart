@@ -146,6 +146,9 @@ class LanguageEn extends Languages {
   @override
   String get emailInUse => "An account with that email already exists, choose another";
 
+  @override
+  String get tooManyProviders => "Вы не можете иметь больше двух связанных счетов";
+
   // Password Recovery
   @override
   String get recoverPassword => "Password recovery";

@@ -146,6 +146,9 @@ class LanguageRu extends Languages {
   @override
   String get emailInUse => "Учётная запись с этим электронным адресом уже существует, выберите другую";
 
+  @override
+  String get tooManyProviders => "";
+
   // Password Recovery
   @override
   String get recoverPassword => "восстановления пароля";

@@ -59,6 +59,7 @@ abstract class Languages {
   String get badEmail;
   String get incorrectPassword;
   String get emailInUse;
+  String get tooManyProviders;
 
   // Password Recovery
   String get recoverPassword;
