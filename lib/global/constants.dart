@@ -204,8 +204,7 @@ const double datePickerYearViewWidth = 100.0;
 const double dateRangePickerDayViewWidth = datePickerDayViewWidth * 1.6;
 const double dateRangePickerMonthViewWidth = datePickerMonthViewWidth * 1.6;
 const double dateRangePickerYearViewWidth = datePickerYearViewWidth * 1.4;
-const EdgeInsets datePickerLeftPadd = EdgeInsets.only(left: 8.0);
-const EdgeInsets datePickerRightPadd = EdgeInsets.only(left: 10.0);
+const EdgeInsets datePickerPadding = EdgeInsets.only(left: 8.0, right: 8.0);
 DateTime firstDate = DateTime(1970);
 DateTime today = DateTime.now();
 BorderRadius datePickerRadius = BorderRadius.circular(10);
@@ -228,7 +227,7 @@ const double dividerThickness = 1.0;
 const double cardBorderWidth = 2.0;
 const double cardThinBorderWidth = 1.0;
 const double iconPadding = 10.0;
-const double iconSize = 24.0;
+const double iconSize = 30.0;
 const double listViewBottomPadding = 100;
 
 //generic edit button
@@ -236,3 +235,4 @@ const double disabledOpacity=0.5;
 
 //Archive
 const EdgeInsets ArchDatePickerPadd = EdgeInsets.only(top: 8.0, bottom: 8.0);
+const double datePickerHeight = 35;

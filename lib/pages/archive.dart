@@ -61,6 +61,7 @@ class _ArchiveState extends State<Archive> {
       child: Padding(
         padding: gc.ArchDatePickerPadd,
         child: SizedBox(
+          height: gc.datePickerHeight,
           width: MediaQuery.of(context).size.width/3,
           child: DatePicker(
             view: DatePickerType.Month,
@@ -71,6 +72,7 @@ class _ArchiveState extends State<Archive> {
             withBorder: true,
             color: gc.primaryColor,
             textColor: gc.secondaryColor,
+            iconColor: gc.secondaryColor,
           ),
         ),
       ),
@@ -84,8 +86,8 @@ class _ArchiveState extends State<Archive> {
       body: (_currentBalance.isEmpty) ?
             Column(
               children: [
-                GenericInfo(topInfo: Languages.of(context)!.noDataForRange),
-                _getArchiveDatePicker()
+                GenericInfo(null, Languages.of(context)!.noDataForRange, null),
+                _getArchiveDatePicker(),
               ],
             )
           : ListView(children: [BalancePage(_currentBalance, _setCurrentTab, additionalWidget: _getArchiveDatePicker())]),

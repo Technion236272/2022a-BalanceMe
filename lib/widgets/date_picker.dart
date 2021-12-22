@@ -4,7 +4,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 
 class DatePicker extends StatefulWidget {
   DatePicker({this.dateController,this.onSelection, this.firstDate, this.lastDate, this.withBorder = false,
-              this.color,this.textColor, this.view = DatePickerType.Day, Key? key}) : super(key: key);
+              this.color,this.textColor, this.iconColor, this.view = DatePickerType.Day, Key? key}) : super(key: key);
 
   PrimitiveWrapper? dateController;
   final VoidCallback? onSelection;
@@ -13,6 +13,7 @@ class DatePicker extends StatefulWidget {
   final bool withBorder;
   final Color? color;
   final Color? textColor;
+  final Color? iconColor;
   final DatePickerType view;
 
   @override
@@ -71,15 +72,15 @@ class _DatePickerState extends State<DatePicker> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: gc.datePickerLeftPadd,
+            padding: gc.datePickerPadding,
             child: Text(_getText(), style: TextStyle(color: widget.textColor)),
           ),
           IconButton(
             iconSize: gc.iconSize,
-            padding: gc.datePickerRightPadd,
+            padding: gc.datePickerPadding,
             constraints: const BoxConstraints(),
             icon: const Icon(gc.calendarIcon),
-            color: widget.textColor,
+            color: widget.iconColor,
             onPressed: () => _pickDate(context),
           )
         ],
@@ -89,7 +90,7 @@ class _DatePickerState extends State<DatePicker> {
 }
 
 class DateRangePicker extends StatefulWidget {
-  DateRangePicker({this.dateRangeController, this.onSelection, this.firstDate, this.lastDate,this.withBorder = false, this.color,this.textColor, Key? key}) : super(key: key);
+  DateRangePicker({this.dateRangeController, this.onSelection, this.firstDate, this.lastDate,this.withBorder = false, this.color, this.textColor,this.iconColor, Key? key}) : super(key: key);
 
   PrimitiveWrapper? dateRangeController;
   final VoidCallback? onSelection;
@@ -98,6 +99,7 @@ class DateRangePicker extends StatefulWidget {
   final bool withBorder;
   final Color? color;
   final Color? textColor;
+  final Color? iconColor;
 
   @override
   _DateRangePickerState createState() => _DateRangePickerState();
@@ -141,7 +143,6 @@ class _DateRangePickerState extends State<DateRangePicker> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       decoration: widget.withBorder
           ? BoxDecoration(
           color: widget.color,
@@ -154,15 +155,15 @@ class _DateRangePickerState extends State<DateRangePicker> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding:gc.datePickerLeftPadd,
+            padding:gc.datePickerPadding,
             child: Text(_getText(), style: TextStyle(color: widget.textColor),),
           ),
           IconButton(
             iconSize: gc.iconSize,
-            padding: gc.datePickerRightPadd,
+            padding: gc.datePickerPadding,
             constraints: const BoxConstraints(),
             icon: const Icon(gc.calendarIcon),
-            color: widget.textColor,
+            color: widget.iconColor,
             onPressed: () => _pickDateRange(context),
           )
         ],
