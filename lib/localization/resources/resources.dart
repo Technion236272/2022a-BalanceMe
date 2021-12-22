@@ -112,4 +112,5 @@ abstract class Languages {
 
   // Archive
   String get noDataForRange;
+  String get dateReloadSuccessful;
 }

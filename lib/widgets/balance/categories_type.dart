@@ -6,10 +6,9 @@ import 'package:balance_me/widgets/balance/categories_type_header.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class CategoriesType extends StatelessWidget {
-  const CategoriesType(this._categories, {this.additionalWidget, Key? key}) : super(key: key);
+  const CategoriesType(this._categories, {Key? key}) : super(key: key);
 
   final List<Category> _categories;
-  final Widget? additionalWidget;
 
   List<Widget> getCategories() {
     List<Widget> categoryWidgets = [];
@@ -21,17 +20,12 @@ class CategoriesType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ListView(
+    return ListView(
           padding: const EdgeInsets.only(bottom: gc.listViewBottomPadding),
           children: [
             CategoriesTypeHeader(_categories),
             ...getCategories(),
           ],
-        ),
-        additionalWidget == null ? Container() : additionalWidget!
-      ],
-    );
+        );
   }
 }

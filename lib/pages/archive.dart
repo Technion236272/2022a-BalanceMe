@@ -1,5 +1,4 @@
 // ================= Archive Page =================
-import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -23,8 +22,9 @@ class Archive extends StatefulWidget {
 }
 
 class _ArchiveState extends State<Archive> {
-  final PrimitiveWrapper _dateController = PrimitiveWrapper(DateTime.now());
+  final DateRangePickerController _dateController = DateRangePickerController();
   BalanceModel _currentBalance = BalanceModel();
+  DateTime _currentDate = DateTime.now();
   bool _isIncomeTab = true;
 
   bool get isIncomeTab => _isIncomeTab;
@@ -37,60 +37,48 @@ class _ArchiveState extends State<Archive> {
     setState(() {
       _currentBalance = BalanceModel.fromJson(data);
     });
+    displaySnackBar(context, Languages.of(context)!.dateReloadSuccessful);
   }
 
   void _resetCurrentBalance() {
     setState(() {
       _currentBalance = BalanceModel();
     });
+    displaySnackBar(context, Languages.of(context)!.noDataForRange);
   }
 
-  void _getCurrentBalance() {
-    if (_dateController.value != null) {
+  void _getCurrentBalance() {  // TODO- check if data is this month and present failure snackbar
+    if (_dateController.selectedDate != null) {
       int endOfMonthDay = (widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay;
-      DateTime requestedRange = DateTime(_dateController.value!.year, _dateController.value!.month, endOfMonthDay);
-      setState(() {
-        widget._userStorage.GET_balanceModel(modifyMainBalance: false, specificDate: requestedRange, successCallback: _updateCurrentBalance, failureCallback: _resetCurrentBalance);
-      });
-      GoogleAnalytics.instance.logArchiveDateChange(requestedRange.toFullDate());
-    }
-  }
+      DateTime requestedRange = DateTime(_dateController.selectedDate!.year, _dateController.selectedDate!.month, endOfMonthDay + 1);
 
-  Widget _getArchiveDatePicker() {
-    return Center(
-      child: Padding(
-        padding: gc.ArchDatePickerPadd,
-        child: SizedBox(
-          height: gc.datePickerHeight,
-          width: MediaQuery.of(context).size.width/3,
-          child: DatePicker(
-            view: DatePickerType.Month,
-            dateController: _dateController,
-            onSelection: _getCurrentBalance,
-            firstDate: gc.firstDate,
-            lastDate: DateTime(DateTime.now().year,DateTime.now().month - 1 , DateTime.now().day), // TODO - put the last Date you want to see backwards
-            withBorder: true,
-            color: gc.primaryColor,
-            textColor: gc.secondaryColor,
-            iconColor: gc.secondaryColor,
-          ),
-        ),
-      ),
-    );
+      if (_currentDate == requestedRange) {
+        return;
+      }
+
+      _currentDate = requestedRange;
+      setState(() {
+        widget._userStorage.GET_balanceModel(modifyMainBalance: false, specificDate: _currentDate, successCallback: _updateCurrentBalance, failureCallback: _resetCurrentBalance);
+      });
+      GoogleAnalytics.instance.logArchiveDateChange(_currentDate.toFullDate());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: (_currentBalance.isEmpty) ?
-            Column(
-              children: [
-                GenericInfo(null, Languages.of(context)!.noDataForRange, null),
-                _getArchiveDatePicker(),
-              ],
-            )
-          : ListView(children: [BalancePage(_currentBalance, _setCurrentTab, additionalWidget: _getArchiveDatePicker())]),
-      );
+      body: Stack(
+        children: [
+          (_currentBalance.isEmpty) ? GenericInfo(null, Languages.of(context)!.noDataForRange, null)
+              : ListView(children: [BalancePage(_currentBalance, _setCurrentTab)]),
+          DesignedDatePicker(
+            dateController: _dateController,
+            onSelectDate: _getCurrentBalance,
+            viewSelector: DatePickerType.Month,  // TODO- remove
+          ),
+        ],
+      ),
+    );
   }
 }

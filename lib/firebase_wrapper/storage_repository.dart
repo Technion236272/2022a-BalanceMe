@@ -194,7 +194,6 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-
   Future<void> GET_balanceModel({bool modifyMainBalance = true, DateTime? specificDate, JsonCallbackJson? successCallback, VoidCallback? failureCallback}) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, specificDate);
