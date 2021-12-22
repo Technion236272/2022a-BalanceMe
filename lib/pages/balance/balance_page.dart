@@ -18,7 +18,7 @@ class BalancePage extends StatelessWidget {
   final VoidCallbackInt _changeCurrentTab;
 
   Widget _getTabBarView(BuildContext context, List<Category> categoriesList){
-    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : GenericInfo(null, Languages.of(context)!.nothingToShow, null);
+    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : GenericInfo(bottomInfo: Languages.of(context)!.nothingToShow);
   }
 
   @override

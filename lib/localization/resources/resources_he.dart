@@ -273,7 +273,7 @@ class LanguageHe extends Languages {
 
   // Archive
   @override
-  String get noDataForRange => "‎אין מידע זמין עבור פרק הזמן הנבחר";
+  String get dataUnavailable => "‎אין מידע זמין עבור פרק הזמן הנבחר";
 
   @override
   String get dateReloadSuccessful => "‎המידע נטען בהצלחה";

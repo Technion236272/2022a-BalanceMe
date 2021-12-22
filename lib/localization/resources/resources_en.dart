@@ -273,7 +273,7 @@ class LanguageEn extends Languages {
 
   // Archive
   @override
-  String get noDataForRange => "There is no data for the selected range";
+  String get dataUnavailable => "There is no data for the selected month";
 
   @override
   String get dateReloadSuccessful => "The data has reloaded successfully";

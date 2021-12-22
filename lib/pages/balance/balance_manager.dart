@@ -36,11 +36,11 @@ class _BalanceManagerState extends State<BalanceManager> {
     if (widget._authRepository.status == AuthStatus.Authenticated) {  // TODO- verify the case that user doesn't have data
       widget._userStorage.GET_balanceModel(successCallback: _stopWaitingForDataCB, failureCallback: _stopWaitingForDataCB);
     } else {
-      _stopWaitingForDataCB(null);
+      _stopWaitingForDataCB();
     }
   }
 
-  void _stopWaitingForDataCB(Json? data) {
+  void _stopWaitingForDataCB([Json? data]) {
     setState(() {
       _waitingForData = false;
     });

@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class GenericInfo extends StatelessWidget {
-  const GenericInfo(this._title, this._topInfo, this._bottomInfo, {Key? key}) : super(key: key);
+  const GenericInfo({this.title, this.topInfo, this.bottomInfo, Key? key}) : super(key: key);
 
-  final String? _title;
-  final String? _topInfo;
-  final String? _bottomInfo;
+  final String? title;
+  final String? topInfo;
+  final String? bottomInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -26,22 +26,22 @@ class GenericInfo extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_title == null ? Container()
+            children: [title == null ? Container()
                 : Text(
-                  _title!,
+                  title!,
                   style: const TextStyle(fontSize: gc.infoTitleFontSize),
                 ),
-              _topInfo == null ? Container()
+              topInfo == null ? Container()
                   : Padding(
                     padding: gc.innerColumnPadding,
                     child: Text(
-                      _topInfo!,
+                      topInfo!,
                       style: const TextStyle(fontSize: gc.infoFontSize),
                     ),
                   ),
-              _bottomInfo == null ? Container()
+              bottomInfo == null ? Container()
                   : Text(
-                    _bottomInfo!,
+                    bottomInfo!,
                     style: const TextStyle(fontSize: gc.infoFontSize),
                   ),],
           ),

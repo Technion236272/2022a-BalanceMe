@@ -111,6 +111,6 @@ abstract class Languages {
   String get constantSwitch;
 
   // Archive
-  String get noDataForRange;
+  String get dataUnavailable;
   String get dateReloadSuccessful;
 }

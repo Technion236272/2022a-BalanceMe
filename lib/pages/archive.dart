@@ -25,13 +25,21 @@ class Archive extends StatefulWidget {
 class _ArchiveState extends State<Archive> {
   final DateRangePickerController _dateController = DateRangePickerController();
   bool _isIncomeTab = true;
+  bool _waitingForData = false;
 
   @override
   void initState(){
     super.initState();
+    widget._userStorage.currentDate = null;
     if (widget._authRepository.status == AuthStatus.Authenticated) {
       widget._userStorage.resetBalance();
     }
+  }
+
+  void _stopWaitingForDataCB() {
+    setState(() {
+      _waitingForData = false;
+    });
   }
 
   bool get isIncomeTab => _isIncomeTab;
@@ -41,7 +49,8 @@ class _ArchiveState extends State<Archive> {
   }
 
   void _showMsgAccordingToBalance([Json? data]) {
-    (data == null) ? displaySnackBar(context, Languages.of(context)!.noDataForRange) : displaySnackBar(context, Languages.of(context)!.dateReloadSuccessful);
+    (data == null) ? displaySnackBar(context, Languages.of(context)!.dataUnavailable) : displaySnackBar(context, Languages.of(context)!.dateReloadSuccessful);
+    _stopWaitingForDataCB();
   }
 
   void _getCurrentBalance() {  // TODO- check if data is this month and present failure snackbar
@@ -55,6 +64,7 @@ class _ArchiveState extends State<Archive> {
 
       widget._userStorage.setDate(requestedRange);
       setState(() {
+        _waitingForData = true;
         widget._userStorage.GET_balanceModel(successCallback: _showMsgAccordingToBalance, failureCallback: _showMsgAccordingToBalance);
       });
       GoogleAnalytics.instance.logArchiveDateChange(widget._userStorage.currentDate!.toFullDate());
@@ -70,8 +80,11 @@ class _ArchiveState extends State<Archive> {
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          (widget._userStorage.balance.isEmpty) ? GenericInfo(null, Languages.of(context)!.noDataForRange, null)
-              : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]),
+          _waitingForData ? const Center(child: CircularProgressIndicator())
+
+          : (widget._userStorage.currentDate != null && !widget._userStorage.balance.isEmpty) ?
+              ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)])
+              : GenericInfo(topInfo: Languages.of(context)!.dataUnavailable),
           DesignedDatePicker(
             dateController: _dateController,
             onSelectDate: _getCurrentBalance,
