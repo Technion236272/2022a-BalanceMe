@@ -38,6 +38,9 @@ class LanguageHe extends Languages {
   String get profileSettings => "‎פרופיל";
 
   @override
+  String get profilePageTitle => "‎הגדרות הפרופיל";
+
+  @override
   String get passwordSettings => "שינוי סיסמה‎ ";
 
   @override
@@ -135,7 +138,7 @@ class LanguageHe extends Languages {
   String get minPasswordLimit => "‎אורך הסיסמה צריך להיות לפחות % תווים";
 
   @override
-  String get badEmail => "‎כתובת הדואר האלקטרוני שלך אינה תקינה, יתכן שחסר התו @ ";
+  String get badEmail => "‎כתובת הדואר האלקטרוני שהוזנה אינה תקינה";
 
   @override
   String get incorrectPassword => "‎הסיסמה שכתבת אינה תואמת את כתובת הדואר האלקטרונית";

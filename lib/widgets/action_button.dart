@@ -9,7 +9,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 /// callback to be executed after clicking on the button.
 /// [optional] ButtonStyle for styling the button.
 class ActionButton extends StatelessWidget {
-  const ActionButton(this._showLoading, this._textButton, this._onPressedCallback, {this.style, Key? key, this.fillStyle=false, this.buttonColor=gc.alternativePrimary}) : super(key: key);
+  const ActionButton(this._showLoading, this._textButton, this._onPressedCallback, {this.style, Key? key, this.fillStyle = false, this.buttonColor = gc.alternativePrimary}) : super(key: key);
 
   final dynamic _showLoading;
   final String _textButton;
@@ -19,10 +19,9 @@ class ActionButton extends StatelessWidget {
   final Color buttonColor;
 
   ButtonStyle filledButtonColor() {
-    ButtonStyle fillTheButton = ButtonStyle(
-        backgroundColor:
-        MaterialStateProperty.all<Color>(buttonColor));
-    return fillTheButton;
+    return ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(buttonColor),
+    );
   }
 
   @override
@@ -34,7 +33,7 @@ class ActionButton extends StatelessWidget {
     : ElevatedButton(
       child: Text(_textButton),
       onPressed: _onPressedCallback,
-      style:fillStyle?filledButtonColor():style,
+      style: fillStyle ? filledButtonColor() : style,
     );
   }
 }

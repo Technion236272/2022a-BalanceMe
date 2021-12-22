@@ -21,6 +21,7 @@ abstract class Languages {
 
 // Settings
   String get profileSettings;
+  String get profilePageTitle;
   String get passwordSettings;
   String get endOfMonthSettings;
   String get languageSettings;
