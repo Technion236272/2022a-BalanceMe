@@ -28,7 +28,6 @@ class ProfileSettings extends StatefulWidget {
 class _ProfileSettingsState extends State<ProfileSettings> {
   late TextEditingController _controllerFirstName;
   late TextEditingController _controllerLastName;
-  late TextEditingController _controllerEmail;
   bool _isDisabledFirstName = true;
   bool _isDisabledLastName = true;
 
@@ -36,7 +35,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   void dispose() {
     _controllerFirstName.dispose();
     _controllerLastName.dispose();
-    _controllerEmail.dispose();
     super.dispose();
   }
 
@@ -45,7 +43,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     super.initState();
     _controllerFirstName = TextEditingController(text: _getFirstName());
     _controllerLastName = TextEditingController(text: _getLastName());
-    _controllerEmail=TextEditingController(text: widget.authRepository.user?.email);
   }
 
   String? _getFirstName() {
@@ -165,7 +162,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
               ],
             ),
-            TextBox(_controllerEmail, widget.authRepository.user?.email),
+            Text( widget.authRepository.user!.email!),
             TextBox(
               _controllerFirstName,
               Languages.of(context)!.firstName,
