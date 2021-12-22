@@ -236,3 +236,9 @@ const double disabledOpacity=0.5;
 //Archive
 const EdgeInsets ArchDatePickerPadd = EdgeInsets.only(top: 8.0, bottom: 8.0);
 const double datePickerHeight = 35;
+
+//Login providers
+const String facebook="facebook.com";
+const String google="google.com";
+const String regular="password";
+const int maxAccounts=2;

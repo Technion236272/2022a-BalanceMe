@@ -146,6 +146,9 @@ class LanguageHe extends Languages {
   @override
   String get emailInUse => "‎קיים חשבון עם כתובת הדואר האלקטרונית הזו";
 
+  @override
+  String get tooManyProviders => "‎לא ניתן להוסיף חשבון נוסף לכתובת זו";
+
   // Password Recovery
   @override
   String get recoverPassword => "שחזור סיסמה‎";
