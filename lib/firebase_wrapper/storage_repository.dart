@@ -207,7 +207,7 @@ class UserStorage with ChangeNotifier {
   // GET
   Future<void> GET_generalInfo(BuildContext context) async {  // Get General Info
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      await _firestore.collection(config.firebaseVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).get().then((generalInfo) {
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
           if (_userData != null && _userData!.language != "") {
@@ -276,7 +276,7 @@ class UserStorage with ChangeNotifier {
   // SEND
   void SEND_generalInfo() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      await _firestore.collection(config.firebaseVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).set({
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).set({
       config.generalInfoDoc: _userData!.toJson(),
       });
     } else {
