@@ -23,19 +23,15 @@ class CategoryHeader extends StatefulWidget {
 }
 
 class _CategoryHeaderState extends State<CategoryHeader> {
-  double _progressPercentage = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
-    if (_progressPercentage >= 1) {
-      _progressPercentage = 1;
+  double _getProgressPercentage() {
+    double progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
+    if (progressPercentage >= 1) {
+      progressPercentage = 1;
     }
-    if (_progressPercentage <= 0) {
-      _progressPercentage = 0;
+    if (progressPercentage <= 0) {
+      progressPercentage = 0;
     }
-    _progressPercentage.toPrecision();
+    return progressPercentage.toPrecision();
   }
 
   void _openAddTransactionPage() {
@@ -166,8 +162,8 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               animation: true,
               lineHeight: gc.lineBarHeight,
               animationDuration: gc.lineAnimationDuration,
-              percent: _progressPercentage,
-              center: Text((_progressPercentage * 100).toPercentageFormat()),
+              percent: _getProgressPercentage(),
+              center: Text((_getProgressPercentage() * 100).toPrecision().toPercentageFormat()),
               linearStrokeCap: LinearStrokeCap.roundAll,
               progressColor: gc.primaryColor,
             ),
