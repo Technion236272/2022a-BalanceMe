@@ -68,7 +68,7 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
 
     Future.delayed(const Duration(milliseconds: 10), () async {
       if (isSigningIn) {
-        await userStorage.GET_postLogin(context);
+        await userStorage.GET_generalInfo(context);
         GoogleAnalytics.instance.logLogin(loginFunctionName);
       } else {
         userStorage.SEND_generalInfo();

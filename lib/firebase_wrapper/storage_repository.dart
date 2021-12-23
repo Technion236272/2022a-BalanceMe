@@ -205,7 +205,7 @@ class UserStorage with ChangeNotifier {
   // ================== Requests ==================
 
   // GET
-  Future<void> GET_postLogin(BuildContext context) async {  // Get General Info
+  Future<void> GET_generalInfo(BuildContext context) async {  // Get General Info
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).get().then((generalInfo) {
         if (generalInfo.exists && generalInfo.data() != null) {
