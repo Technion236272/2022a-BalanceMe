@@ -93,6 +93,12 @@ class LanguageRu extends Languages {
   String get successfullyLogout => "удачный выход";
 
   @override
+  String get successfullyLogin => "You logged in successfully";
+
+  @override
+  String get successfullySignUp => "Welcome! you sign up successfully";
+
+  @override
   String get signUpTitle => "регистрация";
 
   @override

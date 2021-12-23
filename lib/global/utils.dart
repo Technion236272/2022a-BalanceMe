@@ -1,6 +1,5 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
-import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
@@ -24,8 +23,15 @@ void navigateBack(context) {
 }
 
 // Messages
-void displaySnackBar(BuildContext context, String msg) {
-  final snackBar = SnackBar(content: Text(msg));
+void displaySnackBar(BuildContext context, String msg, [String? actionLabel, VoidCallback? actionCallback]) {
+  final snackBar = SnackBar(
+    content: Text(msg),
+    action: (actionLabel == null || actionCallback == null) ? null
+    : SnackBarAction(
+      label: actionLabel,
+      onPressed: actionCallback,
+    ),
+  );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 

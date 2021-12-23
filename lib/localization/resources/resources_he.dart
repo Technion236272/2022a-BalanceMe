@@ -93,6 +93,12 @@ class LanguageHe extends Languages {
   String get successfullyLogout => "‎התנתקת בהצלחה";
 
   @override
+  String get successfullyLogin => "‎התחברת למערכת בהצלחה";
+
+  @override
+  String get successfullySignUp => "‎נרשמת למערכת בהצלחה";
+
+  @override
   String get signUpTitle => "הרשמה‎";
 
   @override
