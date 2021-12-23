@@ -207,7 +207,7 @@ class UserStorage with ChangeNotifier {
   // GET
   Future<void> GET_generalInfo(BuildContext context) async {  // Get General Info
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).get().then((generalInfo) {
+      await _firestore.collection(config.firebaseVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).get().then((generalInfo) {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
           if (_userData != null && _userData!.language != "") {
@@ -230,7 +230,7 @@ class UserStorage with ChangeNotifier {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
       print("@@@@@@@@@@ 2: ${date} @@@@@@@@@@");
 
-      await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).get().then((categories) async {
+      await _firestore.collection(config.firebaseVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).get().then((categories) async {
         print("@@@@@@@@@@ 3 ${categories.exists} @@@@@@@@@@");
         if (categories.exists && categories.data() != null) { // There is data
           _balance = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
@@ -276,7 +276,7 @@ class UserStorage with ChangeNotifier {
   // SEND
   void SEND_generalInfo() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).set({
+      await _firestore.collection(config.firebaseVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).set({
       config.generalInfoDoc: _userData!.toJson(),
       });
     } else {
@@ -289,7 +289,7 @@ class UserStorage with ChangeNotifier {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
       print("SEND to ${date}");
       print(StackTrace.current);
-      await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).set({
+      await _firestore.collection(config.firebaseVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).set({
         config.categoriesDoc: _balance.toJson()
       });
     } else {

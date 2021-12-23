@@ -70,7 +70,7 @@ class _SettingsState extends State<Settings> {
 
       _getDaysOfMonthRadio(),
       const LanguageDropDown(),
-      Text(config.projectVersion, style: _getTextDesign())
+      Text(config.firebaseVersion, style: _getTextDesign())
     ];
 
     return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);
