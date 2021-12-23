@@ -101,8 +101,10 @@ bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toStr
 // Time
 String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
   DateTime time = specificDate ?? DateTime.now();
-  String currentMonth = time.day < endOfMonth ? (time.month - 1).toString() : time.month.toString();
-  return currentMonth + time.year.toString();
+  if (time.day > endOfMonth) {
+    time = DateTime(time.year, time.month + 1);
+  }
+  return time.month.toString() + time.year.toString();
 }
 
 // Converters
