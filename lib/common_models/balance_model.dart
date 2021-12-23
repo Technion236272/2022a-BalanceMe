@@ -24,6 +24,26 @@ class BalanceModel {
     return newBalance;
   }
 
+  BalanceModel filterCategoriesWithConstantsTransaction() {
+    BalanceModel newBalance = BalanceModel();
+
+    for (var category in incomeCategories) {
+      Category? filteredCategory = category.filterConstantsTransaction();
+      if (filteredCategory != null) {
+        newBalance.incomeCategories.add(filteredCategory);
+      }
+    }
+
+    for (var category in expensesCategories) {
+      Category? filteredCategory = category.filterConstantsTransaction();
+      if (filteredCategory != null) {
+        newBalance.expensesCategories.add(filteredCategory);
+      }
+    }
+
+    return newBalance;
+  }
+
   void _emptyConstructor() {
     incomeCategories = getCategorySortedList();
     expensesCategories = getCategorySortedList();

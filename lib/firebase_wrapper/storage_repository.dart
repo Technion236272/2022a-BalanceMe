@@ -182,6 +182,21 @@ class UserStorage with ChangeNotifier {
     return true;
   }
 
+  void _getBalanceIfEndOfMonth() async {
+    if (currentDate == DateTime.now()) {  // if user in balance page- check only one previous month (prevent recursion)
+      currentDate =  DateTime(currentDate!.year, currentDate!.month - 1, currentDate!.day);
+      await GET_balanceModel(  // get previous month data and filter the constants transaction
+          successCallback: (Json data) {
+            _balance = _balance.filterCategoriesWithConstantsTransaction();
+          });
+      currentDate = DateTime.now();
+      SEND_balanceModel();
+
+    } else {
+      _balance = BalanceModel();
+    }
+  }
+
   // ================== Requests ==================
 
   // GET
@@ -212,7 +227,7 @@ class UserStorage with ChangeNotifier {
           successCallback != null ? successCallback(categories.data()![config.categoriesDoc]) : null;
 
         } else {  // There is no data
-          _balance = BalanceModel();
+          _getBalanceIfEndOfMonth();
           failureCallback != null ? failureCallback(null) : null;
         }
         notifyListeners();
@@ -223,13 +238,13 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool firstGet, {DateTime? specificDate}) async {
+  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool firstGet) async {
     if (firstGet) {
       await GET_balanceModel();
     }
     balance.expensesCategories.addAll(lastBalance.expensesCategories);
     balance.incomeCategories.addAll(lastBalance.incomeCategories);
-    SEND_balanceModel(specificDate: specificDate);
+    SEND_balanceModel();
     notifyListeners();
   }
 
@@ -244,7 +259,7 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_balanceModel({DateTime? specificDate}) async {
+  void SEND_balanceModel() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
       await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).set({
