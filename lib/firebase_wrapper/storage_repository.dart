@@ -230,7 +230,7 @@ class UserStorage with ChangeNotifier {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
       print("@@@@@@@@@@ 2: ${date} @@@@@@@@@@");
 
-      await _firestore.collection(config.firebaseVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).get().then((categories) async {
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.categoriesDoc).doc(date).get().then((categories) async {
         print("@@@@@@@@@@ 3 ${categories.exists} @@@@@@@@@@");
         if (categories.exists && categories.data() != null) { // There is data
           _balance = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
@@ -289,7 +289,7 @@ class UserStorage with ChangeNotifier {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
       print("SEND to ${date}");
       print(StackTrace.current);
-      await _firestore.collection(config.firebaseVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).set({
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.categoriesDoc).doc(date).set({
         config.categoriesDoc: _balance.toJson()
       });
     } else {
