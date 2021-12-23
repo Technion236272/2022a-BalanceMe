@@ -55,10 +55,14 @@ class _ArchiveState extends State<Archive> {
 
   void _getCurrentBalance() {  // TODO- check if data is this month and present failure snackbar
     if (widget._authRepository.status == AuthStatus.Authenticated && _dateController.selectedDate != null) {
+      print("&&&&&&&&&&&&&&& selectedDate = ${_dateController.selectedDate!.toFullDate()}");
       int endOfMonthDay = (widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay;
-      DateTime requestedRange = DateTime(_dateController.selectedDate!.year, _dateController.selectedDate!.month, endOfMonthDay + 1);
+      DateTime requestedRange = DateTime(_dateController.selectedDate!.year, _dateController.selectedDate!.month, endOfMonthDay);
 
-      if (widget._userStorage.currentDate == requestedRange) {
+      print("&&&&&&&&&&&&&&& requestedRange = ${requestedRange.toFullDate()}");
+
+      if (widget._userStorage.currentDate != null && widget._userStorage.currentDate!.isSameDate(requestedRange)) {
+        print("********");
         return;
       }
 

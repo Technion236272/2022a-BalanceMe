@@ -66,7 +66,7 @@ double getPercentage(double amount, double total) {
 // Format
 extension Ex on num {
   double toPrecision() => double.parse(toStringAsFixed(gc.defaultPrecision));
-  String toMoneyFormat() => toString() + "₪";  // TODO- Refactor in Sprint2. find a way to add the symbol in the correct direction according to the locale
+  String toMoneyFormat() => toPrecision().toString() + "₪";  // TODO- Refactor in Sprint2. find a way to add the symbol in the correct direction according to the locale
   String toPercentageFormat() => toString() + "%";
 }
 
