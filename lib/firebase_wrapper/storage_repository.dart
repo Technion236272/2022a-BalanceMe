@@ -251,10 +251,19 @@ class UserStorage with ChangeNotifier {
 
   Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool isSignIn) async {
     void _addCurrentBalance([Json? data]) {
-      _balance.expensesCategories.addAll(lastBalance.expensesCategories);
-      _balance.incomeCategories.addAll(lastBalance.incomeCategories);
-      SEND_balanceModel();
-      notifyListeners();
+      bool isNewData = false;
+      if (lastBalance.expensesCategories.isNotEmpty) {
+        _balance.expensesCategories.addAll(lastBalance.expensesCategories);
+        isNewData = true;
+      }
+      if (lastBalance.incomeCategories.isNotEmpty) {
+        _balance.incomeCategories.addAll(lastBalance.incomeCategories);
+        isNewData = true;
+      }
+      if (isNewData) {
+        SEND_balanceModel();
+        notifyListeners();
+      }
     }
 
     if (isSignIn) {
