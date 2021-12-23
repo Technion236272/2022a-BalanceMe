@@ -22,8 +22,7 @@ class Archive extends StatefulWidget {
 }
 
 class _ArchiveState extends State<Archive> {
-  final PrimitiveWrapper _dateController = PrimitiveWrapper(DateTime.now());
-  final DateRangePickerController _test = DateRangePickerController();
+  final DateRangePickerController _dateController = DateRangePickerController();
   BalanceModel _currentBalance = BalanceModel();
   bool _isIncomeTab = true;
   bool _isVisible = false;
@@ -47,9 +46,9 @@ class _ArchiveState extends State<Archive> {
   }
 
   void _getCurrentBalance() {
-    if (_dateController.value != null) {
+    if (_dateController.selectedDate != null) {
       int endOfMonthDay = (widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay;
-      DateTime requestedRange = DateTime(_dateController.value!.year, _dateController.value!.month, endOfMonthDay);
+      DateTime requestedRange = DateTime(_dateController.selectedDate!.year, _dateController.selectedDate!.month, endOfMonthDay);
       setState(() {
         widget._userStorage.GET_balanceModel(modifyMainBalance: false, specificDate: requestedRange, successCallback: _updateCurrentBalance, failureCallback: _resetCurrentBalance);
       });
@@ -71,7 +70,7 @@ class _ArchiveState extends State<Archive> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Center(
-          child: ArchiveDatePicker(dateController: _test, onSelectDate: _getCurrentBalance, isVisible: _isVisible,),
+          child: ArchiveDatePicker(dateController: _dateController, onSelectDate: _getCurrentBalance, isVisible: _isVisible,),
         ),
       ),
     );
