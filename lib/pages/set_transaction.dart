@@ -35,7 +35,7 @@ class _SetTransactionState extends State<SetTransaction> {
   late TextEditingController _transactionNameController;
   late MoneyMaskedTextController _transactionAmountController;
   late TextEditingController _transactionDescriptionController;
-  final PrimitiveWrapper _dateRangePickerController = PrimitiveWrapper("");
+  late PrimitiveWrapper _dateRangePickerController;
   late PrimitiveWrapper _dropDownController;
   bool _isConstant = gc.defaultIsConstant;
   bool _performingSave = false;
@@ -45,13 +45,18 @@ class _SetTransactionState extends State<SetTransaction> {
 
   @override
   void initState() {
+    super.initState();
+    _initControllers();
+  }
+
+  void _initControllers() {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
     _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null ? 0.0
         : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
     _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
+    _dateRangePickerController = PrimitiveWrapper(DateTime.now().toFullDate());  // TODO- can't open transaction for different date
     _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
-    super.initState();
   }
 
   void _updatePerformingSave(bool state) {
@@ -100,31 +105,35 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   String? _essentialFieldValidatorFunction(String? value) {
-    if(value != null){
+    if (value != null){
       value = value.split(widget.currencySign).first;
     }
     return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
   }
 
   String? _lineLimitValidatorFunction(String? value) {
-    if(value != null){
+    if (value != null){
       value = value.split(widget.currencySign).first;
     }
+
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
       return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
     }
+
     return message;
   }
 
   String? _positiveNumberValidatorFunction(String? value) {
-    if(value != null){
+    if (value != null){
       value = value.split(widget.currencySign).first;
     }
+
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
       return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.mustPositiveNum;
     }
+
     return message;
   }
 
@@ -239,19 +248,19 @@ class _SetTransactionState extends State<SetTransaction> {
                     child: ListViewGeneric(
                       listTileHeight: gc.listTileHeight,
                       leadingWidgets: [
-                      Text(Languages.of(context)!.date),
-                      Text(Languages.of(context)!.constantSwitch),
+                        Text(Languages.of(context)!.date),
+                        Text(Languages.of(context)!.constantSwitch),
                       ],
                       trailingWidgets: [
                         widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date)
-                            : SizedBox(
+                        : SizedBox(
                           width: MediaQuery.of(context).size.width/2.5,
-                              child: DatePicker(
-                                  dateController: _dateRangePickerController,
-                                  view: DatePickerType.Day,
-                                  iconColor: gc.primaryColor,
+                          child: DatePicker(
+                                dateController: _dateRangePickerController,
+                                view: DatePickerType.Day,
+                                iconColor: gc.primaryColor,
+                          ),
                         ),
-                            ),
                         Switch(
                           value: _isConstant,
                           onChanged: (widget._mode == DetailsPageMode.Details || (userStorage.currentDate != null && !userStorage.currentDate!.isSameDate(DateTime.now()))) ?
