@@ -28,6 +28,12 @@ class _CategoryComplexState extends State<CategoryComplex> {
     });
   }
 
+  void _openCategory() {
+    setState(() {
+      _isCategoryOpen = true;
+    });
+  }
+
   void _removeTransaction(Transaction newTransaction) {
     Provider.of<UserStorage>(context, listen: false).removeTransaction(widget._category, newTransaction);
     displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
@@ -53,7 +59,7 @@ class _CategoryComplexState extends State<CategoryComplex> {
       ),
       child: Column(
         children: [
-          CategoryHeader(widget._category, _isCategoryOpen, _toggleCategory),
+          CategoryHeader(widget._category, _isCategoryOpen, _toggleCategory, _openCategory),
           Visibility(
             visible: _isCategoryOpen,
             child: Column(

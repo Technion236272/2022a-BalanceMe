@@ -19,12 +19,13 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
-  SetTransaction(this._mode, this._currentCategory, {this.currentTransaction, this.currencySign = gc.NIS, Key? key}) : super(key: key);
+  SetTransaction(this._mode, this._currentCategory, {this.callback, this.currentTransaction, this.currencySign = gc.NIS, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final Category _currentCategory;
   final Transaction? currentTransaction;
   final String currencySign; //TODO - Initial this currency sign with the user selection
+  final VoidCallback? callback;
 
   @override
   State<SetTransaction> createState() => _SetTransactionState();
@@ -172,6 +173,7 @@ class _SetTransactionState extends State<SetTransaction> {
         message = userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction()) ? message : Languages.of(context)!.alreadyExist;
       }
 
+      widget.callback != null ? widget.callback!() : null;
       navigateBack(context);
       displaySnackBar(context, message.replaceAll("%", Languages.of(context)!.transaction));
     }

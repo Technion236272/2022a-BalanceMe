@@ -12,11 +12,12 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class CategoryHeader extends StatefulWidget {
-  const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, {Key? key}) : super(key: key);
+  const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, this._openCategory, {Key? key}) : super(key: key);
 
   final Category _category;
   final bool _isCategoryOpen;
   final VoidCallback _toggleCategory;
+  final VoidCallback _openCategory;
 
   @override
   State<CategoryHeader> createState() => _CategoryHeaderState();
@@ -35,7 +36,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
   }
 
   void _openAddTransactionPage() {
-    navigateToPage(context, SetTransaction(DetailsPageMode.Add, widget._category), AppPages.SetTransaction);
+    navigateToPage(context, SetTransaction(DetailsPageMode.Add, widget._category, callback: widget._openCategory), AppPages.SetTransaction);
   }
 
   void _openCategoryDetails() {
