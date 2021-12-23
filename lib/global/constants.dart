@@ -158,6 +158,7 @@ const String badEmail="invalid-email";
 const String userNotFound="user-not-found";
 const String incorrectPassword="wrong-password";
 const String emailInUse="email-already-in-use";
+const String credentialExists="account-exists-with-different-credential";
 //TextBox
 const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
 

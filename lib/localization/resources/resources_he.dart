@@ -149,6 +149,9 @@ class LanguageHe extends Languages {
   @override
   String get tooManyProviders => "‎לא ניתן להוסיף חשבון נוסף לכתובת זו";
 
+  @override
+  String get linkThirdPartyError => "קיים חשבון עם כתובת זו תחת ספק אחר‎";
+
   // Password Recovery
   @override
   String get recoverPassword => "שחזור סיסמה‎";
