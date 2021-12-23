@@ -1,9 +1,8 @@
 // ================= Set Transaction =================
-import 'package:balance_me/common_models/balance_model.dart';
-import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
+import 'package:balance_me/widgets/date_picker.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -13,8 +12,7 @@ import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
 import 'package:balance_me/widgets/generic_drop_down_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
-import 'package:balance_me/widgets/designed_date_picker.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/widgets/generic_edit_button.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
@@ -43,12 +41,13 @@ class _SetTransactionState extends State<SetTransaction> {
   bool _performingSave = false;
 
   bool get performingAction => _performingSave;
+  UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
   @override
   void initState() {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
     _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null ? 0.0
-        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator,thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
+        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
     _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
     _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
@@ -129,12 +128,11 @@ class _SetTransactionState extends State<SetTransaction> {
     return message;
   }
 
-  List<String> _getCategoriesNameList(BuildContext context) {
+  List<String> _getCategoriesNameList() {
     List<String> categoriesName = [];
-    for (var category in Provider.of<UserStorage>(context, listen: false).balance.expensesCategories) {
-      categoriesName.add(category.name);
-    }
-    for (var category in Provider.of<UserStorage>(context, listen: false).balance.incomeCategories) {
+    SortedList<Category> categoriesList = (widget._currentCategory.isIncome) ? userStorage.balance.incomeCategories : userStorage.balance.expensesCategories;
+
+    for (var category in categoriesList) {
       categoriesName.add(category.name);
     }
     return categoriesName;
@@ -156,7 +154,6 @@ class _SetTransactionState extends State<SetTransaction> {
     _updatePerformingSave(true);
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      UserStorage userStorage = Provider.of<UserStorage>(context, listen: false);
       String message = Languages.of(context)!.saveSucceeded;
 
       if (widget._mode == DetailsPageMode.Add) {
@@ -214,13 +211,13 @@ class _SetTransactionState extends State<SetTransaction> {
                   Padding(
                     padding: const EdgeInsets.only(
                         top: gc.generalTextFieldsPadding,
-                        bottom: gc.generalTextFieldsPadding
+                        bottom: gc.generalTextFieldsPadding,
                     ),
                     child: SizedBox(
                         width: gc.containerWidth,
                         child: (widget._mode == DetailsPageMode.Details) ?
                         Text(_dropDownController.value)
-                        : GenericDropDownButton(_getCategoriesNameList(context), _dropDownController),
+                        : GenericDropDownButton(_getCategoriesNameList(), _dropDownController),
                     ),
                   ),
                   Padding(
@@ -237,7 +234,7 @@ class _SetTransactionState extends State<SetTransaction> {
                   Padding(
                     padding: const EdgeInsets.only(
                         left: gc.generalTextFieldsPadding,
-                        right: gc.generalTextFieldsPadding
+                        right: gc.generalTextFieldsPadding,
                     ),
                     child: ListViewGeneric(
                       listTileHeight: gc.listTileHeight,
@@ -257,7 +254,8 @@ class _SetTransactionState extends State<SetTransaction> {
                             ),
                         Switch(
                           value: _isConstant,
-                          onChanged: (widget._mode == DetailsPageMode.Details) ? null : _switchConstant,
+                          onChanged: (widget._mode == DetailsPageMode.Details || (userStorage.currentDate != null && !userStorage.currentDate!.isSameDate(DateTime.now()))) ?
+                              null : _switchConstant,
                         ),
                     ],
                       isScrollable: false,
