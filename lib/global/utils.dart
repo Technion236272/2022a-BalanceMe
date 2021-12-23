@@ -72,6 +72,7 @@ extension Ex on num {
 
 extension Dt on DateTime {
   String toFullDate() => "$day-$month-$year";  // TODO- find a way to add the symbol in the correct direction according to the locale
+  bool isSameDate(DateTime other) => year == other.year && month == other.month && day == other.day;
 }
 
 extension St on String {
@@ -100,11 +101,11 @@ bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toStr
 
 // Time
 String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
-  DateTime time = specificDate ?? DateTime.now();
-  if (time.day > endOfMonth) {
-    time = DateTime(time.year, time.month + 1);
+  specificDate = specificDate ?? DateTime.now();
+  if (specificDate.isAfter(DateTime(specificDate.year, specificDate.month, endOfMonth))) {
+    specificDate = DateTime(specificDate.year, specificDate.month + 1);
   }
-  return time.month.toString() + time.year.toString();
+  return specificDate.month.toString() + specificDate.year.toString();
 }
 
 // Converters
