@@ -149,6 +149,9 @@ class LanguageEn extends Languages {
   @override
   String get tooManyProviders => "You can't link more than two accounts to this email";
 
+  @override
+  String get linkThirdPartyError => "An account with this email already exists under a different provider";
+
   // Password Recovery
   @override
   String get recoverPassword => "Password recovery";

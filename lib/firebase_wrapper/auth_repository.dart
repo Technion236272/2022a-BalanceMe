@@ -12,6 +12,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 
 
 class AuthRepository with ChangeNotifier {
@@ -121,6 +122,7 @@ class AuthRepository with ChangeNotifier {
         await linkWithGoogle(credential);
       }
     }
+    GoogleAnalytics.instance.logMultipleProviders();
   }
 
 
@@ -151,7 +153,21 @@ class AuthRepository with ChangeNotifier {
     }
   }
 
-  Future<bool> signInGoogle() async {
+
+  Future<void> handleProvidersThirdParty(String? email, AuthCredential credential,
+      BuildContext context,String provider) async {
+    if (email!=null) {
+      List<String> methods = await _auth.fetchSignInMethodsForEmail(email);
+      if (methods.isEmpty || methods.contains(provider)) {
+        await FirebaseAuth.instance.signInWithCredential(credential);
+      } else {
+        displaySnackBar(context, Languages.of(context)!.linkThirdPartyError);
+        GoogleAnalytics.instance.logMultipleProviders(providerLinked: provider);
+      }
+    }
+  }
+
+  Future<bool> signInGoogle(BuildContext context) async {
     try {
       _status = AuthStatus.Authenticating;
       notifyListeners();
@@ -163,7 +179,7 @@ class AuthRepository with ChangeNotifier {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-      await FirebaseAuth.instance.signInWithCredential(credential);
+     await handleProvidersThirdParty(googleUser?.email,credential,context,gc.google);
       _status = AuthStatus.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
@@ -176,18 +192,23 @@ class AuthRepository with ChangeNotifier {
     }
   }
 
-  Future<bool> signInWithFacebook() async {
+  Future<bool> signInWithFacebook(BuildContext context) async {
     try {
-      final LoginResult loginResult = await FacebookAuth.instance.login();
-
+      final loginResult = await FacebookAuth.instance.login(permissions: gc.permissionFacebook);
       final OAuthCredential facebookAuthCredential =
           FacebookAuthProvider.credential(loginResult.accessToken!.token);
-
       await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
       _status = AuthStatus.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
       return true;
+    } on FirebaseAuthException catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+      if (e.code == gc.credentialExists) {
+        displaySnackBar(context, Languages.of(context)!.linkThirdPartyError);
+        GoogleAnalytics.instance.logMultipleProviders(providerLinked: gc.facebook);
+      }
+      return false;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       _status = AuthStatus.Unauthenticated;

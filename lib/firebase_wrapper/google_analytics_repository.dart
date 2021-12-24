@@ -1,10 +1,13 @@
 // ================= Google Analytics =================
+import 'package:balance_me/global/constants.dart' as gc;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:flutter/material.dart';
 
 /// Singleton that is used for sending logs to Google Analytics.
 /// you should use it as "GoogleAnalytics.instance.LogSomething();"
@@ -25,6 +28,11 @@ class GoogleAnalytics {
   String _getUserEmail() {
     AuthRepository authRepository = AuthRepository.instance();
     return (authRepository.user != null && authRepository.user!.email != null) ? authRepository.user!.email! : "";
+  }
+
+  Future<List<String>> _getUserProviders() async {
+    AuthRepository authRepository = AuthRepository.instance();
+    return (authRepository.user != null && authRepository.user!.email != null) ? await FirebaseAuth.instance.fetchSignInMethodsForEmail(authRepository.user!.email!):[];
   }
 
   String _getDataJsonIfExist(DocumentSnapshot<Json> data) {
@@ -87,5 +95,19 @@ class GoogleAnalytics {
 
   void logAvatarChange() async {
       _logEvent("AvatarChanged", {"user": _getUserEmail()});
+  }
+
+  void logMultipleProviders({String? providerLinked}) async {
+   List<String> methods=await _getUserProviders();
+   if (methods.length==gc.maxAccounts) {
+     _logEvent("TwoAccountsLinked", {"user": _getUserEmail(),"first provider":methods[0],"second provider":methods[1]});
+   }
+   else if(methods.isNotEmpty)
+     {
+       _logEvent("LinkAttempt", {"user": _getUserEmail(),"first provider":methods[0],"second provider":providerLinked});
+     }
+   else{
+     _logEvent("LinkAttemptFailed", {"provider":providerLinked});
+   }
   }
 }
