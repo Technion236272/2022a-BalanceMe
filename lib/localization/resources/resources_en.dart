@@ -96,7 +96,7 @@ class LanguageEn extends Languages {
   String get successfullyLogout => "Successfully logged out";
 
   @override
-  String get successfullyLogin => "You logged in successfully";
+  String get successfullyLogin => "You logged in successfully. Duplicate categories might be removed.";
 
   @override
   String get successfullySignUp => "You sign up successfully. You can edit your settings in settings page";
@@ -196,7 +196,7 @@ class LanguageEn extends Languages {
   String get balanceInfo => "Here you can manage your income and expenses.";
 
   @override
-  String get toGetStartedInfo => "To get started you can login or just experience the app.";
+  String get toGetStartedInfo => "For saving your data and enjoy full functionality, please log-in.";
 
   @override
   String get expense => "Expense";

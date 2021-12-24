@@ -96,7 +96,7 @@ class LanguageHe extends Languages {
   String get successfullyLogout => "‎התנתקת בהצלחה";
 
   @override
-  String get successfullyLogin => "‎התחברת למערכת בהצלחה";
+  String get successfullyLogin => "‎התחברת למערכת בהצלחה. קטגוריות כפולות נמחקו";
 
   @override
   String get successfullySignUp => "‎נרשמת למערכת בהצלחה. ניתן לגשת לעמוד ההגדרות על מנת לערוך אותן";
@@ -193,10 +193,10 @@ class LanguageHe extends Languages {
   String get nothingToShow => "‎בינתיים אין מה להציג כאן";
 
   @override
-  String get balanceInfo =>  "‎באפליקציה ניתן לנהל את ההוצאות וההכנסות שלך."; //TODO - need to check the view in different screens
+  String get balanceInfo =>  "‎האפליקציה נועדה לניהול ההוצאות וההכנסות החודשיות.";
 
   @override
-  String get toGetStartedInfo =>  "‎כדי להתחיל יש להתחבר או פשוט לנסות את האפליקציה."; //TODO - need to check the view in different screens
+  String get toGetStartedInfo =>  "‎על מנת לשמור את המידע וליהנות מכל יכולות האפליקציה, יש להתחבר.";
 
   @override
   String get expense => "‎הוצאה";
