@@ -26,7 +26,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
   void _openTransactionDetails() {
-    navigateToPage(context, SetTransaction(DetailsPageMode.Details, widget._currentCategory, currentTransaction: widget._transaction), AppPages.SetTransaction);
+    navigateToPage(context, SetTransaction(DetailsPageMode.Details, widget._currentCategory, CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!, currentTransaction: widget._transaction), AppPages.SetTransaction);
   }
 
   void _closeDialogCallback() {

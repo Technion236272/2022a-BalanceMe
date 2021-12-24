@@ -18,7 +18,6 @@ const defaultMinPasswordLimit = 6;
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
 const String decimalSeparator = ".";
 const String thousandsSeparator = "";
-const String NIS = '₪';
 
 
 // Icons

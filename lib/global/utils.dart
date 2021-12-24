@@ -138,10 +138,9 @@ List<dynamic> jsonToElementList(List<dynamic> jsonList, Function createElementFu
 }
 
 dynamic indexToEnum(List values, int index) {
-  for (var value in values) {
-    if (value.index == index) {
-      return values[index];
-    }
+  try {
+    return values[index];
+  } catch (e) {
     return null;
   }
 }

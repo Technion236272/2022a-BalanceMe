@@ -7,8 +7,6 @@ enum AuthStatus {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
 enum AppPages {Settings, Balance, Archive, Welcome, Login, SetCategory, SetTransaction, Incomes, Expenses, ForgotPassword, Profile, ChangePassword}
 
-enum Currency {NIS, USD, EURO}
-
 enum Entry {Category, Transaction}
 
 enum CategoryType {Income, Expenses}
@@ -20,6 +18,10 @@ enum EntryOperation {Add, Edit, Remove}
 enum DatePickerType {Day, Month, Year}
 
 enum LoginMethod {Regular, Facebook, Google}
+
+enum Currency {NIS, USD, EURO}
+
+Map<Currency, String> CurrencySign = {Currency.NIS: "₪", Currency.USD: "\$", Currency.EURO: "€"};
 
 typedef Json = Map<String, dynamic>;
 

@@ -19,12 +19,12 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
-  SetTransaction(this._mode, this._currentCategory, {this.callback, this.currentTransaction, this.currencySign = gc.NIS, Key? key}) : super(key: key);
+  SetTransaction(this._mode, this._currentCategory, this._currencySign, {this.callback, this.currentTransaction, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final Category _currentCategory;
   final Transaction? currentTransaction;
-  final String currencySign; //TODO - Initial this currency sign with the user selection
+  final String _currencySign;
   final VoidCallback? callback;
 
   @override
@@ -53,7 +53,7 @@ class _SetTransactionState extends State<SetTransaction> {
   void _initControllers() {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
     _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null ? 0.0
-        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
+        : widget.currentTransaction!.amount, rightSymbol: widget._currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
     _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
     _dateRangePickerController = PrimitiveWrapper(DateTime.now().toFullDate());
@@ -107,14 +107,14 @@ class _SetTransactionState extends State<SetTransaction> {
 
   String? _essentialFieldValidatorFunction(String? value) {
     if (value != null){
-      value = value.split(widget.currencySign).first;
+      value = value.split(widget._currencySign).first;
     }
     return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
   }
 
   String? _lineLimitValidatorFunction(String? value) {
     if (value != null){
-      value = value.split(widget.currencySign).first;
+      value = value.split(widget._currencySign).first;
     }
 
     String? message = _essentialFieldValidatorFunction(value);
@@ -127,7 +127,7 @@ class _SetTransactionState extends State<SetTransaction> {
 
   String? _positiveNumberValidatorFunction(String? value) {
     if (value != null){
-      value = value.split(widget.currencySign).first;
+      value = value.split(widget._currencySign).first;
     }
 
     String? message = _essentialFieldValidatorFunction(value);
@@ -152,7 +152,7 @@ class _SetTransactionState extends State<SetTransaction> {
     return Transaction(
         _transactionNameController.text.toString(),
         (_dateRangePickerController.value == null) ? DateTime.now().toFullDate() : _dateRangePickerController.value!,
-        double.parse(_transactionAmountController.text.toString().split(widget.currencySign).first),
+        double.parse(_transactionAmountController.text.toString().split(widget._currencySign).first),
         _transactionDescriptionController.text.toString(),
         _isConstant
     );

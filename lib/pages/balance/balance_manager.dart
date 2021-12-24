@@ -54,7 +54,7 @@ class _BalanceManagerState extends State<BalanceManager> {
   }
 
   void _openAddCategory() {
-    navigateToPage(context, SetCategory(DetailsPageMode.Add, isIncomeTab), AppPages.SetCategory);
+    navigateToPage(context, SetCategory(DetailsPageMode.Add, isIncomeTab, CurrencySign[widget._userStorage.userData == null ? gc.defaultUserCurrency : widget._userStorage.userData!.userCurrency]!), AppPages.SetCategory);
   }
 
   @override
