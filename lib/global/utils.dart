@@ -73,12 +73,15 @@ double getPercentage(double amount, double total) {
 // Format
 extension Ex on num {
   double toPrecision() => double.parse(toStringAsFixed(gc.defaultPrecision));
-  String toMoneyFormat() => toPrecision().toString() + "₪";  // TODO- Refactor in Sprint2. find a way to add the symbol in the correct direction according to the locale
   String toPercentageFormat() => toString() + "%";
+  String toMoneyFormat([String? currencySign]) {
+    currencySign = (currencySign == null) ? CurrencySign[gc.defaultUserCurrency] : currencySign;
+    return toPrecision().toString() + currencySign!;  // TODO- find a way to add the symbol in the correct direction according to the locale
+  }
 }
 
 extension Dt on DateTime {
-  String toFullDate() => "$day-$month-$year";  // TODO- find a way to add the symbol in the correct direction according to the locale
+  String toFullDate() => "$day-$month-$year";  // TODO- find a way to present the date correct direction according to the locale
   bool isSameDate(DateTime other) => year == other.year && month == other.month && day == other.day;
 }
 

@@ -1,19 +1,29 @@
 // ================= Categories Type Header =================
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/ring_pie_chart.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
-class CategoriesTypeHeader extends StatelessWidget {
+class CategoriesTypeHeader extends StatefulWidget {
   const CategoriesTypeHeader(this._categories, {Key? key}) : super(key: key);
 
   final List<Category> _categories;
 
+  @override
+  State<CategoriesTypeHeader> createState() => _CategoriesTypeHeaderState();
+}
+
+class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
+  UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
+
   double _getTotalCategoriesListAmount(bool isExpected) {
     double totalAmount = 0;
-    for (var category in _categories) {
+    for (var category in widget._categories) {
       totalAmount += isExpected ? category.expected : category.amount;
     }
     return totalAmount;
@@ -26,7 +36,7 @@ class CategoriesTypeHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          RingPieChart(_categories, true, null),
+          RingPieChart(widget._categories, true, null),
           Card(
             shadowColor: gc.primaryColor.withOpacity(0.5),
             elevation: gc.cardElevationHeight,
@@ -54,11 +64,11 @@ class CategoriesTypeHeader extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text(_getTotalCategoriesListAmount(false).toMoneyFormat(),
+                      Text(_getTotalCategoriesListAmount(false).toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                           style: TextStyle(
-                              color: (_categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(false)>=_getTotalCategoriesListAmount(true))
+                              color: (widget._categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(false)>=_getTotalCategoriesListAmount(true))
                                       ? gc.incomeEntryColor
-                                      : (!_categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(true)>_getTotalCategoriesListAmount(false))
+                                      : (!widget._categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(true)>_getTotalCategoriesListAmount(false))
                                       ? gc.incomeEntryColor
                                       : gc.expenseEntryColor,
                               fontSize: gc.fontSizeLoginImage,
@@ -82,7 +92,7 @@ class CategoriesTypeHeader extends StatelessWidget {
                             ),
                         ),
                       ),
-                      Text(_getTotalCategoriesListAmount(true).toMoneyFormat(),
+                      Text(_getTotalCategoriesListAmount(true).toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                           style: const TextStyle(
                               color: gc.primaryColor,
                               fontSize: gc.fontSizeLoginImage,

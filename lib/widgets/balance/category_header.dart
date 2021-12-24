@@ -151,9 +151,9 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                 left: gc.categoryAroundPadding,
                 bottom: gc.categoryAroundPadding),
             child: Text(
-              widget._category.amount.toMoneyFormat() +
+              widget._category.amount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!) +
                   gc.inPracticeExpectedSeparator +
-                  widget._category.expected.toMoneyFormat(),
+                  widget._category.expected.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
               style: const TextStyle(
                   color: gc.primaryColor,
                   fontSize: gc.fontSizeLoginImage,

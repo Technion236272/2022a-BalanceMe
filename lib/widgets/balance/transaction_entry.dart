@@ -77,7 +77,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
           children: [
             Center(
               child: Text(
-                widget._transaction.amount.toMoneyFormat(),
+                widget._transaction.amount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                 style: TextStyle(fontWeight: FontWeight.bold,
                     color: widget._isIncome ? gc.incomeEntryColor : gc.expenseEntryColor),
               ),

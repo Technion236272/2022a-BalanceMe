@@ -22,7 +22,7 @@ class BalanceManager extends StatefulWidget {
 }
 
 class _BalanceManagerState extends State<BalanceManager> {
-  bool _isIncomeTab = true;
+  bool _isIncomeTab = false;
   bool _waitingForData = true;
 
   @override
