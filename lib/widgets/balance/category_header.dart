@@ -24,6 +24,8 @@ class CategoryHeader extends StatefulWidget {
 }
 
 class _CategoryHeaderState extends State<CategoryHeader> {
+  UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
+
   double _getProgressPercentage() {
     double progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
     if (progressPercentage >= 1) {
@@ -44,7 +46,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
   }
 
   void _removeCategory() {
-    Provider.of<UserStorage>(context, listen: false).removeCategory(widget._category);
+    userStorage.removeCategory(widget._category);
     displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.category));
   }
 
@@ -92,13 +94,16 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(
-                    iconSize: gc.iconSize,
-                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding),
-                    constraints: const BoxConstraints(),
-                    color: gc.primaryColor,
-                    onPressed: _openAddTransactionPage,
-                    icon: const Icon(gc.addIcon),
+                  Visibility(
+                    visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),
+                    child: IconButton(
+                      iconSize: gc.iconSize,
+                      padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding),
+                      constraints: const BoxConstraints(),
+                      color: gc.primaryColor,
+                      onPressed: _openAddTransactionPage,
+                      icon: const Icon(gc.addIcon),
+                    ),
                   ),
                   IconButton(
                     iconSize: gc.iconSize,
@@ -108,15 +113,18 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                     onPressed: _openCategoryDetails,
                     icon: const Icon(gc.transactionDetailsIcon),
                   ),
-                  IconButton(
-                    iconSize: gc.iconSize,
-                    padding: widget._category.transactions.isNotEmpty
-                        ? const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding)
-                    : const EdgeInsets.all(gc.iconPadding),
-                    constraints: const BoxConstraints(),
-                    color: gc.primaryColor,
-                    onPressed: _confirmRemoval,
-                    icon: const Icon(gc.deleteIcon),
+                  Visibility(
+                    visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),
+                    child: IconButton(
+                      iconSize: gc.iconSize,
+                      padding: widget._category.transactions.isNotEmpty
+                          ? const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding)
+                      : const EdgeInsets.all(gc.iconPadding),
+                      constraints: const BoxConstraints(),
+                      color: gc.primaryColor,
+                      onPressed: _confirmRemoval,
+                      icon: const Icon(gc.deleteIcon),
+                    ),
                   ),
                   Visibility(
                     visible: widget._category.transactions.isNotEmpty,

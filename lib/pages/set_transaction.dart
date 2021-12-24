@@ -56,7 +56,7 @@ class _SetTransactionState extends State<SetTransaction> {
         : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
     _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
-    _dateRangePickerController = PrimitiveWrapper(DateTime.now().toFullDate());  // TODO- can't open transaction for different date
+    _dateRangePickerController = PrimitiveWrapper(DateTime.now().toFullDate());
     _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
   }
 
@@ -101,7 +101,7 @@ class _SetTransactionState extends State<SetTransaction> {
 
   void _toggleEditDetailsMode() {
     setState(() {
-      widget._mode = (widget._mode == DetailsPageMode.Details) ? DetailsPageMode.Edit : DetailsPageMode.Details;
+      widget._mode = DetailsPageMode.Edit;
     });
   }
 
@@ -247,10 +247,13 @@ class _SetTransactionState extends State<SetTransaction> {
                         top: gc.generalTextFieldsPadding,
                         bottom: gc.generalTextFieldsPadding,
                     ),
-                    child: GenericIconButton(
-                      onTap: (widget._mode == DetailsPageMode.Details) ? _toggleEditDetailsMode : null,
-                      color: gc.primaryColor,
-                      iconSize: gc.editIconSize,
+                    child: Visibility(
+                      visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),
+                      child: GenericIconButton(
+                        onTap: (widget._mode == DetailsPageMode.Details) ? _toggleEditDetailsMode : null,
+                        color: gc.primaryColor,
+                        iconSize: gc.editIconSize,
+                      ),
                     ),
                   ),
                   Padding(

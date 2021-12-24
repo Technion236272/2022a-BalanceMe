@@ -36,6 +36,7 @@ class _SetCategoryState extends State<SetCategory> {
   bool _performingSave = false;
 
   bool get performingAction => _performingSave;
+  UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
   @override
   void didChangeDependencies() {
@@ -86,7 +87,7 @@ class _SetCategoryState extends State<SetCategory> {
 
   void _toggleEditDetailsMode() {
     setState(() {
-      widget._mode = (widget._mode == DetailsPageMode.Details) ? DetailsPageMode.Edit : DetailsPageMode.Details;
+      widget._mode = DetailsPageMode.Edit;
     });
   }
 
@@ -134,7 +135,6 @@ class _SetCategoryState extends State<SetCategory> {
     _updatePerformingSave(true);
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      UserStorage userStorage = Provider.of<UserStorage>(context, listen: false);
       String message = Languages.of(context)!.saveSucceeded;
 
       if (widget._mode == DetailsPageMode.Add) {
@@ -192,10 +192,13 @@ class _SetCategoryState extends State<SetCategory> {
                       top: gc.generalTextFieldsPadding,
                       bottom: gc.generalTextFieldsPadding
                   ),
-                  child: GenericIconButton(
-                    onTap: widget._mode == DetailsPageMode.Details ? _toggleEditDetailsMode : null,
-                    color: gc.primaryColor,
-                    iconSize: gc.editIconSize,
+                  child: Visibility(
+                    visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),
+                    child: GenericIconButton(
+                      onTap: widget._mode == DetailsPageMode.Details ? _toggleEditDetailsMode : null,
+                      color: gc.primaryColor,
+                      iconSize: gc.editIconSize,
+                    ),
                   ),
                 ),
                 Padding(
