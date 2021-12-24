@@ -162,6 +162,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
               ],
             ),
+
+            Visibility(visible: widget.authRepository.user!=null, child: Text( widget.authRepository.user!.email!)),
             TextBox(
               _controllerFirstName,
               Languages.of(context)!.firstName,
