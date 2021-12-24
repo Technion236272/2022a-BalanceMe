@@ -11,19 +11,19 @@ import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/global/types.dart';
 
 void signInGoogle(BuildContext context, AuthRepository authRepository,UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInGoogle(), LoginMethod.Google.toCleanString(), true, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInGoogle(context), LoginMethod.Google.toCleanString(), true, userStorage, failureCallback: failureCallback);
 }
 
 void signInFacebook(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInWithFacebook(), LoginMethod.Facebook.toCleanString(), true, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInWithFacebook(context), LoginMethod.Facebook.toCleanString(), true, userStorage, failureCallback: failureCallback);
 }
 
 void signUpGoogle(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInGoogle(), LoginMethod.Google.toCleanString(), false, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInGoogle(context), LoginMethod.Google.toCleanString(), false, userStorage, failureCallback: failureCallback);
 }
 
 void signUpFacebook(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInWithFacebook(), LoginMethod.Facebook.toCleanString(), false, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInWithFacebook(context), LoginMethod.Facebook.toCleanString(), false, userStorage, failureCallback: failureCallback);
 }
 
 void emailPasswordSignUp(String? email, String? password, String? confirmPassword, BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {

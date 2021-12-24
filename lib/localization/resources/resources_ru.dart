@@ -158,6 +158,9 @@ class LanguageRu extends Languages {
   @override
   String get tooManyProviders => "Вы не можете иметь больше двух связанных счетов";
 
+  @override
+  String get linkThirdPartyError => "Учетная запись с этим e-mail уже существует под другим провайдером";
+
   // Password Recovery
   @override
   String get recoverPassword => "восстановления пароля";
