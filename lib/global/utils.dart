@@ -113,9 +113,9 @@ bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toStr
 DateTime getCurrentMonth(int endOfMonth, [DateTime? specificDate]) {
   specificDate = specificDate ?? DateTime.now();
   if (specificDate.isBefore(DateTime(specificDate.year, specificDate.month, endOfMonth))) {
-    specificDate = DateTime(specificDate.year, specificDate.month - 1, endOfMonth);
+    specificDate = DateTime(specificDate.year, specificDate.month - 1);
   }
-  return specificDate;
+  return DateTime(specificDate.year, specificDate.month, endOfMonth);
 }
 
 String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
