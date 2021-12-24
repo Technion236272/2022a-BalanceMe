@@ -1,4 +1,5 @@
 // ================= Set Transaction =================
+import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/date_picker.dart';
@@ -228,7 +229,19 @@ class _SetTransactionState extends State<SetTransaction> {
                     child: SizedBox(
                         width: gc.containerWidth,
                         child: (widget._mode == DetailsPageMode.Details) ?
-                        Text(_dropDownController.value)
+                        Center(
+                            child: Container(
+                              margin: gc.dropDownMargin,
+                              padding: gc.dropDownPadding,
+                              decoration: BoxDecoration(
+                                color: gc.disabledColor.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(gc.dropDownRadius),
+                                border: gc.disabledDropDownBorder,
+                              ),
+                              child: Text(
+                                  _dropDownController.value,
+                              style: TextStyle(fontSize: gc.infoFontSize, color: gc.inputFontColor),),
+                            ))
                         : GenericDropDownButton(_getCategoriesNameList(), _dropDownController),
                     ),
                   ),

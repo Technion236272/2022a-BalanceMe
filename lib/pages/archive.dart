@@ -1,4 +1,5 @@
 // ================= Archive Page =================
+import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -6,7 +7,6 @@ import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/pages/balance/balance_page.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:balance_me/widgets/designed_date_picker.dart';
 import 'package:balance_me/widgets/generic_info.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
@@ -25,6 +25,7 @@ class Archive extends StatefulWidget {
 class _ArchiveState extends State<Archive> {
   final DateRangePickerController _dateController = DateRangePickerController();
   bool _isIncomeTab = true;
+  bool _isVisible = false;
   bool _waitingForData = false;
 
   @override
@@ -78,6 +79,12 @@ class _ArchiveState extends State<Archive> {
     }
   }
 
+  void _hideDatePicker(){
+    setState(() {
+      _isVisible = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,10 +96,16 @@ class _ArchiveState extends State<Archive> {
           : (widget._userStorage.currentDate != null && !widget._userStorage.balance.isEmpty) ?
               ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)])
               : GenericInfo(topInfo: Languages.of(context)!.dataUnavailable),
-          DesignedDatePicker(
-            dateController: _dateController,
-            onSelectDate: _getCurrentBalance,
-            viewSelector: DatePickerType.Month,  // TODO- remove
+          GestureDetector(
+            onTap: _hideDatePicker,
+            child: Container(
+              color: Colors.transparent,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Center(
+                child: ArchiveDatePicker(dateController: _dateController, onSelectDate: _getCurrentBalance, isVisible: _isVisible,),
+              ),
+            ),
           ),
         ],
       ),

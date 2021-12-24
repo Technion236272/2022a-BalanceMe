@@ -51,7 +51,7 @@ const Color linkColors = Color(0xffbc21ff);
 const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
 const Color leaveColor = Color(0xFFE30E0E);
-const Color disabledColor = Colors.black38;
+Color disabledColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
 
 // AppBar
@@ -183,6 +183,7 @@ const TextStyle dropDownTextStyle = TextStyle(color: Colors.black, fontSize: 15)
 const double dropDownIconSize = 30;
 Color dropdDownBGcolor = primaryColor.withOpacity(0.2);
 Border dropDownBorder = Border.all(color: primaryColor, width: 2);
+Border disabledDropDownBorder = Border.all(color: disabledColor, width: 2);
 
 // Generic Info Widget
 const double infoTitleFontSize = 25;
@@ -197,12 +198,11 @@ const double datePickerFontSize = 15.0;
 const double datePickerGeneralPadding = 2.0;
 const double datePickerRightPadding = 15.0;
 const double datePickerIconSize = 18.0;
-const double datePickerDayViewWidth = 150.0;
+const double datePickerDayViewWidth = 120.0;
 const double datePickerMonthViewWidth = 120.0;
 const double datePickerYearViewWidth = 100.0;
-const double dateRangePickerDayViewWidth = datePickerDayViewWidth * 1.6;
-const double dateRangePickerMonthViewWidth = datePickerMonthViewWidth * 1.6;
-const double dateRangePickerYearViewWidth = datePickerYearViewWidth * 1.4;
+const double datePickerWidthScale = 1.7;
+const double datePickerHeightScale = 2.5;
 const EdgeInsets datePickerPadding = EdgeInsets.only(left: 8.0, right: 8.0);
 DateTime firstDate = DateTime(1970);
 DateTime today = DateTime.now();
@@ -235,6 +235,8 @@ const double disabledOpacity=0.5;
 //Archive
 const EdgeInsets ArchDatePickerPadd = EdgeInsets.only(top: 8.0, bottom: 8.0);
 const double datePickerHeight = 35;
+
+DateTime archiveLastDate = DateTime(DateTime.now().year,DateTime.now().month - 1);
 
 //Login providers
 const String facebook="facebook.com";
