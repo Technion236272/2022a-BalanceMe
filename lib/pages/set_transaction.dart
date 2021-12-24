@@ -37,7 +37,7 @@ class _SetTransactionState extends State<SetTransaction> {
   late TextEditingController _transactionNameController;
   late MoneyMaskedTextController _transactionAmountController;
   late TextEditingController _transactionDescriptionController;
-  final PrimitiveWrapper _dateRangePickerController = PrimitiveWrapper(DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day).toString());
+  late PrimitiveWrapper _dateRangePickerController;
   late PrimitiveWrapper _dropDownController;
   bool _isConstant = gc.defaultIsConstant;
   bool _performingSave = false;

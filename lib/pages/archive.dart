@@ -1,4 +1,5 @@
 // ================= Archive Page =================
+import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -84,20 +85,6 @@ class _ArchiveState extends State<Archive> {
     });
   }
 
-  Widget _getArchiveDatePicker() {
-    return GestureDetector(
-      onTap: _hideDatePicker,
-      child: Container(
-        color: Colors.transparent,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: ArchiveDatePicker(dateController: _dateController, onSelectDate: _getCurrentBalance, isVisible: _isVisible,),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,10 +96,16 @@ class _ArchiveState extends State<Archive> {
           : (widget._userStorage.currentDate != null && !widget._userStorage.balance.isEmpty) ?
               ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)])
               : GenericInfo(topInfo: Languages.of(context)!.dataUnavailable),
-          DesignedDatePicker(
-            dateController: _dateController,
-            onSelectDate: _getCurrentBalance,
-            viewSelector: DatePickerType.Month,  // TODO- remove
+          GestureDetector(
+            onTap: _hideDatePicker,
+            child: Container(
+              color: Colors.transparent,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Center(
+                child: ArchiveDatePicker(dateController: _dateController, onSelectDate: _getCurrentBalance, isVisible: _isVisible,),
+              ),
+            ),
           ),
         ],
       ),

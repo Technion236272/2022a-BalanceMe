@@ -45,7 +45,7 @@ class CategoriesTypeHeader extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                       child: Text(
                         Languages.of(context)!.current,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: gc.disabledColor,
                             fontSize: gc.fontSizeLoginImage,
                             fontWeight: FontWeight.bold,
@@ -73,7 +73,7 @@ class CategoriesTypeHeader extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                       child: Text(Languages.of(context)!.expected,
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: gc.disabledColor,
                               fontSize: gc.fontSizeLoginImage,
                               fontWeight: FontWeight.bold,
