@@ -140,9 +140,6 @@ class UserStorage with ChangeNotifier {
   }
 
   bool editCategory(model.Category newCategory, model.Category oldCategory) {
-    if (_isCategoryAlreadyExist(newCategory)) {
-      return false;
-    }
     removeCategory(oldCategory, false);
     _changeCategory(newCategory, EntryOperation.Add);
     _saveBalance();
@@ -171,11 +168,6 @@ class UserStorage with ChangeNotifier {
 
   bool editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction) {
     model.Category category = (newCategoryName == oldCategory.name) ? oldCategory : _balance.findCategory(newCategoryName);
-
-    if (_isTransactionAlreadyExist(category, newTransaction)) {
-      return false;
-    }
-
     removeTransaction(oldCategory, oldTransaction, false);
     category.addTransaction(newTransaction);
 
