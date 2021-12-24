@@ -100,14 +100,14 @@ class GoogleAnalytics {
   void logMultipleProviders({String? providerLinked}) async {
    List<String> methods=await _getUserProviders();
    if (methods.length==gc.maxAccounts) {
-     _logEvent("Two Accounts linked", {"user": _getUserEmail(),"first provider":methods[0],"second provider":methods[1]});
+     _logEvent("TwoAccountsLinked", {"user": _getUserEmail(),"first provider":methods[0],"second provider":methods[1]});
    }
    else if(methods.isNotEmpty)
      {
-       _logEvent("Attempt was made to link", {"user": _getUserEmail(),"first provider":methods[0],"second provider":providerLinked});
+       _logEvent("LinkAttempt", {"user": _getUserEmail(),"first provider":methods[0],"second provider":providerLinked});
      }
    else{
-     _logEvent("Attempt was made to link accounts, user failed to sign in", {"provider":providerLinked});
+     _logEvent("LinkAttemptFailed", {"provider":providerLinked});
    }
   }
 }
