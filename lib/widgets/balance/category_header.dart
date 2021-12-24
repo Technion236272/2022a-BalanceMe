@@ -12,19 +12,31 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class CategoryHeader extends StatefulWidget {
-  const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, {Key? key}) : super(key: key);
+  const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, this._openCategory, {Key? key}) : super(key: key);
 
   final Category _category;
   final bool _isCategoryOpen;
   final VoidCallback _toggleCategory;
+  final VoidCallback _openCategory;
 
   @override
   State<CategoryHeader> createState() => _CategoryHeaderState();
 }
 
 class _CategoryHeaderState extends State<CategoryHeader> {
+  double _getProgressPercentage() {
+    double progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
+    if (progressPercentage >= 1) {
+      progressPercentage = 1;
+    }
+    if (progressPercentage <= 0) {
+      progressPercentage = 0;
+    }
+    return progressPercentage.toPrecision();
+  }
+
   void _openAddTransactionPage() {
-    navigateToPage(context, SetTransaction(DetailsPageMode.Add, widget._category), AppPages.SetTransaction);
+    navigateToPage(context, SetTransaction(DetailsPageMode.Add, widget._category, callback: widget._openCategory), AppPages.SetTransaction);
   }
 
   void _openCategoryDetails() {
@@ -55,9 +67,6 @@ class _CategoryHeaderState extends State<CategoryHeader> {
 
   @override
   Widget build(BuildContext context) {
-    double progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
-    progressPercentage = (progressPercentage >= 1) ? 1 : progressPercentage.toPrecision();
-
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Column(children: [
@@ -154,8 +163,8 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               animation: true,
               lineHeight: gc.lineBarHeight,
               animationDuration: gc.lineAnimationDuration,
-              percent: progressPercentage,
-              center: Text((progressPercentage * 100).toPrecision().toPercentageFormat()),
+              percent: _getProgressPercentage(),
+              center: Text((_getProgressPercentage() * 100).toPrecision().toPercentageFormat()),
               linearStrokeCap: LinearStrokeCap.roundAll,
               progressColor: gc.primaryColor,
             ),

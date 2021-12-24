@@ -93,6 +93,12 @@ class LanguageEn extends Languages {
   String get successfullyLogout => "Successfully logged out";
 
   @override
+  String get successfullyLogin => "You logged in successfully";
+
+  @override
+  String get successfullySignUp => "You sign up successfully. You can edit your settings in settings page";
+
+  @override
   String get signUpTitle => "Sign Up";
 
   @override
@@ -276,5 +282,8 @@ class LanguageEn extends Languages {
 
   // Archive
   @override
-  String get noDataForRange => "There is no data for the\nselected range";
+  String get dataUnavailable => "There is no data for the selected month";
+
+  @override
+  String get dateReloadSuccessful => "The data has reloaded successfully";
 }

@@ -10,16 +10,15 @@ import 'package:balance_me/widgets/generic_info.dart';
 import 'package:balance_me/global/types.dart';
 
 class BalancePage extends StatelessWidget {
-  BalancePage(this._balanceModel, this._changeCurrentTab, {this.additionalWidget, Key? key}) : super(key: key) {
+  BalancePage(this._balanceModel, this._changeCurrentTab, {Key? key}) : super(key: key) {
     GoogleAnalytics.instance.logPageOpened(AppPages.Balance);
   }
 
   final BalanceModel _balanceModel;
   final VoidCallbackInt _changeCurrentTab;
-  final Widget? additionalWidget;
 
   Widget _getTabBarView(BuildContext context, List<Category> categoriesList){
-    return categoriesList.isNotEmpty ? CategoriesType(categoriesList, additionalWidget: additionalWidget) : GenericInfo(null, Languages.of(context)!.nothingToShow, null);
+    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : GenericInfo(bottomInfo: Languages.of(context)!.nothingToShow);
   }
 
   @override

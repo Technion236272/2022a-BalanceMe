@@ -41,6 +41,8 @@ abstract class Languages {
   String get login;
   String get logout;
   String get successfullyLogout;
+  String get successfullyLogin;
+  String get successfullySignUp;
   String get signUpTitle;
   String get emailText;
   String get password;
@@ -112,5 +114,6 @@ abstract class Languages {
   String get constantSwitch;
 
   // Archive
-  String get noDataForRange;
+  String get dataUnavailable;
+  String get dateReloadSuccessful;
 }

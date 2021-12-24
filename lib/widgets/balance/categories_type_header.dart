@@ -42,14 +42,14 @@ class CategoriesTypeHeader extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: gc.categoryAroundPadding),
+                      padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                       child: Text(
                         Languages.of(context)!.current,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: gc.disabledColor,
                             fontSize: gc.fontSizeLoginImage,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     Text(_getTotalCategoriesListAmount(false).toMoneyFormat(),
@@ -60,7 +60,9 @@ class CategoriesTypeHeader extends StatelessWidget {
                                     ? gc.incomeEntryColor
                                     : gc.expenseEntryColor,
                             fontSize: gc.fontSizeLoginImage,
-                            fontWeight: FontWeight.bold)),
+                            fontWeight: FontWeight.bold,
+                        ),
+                    ),
                   ],
                 ),
               ),
@@ -69,19 +71,22 @@ class CategoriesTypeHeader extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: gc.categoryAroundPadding),
+                      padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                       child: Text(Languages.of(context)!.expected,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: gc.disabledColor,
                               fontSize: gc.fontSizeLoginImage,
-                              fontWeight: FontWeight.bold)),
+                              fontWeight: FontWeight.bold,
+                          ),
+                      ),
                     ),
                     Text(_getTotalCategoriesListAmount(true).toMoneyFormat(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: gc.primaryColor,
                             fontSize: gc.fontSizeLoginImage,
-                            fontWeight: FontWeight.bold)),
+                            fontWeight: FontWeight.bold,
+                        ),
+                    ),
                   ],
                 ),
               ),

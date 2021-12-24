@@ -40,6 +40,10 @@ class _SetCategoryState extends State<SetCategory> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _initControllers();
+  }
+
+  void _initControllers() {
     _categoryNameController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.name);
     _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _categoryExpectedController = MoneyMaskedTextController(initialValue: widget.currentCategory == null ? 0.0

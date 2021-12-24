@@ -150,7 +150,6 @@ const double newPasswordSize = 22.0;
 const double profileAvatarRadius = 150.0;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
-const double padSettingsArrow=20;
 
 //error messages
 const String weakPassword = "weak-password";
@@ -236,6 +235,7 @@ const double disabledOpacity=0.5;
 //Archive
 const EdgeInsets ArchDatePickerPadd = EdgeInsets.only(top: 8.0, bottom: 8.0);
 const double datePickerHeight = 35;
+
 DateTime archiveLastDate = DateTime(DateTime.now().year,DateTime.now().month - 1);
 
 //Login providers

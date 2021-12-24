@@ -35,9 +35,9 @@ class _HomePageState extends State<HomePage> {
     }
     if (_selectedPage == AppPages.Archive.index) {  // Statistics
       GoogleAnalytics.instance.logPageOpened(AppPages.Archive);
-      return Archive(userStorage);
+      return Archive(authRepository, userStorage);
     }  // Statistics
-    return BalanceManager(userStorage);  // default: Balance
+    return BalanceManager(authRepository, userStorage);  // default: Balance
   }
 
   @override

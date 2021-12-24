@@ -1,8 +1,9 @@
 // ================= Set Transaction =================
 import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
+import 'package:balance_me/widgets/date_picker.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -12,18 +13,20 @@ import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
 import 'package:balance_me/widgets/generic_drop_down_button.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
+import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/widgets/generic_edit_button.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
-  SetTransaction(this._mode, this._currentCategory, {this.currentTransaction, this.currencySign = gc.NIS, Key? key}) : super(key: key);
+  SetTransaction(this._mode, this._currentCategory, {this.callback, this.currentTransaction, this.currencySign = gc.NIS, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final Category _currentCategory;
   final Transaction? currentTransaction;
   final String currencySign; //TODO - Initial this currency sign with the user selection
+  final VoidCallback? callback;
 
   @override
   State<SetTransaction> createState() => _SetTransactionState();
@@ -40,16 +43,22 @@ class _SetTransactionState extends State<SetTransaction> {
   bool _performingSave = false;
 
   bool get performingAction => _performingSave;
+  UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
   @override
   void initState() {
+    super.initState();
+    _initControllers();
+  }
+
+  void _initControllers() {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
     _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null ? 0.0
-        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator,thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
+        : widget.currentTransaction!.amount, rightSymbol: widget.currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
     _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
+    _dateRangePickerController = PrimitiveWrapper(DateTime.now().toFullDate());  // TODO- can't open transaction for different date
     _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
-    super.initState();
   }
 
   void _updatePerformingSave(bool state) {
@@ -98,40 +107,43 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   String? _essentialFieldValidatorFunction(String? value) {
-    if(value != null){
+    if (value != null){
       value = value.split(widget.currencySign).first;
     }
     return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
   }
 
   String? _lineLimitValidatorFunction(String? value) {
-    if(value != null){
+    if (value != null){
       value = value.split(widget.currencySign).first;
     }
+
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
       return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
     }
+
     return message;
   }
 
   String? _positiveNumberValidatorFunction(String? value) {
-    if(value != null){
+    if (value != null){
       value = value.split(widget.currencySign).first;
     }
+
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
       return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.mustPositiveNum;
     }
+
     return message;
   }
 
-  List<String> _getCategoriesNameList(BuildContext context) {
+  List<String> _getCategoriesNameList() {
     List<String> categoriesName = [];
-    for (var category in Provider.of<UserStorage>(context, listen: false).balance.expensesCategories) {
-      categoriesName.add(category.name);
-    }
-    for (var category in Provider.of<UserStorage>(context, listen: false).balance.incomeCategories) {
+    SortedList<Category> categoriesList = (widget._currentCategory.isIncome) ? userStorage.balance.incomeCategories : userStorage.balance.expensesCategories;
+
+    for (var category in categoriesList) {
       categoriesName.add(category.name);
     }
     return categoriesName;
@@ -153,15 +165,16 @@ class _SetTransactionState extends State<SetTransaction> {
     _updatePerformingSave(true);
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      UserStorage userStorage = Provider.of<UserStorage>(context, listen: false);
       String message = Languages.of(context)!.saveSucceeded;
 
       if (widget._mode == DetailsPageMode.Add) {
-        message = userStorage.addTransaction(widget._currentCategory, createNewTransaction()) ? message : Languages.of(context)!.alreadyExist;
+        Category category = (_dropDownController.value == widget._currentCategory.name) ? widget._currentCategory : userStorage.balance.findCategory(_dropDownController.value);
+        message = userStorage.addTransaction(category, createNewTransaction()) ? message : Languages.of(context)!.alreadyExist;
       } else {
         message = userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction()) ? message : Languages.of(context)!.alreadyExist;
       }
 
+      widget.callback != null ? widget.callback!() : null;
       navigateBack(context);
       displaySnackBar(context, message.replaceAll("%", Languages.of(context)!.transaction));
     }
@@ -211,7 +224,7 @@ class _SetTransactionState extends State<SetTransaction> {
                   Padding(
                     padding: const EdgeInsets.only(
                         top: gc.generalTextFieldsPadding,
-                        bottom: gc.generalTextFieldsPadding
+                        bottom: gc.generalTextFieldsPadding,
                     ),
                     child: SizedBox(
                         width: gc.containerWidth,
@@ -229,7 +242,7 @@ class _SetTransactionState extends State<SetTransaction> {
                                   _dropDownController.value,
                               style: TextStyle(fontSize: gc.infoFontSize, color: gc.inputFontColor),),
                             ))
-                        : GenericDropDownButton(_getCategoriesNameList(context), _dropDownController),
+                        : GenericDropDownButton(_getCategoriesNameList(), _dropDownController),
                     ),
                   ),
                   Padding(
@@ -246,27 +259,28 @@ class _SetTransactionState extends State<SetTransaction> {
                   Padding(
                     padding: const EdgeInsets.only(
                         left: gc.generalTextFieldsPadding,
-                        right: gc.generalTextFieldsPadding
+                        right: gc.generalTextFieldsPadding,
                     ),
                     child: ListViewGeneric(
                       listTileHeight: gc.listTileHeight,
                       leadingWidgets: [
-                      Text(Languages.of(context)!.date),
-                      Text(Languages.of(context)!.constantSwitch),
+                        Text(Languages.of(context)!.date),
+                        Text(Languages.of(context)!.constantSwitch),
                       ],
                       trailingWidgets: [
                         widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date)
-                            : SizedBox(
+                        : SizedBox(
                           width: MediaQuery.of(context).size.width/2.5,
-                              child: DatePicker(
-                                  dateController: _dateRangePickerController,
-                                  view: DatePickerType.Day,
-                                  iconColor: gc.primaryColor,
+                          child: DatePicker(
+                                dateController: _dateRangePickerController,
+                                view: DatePickerType.Day,
+                                iconColor: gc.primaryColor,
+                          ),
                         ),
-                            ),
                         Switch(
                           value: _isConstant,
-                          onChanged: (widget._mode == DetailsPageMode.Details) ? null : _switchConstant,
+                          onChanged: (widget._mode == DetailsPageMode.Details || (userStorage.currentDate != null && !userStorage.currentDate!.isSameDate(DateTime.now()))) ?
+                              null : _switchConstant,
                         ),
                     ],
                       isScrollable: false,

@@ -46,6 +46,20 @@ class Category {
     amount -= transaction.amount;
   }
 
+  Category? filterConstantsTransaction() {
+    SortedList<Transaction> constantTransactions = getTransactionSortedList();
+    for (var transaction in transactions) {
+      if (transaction.isConstant) {
+        constantTransactions.add(transaction);
+      }
+    }
+
+    if (constantTransactions.isNotEmpty) {
+      return Category(name, isIncome, expected, description, null, constantTransactions);
+    }
+    return null;
+  }
+
   Json toJson() => {
     'name': name,
     'isIncome': isIncome,

@@ -1,6 +1,5 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
-import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
@@ -20,12 +19,20 @@ void navigateToPage(context, Widget page, AppPages? pageEnum) {
 
 void navigateBack(context) {
   Navigator.pop(context);
+  FocusScope.of(context).unfocus(); // Remove the keyboard
   GoogleAnalytics.instance.logNavigateBack();
 }
 
 // Messages
-void displaySnackBar(BuildContext context, String msg) {
-  final snackBar = SnackBar(content: Text(msg));
+void displaySnackBar(BuildContext context, String msg, [String? actionLabel, VoidCallback? actionCallback]) {
+  final snackBar = SnackBar(
+    content: Text(msg),
+    action: (actionLabel == null || actionCallback == null) ? null
+    : SnackBarAction(
+      label: actionLabel,
+      onPressed: actionCallback,
+    ),
+  );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
@@ -66,12 +73,13 @@ double getPercentage(double amount, double total) {
 // Format
 extension Ex on num {
   double toPrecision() => double.parse(toStringAsFixed(gc.defaultPrecision));
-  String toMoneyFormat() => toString() + "₪";  // TODO- Refactor in Sprint2. find a way to add the symbol in the correct direction according to the locale
+  String toMoneyFormat() => toPrecision().toString() + "₪";  // TODO- Refactor in Sprint2. find a way to add the symbol in the correct direction according to the locale
   String toPercentageFormat() => toString() + "%";
 }
 
 extension Dt on DateTime {
   String toFullDate() => "$day-$month-$year";  // TODO- find a way to add the symbol in the correct direction according to the locale
+  bool isSameDate(DateTime other) => year == other.year && month == other.month && day == other.day;
 }
 
 extension St on String {
@@ -100,9 +108,11 @@ bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toStr
 
 // Time
 String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
-  DateTime time = specificDate ?? DateTime.now();
-  String currentMonth = time.day < endOfMonth ? (time.month - 1).toString() : time.month.toString();
-  return currentMonth + time.year.toString();
+  specificDate = specificDate ?? DateTime.now();
+  if (specificDate.isAfter(DateTime(specificDate.year, specificDate.month, endOfMonth))) {
+    specificDate = DateTime(specificDate.year, specificDate.month + 1);
+  }
+  return specificDate.month.toString() + specificDate.year.toString();
 }
 
 // Converters
