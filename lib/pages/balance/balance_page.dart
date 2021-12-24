@@ -24,10 +24,10 @@ class BalancePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TabGeneric(
-      getGenericTabs([Languages.of(context)!.incomes, Languages.of(context)!.expenses]),
+      getGenericTabs([Languages.of(context)!.expenses, Languages.of(context)!.incomes]),
       [
-        _getTabBarView(context, _balanceModel.incomeCategories),
         _getTabBarView(context, _balanceModel.expensesCategories),
+        _getTabBarView(context, _balanceModel.incomeCategories),
       ],
       onSwitch: _changeCurrentTab,
     );

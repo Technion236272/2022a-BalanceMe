@@ -109,10 +109,15 @@ bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toStr
 // Time
 String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
   specificDate = specificDate ?? DateTime.now();
-  if (specificDate.isAfter(DateTime(specificDate.year, specificDate.month, endOfMonth))) {
-    specificDate = DateTime(specificDate.year, specificDate.month + 1);
+  if (specificDate.isBefore(DateTime(specificDate.year, specificDate.month, endOfMonth))) {
+    specificDate = DateTime(specificDate.year, specificDate.month - 1);  // TODO- check Jan
   }
   return specificDate.month.toString() + specificDate.year.toString();
+}
+
+DateTime getFirstDayInMonthDate(int endOfMonth) {  // TODO
+  DateTime currentDay = DateTime.now();
+  return DateTime(currentDay.year, currentDay.month, endOfMonth);
 }
 
 // Converters

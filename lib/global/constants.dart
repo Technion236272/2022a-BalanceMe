@@ -181,7 +181,7 @@ const EdgeInsets dropDownPadding = EdgeInsets.symmetric(horizontal: 10);
 const double numOfItems = 150;
 const TextStyle dropDownTextStyle = TextStyle(color: Colors.black, fontSize: 15);
 const double dropDownIconSize = 30;
-Color dropdDownBGcolor = primaryColor.withOpacity(0.2);
+Color dropDownBGcolor = primaryColor.withOpacity(0.2);
 Border dropDownBorder = Border.all(color: primaryColor, width: 2);
 Border disabledDropDownBorder = Border.all(color: disabledColor, width: 2);
 
@@ -205,7 +205,6 @@ const double datePickerWidthScale = 1.7;
 const double datePickerHeightScale = 2.5;
 const EdgeInsets datePickerPadding = EdgeInsets.only(left: 8.0, right: 8.0);
 DateTime firstDate = DateTime(1970);
-DateTime today = DateTime.now();
 BorderRadius datePickerRadius = BorderRadius.circular(10);
 
 //Transaction Entry
@@ -233,10 +232,8 @@ const double listViewBottomPadding = 100;
 const double disabledOpacity=0.5;
 
 //Archive
-const EdgeInsets ArchDatePickerPadd = EdgeInsets.only(top: 8.0, bottom: 8.0);
+const EdgeInsets archiveDatePickerPadd = EdgeInsets.only(top: 8.0, bottom: 8.0);
 const double datePickerHeight = 35;
-
-DateTime archiveLastDate = DateTime(DateTime.now().year,DateTime.now().month - 1);
 
 //Login providers
 const String facebook="facebook.com";

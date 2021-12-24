@@ -49,7 +49,7 @@ class _BalanceManagerState extends State<BalanceManager> {
   bool get isIncomeTab => _isIncomeTab;
 
   void _setCurrentTab(int currentTab) {
-    _isIncomeTab = (currentTab == 0);
+    _isIncomeTab = (currentTab == 1);
     GoogleAnalytics.instance.logPageOpened(_isIncomeTab ? AppPages.Incomes : AppPages.Expenses);
   }
 

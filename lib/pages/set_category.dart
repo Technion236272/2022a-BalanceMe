@@ -207,8 +207,8 @@ class _SetCategoryState extends State<SetCategory> {
                       leadingWidgets: [Text(Languages.of(context)!.typeSelection),],
                       trailingWidgets: [
                         GenericRadioButton([
-                          Languages.of(context)!.income,
-                          Languages.of(context)!.expense
+                          Languages.of(context)!.expense,
+                          Languages.of(context)!.income
                         ],
                           _categoryTypeController,
                           isDisabled: widget._mode == DetailsPageMode.Details,

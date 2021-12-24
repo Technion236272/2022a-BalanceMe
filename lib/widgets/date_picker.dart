@@ -1,8 +1,9 @@
 // ================= Date Picker Widgets =================
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DatePicker extends StatefulWidget {
   DatePicker({this.dateController, this.onSelection, this.firstDate, this.lastDate, this.withBorder = false, this.color,
@@ -23,22 +24,15 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
-  DateTime _date = gc.today;
+  DateTime _date = DateTime.now();
   DateTime _firstDate = gc.firstDate;
-  DateTime _lastDate = gc.today;
+  DateTime _lastDate = DateTime.now();
 
   @override
   void initState() {
     _firstDate = widget.firstDate ?? gc.firstDate;
-    _lastDate = widget.lastDate ?? gc.today;
-    _date = _date.isAfter(_lastDate)
-        ? DateTime(_lastDate.year, _lastDate.month - 1, _lastDate.day)
-        : _date;
+    _lastDate = widget.lastDate ?? DateTime.now();
     super.initState();
-  }
-
-  String _getText() {
-    return '${_date.day}/${_date.month}/${_date.year}';
   }
 
   Future _pickDate(BuildContext context) async {
@@ -54,7 +48,7 @@ class _DatePickerState extends State<DatePicker> {
     if (newDate == null) return;
     setState(() {
       _date = newDate;
-      widget.dateController!.value = _date;
+      widget.dateController!.value = _date.toFullDate();
       if (widget.onSelection != null) {
         widget.onSelection!();
       }
@@ -77,7 +71,7 @@ class _DatePickerState extends State<DatePicker> {
         children: [
           Padding(
             padding: gc.datePickerPadding,
-            child: Text(_getText(), style: TextStyle(color: widget.textColor)),
+            child: Text(_date.toFullDate(), style: TextStyle(color: widget.textColor)),
           ),
           IconButton(
             iconSize: gc.iconSize,
@@ -111,14 +105,14 @@ class DateRangePicker extends StatefulWidget {
 }
 
 class _DateRangePickerState extends State<DateRangePicker> {
-  DateTimeRange _dateRange = DateTimeRange(start: gc.today, end: gc.today);
+  DateTimeRange _dateRange = DateTimeRange(start: DateTime.now(), end: DateTime.now());
   DateTime _firstDate = gc.firstDate;
-  DateTime _lastDate = gc.today;
+  DateTime _lastDate = DateTime.now();
 
   @override
   void initState() {
     _firstDate = widget.firstDate ?? gc.firstDate;
-    _lastDate = widget.firstDate ?? gc.today;
+    _lastDate = widget.firstDate ?? DateTime.now();
     super.initState();
   }
 
@@ -194,13 +188,13 @@ class ArchiveDatePicker extends StatefulWidget {
 }
 
 class _ArchiveDatePickerState extends State<ArchiveDatePicker> {
-  DateTime initialDate = gc.archiveLastDate;
+  DateTime initialDate = DateTime.now();
   String initialDateString = "";
 
   @override
   void initState() {
-    initialDateString =
-        initialDate.year.toString() + "/" + initialDate.month.toString();
+    initialDateString = initialDate.year.toString() + "/" + initialDate.month.toString();
+    initialDate = widget.lastDate != null ? widget.lastDate! : DateTime.now();
     super.initState();
   }
 
@@ -274,31 +268,26 @@ class _ArchiveDatePickerState extends State<ArchiveDatePicker> {
             maintainAnimation: true,
             maintainState: true,
             child: SizedBox(
-              width:
-                  MediaQuery.of(context).size.width / gc.datePickerWidthScale,
-              height:
-                  MediaQuery.of(context).size.height / gc.datePickerHeightScale,
+              width: MediaQuery.of(context).size.width / gc.datePickerWidthScale,
+              height: MediaQuery.of(context).size.height / gc.datePickerHeightScale,
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: gc.datePickerGeneralPadding,
-                    right: gc.datePickerRightPadding),
+                    right: gc.datePickerRightPadding,
+                ),
                 child: SfDateRangePicker(
-                  minDate: widget.firstDate != null
-                      ? widget.firstDate!
-                      : gc.firstDate,
-                  maxDate: widget.lastDate != null
-                      ? widget.lastDate!
-                      : gc.archiveLastDate,
+                  controller: widget.dateController,
+                  minDate: widget.firstDate != null ? widget.firstDate! : gc.firstDate,
+                  maxDate: widget.lastDate != null ? widget.lastDate! : DateTime.now(),
                   view: DateRangePickerView.year,
                   backgroundColor: gc.secondaryColor,
-                  initialSelectedDate: gc.archiveLastDate,
                   selectionTextStyle: const TextStyle(color: gc.secondaryColor),
                   showNavigationArrow: true,
                   showActionButtons: true,
                   allowViewNavigation: false,
-                  controller: widget.dateController,
                   onSubmit: _onSubmit,
                   onCancel: _hideDatePicker,
+                  todayHighlightColor: Colors.transparent,
                 ),
               ),
             ),

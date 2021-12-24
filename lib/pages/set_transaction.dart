@@ -1,5 +1,4 @@
 // ================= Set Transaction =================
-import 'package:balance_me/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/date_picker.dart';
@@ -150,11 +149,9 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   Transaction createNewTransaction() {
-    List<String> dateToString = _dateRangePickerController.value!.toString().split(" ");
-    String dateString = dateToString.elementAt(0);
     return Transaction(
         _transactionNameController.text.toString(),
-        dateString,
+        (_dateRangePickerController.value == null) ? DateTime.now().toFullDate() : _dateRangePickerController.value!,
         double.parse(_transactionAmountController.text.toString().split(widget.currencySign).first),
         _transactionDescriptionController.text.toString(),
         _isConstant
@@ -275,6 +272,8 @@ class _SetTransactionState extends State<SetTransaction> {
                                 dateController: _dateRangePickerController,
                                 view: DatePickerType.Day,
                                 iconColor: gc.primaryColor,
+                                firstDate: getFirstDayInMonthDate(userStorage.userData == null ? gc.defaultEndOfMonthDay : userStorage.userData!.endOfMonthDay),  // TODO
+                                lastDate: DateTime.now(),
                           ),
                         ),
                         Switch(
