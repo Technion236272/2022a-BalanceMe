@@ -31,4 +31,10 @@ customized for every user.*
 * [ ] Create target goals to allocate savings to.
 * [ ] Filter and sort expense/income categories based on money spent,date, and other parameters.
 
+## Table of contents
+[Overview](/docs/overview.md)
+[Database](/docs/database.md)
+[Models](/docs/models.md)
+[Setup](/docs/setup.md)
+
 
