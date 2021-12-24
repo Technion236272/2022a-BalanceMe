@@ -286,4 +286,14 @@ class LanguageEn extends Languages {
 
   @override
   String get dateReloadSuccessful => "The data has reloaded successfully";
+
+  //about
+  @override
+  String get about => "About the app";
+
+  @override
+  String get legalese => "All packages and icons used are properties of their respective owners";
+
+  @override
+  String get scalesIcon => "Scales icon";
 }
