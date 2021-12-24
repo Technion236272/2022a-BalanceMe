@@ -116,4 +116,8 @@ abstract class Languages {
   // Archive
   String get dataUnavailable;
   String get dateReloadSuccessful;
+
+  //About
+  String get about;
+  String get legalese;
 }

@@ -48,12 +48,22 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  void _getAbout() {
+    showAboutDialog(
+        context: context,
+        applicationName: Languages.of(context)!.appName,
+        applicationVersion: config.projectVersion,
+        applicationLegalese:Languages.of(context)!.legalese,
+    );
+  }
+
   Widget _getSettingsList() {
     List<Widget?> leadingSettings = [
       widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.profileSettings) : null,
       widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.passwordSettings) : null,
       Text(Languages.of(context)!.endOfMonthSettings),
       Text(Languages.of(context)!.languageSettings),
+      Text(Languages.of(context)!.about),
       Text(Languages.of(context)!.versionSettings)
     ];
 
@@ -72,6 +82,10 @@ class _SettingsState extends State<Settings> {
 
       _getDaysOfMonthRadio(),
       const LanguageDropDown(),
+      IconButton(
+        onPressed:_getAbout,
+        icon: _getSettingsArrow(),
+      ),
       Text(config.firebaseVersion, style: _getTextDesign())
     ];
 

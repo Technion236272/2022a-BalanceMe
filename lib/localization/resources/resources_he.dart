@@ -286,4 +286,10 @@ class LanguageHe extends Languages {
 
   @override
   String get dateReloadSuccessful => "‎המידע נטען בהצלחה";
+
+  @override
+  String get about => "‎אודות האפליקציה";
+
+  @override
+  String get legalese => "‎כל החבילות והאייקונים בשימוש שייכים לבעליהם";
 }
