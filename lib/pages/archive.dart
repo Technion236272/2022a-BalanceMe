@@ -62,14 +62,10 @@ class _ArchiveState extends State<Archive> {
 
   void _getCurrentBalance() {
     if (widget._authRepository.status == AuthStatus.Authenticated && _dateController.selectedDate != null) {
-      print("&&&&&&&&&&&&&&& selectedDate = ${_dateController.selectedDate!.toFullDate()}");
       int endOfMonthDay = (widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay;
       DateTime requestedRange = DateTime(_dateController.selectedDate!.year, _dateController.selectedDate!.month, endOfMonthDay);
 
-      print("&&&&&&&&&&&&&&& requestedRange = ${requestedRange.toFullDate()}");
-
       if (widget._userStorage.currentDate != null && widget._userStorage.currentDate!.isSameDate(requestedRange)) {
-        print("********");
         return;
       }
 
