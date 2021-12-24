@@ -35,6 +35,8 @@ typedef VoidCallbackTwoTransactions = void Function(Transaction, Transaction?);
 
 typedef StringCallbackStringNullable =  String? Function(String?);
 
+typedef StringCallback =  String? Function();
+
 typedef VoidCallbackJson = void Function(Json);
 
 typedef VoidCallbackNull = void Function(Json?);
