@@ -71,7 +71,7 @@ class _DatePickerState extends State<DatePicker> {
         children: [
           Padding(
             padding: gc.datePickerPadding,
-            child: Text(_date.toFullDate(), style: TextStyle(color: widget.textColor)),
+            child: Text(widget.dateController == null ? _date.toFullDate() : widget.dateController!.value, style: TextStyle(color: widget.textColor)),
           ),
           IconButton(
             iconSize: gc.iconSize,

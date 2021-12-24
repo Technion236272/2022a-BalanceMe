@@ -56,7 +56,7 @@ class _SetTransactionState extends State<SetTransaction> {
         : widget.currentTransaction!.amount, rightSymbol: widget._currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
     _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
-    _dateRangePickerController = PrimitiveWrapper(DateTime.now().toFullDate());
+    _dateRangePickerController = PrimitiveWrapper(widget.currentTransaction == null ? DateTime.now().toFullDate() : widget.currentTransaction!.date);
     _isConstant = (widget.currentTransaction == null) ? gc.defaultIsConstant : widget.currentTransaction!.isConstant;
   }
 
