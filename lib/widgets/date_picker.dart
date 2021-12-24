@@ -62,7 +62,8 @@ class _DatePickerState extends State<DatePicker> {
           ? BoxDecoration(
               color: widget.color,
               border: Border.all(
-                  color: Colors.black38, width: gc.cardThinBorderWidth),
+                  color: Colors.black38, width: gc.cardThinBorderWidth,
+              ),
               borderRadius: gc.datePickerRadius)
           : null,
       child: Row(
