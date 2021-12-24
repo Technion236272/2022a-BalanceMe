@@ -272,7 +272,7 @@ class _SetTransactionState extends State<SetTransaction> {
                                 dateController: _dateRangePickerController,
                                 view: DatePickerType.Day,
                                 iconColor: gc.primaryColor,
-                                firstDate: getFirstDayInMonthDate(userStorage.userData == null ? gc.defaultEndOfMonthDay : userStorage.userData!.endOfMonthDay),  // TODO
+                                firstDate: getCurrentMonth(userStorage.userData == null ? gc.defaultEndOfMonthDay : userStorage.userData!.endOfMonthDay),
                                 lastDate: DateTime.now(),
                           ),
                         ),

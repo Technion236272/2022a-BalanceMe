@@ -107,17 +107,17 @@ bool lineLimitMinValidator(String? value, int minLimit) => (essentialFieldValida
 bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toString()) && value! > 0);
 
 // Time
-String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
+DateTime getCurrentMonth(int endOfMonth, [DateTime? specificDate]) {
   specificDate = specificDate ?? DateTime.now();
   if (specificDate.isBefore(DateTime(specificDate.year, specificDate.month, endOfMonth))) {
-    specificDate = DateTime(specificDate.year, specificDate.month - 1);  // TODO- check Jan
+    specificDate = DateTime(specificDate.year, specificDate.month - 1, endOfMonth);
   }
-  return specificDate.month.toString() + specificDate.year.toString();
+  return specificDate;
 }
 
-DateTime getFirstDayInMonthDate(int endOfMonth) {  // TODO
-  DateTime currentDay = DateTime.now();
-  return DateTime(currentDay.year, currentDay.month, endOfMonth);
+String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
+  specificDate = getCurrentMonth(endOfMonth, specificDate);
+  return specificDate.month.toString() + specificDate.year.toString();
 }
 
 // Converters

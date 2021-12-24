@@ -60,7 +60,7 @@ class _ArchiveState extends State<Archive> {
     _stopWaitingForDataCB();
   }
 
-  void _getCurrentBalance() {  // TODO- check if data is this month and present failure snackbar
+  void _getCurrentBalance() {
     if (widget._authRepository.status == AuthStatus.Authenticated && _dateController.selectedDate != null) {
       print("&&&&&&&&&&&&&&& selectedDate = ${_dateController.selectedDate!.toFullDate()}");
       int endOfMonthDay = (widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay;
@@ -87,6 +87,7 @@ class _ArchiveState extends State<Archive> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime currentMonth = getCurrentMonth((widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: GestureDetector(
@@ -98,12 +99,15 @@ class _ArchiveState extends State<Archive> {
           : (widget._userStorage.currentDate != null && !widget._userStorage.balance.isEmpty) ?
               ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)])
               : GenericInfo(topInfo: Languages.of(context)!.dataUnavailable),
-          Center(
-            child: ArchiveDatePicker(
-              dateController: _dateController,
-              onSelectDate: _getCurrentBalance,
-              isVisible: _isVisible,
-              lastDate: DateTime(DateTime.now().year,DateTime.now().month - 1),
+          Padding(
+            padding: const EdgeInsets.only(top: gc.archiveDatePickerPadding),
+            child: Center(
+              child: ArchiveDatePicker(
+                dateController: _dateController,
+                onSelectDate: _getCurrentBalance,
+                lastDate: DateTime(currentMonth.year, currentMonth.month - 1),
+                isVisible: _isVisible,
+              ),
             ),
           ),
         ],

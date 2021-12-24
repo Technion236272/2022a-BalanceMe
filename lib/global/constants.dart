@@ -129,6 +129,7 @@ const double percentSize = 40.0;
 // Balance
 const String inPracticeExpectedSeparator = "/";
 const DismissDirection removeDirection = DismissDirection.startToEnd;
+const double categoryTypeHeaderTopPadding = 13.0;
 
 //Welcome
 const double imageTop = -40;
@@ -232,7 +233,8 @@ const double listViewBottomPadding = 100;
 const double disabledOpacity=0.5;
 
 //Archive
-const EdgeInsets archiveDatePickerPadd = EdgeInsets.only(top: 8.0, bottom: 8.0);
+const EdgeInsets archiveDatePickerEdgeInsets = EdgeInsets.only(top: 8.0, bottom: 8.0);
+const double archiveDatePickerPadding = 60;
 const double datePickerHeight = 35;
 
 //Login providers

@@ -21,79 +21,82 @@ class CategoriesTypeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        RingPieChart(_categories, true, null),
-        Card(
-          shadowColor: gc.primaryColor.withOpacity(0.5),
-          elevation: gc.cardElevationHeight,
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(
-                color: gc.primaryColor, width: gc.cardBorderWidth),
-            borderRadius: BorderRadius.circular(gc.entryBorderRadius),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(gc.categoryTopPadding),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
-                      child: Text(
-                        Languages.of(context)!.current,
-                        style: TextStyle(
-                            color: gc.disabledColor,
-                            fontSize: gc.fontSizeLoginImage,
-                            fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Text(_getTotalCategoriesListAmount(false).toMoneyFormat(),
-                        style: TextStyle(
-                            color: (_categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(false)>=_getTotalCategoriesListAmount(true))
-                                    ? gc.incomeEntryColor
-                                    : (!_categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(true)>_getTotalCategoriesListAmount(false))
-                                    ? gc.incomeEntryColor
-                                    : gc.expenseEntryColor,
-                            fontSize: gc.fontSizeLoginImage,
-                            fontWeight: FontWeight.bold,
-                        ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(gc.categoryTopPadding),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
-                      child: Text(Languages.of(context)!.expected,
+    return Padding(
+      padding: const EdgeInsets.only(top: gc.categoryTypeHeaderTopPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          RingPieChart(_categories, true, null),
+          Card(
+            shadowColor: gc.primaryColor.withOpacity(0.5),
+            elevation: gc.cardElevationHeight,
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(
+                  color: gc.primaryColor, width: gc.cardBorderWidth),
+              borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(gc.categoryTopPadding),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
+                        child: Text(
+                          Languages.of(context)!.current,
                           style: TextStyle(
                               color: gc.disabledColor,
                               fontSize: gc.fontSizeLoginImage,
                               fontWeight: FontWeight.bold,
                           ),
-                      ),
-                    ),
-                    Text(_getTotalCategoriesListAmount(true).toMoneyFormat(),
-                        style: const TextStyle(
-                            color: gc.primaryColor,
-                            fontSize: gc.fontSizeLoginImage,
-                            fontWeight: FontWeight.bold,
                         ),
-                    ),
-                  ],
+                      ),
+                      Text(_getTotalCategoriesListAmount(false).toMoneyFormat(),
+                          style: TextStyle(
+                              color: (_categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(false)>=_getTotalCategoriesListAmount(true))
+                                      ? gc.incomeEntryColor
+                                      : (!_categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(true)>_getTotalCategoriesListAmount(false))
+                                      ? gc.incomeEntryColor
+                                      : gc.expenseEntryColor,
+                              fontSize: gc.fontSizeLoginImage,
+                              fontWeight: FontWeight.bold,
+                          ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(gc.categoryTopPadding),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
+                        child: Text(Languages.of(context)!.expected,
+                            style: TextStyle(
+                                color: gc.disabledColor,
+                                fontSize: gc.fontSizeLoginImage,
+                                fontWeight: FontWeight.bold,
+                            ),
+                        ),
+                      ),
+                      Text(_getTotalCategoriesListAmount(true).toMoneyFormat(),
+                          style: const TextStyle(
+                              color: gc.primaryColor,
+                              fontSize: gc.fontSizeLoginImage,
+                              fontWeight: FontWeight.bold,
+                          ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
