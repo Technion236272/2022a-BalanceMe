@@ -44,6 +44,9 @@ class LanguageHe extends Languages {
   String get passwordSettings => "שינוי סיסמה‎ ";
 
   @override
+  String get userCurrencySettings => "‎מטבע";
+
+  @override
   String get endOfMonthSettings => "סוף החודש‎";
 
   @override

@@ -44,6 +44,9 @@ class LanguageRu extends Languages {
   String get passwordSettings => "изменить пароль";
 
   @override
+  String get userCurrencySettings => "Currency";
+
+  @override
   String get endOfMonthSettings => "конец месяца";
 
   @override

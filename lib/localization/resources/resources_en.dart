@@ -47,6 +47,9 @@ class LanguageEn extends Languages {
   String get endOfMonthSettings => "End of month";
 
   @override
+  String get userCurrencySettings => "Currency";
+
+  @override
   String get languageSettings => "Language";
 
   @override

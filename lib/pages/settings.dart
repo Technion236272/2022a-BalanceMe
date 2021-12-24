@@ -55,19 +55,24 @@ class _SettingsState extends State<Settings> {
         applicationVersion: config.projectVersion,
         applicationLegalese: Languages.of(context)!.legalese,
         children: [
-              ListTile(leading:Image.asset(gc.balanceImage, height:MediaQuery.of(context).size.height/gc.scalesProportion,
-                width:MediaQuery.of(context).size.width/gc.scalesProportion ,) ,
-                trailing: Text(Languages.of(context)!.scalesIcon),
-              ),
-          const Text(gc.scalesLink,style: TextStyle(fontSize: gc.attributeFontSize),),
-            ],
-        );
+          ListTile(
+            leading: Image.asset(
+                gc.balanceImage,
+                height: MediaQuery.of(context).size.height / gc.scalesProportion,
+                width: MediaQuery.of(context).size.width / gc.scalesProportion,
+            ),
+            trailing: Text(Languages.of(context)!.scalesIcon),
+          ),
+          const Text(gc.scalesLink, style: TextStyle(fontSize: gc.attributeFontSize)),
+        ],
+    );
   }
 
   Widget _getSettingsList() {
     List<Widget?> leadingSettings = [
       widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.profileSettings) : null,
       widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.passwordSettings) : null,
+      Text(Languages.of(context)!.userCurrencySettings),
       Text(Languages.of(context)!.endOfMonthSettings),
       Text(Languages.of(context)!.languageSettings),
       Text(Languages.of(context)!.about),
@@ -87,12 +92,15 @@ class _SettingsState extends State<Settings> {
           icon: _getSettingsArrow(),
       ),
 
+      Text(CurrencySign[widget.userStorage.userData == null ? gc.defaultUserCurrency : widget.userStorage.userData!.userCurrency]!, style: _getTextDesign()),
       _getDaysOfMonthRadio(),
       const LanguageDropDown(),
+
       IconButton(
-        onPressed:_getAbout,
+        onPressed: _getAbout,
         icon: _getSettingsArrow(),
       ),
+
       Text(config.firebaseVersion, style: _getTextDesign())
     ];
 
