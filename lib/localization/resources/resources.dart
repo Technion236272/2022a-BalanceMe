@@ -120,4 +120,5 @@ abstract class Languages {
   //About
   String get about;
   String get legalese;
+  String get scalesIcon;
 }

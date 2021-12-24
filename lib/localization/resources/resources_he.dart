@@ -292,4 +292,7 @@ class LanguageHe extends Languages {
 
   @override
   String get legalese => "‎כל החבילות והאייקונים בשימוש שייכים לבעליהם";
+
+  @override
+  String get scalesIcon => "‎אייקון מאזניים";
 }

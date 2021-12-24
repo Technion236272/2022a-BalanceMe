@@ -243,3 +243,8 @@ const String facebook="facebook.com";
 const String google="google.com";
 const String regular="password";
 const int maxAccounts=2;
+
+//about
+const String scalesLink="https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
+const double scalesProportion=10;
+const double attributeFontSize=10;

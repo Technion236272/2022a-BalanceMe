@@ -292,4 +292,7 @@ class LanguageRu extends Languages {
 
   @override
   String get legalese => "Все используемые пакеты и значки являются свойствами их владельцев";
+
+  @override
+  String get scalesIcon => "Значок Весы";
 }

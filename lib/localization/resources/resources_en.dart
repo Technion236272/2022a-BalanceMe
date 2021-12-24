@@ -293,4 +293,7 @@ class LanguageEn extends Languages {
 
   @override
   String get legalese => "All packages and icons used are properties of their respective owners";
+
+  @override
+  String get scalesIcon => "Scales icon";
 }
