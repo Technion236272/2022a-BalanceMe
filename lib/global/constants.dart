@@ -150,7 +150,6 @@ const double newPasswordSize = 22.0;
 const double profileAvatarRadius = 150.0;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
-const double padSettingsArrow=20;
 
 //error messages
 const String weakPassword = "weak-password";

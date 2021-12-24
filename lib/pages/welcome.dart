@@ -15,20 +15,22 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-      Image.asset(
-        gc.balanceImage,
-        width: MediaQuery.of(context).size.width / gc.imageScale,
-        height: MediaQuery.of(context).size.height / gc.imageScale,
-      ),
-      GenericInfo(
-        title: Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.welcomeBack : Languages.of(context)!.welcomeAboard,
-        topInfo: Languages.of(context)!.balanceInfo,
-        bottomInfo: Languages.of(context)!.toGetStartedInfo,
-      ),
-    ]);
+    return SingleChildScrollView(
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              gc.balanceImage,
+              width: MediaQuery.of(context).size.width / gc.imageScale,
+              height: MediaQuery.of(context).size.height / gc.imageScale,
+            ),
+            GenericInfo(
+              title: Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.welcomeBack : Languages.of(context)!.welcomeAboard,
+              topInfo: Languages.of(context)!.balanceInfo,
+              bottomInfo: Languages.of(context)!.toGetStartedInfo,
+            ),
+          ]),
+    );
   }
 }

@@ -50,6 +50,8 @@ class UserStorage with ChangeNotifier {
   UserModel? get userData => _userData;
   BalanceModel get balance => _balance;
 
+  // ================== Setters and Getters ==================
+
   void resetBalance() {
     _balance = BalanceModel();
   }

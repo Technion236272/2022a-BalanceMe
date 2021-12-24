@@ -96,7 +96,7 @@ class LanguageEn extends Languages {
   String get successfullyLogin => "You logged in successfully";
 
   @override
-  String get successfullySignUp => "Welcome! you sign up successfully";
+  String get successfullySignUp => "You sign up successfully. You can edit your settings in settings page";
 
   @override
   String get signUpTitle => "Sign Up";

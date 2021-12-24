@@ -40,9 +40,11 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget _getSettingsArrow() {
-    return const Padding(
-      padding: EdgeInsets.only(left: gc.padSettingsArrow),
-      child: Icon(gc.settingArrow),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: const [
+        Icon(gc.settingArrow),
+      ],
     );
   }
 

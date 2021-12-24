@@ -19,6 +19,7 @@ void navigateToPage(context, Widget page, AppPages? pageEnum) {
 
 void navigateBack(context) {
   Navigator.pop(context);
+  FocusScope.of(context).unfocus(); // Remove the keyboard
   GoogleAnalytics.instance.logNavigateBack();
 }
 

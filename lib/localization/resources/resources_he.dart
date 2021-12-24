@@ -96,7 +96,7 @@ class LanguageHe extends Languages {
   String get successfullyLogin => "‎התחברת למערכת בהצלחה";
 
   @override
-  String get successfullySignUp => "‎נרשמת למערכת בהצלחה";
+  String get successfullySignUp => "‎נרשמת למערכת בהצלחה. ניתן לגשת לעמוד ההגדרות על מנת לערוך אותן";
 
   @override
   String get signUpTitle => "הרשמה‎";
