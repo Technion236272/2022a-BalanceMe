@@ -74,10 +74,10 @@ class LanguageEn extends Languages {
   String get weakPassword => "Your password is too weak, type in a stronger password";
 
   @override
-  String get changePasswordError => "No signed in account detected. make sure you are registered and logged in and try again";
+  String get changePasswordError => "No signed in account found. make sure you are registered and logged in and try again";
 
   @override
-  String get notSignedIn => "Changing password failed. sign in and try again";
+  String get notSignedIn => "Password change failed. sign in and try again";
 
 // Login
   @override
@@ -99,7 +99,7 @@ class LanguageEn extends Languages {
   String get successfullyLogin => "You logged in successfully. Duplicate categories might be removed.";
 
   @override
-  String get successfullySignUp => "You sign up successfully. You can edit your settings in settings page";
+  String get successfullySignUp => "You signed up successfully. You can edit your settings in settings page";
 
   @override
   String get signUpTitle => "Sign Up";
@@ -120,7 +120,7 @@ class LanguageEn extends Languages {
   String get loginError => "User not found";
 
   @override
-  String get nullDetails => "To sign up, you must type both your email and password";
+  String get nullDetails => "To sign up, you must type in both your email and password";
 
   @override
   String get confirmPassword => "Confirm Password";
@@ -144,16 +144,16 @@ class LanguageEn extends Languages {
   String get camera => "Camera";
 
   @override
-  String get minPasswordLimit => "The password should contains at least % characters";
+  String get minPasswordLimit => "The password should contain at least % characters";
 
   @override
   String get badEmail => "Your email is badly formed";
 
   @override
-  String get incorrectPassword => "The password you type in doesn't match to your email";
+  String get incorrectPassword => "The password you typed in doesn't match to your email";
 
   @override
-  String get emailInUse => "An account with that email already exists, choose another";
+  String get emailInUse => "An account with this email already exists, choose another";
 
   @override
   String get tooManyProviders => "You can't link more than two accounts to this email";
@@ -199,7 +199,7 @@ class LanguageEn extends Languages {
   String get balanceInfo => "Here you can manage your income and expenses.";
 
   @override
-  String get toGetStartedInfo => "For saving your data and enjoy full functionality, please log-in.";
+  String get toGetStartedInfo => "For saving your data and enjoying the full functionality, please log-in.";
 
   @override
   String get expense => "Expense";
