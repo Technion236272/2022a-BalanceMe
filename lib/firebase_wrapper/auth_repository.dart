@@ -55,6 +55,8 @@ class AuthRepository with ChangeNotifier {
       } else if (e.code == gc.emailInUse) {
         displaySnackBar(context, Languages.of(context)!.strEmailInUse);
       }
+      _status = AuthStatus.Unauthenticated;
+      notifyListeners();
       return false;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
@@ -145,6 +147,8 @@ class AuthRepository with ChangeNotifier {
       } else if (e.code == gc.incorrectPassword) {
         displaySnackBar(context, Languages.of(context)!.strIncorrectPassword);
       }
+      _status = AuthStatus.Unauthenticated;
+      notifyListeners();
       return false;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
