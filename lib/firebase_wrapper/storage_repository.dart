@@ -140,6 +140,10 @@ class UserStorage with ChangeNotifier {
   }
 
   bool editCategory(model.Category newCategory, model.Category oldCategory) {
+    if (newCategory.isIncome != oldCategory.isIncome && _isCategoryAlreadyExist(newCategory)) {
+      return false;
+    }
+
     removeCategory(oldCategory, false);
     _changeCategory(newCategory, EntryOperation.Add);
     _saveBalance();
