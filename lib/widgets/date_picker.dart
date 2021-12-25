@@ -126,6 +126,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
     final initialDateRange = _dateRange;
     final newDate = await showDateRangePicker(
       context: context,
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
       initialDateRange: initialDateRange,
       firstDate: _firstDate,
       lastDate: _lastDate,
