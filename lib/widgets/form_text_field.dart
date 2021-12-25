@@ -10,7 +10,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 
 class FormTextField  extends StatelessWidget {
   const FormTextField (this._controller, this._minLines, this._maxLines, this._hintText, {this.isBordered = false, this.isValid = false,
-    this.isNumeric = false, this.initialValue, this.isEnabled = true, this.validatorFunction,this.currencySign = '', Key? key}) : super(key: key);
+    this.isNumeric = false, this.initialValue, this.isEnabled = true, this.validatorFunction, Key? key}) : super(key: key);
 
   final TextEditingController? _controller;
   final int _minLines;
@@ -22,7 +22,6 @@ class FormTextField  extends StatelessWidget {
   final String? initialValue;
   final bool isEnabled;
   final StringCallbackStringNullable? validatorFunction;
-  final String currencySign;
 
   OutlineInputBorder focusBorder() {
     return OutlineInputBorder(
@@ -34,18 +33,11 @@ class FormTextField  extends StatelessWidget {
     );
   }
 
-  void _onChanged(String value){
-    if (isNumeric && _controller != null && _controller!.text == currencySign){
-      _controller!.clear();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: _controller,
       keyboardType: isNumeric ? TextInputType.number : TextInputType.multiline,
-      inputFormatters: isNumeric == true ? [FilteringTextInputFormatter.allow(gc.floatNumber), CurrencyFormatter(currencySign)] : [],
       minLines: _minLines,
       maxLines: _maxLines,
       textDirection: LanguageHe().languageCode == getLocale().languageCode ? TextDirection.rtl : TextDirection.ltr,
@@ -61,7 +53,6 @@ class FormTextField  extends StatelessWidget {
       initialValue: initialValue,
       enabled: isEnabled,
       validator: isValid ? validatorFunction : null,
-      onChanged: isNumeric ?_onChanged : null,
       style: isBordered ? null : TextStyle(
           fontSize: gc.inputFontSize,
           color: gc.inputFontColor

@@ -293,6 +293,9 @@ class LanguageEn extends Languages {
   @override
   String get strConstantSwitch => "Constant";
 
+  @override
+  String get strBadNumberForm => "The inserted text is not a number";
+
   // Archive
   @override
   String get strDataUnavailable => "There is no data for the selected month";
