@@ -10,13 +10,13 @@ class LanguageRu extends Languages {
   String get languageCode => "ru";
 
   @override
-  String get appName => "балансмена";
+  String get appName => "BalanceMe";
 
   @override
   String get appTitle => "BalanceMe";
 
   @override
-  String get essentialField => "this is an essential field";
+  String get essentialField => "это важная текстовое поле";
 
   @override
   String get maxCharactersLimit => "Максимальное число символов: %";
@@ -81,10 +81,10 @@ class LanguageRu extends Languages {
 
   // Login
   @override
-  String get welcomeBack => "Welcome Back!";
+  String get welcomeBack => "с возвращением!";
 
   @override
-  String get welcomeAboard => "Welcome Aboard!";
+  String get welcomeAboard => "добро пожаловать!";
 
   @override
   String get login => "вход";
@@ -96,10 +96,10 @@ class LanguageRu extends Languages {
   String get successfullyLogout => "удачный выход";
 
   @override
-  String get successfullyLogin => "You logged in successfully. Duplicate categories might be removed.";
+  String get successfullyLogin => "Вы успешно вошли в систему. Дубликаты категорий могут быть удалены.";
 
   @override
-  String get successfullySignUp => "You sign up successfully. You can edit your settings in settings page";
+  String get successfullySignUp => "Вы зарегистрировались успешно. Настройки можно изменить на странице настроек";
 
   @override
   String get signUpTitle => "регистрация";
@@ -144,10 +144,10 @@ class LanguageRu extends Languages {
   String get camera => "камера";
 
   @override
-  String get minPasswordLimit => "The password should contains at least % characters";
+  String get minPasswordLimit => "Пароль должен содержать минимум % символов";
 
   @override
-  String get badEmail => "Your email is badly formed";
+  String get badEmail => "Ваша электронная почта плохо оформлено";
 
   @override
   String get incorrectPassword => "Пароль, который вы вводите, не совпадает с электронным адресом";
@@ -182,7 +182,7 @@ class LanguageRu extends Languages {
   String get balance => "баланс";
 
   @override
-  String get archive => "Archive";
+  String get archive => "архив";
 
   @override
   String get settings => "настройки";
@@ -199,7 +199,7 @@ class LanguageRu extends Languages {
   String get balanceInfo => "Здесь вы можете управлять своими доходами и расходами.";
 
   @override
-  String get toGetStartedInfo => "For saving your data and enjoy full functionality, please log-in.";
+  String get toGetStartedInfo => "Для сохранения данных и полноценной функциональности, пожалуйста, войдите в систему.";
 
   @override
   String get expense => "расход";
@@ -288,10 +288,10 @@ class LanguageRu extends Languages {
 
   // Archive
   @override
-  String get dataUnavailable => "There is no data for the selected month";
+  String get dataUnavailable => "нет Данные за выбранный месяц";
 
   @override
-  String get dateReloadSuccessful => "The data has reloaded successfully";
+  String get dateReloadSuccessful => "Данные были успешно перезагружены";
 
   @override
   String get about => "О приложении";
