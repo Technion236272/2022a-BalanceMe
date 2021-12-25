@@ -154,24 +154,50 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Stack(
               children: [
-                UserAvatar(widget.authRepository, gc.profileAvatarRadius),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(gc.padAroundPencil, gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
-                  child: GenericIconButton(onTap: _showImageSourceChoice),
+                  padding: gc.avatarPadding,
+                  child: SizedBox(
+                      width: MediaQuery.of(context).size.width/gc.avatarSizeScale,
+                      height: MediaQuery.of(context).size.width/gc.avatarSizeScale,
+                      child: UserAvatar(widget.authRepository, gc.profileAvatarRadius)),
+                ),
+                Positioned(
+                  left: MediaQuery.of(context).size.width/gc.avatarEditIconPosition,
+                  top: MediaQuery.of(context).size.width/(2*gc.avatarEditIconPosition),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(gc.padAroundPencil, gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
+                    child: GenericIconButton(onTap: _showImageSourceChoice),
+                  ),
                 ),
               ],
             ),
-            Visibility(
-                visible: widget.authRepository.user != null,
-                child: Text(widget.authRepository.user!.email!),
+            Padding(
+              padding: gc.emailContainerPadding,
+              child: Visibility(
+                  visible: widget.authRepository.user != null,
+                  child: Container(
+                      decoration: BoxDecoration(
+                        color: gc.emailContainerBGColor,
+                        borderRadius: BorderRadius.circular(gc.emailContainerBorderRadius),
+                        border: Border.all(color: gc.primaryColor)
+                      ),
+                      child: Padding(
+                        padding: gc.emailContainerPadding,
+                        child: Text(
+                          widget.authRepository.user!.email!,
+                          style: const TextStyle(
+                              fontSize: gc.emailContainerFontSize,
+                              color: gc.primaryColor),),
+                      )),
+              ),
             ),
             TextBox(
               _controllerFirstName,
               Languages.of(context)!.strFirstName,
               haveBorder: false,
+              labelText: Text(Languages.of(context)!.strFirstName),
               onChanged: _enableEditFirstName,
               suffix: GenericIconButton(
                 onTap: _updateFirstName,
@@ -183,6 +209,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               _controllerLastName,
               Languages.of(context)!.strLastName,
               haveBorder: false,
+              labelText: Text(Languages.of(context)!.strLastName),
               onChanged: _enableEditLastName,
               suffix: GenericIconButton(
                 onTap: _updateLastName,

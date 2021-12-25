@@ -64,7 +64,7 @@ class _GenericDropDownButtonState extends State<GenericDropDownButton> {
         margin: gc.dropDownMargin,
         padding: gc.dropDownPadding,
         decoration: BoxDecoration(
-          color: gc.dropDownBGcolor,
+          color: gc.dropDownBGColor,
           borderRadius: BorderRadius.circular(gc.dropDownRadius),
           border: gc.dropDownBorder,
         ),

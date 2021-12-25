@@ -150,6 +150,13 @@ const double newPasswordSize = 22.0;
 const double profileAvatarRadius = 150.0;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
+const EdgeInsets avatarPadding = EdgeInsets.all(8.0);
+const double avatarSizeScale = 2;
+const double avatarEditIconPosition = 2.3;
+const EdgeInsets emailContainerPadding = EdgeInsets.all(8.0);
+Color emailContainerBGColor = primaryColor.withOpacity(0.2);
+const double emailContainerBorderRadius = 30.0;
+const double emailContainerFontSize = 18;
 
 //error messages
 const String weakPassword = "weak-password";
@@ -182,7 +189,7 @@ const EdgeInsets dropDownPadding = EdgeInsets.symmetric(horizontal: 10);
 const double numOfItems = 150;
 const TextStyle dropDownTextStyle = TextStyle(color: Colors.black, fontSize: 15);
 const double dropDownIconSize = 30;
-Color dropDownBGcolor = primaryColor.withOpacity(0.2);
+Color dropDownBGColor = primaryColor.withOpacity(0.2);
 Border dropDownBorder = Border.all(color: primaryColor, width: 2);
 Border disabledDropDownBorder = Border.all(color: disabledColor, width: 2);
 
