@@ -10,6 +10,7 @@ abstract class Languages {
   // General
   String get languageName;
   String get languageCode;
+  String get languageDirection;
   String get strAppName;
   String get strAppTitle;
   String get strEssentialField;

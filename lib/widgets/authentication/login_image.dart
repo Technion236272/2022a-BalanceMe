@@ -12,16 +12,7 @@ class LoginImage extends StatelessWidget {
         gc.wallet,
         height: MediaQuery.of(context).size.height / gc.walletScale,
       ),
-      Padding(
-        padding: EdgeInsets.fromLTRB(gc.padStackLeft, gc.padStackTop,
-            gc.padStackRight, gc.padStackBottom),
-        child: Text(
-          Languages.of(context)!.strAppName,
-          style: TextStyle(color: gc.secondaryColor, fontSize: gc.fontSizeLoginImage),
-        ),
-      )
     ]);
-
   }
 }
 

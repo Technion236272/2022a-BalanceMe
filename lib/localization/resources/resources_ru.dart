@@ -10,6 +10,9 @@ class LanguageRu extends Languages {
   String get languageCode => "ru";
 
   @override
+  String get languageDirection => "ltr";
+
+  @override
   String get strAppName => "BalanceMe";
 
   @override

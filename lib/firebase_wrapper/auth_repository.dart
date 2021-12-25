@@ -99,21 +99,17 @@ class AuthRepository with ChangeNotifier {
     await FirebaseAuth.instance.signInWithCredential(thirdPartyCredential);
     _auth.currentUser?.linkWithCredential(credential);
   }
-  Future<void> handleMultiProviderRegular(
-      String email, String password, BuildContext context,{bool signUp=false}) async {
+  Future<void> handleMultiProviderRegular(String email, String password, BuildContext context,{bool signUp=false}) async {
     List<String> methods = await _auth.fetchSignInMethodsForEmail(email);
-
     if (methods.length > gc.maxAccounts) {
       displaySnackBar(context, Languages.of(context)!.strTooManyProviders);
     }
-
-      if(methods.isEmpty)
-        {
+    if(methods.isEmpty) {
          signUp? await _auth.createUserWithEmailAndPassword(email: email, password: password): throw FirebaseAuthException(code: gc.userNotFound);
           return;
         }
     if (methods.contains(gc.regular)) {
-     signUp? throw FirebaseAuthException(code: gc.emailInUse) : await _auth.signInWithEmailAndPassword(email: email, password: password);
+      signUp ? throw FirebaseAuthException(code: gc.emailInUse) : await _auth.signInWithEmailAndPassword(email: email, password: password);
       return;
     } else {
       final AuthCredential credential =
@@ -159,8 +155,7 @@ class AuthRepository with ChangeNotifier {
   }
 
 
-  Future<void> handleProvidersThirdParty(String? email, AuthCredential credential,
-      BuildContext context,String provider) async {
+  Future<void> handleProvidersThirdParty(String? email, AuthCredential credential, BuildContext context,String provider) async {
     if (email!=null) {
       List<String> methods = await _auth.fetchSignInMethodsForEmail(email);
       if (methods.isEmpty || methods.contains(provider)) {
@@ -177,14 +172,9 @@ class AuthRepository with ChangeNotifier {
       _status = AuthStatus.Authenticating;
       notifyListeners();
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-     await handleProvidersThirdParty(googleUser?.email,credential,context,gc.google);
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      final credential = GoogleAuthProvider.credential(accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+      await handleProvidersThirdParty(googleUser?.email,credential,context,gc.google);
       _status = AuthStatus.Authenticated;
       _avatarUrl = await getAvatarUrl();
       notifyListeners();
@@ -200,8 +190,7 @@ class AuthRepository with ChangeNotifier {
   Future<bool> signInWithFacebook(BuildContext context) async {
     try {
       final loginResult = await FacebookAuth.instance.login(permissions: gc.permissionFacebook);
-      final OAuthCredential facebookAuthCredential =
-          FacebookAuthProvider.credential(loginResult.accessToken!.token);
+      final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
       await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
       _status = AuthStatus.Authenticated;
       _avatarUrl = await getAvatarUrl();

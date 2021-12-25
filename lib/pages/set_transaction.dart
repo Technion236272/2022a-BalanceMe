@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/date_picker.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -34,7 +33,7 @@ class SetTransaction extends StatefulWidget {
 class _SetTransactionState extends State<SetTransaction> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _transactionNameController;
-  late MoneyMaskedTextController _transactionAmountController;
+  late TextEditingController _transactionAmountController;
   late TextEditingController _transactionDescriptionController;
   late PrimitiveWrapper _dateRangePickerController;
   late PrimitiveWrapper _dropDownController;
@@ -52,8 +51,8 @@ class _SetTransactionState extends State<SetTransaction> {
 
   void _initControllers() {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
-    _transactionAmountController = MoneyMaskedTextController(initialValue: widget.currentTransaction == null ? 0.0
-        : widget.currentTransaction!.amount, rightSymbol: widget._currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
+    _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? ""
+        : widget.currentTransaction!.amount.toString());
     _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
     _dateRangePickerController = PrimitiveWrapper(widget.currentTransaction == null ? DateTime.now().toFullDate() : widget.currentTransaction!.date);
@@ -216,6 +215,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       isNumeric: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                       validatorFunction: _positiveNumberValidatorFunction,
+                      currencySign: widget._currencySign,
                     ),
                   ),
                   Padding(

@@ -1,5 +1,6 @@
 // ================= A Class For Hebrew Language =================
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class LanguageHe extends Languages {
   // General
@@ -8,6 +9,9 @@ class LanguageHe extends Languages {
 
   @override
   String get languageCode => "he";
+
+  @override
+  String get languageDirection => gc.rtl;
 
   @override
   String get strAppName => "BalanceMe";

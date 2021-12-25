@@ -4,6 +4,7 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:flutter/services.dart';
 
 // Navigation
 void navigateToPage(context, Widget page, AppPages? pageEnum) {
@@ -98,6 +99,16 @@ extension St on String {
 
 extension En on Enum {
   String toCleanString() => toString().split(".")[1];
+}
+
+class CurrencyFormatter extends TextInputFormatter{
+  CurrencyFormatter(this.currencySign);
+  final String currencySign;
+
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return newValue.copyWith(text: newValue.text + currencySign);
+  }
 }
 
 // Validators

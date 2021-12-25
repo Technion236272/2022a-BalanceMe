@@ -1,4 +1,5 @@
 // ================= Text box with an (optional) border widget =================
+import 'package:balance_me/localization/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -13,13 +14,12 @@ import 'package:balance_me/global/constants.dart' as gc;
 /// textBoxHeight-optional, the height of the text box (specified in the height parameter)
 /// textBoxSize-optional inner padding in the text box which will increase its size- for longer text
 class TextBox extends StatelessWidget {
-  const TextBox(this.controller, this._hintText, {this.hideText = false, this.labelText, this.haveBorder = true,
+  const TextBox(this.controller, this._hintText, {this.hideText = false, this.haveBorder = true,
     this.suffix, this.textBoxHeight, this.textBoxSize, this.validatorFunction, Key? key, this.onChanged, this.textAlign}) : super(key: key);
 
   final TextEditingController controller;
   final String? _hintText;
   final bool hideText;
-  final Widget? labelText;
   final Widget? suffix;
   final bool haveBorder;
   final double? textBoxHeight;
@@ -50,10 +50,11 @@ class TextBox extends StatelessWidget {
           obscureText: hideText,
           onChanged: onChanged,
           textAlign: textAlign == null ? TextAlign.start : textAlign!,
+          textDirection: Languages.of(context)!.languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr,
           decoration: InputDecoration(
             contentPadding: textBoxSize,
             hintText: _hintText,
-            label: labelText,
+            label: _hintText == null ? null : Text(_hintText!),
             border: focusBorder(),
             focusedBorder: haveBorder ? focusBorder() : null,
             enabledBorder: haveBorder ? focusBorder() : null,

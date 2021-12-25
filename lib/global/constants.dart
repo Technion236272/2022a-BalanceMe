@@ -15,10 +15,7 @@ const int defaultMaxCharactersLimit = 20;
 const defaultMinPasswordLimit = 6;
 
 // Localization
-const String prefSelectedLanguageCode = "SelectedLanguageCode";
-const String decimalSeparator = ".";
-const String thousandsSeparator = "";
-
+const String rtl = "rtl";
 
 // Icons
 const IconData settingArrow = Icons.arrow_forward_ios_sharp;
@@ -78,7 +75,7 @@ const double padStackRight = 20.0;
 const double padStackBottom = 40.0;
 const double borderWidth = 2.0;
 const double fontSizeLoginImage = 16;
-const double signUpHeightFactor = 1.3;
+const double pageHeightFactor = 1.3;
 
 // Navigation
 int settingPageIndex = AppPages.Settings.index;
@@ -150,6 +147,16 @@ const double newPasswordSize = 22.0;
 const double profileAvatarRadius = 150.0;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
+const EdgeInsets avatarPadding = EdgeInsets.all(8.0);
+const double avatarSizeScale = 2;
+const double avatarEditIconPosition = 2.3;
+const double avatarEditIconHeightPosition = 2 * avatarEditIconPosition;
+const EdgeInsets emailContainerPadding = EdgeInsets.all(8.0);
+Color emailContainerBGColor = primaryColor.withOpacity(0.2);
+const double emailContainerBorderRadius = 30.0;
+const double emailContainerFontSize = 18;
+const EdgeInsets settingAppbarAvatarPadding = EdgeInsets.all(4.0);
+const double settingDefaultAppbarAvatarSize = 55;
 
 //error messages
 const String weakPassword = "weak-password";
@@ -182,7 +189,7 @@ const EdgeInsets dropDownPadding = EdgeInsets.symmetric(horizontal: 10);
 const double numOfItems = 150;
 const TextStyle dropDownTextStyle = TextStyle(color: Colors.black, fontSize: 15);
 const double dropDownIconSize = 30;
-Color dropDownBGcolor = primaryColor.withOpacity(0.2);
+Color dropDownBGColor = primaryColor.withOpacity(0.2);
 Border dropDownBorder = Border.all(color: primaryColor, width: 2);
 Border disabledDropDownBorder = Border.all(color: disabledColor, width: 2);
 
@@ -225,9 +232,11 @@ const int lineAnimationDuration = 2500;
 const double dividerThickness = 1.0;
 const double cardBorderWidth = 2.0;
 const double cardThinBorderWidth = 1.0;
-const double iconPadding = 10.0;
+const double iconHorizontalPadding = 5.0;
+const double iconVerticalPadding = 10.0;
 const double iconSize = 30.0;
-const double listViewBottomPadding = 100;
+const double listViewBottomPadding = 140;
+const double categoryHeaderPadding = 20.0;
 
 //generic edit button
 const double disabledOpacity=0.5;
@@ -247,3 +256,6 @@ const int maxAccounts=2;
 const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
+
+//RegExp formatter
+RegExp floatNumber = RegExp(r'^([0-9]+([.][0-9]*)?)$');
