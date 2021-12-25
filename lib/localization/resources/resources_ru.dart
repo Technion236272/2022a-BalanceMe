@@ -38,13 +38,13 @@ class LanguageRu extends Languages {
   String get strProfile => "профиль";
 
   @override
-  String get strProfileSettings => "Profile Settings";
+  String get strProfileSettings => "настройки профиля";
 
   @override
   String get strPasswordSettings => "изменить пароль";
 
   @override
-  String get strCurrencySettings => "Currency";
+  String get strCurrencySettings => "валюта";
 
   @override
   String get strEndOfMonthSettings => "конец месяца";
@@ -159,7 +159,7 @@ class LanguageRu extends Languages {
   String get strTooManyProviders => "Вы не можете иметь больше двух связанных счетов";
 
   @override
-  String get strLinkProviderError => "Учетная запись с этим e-mail уже существует под другим провайдером";
+  String get strLinkProviderError => "Учетная запись с этим электронная почта уже существует под другим провайдером";
 
   // Password Recovery
   @override
