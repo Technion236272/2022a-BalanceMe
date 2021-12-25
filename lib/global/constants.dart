@@ -157,6 +157,8 @@ const EdgeInsets emailContainerPadding = EdgeInsets.all(8.0);
 Color emailContainerBGColor = primaryColor.withOpacity(0.2);
 const double emailContainerBorderRadius = 30.0;
 const double emailContainerFontSize = 18;
+const EdgeInsets settingAppbarAvatarPadding = EdgeInsets.all(4.0);
+const double settingDefaultAppbarAvatarSize = 55;
 
 //error messages
 const String weakPassword = "weak-password";

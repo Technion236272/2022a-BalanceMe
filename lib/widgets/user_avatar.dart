@@ -12,14 +12,17 @@ class UserAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _authRepository.avatarUrl != null ?
-    CircleAvatar(
-      backgroundImage: NetworkImage(_authRepository.avatarUrl!),
-      radius: _radius,
-      backgroundColor: Colors.transparent,
+    Padding(
+      padding: gc.settingAppbarAvatarPadding,
+      child: CircleAvatar(
+        backgroundImage: NetworkImage(_authRepository.avatarUrl!),
+        radius: _radius,
+        backgroundColor: Colors.transparent,
+      ),
     )
-    : Icon(
+    : const Icon(
         gc.emptyAvatarIcon,
-        size: _radius
+        size: gc.settingDefaultAppbarAvatarSize
     );
   }
 }
