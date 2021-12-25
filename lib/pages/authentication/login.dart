@@ -93,56 +93,59 @@ class _LoginScreenState extends State<LoginScreen> {
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const LoginImage(),
-            TextBox(
-              controllerEmail,
-              Languages.of(context)!.strEmailText,
-              validatorFunction: _emailValidatorFunction,
-            ),
-            TextBox(
-              controllerPassword,
-              Languages.of(context)!.strPassword,
-              hideText: showPassword,
-              suffix: _hidingPasswordEye(),
-              validatorFunction: _passwordValidatorFunction,
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width / gc.buttonsScale,
-              child: GoogleButton(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * gc.pageHeightFactor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const LoginImage(),
+              TextBox(
+                controllerEmail,
+                Languages.of(context)!.strEmailText,
+                validatorFunction: _emailValidatorFunction,
+              ),
+              TextBox(
+                controllerPassword,
+                Languages.of(context)!.strPassword,
+                hideText: showPassword,
+                suffix: _hidingPasswordEye(),
+                validatorFunction: _passwordValidatorFunction,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / gc.buttonsScale,
+                child: GoogleButton(
+                    widget._authRepository,
+                    widget._userStorage,
+                    isSignUp: false
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / gc.buttonsScale,
+                child: FacebookButton(
                   widget._authRepository,
                   widget._userStorage,
-                  isSignUp: false
+                  isSignUp: false,
+                ),
               ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width / gc.buttonsScale,
-              child: FacebookButton(
-                widget._authRepository,
-                widget._userStorage,
-                isSignUp: false,
+              TextButton(
+                onPressed: _openForgotPasswordPage,
+                child: Text(
+                  Languages.of(context)!.strForgotPassword,
+                  style: const TextStyle(color: gc.linkColors),
+                ),
               ),
-            ),
-            TextButton(
-              onPressed: _openForgotPasswordPage,
-              child: Text(
-                Languages.of(context)!.strForgotPassword,
-                style: const TextStyle(color: gc.linkColors),
+              _performingLogin ?
+              const Center(
+                child: CircularProgressIndicator(),
+              ) : ElevatedButton(
+                child: Text(Languages.of(context)!.strSignIn),
+                onPressed: _signIn,
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary),
+                ),
               ),
-            ),
-            _performingLogin ?
-            const Center(
-              child: CircularProgressIndicator(),
-            ) : ElevatedButton(
-              child: Text(Languages.of(context)!.strSignIn),
-              onPressed: _signIn,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
