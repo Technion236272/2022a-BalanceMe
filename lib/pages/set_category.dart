@@ -47,7 +47,7 @@ class _SetCategoryState extends State<SetCategory> {
     _categoryNameController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.name);
     _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _categoryExpectedController = TextEditingController(text: widget.currentCategory == null ? ""
-        : widget.currentCategory!.expected.toString() + widget._currencySign);
+        : widget.currentCategory!.expected.toString());
     _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense);
   }
 
@@ -114,7 +114,11 @@ class _SetCategoryState extends State<SetCategory> {
     }
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
+      try {
+        return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
+      } catch(e) {
+        return Languages.of(context)!.strBadNumberForm;
+      }
     }
     return message;
   }
@@ -184,7 +188,6 @@ class _SetCategoryState extends State<SetCategory> {
                       isNumeric: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                       validatorFunction: _positiveNumberValidatorFunction,
-                      currencySign: widget._currencySign,
                   ),
                 ),
                 Padding(

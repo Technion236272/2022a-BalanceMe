@@ -131,7 +131,11 @@ class _SetTransactionState extends State<SetTransaction> {
 
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
+      try {
+        return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
+      } catch(e) {
+        return Languages.of(context)!.strBadNumberForm;
+      }
     }
 
     return message;
@@ -215,7 +219,6 @@ class _SetTransactionState extends State<SetTransaction> {
                       isNumeric: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                       validatorFunction: _positiveNumberValidatorFunction,
-                      currencySign: widget._currencySign,
                     ),
                   ),
                   Padding(
