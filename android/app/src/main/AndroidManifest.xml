@@ -9,7 +9,7 @@
     <!-- Permissions options for the `camera` group -->
     <uses-permission android:name="android.permission.CAMERA"/>
    <application
-        android:label="balance_me"
+        android:label="BalanceMe"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
