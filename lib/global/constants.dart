@@ -235,9 +235,10 @@ const int lineAnimationDuration = 2500;
 const double dividerThickness = 1.0;
 const double cardBorderWidth = 2.0;
 const double cardThinBorderWidth = 1.0;
-const double iconPadding = 10.0;
+const double iconHorizontalPadding = 5.0;
+const double iconVerticalPadding = 10.0;
 const double iconSize = 30.0;
-const double listViewBottomPadding = 100;
+const double listViewBottomPadding = 140;
 
 //generic edit button
 const double disabledOpacity=0.5;
