@@ -35,6 +35,7 @@ abstract class Languages {
   String get strWeakPassword;
   String get strNotSignedIn;
   String get strSignInTimeout;
+  String get strChangeLanguageAlertDialogContent;
 
   // Login
   String get strWelcomeBack;
@@ -64,6 +65,7 @@ abstract class Languages {
   String get strEmailInUse;
   String get strTooManyProviders;
   String get strLinkProviderError;
+
   // Password Recovery
   String get strRecoverPassword;
   String get strForgotPasswordLink;
