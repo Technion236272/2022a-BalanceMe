@@ -40,7 +40,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: MinorAppBar(Languages.of(context)!.recoverPassword),
+      appBar: MinorAppBar(Languages.of(context)!.strRecoverPassword),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
@@ -55,17 +55,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 width: MediaQuery.of(context).size.width / gc.imageScale,
                 height: MediaQuery.of(context).size.height / gc.imageScale,),
               Text(
-                Languages.of(context)!.forgotPasswordLarge,
+                Languages.of(context)!.strForgotPasswordLink,
                 style: const TextStyle(fontSize: gc.forgotPasswordSize),
               ),
               Text(
-                Languages.of(context)!.confirmEmail,
+                Languages.of(context)!.strConfirmEmail,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: gc.forgotPasswordMsgSize),
               ),
-              TextBox(controllerEmail, Languages.of(context)!.emailText),
+              TextBox(controllerEmail, Languages.of(context)!.strEmailText),
               ActionButton(
-                  _loading, Languages.of(context)!.send, _recoverPassword,
+                  _loading, Languages.of(context)!.strSend, _recoverPassword,
                   fillStyle: true,),
             ],
           ),

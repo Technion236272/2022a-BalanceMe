@@ -36,7 +36,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
   Future<void> _confirmRemoval() async {
     await showYesNoAlertDialog(
         context,
-        Languages.of(context)!.verifyRemoval.replaceAll("%", Languages.of(context)!.transaction),
+        Languages.of(context)!.strVerifyRemoval.replaceAll("%", Languages.of(context)!.strTransaction),
         _confirmRemovalCallback,
         _closeDialogCallback);
   }
@@ -113,7 +113,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
                   color: gc.secondaryColor,
                 ),
                 Text(
-                  Languages.of(context)!.delete.replaceAll("%", Languages.of(context)!.transaction),
+                  Languages.of(context)!.strDelete.replaceAll("%", Languages.of(context)!.strTransaction),
                   style: const TextStyle(
                     color: gc.secondaryColor,
                   ),

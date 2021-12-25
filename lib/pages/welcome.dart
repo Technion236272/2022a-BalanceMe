@@ -26,9 +26,9 @@ class WelcomePage extends StatelessWidget {
               height: MediaQuery.of(context).size.height / gc.imageScale,
             ),
             GenericInfo(
-              title: Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.welcomeBack : Languages.of(context)!.welcomeAboard,
-              topInfo: Languages.of(context)!.balanceInfo,
-              bottomInfo: Languages.of(context)!.toGetStartedInfo,
+              title: Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.strWelcomeBack : Languages.of(context)!.strWelcomeAboard,
+              topInfo: Languages.of(context)!.strBalanceInfo,
+              bottomInfo: Languages.of(context)!.strToGetStartedInfo,
             ),
           ]),
     );

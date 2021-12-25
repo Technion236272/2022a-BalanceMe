@@ -45,14 +45,14 @@ class _ChangePasswordState extends State<ChangePassword> {
   void changePassword(String newPassword, String confirmPassword) async {
     newPassword == confirmPassword
         ? await widget.authRepository.updatePassword(context, newPassword)
-        : displaySnackBar(context, Languages.of(context)!.invalidPasswords);
+        : displaySnackBar(context, Languages.of(context)!.strMismatchingPasswords);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: MinorAppBar(Languages.of(context)!.newPassword),
+      appBar: MinorAppBar(Languages.of(context)!.strNewPassword),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -62,14 +62,14 @@ class _ChangePasswordState extends State<ChangePassword> {
               height: MediaQuery.of(context).size.height / gc.imageScale,
             ),
             Text(
-              Languages.of(context)!.passwordUpdate,
+              Languages.of(context)!.strPasswordUpdate,
               style: const TextStyle(fontSize: gc.newPasswordSize),
             ),
-            TextBox(_controllerNewPassword, Languages.of(context)!.newPassword),
+            TextBox(_controllerNewPassword, Languages.of(context)!.strNewPassword),
             TextBox(_controllerConfirmPassword,
-                Languages.of(context)!.confirmPassword),
+                Languages.of(context)!.strConfirmPassword),
             ActionButton(
-                _loading, Languages.of(context)!.finish, _updatePassword,
+                _loading, Languages.of(context)!.strFinish, _updatePassword,
                 fillStyle:true),
           ],
         ),

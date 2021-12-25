@@ -104,7 +104,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             );
           },
-          title: Languages.of(context) == null ? "" : Languages.of(context)!.appTitle,
+          title: Languages.of(context) == null ? "" : Languages.of(context)!.strAppTitle,
           theme: ThemeData(
             appBarTheme: const AppBarTheme(
               backgroundColor: gc.primaryColor,

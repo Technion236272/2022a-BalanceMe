@@ -16,7 +16,7 @@ class LoginImage extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(gc.padStackLeft, gc.padStackTop,
             gc.padStackRight, gc.padStackBottom),
         child: Text(
-          Languages.of(context)!.appName,
+          Languages.of(context)!.strAppName,
           style: TextStyle(color: gc.secondaryColor, fontSize: gc.fontSizeLoginImage),
         ),
       )

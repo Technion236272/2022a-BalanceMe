@@ -70,13 +70,13 @@ class _SignUpState extends State<SignUp> {
   }
 
   String? _essentialFieldValidatorFunction(String? value) {
-    return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
+    return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
   }
 
   String? _emailValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return EmailValidator.validate(value!) ? null : Languages.of(context)!.badEmail;
+      return EmailValidator.validate(value!) ? null : Languages.of(context)!.strBadEmail;
     }
     return message;
   }
@@ -84,7 +84,7 @@ class _SignUpState extends State<SignUp> {
   String? _passwordValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return lineLimitMinValidator(value, gc.defaultMinPasswordLimit) ? null : Languages.of(context)!.minPasswordLimit.replaceAll("%", gc.defaultMinPasswordLimit.toString());
+      return lineLimitMinValidator(value, gc.defaultMinPasswordLimit) ? null : Languages.of(context)!.strMinPasswordLimit.replaceAll("%", gc.defaultMinPasswordLimit.toString());
     }
     return message;
   }
@@ -108,19 +108,19 @@ class _SignUpState extends State<SignUp> {
               const LoginImage(),
               TextBox(
                 controllerEmail,
-                Languages.of(context)!.emailText,
+                Languages.of(context)!.strEmailText,
                 validatorFunction: _emailValidatorFunction,
               ),
               TextBox(
                 controllerPassword,
-                Languages.of(context)!.password,
+                Languages.of(context)!.strPassword,
                 hideText: signUpPasswordVisible,
                 suffix: _hidingPasswordEye(),
                 validatorFunction: _passwordValidatorFunction,
               ),
               TextBox(
                 controllerConfirmPassword,
-                Languages.of(context)!.confirmPassword,
+                Languages.of(context)!.strConfirmPassword,
                 hideText: confirmPasswordVisible,
                 suffix: _hidingConfirmPasswordEye(),
                 validatorFunction: _passwordValidatorFunction,
@@ -136,7 +136,7 @@ class _SignUpState extends State<SignUp> {
                       child: CircularProgressIndicator(),
                     )
                   : ElevatedButton(
-                      child: Text(Languages.of(context)!.signIn),
+                      child: Text(Languages.of(context)!.strSignIn),
                       onPressed: _signUp,
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(

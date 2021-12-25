@@ -56,7 +56,7 @@ class _ArchiveState extends State<Archive> {
   }
 
   void _showMsgAccordingToBalance([Json? data]) {
-    (data == null) ? displaySnackBar(context, Languages.of(context)!.dataUnavailable) : displaySnackBar(context, Languages.of(context)!.dateReloadSuccessful);
+    (data == null) ? displaySnackBar(context, Languages.of(context)!.strDataUnavailable) : displaySnackBar(context, Languages.of(context)!.strDataReloadSuccessful);
     _stopWaitingForDataCB();
   }
 
@@ -94,7 +94,7 @@ class _ArchiveState extends State<Archive> {
 
           : (widget._userStorage.currentDate != null && !widget._userStorage.balance.isEmpty) ?
               ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)])
-              : GenericInfo(topInfo: Languages.of(context)!.dataUnavailable),
+              : GenericInfo(topInfo: Languages.of(context)!.strDataUnavailable),
           Padding(
             padding: const EdgeInsets.only(top: gc.archiveDatePickerPadding),
             child: Center(

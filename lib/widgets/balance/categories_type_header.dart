@@ -56,7 +56,7 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                         child: Text(
-                          Languages.of(context)!.current,
+                          Languages.of(context)!.strCurrent,
                           style: TextStyle(
                               color: gc.disabledColor,
                               fontSize: gc.fontSizeLoginImage,

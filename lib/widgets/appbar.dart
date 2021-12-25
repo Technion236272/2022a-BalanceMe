@@ -48,17 +48,17 @@ class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _MainAppBarState extends State<MainAppBar> {
   String _getAppBarTitle(BuildContext context) {
     if (Languages.of(context) == null) {
-      return Languages.of(context)!.appName;
+      return Languages.of(context)!.strAppName;
     }
 
     if (widget._pageIndex == AppPages.Settings.index) {
-      return Languages.of(context)!.settings;
+      return Languages.of(context)!.strSettings;
     }
     if (widget._pageIndex == AppPages.Archive.index) {
-      return Languages.of(context)!.archive;
+      return Languages.of(context)!.strArchive;
     }
 
-    return (widget._authRepository.status == AuthStatus.Authenticated) ? Languages.of(context)!.welcomeBack : Languages.of(context)!.welcomeAboard;
+    return (widget._authRepository.status == AuthStatus.Authenticated) ? Languages.of(context)!.strWelcomeBack : Languages.of(context)!.strWelcomeAboard;
   }
 
   void _loginApp() {
@@ -69,7 +69,7 @@ class _MainAppBarState extends State<MainAppBar> {
     setState(() {
       widget._authRepository.signOut();
       if (Languages.of(context) != null) {
-        displaySnackBar(context, Languages.of(context)!.successfullyLogout);
+        displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogout);
       }
     });
   }
@@ -85,12 +85,12 @@ class _MainAppBarState extends State<MainAppBar> {
             IconButton(
                 icon: const Icon(gc.authenticatedIcon),
                 onPressed: _logoutApp,
-                tooltip: Languages.of(context)!.logout,
+                tooltip: Languages.of(context)!.strLogout,
               )
             : IconButton(
                 icon: const Icon(gc.unauthenticatedIcon),
                 onPressed: _loginApp,
-                tooltip: Languages.of(context)!.login,
+                tooltip: Languages.of(context)!.strLogin,
               ),
       ],
     );

@@ -67,7 +67,7 @@ class _BalanceManagerState extends State<BalanceManager> {
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddCategory,
         child: const Icon(gc.addIcon),
-        tooltip: Languages.of(context)!.addCategory,
+        tooltip: Languages.of(context)!.strAddCategory,
       ),
     );
   }

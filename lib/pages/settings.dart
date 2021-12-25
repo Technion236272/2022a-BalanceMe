@@ -51,9 +51,9 @@ class _SettingsState extends State<Settings> {
   void _getAbout() {
     showAboutDialog(
         context: context,
-        applicationName: Languages.of(context)!.appName,
+        applicationName: Languages.of(context)!.strAppName,
         applicationVersion: config.projectVersion,
-        applicationLegalese: Languages.of(context)!.legalese,
+        applicationLegalese: Languages.of(context)!.strLegalese,
         children: [
           ListTile(
             leading: Image.asset(
@@ -61,7 +61,7 @@ class _SettingsState extends State<Settings> {
                 height: MediaQuery.of(context).size.height / gc.scalesProportion,
                 width: MediaQuery.of(context).size.width / gc.scalesProportion,
             ),
-            trailing: Text(Languages.of(context)!.scalesIcon),
+            trailing: Text(Languages.of(context)!.strScalesIcon),
           ),
           const Text(gc.scalesLink, style: TextStyle(fontSize: gc.attributeFontSize)),
         ],
@@ -70,13 +70,13 @@ class _SettingsState extends State<Settings> {
 
   Widget _getSettingsList() {
     List<Widget?> leadingSettings = [
-      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.profileSettings) : null,
-      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.passwordSettings) : null,
-      Text(Languages.of(context)!.userCurrencySettings),
-      Text(Languages.of(context)!.endOfMonthSettings),
-      Text(Languages.of(context)!.languageSettings),
-      Text(Languages.of(context)!.about),
-      Text(Languages.of(context)!.versionSettings)
+      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strProfile) : null,
+      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strPasswordSettings) : null,
+      Text(Languages.of(context)!.strCurrencySettings),
+      Text(Languages.of(context)!.strEndOfMonthSettings),
+      Text(Languages.of(context)!.strLanguageSettings),
+      Text(Languages.of(context)!.strAbout),
+      Text(Languages.of(context)!.strVersionSettings)
     ];
 
     List<Widget?> trailingSettings = [

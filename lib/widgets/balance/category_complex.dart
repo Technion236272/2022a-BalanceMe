@@ -36,7 +36,7 @@ class _CategoryComplexState extends State<CategoryComplex> {
 
   void _removeTransaction(Transaction newTransaction) {
     Provider.of<UserStorage>(context, listen: false).removeTransaction(widget._category, newTransaction);
-    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.transaction));
+    displaySnackBar(context, Languages.of(context)!.strRemoveSucceeded.replaceAll("%", Languages.of(context)!.strTransaction));
   }
 
   List<Widget> getTransactions() {
