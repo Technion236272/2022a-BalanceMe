@@ -79,7 +79,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               Expanded(
                 flex: 3,
                 child: Padding(
-                  padding: const EdgeInsets.all(gc.iconHorizontalPadding),
+                  padding: const EdgeInsets.only(left: gc.categoryHeaderPadding, right: gc.categoryHeaderPadding),
                   child: Text(
                     widget._category.name,
                     style: const TextStyle(

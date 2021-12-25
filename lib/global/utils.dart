@@ -101,6 +101,16 @@ extension En on Enum {
   String toCleanString() => toString().split(".")[1];
 }
 
+class CurrencyFormatter extends TextInputFormatter{
+  CurrencyFormatter(this.currencySign);
+  final String currencySign;
+
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return newValue.copyWith(text: newValue.text + currencySign);
+  }
+}
+
 // Validators
 bool essentialFieldValidator(String? value) => (value != null && value.isNotEmpty);
 
@@ -149,16 +159,4 @@ dynamic indexToEnum(List values, int index) {
   } catch (e) {
     return null;
   }
-}
-
-class CurrencyFormatter extends TextInputFormatter{
-  CurrencyFormatter(this.currencySign);
-  final String currencySign;
-
-  @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-
-    return newValue.copyWith(text: newValue.text + currencySign);
-  }
-
 }

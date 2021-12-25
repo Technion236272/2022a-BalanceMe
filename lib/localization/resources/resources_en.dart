@@ -10,6 +10,9 @@ class LanguageEn extends Languages {
   String get languageCode => "en";
 
   @override
+  String get languageDirection => "ltr";
+
+  @override
   String get strAppName => "BalanceMe";
 
   @override

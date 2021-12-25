@@ -46,8 +46,8 @@ class _SetCategoryState extends State<SetCategory> {
   void _initControllers() {
     _categoryNameController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.name);
     _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
-    _categoryExpectedController = TextEditingController(text: widget.currentCategory == null ? "${widget._currencySign}"
-        : widget.currentCategory!.expected.toString() + " ${widget._currencySign}");
+    _categoryExpectedController = TextEditingController(text: widget.currentCategory == null ? ""
+        : widget.currentCategory!.expected.toString() + widget._currencySign);
     _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense);
   }
 

@@ -5,7 +5,7 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/languages_controller.dart';
 import 'dart:io';
 
-Future<Locale> getLocale() async {
+Locale getLocale() {
   String languageCode = Platform.localeName.split('_')[0];  // device language
   if (!LanguageController().supportedLanguageCodesList().contains(languageCode)) {
     languageCode = LanguageController().defaultLanguage.languageCode;

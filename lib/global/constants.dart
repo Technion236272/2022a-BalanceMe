@@ -15,10 +15,7 @@ const int defaultMaxCharactersLimit = 20;
 const defaultMinPasswordLimit = 6;
 
 // Localization
-const String prefSelectedLanguageCode = "SelectedLanguageCode";
-const String decimalSeparator = ".";
-const String thousandsSeparator = "";
-
+const String rtl = "rtl";
 
 // Icons
 const IconData settingArrow = Icons.arrow_forward_ios_sharp;
@@ -239,6 +236,7 @@ const double iconHorizontalPadding = 5.0;
 const double iconVerticalPadding = 10.0;
 const double iconSize = 30.0;
 const double listViewBottomPadding = 140;
+const double categoryHeaderPadding = 20.0;
 
 //generic edit button
 const double disabledOpacity=0.5;
@@ -259,5 +257,5 @@ const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-ju
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
 
-//Textfield formatter
-RegExp floatNumber = RegExp(r'[0123456789]+\.?[0123456789]*');
+//RegExp formatter
+RegExp floatNumber = RegExp(r'^([0-9]+([.][0-9]*)?)$');

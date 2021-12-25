@@ -51,8 +51,8 @@ class _SetTransactionState extends State<SetTransaction> {
 
   void _initControllers() {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
-    _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? "${widget._currencySign}"
-        : widget.currentTransaction!.amount.toString() + " ${widget._currencySign}");
+    _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? ""
+        : widget.currentTransaction!.amount.toString());
     _transactionDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _dropDownController = PrimitiveWrapper(widget._currentCategory.name);
     _dateRangePickerController = PrimitiveWrapper(widget.currentTransaction == null ? DateTime.now().toFullDate() : widget.currentTransaction!.date);

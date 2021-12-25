@@ -197,7 +197,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               _controllerFirstName,
               Languages.of(context)!.strFirstName,
               haveBorder: false,
-              labelText: Text(Languages.of(context)!.strFirstName),
               onChanged: _enableEditFirstName,
               suffix: GenericIconButton(
                 onTap: _updateFirstName,
@@ -209,7 +208,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               _controllerLastName,
               Languages.of(context)!.strLastName,
               haveBorder: false,
-              labelText: Text(Languages.of(context)!.strLastName),
               onChanged: _enableEditLastName,
               suffix: GenericIconButton(
                 onTap: _updateLastName,
