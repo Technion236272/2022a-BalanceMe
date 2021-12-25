@@ -77,12 +77,12 @@ class _SetTransactionState extends State<SetTransaction> {
   String _getPageTitle() {
     switch (widget._mode) {
       case DetailsPageMode.Add:
-        return Languages.of(context)!.addTransaction;
+        return Languages.of(context)!.strAddTransaction;
       case DetailsPageMode.Edit:
-        return Languages.of(context)!.editTransaction;
+        return Languages.of(context)!.strEditTransaction;
       case DetailsPageMode.Details:
       default:
-        return Languages.of(context)!.detailsTransaction;
+        return Languages.of(context)!.strDetailsTransaction;
     }
   }
 
@@ -109,7 +109,7 @@ class _SetTransactionState extends State<SetTransaction> {
     if (value != null){
       value = value.split(widget._currencySign).first;
     }
-    return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
+    return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
   }
 
   String? _lineLimitValidatorFunction(String? value) {
@@ -119,7 +119,7 @@ class _SetTransactionState extends State<SetTransaction> {
 
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+      return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
     }
 
     return message;
@@ -132,7 +132,7 @@ class _SetTransactionState extends State<SetTransaction> {
 
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.mustPositiveNum;
+      return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
     }
 
     return message;
@@ -162,18 +162,18 @@ class _SetTransactionState extends State<SetTransaction> {
     _updatePerformingSave(true);
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      String message = Languages.of(context)!.saveSucceeded;
+      String message = Languages.of(context)!.strSaveSucceeded;
 
       if (widget._mode == DetailsPageMode.Add) {
         Category category = (_dropDownController.value == widget._currentCategory.name) ? widget._currentCategory : userStorage.balance.findCategory(_dropDownController.value);
-        message = userStorage.addTransaction(category, createNewTransaction()) ? message : Languages.of(context)!.alreadyExist;
+        message = userStorage.addTransaction(category, createNewTransaction()) ? message : Languages.of(context)!.strAlreadyExist;
       } else {
-        message = userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction()) ? message : Languages.of(context)!.alreadyExist;
+        message = userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction()) ? message : Languages.of(context)!.strAlreadyExist;
       }
 
       widget.callback != null ? widget.callback!() : null;
       navigateBack(context);
-      displaySnackBar(context, message.replaceAll("%", Languages.of(context)!.transaction));
+      displaySnackBar(context, message.replaceAll("%", Languages.of(context)!.strTransaction));
     }
 
     _updatePerformingSave(false);
@@ -198,7 +198,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       _transactionNameController,
                       1,
                       1,
-                      Languages.of(context)!.transactionName,
+                      Languages.of(context)!.strTransactionName,
                       isBordered: true,
                       isValid: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
@@ -264,8 +264,8 @@ class _SetTransactionState extends State<SetTransaction> {
                     child: ListViewGeneric(
                       listTileHeight: gc.listTileHeight,
                       leadingWidgets: [
-                        Text(Languages.of(context)!.date),
-                        Text(Languages.of(context)!.constantSwitch),
+                        Text(Languages.of(context)!.strDate),
+                        Text(Languages.of(context)!.strConstantSwitch),
                       ],
                       trailingWidgets: [
                         widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date)
@@ -298,7 +298,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       _transactionDescriptionController,
                       gc.maxLinesExpended - 2,
                       gc.maxLinesExpended - 2,
-                      widget._mode == DetailsPageMode.Details ? Languages.of(context)!.emptyDescription : Languages.of(context)!.addDescription,
+                      widget._mode == DetailsPageMode.Details ? Languages.of(context)!.strEmptyDescription : Languages.of(context)!.strAddDescription,
                       isBordered: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                     ),
@@ -309,7 +309,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       padding: const EdgeInsets.only(top: gc.generalTextFieldsPadding),
                       child: ActionButton(
                         performingAction,
-                        Languages.of(context)!.save,
+                        Languages.of(context)!.strSave,
                         _saveTransaction,
                       ),
                     ),

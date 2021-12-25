@@ -10,211 +10,211 @@ class LanguageRu extends Languages {
   String get languageCode => "ru";
 
   @override
-  String get appName => "балансмена";
+  String get strAppName => "BalanceMe";
 
   @override
-  String get appTitle => "BalanceMe";
+  String get strAppTitle => "BalanceMe";
 
   @override
-  String get essentialField => "this is an essential field";
+  String get strEssentialField => "это важная текстовое поле";
 
   @override
-  String get maxCharactersLimit => "Максимальное число символов: %";
+  String get strMaxCharactersLimit => "Максимальное число символов: %";
 
   @override
-  String get mustPositiveNum => "Число должно быть больше 0";
+  String get strMustPositiveNum => "Число должно быть больше 0";
 
   @override
-  String get yes => "да";
+  String get strYes => "да";
 
   @override
-  String get no => "нет";
+  String get strNo => "нет";
 
   @override
-  String get date =>"дата";
+  String get strDate =>"дата";
 
   // Settings
   @override
-  String get profileSettings => "профиль";
+  String get strProfile => "профиль";
 
   @override
-  String get profilePageTitle => "Profile Settings";
+  String get strProfileSettings => "Profile Settings";
 
   @override
-  String get passwordSettings => "изменить пароль";
+  String get strPasswordSettings => "изменить пароль";
 
   @override
-  String get userCurrencySettings => "Currency";
+  String get strCurrencySettings => "Currency";
 
   @override
-  String get endOfMonthSettings => "конец месяца";
+  String get strEndOfMonthSettings => "конец месяца";
 
   @override
-  String get languageSettings => "язык";
+  String get strLanguageSettings => "язык";
 
   @override
-  String get versionSettings => "Версия";
+  String get strVersionSettings => "Версия";
 
   @override
-  String get newPassword => "новый пароль";
+  String get strNewPassword => "новый пароль";
 
   @override
-  String get passwordUpdate => "введите новый пароль для свой юзер";
+  String get strPasswordUpdate => "введите новый пароль для свой юзер";
 
   @override
-  String get finish => "закончить";
+  String get strFinish => "закончить";
 
   @override
-  String get firstName => "имя";
+  String get strFirstName => "имя";
 
   @override
-  String get lastName => "фамилия";
+  String get strLastName => "фамилия";
 
   @override
-  String get weakPassword => "ваш пароль слишком слабый, напишите сильны пароль.";
+  String get strWeakPassword => "ваш пароль слишком слабый, напишите сильны пароль.";
 
   @override
-  String get changePasswordError => "Ошибка при смене пароля. убедитесь, что вы зарегистрированы и вошли в систему, и повторите попытку";
+  String get strNotSignedIn => "Ошибка при смене пароля. убедитесь, что вы зарегистрированы и вошли в систему, и повторите попытку";
 
   @override
-  String get notSignedIn => "Не обнаружено записаней аккаунт.убедитесь, что вы зарегистрированы и попробуйте снова";
+  String get strSignInTimeout => "Не обнаружено записаней аккаунт.убедитесь, что вы зарегистрированы и попробуйте снова";
 
   // Login
   @override
-  String get welcomeBack => "Welcome Back!";
+  String get strWelcomeBack => "с возвращением!";
 
   @override
-  String get welcomeAboard => "Welcome Aboard!";
+  String get strWelcomeAboard => "добро пожаловать!";
 
   @override
-  String get login => "вход";
+  String get strLogin => "вход";
 
   @override
-  String get logout => "выход";
+  String get strLogout => "выход";
 
   @override
-  String get successfullyLogout => "удачный выход";
+  String get strSuccessfullyLogout => "удачный выход";
 
   @override
-  String get successfullyLogin => "You logged in successfully. Duplicate categories might be removed.";
+  String get strSuccessfullyLogin => "Вы успешно вошли в систему. Дубликаты категорий могут быть удалены.";
 
   @override
-  String get successfullySignUp => "You sign up successfully. You can edit your settings in settings page";
+  String get strSuccessfullySignUp => "Вы зарегистрировались успешно. Настройки можно изменить на странице настроек";
 
   @override
-  String get signUpTitle => "регистрация";
+  String get strSignUp => "регистрация";
 
   @override
-  String get emailText => "электронный адрес";
+  String get strEmailText => "электронный адрес";
 
   @override
-  String get password => "пароль";
+  String get strPassword => "пароль";
 
   @override
-  String get forgotPassword => "забыл пароль";
+  String get strForgotPassword => "забыл пароль";
 
   @override
-  String get signIn => "войти";
+  String get strSignIn => "войти";
 
   @override
-  String get loginError => "пользователь не нашолса";
+  String get strUserNotFound => "пользователь не нашолса";
 
   @override
-  String get nullDetails => "дла окончания регистраций напишите ваш мейл и пароль";
+  String get strMissingFields => "дла окончания регистраций напишите ваш мейл и пароль";
 
   @override
-  String get confirmPassword => "подтвердить пароль";
+  String get strConfirmPassword => "подтвердить пароль";
 
   @override
-  String get invalidPasswords => "пароли не похоже";
+  String get strMismatchingPasswords => "пароли не похоже";
 
   @override
-  String get changePasswordSuccess => "успешно изменен пароль";
+  String get strChangePasswordSuccess => "успешно изменен пароль";
 
   @override
-  String get profileChangeSuccessful => "Профиль успешно обновлен";
+  String get strProfileUpdateSuccessful => "Профиль успешно обновлен";
 
   @override
-  String get noImagePicked => "Вы не выбрали образ. выберите образ, чтобы изменить свой аватар";
+  String get strNoImagePicked => "Вы не выбрали образ. выберите образ, чтобы изменить свой аватар";
 
   @override
-  String get gallery => "галерея";
+  String get strGalleryOption => "галерея";
 
   @override
-  String get camera => "камера";
+  String get strCameraOption => "камера";
 
   @override
-  String get minPasswordLimit => "The password should contains at least % characters";
+  String get strMinPasswordLimit => "Пароль должен содержать минимум % символов";
 
   @override
-  String get badEmail => "Your email is badly formed";
+  String get strBadEmail => "Ваша электронная почта плохо оформлено";
 
   @override
-  String get incorrectPassword => "Пароль, который вы вводите, не совпадает с электронным адресом";
+  String get strIncorrectPassword => "Пароль, который вы вводите, не совпадает с электронным адресом";
 
   @override
-  String get emailInUse => "Учётная запись с этим электронным адресом уже существует, выберите другую";
+  String get strEmailInUse => "Учётная запись с этим электронным адресом уже существует, выберите другую";
 
   @override
-  String get tooManyProviders => "Вы не можете иметь больше двух связанных счетов";
+  String get strTooManyProviders => "Вы не можете иметь больше двух связанных счетов";
 
   @override
-  String get linkThirdPartyError => "Учетная запись с этим e-mail уже существует под другим провайдером";
+  String get strLinkProviderError => "Учетная запись с этим e-mail уже существует под другим провайдером";
 
   // Password Recovery
   @override
-  String get recoverPassword => "восстановления пароля";
+  String get strRecoverPassword => "восстановления пароля";
 
   @override
-  String get forgotPasswordLarge => "забыл свой пароль?";
+  String get strForgotPasswordLink => "забыл свой пароль?";
 
   @override
-  String get confirmEmail => "подтверди твой электронный адрес и мы Отправим вам инструкцией ";
+  String get strConfirmEmail => "подтверди твой электронный адрес и мы Отправим вам инструкцией ";
 
   @override
-  String get send => "поселать";
+  String get strSend => "поселать";
 
   @override
-  String get emailSent => "мейл послан";
+  String get strEmailSent => "мейл послан";
 
   // Navigation
   @override
-  String get balance => "баланс";
+  String get strBalance => "баланс";
 
   @override
-  String get archive => "Archive";
+  String get strArchive => "архив";
 
   @override
-  String get settings => "настройки";
+  String get strSettings => "настройки";
 
   // Charts
   @override
-  String get available => "имеющиеся";
+  String get strAvailable => "имеющиеся";
 
   // Balance
   @override
-  String get nothingToShow => "Здесь нечего показывать";
+  String get strNothingToShow => "Здесь нечего показывать";
 
   @override
-  String get balanceInfo => "Здесь вы можете управлять своими доходами и расходами.";
+  String get strBalanceInfo => "Здесь вы можете управлять своими доходами и расходами.";
 
   @override
-  String get toGetStartedInfo => "For saving your data and enjoy full functionality, please log-in.";
+  String get strToGetStartedInfo => "Для сохранения данных и полноценной функциональности, пожалуйста, войдите в систему.";
 
   @override
-  String get expense => "расход";
+  String get strExpense => "расход";
 
   @override
-  String get expenses => "расходы";
+  String get strExpenses => "расходы";
 
   @override
-  String get income => "доход";
+  String get strIncome => "доход";
 
   @override
-  String get incomes => "доходы";
+  String get strIncomes => "доходы";
 
   @override
-  String get current => "настоящея";
+  String get strCurrent => "настоящея";
 
   @override
   String get expected => "ожиданная";
@@ -223,82 +223,82 @@ class LanguageRu extends Languages {
   String get amount => "сумма";
 
   @override
-  String get category => "категория";
+  String get strCategory => "категория";
 
   @override
-  String get addCategory => "Добавить категорию";
+  String get strAddCategory => "Добавить категорию";
 
   @override
-  String get transaction => "транзакция";
+  String get strTransaction => "транзакция";
 
   @override
-  String get addTransaction => "Добавить транзакцию";
+  String get strAddTransaction => "Добавить транзакцию";
 
   @override
-  String get editCategory => "изменить категорию";
+  String get strEditCategory => "изменить категорию";
 
   @override
-  String get detailsCategory => "детали категории";
+  String get strDetailsCategory => "детали категории";
 
   @override
-  String get editTransaction => "изменить транзакцию";
+  String get strEditTransaction => "изменить транзакцию";
 
   @override
-  String get detailsTransaction => "детали транзакции";
+  String get strDetailsTransaction => "детали транзакции";
 
   @override
-  String get categoryName => "название категории";
+  String get strCategoryName => "название категории";
 
   @override
-  String get transactionName => "название транзакции";
+  String get strTransactionName => "название транзакции";
 
   @override
-  String get addDescription => "Добавить описание...";
+  String get strAddDescription => "Добавить описание...";
 
   @override
-  String get emptyDescription => "Нет никакого описания";
+  String get strEmptyDescription => "Нет никакого описания";
 
   @override
-  String get back => "назад";
+  String get strBack => "назад";
 
   @override
-  String get save => "сохранить";
+  String get strSave => "сохранить";
 
   @override
-  String get saveSucceeded => " % успешно сохраняется";
+  String get strSaveSucceeded => " % успешно сохраняется";
 
   @override
-  String get removeSucceeded => " % успешно удален";
+  String get strRemoveSucceeded => " % успешно удален";
 
   @override
-  String get alreadyExist => " % уже существует";
+  String get strAlreadyExist => " % уже существует";
 
   @override
-  String get delete => "стереть %";
+  String get strDelete => "стереть %";
 
   @override
-  String get verifyRemoval => "Вы уверены, что хотите стереть это %?";
+  String get strVerifyRemoval => "Вы уверены, что хотите стереть это %?";
 
   // Set Category And Transaction
   @override
-  String get typeSelection => "вид";
+  String get strTypeSelection => "вид";
 
   @override
-  String get constantSwitch => "постоянный";
+  String get strConstantSwitch => "постоянный";
 
   // Archive
   @override
-  String get dataUnavailable => "There is no data for the selected month";
+  String get strDataUnavailable => "нет Данные за выбранный месяц";
 
   @override
-  String get dateReloadSuccessful => "The data has reloaded successfully";
+  String get strDataReloadSuccessful => "Данные были успешно перезагружены";
 
   @override
-  String get about => "О приложении";
+  String get strAbout => "О приложении";
 
   @override
-  String get legalese => "Все используемые пакеты и значки являются свойствами их владельцев";
+  String get strLegalese => "Все используемые пакеты и значки являются свойствами их владельцев";
 
   @override
-  String get scalesIcon => "Значок Весы";
+  String get strScalesIcon => "Значок Весы";
 }

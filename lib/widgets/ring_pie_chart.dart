@@ -33,7 +33,7 @@ class RingPieChart extends StatelessWidget {
     _chartData = chartData;
 
     if (_totalPercentage! < 100) {
-      _chartData!.add(ChartData(Languages.of(context)!.available, totalExpected - totalAmount, gc.pieCharDefaultCategoryColor));
+      _chartData!.add(ChartData(Languages.of(context)!.strAvailable, totalExpected - totalAmount, gc.pieCharDefaultCategoryColor));
     }
   }
 

@@ -47,13 +47,13 @@ class _CategoryHeaderState extends State<CategoryHeader> {
 
   void _removeCategory() {
     userStorage.removeCategory(widget._category);
-    displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.category));
+    displaySnackBar(context, Languages.of(context)!.strRemoveSucceeded.replaceAll("%", Languages.of(context)!.strCategory));
   }
 
   Future<void> _confirmRemoval() async {
     await showYesNoAlertDialog(
         context,
-        Languages.of(context)!.verifyRemoval.replaceAll("%", Languages.of(context)!.category),
+        Languages.of(context)!.strVerifyRemoval.replaceAll("%", Languages.of(context)!.strCategory),
         _confirmRemovalCallback,
         _closeDialogCallback);
   }

@@ -75,7 +75,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   void _saveProfile() {
     widget.userStorage.SEND_generalInfo();
-    displaySnackBar(context, Languages.of(context)!.profileChangeSuccessful);
+    displaySnackBar(context, Languages.of(context)!.strProfileUpdateSuccessful);
   }
 
   void _updateFirstName() {
@@ -110,8 +110,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   List<String> _getOptionTitles() {
     List<String> titles = [];
-    titles.add(Languages.of(context)!.gallery);
-    titles.add(Languages.of(context)!.camera);
+    titles.add(Languages.of(context)!.strGalleryOption);
+    titles.add(Languages.of(context)!.strCameraOption);
     return titles;
   }
 
@@ -134,7 +134,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     XFile? pickedImage = await picker.pickImage(source: image);
 
     if (pickedImage == null) {
-      displaySnackBar(context, Languages.of(context)!.noImagePicked);
+      displaySnackBar(context, Languages.of(context)!.strNoImagePicked);
     } else {
       setState(() {
         widget.authRepository.uploadAvatar(pickedImage);
@@ -150,7 +150,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MinorAppBar(Languages.of(context)!.profilePageTitle),
+      appBar: MinorAppBar(Languages.of(context)!.strProfileSettings),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -170,7 +170,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ),
             TextBox(
               _controllerFirstName,
-              Languages.of(context)!.firstName,
+              Languages.of(context)!.strFirstName,
               haveBorder: false,
               onChanged: _enableEditFirstName,
               suffix: GenericIconButton(
@@ -181,7 +181,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ),
             TextBox(
               _controllerLastName,
-              Languages.of(context)!.lastName,
+              Languages.of(context)!.strLastName,
               haveBorder: false,
               onChanged: _enableEditLastName,
               suffix: GenericIconButton(

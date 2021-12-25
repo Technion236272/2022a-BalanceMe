@@ -58,13 +58,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String? _essentialFieldValidatorFunction(String? value) {
-    return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
+    return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
   }
 
   String? _emailValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return EmailValidator.validate(value!) ? null : Languages.of(context)!.badEmail;
+      return EmailValidator.validate(value!) ? null : Languages.of(context)!.strBadEmail;
     }
     return message;
   }
@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _passwordValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return lineLimitMinValidator(value, gc.defaultMinPasswordLimit) ? null : Languages.of(context)!.minPasswordLimit.replaceAll("%", gc.defaultMinPasswordLimit.toString());
+      return lineLimitMinValidator(value, gc.defaultMinPasswordLimit) ? null : Languages.of(context)!.strMinPasswordLimit.replaceAll("%", gc.defaultMinPasswordLimit.toString());
     }
     return message;
   }
@@ -99,12 +99,12 @@ class _LoginScreenState extends State<LoginScreen> {
             const LoginImage(),
             TextBox(
               controllerEmail,
-              Languages.of(context)!.emailText,
+              Languages.of(context)!.strEmailText,
               validatorFunction: _emailValidatorFunction,
             ),
             TextBox(
               controllerPassword,
-              Languages.of(context)!.password,
+              Languages.of(context)!.strPassword,
               hideText: showPassword,
               suffix: _hidingPasswordEye(),
               validatorFunction: _passwordValidatorFunction,
@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextButton(
               onPressed: _openForgotPasswordPage,
               child: Text(
-                Languages.of(context)!.forgotPassword,
+                Languages.of(context)!.strForgotPassword,
                 style: const TextStyle(color: gc.linkColors),
               ),
             ),
@@ -136,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const Center(
               child: CircularProgressIndicator(),
             ) : ElevatedButton(
-              child: Text(Languages.of(context)!.signIn),
+              child: Text(Languages.of(context)!.strSignIn),
               onPressed: _signIn,
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary),

@@ -28,7 +28,7 @@ void signUpFacebook(BuildContext context, AuthRepository authRepository, UserSto
 
 void emailPasswordSignUp(String? email, String? password, String? confirmPassword, BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
   if (email == null || password == null || confirmPassword == null) {
-    displaySnackBar(context, Languages.of(context)!.nullDetails);
+    displaySnackBar(context, Languages.of(context)!.strMissingFields);
     return;
   }
   startLoginProcess(context, authRepository.signUp(email, password, context), LoginMethod.Regular.toCleanString(), false, userStorage, failureCallback: failureCallback);
@@ -36,7 +36,7 @@ void emailPasswordSignUp(String? email, String? password, String? confirmPasswor
 
 void emailPasswordSignIn(String? email, String? password, BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
   if (email == null || password == null) {
-    displaySnackBar(context, Languages.of(context)!.nullDetails);
+    displaySnackBar(context, Languages.of(context)!.strMissingFields);
     return;
   }
   startLoginProcess(context, authRepository.signIn(email, password, context), LoginMethod.Regular.toCleanString(), true, userStorage, failureCallback: failureCallback);
@@ -44,7 +44,7 @@ void emailPasswordSignIn(String? email, String? password, BuildContext context, 
 
 void recoverPassword(String? email, BuildContext context) async {
   if (email == null) {
-    displaySnackBar(context, Languages.of(context)!.loginError);
+    displaySnackBar(context, Languages.of(context)!.strUserNotFound);
     return;
   }
 
@@ -53,12 +53,12 @@ void recoverPassword(String? email, BuildContext context) async {
   try {
     await recover.sendPasswordResetEmail(email: email);
     navigateBack(context);
-    displaySnackBar(context, Languages.of(context)!.emailSent);
+    displaySnackBar(context, Languages.of(context)!.strEmailSent);
     GoogleAnalytics.instance.logRecoverPassword();
 
   } catch (e, stackTrace) {
     SentryMonitor().sendToSentry(e, stackTrace);
-    displaySnackBar(context, Languages.of(context)!.loginError);
+    displaySnackBar(context, Languages.of(context)!.strUserNotFound);
   }
 }
 
@@ -77,7 +77,7 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
 
       await userStorage.GET_balanceModelAfterLogin(lastBalance, isSigningIn);
       navigateBack(context);
-      isSigningIn ? displaySnackBar(context, Languages.of(context)!.successfullyLogin) : displaySnackBar(context, Languages.of(context)!.successfullySignUp);
+      isSigningIn ? displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogin) : displaySnackBar(context, Languages.of(context)!.strSuccessfullySignUp);
     });
 
   } else if (failureCallback != null) {

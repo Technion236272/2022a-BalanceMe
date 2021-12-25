@@ -10,211 +10,211 @@ class LanguageHe extends Languages {
   String get languageCode => "he";
 
   @override
-  String get appName => "BalanceMe";
+  String get strAppName => "BalanceMe";
 
   @override
-  String get appTitle => "BalanceMe";
+  String get strAppTitle => "BalanceMe";
 
   @override
-  String get essentialField => "‎זהו שדה הכרחי";
+  String get strEssentialField => "‎זהו שדה הכרחי";
 
   @override
-  String get maxCharactersLimit => "‎מספר התווים המקסימלי הינו %";
+  String get strMaxCharactersLimit => "‎מספר התווים המקסימלי הינו %";
 
   @override
-  String get mustPositiveNum => "‎המספר חייב להיות גדול מ-0";
+  String get strMustPositiveNum => "‎המספר חייב להיות גדול מ-0";
 
   @override
-  String get yes => "‎כן";
+  String get strYes => "‎כן";
 
   @override
-  String get no => "‎לא";
+  String get strNo => "‎לא";
 
   @override
-  String get date =>"‎תאריך";
+  String get strDate =>"‎תאריך";
 
   // Settings
   @override
-  String get profileSettings => "‎פרופיל";
+  String get strProfile => "‎פרופיל";
 
   @override
-  String get profilePageTitle => "‎הגדרות הפרופיל";
+  String get strProfileSettings => "‎הגדרות הפרופיל";
 
   @override
-  String get passwordSettings => "שינוי סיסמה‎ ";
+  String get strPasswordSettings => "שינוי סיסמה‎ ";
 
   @override
-  String get userCurrencySettings => "‎מטבע";
+  String get strCurrencySettings => "‎מטבע";
 
   @override
-  String get endOfMonthSettings => "סוף החודש‎";
+  String get strEndOfMonthSettings => "סוף החודש‎";
 
   @override
-  String get languageSettings => "‎שפה";
+  String get strLanguageSettings => "‎שפה";
 
   @override
-  String get versionSettings => "גירסה‎";
+  String get strVersionSettings => "גירסה‎";
 
   @override
-  String get newPassword => "‎סיסמה חדשה";
+  String get strNewPassword => "‎סיסמה חדשה";
 
   @override
-  String get passwordUpdate => "יש להקליד סיסמה חדשה למשתמש‎";
+  String get strPasswordUpdate => "יש להקליד סיסמה חדשה למשתמש‎";
 
   @override
-  String get finish => "‎סיום";
+  String get strFinish => "‎סיום";
 
   @override
-  String get firstName => "שם פרטי‎";
+  String get strFirstName => "שם פרטי‎";
 
   @override
-  String get lastName => "שם משפחה‎";
+  String get strLastName => "שם משפחה‎";
 
   @override
-  String get weakPassword => "‎הסיסמה חלשה מדי, יש לרשום סיסמה חזקה יותר";
+  String get strWeakPassword => "‎הסיסמה חלשה מדי, יש לרשום סיסמה חזקה יותר";
 
   @override
-  String get changePasswordError => "שינוי הסיסמה נכשל, יש לנסות שוב‎";
+  String get strNotSignedIn => "שינוי הסיסמה נכשל, יש לנסות שוב‎";
 
   @override
-  String get notSignedIn => "‎אין חשבון רשום כעת, יש לנסות שוב";
+  String get strSignInTimeout => "‎אין חשבון רשום כעת, יש לנסות שוב";
 
   // Login
   @override
-  String get welcomeBack => "‎ברוכים השבים!";
+  String get strWelcomeBack => "‎ברוכים השבים!";
 
   @override
-  String get welcomeAboard => "‎ברוכים הבאים!";
+  String get strWelcomeAboard => "‎ברוכים הבאים!";
 
   @override
-  String get login => "‎התחברות";
+  String get strLogin => "‎התחברות";
 
   @override
-  String get logout => "‎התנתקות";
+  String get strLogout => "‎התנתקות";
 
   @override
-  String get successfullyLogout => "‎התנתקת בהצלחה";
+  String get strSuccessfullyLogout => "‎התנתקת בהצלחה";
 
   @override
-  String get successfullyLogin => "‎התחברת למערכת בהצלחה. קטגוריות כפולות נמחקו";
+  String get strSuccessfullyLogin => "‎התחברת למערכת בהצלחה. קטגוריות כפולות נמחקו";
 
   @override
-  String get successfullySignUp => "‎נרשמת למערכת בהצלחה. ניתן לגשת לעמוד ההגדרות על מנת לערוך אותן";
+  String get strSuccessfullySignUp => "‎נרשמת למערכת בהצלחה. ניתן לגשת לעמוד ההגדרות על מנת לערוך אותן";
 
   @override
-  String get signUpTitle => "הרשמה‎";
+  String get strSignUp => "הרשמה‎";
 
   @override
-  String get emailText => "כתובת דואר אלקטרוני‎";
+  String get strEmailText => "כתובת דואר אלקטרוני‎";
 
   @override
-  String get password => "‎סיסמה";
+  String get strPassword => "‎סיסמה";
 
   @override
-  String get forgotPassword => "‎שכחת סיסמה?";
+  String get strForgotPassword => "‎שכחת סיסמה?";
 
   @override
-  String get signIn => "‎כניסה";
+  String get strSignIn => "‎כניסה";
 
   @override
-  String get loginError => "‎המשתמש לא נמצא";
+  String get strUserNotFound => "‎המשתמש לא נמצא";
 
   @override
-  String get nullDetails => "יש לרשום כתובת דואר אלקטרוני וסיסמה במידה וברצונך להירשם‎";
+  String get strMissingFields => "יש לרשום כתובת דואר אלקטרוני וסיסמה במידה וברצונך להירשם‎";
 
   @override
-  String get invalidPasswords => "הסיסמאות אינן זהות‎ ";
+  String get strMismatchingPasswords => "הסיסמאות אינן זהות‎ ";
 
   @override
-  String get confirmPassword => "אימות סיסמה‎";
+  String get strConfirmPassword => "אימות סיסמה‎";
 
   @override
-  String get changePasswordSuccess => "הסיסמה שונתה בהצלחה‎";
+  String get strChangePasswordSuccess => "הסיסמה שונתה בהצלחה‎";
 
   @override
-  String get profileChangeSuccessful => "‎הפרופיל עודכן בהצלחה";
+  String get strProfileUpdateSuccessful => "‎הפרופיל עודכן בהצלחה";
 
   @override
-  String get noImagePicked => "‎לא נבחרה תמונה";
+  String get strNoImagePicked => "‎לא נבחרה תמונה";
 
   @override
-  String get gallery => "גלריה‎";
+  String get strGalleryOption => "גלריה‎";
 
   @override
-  String get camera => "מצלמה‎";
+  String get strCameraOption => "מצלמה‎";
 
   @override
-  String get minPasswordLimit => "‎אורך הסיסמה צריך להיות לפחות % תווים";
+  String get strMinPasswordLimit => "‎אורך הסיסמה צריך להיות לפחות % תווים";
 
   @override
-  String get badEmail => "‎כתובת הדואר האלקטרוני שהוזנה אינה תקינה";
+  String get strBadEmail => "‎כתובת הדואר האלקטרוני שהוזנה אינה תקינה";
 
   @override
-  String get incorrectPassword => "‎הסיסמה שכתבת אינה תואמת את כתובת הדואר האלקטרונית";
+  String get strIncorrectPassword => "‎הסיסמה שכתבת אינה תואמת את כתובת הדואר האלקטרונית";
 
   @override
-  String get emailInUse => "‎קיים חשבון עם כתובת הדואר האלקטרונית הזו";
+  String get strEmailInUse => "‎קיים חשבון עם כתובת הדואר האלקטרונית הזו";
 
   @override
-  String get tooManyProviders => "‎לא ניתן להוסיף חשבון נוסף לכתובת זו";
+  String get strTooManyProviders => "‎לא ניתן להוסיף חשבון נוסף לכתובת זו";
 
   @override
-  String get linkThirdPartyError => "קיים חשבון עם כתובת זו תחת ספק אחר‎";
+  String get strLinkProviderError => "קיים חשבון עם כתובת זו תחת ספק אחר‎";
 
   // Password Recovery
   @override
-  String get recoverPassword => "שחזור סיסמה‎";
+  String get strRecoverPassword => "שחזור סיסמה‎";
 
   @override
-  String get forgotPasswordLarge => "שכחת את הסיסמה שלך?‎";
+  String get strForgotPasswordLink => "שכחת את הסיסמה שלך?‎";
 
   @override
-  String get confirmEmail => "יש לאמת את כתובת הדואר האלקטרוני שלך. לאחר מכן ההוראות לשחזור הסיסמה ישלחו‎";
+  String get strConfirmEmail => "יש לאמת את כתובת הדואר האלקטרוני שלך. לאחר מכן ההוראות לשחזור הסיסמה ישלחו‎";
 
   @override
-  String get send => "שליחה‎";
+  String get strSend => "שליחה‎";
 
   @override
-  String get emailSent => "‎ההודעה נשלחה";
+  String get strEmailSent => "‎ההודעה נשלחה";
 
   // Navigation
   @override
-  String get balance => "‎המאזן";
+  String get strBalance => "‎המאזן";
 
   @override
-  String get archive => "‎ארכיון";
+  String get strArchive => "‎ארכיון";
 
   @override
-  String get settings => "‎הגדרות";
+  String get strSettings => "‎הגדרות";
 
   // Charts
   @override
-  String get available => "‎זמין";
+  String get strAvailable => "‎זמין";
 
   // Balance
   @override
-  String get nothingToShow => "‎בינתיים אין מה להציג כאן";
+  String get strNothingToShow => "‎בינתיים אין מה להציג כאן";
 
   @override
-  String get balanceInfo =>  "‎האפליקציה נועדה לניהול ההוצאות וההכנסות החודשיות.";
+  String get strBalanceInfo =>  "‎האפליקציה נועדה לניהול ההוצאות וההכנסות החודשיות.";
 
   @override
-  String get toGetStartedInfo =>  "‎על מנת לשמור את המידע וליהנות מכל יכולות האפליקציה, יש להתחבר.";
+  String get strToGetStartedInfo =>  "‎על מנת לשמור את המידע וליהנות מכל יכולות האפליקציה, יש להתחבר.";
 
   @override
-  String get expense => "‎הוצאה";
+  String get strExpense => "‎הוצאה";
 
   @override
-  String get expenses => "‎הוצאות";
+  String get strExpenses => "‎הוצאות";
 
   @override
-  String get income => "‎הכנסה";
+  String get strIncome => "‎הכנסה";
 
   @override
-  String get incomes => "‎הכנסות";
+  String get strIncomes => "‎הכנסות";
 
   @override
-  String get current => "‎בפועל";
+  String get strCurrent => "‎בפועל";
 
   @override
   String get expected => "צפוי‎";
@@ -223,82 +223,82 @@ class LanguageHe extends Languages {
   String get amount => "‎כמות";
 
   @override
-  String get category => "‎קטגוריה";
+  String get strCategory => "‎קטגוריה";
 
   @override
-  String get addCategory => "‎הוספת קטגוריה";
+  String get strAddCategory => "‎הוספת קטגוריה";
 
   @override
-  String get detailsCategory => "‎פרטי הקטגוריה";
+  String get strDetailsCategory => "‎פרטי הקטגוריה";
 
   @override
-  String get transaction => "‎תנועה";
+  String get strTransaction => "‎תנועה";
 
   @override
-  String get addTransaction => "‎הוספת תנועה";
+  String get strAddTransaction => "‎הוספת תנועה";
 
   @override
-  String get editCategory => "‎עריכת קטגוריה";
+  String get strEditCategory => "‎עריכת קטגוריה";
 
   @override
-  String get editTransaction => "‎עריכת התנועה";
+  String get strEditTransaction => "‎עריכת התנועה";
 
   @override
-  String get detailsTransaction => "‎פרטי התנועה";
+  String get strDetailsTransaction => "‎פרטי התנועה";
 
   @override
-  String get categoryName => "‎שם הקטגוריה";
+  String get strCategoryName => "‎שם הקטגוריה";
 
   @override
-  String get transactionName => "‎שם התנועה";
+  String get strTransactionName => "‎שם התנועה";
 
   @override
-  String get addDescription => "‎תיאור...";
+  String get strAddDescription => "‎תיאור...";
 
   @override
-  String get emptyDescription => "‎אין תיאור זמין";
+  String get strEmptyDescription => "‎אין תיאור זמין";
 
   @override
-  String get back => "‎חזור";
+  String get strBack => "‎חזור";
 
   @override
-  String get save => "‎שמירה";
+  String get strSave => "‎שמירה";
 
   @override
-  String get saveSucceeded => "‎ה% נשמרה בהצלחה";
+  String get strSaveSucceeded => "‎ה% נשמרה בהצלחה";
 
   @override
-  String get removeSucceeded => "‎ה% הוסר בהצלחה";
+  String get strRemoveSucceeded => "‎ה% הוסר בהצלחה";
 
   @override
-  String get alreadyExist => "‎ה-% כבר קיים במערכת";
+  String get strAlreadyExist => "‎ה-% כבר קיים במערכת";
 
   @override
-  String get delete => "‎מחיקת %";
+  String get strDelete => "‎מחיקת %";
 
   @override
-  String get verifyRemoval => "‎האם למחוק את ה%?";
+  String get strVerifyRemoval => "‎האם למחוק את ה%?";
 
   // Set Category And Transaction
   @override
-  String get typeSelection => "‎סוג";
+  String get strTypeSelection => "‎סוג";
 
   @override
-  String get constantSwitch => "‎קבוע";
+  String get strConstantSwitch => "‎קבוע";
 
   // Archive
   @override
-  String get dataUnavailable => "‎אין מידע זמין עבור פרק הזמן הנבחר";
+  String get strDataUnavailable => "‎אין מידע זמין עבור פרק הזמן הנבחר";
 
   @override
-  String get dateReloadSuccessful => "‎המידע נטען בהצלחה";
+  String get strDataReloadSuccessful => "‎המידע נטען בהצלחה";
 
   @override
-  String get about => "‎אודות האפליקציה";
+  String get strAbout => "‎אודות האפליקציה";
 
   @override
-  String get legalese => "‎כל החבילות והאייקונים בשימוש שייכים לבעליהם";
+  String get strLegalese => "‎כל החבילות והאייקונים בשימוש שייכים לבעליהם";
 
   @override
-  String get scalesIcon => "‎אייקון מאזניים";
+  String get strScalesIcon => "‎אייקון מאזניים";
 }

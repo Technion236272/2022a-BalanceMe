@@ -49,11 +49,11 @@ class AuthRepository with ChangeNotifier {
     } on FirebaseAuthException catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       if (e.code == gc.badEmail) {
-        displaySnackBar(context, Languages.of(context)!.badEmail);
+        displaySnackBar(context, Languages.of(context)!.strBadEmail);
       } else if (e.code == gc.weakPassword) {
-        displaySnackBar(context, Languages.of(context)!.weakPassword);
+        displaySnackBar(context, Languages.of(context)!.strWeakPassword);
       } else if (e.code == gc.emailInUse) {
-        displaySnackBar(context, Languages.of(context)!.emailInUse);
+        displaySnackBar(context, Languages.of(context)!.strEmailInUse);
       }
       return false;
     } catch (e, stackTrace) {
@@ -102,7 +102,7 @@ class AuthRepository with ChangeNotifier {
     List<String> methods = await _auth.fetchSignInMethodsForEmail(email);
 
     if (methods.length > gc.maxAccounts) {
-      displaySnackBar(context, Languages.of(context)!.tooManyProviders);
+      displaySnackBar(context, Languages.of(context)!.strTooManyProviders);
     }
       if(methods.isEmpty)
         {
@@ -138,11 +138,11 @@ class AuthRepository with ChangeNotifier {
     } on FirebaseAuthException catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       if (e.code == gc.badEmail) {
-        displaySnackBar(context, Languages.of(context)!.badEmail);
+        displaySnackBar(context, Languages.of(context)!.strBadEmail);
       } else if (e.code == gc.userNotFound) {
-        displaySnackBar(context, Languages.of(context)!.loginError);
+        displaySnackBar(context, Languages.of(context)!.strUserNotFound);
       } else if (e.code == gc.incorrectPassword) {
-        displaySnackBar(context, Languages.of(context)!.incorrectPassword);
+        displaySnackBar(context, Languages.of(context)!.strIncorrectPassword);
       }
       return false;
     } catch (e, stackTrace) {
@@ -161,7 +161,7 @@ class AuthRepository with ChangeNotifier {
       if (methods.isEmpty || methods.contains(provider)) {
         await FirebaseAuth.instance.signInWithCredential(credential);
       } else {
-        displaySnackBar(context, Languages.of(context)!.linkThirdPartyError);
+        displaySnackBar(context, Languages.of(context)!.strLinkProviderError);
         GoogleAnalytics.instance.logMultipleProviders(providerLinked: provider);
       }
     }
@@ -205,7 +205,7 @@ class AuthRepository with ChangeNotifier {
     } on FirebaseAuthException catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       if (e.code == gc.credentialExists) {
-        displaySnackBar(context, Languages.of(context)!.linkThirdPartyError);
+        displaySnackBar(context, Languages.of(context)!.strLinkProviderError);
         GoogleAnalytics.instance.logMultipleProviders(providerLinked: gc.facebook);
       }
       return false;
@@ -265,18 +265,18 @@ class AuthRepository with ChangeNotifier {
       try {
         await _user!.updatePassword(newPassword);
         notifyListeners();
-        displaySnackBar(context, Languages.of(context)!.changePasswordSuccess);
+        displaySnackBar(context, Languages.of(context)!.strChangePasswordSuccess);
       } on FirebaseAuthException catch (e, stackTrace) {
         SentryMonitor().sendToSentry(e, stackTrace);
         if (e.code == gc.weakPassword) {
-          displaySnackBar(context, Languages.of(context)!.weakPassword);
+          displaySnackBar(context, Languages.of(context)!.strWeakPassword);
         }
       } catch (e, stackTrace) {
         SentryMonitor().sendToSentry(e, stackTrace);
-        displaySnackBar(context, Languages.of(context)!.changePasswordError);
+        displaySnackBar(context, Languages.of(context)!.strNotSignedIn);
       }
     } else {
-      displaySnackBar(context, Languages.of(context)!.notSignedIn);
+      displaySnackBar(context, Languages.of(context)!.strSignInTimeout);
     }
   }
 }

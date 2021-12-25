@@ -16,18 +16,18 @@ class BottomNavigation extends StatelessWidget {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: const Icon(gc.settingsPage),
-          label: Languages.of(context)!.settings,
-          tooltip: Languages.of(context)!.settings,
+          label: Languages.of(context)!.strSettings,
+          tooltip: Languages.of(context)!.strSettings,
         ),
         BottomNavigationBarItem(
           icon: const Icon(gc.balancePage),
-          label: Languages.of(context)!.balance,
-          tooltip: Languages.of(context)!.balance,
+          label: Languages.of(context)!.strBalance,
+          tooltip: Languages.of(context)!.strBalance,
         ),
         BottomNavigationBarItem(
           icon: const Icon(gc.archivePage),
-          label: Languages.of(context)!.archive,
-          tooltip: Languages.of(context)!.archive,
+          label: Languages.of(context)!.strArchive,
+          tooltip: Languages.of(context)!.strArchive,
         ),
       ],
       currentIndex: _selectedPage,

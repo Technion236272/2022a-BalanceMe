@@ -49,7 +49,7 @@ class _SetCategoryState extends State<SetCategory> {
     _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _categoryExpectedController = MoneyMaskedTextController(initialValue: widget.currentCategory == null ? 0.0
         : widget.currentCategory!.expected, rightSymbol: widget._currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
-    _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.income : Languages.of(context)!.expense);
+    _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense);
   }
 
   void _updatePerformingSave(bool state) {
@@ -69,12 +69,12 @@ class _SetCategoryState extends State<SetCategory> {
   String _getPageTitle() {
     switch (widget._mode) {
       case DetailsPageMode.Add:
-        return Languages.of(context)!.addCategory;
+        return Languages.of(context)!.strAddCategory;
       case DetailsPageMode.Edit:
-        return Languages.of(context)!.editCategory;
+        return Languages.of(context)!.strEditCategory;
       case DetailsPageMode.Details:
       default:
-        return Languages.of(context)!.detailsCategory;
+        return Languages.of(context)!.strDetailsCategory;
     }
   }
 
@@ -95,7 +95,7 @@ class _SetCategoryState extends State<SetCategory> {
     if(value != null){
       value = value.split(widget._currencySign).first;
     }
-    return essentialFieldValidator(value) ? null : Languages.of(context)!.essentialField;
+    return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
   }
 
   String? _lineLimitValidatorFunction(String? value) {
@@ -104,7 +104,7 @@ class _SetCategoryState extends State<SetCategory> {
     }
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.maxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+      return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
     }
     return message;
   }
@@ -115,7 +115,7 @@ class _SetCategoryState extends State<SetCategory> {
     }
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.mustPositiveNum;
+      return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
     }
     return message;
   }
@@ -123,7 +123,7 @@ class _SetCategoryState extends State<SetCategory> {
   Category createNewCategory() {
     return Category(
       _categoryNameController.text.toString(),
-      _categoryTypeController.value == Languages.of(context)!.income,
+      _categoryTypeController.value == Languages.of(context)!.strIncome,
       double.parse(_categoryExpectedController.text.toString().split(widget._currencySign).first),
       _categoryDescriptionController.text.toString(),
       widget.currentCategory == null ? null : widget.currentCategory!.amount,
@@ -135,16 +135,16 @@ class _SetCategoryState extends State<SetCategory> {
     _updatePerformingSave(true);
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      String message = Languages.of(context)!.saveSucceeded;
+      String message = Languages.of(context)!.strSaveSucceeded;
 
       if (widget._mode == DetailsPageMode.Add) {
-        message = userStorage.addCategory(createNewCategory()) ? message : Languages.of(context)!.alreadyExist;
+        message = userStorage.addCategory(createNewCategory()) ? message : Languages.of(context)!.strAlreadyExist;
       } else {
-        message = userStorage.editCategory(createNewCategory(), widget.currentCategory!) ? message : Languages.of(context)!.alreadyExist;
+        message = userStorage.editCategory(createNewCategory(), widget.currentCategory!) ? message : Languages.of(context)!.strAlreadyExist;
       }
 
       navigateBack(context);
-      displaySnackBar(context, message.replaceAll("%", Languages.of(context)!.category));
+      displaySnackBar(context, message.replaceAll("%", Languages.of(context)!.strCategory));
     }
 
     _updatePerformingSave(false);
@@ -167,7 +167,7 @@ class _SetCategoryState extends State<SetCategory> {
                     _categoryNameController,
                     1,
                     1,
-                    Languages.of(context)!.categoryName,
+                    Languages.of(context)!.strCategoryName,
                     isBordered: true,
                     isValid: true,
                     isEnabled: widget._mode != DetailsPageMode.Details,
@@ -207,11 +207,11 @@ class _SetCategoryState extends State<SetCategory> {
                       right: gc.generalTextFieldsPadding
                   ),
                   child: ListViewGeneric(
-                      leadingWidgets: [Text(Languages.of(context)!.typeSelection),],
+                      leadingWidgets: [Text(Languages.of(context)!.strTypeSelection),],
                       trailingWidgets: [
                         GenericRadioButton([
-                          Languages.of(context)!.expense,
-                          Languages.of(context)!.income
+                          Languages.of(context)!.strExpense,
+                          Languages.of(context)!.strIncome
                         ],
                           _categoryTypeController,
                           isDisabled: widget._mode == DetailsPageMode.Details,
@@ -230,7 +230,7 @@ class _SetCategoryState extends State<SetCategory> {
                       _categoryDescriptionController,
                       gc.maxLinesExpended,
                       gc.maxLinesExpended,
-                      widget._mode == DetailsPageMode.Details ? Languages.of(context)!.emptyDescription : Languages.of(context)!.addDescription,
+                      widget._mode == DetailsPageMode.Details ? Languages.of(context)!.strEmptyDescription : Languages.of(context)!.strAddDescription,
                       isBordered: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                   ),
@@ -241,7 +241,7 @@ class _SetCategoryState extends State<SetCategory> {
                     padding: const EdgeInsets.only(top: gc.buttonPadding),
                     child: ActionButton(
                       performingAction,
-                      Languages.of(context)!.save,
+                      Languages.of(context)!.strSave,
                       _saveCategory,
                     ),
                   ),

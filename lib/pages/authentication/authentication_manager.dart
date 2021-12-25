@@ -27,7 +27,7 @@ class _AuthenticationManagerState extends State<AuthenticationManager> {
   }
 
   List<String> getTabNames() {
-    return [Languages.of(context)!.login, Languages.of(context)!.signUpTitle];
+    return [Languages.of(context)!.strLogin, Languages.of(context)!.strSignUp];
   }
 
   List<Widget> loginTabBarView() {
@@ -44,8 +44,8 @@ class _AuthenticationManagerState extends State<AuthenticationManager> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: appBarChoice == 0
-            ? MinorAppBar(Languages.of(context)!.login)
-            : MinorAppBar(Languages.of(context)!.signUpTitle),
+            ? MinorAppBar(Languages.of(context)!.strLogin)
+            : MinorAppBar(Languages.of(context)!.strSignUp),
         body: SingleChildScrollView(
             child: TabGeneric(getGenericTabs(getTabNames()), loginTabBarView(),
                 onSwitch: changeAppbar)),
