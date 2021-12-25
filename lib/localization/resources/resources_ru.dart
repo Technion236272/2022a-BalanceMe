@@ -292,6 +292,9 @@ class LanguageRu extends Languages {
   @override
   String get strConstantSwitch => "постоянный";
 
+  @override
+  String get strBadNumberForm => "Вставленный текст не является числом";
+
   // Archive
   @override
   String get strDataUnavailable => "нет Данные за выбранный месяц";

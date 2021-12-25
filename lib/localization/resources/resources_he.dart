@@ -293,6 +293,9 @@ class LanguageHe extends Languages {
   @override
   String get strConstantSwitch => "‎קבוע";
 
+  @override
+  String get strBadNumberForm => "‎הטקסט שהוכנס איננו מספר";
+
   // Archive
   @override
   String get strDataUnavailable => "‎אין מידע זמין עבור פרק הזמן הנבחר";

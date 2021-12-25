@@ -116,6 +116,7 @@ abstract class Languages {
   // Set Category And Transaction
   String get strTypeSelection;
   String get strConstantSwitch;
+  String get strBadNumberForm;
 
   // Archive
   String get strDataUnavailable;
