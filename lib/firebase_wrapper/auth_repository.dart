@@ -107,11 +107,11 @@ class AuthRepository with ChangeNotifier {
 
       if(methods.isEmpty)
         {
-         signUp? await _auth.createUserWithEmailAndPassword(email: email, password: password):throw FirebaseAuthException(code: gc.userNotFound);
+         signUp? await _auth.createUserWithEmailAndPassword(email: email, password: password): throw FirebaseAuthException(code: gc.userNotFound);
           return;
         }
     if (methods.contains(gc.regular)) {
-       await _auth.signInWithEmailAndPassword(email: email, password: password);
+     signUp? throw FirebaseAuthException(code: gc.emailInUse) : await _auth.signInWithEmailAndPassword(email: email, password: password);
       return;
     } else {
       final AuthCredential credential =

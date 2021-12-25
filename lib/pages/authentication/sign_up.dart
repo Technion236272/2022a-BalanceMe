@@ -89,6 +89,15 @@ class _SignUpState extends State<SignUp> {
     return message;
   }
 
+  String? _confirmPasswordValidatorFunction(String? value) {
+    String? message = _passwordValidatorFunction(value);
+    String? confirmMessage = _passwordValidatorFunction(controllerPassword.text);
+    if (message == null && confirmMessage==null) {
+      return matchingPasswordValidator(value,controllerPassword.text) ? null : Languages.of(context)!.strMismatchingPasswords;
+    }
+    return message;
+  }
+
   void _signUp() {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       _updatePerformingLogin(true);
@@ -123,7 +132,7 @@ class _SignUpState extends State<SignUp> {
                 Languages.of(context)!.strConfirmPassword,
                 hideText: confirmPasswordVisible,
                 suffix: _hidingConfirmPasswordEye(),
-                validatorFunction: _passwordValidatorFunction,
+                validatorFunction: _confirmPasswordValidatorFunction,
               ),
               SizedBox(
                   width: MediaQuery.of(context).size.width/gc.buttonsScale,

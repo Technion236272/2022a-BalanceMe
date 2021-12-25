@@ -107,6 +107,8 @@ bool lineLimitMaxValidator(String? value, int maxLimit) => (essentialFieldValida
 
 bool lineLimitMinValidator(String? value, int minLimit) => (essentialFieldValidator(value) && value!.length >= minLimit);
 
+bool matchingPasswordValidator(String? value, String? confirmValue) => (essentialFieldValidator(value) && essentialFieldValidator(confirmValue) && value==confirmValue);
+
 bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toString()) && value! > 0);
 
 // Time

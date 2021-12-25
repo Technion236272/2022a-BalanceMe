@@ -31,6 +31,10 @@ void emailPasswordSignUp(String? email, String? password, String? confirmPasswor
     displaySnackBar(context, Languages.of(context)!.strMissingFields);
     return;
   }
+  if (password!=confirmPassword) {
+    displaySnackBar(context, Languages.of(context)!.strMismatchingPasswords);
+    return;
+  }
   startLoginProcess(context, authRepository.signUp(email, password, context), LoginMethod.Regular.toCleanString(), false, userStorage, failureCallback: failureCallback);
 }
 
