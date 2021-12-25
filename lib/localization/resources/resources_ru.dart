@@ -162,7 +162,7 @@ class LanguageRu extends Languages {
   String get strLinkProviderError => "Учетная запись с этим электронная почта уже существует под другим провайдером";
 
   @override
-  String get strChangeLanguageAlertDialogContent => "Attention:\nchange language might reset all your data. For saving the data, please log-in or sign up first.\nAre you sure you want to change the language?";
+  String get strChangeLanguageAlertDialogContent => "внимание:\nизменить язык может сбросить все ваши данные. Для сохранения данных, пожалуйста, войдите или зарегистрируйтесь сначала.\nВы уверены, что хотите изменить язык?";
 
   // Password Recovery
   @override
