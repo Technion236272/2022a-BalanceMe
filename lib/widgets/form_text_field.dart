@@ -1,6 +1,8 @@
 // ================= Form Text Field =================
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/localization/locale_controller.dart';
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/localization/resources/resources_he.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:balance_me/global/types.dart';
@@ -46,7 +48,7 @@ class FormTextField  extends StatelessWidget {
       inputFormatters: isNumeric == true ? [FilteringTextInputFormatter.allow(gc.floatNumber), CurrencyFormatter(currencySign)] : [],
       minLines: _minLines,
       maxLines: _maxLines,
-      textDirection:  Languages.of(context)!.languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr,
+      textDirection: LanguageHe().languageCode == getLocale().languageCode ? TextDirection.rtl : TextDirection.ltr,
       decoration: InputDecoration(
         hintText: _hintText,
         hintStyle: gc.defaultHintStyle,

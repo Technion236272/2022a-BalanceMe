@@ -1,5 +1,6 @@
 // ================= Text box with an (optional) border widget =================
-import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/localization/locale_controller.dart';
+import 'package:balance_me/localization/resources/resources_he.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -50,7 +51,7 @@ class TextBox extends StatelessWidget {
           obscureText: hideText,
           onChanged: onChanged,
           textAlign: textAlign == null ? TextAlign.start : textAlign!,
-          textDirection: Languages.of(context)!.languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr,
+          textDirection: LanguageHe().languageCode == getLocale().languageCode ? TextDirection.rtl : TextDirection.ltr,
           decoration: InputDecoration(
             contentPadding: textBoxSize,
             hintText: _hintText,
