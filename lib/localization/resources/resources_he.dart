@@ -79,6 +79,9 @@ class LanguageHe extends Languages {
   @override
   String get strSignInTimeout => "‎אין חשבון רשום כעת, יש לנסות שוב";
 
+  @override
+  String get strChangeLanguageAlertDialogContent => "‎שימו לב:\nשינוי השפה עלול לגרום לאיפוס המידע. על מנת לשמור את המידע יש להתחבר או להירשם.\nהאם ברצונך להחליף שפה בכל זאת?";
+
   // Login
   @override
   String get strWelcomeBack => "‎ברוכים השבים!";
