@@ -24,6 +24,44 @@ class BalanceModel {
     return newBalance;
   }
 
+  BalanceModel filterCategoriesWithConstantsTransaction() {
+    BalanceModel newBalance = BalanceModel();
+
+    for (var category in incomeCategories) {
+      Category? filteredCategory = category.filterConstantsTransaction();
+      if (filteredCategory != null) {
+        newBalance.incomeCategories.add(filteredCategory);
+      }
+    }
+
+    for (var category in expensesCategories) {
+      Category? filteredCategory = category.filterConstantsTransaction();
+      if (filteredCategory != null) {
+        newBalance.expensesCategories.add(filteredCategory);
+      }
+    }
+
+    return newBalance;
+  }
+
+  BalanceModel filterCategoriesWithDifferentNames(BalanceModel other) {
+    BalanceModel newBalance = copy();
+
+    for (var category in other.incomeCategories) {
+      if (!newBalance.incomeCategories.contains(category)) {
+        newBalance.incomeCategories.add(category);
+      }
+    }
+
+    for (var category in other.expensesCategories) {
+      if (!newBalance.expensesCategories.contains(category)) {
+        newBalance.expensesCategories.add(category);
+      }
+    }
+
+    return newBalance;
+  }
+
   void _emptyConstructor() {
     incomeCategories = getCategorySortedList();
     expensesCategories = getCategorySortedList();

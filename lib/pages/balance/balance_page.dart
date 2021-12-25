@@ -18,16 +18,16 @@ class BalancePage extends StatelessWidget {
   final VoidCallbackInt _changeCurrentTab;
 
   Widget _getTabBarView(BuildContext context, List<Category> categoriesList){
-    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : GenericInfo(null, Languages.of(context)!.nothingToShow, null);
+    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : GenericInfo(bottomInfo: Languages.of(context)!.nothingToShow);
   }
 
   @override
   Widget build(BuildContext context) {
     return TabGeneric(
-      getGenericTabs([Languages.of(context)!.incomes, Languages.of(context)!.expenses]),
+      getGenericTabs([Languages.of(context)!.expenses, Languages.of(context)!.incomes]),
       [
-        _getTabBarView(context, _balanceModel.incomeCategories),
         _getTabBarView(context, _balanceModel.expensesCategories),
+        _getTabBarView(context, _balanceModel.incomeCategories),
       ],
       onSwitch: _changeCurrentTab,
     );

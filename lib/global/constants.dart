@@ -18,7 +18,6 @@ const defaultMinPasswordLimit = 6;
 const String prefSelectedLanguageCode = "SelectedLanguageCode";
 const String decimalSeparator = ".";
 const String thousandsSeparator = "";
-const String NIS = '₪';
 
 
 // Icons
@@ -28,7 +27,7 @@ const IconData authenticatedIcon = Icons.exit_to_app;
 const IconData emptyAvatarIcon = Icons.account_circle;
 const IconData balancePage = Icons.home;
 const IconData settingsPage = Icons.settings;
-const IconData statisticsPage = Icons.pie_chart;
+const IconData archivePage = Icons.archive;
 const IconData hidePassword = Icons.remove_red_eye_outlined;
 const IconData showPassword = Icons.remove_red_eye;
 const IconData transactionDetailsIcon = Icons.info;
@@ -39,6 +38,7 @@ const IconData deleteIcon = Icons.delete;
 const IconData editIcon = Icons.edit;
 const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
+const IconData calendarIcon = Icons.date_range_sharp;
 
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
@@ -50,7 +50,7 @@ const Color linkColors = Color(0xffbc21ff);
 const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
 const Color leaveColor = Color(0xFFE30E0E);
-const Color disabledColor = Colors.black38;
+Color disabledColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
 
 // AppBar
@@ -128,6 +128,7 @@ const double percentSize = 40.0;
 // Balance
 const String inPracticeExpectedSeparator = "/";
 const DismissDirection removeDirection = DismissDirection.startToEnd;
+const double categoryTypeHeaderTopPadding = 13.0;
 
 //Welcome
 const double imageTop = -40;
@@ -149,7 +150,6 @@ const double newPasswordSize = 22.0;
 const double profileAvatarRadius = 150.0;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
-const double padSettingsArrow=20;
 
 //error messages
 const String weakPassword = "weak-password";
@@ -159,6 +159,7 @@ const String userNotFound="user-not-found";
 const String incorrectPassword="wrong-password";
 const String emailInUse="email-already-in-use";
 const String credentialExists="account-exists-with-different-credential";
+
 //TextBox
 const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
 
@@ -181,8 +182,9 @@ const EdgeInsets dropDownPadding = EdgeInsets.symmetric(horizontal: 10);
 const double numOfItems = 150;
 const TextStyle dropDownTextStyle = TextStyle(color: Colors.black, fontSize: 15);
 const double dropDownIconSize = 30;
-Color dropdDownBGcolor = primaryColor.withOpacity(0.2);
+Color dropDownBGcolor = primaryColor.withOpacity(0.2);
 Border dropDownBorder = Border.all(color: primaryColor, width: 2);
+Border disabledDropDownBorder = Border.all(color: disabledColor, width: 2);
 
 // Generic Info Widget
 const double infoTitleFontSize = 25;
@@ -197,12 +199,14 @@ const double datePickerFontSize = 15.0;
 const double datePickerGeneralPadding = 2.0;
 const double datePickerRightPadding = 15.0;
 const double datePickerIconSize = 18.0;
-const double datePickerDayViewWidth = 150.0;
+const double datePickerDayViewWidth = 120.0;
 const double datePickerMonthViewWidth = 120.0;
 const double datePickerYearViewWidth = 100.0;
-const double dateRangePickerDayViewWidth = datePickerDayViewWidth * 1.6;
-const double dateRangePickerMonthViewWidth = datePickerMonthViewWidth * 1.6;
-const double dateRangePickerYearViewWidth = datePickerYearViewWidth * 1.4;
+const double datePickerWidthScale = 1.7;
+const double datePickerHeightScale = 2.5;
+const EdgeInsets datePickerPadding = EdgeInsets.only(left: 8.0, right: 8.0);
+DateTime firstDate = DateTime(1970);
+BorderRadius datePickerRadius = BorderRadius.circular(10);
 
 //Transaction Entry
 const double entryPadding = 8.0;
@@ -222,14 +226,24 @@ const double dividerThickness = 1.0;
 const double cardBorderWidth = 2.0;
 const double cardThinBorderWidth = 1.0;
 const double iconPadding = 10.0;
-const double iconSize = 24.0;
+const double iconSize = 30.0;
 const double listViewBottomPadding = 100;
 
 //generic edit button
 const double disabledOpacity=0.5;
+
+//Archive
+const EdgeInsets archiveDatePickerEdgeInsets = EdgeInsets.only(top: 8.0, bottom: 8.0);
+const double archiveDatePickerPadding = 60;
+const double datePickerHeight = 35;
 
 //Login providers
 const String facebook="facebook.com";
 const String google="google.com";
 const String regular="password";
 const int maxAccounts=2;
+
+//about
+const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
+const double scalesProportion = 10;
+const double attributeFontSize = 10;

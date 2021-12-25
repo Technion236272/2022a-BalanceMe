@@ -12,27 +12,41 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class CategoryHeader extends StatefulWidget {
-  const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, {Key? key}) : super(key: key);
+  const CategoryHeader(this._category, this._isCategoryOpen, this._toggleCategory, this._openCategory, {Key? key}) : super(key: key);
 
   final Category _category;
   final bool _isCategoryOpen;
   final VoidCallback _toggleCategory;
+  final VoidCallback _openCategory;
 
   @override
   State<CategoryHeader> createState() => _CategoryHeaderState();
 }
 
 class _CategoryHeaderState extends State<CategoryHeader> {
+  UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
+
+  double _getProgressPercentage() {
+    double progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
+    if (progressPercentage >= 1) {
+      progressPercentage = 1;
+    }
+    if (progressPercentage <= 0) {
+      progressPercentage = 0;
+    }
+    return progressPercentage.toPrecision();
+  }
+
   void _openAddTransactionPage() {
-    navigateToPage(context, SetTransaction(DetailsPageMode.Add, widget._category), AppPages.SetTransaction);
+    navigateToPage(context, SetTransaction(DetailsPageMode.Add, widget._category, CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!, callback: widget._openCategory), AppPages.SetTransaction);
   }
 
   void _openCategoryDetails() {
-    navigateToPage(context, SetCategory(DetailsPageMode.Details, widget._category.isIncome, currentCategory: widget._category), AppPages.SetCategory);
+    navigateToPage(context, SetCategory(DetailsPageMode.Details, widget._category.isIncome, CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!, currentCategory: widget._category), AppPages.SetCategory);
   }
 
   void _removeCategory() {
-    Provider.of<UserStorage>(context, listen: false).removeCategory(widget._category);
+    userStorage.removeCategory(widget._category);
     displaySnackBar(context, Languages.of(context)!.removeSucceeded.replaceAll("%", Languages.of(context)!.category));
   }
 
@@ -55,9 +69,6 @@ class _CategoryHeaderState extends State<CategoryHeader> {
 
   @override
   Widget build(BuildContext context) {
-    double progressPercentage = getPercentage(widget._category.amount, widget._category.expected) / 100;
-    progressPercentage = (progressPercentage >= 1) ? 1 : progressPercentage.toPrecision();
-
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Column(children: [
@@ -83,13 +94,16 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(
-                    iconSize: gc.iconSize,
-                    padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding),
-                    constraints: const BoxConstraints(),
-                    color: gc.primaryColor,
-                    onPressed: _openAddTransactionPage,
-                    icon: const Icon(gc.addIcon),
+                  Visibility(
+                    visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),
+                    child: IconButton(
+                      iconSize: gc.iconSize,
+                      padding: const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding),
+                      constraints: const BoxConstraints(),
+                      color: gc.primaryColor,
+                      onPressed: _openAddTransactionPage,
+                      icon: const Icon(gc.addIcon),
+                    ),
                   ),
                   IconButton(
                     iconSize: gc.iconSize,
@@ -99,15 +113,18 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                     onPressed: _openCategoryDetails,
                     icon: const Icon(gc.transactionDetailsIcon),
                   ),
-                  IconButton(
-                    iconSize: gc.iconSize,
-                    padding: widget._category.transactions.isNotEmpty
-                        ? const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding)
-                    : const EdgeInsets.all(gc.iconPadding),
-                    constraints: const BoxConstraints(),
-                    color: gc.primaryColor,
-                    onPressed: _confirmRemoval,
-                    icon: const Icon(gc.deleteIcon),
+                  Visibility(
+                    visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),
+                    child: IconButton(
+                      iconSize: gc.iconSize,
+                      padding: widget._category.transactions.isNotEmpty
+                          ? const EdgeInsets.only(left: gc.iconPadding, top: gc.iconPadding, bottom: gc.iconPadding)
+                      : const EdgeInsets.all(gc.iconPadding),
+                      constraints: const BoxConstraints(),
+                      color: gc.primaryColor,
+                      onPressed: _confirmRemoval,
+                      icon: const Icon(gc.deleteIcon),
+                    ),
                   ),
                   Visibility(
                     visible: widget._category.transactions.isNotEmpty,
@@ -134,9 +151,9 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                 left: gc.categoryAroundPadding,
                 bottom: gc.categoryAroundPadding),
             child: Text(
-              widget._category.amount.toMoneyFormat() +
+              widget._category.amount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!) +
                   gc.inPracticeExpectedSeparator +
-                  widget._category.expected.toMoneyFormat(),
+                  widget._category.expected.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
               style: const TextStyle(
                   color: gc.primaryColor,
                   fontSize: gc.fontSizeLoginImage,
@@ -154,8 +171,8 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               animation: true,
               lineHeight: gc.lineBarHeight,
               animationDuration: gc.lineAnimationDuration,
-              percent: progressPercentage,
-              center: Text((progressPercentage * 100).toPrecision().toPercentageFormat()),
+              percent: _getProgressPercentage(),
+              center: Text((_getProgressPercentage() * 100).toPrecision().toPercentageFormat()),
               linearStrokeCap: LinearStrokeCap.roundAll,
               progressColor: gc.primaryColor,
             ),

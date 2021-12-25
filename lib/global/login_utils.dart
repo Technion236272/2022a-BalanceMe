@@ -68,16 +68,16 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
 
     Future.delayed(const Duration(milliseconds: 10), () async {
       if (isSigningIn) {
-        await userStorage.GET_postLogin(context);
-        await userStorage.GET_balanceModelAfterLogin(lastBalance, true);
+        await userStorage.GET_generalInfo(context);
         GoogleAnalytics.instance.logLogin(loginFunctionName);
       } else {
         userStorage.SEND_generalInfo();
-        await userStorage.GET_balanceModelAfterLogin(lastBalance, false);
         GoogleAnalytics.instance.logSignUp(loginFunctionName);
       }
 
+      await userStorage.GET_balanceModelAfterLogin(lastBalance, isSigningIn);
       navigateBack(context);
+      isSigningIn ? displaySnackBar(context, Languages.of(context)!.successfullyLogin) : displaySnackBar(context, Languages.of(context)!.successfullySignUp);
     });
 
   } else if (failureCallback != null) {

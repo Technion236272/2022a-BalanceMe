@@ -47,6 +47,9 @@ class LanguageEn extends Languages {
   String get endOfMonthSettings => "End of month";
 
   @override
+  String get userCurrencySettings => "Currency";
+
+  @override
   String get languageSettings => "Language";
 
   @override
@@ -91,6 +94,12 @@ class LanguageEn extends Languages {
 
   @override
   String get successfullyLogout => "Successfully logged out";
+
+  @override
+  String get successfullyLogin => "You logged in successfully. Duplicate categories might be removed.";
+
+  @override
+  String get successfullySignUp => "You sign up successfully. You can edit your settings in settings page";
 
   @override
   String get signUpTitle => "Sign Up";
@@ -173,7 +182,7 @@ class LanguageEn extends Languages {
   String get balance => "Balance";
 
   @override
-  String get statistics => "Statistics";
+  String get archive => "Archive";
 
   @override
   String get settings => "Settings";
@@ -190,7 +199,7 @@ class LanguageEn extends Languages {
   String get balanceInfo => "Here you can manage your income and expenses.";
 
   @override
-  String get toGetStartedInfo => "To get started you can login or just experience the app.";
+  String get toGetStartedInfo => "For saving your data and enjoy full functionality, please log-in.";
 
   @override
   String get expense => "Expense";
@@ -270,10 +279,27 @@ class LanguageEn extends Languages {
   @override
   String get verifyRemoval => "Are you sure you want to remove this %?";
 
-  // Add Category
+  // Set Category And Transaction
   @override
   String get typeSelection => "Type";
 
   @override
   String get constantSwitch => "Constant";
+
+  // Archive
+  @override
+  String get dataUnavailable => "There is no data for the selected month";
+
+  @override
+  String get dateReloadSuccessful => "The data has reloaded successfully";
+
+  //about
+  @override
+  String get about => "About the app";
+
+  @override
+  String get legalese => "All packages and icons used are properties of their respective owners";
+
+  @override
+  String get scalesIcon => "Scales icon";
 }

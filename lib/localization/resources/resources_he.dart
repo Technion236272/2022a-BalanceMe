@@ -44,6 +44,9 @@ class LanguageHe extends Languages {
   String get passwordSettings => "שינוי סיסמה‎ ";
 
   @override
+  String get userCurrencySettings => "‎מטבע";
+
+  @override
   String get endOfMonthSettings => "סוף החודש‎";
 
   @override
@@ -91,6 +94,12 @@ class LanguageHe extends Languages {
 
   @override
   String get successfullyLogout => "‎התנתקת בהצלחה";
+
+  @override
+  String get successfullyLogin => "‎התחברת למערכת בהצלחה. קטגוריות כפולות נמחקו";
+
+  @override
+  String get successfullySignUp => "‎נרשמת למערכת בהצלחה. ניתן לגשת לעמוד ההגדרות על מנת לערוך אותן";
 
   @override
   String get signUpTitle => "הרשמה‎";
@@ -173,7 +182,7 @@ class LanguageHe extends Languages {
   String get balance => "‎המאזן";
 
   @override
-  String get statistics => "‎סטטיסטיקות";
+  String get archive => "‎ארכיון";
 
   @override
   String get settings => "‎הגדרות";
@@ -187,10 +196,10 @@ class LanguageHe extends Languages {
   String get nothingToShow => "‎בינתיים אין מה להציג כאן";
 
   @override
-  String get balanceInfo =>  "‎באפליקציה ניתן לנהל את ההוצאות וההכנסות שלך."; //TODO - need to check the view in different screens
+  String get balanceInfo =>  "‎האפליקציה נועדה לניהול ההוצאות וההכנסות החודשיות.";
 
   @override
-  String get toGetStartedInfo =>  "‎כדי להתחיל יש להתחבר או פשוט לנסות את האפליקציה."; //TODO - need to check the view in different screens
+  String get toGetStartedInfo =>  "‎על מנת לשמור את המידע וליהנות מכל יכולות האפליקציה, יש להתחבר.";
 
   @override
   String get expense => "‎הוצאה";
@@ -270,10 +279,26 @@ class LanguageHe extends Languages {
   @override
   String get verifyRemoval => "‎האם למחוק את ה%?";
 
-  //Add category
+  // Set Category And Transaction
   @override
   String get typeSelection => "‎סוג";
 
   @override
   String get constantSwitch => "‎קבוע";
+
+  // Archive
+  @override
+  String get dataUnavailable => "‎אין מידע זמין עבור פרק הזמן הנבחר";
+
+  @override
+  String get dateReloadSuccessful => "‎המידע נטען בהצלחה";
+
+  @override
+  String get about => "‎אודות האפליקציה";
+
+  @override
+  String get legalese => "‎כל החבילות והאייקונים בשימוש שייכים לבעליהם";
+
+  @override
+  String get scalesIcon => "‎אייקון מאזניים";
 }

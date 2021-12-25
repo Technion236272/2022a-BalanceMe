@@ -31,7 +31,7 @@ class UserStorage with ChangeNotifier {
       _userData = (authRepository.user != null) ? _userData : UserModel(userEmail);
     } else {
       _userData = UserModel(userEmail);
-      _balance = BalanceModel();
+      resetBalance();
     }
 
     notifyListeners();
@@ -44,10 +44,21 @@ class UserStorage with ChangeNotifier {
   AuthRepository? _authRepository;
   UserModel? _userData;
   BalanceModel _balance = BalanceModel();
+  DateTime? currentDate;
 
   // Handling
   UserModel? get userData => _userData;
   BalanceModel get balance => _balance;
+
+  // ================== Setters and Getters ==================
+
+  void resetBalance() {
+    _balance = BalanceModel();
+  }
+
+  void setDate([DateTime? time]) {
+    currentDate = (time == null) ? DateTime.now() : time;
+  }
 
   void setGroupName(String groupName) {
     if (_userData != null) {
@@ -129,9 +140,6 @@ class UserStorage with ChangeNotifier {
   }
 
   bool editCategory(model.Category newCategory, model.Category oldCategory) {
-    if (_isCategoryAlreadyExist(newCategory)) {
-      return false;
-    }
     removeCategory(oldCategory, false);
     _changeCategory(newCategory, EntryOperation.Add);
     _saveBalance();
@@ -160,11 +168,6 @@ class UserStorage with ChangeNotifier {
 
   bool editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction) {
     model.Category category = (newCategoryName == oldCategory.name) ? oldCategory : _balance.findCategory(newCategoryName);
-
-    if (_isTransactionAlreadyExist(category, newTransaction)) {
-      return false;
-    }
-
     removeTransaction(oldCategory, oldTransaction, false);
     category.addTransaction(newTransaction);
 
@@ -173,12 +176,27 @@ class UserStorage with ChangeNotifier {
     return true;
   }
 
+  Future<void> _getBalanceIfEndOfMonth() async {
+    if (currentDate != null && currentDate!.isSameDate(DateTime.now())) {  // if user in balance page- check only one previous month (prevent recursion)
+      currentDate =  DateTime(currentDate!.year, currentDate!.month - 1, currentDate!.day);
+      await GET_balanceModel(  // get previous month data and filter the constants transaction
+          successCallback: (Json data) {
+            _balance = _balance.filterCategoriesWithConstantsTransaction();
+          });
+      currentDate = DateTime.now();
+      SEND_balanceModel();
+
+    } else {
+      _balance = BalanceModel();
+    }
+  }
+
   // ================== Requests ==================
 
   // GET
-  Future<void> GET_postLogin(BuildContext context) async {  // Get General Info
+  Future<void> GET_generalInfo(BuildContext context) async {  // Get General Info
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).get().then((generalInfo) {
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
           if (_userData != null && _userData!.language != "") {
@@ -194,40 +212,46 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-
-  Future<void> GET_balanceModel({VoidCallback? callback, String? date}) async {
+  Future<void> GET_balanceModel({VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback}) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      date = date ?? getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay);
-      await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).get().then((categories) {
-        if (categories.exists && categories.data() != null) {
+      String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.categoriesDoc).doc(date).get().then((categories) async {
+        if (categories.exists && categories.data() != null) { // There is data
           _balance = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
-          callback != null ? callback() : null;
-          notifyListeners();
-        } else {
-          callback != null ? callback() : null;
-          notifyListeners();
-          GoogleAnalytics.instance.logRequestDataNotExists("balanceModel", categories);
+          successCallback != null ? successCallback(categories.data()![config.categoriesDoc]) : null;
+
+        } else {  // There is no data
+          await _getBalanceIfEndOfMonth();
+          failureCallback != null ? failureCallback(null) : null;
         }
+        notifyListeners();
       });
+
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("GetBalanceModel");
     }
   }
 
-  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool firstGet, {VoidCallback? callback, String? date}) async {
-    if (firstGet) {
-      await GET_balanceModel(callback: callback, date: date);
+  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool isSignIn) async {
+    void _addCurrentBalance([Json? data]) {
+      if (!lastBalance.isEmpty) {
+        _balance = _balance.filterCategoriesWithDifferentNames(lastBalance);
+        SEND_balanceModel();
+        notifyListeners();
+      }
     }
-    balance.expensesCategories.addAll(lastBalance.expensesCategories);
-    balance.incomeCategories.addAll(lastBalance.incomeCategories);
-    SEND_balanceModel(date: date);
-    notifyListeners();
+
+    if (isSignIn) {
+      await GET_balanceModel(successCallback: _addCurrentBalance, failureCallback: _addCurrentBalance);
+    } else {
+      _addCurrentBalance();
+    }
   }
 
   // SEND
   void SEND_generalInfo() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      await _firestore.collection(config.projectVersion).doc(config.generalInfoDoc).collection(_authRepository!.user!.email!).doc(config.generalInfoDoc).set({
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).set({
       config.generalInfoDoc: _userData!.toJson(),
       });
     } else {
@@ -235,10 +259,10 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_balanceModel({String? date}) async {
+  void SEND_balanceModel() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      date = date ?? getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay);
-      await _firestore.collection(config.projectVersion).doc(_userData!.groupName).collection(_authRepository!.user!.email!).doc(config.categoriesDoc + date).set({
+      String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.categoriesDoc).doc(date).set({
         config.categoriesDoc: _balance.toJson()
       });
     } else {

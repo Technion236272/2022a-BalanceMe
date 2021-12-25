@@ -83,6 +83,9 @@ class GoogleAnalytics {
     _logEvent("RecoverPassword", {"user": _getUserEmail()});
   }
 
+  void logArchiveDateChange(String? date) {
+    _logEvent("ArchiveDateChange", {"user": _getUserEmail(), "date": date ?? ""});
+  }
 
   // FireBase
   void logPreCheckFailed(String functionName) {

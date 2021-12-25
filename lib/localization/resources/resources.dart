@@ -23,6 +23,7 @@ abstract class Languages {
   String get profileSettings;
   String get profilePageTitle;
   String get passwordSettings;
+  String get userCurrencySettings;
   String get endOfMonthSettings;
   String get languageSettings;
   String get versionSettings;
@@ -41,6 +42,8 @@ abstract class Languages {
   String get login;
   String get logout;
   String get successfullyLogout;
+  String get successfullyLogin;
+  String get successfullySignUp;
   String get signUpTitle;
   String get emailText;
   String get password;
@@ -70,7 +73,7 @@ abstract class Languages {
 
   // Navigation
   String get balance;
-  String get statistics;
+  String get archive;
   String get settings;
 
   // Charts
@@ -107,7 +110,16 @@ abstract class Languages {
   String get delete;
   String get verifyRemoval;
 
-  //Add category or transaction
+  // Set Category And Transaction
   String get typeSelection;
   String get constantSwitch;
+
+  // Archive
+  String get dataUnavailable;
+  String get dateReloadSuccessful;
+
+  //About
+  String get about;
+  String get legalese;
+  String get scalesIcon;
 }

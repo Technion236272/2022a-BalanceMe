@@ -44,6 +44,9 @@ class LanguageRu extends Languages {
   String get passwordSettings => "изменить пароль";
 
   @override
+  String get userCurrencySettings => "Currency";
+
+  @override
   String get endOfMonthSettings => "конец месяца";
 
   @override
@@ -91,6 +94,12 @@ class LanguageRu extends Languages {
 
   @override
   String get successfullyLogout => "удачный выход";
+
+  @override
+  String get successfullyLogin => "You logged in successfully. Duplicate categories might be removed.";
+
+  @override
+  String get successfullySignUp => "You sign up successfully. You can edit your settings in settings page";
 
   @override
   String get signUpTitle => "регистрация";
@@ -173,7 +182,7 @@ class LanguageRu extends Languages {
   String get balance => "баланс";
 
   @override
-  String get statistics => "статистика";
+  String get archive => "Archive";
 
   @override
   String get settings => "настройки";
@@ -190,7 +199,7 @@ class LanguageRu extends Languages {
   String get balanceInfo => "Здесь вы можете управлять своими доходами и расходами.";
 
   @override
-  String get toGetStartedInfo => "Для начала вы можете войти или просто испытать приложение.";
+  String get toGetStartedInfo => "For saving your data and enjoy full functionality, please log-in.";
 
   @override
   String get expense => "расход";
@@ -270,10 +279,26 @@ class LanguageRu extends Languages {
   @override
   String get verifyRemoval => "Вы уверены, что хотите стереть это %?";
 
-  //Add category
+  // Set Category And Transaction
   @override
   String get typeSelection => "вид";
 
   @override
   String get constantSwitch => "постоянный";
+
+  // Archive
+  @override
+  String get dataUnavailable => "There is no data for the selected month";
+
+  @override
+  String get dateReloadSuccessful => "The data has reloaded successfully";
+
+  @override
+  String get about => "О приложении";
+
+  @override
+  String get legalese => "Все используемые пакеты и значки являются свойствами их владельцев";
+
+  @override
+  String get scalesIcon => "Значок Весы";
 }

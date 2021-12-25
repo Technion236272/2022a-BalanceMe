@@ -59,15 +59,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     return null;
   }
 
+  bool _enableEditCondition(String? value, StringCallback nameCallback) => (value == null || value == nameCallback() || value == "");
+
   void _enableEditFirstName(String? value) {
     setState(() {
-      _isDisabledFirstName = (value == null);
+      _isDisabledFirstName = _enableEditCondition(value, _getFirstName);
     });
   }
 
   void _enableEditLastName(String? value) {
     setState(() {
-      _isDisabledLastName = (value == null);
+      _isDisabledLastName = _enableEditCondition(value, _getLastName);
     });
   }
 
@@ -162,8 +164,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
               ],
             ),
-
-            Visibility(visible: widget.authRepository.user!=null, child: Text( widget.authRepository.user!.email!)),
+            Visibility(
+                visible: widget.authRepository.user != null,
+                child: Text(widget.authRepository.user!.email!),
+            ),
             TextBox(
               _controllerFirstName,
               Languages.of(context)!.firstName,

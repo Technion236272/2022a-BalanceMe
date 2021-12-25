@@ -5,9 +5,7 @@ import 'package:balance_me/common_models/transaction_model.dart';
 
 enum AuthStatus {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
-enum AppPages {Settings, Balance, Statistics, Welcome, Login, SetCategory, SetTransaction, Incomes, Expenses, ForgotPassword, Profile, ChangePassword}
-
-enum Currency {NIS, USD, EURO}
+enum AppPages {Settings, Balance, Archive, Welcome, Login, SetCategory, SetTransaction, Incomes, Expenses, ForgotPassword, Profile, ChangePassword}
 
 enum Entry {Category, Transaction}
 
@@ -21,6 +19,10 @@ enum DatePickerType {Day, Month, Year}
 
 enum LoginMethod {Regular, Facebook, Google}
 
+enum Currency {NIS, USD, EURO}
+
+Map<Currency, String> CurrencySign = {Currency.NIS: "₪", Currency.USD: "\$", Currency.EURO: "€"};
+
 typedef Json = Map<String, dynamic>;
 
 typedef VoidCallbackInt = void Function(int);
@@ -33,7 +35,11 @@ typedef VoidCallbackTwoTransactions = void Function(Transaction, Transaction?);
 
 typedef StringCallbackStringNullable =  String? Function(String?);
 
-typedef JsonCallbackJson = void Function(Json);
+typedef StringCallback =  String? Function();
+
+typedef VoidCallbackJson = void Function(Json);
+
+typedef VoidCallbackNull = void Function(Json?);
 
 typedef VoidCallbackString= void Function(String);
 

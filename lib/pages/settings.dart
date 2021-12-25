@@ -40,9 +40,31 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget _getSettingsArrow() {
-    return const Padding(
-      padding: EdgeInsets.only(left: gc.padSettingsArrow),
-      child: Icon(gc.settingArrow),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: const [
+        Icon(gc.settingArrow),
+      ],
+    );
+  }
+
+  void _getAbout() {
+    showAboutDialog(
+        context: context,
+        applicationName: Languages.of(context)!.appName,
+        applicationVersion: config.projectVersion,
+        applicationLegalese: Languages.of(context)!.legalese,
+        children: [
+          ListTile(
+            leading: Image.asset(
+                gc.balanceImage,
+                height: MediaQuery.of(context).size.height / gc.scalesProportion,
+                width: MediaQuery.of(context).size.width / gc.scalesProportion,
+            ),
+            trailing: Text(Languages.of(context)!.scalesIcon),
+          ),
+          const Text(gc.scalesLink, style: TextStyle(fontSize: gc.attributeFontSize)),
+        ],
     );
   }
 
@@ -50,8 +72,10 @@ class _SettingsState extends State<Settings> {
     List<Widget?> leadingSettings = [
       widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.profileSettings) : null,
       widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.passwordSettings) : null,
+      Text(Languages.of(context)!.userCurrencySettings),
       Text(Languages.of(context)!.endOfMonthSettings),
       Text(Languages.of(context)!.languageSettings),
+      Text(Languages.of(context)!.about),
       Text(Languages.of(context)!.versionSettings)
     ];
 
@@ -68,9 +92,16 @@ class _SettingsState extends State<Settings> {
           icon: _getSettingsArrow(),
       ),
 
+      Text(CurrencySign[widget.userStorage.userData == null ? gc.defaultUserCurrency : widget.userStorage.userData!.userCurrency]!, style: _getTextDesign()),
       _getDaysOfMonthRadio(),
       const LanguageDropDown(),
-      Text(config.projectVersion, style: _getTextDesign())
+
+      IconButton(
+        onPressed: _getAbout,
+        icon: _getSettingsArrow(),
+      ),
+
+      Text(config.firebaseVersion, style: _getTextDesign())
     ];
 
     return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);
