@@ -153,6 +153,7 @@ const double padAroundPencil = 0.0;
 const EdgeInsets avatarPadding = EdgeInsets.all(8.0);
 const double avatarSizeScale = 2;
 const double avatarEditIconPosition = 2.3;
+const double avatarEditIconHeightPosition = 2 * avatarEditIconPosition;
 const EdgeInsets emailContainerPadding = EdgeInsets.all(8.0);
 Color emailContainerBGColor = primaryColor.withOpacity(0.2);
 const double emailContainerBorderRadius = 30.0;

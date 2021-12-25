@@ -165,7 +165,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
                 Positioned(
                   left: MediaQuery.of(context).size.width/gc.avatarEditIconPosition,
-                  top: MediaQuery.of(context).size.width/(2*gc.avatarEditIconPosition),
+                  top: MediaQuery.of(context).size.width/(gc.avatarEditIconHeightPosition),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(gc.padAroundPencil, gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
                     child: GenericIconButton(onTap: _showImageSourceChoice),
