@@ -2,7 +2,7 @@
 
 // Project Config
 const String projectName = "BalanceMe";
-const String projectVersion = "v1.0.0";
+const String projectVersion = "v2.0.0";
 
 // FireBase Config
 const String firebaseVersion = projectVersion;
