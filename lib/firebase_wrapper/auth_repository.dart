@@ -41,7 +41,7 @@ class AuthRepository with ChangeNotifier {
     try {
       _status = AuthStatus.Authenticating;
       notifyListeners();
-      await handleMultiProviderRegular( email, password,context);
+      await handleMultiProviderRegular(email, password,context,signUp: true);
       _status = AuthStatus.Authenticated;
       _avatarUrl = null;
       notifyListeners();
@@ -98,15 +98,16 @@ class AuthRepository with ChangeNotifier {
     _auth.currentUser?.linkWithCredential(credential);
   }
   Future<void> handleMultiProviderRegular(
-      String email, String password, BuildContext context) async {
+      String email, String password, BuildContext context,{bool signUp=false}) async {
     List<String> methods = await _auth.fetchSignInMethodsForEmail(email);
 
     if (methods.length > gc.maxAccounts) {
       displaySnackBar(context, Languages.of(context)!.strTooManyProviders);
     }
+
       if(methods.isEmpty)
         {
-          await _auth.createUserWithEmailAndPassword(email: email, password: password);
+         signUp? await _auth.createUserWithEmailAndPassword(email: email, password: password):throw FirebaseAuthException(code: gc.userNotFound);
           return;
         }
     if (methods.contains(gc.regular)) {
