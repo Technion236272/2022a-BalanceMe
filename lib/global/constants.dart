@@ -258,3 +258,6 @@ const int maxAccounts=2;
 const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
+
+//Textfield formatter
+RegExp floatNumber = RegExp(r'[0123456789]+\.?[0123456789]*');

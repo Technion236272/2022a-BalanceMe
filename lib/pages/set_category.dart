@@ -1,6 +1,5 @@
 // ================= Set Category =================
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -30,7 +29,7 @@ class SetCategory extends StatefulWidget {
 class _SetCategoryState extends State<SetCategory> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _categoryNameController;
-  late MoneyMaskedTextController _categoryExpectedController;
+  late TextEditingController _categoryExpectedController;
   late TextEditingController _categoryDescriptionController;
   late PrimitiveWrapper _categoryTypeController;
   bool _performingSave = false;
@@ -47,8 +46,8 @@ class _SetCategoryState extends State<SetCategory> {
   void _initControllers() {
     _categoryNameController = TextEditingController(text: widget.currentCategory == null ? null : widget.currentCategory!.name);
     _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
-    _categoryExpectedController = MoneyMaskedTextController(initialValue: widget.currentCategory == null ? 0.0
-        : widget.currentCategory!.expected, rightSymbol: widget._currencySign, decimalSeparator: gc.decimalSeparator, thousandSeparator: gc.thousandsSeparator, precision: gc.defaultPrecision);
+    _categoryExpectedController = TextEditingController(text: widget.currentCategory == null ? "${widget._currencySign}"
+        : widget.currentCategory!.expected.toString() + " ${widget._currencySign}");
     _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense);
   }
 
@@ -185,6 +184,7 @@ class _SetCategoryState extends State<SetCategory> {
                       isNumeric: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
                       validatorFunction: _positiveNumberValidatorFunction,
+                      currencySign: widget._currencySign,
                   ),
                 ),
                 Padding(

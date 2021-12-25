@@ -4,6 +4,7 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:flutter/services.dart';
 
 // Navigation
 void navigateToPage(context, Widget page, AppPages? pageEnum) {
@@ -148,4 +149,16 @@ dynamic indexToEnum(List values, int index) {
   } catch (e) {
     return null;
   }
+}
+
+class CurrencyFormatter extends TextInputFormatter{
+  CurrencyFormatter(this.currencySign);
+  final String currencySign;
+
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+
+    return newValue.copyWith(text: newValue.text + currencySign);
+  }
+
 }
