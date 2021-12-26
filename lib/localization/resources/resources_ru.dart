@@ -293,7 +293,7 @@ class LanguageRu extends Languages {
   String get strConstantSwitch => "постоянный";
 
   @override
-  String get strBadNumberForm => "Вставленный текст не является числом";
+  String get strBadNumberForm => "Вставленный текст - это не число";
 
   // Archive
   @override
