@@ -33,7 +33,7 @@ class _BalanceManagerState extends State<BalanceManager> {
 
   void _init() {
     widget._userStorage.setDate();
-    if (widget._authRepository.status == AuthStatus.Authenticated) {  // TODO- verify the case that user doesn't have data
+    if (widget._authRepository.status == AuthStatus.Authenticated) {
       widget._userStorage.GET_balanceModel(successCallback: _stopWaitingForDataCB, failureCallback: _stopWaitingForDataCB);
     } else {
       _stopWaitingForDataCB();
