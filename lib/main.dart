@@ -91,7 +91,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
         providers: [
           ChangeNotifierProvider<AuthRepository>(create: (_) => AuthRepository.instance()),
           ChangeNotifierProxyProvider<AuthRepository, UserStorage>(
-            create: (BuildContext context) => UserStorage.instance(Provider.of<AuthRepository>(context, listen: false)),
+            create: (BuildContext context) => UserStorage.instance(context, Provider.of<AuthRepository>(context, listen: false)),
             update: (BuildContext context, AuthRepository auth, UserStorage? storage) => storage!..updates(auth),
           )
         ],
