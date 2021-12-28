@@ -9,6 +9,7 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/pages/profile_settings.dart';
+import 'package:balance_me/widgets/generic_radio_button.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
@@ -23,12 +24,24 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  late PrimitiveWrapper _currencyController;
+
   void _openProfileSettings() {
     navigateToPage(context, ProfileSettings(authRepository: widget.authRepository, userStorage: widget.userStorage), AppPages.Profile);
   }
 
   void _openChangePassword() {
     navigateToPage(context, ChangePassword(authRepository: widget.authRepository), AppPages.ChangePassword);
+  }
+
+  void _changeCurrency() {
+    if (widget.userStorage.userData != null) {
+      Currency userCurrency = CurrencySign.keys.firstWhere((i) => CurrencySign[i] == _currencyController.value);
+      widget.userStorage.setUserCurrency(userCurrency);
+      if (widget.authRepository.status == AuthStatus.Authenticated) {
+        widget.userStorage.SEND_generalInfo();
+      }
+    }
   }
 
   TextStyle _getTextDesign() {
@@ -72,8 +85,8 @@ class _SettingsState extends State<Settings> {
     List<Widget?> leadingSettings = [
       widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strProfile) : null,
       widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strPasswordSettings) : null,
-      Text(Languages.of(context)!.strCurrencySettings),
       Text(Languages.of(context)!.strEndOfMonthSettings),
+      Text(Languages.of(context)!.strCurrencySettings),
       Text(Languages.of(context)!.strLanguageSettings),
       Text(Languages.of(context)!.strAbout),
       Text(Languages.of(context)!.strVersionSettings)
@@ -92,8 +105,8 @@ class _SettingsState extends State<Settings> {
           icon: _getSettingsArrow(),
       ),
 
-      Text(CurrencySign[widget.userStorage.userData == null ? gc.defaultUserCurrency : widget.userStorage.userData!.userCurrency]!, style: _getTextDesign()),
       _getDaysOfMonthRadio(),
+      GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
       const LanguageDropDown(),
 
       IconButton(
@@ -109,6 +122,8 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    _currencyController = PrimitiveWrapper(CurrencySign[widget.userStorage.userData == null ? gc.defaultUserCurrency : widget.userStorage.userData!.userCurrency]!);
+
     return Scaffold(
       body: SingleChildScrollView(
           child: _getSettingsList(),
