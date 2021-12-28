@@ -14,8 +14,13 @@ import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/config.dart' as config;
 
 class UserStorage with ChangeNotifier {
-  UserStorage.instance(AuthRepository authRepository) {
+  UserStorage.instance(BuildContext context, AuthRepository authRepository) {
     _buildUserStorage(authRepository);
+    _userData = (_userData == null) ? UserModel(_authRepository!.user!.email!) : _userData;
+    if (_authRepository != null && _authRepository!.status == AuthStatus.Authenticated) {
+      GET_generalInfo(context);
+      _authRepository!.getAvatarUrl();
+    }
   }
 
   void updates(AuthRepository authRepository) {
@@ -33,7 +38,6 @@ class UserStorage with ChangeNotifier {
       _userData = UserModel(userEmail);
       resetBalance();
     }
-
     notifyListeners();
   }
 
@@ -232,6 +236,7 @@ class UserStorage with ChangeNotifier {
       });
 
     } else {
+      failureCallback != null ? failureCallback(null) : null;
       GoogleAnalytics.instance.logPreCheckFailed("GetBalanceModel");
     }
   }
