@@ -41,7 +41,7 @@ class AuthRepository with ChangeNotifier {
     try {
       _status = AuthStatus.Authenticating;
       notifyListeners();
-      await handleMultiProviderRegular(email, password,context,signUp: true);
+      await handleMultiProviderRegular(email, password, context, signUp: true);
       _status = AuthStatus.Authenticated;
       _avatarUrl = null;
       notifyListeners();
@@ -76,8 +76,7 @@ class AuthRepository with ChangeNotifier {
 
   Future<void> linkWithFacebook(AuthCredential credential) async {
     final LoginResult loginResult = await FacebookAuth.instance.login();
-    final OAuthCredential thirdPartyCredential =
-    FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    final OAuthCredential thirdPartyCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
     await FirebaseAuth.instance.signInWithCredential(thirdPartyCredential);
     _auth.currentUser?.linkWithCredential(credential);
   }
@@ -131,7 +130,7 @@ class AuthRepository with ChangeNotifier {
       notifyListeners();
       await handleMultiProviderRegular( email, password,context);
       _status = AuthStatus.Authenticated;
-      _avatarUrl = await getAvatarUrl();
+      await getAvatarUrl();
       notifyListeners();
       return true;
     } on FirebaseAuthException catch (e, stackTrace) {
@@ -176,7 +175,7 @@ class AuthRepository with ChangeNotifier {
       final credential = GoogleAuthProvider.credential(accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
       await handleProvidersThirdParty(googleUser?.email,credential,context,gc.google);
       _status = AuthStatus.Authenticated;
-      _avatarUrl = await getAvatarUrl();
+      await getAvatarUrl();
       notifyListeners();
       return true;
     } catch (e, stackTrace) {
@@ -193,7 +192,7 @@ class AuthRepository with ChangeNotifier {
       final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
       await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
       _status = AuthStatus.Authenticated;
-      _avatarUrl = await getAvatarUrl();
+      await getAvatarUrl();
       notifyListeners();
       return true;
     } on FirebaseAuthException catch (e, stackTrace) {
@@ -226,20 +225,20 @@ class AuthRepository with ChangeNotifier {
       UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage.path));
       await uploadedAvatar;
     }
-    _avatarUrl = await getAvatarUrl();
+    await getAvatarUrl();
     notifyListeners();
   }
 
-  Future<String?> getAvatarUrl() async {
+  Future<void> getAvatarUrl() async {
     try {
       if (user != null) {
         Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' + _user!.email.toString());
-        return await storageReference.getDownloadURL();
+        _avatarUrl = await storageReference.getDownloadURL();
       }
       return null;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
-      return null;
+      _avatarUrl = null;
     }
   }
 
