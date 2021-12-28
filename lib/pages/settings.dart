@@ -101,7 +101,7 @@ class _SettingsState extends State<Settings> {
         icon: _getSettingsArrow(),
       ),
 
-      Text(config.firebaseVersion, style: _getTextDesign())
+      Text(config.projectVersion, style: _getTextDesign())
     ];
 
     return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);
