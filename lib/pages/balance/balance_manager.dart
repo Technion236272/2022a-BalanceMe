@@ -64,9 +64,10 @@ class _BalanceManagerState extends State<BalanceManager> {
       body: _waitingForData ? const Center(child: CircularProgressIndicator())
       : (widget._userStorage.balance.isEmpty) ?
       WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text(Languages.of(context)!.strAddCategory),
+        icon: const Icon(gc.addIcon),
         onPressed: _openAddCategory,
-        child: const Icon(gc.addIcon),
         tooltip: Languages.of(context)!.strAddCategory,
       ),
     );
