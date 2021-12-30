@@ -34,11 +34,15 @@ class _TabGenericState extends State<TabGeneric> {
                     onTap:(int value) { if (widget.onSwitch!=null) {
                       widget.onSwitch!(value);
                     }},
-                    indicatorColor: gc.tabIndicatorColor,
+                    indicator: BoxDecoration(
+                      color: gc.tabIndicatorColor,
+                      borderRadius: BorderRadius.circular(gc.tabBorderRadius),
+                    ),
                     labelColor: gc.tabLabelColor,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    labelStyle: TextStyle(fontSize: gc.tabFontSize),
-                    unselectedLabelColor: gc.tabUnselectedLabelColor,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    labelStyle: TextStyle(fontSize: gc.tabFontSize, fontWeight: FontWeight.bold),
+                    unselectedLabelColor: gc.unselectedTabLabelColor,
+                    unselectedLabelStyle: TextStyle(fontSize: gc.tabFontSize, fontWeight: FontWeight.normal),
                     isScrollable: false,
                     tabs: widget.tabsList),
               ),
@@ -60,7 +64,6 @@ List<Tab> getGenericTabs(List<String> tabNames) {
         Tab(
            child: Text(
           name,
-          style: const TextStyle(color: gc.tabTextColor),
       ),
     ));
   }
