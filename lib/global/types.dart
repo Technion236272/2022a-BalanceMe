@@ -5,7 +5,9 @@ import 'package:balance_me/common_models/transaction_model.dart';
 
 enum AuthStatus {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
-enum AppPages {Settings, Balance, Archive, Welcome, Login, SetCategory, SetTransaction, Incomes, Expenses, ForgotPassword, Profile, ChangePassword}
+enum AppPages {Settings, Balance, Archive, Welcome, Login, SetCategory, SetTransaction, Summary, Incomes, Expenses, ForgotPassword, Profile, ChangePassword}
+
+enum BalanceTabs {Summary, Expenses, Incomes}
 
 enum Entry {Category, Transaction}
 

@@ -37,6 +37,9 @@ class LanguageHe extends Languages {
   @override
   String get strDate =>"‎תאריך";
 
+  @override
+  String get strAdd =>"‎הוסף";
+
   // Settings
   @override
   String get strProfile => "‎פרופיל";
@@ -285,6 +288,19 @@ class LanguageHe extends Languages {
 
   @override
   String get strVerifyRemoval => "‎האם למחוק את ה%?";
+
+  // Summary
+  @override
+  String get strSummary => "‎סיכום";
+
+  @override
+  String get strBalanceSummary => "‎סיכום מאזן חודשי";
+
+  @override
+  String get strAddNewWorkspace => "‎שם המרחב חדש";
+
+  @override
+  String get strWorkspaceAddedSuccessful => "‎המרחב התווסף בהצלחה";
 
   // Set Category And Transaction
   @override

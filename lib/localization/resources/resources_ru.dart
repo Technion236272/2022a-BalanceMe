@@ -36,6 +36,9 @@ class LanguageRu extends Languages {
   @override
   String get strDate =>"дата";
 
+  @override
+  String get strAdd =>"Add";
+
   // Settings
   @override
   String get strProfile => "профиль";
@@ -284,6 +287,19 @@ class LanguageRu extends Languages {
 
   @override
   String get strVerifyRemoval => "Вы уверены, что хотите стереть это %?";
+
+  // Summary
+  @override
+  String get strSummary => "Summary";
+
+  @override
+  String get strBalanceSummary => "Monthly Balance Summary";
+
+  @override
+  String get strAddNewWorkspace => "New workspace name";
+
+  @override
+  String get strWorkspaceAddedSuccessful => "The workspace was added successfully";
 
   // Set Category And Transaction
   @override

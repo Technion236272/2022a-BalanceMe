@@ -19,6 +19,7 @@ abstract class Languages {
   String get strYes;
   String get strNo;
   String get strDate;
+  String get strAdd;
 
 // Settings
   String get strProfile;
@@ -112,6 +113,12 @@ abstract class Languages {
   String get strAlreadyExist;
   String get strDelete;
   String get strVerifyRemoval;
+
+  // Summary
+  String get strSummary;
+  String get strBalanceSummary;
+  String get strAddNewWorkspace;
+  String get strWorkspaceAddedSuccessful;
 
   // Set Category And Transaction
   String get strTypeSelection;

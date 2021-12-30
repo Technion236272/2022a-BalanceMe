@@ -22,7 +22,7 @@ class BalanceManager extends StatefulWidget {
 }
 
 class _BalanceManagerState extends State<BalanceManager> {
-  bool _isIncomeTab = false;
+  BalanceTabs _currentTab = BalanceTabs.Summary;
   bool _waitingForData = true;
 
   @override
@@ -46,15 +46,26 @@ class _BalanceManagerState extends State<BalanceManager> {
     });
   }
 
-  bool get isIncomeTab => _isIncomeTab;
-
   void _setCurrentTab(int currentTab) {
-    _isIncomeTab = (currentTab == 1);
-    GoogleAnalytics.instance.logPageOpened(_isIncomeTab ? AppPages.Incomes : AppPages.Expenses);
+    setState(() {
+      _currentTab = BalanceTabs.values[currentTab];
+    });
+
+    switch (_currentTab) {
+      case BalanceTabs.Summary:
+        GoogleAnalytics.instance.logPageOpened(AppPages.Summary);
+        break;
+      case BalanceTabs.Expenses:
+        GoogleAnalytics.instance.logPageOpened(AppPages.Expenses);
+        break;
+      case BalanceTabs.Incomes:
+        GoogleAnalytics.instance.logPageOpened(AppPages.Incomes);
+        break;
+    }
   }
 
   void _openAddCategory() {
-    navigateToPage(context, SetCategory(DetailsPageMode.Add, isIncomeTab, CurrencySign[widget._userStorage.userData == null ? gc.defaultUserCurrency : widget._userStorage.userData!.userCurrency]!), AppPages.SetCategory);
+    navigateToPage(context, SetCategory(DetailsPageMode.Add, _currentTab == BalanceTabs.Incomes, CurrencySign[widget._userStorage.userData == null ? gc.defaultUserCurrency : widget._userStorage.userData!.userCurrency]!), AppPages.SetCategory);
   }
 
   @override
@@ -64,11 +75,14 @@ class _BalanceManagerState extends State<BalanceManager> {
       body: _waitingForData ? const Center(child: CircularProgressIndicator())
       : (widget._userStorage.balance.isEmpty) ?
       WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]),
-      floatingActionButton: FloatingActionButton.extended(
-        label: Text(Languages.of(context)!.strAddCategory),
-        icon: const Icon(gc.addIcon),
-        onPressed: _openAddCategory,
-        tooltip: Languages.of(context)!.strAddCategory,
+      floatingActionButton: Visibility(
+        visible: _currentTab != BalanceTabs.Summary,
+        child: FloatingActionButton.extended(
+          label: Text(Languages.of(context)!.strAddCategory),
+          icon: const Icon(gc.addIcon),
+          onPressed: _openAddCategory,
+          tooltip: Languages.of(context)!.strAddCategory,
+        ),
       ),
     );
   }

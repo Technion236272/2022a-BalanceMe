@@ -37,6 +37,9 @@ class LanguageEn extends Languages {
   @override
   String get strDate =>"Date";
 
+  @override
+  String get strAdd =>"Add";
+
 // Settings
   @override
   String get strProfile => "Profile";
@@ -285,6 +288,19 @@ class LanguageEn extends Languages {
 
   @override
   String get strVerifyRemoval => "Are you sure you want to remove this %?";
+
+  // Summary
+  @override
+  String get strSummary => "Summary";
+
+  @override
+  String get strBalanceSummary => "Monthly Balance Summary";
+
+  @override
+  String get strAddNewWorkspace => "New workspace name";
+
+  @override
+  String get strWorkspaceAddedSuccessful => "The workspace was added successfully";
 
   // Set Category And Transaction
   @override
