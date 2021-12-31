@@ -40,6 +40,9 @@ class LanguageEn extends Languages {
   @override
   String get strAdd =>"Add";
 
+  @override
+  String get strSet =>"Set";
+
 // Settings
   @override
   String get strProfile => "Profile";
@@ -297,10 +300,25 @@ class LanguageEn extends Languages {
   String get strBalanceSummary => "Monthly Balance Summary";
 
   @override
+  String get strWorkspace => "Workspace";
+
+  @override
+  String get strWorkspaceExplanation => "some explanation";  // TODO
+
+  @override
+  String get strChooseWorkspace => "Choose workspace:";
+
+  @override
   String get strAddNewWorkspace => "New workspace name";
 
   @override
   String get strWorkspaceAddedSuccessful => "The workspace was added successfully";
+
+  @override
+  String get strCurrentWorkspace => "Current Workspace";
+
+  @override
+  String get strManageWorkspaces => "Manage Workspaces";
 
   // Set Category And Transaction
   @override

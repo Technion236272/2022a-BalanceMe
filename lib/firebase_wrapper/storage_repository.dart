@@ -29,15 +29,21 @@ class UserStorage with ChangeNotifier {
 
   void _buildUserStorage(AuthRepository authRepository) {
     _authRepository = authRepository;
-
     String userEmail = authRepository.user == null ? "" : authRepository.user!.email!;
 
     if (authRepository.status == AuthStatus.Authenticated) {
       _userData = (authRepository.user != null) ? _userData : UserModel(userEmail);
+
+      if (_userData!.currentWorkspace == "") {  // TODO- check if needed
+        setCurrentWorkspace(userEmail);
+        SEND_generalInfo();
+      }
+
     } else {
       _userData = UserModel(userEmail);
       resetBalance();
     }
+
     notifyListeners();
   }
 
@@ -64,9 +70,9 @@ class UserStorage with ChangeNotifier {
     currentDate = (time == null) ? DateTime.now() : time;
   }
 
-  void setGroupName(String groupName) {
+  void setCurrentWorkspace(String groupName) {
     if (_userData != null) {
-      _userData!.groupName = groupName;
+      _userData!.currentWorkspace = groupName;
     }
   }
 

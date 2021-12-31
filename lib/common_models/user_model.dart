@@ -4,23 +4,26 @@ import 'package:balance_me/global/utils.dart';
 import "package:balance_me/global/constants.dart" as gc;
 
 class UserModel {
-  UserModel(this.groupName,
+  UserModel(this.currentWorkspace,
       [this.endOfMonthDay = gc.defaultEndOfMonthDay,
       this.userCurrency = gc.defaultUserCurrency,
       this.isDarkMode = false,
-      this.language = ""]);
+      this.language = ""]) {
+    this.workspaceOptions = [this.currentWorkspace];
+  }
 
-  String groupName;
+  String currentWorkspace;
   int endOfMonthDay;
   Currency userCurrency;
   String? firstName;
   String? lastName;
   bool isDarkMode;
   String language;
+  late List<String> workspaceOptions;
 
   void updateFromJson(Json json) {
     if (json["groupName"] != null) {
-      groupName = json["groupName"];
+      currentWorkspace = json["groupName"];
     }
     if (json["endOfMonthDay"] != null) {
       endOfMonthDay = json["endOfMonthDay"];
@@ -41,15 +44,19 @@ class UserModel {
     if (json["language"] != null) {
       language = json["language"];
     }
+    if (json["workspaceOptions"] != null) {
+      workspaceOptions = json["workspaceOptions"];
+    }
   }
 
   Json toJson() => {
-    'groupName': groupName,
+    'groupName': currentWorkspace,
     'endOfMonthDay': endOfMonthDay,
     'userCurrency': userCurrency.index,
     'firstName': firstName,
     'lastName': lastName,
     'isDarkMode': isDarkMode,
-    'language': language
+    'language': language,
+    'workspaceOptions': workspaceOptions
   };
 }

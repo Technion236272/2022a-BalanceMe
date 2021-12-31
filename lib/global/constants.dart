@@ -36,9 +36,10 @@ const IconData editIcon = Icons.edit;
 const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
 const IconData calendarIcon = Icons.date_range_sharp;
+const IconData closeIcon = Icons.close;
 
 // Colors
-const Color primaryColor = Colors.blue; // TODO- change to the chosen color
+const Color primaryColor = Colors.blue;
 const Color secondaryColor = Colors.white;
 const Color bottomNavigationSelectedColor = primaryColor;
 const Color alternativePrimary = Color(0xff4e21ff);

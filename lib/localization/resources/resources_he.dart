@@ -40,6 +40,9 @@ class LanguageHe extends Languages {
   @override
   String get strAdd =>"‎הוסף";
 
+  @override
+  String get strSet =>"‎שנה";
+
   // Settings
   @override
   String get strProfile => "‎פרופיל";
@@ -297,10 +300,25 @@ class LanguageHe extends Languages {
   String get strBalanceSummary => "‎סיכום מאזן חודשי";
 
   @override
-  String get strAddNewWorkspace => "‎שם המרחב חדש";
+  String get strWorkspace => "‎מרחב עבודה";
 
   @override
-  String get strWorkspaceAddedSuccessful => "‎המרחב התווסף בהצלחה";
+  String get strWorkspaceExplanation => "";  // TODO
+
+  @override
+  String get strChooseWorkspace => "‎הוספת מרחב עבודה:";
+
+  @override
+  String get strAddNewWorkspace => "‎שם מרחב העבודה חדש";
+
+  @override
+  String get strWorkspaceAddedSuccessful => "‎מרחב העבודה התווסף בהצלחה";
+
+  @override
+  String get strCurrentWorkspace => "‎מרחב העבודה הנוכחי";
+
+  @override
+  String get strManageWorkspaces => "‎ניהול מרחבי עבודה";
 
   // Set Category And Transaction
   @override

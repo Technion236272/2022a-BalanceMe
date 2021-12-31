@@ -39,6 +39,9 @@ class LanguageRu extends Languages {
   @override
   String get strAdd =>"Add";
 
+  @override
+  String get strSet =>"Set";
+
   // Settings
   @override
   String get strProfile => "профиль";
@@ -296,10 +299,25 @@ class LanguageRu extends Languages {
   String get strBalanceSummary => "Monthly Balance Summary";
 
   @override
+  String get strWorkspace => "Workspace";
+
+  @override
+  String get strWorkspaceExplanation => "";  // TODO
+
+  @override
+  String get strChooseWorkspace => "Choose workspace:";
+
+  @override
   String get strAddNewWorkspace => "New workspace name";
 
   @override
   String get strWorkspaceAddedSuccessful => "The workspace was added successfully";
+
+  @override
+  String get strCurrentWorkspace => "Current Workspace";
+
+  @override
+  String get strManageWorkspaces => "Manage Workspaces";
 
   // Set Category And Transaction
   @override

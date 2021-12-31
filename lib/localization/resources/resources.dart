@@ -20,6 +20,7 @@ abstract class Languages {
   String get strNo;
   String get strDate;
   String get strAdd;
+  String get strSet;
 
 // Settings
   String get strProfile;
@@ -117,8 +118,13 @@ abstract class Languages {
   // Summary
   String get strSummary;
   String get strBalanceSummary;
+  String get strWorkspace;
+  String get strWorkspaceExplanation;
+  String get strChooseWorkspace;
   String get strAddNewWorkspace;
   String get strWorkspaceAddedSuccessful;
+  String get strCurrentWorkspace;
+  String get strManageWorkspaces;
 
   // Set Category And Transaction
   String get strTypeSelection;
