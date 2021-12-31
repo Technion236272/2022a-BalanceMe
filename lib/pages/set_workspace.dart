@@ -83,26 +83,34 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SizedBox(
-        height: 250,
+        height: MediaQuery.of(context).size.height/gc.bottomSheetSizeScale,
         child: Form(
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(0, 17, 0, 0),
-                child: Row(
-                  children: [
-                    Text(Languages.of(context)!.strAddNewWorkspace, style: TextStyle(fontSize: 16)),
-                    IconButton(onPressed: _closeAddWorkspace, icon: Icon(gc.closeIcon)),
-                  ]
+              Padding(
+                padding: gc.bottomSheetPadding,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(Languages.of(context)!.strAddNewWorkspace, style: gc.bottomSheetTextStyle),
+                      IconButton(
+                        onPressed: _closeAddWorkspace,
+                        icon: Icon(gc.closeIcon),
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                      ),
+                    ]
+                  ),
                 ),
               ),
               const Divider(),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: gc.bottomSheetPadding,
                 child: FormTextField(
                   _addWorkspaceController,
                   1,
