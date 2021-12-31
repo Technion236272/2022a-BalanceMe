@@ -20,6 +20,9 @@ abstract class Languages {
   String get strNo;
   String get strDate;
   String get strAdd;
+  String get strAdded;
+  String get strRemoved;
+  String get strChanged;
   String get strSet;
 
 // Settings
@@ -124,7 +127,7 @@ abstract class Languages {
   String get strWorkspaceExplanation;
   String get strChooseWorkspace;
   String get strAddNewWorkspace;
-  String get strWorkspaceAddedSuccessful;
+  String get strWorkspaceOperationSuccessful;
   String get strCurrentWorkspace;
   String get strManageWorkspaces;
   String get strNotEmailValidator;

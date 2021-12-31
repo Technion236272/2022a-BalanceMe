@@ -229,7 +229,8 @@ class UserStorage with ChangeNotifier {
   Future<void> GET_balanceModel({VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback}) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.categoriesDoc).doc(date).get().then((categories) async {
+      String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.user!.email! : _userData!.currentWorkspace;
+      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).get().then((categories) async {
         if (categories.exists && categories.data() != null) { // There is data
           _balance = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
           successCallback != null ? successCallback(categories.data()![config.categoriesDoc]) : null;
@@ -256,11 +257,7 @@ class UserStorage with ChangeNotifier {
       }
     }
 
-    if (isSignIn) {
-      await GET_balanceModel(successCallback: _addCurrentBalance, failureCallback: _addCurrentBalance);
-    } else {
-      _addCurrentBalance();
-    }
+    isSignIn ? await GET_balanceModel(successCallback: _addCurrentBalance, failureCallback: _addCurrentBalance) : _addCurrentBalance();
   }
 
   // SEND
@@ -277,7 +274,8 @@ class UserStorage with ChangeNotifier {
   void SEND_balanceModel() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.categoriesDoc).doc(date).set({
+      String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.user!.email! : _userData!.currentWorkspace;
+      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).set({
         config.categoriesDoc: _balance.toJson()
       });
     } else {

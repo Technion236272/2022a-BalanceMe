@@ -41,6 +41,15 @@ class LanguageEn extends Languages {
   String get strAdd =>"Add";
 
   @override
+  String get strAdded =>"added";
+
+  @override
+  String get strRemoved =>"removed";
+
+  @override
+  String get strChanged =>"changed";
+
+  @override
   String get strSet =>"Set";
 
 // Settings
@@ -313,7 +322,7 @@ class LanguageEn extends Languages {
   String get strAddNewWorkspace => "New workspace name";
 
   @override
-  String get strWorkspaceAddedSuccessful => "The workspace was added successfully";
+  String get strWorkspaceOperationSuccessful => "The workspace was % successfully";
 
   @override
   String get strCurrentWorkspace => "Current Workspace";

@@ -1,4 +1,5 @@
 // ================= Set Workspace Page =================
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/appbar.dart';
@@ -55,6 +56,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     });
     widget.afterChangeWorkspaceCB == null ? null : widget.afterChangeWorkspaceCB!();
     userStorage.SEND_generalInfo();
+    displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strChanged));
+    GoogleAnalytics.instance.logWorkspaceChanged(workspace);
   }
 
   void _removeWorkspace(String workspace) {
@@ -62,6 +65,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       userStorage.userData!.workspaceOptions.remove(workspace);
     });
     userStorage.SEND_generalInfo();
+    displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
+    GoogleAnalytics.instance.logWorkspaceRemoved(workspace);
   }
 
   void _addWorkspace() {
@@ -70,9 +75,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       setState(() {
         userStorage.userData!.workspaceOptions.add(_addWorkspaceController.text);
       });
-      print(userStorage.userData!.workspaceOptions);
       userStorage.SEND_generalInfo();
       _closeAddWorkspace();
+      displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strAdded));
+      GoogleAnalytics.instance.logWorkspaceAdded(_addWorkspaceController.text);
     }
   }
 
