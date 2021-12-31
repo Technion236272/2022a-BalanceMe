@@ -154,24 +154,25 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Stack(
-              children: [
-                Padding(
-                  padding: gc.avatarPadding,
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width/gc.avatarSizeScale,
-                      height: MediaQuery.of(context).size.width/gc.avatarSizeScale,
-                      child: UserAvatar(widget.authRepository, gc.profileAvatarRadius)),
+            Padding(
+              padding: gc.avatarPadding,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width/gc.avatarSizedBoxWidthScale,
+                height: MediaQuery.of(context).size.width/gc.avatarSizedBoxHeightScale,
+                child: Stack(
+                  children: [
+                    UserAvatar(widget.authRepository, MediaQuery.of(context).size.width/gc.profileAvatarRadiusScale),
+                    Positioned(
+                      right:0,
+                      bottom: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(gc.padAroundPencil, gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
+                        child: GenericIconButton(onTap: _showImageSourceChoice),
+                      ),
+                    ),
+                  ],
                 ),
-                Positioned(
-                  left: MediaQuery.of(context).size.width/gc.avatarEditIconPosition,
-                  top: MediaQuery.of(context).size.width/(gc.avatarEditIconHeightPosition),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(gc.padAroundPencil, gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),
-                    child: GenericIconButton(onTap: _showImageSourceChoice),
-                  ),
-                ),
-              ],
+              ),
             ),
             Padding(
               padding: gc.emailContainerPadding,
