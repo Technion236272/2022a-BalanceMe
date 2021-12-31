@@ -7,19 +7,22 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/locale_controller.dart';
 import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/common_models/balance_model.dart';
-import 'package:balance_me/global/types.dart';
-import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/common_models/workspace_users_model.dart';
 import 'package:balance_me/common_models/category_model.dart' as model;
 import 'package:balance_me/common_models/transaction_model.dart' as model;
+import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/config.dart' as config;
 
 class UserStorage with ChangeNotifier {
   UserStorage.instance(BuildContext context, AuthRepository authRepository) {
     _buildUserStorage(authRepository);
     _userData = (_userData == null) ? UserModel(_authRepository!.user!.email!) : _userData;
+
     if (_authRepository != null && _authRepository!.status == AuthStatus.Authenticated) {
       GET_generalInfo(context);
       _authRepository!.getAvatarUrl();
+      (_userData!.currentWorkspace != _authRepository!.user!.email) ? GET_workspaceUsers() : resetWorkspaceUsers();
     }
   }
 
@@ -54,11 +57,13 @@ class UserStorage with ChangeNotifier {
   AuthRepository? _authRepository;
   UserModel? _userData;
   BalanceModel _balance = BalanceModel();
+  WorkspaceUsers? _workspaceUsers;
   DateTime? currentDate;
 
   // Handling
   UserModel? get userData => _userData;
   BalanceModel get balance => _balance;
+  WorkspaceUsers? get workspaceUsers => _workspaceUsers;
 
   // ================== Setters and Getters ==================
 
@@ -74,6 +79,33 @@ class UserStorage with ChangeNotifier {
     if (_userData != null) {
       _userData!.currentWorkspace = groupName;
     }
+  }
+
+  void createWorkspaceUsers(String leaderEmail) {
+    _workspaceUsers = WorkspaceUsers(leaderEmail);
+  }
+
+  void resetWorkspaceUsers() {
+    _workspaceUsers = null;
+  }
+
+  void modifyUsersInWorkspace(String workspace, bool toAdd) async {
+    WorkspaceUsers? currentWorkspaceUser = (_workspaceUsers == null) ? null : workspaceUsers!.copy();
+    print(workspaceUsers == null ? "null" : workspaceUsers!.toJson());
+    await GET_workspaceUsers(workspace: workspace);
+    if (_workspaceUsers != null && _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+      toAdd ? _workspaceUsers!.addUser(_authRepository!.user!.email!) : _workspaceUsers!.removeUser(_authRepository!.user!.email!);
+      await SEND_workspaceUsers(workspace: workspace);
+    }
+    _workspaceUsers = currentWorkspaceUser;
+  }
+
+  void addNewUserToWorkspace(String workspace) {
+    modifyUsersInWorkspace(workspace, true);
+  }
+
+  void removeUserFromWorkspace(String workspace) {
+    modifyUsersInWorkspace(workspace, false);
   }
 
   void setEndOfMonthDay(int endOfMonthDay) {
@@ -260,6 +292,28 @@ class UserStorage with ChangeNotifier {
     isSignIn ? await GET_balanceModel(successCallback: _addCurrentBalance, failureCallback: _addCurrentBalance) : _addCurrentBalance();
   }
 
+  Future<void> GET_workspaceUsers({String? workspace, VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback}) async {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null
+        && _userData != null && _userData!.currentWorkspace != "" &&  _userData!.currentWorkspace != _authRepository!.user!.email!) {
+
+      workspace = (workspace == null) ?_userData!.currentWorkspace : workspace;
+      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.workspaceUsers).doc(config.workspaceUsers).get().then((users) async {
+        if (users.exists && users.data() != null) { // There is data
+          _workspaceUsers = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]);
+          successCallback != null ? successCallback(users.data()![config.workspaceUsers]) : null;
+
+        } else {  // There is no data
+          failureCallback != null ? failureCallback(null) : null;
+        }
+        notifyListeners();
+      });
+
+    } else {
+      failureCallback != null ? failureCallback(null) : null;
+      GoogleAnalytics.instance.logPreCheckFailed("GET_workspaceUsers");
+    }
+  }
+
   // SEND
   void SEND_generalInfo() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
@@ -280,6 +334,19 @@ class UserStorage with ChangeNotifier {
       });
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("SendBalanceModel");
+    }
+  }
+
+  Future<void> SEND_workspaceUsers({String? workspace}) async {
+    if (_authRepository != null && _authRepository!.user != null && _workspaceUsers != null && _authRepository!.user!.email != null
+        && _userData != null && _userData!.currentWorkspace != "" &&  _userData!.currentWorkspace != _authRepository!.user!.email!) {
+
+      workspace = (workspace == null) ?_userData!.currentWorkspace : workspace;
+      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.workspaceUsers).doc(config.workspaceUsers).set({
+        config.workspaceUsers: _workspaceUsers!.toJson()
+      });
+    } else {
+      GoogleAnalytics.instance.logPreCheckFailed("SEND_workspaceUsers");
     }
   }
 }

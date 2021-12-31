@@ -1,5 +1,4 @@
 // ================= Set Workspace Page =================
-import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/appbar.dart';
@@ -7,8 +6,10 @@ import 'package:balance_me/widgets/form_text_field.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/generic_dismissible.dart';
-import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
+import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetWorkspace extends StatefulWidget {
@@ -26,6 +27,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
+
+  bool _shouldShowWorkspaceUsers() => userStorage.workspaceUsers != null && !userStorage.workspaceUsers!.isEmpty;
 
   String? _addWorkspaceValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
@@ -50,12 +53,23 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     navigateBack(context);
   }
 
-  void _chooseWorkspace(String workspace) {
-    setState(() {
-      userStorage.userData!.currentWorkspace = workspace;
-    });
-    widget.afterChangeWorkspaceCB == null ? null : widget.afterChangeWorkspaceCB!();
+  void _createNewWorkspace(Json? data) {
+    userStorage.SEND_balanceModel();
+    if (authRepository.user != null && authRepository.user!.email != null) {
+      userStorage.createWorkspaceUsers(authRepository.user!.email!);
+      userStorage.SEND_workspaceUsers();
+    }
+  }
+
+  void _chooseWorkspace(String workspace) async {
+    userStorage.userData!.currentWorkspace = workspace;
+    (authRepository.user != null && workspace != authRepository.user!.email) ? await userStorage.GET_workspaceUsers() : userStorage.resetWorkspaceUsers();
+    setState(() {});
+
     userStorage.SEND_generalInfo();
+    await userStorage.GET_balanceModel(failureCallback: _createNewWorkspace);
+
+    widget.afterChangeWorkspaceCB == null ? null : widget.afterChangeWorkspaceCB!();
     displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strChanged));
     GoogleAnalytics.instance.logWorkspaceChanged(workspace);
   }
@@ -65,6 +79,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       userStorage.userData!.workspaceOptions.remove(workspace);
     });
     userStorage.SEND_generalInfo();
+    userStorage.removeUserFromWorkspace(workspace);
     displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
     GoogleAnalytics.instance.logWorkspaceRemoved(workspace);
   }
@@ -76,6 +91,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
         userStorage.userData!.workspaceOptions.add(_addWorkspaceController.text);
       });
       userStorage.SEND_generalInfo();
+      userStorage.addNewUserToWorkspace(_addWorkspaceController.text);
       _closeAddWorkspace();
       displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strAdded));
       GoogleAnalytics.instance.logWorkspaceAdded(_addWorkspaceController.text);
@@ -155,6 +171,21 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     return workspaces.isEmpty ? [] : ListTile.divideTiles(context: context, tiles: workspaces).toList();
   }
 
+  Widget _buildWorkspaceUserFromString(String user) {  // TODO- design
+    return (authRepository.user != null && user == authRepository.user!.email) ? Container() :
+     Row(
+      children: [
+        Icon(gc.userIcon),
+        Text(user),
+      ],
+    );
+  }
+
+  List<Widget> _getWorkspaceUsers() {
+    Iterable<Widget> users = (userStorage.workspaceUsers == null) ? [] : userStorage.workspaceUsers!.users.map((user) => _buildWorkspaceUserFromString(user));
+    return users.isEmpty ? [] : ListTile.divideTiles(context: context, tiles: users).toList();
+  }
+
   @override
   Widget build(BuildContext context) {  // TODO- design
     return Scaffold(
@@ -164,6 +195,16 @@ class _SetWorkspaceState extends State<SetWorkspace> {
           crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(Languages.of(context)!.strWorkspaceExplanation),  // TODO- write the content
+              const Divider(),
+              Text(_shouldShowWorkspaceUsers() ? Languages.of(context)!.strOtherWorkspaceUsers : Languages.of(context)!.strEmptyWorkspace),
+              Visibility(
+                visible: _shouldShowWorkspaceUsers(),
+                child: SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: ListView(children: _getWorkspaceUsers()),
+                ),
+              ),
               const Divider(),
               Row(
                 children: [

@@ -20,15 +20,7 @@ class _SummaryPageState extends State<SummaryPage> {
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
-  void _createNewWorkspace(Json? data) {
-    userStorage.SEND_balanceModel();
-  }
-
-  void _rebuildPage() {
-    setState(() {
-      userStorage.GET_balanceModel(failureCallback: _createNewWorkspace);
-    });
-  }
+  void _rebuildPage() => {setState(() => null)};
 
   void _openSetWorkspace() {
     navigateToPage(context, SetWorkspace(afterChangeWorkspaceCB: _rebuildPage), AppPages.SetWorkspace);

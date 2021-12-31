@@ -336,6 +336,12 @@ class LanguageHe extends Languages {
   @override
   String get strWorkspaceAlreadyExist => "‎מרחב העבודה כבר קיים";
 
+  @override
+  String get strOtherWorkspaceUsers => "‎משתמשים נוספים במרחב:";
+
+  @override
+  String get strEmptyWorkspace => "‎מרחב העבודה ריק";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "‎סוג";
