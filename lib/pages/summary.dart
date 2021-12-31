@@ -20,48 +20,58 @@ class _SummaryPageState extends State<SummaryPage> {
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
+  void _createNewWorkspace(Json? data) {
+    userStorage.SEND_balanceModel();
+  }
+
+  void _rebuildPage() {
+    setState(() {
+      userStorage.GET_balanceModel(failureCallback: _createNewWorkspace);
+    });
+  }
+
   void _openSetWorkspace() {
-    navigateToPage(context, SetWorkspace(), AppPages.SetWorkspace);
+    navigateToPage(context, SetWorkspace(afterChangeWorkspaceCB: _rebuildPage), AppPages.SetWorkspace);
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-          children: [
-            Text(Languages.of(context)!.strBalanceSummary),
-            // TODO- design: add diagram
-            ListViewGeneric(
-              leadingWidgets: [
-                SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: Visibility(
-                    visible: authRepository.status == AuthStatus.Authenticated && userStorage.userData != null,
-                    child: Text(Languages.of(context)!.strCurrentWorkspace),
+        children: [
+          Text(Languages.of(context)!.strBalanceSummary),
+          // TODO- design: add diagram
+          ListViewGeneric(
+            leadingWidgets: [
+              SizedBox(
+                height: 100,
+                width: 100,
+                child: Visibility(
+                  visible: authRepository.status == AuthStatus.Authenticated && userStorage.userData != null,
+                  child: Text(Languages.of(context)!.strCurrentWorkspace),
+                ),
+              ),
+            ],
+            trailingWidgets: [
+              SizedBox(
+                height: 150,
+                width: 150,
+                child: Visibility(
+                  visible: authRepository.status == AuthStatus.Authenticated && userStorage.userData != null,
+                  child: Row(
+                    children: [
+                      Text(userStorage.userData!.currentWorkspace),
+                      ElevatedButton(
+                        onPressed: _openSetWorkspace,
+                        child: Text(Languages.of(context)!.strSet),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-              trailingWidgets: [
-                SizedBox(
-                  height: 150,
-                  width: 150,
-                  child: Visibility(
-                    visible: authRepository.status == AuthStatus.Authenticated && userStorage.userData != null,
-                    child: Row(
-                      children: [
-                        Text(userStorage.userData!.currentWorkspace),
-                        ElevatedButton(
-                          onPressed: _openSetWorkspace,
-                          child: Text(Languages.of(context)!.strSet),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

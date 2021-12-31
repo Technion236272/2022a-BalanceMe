@@ -41,6 +41,15 @@ class LanguageHe extends Languages {
   String get strAdd =>"‎הוסף";
 
   @override
+  String get strAdded =>"‎הוסף";
+
+  @override
+  String get strRemoved =>"‎נמחק";
+
+  @override
+  String get strChanged =>"‎השתנה";
+
+  @override
   String get strSet =>"‎שנה";
 
   // Settings
@@ -313,7 +322,7 @@ class LanguageHe extends Languages {
   String get strAddNewWorkspace => "‎שם מרחב העבודה חדש";
 
   @override
-  String get strWorkspaceAddedSuccessful => "‎מרחב העבודה התווסף בהצלחה";
+  String get strWorkspaceOperationSuccessful => "‎מרחב העבודה % בהצלחה";
 
   @override
   String get strCurrentWorkspace => "‎מרחב העבודה הנוכחי";
@@ -323,6 +332,9 @@ class LanguageHe extends Languages {
 
   @override
   String get strNotEmailValidator => "‎השדה לא יכול להכיל את התו @";
+
+  @override
+  String get strWorkspaceAlreadyExist => "‎מרחב העבודה כבר קיים";
 
   // Set Category And Transaction
   @override
