@@ -98,12 +98,14 @@ const Color cardBGColor = Colors.grey; //TODO - change to chosen color
 
 //Tabs
 const Color tabLabelColor = Colors.black;
-const Color tabIndicatorColor = Colors.lime;
+const Color unselectedTabLabelColor = Colors.black38;
+Color tabIndicatorColor = Colors.lime.shade300;
 const Color tabBarColor = Colors.limeAccent;
 Color tabUnselectedLabelColor = Colors.grey.shade600;
 const double tabBorderRadius = 30.0;
 const double tabBodyHeightResize = 4 / 5;
 const double tabFontSize = 16.0;
+const double unselectedTabFontSize = 14.0;
 const double tabPadding = 5.0;
 
 //images
