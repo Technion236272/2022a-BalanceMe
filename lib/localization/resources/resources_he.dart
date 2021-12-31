@@ -324,6 +324,9 @@ class LanguageHe extends Languages {
   @override
   String get strNotEmailValidator => "‎השדה לא יכול להכיל את התו @";
 
+  @override
+  String get strWorkspaceAlreadyExist => "‎מרחב העבודה כבר קיים";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "‎סוג";

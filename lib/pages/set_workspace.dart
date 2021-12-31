@@ -1,23 +1,13 @@
-// ================= Summary Page =================
-import 'package:balance_me/widgets/action_button.dart';
-import 'package:balance_me/widgets/appbar.dart';
-import 'package:balance_me/widgets/form_text_field.dart';
+// ================= Set Workspace Page =================
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:balance_me/widgets/generic_drop_down_button.dart';
+import 'package:balance_me/widgets/appbar.dart';
+import 'package:balance_me/widgets/form_text_field.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/generic_dismissible.dart';
-import 'package:balance_me/widgets/text_box_with_border.dart';
-import 'package:balance_me/pages/authentication/change_password.dart';
-import 'package:balance_me/widgets/languages_drop_down.dart';
 import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
-import 'package:balance_me/pages/profile_settings.dart';
-import 'package:balance_me/widgets/generic_radio_button.dart';
-import 'package:balance_me/global/types.dart';
-import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetWorkspace extends StatefulWidget {
@@ -37,7 +27,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   String? _addWorkspaceValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
-      return notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+      message = notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+    }
+    if (message == null && userStorage.userData != null) {
+      message = userStorage.userData!.workspaceOptions.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
     }
     return message;
   }
@@ -50,6 +43,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _closeAddWorkspace() {
+    _addWorkspaceController.text = "";
     navigateBack(context);
   }
 

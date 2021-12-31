@@ -324,6 +324,9 @@ class LanguageEn extends Languages {
   @override
   String get strNotEmailValidator => "This field include the character @";
 
+  @override
+  String get strWorkspaceAlreadyExist => "This workspace is already exist";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "Type";

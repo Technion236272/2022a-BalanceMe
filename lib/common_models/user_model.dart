@@ -46,10 +46,8 @@ class UserModel {
       language = json["language"];
     }
     if (json["workspaceOptions"] != null) {
-      print(json["workspaceOptions"]);
       workspaceOptions = _getNewWorkspacesOptionsArray();
       workspaceOptions.addAll(jsonToElementList(json["workspaceOptions"], (workspace) => workspace).cast<String>());
-      print(workspaceOptions);
     }
   }
 

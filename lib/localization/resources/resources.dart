@@ -128,6 +128,7 @@ abstract class Languages {
   String get strCurrentWorkspace;
   String get strManageWorkspaces;
   String get strNotEmailValidator;
+  String get strWorkspaceAlreadyExist;
 
   // Set Category And Transaction
   String get strTypeSelection;

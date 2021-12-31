@@ -323,6 +323,9 @@ class LanguageRu extends Languages {
   @override
   String get strNotEmailValidator => "This field can't include the character @";
 
+  @override
+  String get strWorkspaceAlreadyExist => "This workspace is already exist";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "вид";
