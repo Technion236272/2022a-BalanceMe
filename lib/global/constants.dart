@@ -98,12 +98,14 @@ const Color cardBGColor = Colors.grey; //TODO - change to chosen color
 
 //Tabs
 const Color tabLabelColor = Colors.black;
-const Color tabIndicatorColor = Colors.lime;
+const Color unselectedTabLabelColor = Colors.black38;
+Color tabIndicatorColor = Colors.lime.shade300;
 const Color tabBarColor = Colors.limeAccent;
 Color tabUnselectedLabelColor = Colors.grey.shade600;
 const double tabBorderRadius = 30.0;
 const double tabBodyHeightResize = 4 / 5;
 const double tabFontSize = 16.0;
+const double unselectedTabFontSize = 14.0;
 const double tabPadding = 5.0;
 
 //images
@@ -144,11 +146,12 @@ const Color dividerColor = Colors.blueGrey;
 
 //settings
 const double newPasswordSize = 22.0;
-const double profileAvatarRadius = 150.0;
+const double profileAvatarRadiusScale = 6.0;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
 const EdgeInsets avatarPadding = EdgeInsets.all(8.0);
-const double avatarSizeScale = 2;
+const double avatarSizedBoxWidthScale = 2.5;
+const double avatarSizedBoxHeightScale = 2.73;
 const double avatarEditIconPosition = 2.3;
 const double avatarEditIconHeightPosition = 2 * avatarEditIconPosition;
 const EdgeInsets emailContainerPadding = EdgeInsets.all(8.0);
