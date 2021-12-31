@@ -44,6 +44,7 @@ abstract class Languages {
   String get strAboutInfo;
   String get strProfileInfo;
   String get strPasswordChangeInfo;
+  String get strConstants;
   // Login
   String get strWelcomeBack;
   String get strWelcomeAboard;

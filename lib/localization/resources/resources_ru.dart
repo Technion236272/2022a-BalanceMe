@@ -103,6 +103,9 @@ class LanguageRu extends Languages {
   @override
   String get strPasswordChangeInfo => "Изменение пароля при входе";
 
+  @override
+  String get strConstants => "Константы";
+
   // Login
   @override
   String get strWelcomeBack => "с возвращением!";

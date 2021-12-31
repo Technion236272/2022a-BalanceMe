@@ -103,6 +103,7 @@ class _SettingsState extends State<Settings> {
           Languages.of(context)!.strPasswordChangeInfo) : null,
       leadingWidgetWithInfo(Languages.of(context)!.strCurrencySettings, Languages.of(context)!.strCurrencyInfo),
       leadingWidgetWithInfo(Languages.of(context)!.strLanguageSettings, Languages.of(context)!.strLanguageInfo),
+      Text(Languages.of(context)!.strConstants),
       leadingWidgetWithInfo(Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
       leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings, Languages.of(context)!.strEndOfMonthInfo),
       leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings, Languages.of(context)!.strVersionInfo),
@@ -121,6 +122,7 @@ class _SettingsState extends State<Settings> {
       ),
       GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
       const LanguageDropDown(),
+      Text(""),
       IconButton(
         onPressed: _getAbout,
         icon: _getSettingsArrow(),
