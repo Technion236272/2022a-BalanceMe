@@ -299,6 +299,7 @@ class LanguageHe extends Languages {
   @override
   String get strBalanceSummary => "‎סיכום מאזן חודשי";
 
+  // Workspaces
   @override
   String get strWorkspace => "‎מרחב עבודה";
 
@@ -319,6 +320,9 @@ class LanguageHe extends Languages {
 
   @override
   String get strManageWorkspaces => "‎ניהול מרחבי עבודה";
+
+  @override
+  String get strNotEmailValidator => "‎השדה לא יכול להכיל צורה של כתובת דואר אלקטרוני ובפרט את התו @";
 
   // Set Category And Transaction
   @override

@@ -35,31 +35,45 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
   String? _addWorkspaceValidatorFunction(String? value) {
-    // if (value != null){
-    //   value = value.split(widget._currencySign).first;
-    // }
-    // String? message = _essentialFieldValidatorFunction(value);
-    // if (message == null) {
-    //   return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
-    // }
-    // return message;
-    return null;
+    String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
+    if (message == null) {
+      return notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+    }
+    return message;
   }
 
   Widget _getWorkspace(String workspace) {
-    return Text(workspace); // TODO- design: chosen one should be bold
-  }
-
-  void _removeWorkspace() {
-    // TODO- logic
+    return ElevatedButton(
+        onPressed: _chooseWorkspace,
+        child: Text(workspace),  // TODO- design: chosen one should be bold
+    );
   }
 
   void _closeAddWorkspace() {
     navigateBack(context);
   }
 
-  void _addWorkspace() {
+  void _chooseWorkspace() {
+    print("@@@@");
+  }
 
+  void _removeWorkspace() {
+    setState(() {
+      userStorage.userData!.workspaceOptions.remove(_addWorkspaceController.text);
+    });
+    userStorage.SEND_generalInfo();
+    _closeAddWorkspace();
+  }
+
+  void _addWorkspace() {
+    if (_formKey.currentState != null && _formKey.currentState!.validate() && userStorage.userData != null) {
+      // TODO- add more checks for the new workspace
+      setState(() {
+        userStorage.userData!.workspaceOptions.add(_addWorkspaceController.text);
+      });
+      userStorage.SEND_generalInfo();
+      _closeAddWorkspace();
+    }
   }
 
   Widget _showAddWorkspace() {  // TODO- design

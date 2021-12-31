@@ -1,4 +1,5 @@
 // ================= User Data Model =================
+import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import "package:balance_me/global/constants.dart" as gc;
@@ -9,7 +10,7 @@ class UserModel {
       this.userCurrency = gc.defaultUserCurrency,
       this.isDarkMode = false,
       this.language = ""]) {
-    this.workspaceOptions = [this.currentWorkspace];
+    this.workspaceOptions.add(this.currentWorkspace);
   }
 
   String currentWorkspace;
@@ -19,7 +20,7 @@ class UserModel {
   String? lastName;
   bool isDarkMode;
   String language;
-  late List<String> workspaceOptions;
+  late SortedList<String> workspaceOptions;
 
   void updateFromJson(Json json) {
     if (json["groupName"] != null) {

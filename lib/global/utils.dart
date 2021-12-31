@@ -21,7 +21,6 @@ void navigateToPage(context, Widget page, AppPages? pageEnum) {
 void navigateBack(context) {
   Navigator.pop(context);
   FocusScope.of(context).unfocus(); // Remove the keyboard
-  GoogleAnalytics.instance.logNavigateBack();
 }
 
 // Messages
@@ -111,6 +110,8 @@ bool lineLimitMinValidator(String? value, int minLimit) => (essentialFieldValida
 bool matchingPasswordValidator(String? value, String? confirmValue) => (essentialFieldValidator(value) && essentialFieldValidator(confirmValue) && value==confirmValue);
 
 bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toString()) && value! > 0);
+
+bool notEmailValidator(String? value) => (essentialFieldValidator(value.toString()) && !value!.contains("@"));
 
 // Time
 DateTime getCurrentMonth(int endOfMonth, [DateTime? specificDate]) {

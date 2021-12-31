@@ -299,6 +299,7 @@ class LanguageEn extends Languages {
   @override
   String get strBalanceSummary => "Monthly Balance Summary";
 
+  // Workspaces
   @override
   String get strWorkspace => "Workspace";
 
@@ -319,6 +320,9 @@ class LanguageEn extends Languages {
 
   @override
   String get strManageWorkspaces => "Manage Workspaces";
+
+  @override
+  String get strNotEmailValidator => "This field can't be in form of an email and can not include the character @";
 
   // Set Category And Transaction
   @override

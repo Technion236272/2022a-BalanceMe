@@ -118,6 +118,8 @@ abstract class Languages {
   // Summary
   String get strSummary;
   String get strBalanceSummary;
+
+  // Workspaces
   String get strWorkspace;
   String get strWorkspaceExplanation;
   String get strChooseWorkspace;
@@ -125,6 +127,7 @@ abstract class Languages {
   String get strWorkspaceAddedSuccessful;
   String get strCurrentWorkspace;
   String get strManageWorkspaces;
+  String get strNotEmailValidator;
 
   // Set Category And Transaction
   String get strTypeSelection;
