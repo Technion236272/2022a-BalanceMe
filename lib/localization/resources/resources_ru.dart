@@ -329,7 +329,7 @@ class LanguageRu extends Languages {
 
   @override
   String get strLoginDescription => "Вход позволит Вам сохранить Вашу информацию в приложении,"
-      "если Вы уйдете без выхода, Ваша информация будет сохранена";
+      " если Вы уйдете без выхода, Ваша информация будет сохранена";
 
   @override
   String get strSettingsTitle => "Экран настроек";

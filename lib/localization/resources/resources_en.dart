@@ -331,7 +331,7 @@ class LanguageEn extends Languages {
 
   @override
   String get strLoginDescription => "Signing in will allow you to save your information in the app,"
-      "if you leave without signing out, your information will be saved";
+      " if you leave without signing out, your information will be saved";
 
   @override
   String get strSettingsTitle => "The settings screen";

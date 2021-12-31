@@ -11,13 +11,14 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:balance_me/pages/home.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoogleAnalytics.instance.logAppOpen();
+  final SharedPreferences prefs =await SharedPreferences.getInstance();
   await SentryFlutter.init((options) {
     options.dsn = config.dsnForSentry;
     options.tracesSampleRate = config.traceSampleRate;

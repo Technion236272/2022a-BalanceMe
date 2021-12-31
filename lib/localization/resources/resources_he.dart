@@ -329,7 +329,7 @@ class LanguageHe extends Languages {
   String get strLoginTitle => "מסך ההתחברות‎";
 
   @override
-  String get strLoginDescription => "התחברות מאפשרת שמירת מידע שהוכנס באפליקציה"
+  String get strLoginDescription => "התחברות מאפשרת שמירת מידע שהוכנס באפליקציה, "
       "יציאה מהאפליקציה ללא יציאה מהחשבון תשמור את הנתונים אוטומטית‎";
 
   @override
