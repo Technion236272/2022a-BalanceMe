@@ -73,6 +73,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       setState(() {
         userStorage.userData!.workspaceOptions.add(_addWorkspaceController.text);
       });
+      print(userStorage.userData!.workspaceOptions);
       userStorage.SEND_generalInfo();
       _closeAddWorkspace();
     }
@@ -112,7 +113,6 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                   validatorFunction: _addWorkspaceValidatorFunction,
                 ),
               ),
-              const Divider(),
               ElevatedButton(onPressed: _addWorkspace, child: Text(Languages.of(context)!.strAdd)),
             ],
           ),
