@@ -1,6 +1,5 @@
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/home.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_walkthrough_screen/flutter_walkthrough_screen.dart';
 import 'package:balance_me/global/constants.dart' as gc;
@@ -16,8 +15,8 @@ OnbordingData _walkthroughScreen(
     String imagePath, String title, String description) {
   return OnbordingData(
     image: AssetImage(imagePath),
-    titleText: Text(title),
-    descText: Text(description),
+    titleText: Text(title,style: TextStyle(fontSize: gc.titleSize,fontWeight: FontWeight.w600),),
+    descText: Text(description,style: TextStyle(fontSize: gc.descriptionSize),),
   );
 }
 
@@ -48,30 +47,23 @@ List<OnbordingData> _listOfWalkthroughScreens(BuildContext context) {
   return list;
 }
 
+final List<Color> _imageColor = [
+  gc.secondaryColor,
+  gc.primaryColor,
+];
+
 class _IntroWalkthroughState extends State<IntroWalkthrough> {
   @override
   Widget build(BuildContext context) {
     return IntroScreen(
       onbordingDataList: _listOfWalkthroughScreens(context),
-      colors: [
-        gc.secondaryColor,
-        gc.primaryColor,
-      ],
+      colors: _imageColor,
       nextButton: Icon(gc.nextIcon, color: gc.nextColor),
-      lastButton: Icon(
-        gc.finishIcon,
-        color: gc.doneColor,
-      ),
-      pageRoute: MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return HomePage();
-        },
-      ),
+      lastButton: Icon(gc.finishIcon, color: gc.doneColor,),
+      pageRoute: MaterialPageRoute<void>(builder: (BuildContext context) {return HomePage();},),
       skipButton: Text(
         Languages.of(context)!.strSkip,
-        style: TextStyle(
-          color: gc.linkColors,
-        ),
+        style: TextStyle(color: gc.linkColors, fontSize: gc.skipSize),
       ),
       selectedDotColor: gc.alternativePrimary,
       unSelectdDotColor: gc.tabUnselectedLabelColor,

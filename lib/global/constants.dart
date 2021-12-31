@@ -269,3 +269,8 @@ const int maxAccounts=2;
 const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
+
+//walkthrough
+const double titleSize=30.0;
+const double skipSize=20.0;
+const double descriptionSize=20.0;
