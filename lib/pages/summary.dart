@@ -1,4 +1,5 @@
 // ================= Summary Page =================
+import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -25,23 +26,43 @@ class _SummaryPageState extends State<SummaryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          Text(Languages.of(context)!.strBalanceSummary),
-          Visibility(  // TODO - move to List
-            visible: authRepository.status == AuthStatus.Authenticated && userStorage.userData != null,
-            child: Row(
-              children: [
-                Text(Languages.of(context)!.strCurrentWorkspace),
-                Text(userStorage.userData!.currentWorkspace),
-                ElevatedButton(
-                  onPressed: _openSetWorkspace,
-                  child: Text(Languages.of(context)!.strSet),
+    return SingleChildScrollView(
+      child: Column(
+          children: [
+            Text(Languages.of(context)!.strBalanceSummary),
+            // TODO- design: add diagram
+            ListViewGeneric(
+              leadingWidgets: [
+                SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: Visibility(
+                    visible: authRepository.status == AuthStatus.Authenticated && userStorage.userData != null,
+                    child: Text(Languages.of(context)!.strCurrentWorkspace),
+                  ),
+                ),
+              ],
+              trailingWidgets: [
+                SizedBox(
+                  height: 150,
+                  width: 150,
+                  child: Visibility(
+                    visible: authRepository.status == AuthStatus.Authenticated && userStorage.userData != null,
+                    child: Row(
+                      children: [
+                        Text(userStorage.userData!.currentWorkspace),
+                        ElevatedButton(
+                          onPressed: _openSetWorkspace,
+                          child: Text(Languages.of(context)!.strSet),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+      ),
     );
   }
 }

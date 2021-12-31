@@ -51,7 +51,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _removeWorkspace() {
-    // TODO
+    // TODO- logic
   }
 
   void _closeAddWorkspace() {
@@ -62,7 +62,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   }
 
-  Widget _showAddWorkspace() {
+  Widget _showAddWorkspace() {  // TODO- design
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SizedBox(
@@ -137,7 +137,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  // TODO- design
     return Scaffold(
       appBar: MinorAppBar(Languages.of(context)!.strManageWorkspaces),
       body: SingleChildScrollView(
