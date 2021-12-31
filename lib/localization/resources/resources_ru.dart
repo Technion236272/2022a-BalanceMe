@@ -321,7 +321,7 @@ class LanguageRu extends Languages {
   String get strManageWorkspaces => "Manage Workspaces";
 
   @override
-  String get strNotEmailValidator => "This field can't be in form of an email and can not include the character @";
+  String get strNotEmailValidator => "This field can't include the character @";
 
   // Set Category And Transaction
   @override

@@ -10,8 +10,7 @@ class UserModel {
       this.userCurrency = gc.defaultUserCurrency,
       this.isDarkMode = false,
       this.language = ""]) {
-    this.workspaceOptions = SortedList<String>();
-    this.workspaceOptions.add(this.currentWorkspace);
+    this.workspaceOptions = _getNewWorkspacesOptionsArray();
   }
 
   String currentWorkspace;
@@ -47,7 +46,10 @@ class UserModel {
       language = json["language"];
     }
     if (json["workspaceOptions"] != null) {
+      print(json["workspaceOptions"]);
+      workspaceOptions = _getNewWorkspacesOptionsArray();
       workspaceOptions.addAll(jsonToElementList(json["workspaceOptions"], (workspace) => workspace).cast<String>());
+      print(workspaceOptions);
     }
   }
 
@@ -61,4 +63,12 @@ class UserModel {
     'language': language,
     'workspaceOptions': workspaceOptions.toList()
   };
+
+  void initWorkspaces(String userEmail) {  // TODO- check if needed
+    currentWorkspace = userEmail;
+    workspaceOptions = _getNewWorkspacesOptionsArray();
+    workspaceOptions.add(userEmail);
+  }
+
+  SortedList<String> _getNewWorkspacesOptionsArray() => SortedList<String>();
 }

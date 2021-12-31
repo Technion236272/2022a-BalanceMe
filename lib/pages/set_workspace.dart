@@ -44,8 +44,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   Widget _getWorkspace(String workspace) {
     return TextButton(
-      onPressed: workspace == userStorage.userData!.currentWorkspace ? null : _chooseWorkspace,
-      child: Text("workspace"),
+      onPressed: workspace == userStorage.userData!.currentWorkspace ? null : () => {_chooseWorkspace(workspace)},
+      child: Text(workspace),
     );
   }
 
@@ -53,9 +53,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     navigateBack(context);
   }
 
-  void _chooseWorkspace() {
+  void _chooseWorkspace(String workspace) {
     setState(() {
-      userStorage.userData!.currentWorkspace = _addWorkspaceController.text;
+      userStorage.userData!.currentWorkspace = workspace;
     });
     userStorage.SEND_generalInfo();
   }

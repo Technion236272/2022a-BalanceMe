@@ -322,7 +322,7 @@ class LanguageHe extends Languages {
   String get strManageWorkspaces => "‎ניהול מרחבי עבודה";
 
   @override
-  String get strNotEmailValidator => "‎השדה לא יכול להכיל צורה של כתובת דואר אלקטרוני ובפרט את התו @";
+  String get strNotEmailValidator => "‎השדה לא יכול להכיל את התו @";
 
   // Set Category And Transaction
   @override
