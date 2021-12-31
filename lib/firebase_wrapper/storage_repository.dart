@@ -34,7 +34,7 @@ class UserStorage with ChangeNotifier {
     if (authRepository.status == AuthStatus.Authenticated) {
       _userData = (authRepository.user != null) ? _userData : UserModel(userEmail);
 
-      if (_userData!.currentWorkspace == "") {  // TODO- check if needed
+      if (_userData ?.currentWorkspace == "") {  // TODO- check if needed
         setCurrentWorkspace(userEmail);
         SEND_generalInfo();
       }

@@ -43,9 +43,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _getWorkspace(String workspace) {
-    return ElevatedButton(
-        onPressed: _chooseWorkspace,
-        child: Text(workspace),  // TODO- design: chosen one should be bold
+    return TextButton(
+      onPressed: workspace == userStorage.userData!.currentWorkspace ? null : _chooseWorkspace,
+      child: Text("workspace"),
     );
   }
 
@@ -54,7 +54,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _chooseWorkspace() {
-    print("@@@@");
+    setState(() {
+      userStorage.userData!.currentWorkspace = _addWorkspaceController.text;
+    });
+    userStorage.SEND_generalInfo();
   }
 
   void _removeWorkspace() {
@@ -62,7 +65,6 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       userStorage.userData!.workspaceOptions.remove(_addWorkspaceController.text);
     });
     userStorage.SEND_generalInfo();
-    _closeAddWorkspace();
   }
 
   void _addWorkspace() {
