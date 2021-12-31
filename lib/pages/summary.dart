@@ -20,8 +20,10 @@ class _SummaryPageState extends State<SummaryPage> {
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
+  void _rebuildPage() => {setState(() {})};
+
   void _openSetWorkspace() {
-    navigateToPage(context, SetWorkspace(), AppPages.SetWorkspace);
+    navigateToPage(context, SetWorkspace(afterChangeWorkspaceCB: _rebuildPage), AppPages.SetWorkspace);
   }
 
   @override

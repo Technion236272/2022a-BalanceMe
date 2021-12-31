@@ -11,7 +11,9 @@ import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetWorkspace extends StatefulWidget {
-  const SetWorkspace({Key? key}) : super(key: key);
+  const SetWorkspace({this.afterChangeWorkspaceCB, Key? key}) : super(key: key);
+
+  final VoidCallback? afterChangeWorkspaceCB;
 
   @override
   _SetWorkspaceState createState() => _SetWorkspaceState();
@@ -51,12 +53,13 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     setState(() {
       userStorage.userData!.currentWorkspace = workspace;
     });
+    widget.afterChangeWorkspaceCB == null ? null : widget.afterChangeWorkspaceCB!();
     userStorage.SEND_generalInfo();
   }
 
-  void _removeWorkspace() {
+  void _removeWorkspace(String workspace) {
     setState(() {
-      userStorage.userData!.workspaceOptions.remove(_addWorkspaceController.text);
+      userStorage.userData!.workspaceOptions.remove(workspace);
     });
     userStorage.SEND_generalInfo();
   }
@@ -133,7 +136,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       workspace,
       Languages.of(context)!.strWorkspace,
       _getWorkspace(workspace),
-      removeCallback: _removeWorkspace,
+      removeCallback: () => {_removeWorkspace(workspace)},
     );
   }
 
