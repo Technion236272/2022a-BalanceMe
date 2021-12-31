@@ -1,4 +1,5 @@
 // ================= Main App =================
+import 'package:balance_me/pages/walkthrough.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -119,7 +120,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
             GlobalCupertinoLocalizations.delegate,
           ],
           localeResolutionCallback: localeResolution,
-          home: const HomePage(),
+          home:IntroWalkthrough(),
         ));
   }
 }

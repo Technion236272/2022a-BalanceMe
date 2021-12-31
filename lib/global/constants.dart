@@ -36,6 +36,8 @@ const IconData editIcon = Icons.edit;
 const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
 const IconData calendarIcon = Icons.date_range_sharp;
+const IconData finishIcon = Icons.done;
+const IconData nextIcon = Icons.arrow_forward_sharp;
 
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
@@ -49,6 +51,8 @@ const Color hidePasswordColor = Colors.black;
 const Color leaveColor = Color(0xFFE30E0E);
 Color disabledColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
+const Color doneColor = primaryColor;
+const Color nextColor = primaryColor;
 
 // AppBar
 const double appBarAvatarRadius = 40;
@@ -115,6 +119,12 @@ const String lock = 'assets/images/recovery-password.png';
 const String key = 'assets/images/key.png';
 const double imageScale = 3.0;
 const double walletScale = 5.0;
+//TODO: replace placeholders with images for the walkthrough
+const String loginWalkthrough='assets/images/main.png';
+const String settingsWalkthrough='assets/images/main.png';
+const String balancePageWalkthrough='assets/images/main.png';
+const String welcomeWalkthrough='assets/images/main.png';
+const String archivePageWalkthrough='assets/images/main.png';
 
 // RingPieChart
 const String pieChartInnerRadius = '65%';

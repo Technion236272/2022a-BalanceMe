@@ -126,4 +126,18 @@ abstract class Languages {
   String get strAbout;
   String get strLegalese;
   String get strScalesIcon;
+
+  //walkthrough
+  String get strSkip;
+  String get strNext;
+  String get strWelcomeTitle;
+  String get strWelcomeDescription;
+  String get strLoginTitle;
+  String get strLoginDescription;
+  String get strSettingsTitle;
+  String get strSettingsDescription;
+  String get strArchiveTitle;
+  String get strArchiveDescription;
+  String get strBalanceTitle;
+  String get strBalanceDescription;
 }

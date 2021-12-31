@@ -311,4 +311,42 @@ class LanguageHe extends Languages {
 
   @override
   String get strScalesIcon => "‎אייקון מאזניים";
+
+  //Walkthrough
+  @override
+  String get strSkip => "‎דלג";
+
+  @override
+  String get strNext => "המשך‎";
+
+  @override
+  String get strWelcomeTitle => "ברוכים הבאים לאפליקציה‎";
+
+  @override
+  String get strWelcomeDescription => "‎סיור זה יראה לכם את התכונות המרכזיות של האפליקציה";
+
+  @override
+  String get strLoginTitle => "מסך ההתחברות‎";
+
+  @override
+  String get strLoginDescription => "התחברות מאפשרת שמירת מידע שהוכנס באפליקציה"
+      "יציאה מהאפליקציה ללא יציאה מהחשבון תשמור את הנתונים אוטומטית‎";
+
+  @override
+  String get strSettingsTitle => "מסך ההגדרות‎";
+
+  @override
+  String get strSettingsDescription => "במסך זה ניתן לשנות שם, תמונת פרופיל,סיסמה, מטבע ושפה‎";
+
+  @override
+  String get strArchiveTitle => "מסך הארכיון‎";
+
+  @override
+  String get strArchiveDescription => "מסך זה שומר את ההכנסות וההוצאות מחודשים קודמים‎";
+
+  @override
+  String get strBalanceTitle => "מסך המאזן‎";
+
+  @override
+  String get strBalanceDescription => "במסך זה יוצרים קטגוריות של הוצאות והכנסות, ומתעדים תנועות בקטגוריות‎";
 }

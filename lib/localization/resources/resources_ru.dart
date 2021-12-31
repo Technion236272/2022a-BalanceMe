@@ -310,4 +310,42 @@ class LanguageRu extends Languages {
 
   @override
   String get strScalesIcon => "Значок Весы";
+
+  //walkthrough
+  @override
+  String get strSkip => "пропустить";
+
+  @override
+  String get strNext => "следующий";
+
+  @override
+  String get strWelcomeTitle => "добро пожаловать в BalanceMe";
+
+  @override
+  String get strWelcomeDescription => "Этот проход покажет вам основные функции приложения.";
+
+  @override
+  String get strLoginTitle => "Экран проверки подлинности";
+
+  @override
+  String get strLoginDescription => "Вход позволит Вам сохранить Вашу информацию в приложении,"
+      "если Вы уйдете без выхода, Ваша информация будет сохранена";
+
+  @override
+  String get strSettingsTitle => "Экран настроек";
+
+  @override
+  String get strSettingsDescription => "Этот Экран позволяет изменить имя, образ профиля, пароль, валюту и язык";
+
+  @override
+  String get strArchiveTitle => "Экран архива";
+
+  @override
+  String get strArchiveDescription => "Этот экран содержит ваши доходы и расходы за предыдущие месяцы";
+
+  @override
+  String get strBalanceTitle => "Экран равновесия";
+
+  @override
+  String get strBalanceDescription => "На этом экране вы создаете категории для доходов и расходов, а также записи для каждой категории";
 }

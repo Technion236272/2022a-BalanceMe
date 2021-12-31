@@ -312,4 +312,45 @@ class LanguageEn extends Languages {
 
   @override
   String get strScalesIcon => "Scales icon";
+
+  //walkthrough
+  @override
+  String get strSkip => "Skip";
+
+  @override
+  String get strNext => "Next";
+
+  @override
+  String get strWelcomeTitle => "Welcome to BalanceMe";
+
+  @override
+  String get strWelcomeDescription => "This walkthrough will show you the major functionalities of the app.";
+
+  @override
+  String get strLoginTitle => "The authentication screen";
+
+  @override
+  String get strLoginDescription => "Signing in will allow you to save your information in the app,"
+      "if you leave without signing out, your information will be saved";
+
+  @override
+  String get strSettingsTitle => "The settings screen";
+
+  @override
+  String get strSettingsDescription => "This screen allows you to change your name, profile image,"
+      " password, currency and language";
+
+  @override
+  String get strArchiveTitle => "The archive screen";
+
+  @override
+  String get strArchiveDescription => "This screen saves your incomes and expenses from previous months";
+
+  @override
+  String get strBalanceTitle => "The balance screen";
+
+  @override
+  String get strBalanceDescription => "This screen is where you create categories, for incomes and expenses,"
+      "as well as entries for each categories";
+
 }
