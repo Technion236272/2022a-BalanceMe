@@ -104,7 +104,7 @@ class LanguageRu extends Languages {
   String get strPasswordChangeInfo => "Изменение пароля при входе";
 
   @override
-  String get strConstants => "Константы";
+  String get strConstants => "Постоянные настройки:";
 
   // Login
   @override

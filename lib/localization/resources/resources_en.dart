@@ -108,7 +108,7 @@ class LanguageEn extends Languages {
   String get strPasswordChangeInfo => "Changing the password you sign in with";
 
   @override
-  String get strConstants => "Constants";
+  String get strConstants => "Constant settings:";
 // Login
   @override
   String get strWelcomeBack => "Welcome Back!";

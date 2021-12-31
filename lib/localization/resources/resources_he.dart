@@ -108,7 +108,7 @@ class LanguageHe extends Languages {
   String get strPasswordChangeInfo => "‎שינוי הסיסמה להרשמה";
 
   @override
-  String get strConstants => "קבועים‎";
+  String get strConstants => "הגדרות קבועות:‎";
   // Login
   @override
   String get strWelcomeBack => "‎ברוכים השבים!";

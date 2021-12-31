@@ -85,15 +85,35 @@ class _SettingsState extends State<Settings> {
 
   Row leadingWidgetWithInfo(String settingName, String tip) {
     return Row(
+
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(settingName),
         GenericTooltip(
           tip: tip,
         ),
+        Text(settingName),
       ],
     );
   }
+Widget _getConstantsList()
+{
+  List<Widget?> leadingSettings = [
+    Text(Languages.of(context)!.strConstants,style: _getTextDesign(),),
+    leadingWidgetWithInfo(Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
+    leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings, Languages.of(context)!.strEndOfMonthInfo),
+    leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings, Languages.of(context)!.strVersionInfo),
+  ];
+  List<Widget?> trailingSettings = [
+    Text(""),
+    IconButton(
+      onPressed: _getAbout,
+      icon: _getSettingsArrow(),
+    ),
+    _getDaysOfMonthRadio(),
+    Text(config.projectVersion, style: _getTextDesign())
+  ];
+  return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);
+}
 
   Widget _getSettingsList() {
     List<Widget?> leadingSettings = [
@@ -103,10 +123,6 @@ class _SettingsState extends State<Settings> {
           Languages.of(context)!.strPasswordChangeInfo) : null,
       leadingWidgetWithInfo(Languages.of(context)!.strCurrencySettings, Languages.of(context)!.strCurrencyInfo),
       leadingWidgetWithInfo(Languages.of(context)!.strLanguageSettings, Languages.of(context)!.strLanguageInfo),
-      Text(Languages.of(context)!.strConstants),
-      leadingWidgetWithInfo(Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
-      leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings, Languages.of(context)!.strEndOfMonthInfo),
-      leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings, Languages.of(context)!.strVersionInfo),
     ];
 
     List<Widget?> trailingSettings = [
@@ -122,13 +138,7 @@ class _SettingsState extends State<Settings> {
       ),
       GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
       const LanguageDropDown(),
-      Text(""),
-      IconButton(
-        onPressed: _getAbout,
-        icon: _getSettingsArrow(),
-      ),
-      _getDaysOfMonthRadio(),
-      Text(config.projectVersion, style: _getTextDesign())
+
     ];
 
     return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);
@@ -140,7 +150,12 @@ class _SettingsState extends State<Settings> {
 
     return Scaffold(
       body: SingleChildScrollView(
-          child: _getSettingsList(),
+          child: Column( children:[_getSettingsList(),
+              Divider(
+                height: MediaQuery.of(context).size.height/gc.separateConstantsScale,
+                color: gc.secondaryColor,
+              ),
+            _getConstantsList()], ),
       ),
     );
   }

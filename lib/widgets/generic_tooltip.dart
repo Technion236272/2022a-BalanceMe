@@ -14,7 +14,10 @@ class _GenericTooltipState extends State<GenericTooltip> {
   Widget build(BuildContext context) {
     return Tooltip(
       message: widget.tip,
-      child: Icon(gc.transactionDetailsIcon),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Icon(gc.transactionDetailsIcon),
+      ),
     );
   }
 }
