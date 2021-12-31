@@ -46,6 +46,10 @@ class _BalanceManagerState extends State<BalanceManager> {
     });
   }
 
+  bool _shouldShowWelcomePage() => widget._userStorage.balance.isEmpty &&
+      widget._userStorage.userData?.currentWorkspace == widget._authRepository.user?.email ||
+      widget._userStorage.userData?.currentWorkspace == "";
+
   void _setCurrentTab(int currentTab) {
     setState(() {
       _currentTab = BalanceTabs.values[currentTab];
@@ -73,10 +77,10 @@ class _BalanceManagerState extends State<BalanceManager> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: _waitingForData ? const Center(child: CircularProgressIndicator())
-      : (widget._userStorage.balance.isEmpty) ?
+      : (_shouldShowWelcomePage()) ?
       WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]),
       floatingActionButton: Visibility(
-        visible: widget._userStorage.balance.isEmpty || _currentTab != BalanceTabs.Summary,
+        visible: _shouldShowWelcomePage() || _currentTab != BalanceTabs.Summary,
         child: FloatingActionButton.extended(
           label: Text(Languages.of(context)!.strAddCategory),
           icon: const Icon(gc.addIcon),
