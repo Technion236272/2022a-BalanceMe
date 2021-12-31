@@ -23,14 +23,13 @@ class ListViewGeneric extends StatelessWidget {
     }
 
     for (var i = 0; i < leadingWidgets.length; i++) {
-      if (leadingWidgets[i] != null && trailingWidgets[i] != null) {
+
         tiles.add(ListTile(
           leading: leadingWidgets[i],
           trailing: trailingWidgets[i],
         ));
 
         tiles.add(const Divider(color: gc.dividerColor));
-      }
     }
 
     return tiles;

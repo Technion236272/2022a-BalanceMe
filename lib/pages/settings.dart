@@ -95,25 +95,34 @@ class _SettingsState extends State<Settings> {
       ],
     );
   }
-Widget _getConstantsList()
-{
-  List<Widget?> leadingSettings = [
-    Text(Languages.of(context)!.strConstants,style: _getTextDesign(),),
-    leadingWidgetWithInfo(Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
-    leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings, Languages.of(context)!.strEndOfMonthInfo),
-    leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings, Languages.of(context)!.strVersionInfo),
-  ];
-  List<Widget?> trailingSettings = [
-    Text(""),
-    IconButton(
-      onPressed: _getAbout,
-      icon: _getSettingsArrow(),
-    ),
-    _getDaysOfMonthRadio(),
-    Text(config.projectVersion, style: _getTextDesign())
-  ];
-  return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);
-}
+
+  Widget _getConstantsList() {
+    List<Widget?> leadingSettings = [
+      Text(
+        Languages.of(context)!.strConstants,
+        style: _getTextDesign(),
+      ),
+      leadingWidgetWithInfo(
+          Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
+      leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings,
+          Languages.of(context)!.strEndOfMonthInfo),
+      leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings,
+          Languages.of(context)!.strVersionInfo),
+    ];
+    List<Widget?> trailingSettings = [
+      null,
+      IconButton(
+        onPressed: _getAbout,
+        icon: _getSettingsArrow(),
+      ),
+      _getDaysOfMonthRadio(),
+      Text(config.projectVersion, style: _getTextDesign())
+    ];
+    return ListViewGeneric(
+        leadingWidgets: leadingSettings,
+        trailingWidgets: trailingSettings,
+        isScrollable: false);
+  }
 
   Widget _getSettingsList() {
     List<Widget?> leadingSettings = [
