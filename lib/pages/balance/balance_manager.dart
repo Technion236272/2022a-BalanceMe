@@ -76,7 +76,7 @@ class _BalanceManagerState extends State<BalanceManager> {
       : (widget._userStorage.balance.isEmpty) ?
       WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]),
       floatingActionButton: Visibility(
-        visible: _currentTab != BalanceTabs.Summary,
+        visible: widget._userStorage.balance.isEmpty || _currentTab != BalanceTabs.Summary,
         child: FloatingActionButton.extended(
           label: Text(Languages.of(context)!.strAddCategory),
           icon: const Icon(gc.addIcon),
