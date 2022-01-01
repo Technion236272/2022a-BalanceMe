@@ -1,4 +1,6 @@
 // ================= Settings Page =================
+import 'package:balance_me/widgets/generic_tooltip.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/global/types.dart';
@@ -81,15 +83,55 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  Row leadingWidgetWithInfo(String settingName, String tip) {
+    return Row(
+
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GenericTooltip(
+          tip: tip,
+        ),
+        Text(settingName),
+      ],
+    );
+  }
+
+  Widget _getConstantsList() {
+    List<Widget?> leadingSettings = [
+      Text(
+        Languages.of(context)!.strConstants,
+        style: _getTextDesign(),
+      ),
+      leadingWidgetWithInfo(
+          Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
+      leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings,
+          Languages.of(context)!.strEndOfMonthInfo),
+      leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings,
+          Languages.of(context)!.strVersionInfo),
+    ];
+    List<Widget?> trailingSettings = [
+      null,
+      IconButton(
+        onPressed: _getAbout,
+        icon: _getSettingsArrow(),
+      ),
+      _getDaysOfMonthRadio(),
+      Text(config.projectVersion, style: _getTextDesign())
+    ];
+    return ListViewGeneric(
+        leadingWidgets: leadingSettings,
+        trailingWidgets: trailingSettings,
+        isScrollable: false);
+  }
+
   Widget _getSettingsList() {
     List<Widget?> leadingSettings = [
-      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strProfile) : null,
-      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strPasswordSettings) : null,
-      Text(Languages.of(context)!.strEndOfMonthSettings),
-      Text(Languages.of(context)!.strCurrencySettings),
-      Text(Languages.of(context)!.strLanguageSettings),
-      Text(Languages.of(context)!.strAbout),
-      Text(Languages.of(context)!.strVersionSettings)
+      widget.authRepository.status == AuthStatus.Authenticated ?leadingWidgetWithInfo(Languages.of(context)!.strProfile,
+          Languages.of(context)!.strProfileInfo) :null,
+      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strPasswordSettings,
+          Languages.of(context)!.strPasswordChangeInfo) : null,
+      leadingWidgetWithInfo(Languages.of(context)!.strCurrencySettings, Languages.of(context)!.strCurrencyInfo),
+      leadingWidgetWithInfo(Languages.of(context)!.strLanguageSettings, Languages.of(context)!.strLanguageInfo),
     ];
 
     List<Widget?> trailingSettings = [
@@ -98,23 +140,14 @@ class _SettingsState extends State<Settings> {
           onPressed: _openProfileSettings,
           icon: _getSettingsArrow(),
       ),
-
       widget.authRepository.status != AuthStatus.Authenticated ? null :
       IconButton(
           onPressed: _openChangePassword,
           icon: _getSettingsArrow(),
       ),
-
-      _getDaysOfMonthRadio(),
       GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
       const LanguageDropDown(),
 
-      IconButton(
-        onPressed: _getAbout,
-        icon: _getSettingsArrow(),
-      ),
-
-      Text(config.projectVersion, style: _getTextDesign())
     ];
 
     return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);
@@ -126,7 +159,12 @@ class _SettingsState extends State<Settings> {
 
     return Scaffold(
       body: SingleChildScrollView(
-          child: _getSettingsList(),
+          child: Column( children:[_getSettingsList(),
+              Divider(
+                height: MediaQuery.of(context).size.height/gc.separateConstantsScale,
+                color: gc.secondaryColor,
+              ),
+            _getConstantsList()], ),
       ),
     );
   }

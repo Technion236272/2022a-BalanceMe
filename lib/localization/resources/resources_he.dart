@@ -101,6 +101,29 @@ class LanguageHe extends Languages {
   @override
   String get strChangeLanguageAlertDialogContent => "‎שימו לב:\nשינוי השפה עלול לגרום לאיפוס המידע. על מנת לשמור את המידע יש להתחבר או להירשם.\nהאם ברצונך להחליף שפה בכל זאת?";
 
+  @override
+  String get strEndOfMonthInfo => "זהו היום בו המידע שלך מהמאזן מועבר לארכיון‎";
+
+  @override
+  String get strVersionInfo => "הגרסה הנוכחית של האפליקציה‎";
+
+  @override
+  String get strCurrencyInfo => "סוג המטבע שישומש למאזן‎";
+
+  @override
+  String get strLanguageInfo => "השפה שהאפליקציה תציג‎";
+
+  @override
+  String get strAboutInfo => "חבילות ורשיונות בשימוש באפליקציה‎";
+
+  @override
+  String get strProfileInfo => "‎הפרופיל שלך, שם ותמונה";
+
+  @override
+  String get strPasswordChangeInfo => "‎שינוי הסיסמה להרשמה";
+
+  @override
+  String get strConstants => "הגדרות קבועות:‎";
   // Login
   @override
   String get strWelcomeBack => "‎ברוכים השבים!";
