@@ -160,6 +160,7 @@ const double emailContainerBorderRadius = 30.0;
 const double emailContainerFontSize = 18;
 const EdgeInsets settingAppbarAvatarPadding = EdgeInsets.all(4.0);
 const double settingDefaultAppbarAvatarSize = 55;
+const double separateConstantsScale=20.0;
 
 //error messages
 const String weakPassword = "weak-password";

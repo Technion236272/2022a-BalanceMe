@@ -82,6 +82,30 @@ class LanguageRu extends Languages {
   @override
   String get strSignInTimeout => "Не обнаружено записаней аккаунт.убедитесь, что вы зарегистрированы и попробуйте снова";
 
+  @override
+  String get strEndOfMonthInfo => "В этот день ваши балансовые данные отправляются в архив";
+
+  @override
+  String get strVersionInfo => "версия приложения";
+
+  @override
+  String get strCurrencyInfo => "Тип валюты, которая будет использоваться для Вашего баланса";
+
+  @override
+  String get strLanguageInfo => "Язык, который будет отображаться приложением";
+
+  @override
+  String get strAboutInfo => "Пакеты и лицензии, используемые приложением";
+
+  @override
+  String get strProfileInfo => "Ваш профиль, има и образ";
+
+  @override
+  String get strPasswordChangeInfo => "Изменение пароля при входе";
+
+  @override
+  String get strConstants => "Постоянные настройки:";
+
   // Login
   @override
   String get strWelcomeBack => "с возвращением!";

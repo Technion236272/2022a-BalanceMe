@@ -86,6 +86,29 @@ class LanguageEn extends Languages {
   @override
   String get strChangeLanguageAlertDialogContent => "Attention:\nchange language might reset all your data. For saving the data, please log-in or sign up first.\nAre you sure you want to change the language?";
 
+  @override
+  String get strEndOfMonthInfo => "This is the day when your balance data is sent to the archive";
+
+  @override
+  String get strVersionInfo => "The current version of the app";
+
+  @override
+  String get strCurrencyInfo => "The type of currency which will be used for your balance";
+
+  @override
+  String get strLanguageInfo => "The language the app will display";
+
+  @override
+  String get strAboutInfo => "Packages and licenses which the app uses";
+
+  @override
+  String get strProfileInfo => "Your profile, name and image";
+
+  @override
+  String get strPasswordChangeInfo => "Changing the password you sign in with";
+
+  @override
+  String get strConstants => "Constant settings:";
 // Login
   @override
   String get strWelcomeBack => "Welcome Back!";

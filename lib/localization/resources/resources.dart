@@ -37,7 +37,14 @@ abstract class Languages {
   String get strNotSignedIn;
   String get strSignInTimeout;
   String get strChangeLanguageAlertDialogContent;
-
+  String get strEndOfMonthInfo;
+  String get strVersionInfo;
+  String get strCurrencyInfo;
+  String get strLanguageInfo;
+  String get strAboutInfo;
+  String get strProfileInfo;
+  String get strPasswordChangeInfo;
+  String get strConstants;
   // Login
   String get strWelcomeBack;
   String get strWelcomeAboard;
