@@ -114,9 +114,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       userStorage.SEND_generalInfo();
       userStorage.addNewUserToWorkspace(_addWorkspaceController.text);
       _closeAddWorkspace();
-      displaySnackBar(
-          context,
-          Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strAdded));
+      displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strAdded));
       GoogleAnalytics.instance.logWorkspaceAdded(_addWorkspaceController.text);
     }
   }

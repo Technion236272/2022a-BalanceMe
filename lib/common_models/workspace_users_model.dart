@@ -30,7 +30,7 @@ class WorkspaceUsers {
     'leader': leader,
   };
 
-  bool get isEmpty => users.length == 1;
+  bool get isEmpty => users.length <= 1;
 
   void addUser(String user) {
     users.add(user);
