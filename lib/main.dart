@@ -1,4 +1,5 @@
 // ================= Main App =================
+import 'package:balance_me/pages/home.dart';
 import 'package:balance_me/pages/walkthrough.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,13 +24,13 @@ Future<void> main() async {
     options.dsn = config.dsnForSentry;
     options.tracesSampleRate = config.traceSampleRate;
     options.release = config.releaseName;
-  }, appRunner: () => runApp(App()));
+  }, appRunner: () => runApp(App(prefs: prefs,)));
 }
 
 class App extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
-  App({Key? key}) : super(key: key);
+  final SharedPreferences prefs;
+  App({Key? key, required this.prefs}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class App extends StatelessWidget {
                   child: Text(snapshot.error.toString(), textDirection: TextDirection.ltr)));
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return const BalanceMeApp();
+          return BalanceMeApp(prefs: prefs,);
         }
         return const Center(child: CircularProgressIndicator());
       },
@@ -51,8 +52,8 @@ class App extends StatelessWidget {
 }
 
 class BalanceMeApp extends StatefulWidget {
-  const BalanceMeApp({Key? key}) : super(key: key);
-
+  const BalanceMeApp({Key? key, required this.prefs}) : super(key: key);
+  final SharedPreferences prefs;
   static void setLocale(BuildContext context, Locale newLocale) {
     _BalanceMeAppState? state = context.findAncestorStateOfType<_BalanceMeAppState>();
     state!.setLocale(newLocale);
@@ -85,6 +86,25 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
       }
     }
     return supportedLocales.first;
+  }
+
+  bool _wasWalkthroughSeen() {
+    return widget.prefs.containsKey(gc.walkthroughShown) &&
+        widget.prefs.getBool(gc.walkthroughShown) != null &&
+        widget.prefs.getBool(gc.walkthroughShown)!;
+  }
+
+  void _setWalkthroughSeen() {
+    widget.prefs.setBool(gc.walkthroughShown, true);
+  }
+
+  Widget _getHome() {
+    if (_wasWalkthroughSeen()) {
+      return HomePage();
+    } else {
+      _setWalkthroughSeen();
+      return IntroWalkthrough();
+    }
   }
 
   @override
@@ -121,7 +141,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
             GlobalCupertinoLocalizations.delegate,
           ],
           localeResolutionCallback: localeResolution,
-          home:IntroWalkthrough(),
+          home:_getHome(),
         ));
   }
 }

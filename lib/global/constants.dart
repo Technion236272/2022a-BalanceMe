@@ -274,3 +274,6 @@ const double attributeFontSize = 10;
 const double titleSize=30.0;
 const double skipSize=20.0;
 const double descriptionSize=20.0;
+
+//shared preference keys
+const String walkthroughShown="walkthroughShown";

@@ -6,7 +6,6 @@ import 'package:balance_me/global/constants.dart' as gc;
 
 class IntroWalkthrough extends StatefulWidget {
   const IntroWalkthrough({Key? key}) : super(key: key);
-
   @override
   _IntroWalkthroughState createState() => _IntroWalkthroughState();
 }
