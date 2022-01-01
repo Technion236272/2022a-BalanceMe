@@ -2,6 +2,7 @@
 import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
+import 'package:balance_me/global/utils.dart';
 
 enum AuthStatus {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
@@ -49,7 +50,7 @@ SortedList<Category> getCategorySortedList() => SortedList<Category>((a, b) => a
 
 SortedList<Transaction> getTransactionSortedList() => SortedList<Transaction>((a, b) => a.compareTo(b));
 
-SortedList<String> getStringSortedList() => SortedList<String>();
+SortedList<String> getStringSortedList() => SortedList<String>((a, b) => a.contains("@") ? -1 : a.compareStrings(b));
 
 class PrimitiveWrapper{
   var value;
