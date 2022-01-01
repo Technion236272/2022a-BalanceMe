@@ -335,6 +335,12 @@ class LanguageRu extends Languages {
   @override
   String get strWorkspaceAlreadyExist => "This workspace is already exist";
 
+  @override
+  String get strOtherWorkspaceUsers => "Other users in the workspace:";
+
+  @override
+  String get strEmptyWorkspace => "You are alone in this workspace";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "вид";

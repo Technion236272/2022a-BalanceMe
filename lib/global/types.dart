@@ -49,6 +49,8 @@ SortedList<Category> getCategorySortedList() => SortedList<Category>((a, b) => a
 
 SortedList<Transaction> getTransactionSortedList() => SortedList<Transaction>((a, b) => a.compareTo(b));
 
+SortedList<String> getStringSortedList() => SortedList<String>();
+
 class PrimitiveWrapper{
   var value;
 
