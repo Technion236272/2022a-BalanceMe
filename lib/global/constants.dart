@@ -49,6 +49,7 @@ const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
 const Color leaveColor = Color(0xFFE30E0E);
 Color disabledColor = Colors.black38;
+Color shadowColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
 
 // AppBar
@@ -265,3 +266,7 @@ const double attributeFontSize = 10;
 const double bottomSheetSizeScale = 3.5;
 const EdgeInsets bottomSheetPadding = EdgeInsets.all(10.0);
 const TextStyle bottomSheetTextStyle = TextStyle(fontSize: 16);
+const EdgeInsets workspaseTilePadding = EdgeInsets.only(bottom: 2.0);
+const EdgeInsets workspacesGeneralPadding = EdgeInsets.all(8.0);
+const double workspacesScreenScale = 110;
+BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2,0));

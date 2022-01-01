@@ -39,9 +39,25 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _getWorkspace(String workspace) {
-    return TextButton(
-      onPressed: workspace == userStorage.userData!.currentWorkspace ? null : () => {_chooseWorkspace(workspace)},
-      child: Text(workspace),
+    return Padding(
+      padding: gc.workspaseTilePadding,
+      child: Container(
+        decoration: BoxDecoration(
+          color: gc.entryColor,
+          borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+          border: Border.all(color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor),
+          boxShadow: [userStorage.userData!.currentWorkspace == workspace ? gc.workspaceTileShadow : BoxShadow()],
+        ),
+        child: ListTile(
+          title: Text(
+            workspace,
+            style: TextStyle(
+                color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
+                fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal),
+          ),
+          onTap: workspace == userStorage.userData!.currentWorkspace ? null : () => {_chooseWorkspace(workspace)},
+        ),
+      ),
     );
   }
 
@@ -159,32 +175,45 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       navigateBack(context);
       return [];
     }
-    Iterable<Widget> workspaces = userStorage.userData!.workspaceOptions.map((workspace) => _buildWorkspaceFromString(workspace));
-    return workspaces.isEmpty ? [] : ListTile.divideTiles(context: context, tiles: workspaces).toList();
+    List<Widget> workspaces = [];
+    for (String workspace in userStorage.userData!.workspaceOptions){
+      workspaces.add(_buildWorkspaceFromString(workspace));
+    }
+    return workspaces.isEmpty ? [] : workspaces;
   }
 
   @override
   Widget build(BuildContext context) {  // TODO- design
+    final screenHeight = MediaQuery.of(context).size.height;
+    final appBarHeight = MinorAppBar(Languages.of(context)!.strManageWorkspaces).preferredSize.height;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
     return Scaffold(
       appBar: MinorAppBar(Languages.of(context)!.strManageWorkspaces),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(Languages.of(context)!.strWorkspaceExplanation),  // TODO- write the content
-              const Divider(),
-              Row(
-                children: [
-                  Text(Languages.of(context)!.strChooseWorkspace),
-                  IconButton(onPressed: _addNewWorkspace, icon: Icon(gc.addIcon))
-                ],
-              ),
-              SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: ListView(children: _getAllWorkspaces()),
-              ),
-            ],
+        child: Padding(
+          padding: gc.workspacesGeneralPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: gc.workspacesGeneralPadding,
+                  child: Text(Languages.of(context)!.strWorkspaceExplanation),
+                ),  // TODO- write the content
+                const Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(Languages.of(context)!.strChooseWorkspace),
+                    IconButton(onPressed: _addNewWorkspace, icon: Icon(gc.addIcon))
+                  ],
+                ),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: (screenHeight - appBarHeight - statusBarHeight - gc.workspacesScreenScale) ,
+                    child: ListView(children: _getAllWorkspaces()),
+                ),
+              ],
+          ),
         ),
       ),
     );
