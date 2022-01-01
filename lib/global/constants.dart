@@ -50,6 +50,7 @@ const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
 const Color leaveColor = Color(0xFFE30E0E);
 Color disabledColor = Colors.black38;
+Color shadowColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
 
 // AppBar
@@ -261,3 +262,12 @@ const int maxAccounts=2;
 const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
+
+//Workspaces
+const double bottomSheetSizeScale = 3.5;
+const EdgeInsets bottomSheetPadding = EdgeInsets.all(10.0);
+const TextStyle bottomSheetTextStyle = TextStyle(fontSize: 16);
+const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
+const EdgeInsets workspacesGeneralPadding = EdgeInsets.all(8.0);
+const EdgeInsets userTilePadding = EdgeInsets.only(top: 8.0);
+BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2,0));
