@@ -30,7 +30,7 @@ class WorkspaceUsers {
     'leader': leader,
   };
 
-  bool get isEmpty => users.length <= 1;
+  bool get isEmpty => users.isEmpty;
 
   void addUser(String user) {
     users.add(user);
@@ -40,7 +40,10 @@ class WorkspaceUsers {
     users.remove(user);
   }
 
-  void setLeader(String newLeader) {
-    leader = newLeader;
+  void setLeader([String? newLeader]) {
+    if (users.isNotEmpty) {
+      newLeader = (newLeader == null) ? users.first : newLeader;
+      leader = newLeader;
+    }
   }
 }

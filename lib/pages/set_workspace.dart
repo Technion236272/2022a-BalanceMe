@@ -49,7 +49,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
           color: gc.entryColor,
           borderRadius: BorderRadius.circular(gc.entryBorderRadius),
           border: Border.all(
-              color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor),
+              color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
+          ),
           boxShadow: [
             userStorage.userData!.currentWorkspace == workspace ? gc.workspaceTileShadow : BoxShadow()
           ],
@@ -59,7 +60,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             workspace,
             style: TextStyle(
                 color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
-                fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal),
+                fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal,
+            ),
           ),
           onTap: workspace == userStorage.userData!.currentWorkspace ? null : () => {_chooseWorkspace(workspace)},
         ),
@@ -87,32 +89,23 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     userStorage.SEND_generalInfo();
     await userStorage.GET_balanceModel(failureCallback: _createNewWorkspace);
     widget.afterChangeWorkspaceCB == null ? null : widget.afterChangeWorkspaceCB!();
-    displaySnackBar(
-        context,
-        Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strChanged));
+    displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strChanged));
     GoogleAnalytics.instance.logWorkspaceChanged(workspace);
   }
 
   void _removeWorkspace(String workspace) {
     setState(() {
-      userStorage.userData!.workspaceOptions.remove(workspace);
+      userStorage.removeUserFromWorkspace(workspace);
     });
-    userStorage.SEND_generalInfo();
-    userStorage.removeUserFromWorkspace(workspace);
-    displaySnackBar(
-        context,
-        Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
+    displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
     GoogleAnalytics.instance.logWorkspaceRemoved(workspace);
   }
 
   void _addWorkspace() {
     if (_formKey.currentState != null && _formKey.currentState!.validate() && userStorage.userData != null) {
-      // TODO- add more checks for the new workspace
       setState(() {
-        userStorage.userData!.workspaceOptions.add(_addWorkspaceController.text);
+        userStorage.addNewUserToWorkspace(_addWorkspaceController.text);
       });
-      userStorage.SEND_generalInfo();
-      userStorage.addNewUserToWorkspace(_addWorkspaceController.text);
       _closeAddWorkspace();
       displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strAdded));
       GoogleAnalytics.instance.logWorkspaceAdded(_addWorkspaceController.text);
@@ -120,7 +113,6 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _showAddWorkspace() {
-    // TODO- design
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SizedBox(
@@ -138,8 +130,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(Languages.of(context)!.strAddNewWorkspace,
-                          style: gc.bottomSheetTextStyle),
+                      Text(
+                          Languages.of(context)!.strAddNewWorkspace,
+                          style: gc.bottomSheetTextStyle,
+                      ),
                       IconButton(
                         onPressed: _closeAddWorkspace,
                         icon: Icon(gc.closeIcon),
@@ -187,14 +181,13 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _buildWorkspaceFromString(String workspace) {
-    return (workspace == userStorage.userData!.currentWorkspace ||
-            (authRepository.user != null &&
-                workspace == authRepository.user!.email)) ? _getWorkspace(workspace) : GenericDeleteDismissible(
-            workspace,
-            Languages.of(context)!.strWorkspace,
-            _getWorkspace(workspace),
-            removeCallback: () => {_removeWorkspace(workspace)},
-          );
+    return (workspace == userStorage.userData!.currentWorkspace || (authRepository.user != null && workspace == authRepository.user!.email)) ?
+      _getWorkspace(workspace) : GenericDeleteDismissible(
+      workspace,
+      Languages.of(context)!.strWorkspace,
+      _getWorkspace(workspace),
+      removeCallback: () => {_removeWorkspace(workspace)},
+    );
   }
 
   List<Widget> _getAllWorkspaces() {
@@ -221,8 +214,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                 ),
                 Text(
                   user,
-                  style: TextStyle(
-                      color: gc.secondaryColor, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: gc.secondaryColor, fontWeight: FontWeight.bold),
                 ),
               ],
             ),

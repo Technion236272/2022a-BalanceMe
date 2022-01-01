@@ -89,23 +89,47 @@ class UserStorage with ChangeNotifier {
     _workspaceUsers = null;
   }
 
-  void modifyUsersInWorkspace(String workspace, bool toAdd) async {
+  void modifyUsersInWorkspace(String workspace, Function operator) async {
     WorkspaceUsers? currentWorkspaceUser = (_workspaceUsers == null) ? null : workspaceUsers!.copy();
-    print(workspaceUsers == null ? "null" : workspaceUsers!.toJson());
     await GET_workspaceUsers(workspace: workspace);
     if (_workspaceUsers != null && _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
-      toAdd ? _workspaceUsers!.addUser(_authRepository!.user!.email!) : _workspaceUsers!.removeUser(_authRepository!.user!.email!);
-      await SEND_workspaceUsers(workspace: workspace);
+      await operator();
     }
     _workspaceUsers = currentWorkspaceUser;
   }
 
   void addNewUserToWorkspace(String workspace) {
-    modifyUsersInWorkspace(workspace, true);
+    void _addNewUser() async {
+      _workspaceUsers!.addUser(_authRepository!.user!.email!);
+      await SEND_workspaceUsers(workspace: workspace);
+    }
+
+    if (userData != null) {
+      userData!.workspaceOptions.add(workspace);
+      SEND_generalInfo();
+    }
+    modifyUsersInWorkspace(workspace, _addNewUser);
   }
 
   void removeUserFromWorkspace(String workspace) {
-    modifyUsersInWorkspace(workspace, false);
+    void _removeUser() async {
+      _workspaceUsers!.removeUser(_authRepository!.user!.email!);
+
+      if (_workspaceUsers!.isEmpty) {
+        SEND_deleteWorkspace(workspace);
+        return;
+
+      } else if (_workspaceUsers!.leader == _authRepository!.user!.email!) {
+        _workspaceUsers!.setLeader();
+      }
+      await SEND_workspaceUsers(workspace: workspace);
+    }
+
+    if (userData != null) {
+      userData!.workspaceOptions.remove(workspace);
+      SEND_generalInfo();
+    }
+    modifyUsersInWorkspace(workspace, _removeUser);
   }
 
   void setEndOfMonthDay(int endOfMonthDay) {
@@ -348,5 +372,15 @@ class UserStorage with ChangeNotifier {
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("SEND_workspaceUsers");
     }
+  }
+
+  void SEND_deleteWorkspace(String workspace) async {  // TODO
+    // if (_userData != null) {
+    //   var workspaceToDelete = _firestore.collection(config.firebaseVersion).doc(workspace);
+    //   await workspaceToDelete.update({config.workspaceUsers: FieldValue.delete()});
+    //   workspaceToDelete.delete();
+    // } else {
+    //   GoogleAnalytics.instance.logPreCheckFailed("SEND_deleteWorkspace");
+    // }
   }
 }
