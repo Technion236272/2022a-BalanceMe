@@ -269,5 +269,5 @@ const EdgeInsets bottomSheetPadding = EdgeInsets.all(10.0);
 const TextStyle bottomSheetTextStyle = TextStyle(fontSize: 16);
 const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 const EdgeInsets workspacesGeneralPadding = EdgeInsets.all(8.0);
-const double workspacesScreenScale = 110;
+const EdgeInsets userTilePadding = EdgeInsets.only(top: 8.0);
 BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2,0));
