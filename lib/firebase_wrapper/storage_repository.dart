@@ -111,7 +111,7 @@ class UserStorage with ChangeNotifier {
     modifyUsersInWorkspace(workspace, _addNewUser);
   }
 
-  void removeUserFromWorkspace(String workspace) {
+  Future<void> removeUserFromWorkspace(String workspace) async {
     void _removeUser() async {
       _workspaceUsers!.removeUser(_authRepository!.user!.email!);
 
@@ -327,6 +327,7 @@ class UserStorage with ChangeNotifier {
           successCallback != null ? successCallback(users.data()![config.workspaceUsers]) : null;
 
         } else {  // There is no data
+          resetWorkspaceUsers();
           failureCallback != null ? failureCallback(null) : null;
         }
         notifyListeners();
@@ -363,7 +364,7 @@ class UserStorage with ChangeNotifier {
 
   Future<void> SEND_workspaceUsers({String? workspace}) async {
     if (_authRepository != null && _authRepository!.user != null && _workspaceUsers != null && _authRepository!.user!.email != null
-        && _userData != null && _userData!.currentWorkspace != "" &&  _userData!.currentWorkspace != _authRepository!.user!.email!) {
+        && (workspace != null || (_userData != null && _userData!.currentWorkspace != "" &&  _userData!.currentWorkspace != _authRepository!.user!.email!))) {
 
       workspace = (workspace == null) ?_userData!.currentWorkspace : workspace;
       await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.workspaceUsers).doc(config.workspaceUsers).set({

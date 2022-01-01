@@ -28,7 +28,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
-  bool _shouldShowWorkspaceUsers() => userStorage.workspaceUsers != null && !userStorage.workspaceUsers!.isEmpty;
+  bool _shouldShowWorkspaceUsers() => userStorage.workspaceUsers != null && !userStorage.workspaceUsers!.isOnlyLeader;
 
   String? _addWorkspaceValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
@@ -93,10 +93,15 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     GoogleAnalytics.instance.logWorkspaceChanged(workspace);
   }
 
-  void _removeWorkspace(String workspace) {
-    setState(() {
-      userStorage.removeUserFromWorkspace(workspace);
-    });
+  void _removeWorkspace(String workspace) async {
+    await userStorage.removeUserFromWorkspace(workspace);
+
+    if (userStorage.userData != null && workspace == userStorage.userData!.currentWorkspace && authRepository.user != null) {
+      _chooseWorkspace(authRepository.user!.email!);
+    } else {
+      setState(() {});
+    }
+
     displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
     GoogleAnalytics.instance.logWorkspaceRemoved(workspace);
   }
@@ -181,7 +186,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _buildWorkspaceFromString(String workspace) {
-    return (workspace == userStorage.userData!.currentWorkspace || (authRepository.user != null && workspace == authRepository.user!.email)) ?
+    return (authRepository.user != null && workspace == authRepository.user!.email) ?
       _getWorkspace(workspace) : GenericDeleteDismissible(
       workspace,
       Languages.of(context)!.strWorkspace,

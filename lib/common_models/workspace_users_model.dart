@@ -32,6 +32,8 @@ class WorkspaceUsers {
 
   bool get isEmpty => users.isEmpty;
 
+  bool get isOnlyLeader => users.length == 1;
+
   void addUser(String user) {
     users.add(user);
   }
