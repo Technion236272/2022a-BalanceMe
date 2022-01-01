@@ -43,7 +43,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   Widget _getWorkspace(String workspace) {
     return Padding(
-      padding: gc.workspaseTilePadding,
+      padding: gc.workspaceTilePadding,
       child: Container(
         decoration: BoxDecoration(
           color: gc.entryColor,
@@ -200,63 +200,66 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   Widget _buildWorkspaceUserFromString(String user) {  // TODO- design
     return (authRepository.user != null && user == authRepository.user!.email) ? Container() :
-     Row(
-      children: [
-        Icon(gc.userIcon),
-        Text(user),
-      ],
-    );
+     Padding(
+       padding: gc.workspaceTilePadding,
+       child: Row(
+         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Icon(gc.userIcon, color: gc.secondaryColor,),
+          Text(
+            user,
+            style: TextStyle(
+                color: gc.secondaryColor,
+                fontWeight: FontWeight.bold
+            ),
+          ),
+        ],
+    ),
+     );
   }
 
   List<Widget> _getWorkspaceUsers() {
-    Iterable<Widget> users = (userStorage.workspaceUsers == null) ? [] : userStorage.workspaceUsers!.users.map((user) => _buildWorkspaceUserFromString(user));
-    return users.isEmpty ? [] : ListTile.divideTiles(context: context, tiles: users).toList();
+    if (userStorage.workspaceUsers == null) {
+      return [];
+    }
+    List<Widget> users = [];
+    for (String user in userStorage.workspaceUsers!.users){
+      users.add(_buildWorkspaceUserFromString(user));
+    }
+    return users.isEmpty ? [] : users;
   }
 
   @override
   Widget build(BuildContext context) {  // TODO- design
-    final screenHeight = MediaQuery.of(context).size.height;
-    final appBarHeight = MinorAppBar(Languages.of(context)!.strManageWorkspaces).preferredSize.height;
-    final statusBarHeight = MediaQuery.of(context).padding.top;
     return Scaffold(
       appBar: MinorAppBar(Languages.of(context)!.strManageWorkspaces),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(Languages.of(context)!.strWorkspaceExplanation),  // TODO- write the content
-              const Divider(),
-              Text(_shouldShowWorkspaceUsers() ? Languages.of(context)!.strOtherWorkspaceUsers : Languages.of(context)!.strEmptyWorkspace),
-              Visibility(
-                visible: _shouldShowWorkspaceUsers(),
-                child: SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: ListView(children: _getWorkspaceUsers()),
-                ),
-              ),
-              const Divider(),
-              Row(
-                children: [
-                  Text(Languages.of(context)!.strChooseWorkspace),
-                  IconButton(onPressed: _addNewWorkspace, icon: Icon(gc.addIcon))
-                ],
-              ),
-              SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: ListView(children: _getAllWorkspaces()),
-              ),
-            ],
         child: Padding(
           padding: gc.workspacesGeneralPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Text(Languages.of(context)!.strWorkspaceExplanation),  // TODO- write the content
+                const Divider(),
+                Text(_shouldShowWorkspaceUsers() ? Languages.of(context)!.strOtherWorkspaceUsers : Languages.of(context)!.strEmptyWorkspace),
                 Padding(
                   padding: gc.workspacesGeneralPadding,
-                  child: Text(Languages.of(context)!.strWorkspaceExplanation),
-                ),  // TODO- write the content
+                  child: Visibility(
+                    visible: _shouldShowWorkspaceUsers(),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/3,
+                      decoration: BoxDecoration(
+                        color: gc.primaryColor,
+                        borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+                      ),
+                      child: ListView(
+                        children: _getWorkspaceUsers(),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                      ),
+                    ),
+                  ),
+                ),
                 const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -265,10 +268,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                     IconButton(onPressed: _addNewWorkspace, icon: Icon(gc.addIcon))
                   ],
                 ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: (screenHeight - appBarHeight - statusBarHeight - gc.workspacesScreenScale) ,
-                    child: ListView(children: _getAllWorkspaces()),
+                ListView(
+                  children: _getAllWorkspaces(),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                 ),
               ],
           ),
