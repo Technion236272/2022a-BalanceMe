@@ -24,6 +24,11 @@ abstract class Languages {
   String get strRemoved;
   String get strChanged;
   String get strSet;
+  String get strClose;
+  String get strJoin;
+  String get strDismiss;
+  String get strManage;
+  String get strResend;
 
 // Settings
   String get strProfile;
@@ -141,6 +146,10 @@ abstract class Languages {
   String get strWorkspaceAlreadyExist;
   String get strOtherWorkspaceUsers;
   String get strEmptyWorkspace;
+  String get strWorkspaceInvitation;
+  String get strJoinWorkspace;
+  String get strWorkspaceJoinRequestSent;
+  String get strPendingWorkspaceRequests;
 
   // Set Category And Transaction
   String get strTypeSelection;

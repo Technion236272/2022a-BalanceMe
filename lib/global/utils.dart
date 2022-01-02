@@ -65,6 +65,25 @@ Future<void> showYesNoAlertDialog(BuildContext context, String alertContent, Voi
   );
 }
 
+void showDismissBanner(BuildContext context, String message) {
+  void _onDismissed() => { ScaffoldMessenger.of(context).hideCurrentMaterialBanner() };
+
+  ScaffoldMessenger.of(context).showMaterialBanner(
+     MaterialBanner(
+       padding: EdgeInsets.all(gc.bannerPadding),
+       content: Text(message),
+       backgroundColor: gc.bannerColor,
+       leading: Icon(gc.detailsIcon),
+       actions: [
+        TextButton(
+          onPressed: _onDismissed,
+          child: Text(Languages.of(context)!.strClose),
+        ),
+      ],
+    ),
+  );
+}
+
 // Numbers
 double getPercentage(double amount, double total) {
   return (amount / total) * 100;

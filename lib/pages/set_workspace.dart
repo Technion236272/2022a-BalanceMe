@@ -28,7 +28,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
-  bool _shouldShowWorkspaceUsers() => userStorage.workspaceUsers != null && !userStorage.workspaceUsers!.isOnlyLeader;
+  bool get _shouldShowWorkspaceUsers => userStorage.workspaceUsers != null && !userStorage.workspaceUsers!.isOnlyLeader;
+
+  bool get _shouldShowPendingRequests => userStorage.userData != null && userStorage.userData!.workspaceRequests.isNotEmpty;
 
   String? _addWorkspaceValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
@@ -69,13 +71,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  void _closeAddWorkspace() {
-    _addWorkspaceController.text = "";
-    navigateBack(context);
-  }
-
   void _createNewWorkspace(Json? data) {
-    userStorage.SEND_balanceModel();
+    userStorage.SEND_balanceModel();  // TODO- needed?
     if (authRepository.user != null && authRepository.user!.email != null) {
       userStorage.createWorkspaceUsers(authRepository.user!.email!);
       userStorage.SEND_workspaceUsers();
@@ -106,18 +103,36 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     GoogleAnalytics.instance.logWorkspaceRemoved(workspace);
   }
 
-  void _addWorkspace() {
-    if (_formKey.currentState != null && _formKey.currentState!.validate() && userStorage.userData != null) {
+  void _joinWorkspace(String workspace) {
+    if (userStorage.userData != null) {
       setState(() {
-        userStorage.addNewUserToWorkspace(_addWorkspaceController.text);
+        userStorage.userData!.workspaceRequests.add(workspace);
       });
-      _closeAddWorkspace();
-      displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strAdded));
-      GoogleAnalytics.instance.logWorkspaceAdded(_addWorkspaceController.text);
+      userStorage.SEND_generalInfo();
+    }
+    userStorage.SEND_joinWorkspaceRequest(workspace);
+    displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
+    _closeModalBottomSheet();
+  }
+
+  void _addWorkspace() async {
+    if (_formKey.currentState != null && _formKey.currentState!.validate() && userStorage.userData != null) {
+
+      if (await userStorage.GET_isWorkspaceExist(_addWorkspaceController.text)) {  // TODO- add checking in pending
+        navigateBack(context);
+        await showYesNoAlertDialog(context, Languages.of(context)!.strJoinWorkspace, () => {_joinWorkspace(_addWorkspaceController.text)}, _closeModalBottomSheet);
+
+      } else {
+        // _createNewWorkspace(_addWorkspaceController.text);  // TODO- dont forget close modal
+      }
     }
   }
 
-  Widget _showAddWorkspace() {
+  void _resendJoiningRequest() {
+    // TODO
+  }
+
+  Widget _getAddWorkspaceModal() {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SizedBox(
@@ -140,7 +155,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                           style: gc.bottomSheetTextStyle,
                       ),
                       IconButton(
-                        onPressed: _closeAddWorkspace,
+                        onPressed: _closeModalBottomSheet,
                         icon: Icon(gc.closeIcon),
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
@@ -162,7 +177,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                   validatorFunction: _addWorkspaceValidatorFunction,
                 ),
               ),
-              ElevatedButton(
+              ElevatedButton(  // TODO- add action button
                   onPressed: _addWorkspace,
                   child: Text(Languages.of(context)!.strAdd)),
             ],
@@ -172,13 +187,18 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  void _addNewWorkspace() {
+  void _closeModalBottomSheet() {
+    _addWorkspaceController.text = "";
+    navigateBack(context);
+  }
+
+  void _showModalBottomSheet() {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext _context) {
         return SafeArea(
           child: Wrap(
-            children: [_showAddWorkspace()],
+            children: [_getAddWorkspaceModal()],
           ),
         );
       },
@@ -226,15 +246,34 @@ class _SetWorkspaceState extends State<SetWorkspace> {
           );
   }
 
-  List<Widget> _getWorkspaceUsers() {
-    if (userStorage.workspaceUsers == null) {
-      return [];
+  Widget _buildPendingRequestFromString(String user) {
+    return Padding(
+      padding: gc.workspaceTilePadding,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text(
+            user,
+            style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
+          ),
+          TextButton(
+            onPressed: _resendJoiningRequest,
+            child: Text(
+              Languages.of(context)!.strResend,
+              style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _getWorkspaceUsers(List users, Function buildUserFunction) {
+    List<Widget> usersList = [];
+    for (String user in users) {
+      usersList.add(buildUserFunction(user));
     }
-    List<Widget> users = [];
-    for (String user in userStorage.workspaceUsers!.users) {
-      users.add(_buildWorkspaceUserFromString(user));
-    }
-    return users.isEmpty ? [] : users;
+    return usersList.isEmpty ? [] : usersList;
   }
 
   @override
@@ -249,11 +288,11 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             children: [
               Text(Languages.of(context)!.strWorkspaceExplanation), // TODO- write the content
               const Divider(),
-              Text(_shouldShowWorkspaceUsers() ? Languages.of(context)!.strOtherWorkspaceUsers : Languages.of(context)!.strEmptyWorkspace),
+              Text(_shouldShowWorkspaceUsers ? Languages.of(context)!.strOtherWorkspaceUsers : Languages.of(context)!.strEmptyWorkspace),
               Padding(
                 padding: gc.userTilePadding,
                 child: Visibility(
-                  visible: _shouldShowWorkspaceUsers(),
+                  visible: _shouldShowWorkspaceUsers,
                   child: Container(
                     width: MediaQuery.of(context).size.width / 3,
                     decoration: BoxDecoration(
@@ -261,7 +300,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                       borderRadius: BorderRadius.circular(gc.entryBorderRadius),
                     ),
                     child: ListView(
-                      children: _getWorkspaceUsers(),
+                      children: _getWorkspaceUsers((userStorage.workspaceUsers == null) ? [] : userStorage.workspaceUsers!.users, _buildWorkspaceUserFromString),
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                     ),
@@ -269,12 +308,32 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                 ),
               ),
               const Divider(),
+              Visibility(
+                visible: _shouldShowPendingRequests,
+                child: Column(
+                  children: [
+                    Text(Languages.of(context)!.strPendingWorkspaceRequests),
+                    Padding(  // TODO- export
+                      padding: gc.userTilePadding,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: ListView(
+                          children: _getWorkspaceUsers((userStorage.userData == null) ? [] : userStorage.userData!.workspaceRequests, _buildPendingRequestFromString),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                        ),
+                      ),
+                    ),
+                    const Divider(),
+                  ],
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(Languages.of(context)!.strChooseWorkspace),
                   IconButton(
-                      onPressed: _addNewWorkspace, icon: Icon(gc.addIcon))
+                      onPressed: _showModalBottomSheet, icon: Icon(gc.addIcon))
                 ],
               ),
               ListView(

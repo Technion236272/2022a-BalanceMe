@@ -8,6 +8,7 @@ import 'package:balance_me/localization/locale_controller.dart';
 import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/common_models/workspace_users_model.dart';
+import 'package:balance_me/global/messages.dart';
 import 'package:balance_me/common_models/category_model.dart' as model;
 import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/types.dart';
@@ -89,7 +90,7 @@ class UserStorage with ChangeNotifier {
     _workspaceUsers = null;
   }
 
-  void modifyUsersInWorkspace(String workspace, Function operator) async {
+  Future<void> _modifyUsersInWorkspace(String workspace, Function operator) async {
     WorkspaceUsers? currentWorkspaceUser = (_workspaceUsers == null) ? null : workspaceUsers!.copy();
     await GET_workspaceUsers(workspace: workspace);
     if (_workspaceUsers != null && _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
@@ -108,7 +109,7 @@ class UserStorage with ChangeNotifier {
       userData!.workspaceOptions.add(workspace);
       SEND_generalInfo();
     }
-    modifyUsersInWorkspace(workspace, _addNewUser);
+    _modifyUsersInWorkspace(workspace, _addNewUser);
   }
 
   Future<void> removeUserFromWorkspace(String workspace) async {
@@ -129,7 +130,7 @@ class UserStorage with ChangeNotifier {
       userData!.workspaceOptions.remove(workspace);
       SEND_generalInfo();
     }
-    modifyUsersInWorkspace(workspace, _removeUser);
+    _modifyUsersInWorkspace(workspace, _removeUser);
   }
 
   void setEndOfMonthDay(int endOfMonthDay) {
@@ -318,10 +319,10 @@ class UserStorage with ChangeNotifier {
 
   Future<void> GET_workspaceUsers({String? workspace, VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback}) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null
-        && _userData != null && _userData!.currentWorkspace != "" &&  _userData!.currentWorkspace != _authRepository!.user!.email!) {
+        && (workspace != null || (_userData != null && _userData!.currentWorkspace != "" &&  _userData!.currentWorkspace != _authRepository!.user!.email!))) {
 
       workspace = (workspace == null) ?_userData!.currentWorkspace : workspace;
-      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.workspaceUsers).doc(config.workspaceUsers).get().then((users) async {
+      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.workspaceUsers).doc(config.workspaceUsers).get().then((users) {
         if (users.exists && users.data() != null) { // There is data
           _workspaceUsers = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]);
           successCallback != null ? successCallback(users.data()![config.workspaceUsers]) : null;
@@ -335,8 +336,36 @@ class UserStorage with ChangeNotifier {
 
     } else {
       failureCallback != null ? failureCallback(null) : null;
-      GoogleAnalytics.instance.logPreCheckFailed("GET_workspaceUsers");
+      GoogleAnalytics.instance.logPreCheckFailed("GetWorkspaceUsers");
     }
+  }
+
+  Future<bool> GET_isWorkspaceExist(String workspace) async {
+    try {
+      bool isExist = false;
+      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.workspaceUsers).doc(config.workspaceUsers).get().then((workspace) {
+        isExist = workspace.exists;
+      });
+      return isExist;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void GET_handleUserMessage() async {
+    return;
+
+    // if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+    //   await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).get().then((userMessages) {
+    //     if (userMessages.exists && userMessages.data() != null) {
+    //       handleUserMessages(userMessages.data()![config.userMessages]);
+    //       SEND_resetUserMessages();
+    //       notifyListeners();
+    //     }
+    //   });
+    // } else {
+    //   GoogleAnalytics.instance.logPreCheckFailed("GetUserMessage");
+    // }
   }
 
   // SEND
@@ -371,7 +400,7 @@ class UserStorage with ChangeNotifier {
         config.workspaceUsers: _workspaceUsers!.toJson()
       });
     } else {
-      GoogleAnalytics.instance.logPreCheckFailed("SEND_workspaceUsers");
+      GoogleAnalytics.instance.logPreCheckFailed("SendWorkspaceUsers");
     }
   }
 
@@ -381,7 +410,49 @@ class UserStorage with ChangeNotifier {
     //   await workspaceToDelete.update({config.workspaceUsers: FieldValue.delete()});
     //   workspaceToDelete.delete();
     // } else {
-    //   GoogleAnalytics.instance.logPreCheckFailed("SEND_deleteWorkspace");
+    //   GoogleAnalytics.instance.logPreCheckFailed("SendDeleteWorkspace");
     // }
+  }
+
+  // Send Messages
+  void _SEND_messageToUser(String receiver, Json message) async {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+      await _firestore.collection(config.firebaseVersion).doc(receiver).update({
+        config.userMessages: FieldValue.arrayUnion([message]),  // TODO- init field
+      });
+    } else {
+      GoogleAnalytics.instance.logPreCheckFailed("SendUserMessage");
+    }
+  }
+
+  void SEND_joinWorkspaceRequest(String workspace) async {
+    String? leader;
+
+    void _getLeader() {
+      if (_workspaceUsers != null) {
+        leader = _workspaceUsers!.leader;
+      }
+    }
+
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+      await _modifyUsersInWorkspace(workspace, _getLeader);
+
+      if (leader == null) {
+        // TODO- show error
+      } else {
+        Json joiningRequest = {"type": UserMessage.JoinWorkspace.index, "applicant": _authRepository!.user!.email!};
+        _SEND_messageToUser(leader!, joiningRequest);
+      }
+    }
+  }
+
+  void SEND_resetUserMessages() async {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).set({
+        config.userMessages: [],
+      });
+    } else {
+      GoogleAnalytics.instance.logPreCheckFailed("SendResetUserMessages");
+    }
   }
 }

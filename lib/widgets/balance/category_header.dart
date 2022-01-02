@@ -111,7 +111,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                     constraints: const BoxConstraints(),
                     color: gc.primaryColor,
                     onPressed: _openCategoryDetails,
-                    icon: const Icon(gc.transactionDetailsIcon),
+                    icon: const Icon(gc.detailsIcon),
                   ),
                   Visibility(
                     visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),

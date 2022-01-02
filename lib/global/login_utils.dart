@@ -74,6 +74,7 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
       if (isSigningIn) {
         await userStorage.GET_generalInfo(context);
         userStorage.GET_workspaceUsers();
+        userStorage.GET_handleUserMessage();
         GoogleAnalytics.instance.logLogin(loginFunctionName);
       } else {
         userStorage.SEND_generalInfo();

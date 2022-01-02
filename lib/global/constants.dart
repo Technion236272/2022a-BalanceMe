@@ -27,7 +27,7 @@ const IconData settingsPage = Icons.settings;
 const IconData archivePage = Icons.archive;
 const IconData hidePassword = Icons.remove_red_eye_outlined;
 const IconData showPassword = Icons.remove_red_eye;
-const IconData transactionDetailsIcon = Icons.info;
+const IconData detailsIcon = Icons.info;
 const IconData expandIcon = Icons.expand_less;
 const IconData minimizeIcon = Icons.expand_more;
 const IconData addIcon = Icons.add;
@@ -52,6 +52,7 @@ const Color leaveColor = Color(0xFFE30E0E);
 Color disabledColor = Colors.black38;
 Color shadowColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
+Color bannerColor = Color(0xFFE0E0E0);
 
 // AppBar
 const double appBarAvatarRadius = 40;
@@ -272,3 +273,6 @@ const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 const EdgeInsets workspacesGeneralPadding = EdgeInsets.all(8.0);
 const EdgeInsets userTilePadding = EdgeInsets.only(top: 8.0);
 BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2,0));
+
+// Banner
+const double bannerPadding = 20;

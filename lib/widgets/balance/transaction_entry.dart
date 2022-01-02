@@ -69,7 +69,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
             Center(
               child: IconButton(
                 onPressed: _openTransactionDetails,
-                icon: const Icon(gc.transactionDetailsIcon),
+                icon: const Icon(gc.detailsIcon),
               ),
             ),
           ],

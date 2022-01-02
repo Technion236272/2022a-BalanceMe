@@ -16,7 +16,7 @@ class _GenericTooltipState extends State<GenericTooltip> {
       message: widget.tip,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Icon(gc.transactionDetailsIcon),
+        child: Icon(gc.detailsIcon),
       ),
     );
   }

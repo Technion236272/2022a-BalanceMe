@@ -52,6 +52,21 @@ class LanguageHe extends Languages {
   @override
   String get strSet =>"‎שנה";
 
+  @override
+  String get strClose =>"‎סגור";
+
+  @override
+  String get strJoin =>"‎הצטרף";
+
+  @override
+  String get strDismiss =>"‎דחה";
+
+  @override
+  String get strManage =>"‎נהל";
+
+  // @override
+  String get strResend =>"‎שלח שוב";
+
   // Settings
   @override
   String get strProfile => "‎פרופיל";
@@ -357,13 +372,25 @@ class LanguageHe extends Languages {
   String get strNotEmailValidator => "‎השדה לא יכול להכיל את התו @";
 
   @override
-  String get strWorkspaceAlreadyExist => "‎מרחב העבודה כבר קיים";
+  String get strWorkspaceAlreadyExist => "‎הינך כבר חלק ממרחב העבודה";
 
   @override
   String get strOtherWorkspaceUsers => "‎משתמשים נוספים במרחב:";
 
   @override
   String get strEmptyWorkspace => "‎מרחב העבודה ריק";
+
+  @override
+  String get strWorkspaceInvitation => "‎%הזמין אותך להצטרף למרחב העבודה בשם #.\n";
+
+  @override
+  String get strJoinWorkspace => "‎מרחב העבודה כבר קיים.\nהאם לשלוח בקשת הצטרפות למרחב?";
+
+  @override
+  String get strWorkspaceJoinRequestSent => "‎בקשת הצטרפות למרחב העבודה נשלחה";
+
+  @override
+  String get strPendingWorkspaceRequests => "‎בקשות הצטרפות ממתינות:";
 
   // Set Category And Transaction
   @override

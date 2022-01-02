@@ -11,6 +11,7 @@ class UserModel {
       this.isDarkMode = false,
       this.language = ""]) {
     this.workspaceOptions = getStringSortedList();
+    this.workspaceRequests = getStringSortedList();
   }
 
   String currentWorkspace;
@@ -21,6 +22,7 @@ class UserModel {
   bool isDarkMode;
   String language;
   late SortedList<String> workspaceOptions;
+  late SortedList<String> workspaceRequests;
 
   void updateFromJson(Json json) {
     if (json["groupName"] != null) {
@@ -49,6 +51,10 @@ class UserModel {
       workspaceOptions = getStringSortedList();
       workspaceOptions.addAll(jsonToElementList(json["workspaceOptions"], (workspace) => workspace).cast<String>());
     }
+    if (json["workspaceRequests"] != null) {
+      workspaceRequests = getStringSortedList();
+      workspaceRequests.addAll(jsonToElementList(json["workspaceRequests"], (workspace) => workspace).cast<String>());
+    }
   }
 
   Json toJson() => {
@@ -59,12 +65,14 @@ class UserModel {
     'lastName': lastName,
     'isDarkMode': isDarkMode,
     'language': language,
-    'workspaceOptions': workspaceOptions.toList()
+    'workspaceOptions': workspaceOptions.toList(),
+    'workspaceRequests': workspaceRequests.toList()
   };
 
   void initWorkspaces(String userEmail) {  // TODO- check if needed
     currentWorkspace = userEmail;
     workspaceOptions = getStringSortedList();
     workspaceOptions.add(userEmail);
+    // TODO- add init workspaceRequests
   }
 }

@@ -52,6 +52,21 @@ class LanguageEn extends Languages {
   @override
   String get strSet =>"Set";
 
+  @override
+  String get strClose =>"Close";
+
+  @override
+  String get strJoin =>"Close";
+
+  @override
+  String get strDismiss =>"Dismiss";
+
+  @override
+  String get strManage =>"Manage";  // TODO
+
+  // @override
+  String get strResend =>"Resend";
+
 // Settings
   @override
   String get strProfile => "Profile";
@@ -357,13 +372,25 @@ class LanguageEn extends Languages {
   String get strNotEmailValidator => "This field include the character @";
 
   @override
-  String get strWorkspaceAlreadyExist => "This workspace is already exist";
+  String get strWorkspaceAlreadyExist => "You are already a member in this workspace";
 
   @override
   String get strOtherWorkspaceUsers => "Other users in the workspace:";
 
   @override
   String get strEmptyWorkspace => "You are alone in this workspace";
+
+  @override
+  String get strWorkspaceInvitation => "% invites you to join his workspace named #.\n";  // TODO
+
+  @override
+  String get strJoinWorkspace => "This workspace is already exist.\nDo you want to send a joining request to this workspace?";
+
+  @override
+  String get strWorkspaceJoinRequestSent => "A joining request to the workspace has been sent";
+
+  @override
+  String get strPendingWorkspaceRequests => "Pending joining requests:";
 
   // Set Category And Transaction
   @override
