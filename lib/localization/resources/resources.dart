@@ -26,6 +26,7 @@ abstract class Languages {
   String get strSet;
   String get strClose;
   String get strJoin;
+  String get strInvite;
   String get strDismiss;
   String get strManage;
   String get strResend;

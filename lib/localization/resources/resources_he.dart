@@ -59,6 +59,9 @@ class LanguageHe extends Languages {
   String get strJoin =>"‎הצטרף";
 
   @override
+  String get strInvite =>"‎הזמן";
+
+  @override
   String get strDismiss =>"‎דחה";
 
   @override

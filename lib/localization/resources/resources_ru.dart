@@ -55,7 +55,10 @@ class LanguageRu extends Languages {
   String get strClose =>"Close";
 
   @override
-  String get strJoin =>"Close";
+  String get strJoin =>"Join";
+
+  @override
+  String get strInvite =>"Invite";
 
   @override
   String get strDismiss =>"Dismiss";

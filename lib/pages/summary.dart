@@ -44,21 +44,23 @@ class _SummaryPageState extends State<SummaryPage> {
   }
 
   void _inviteUserToWorkspace() async {
-    if (userStorage.userData != null) {
+    if (_formKey.currentState != null && _formKey.currentState!.validate() && userStorage.userData != null) {
+      if (userStorage.userData != null) {
 
-      if (await userStorage.GET_isUserExist(_userNameController.text)) {
-        userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, _userNameController.text, _requestContentController.text);
-        displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
-        GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, _userNameController.text);
+        if (await userStorage.GET_isUserExist(_userNameController.text)) {
+          userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, _userNameController.text, _requestContentController.text);
+          displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
+          GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, _userNameController.text);
+        } else {
+          displaySnackBar(context, Languages.of(context)!.strUserNotFound);
+        }
+
       } else {
-        displaySnackBar(context, Languages.of(context)!.strUserNotFound);
+        displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
       }
 
-    } else {
-      displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
+      _closeModalBottomSheet();
     }
-
-    _closeModalBottomSheet();
   }
 
   String? _userValidatorFunction(String? value) {
@@ -120,14 +122,14 @@ class _SummaryPageState extends State<SummaryPage> {
                   _requestContentController,
                   1,
                   1,
-                  Languages.of(context)!.strAddDescription, // TODO
+                  Languages.of(context)!.strAddDescription,
                   isBordered: true,
                   isValid: true,
                 ),
               ),
               ElevatedButton(  // TODO- add action button
                   onPressed: _inviteUserToWorkspace,
-                  child: Text(Languages.of(context)!.strAdd)),
+                  child: Text(Languages.of(context)!.strInvite)),
             ],
           ),
         ),
