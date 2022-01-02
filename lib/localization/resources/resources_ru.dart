@@ -319,7 +319,7 @@ class LanguageRu extends Languages {
   String get strTransactionName => "название транзакции";
 
   @override
-  String get strAddDescription => "Добавить описание... (OPTIONAL)";
+  String get strAddDescription => "Добавить описание... (optional)";
 
   @override
   String get strEmptyDescription => "Нет никакого описания";

@@ -82,17 +82,23 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     _closeModalBottomSheet();
   }
 
-  void _requestJoiningWorkspace(String workspace) {
-    if (userStorage.userData != null) {
-      setState(() {
-        userStorage.userData!.workspaceRequests.add(workspace);
-      });
-      userStorage.SEND_generalInfo();
+  void _requestJoiningWorkspace(String workspace) async {
+    if (!userStorage.userData!.workspaceRequests.contains(workspace)) {
+      if (userStorage.userData != null) {
+        setState(() {
+          userStorage.userData!.workspaceRequests.add(workspace);
+        });
+        userStorage.SEND_generalInfo();
+      }
+      _closeModalBottomSheet();
     }
-    userStorage.SEND_joinWorkspaceRequest(workspace);
-    _closeModalBottomSheet();
-    displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
-    GoogleAnalytics.instance.logWorkspaceJoinRequestSent(workspace);
+
+    if (await userStorage.SEND_joinWorkspaceRequest(workspace)) {
+      displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
+      GoogleAnalytics.instance.logWorkspaceJoinRequestSent(workspace);
+    } else {
+      displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
+    }
   }
 
   void _addWorkspace() async {
@@ -108,7 +114,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     }
   }
 
-  void _resendJoiningRequest() {
+  void _resendJoiningRequest(String workspace) {
+    _requestJoiningWorkspace(workspace);
     displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
   }
 
@@ -168,9 +175,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                   validatorFunction: _addWorkspaceValidatorFunction,
                 ),
               ),
-              ElevatedButton(  // TODO- add action button
+              ElevatedButton(
                   onPressed: _addWorkspace,
-                  child: Text(Languages.of(context)!.strAdd)),
+                  child: Text(Languages.of(context)!.strAdd),
+              ),
             ],
           ),
         ),
@@ -251,18 +259,18 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  Widget _buildPendingRequestFromString(String user) {
+  Widget _buildPendingRequestFromString(String tile) {
     return Padding(
       padding: gc.workspaceTilePadding,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            user,
+            tile,
             style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
           ),
           TextButton(
-            onPressed: _resendJoiningRequest,
+            onPressed: () => {_resendJoiningRequest(tile)},
             child: Text(
               Languages.of(context)!.strResend,
               style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),

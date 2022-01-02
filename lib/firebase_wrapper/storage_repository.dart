@@ -453,7 +453,7 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_joinWorkspaceRequest(String workspace) async {
+  Future<bool> SEND_joinWorkspaceRequest(String workspace) async {
     String? leader;
 
     void _getLeader() {
@@ -465,13 +465,13 @@ class UserStorage with ChangeNotifier {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
       await _modifyUsersInWorkspace(workspace, _getLeader);
 
-      if (leader == null) {
-        // TODO- show error (return bool)
-      } else {
+      if (leader != null) {
         Json joiningRequest = {"type": UserMessage.JoinWorkspace.index, "workspace": workspace, "applicant": _authRepository!.user!.email!};
         _SEND_messageToUser(leader!, joiningRequest);
+        return true;
       }
     }
+    return false;
   }
 
   void SEND_inviteWorkspaceRequest(String workspace, String user, String? requestContent) {

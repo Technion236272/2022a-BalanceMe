@@ -319,7 +319,7 @@ class LanguageEn extends Languages {
   String get strTransactionName => "Transaction Name";
 
   @override
-  String get strAddDescription => "Add Description... (OPTIONAL)";
+  String get strAddDescription => "Add Description... (optional)";
 
   @override
   String get strEmptyDescription => "There is no description";

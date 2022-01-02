@@ -66,7 +66,7 @@ class _SummaryPageState extends State<SummaryPage> {
   String? _userValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
-      message = emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
+      message = emailValidator(value) && value != authRepository.user!.email ? null : Languages.of(context)!.strBadEmail;
     }
     return message;
   }
@@ -127,9 +127,10 @@ class _SummaryPageState extends State<SummaryPage> {
                   isValid: true,
                 ),
               ),
-              ElevatedButton(  // TODO- add action button
+              ElevatedButton(
                   onPressed: _inviteUserToWorkspace,
-                  child: Text(Languages.of(context)!.strInvite)),
+                  child: Text(Languages.of(context)!.strInvite),
+              ),
             ],
           ),
         ),
