@@ -9,7 +9,6 @@ import 'package:balance_me/widgets/generic_dismissible.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetWorkspace extends StatefulWidget {
@@ -83,7 +82,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     _closeModalBottomSheet();
   }
 
-  void _joinWorkspace(String workspace) {
+  void _requestJoiningWorkspace(String workspace) {
     if (userStorage.userData != null) {
       setState(() {
         userStorage.userData!.workspaceRequests.add(workspace);
@@ -101,7 +100,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
       if (await userStorage.GET_isWorkspaceExist(_addWorkspaceController.text)) {
         navigateBack(context);
-        await showYesNoAlertDialog(context, Languages.of(context)!.strJoinWorkspace, () => {_joinWorkspace(_addWorkspaceController.text)}, _closeModalBottomSheet);
+        await showYesNoAlertDialog(context, Languages.of(context)!.strJoinWorkspace, () => {_requestJoiningWorkspace(_addWorkspaceController.text)}, _closeModalBottomSheet);
 
       } else {
         _createNewWorkspace(_addWorkspaceController.text);

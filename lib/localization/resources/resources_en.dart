@@ -316,7 +316,7 @@ class LanguageEn extends Languages {
   String get strTransactionName => "Transaction Name";
 
   @override
-  String get strAddDescription => "Add Description...";
+  String get strAddDescription => "Add Description... (OPTIONAL)";
 
   @override
   String get strEmptyDescription => "There is no description";
@@ -400,6 +400,9 @@ class LanguageEn extends Languages {
 
   @override
   String get strWorkspaceCreated => "The workspace has been created";
+
+  @override
+  String get strInviteUserToWorkspace => "Invite user to workspace";
 
   // Set Category And Transaction
   @override

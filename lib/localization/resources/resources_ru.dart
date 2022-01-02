@@ -316,7 +316,7 @@ class LanguageRu extends Languages {
   String get strTransactionName => "название транзакции";
 
   @override
-  String get strAddDescription => "Добавить описание...";
+  String get strAddDescription => "Добавить описание... (OPTIONAL)";
 
   @override
   String get strEmptyDescription => "Нет никакого описания";
@@ -400,6 +400,9 @@ class LanguageRu extends Languages {
 
   @override
   String get strWorkspaceCreated => "The workspace has been created";
+
+  @override
+  String get strInviteUserToWorkspace => "Invite user to workspace";
 
   // Set Category And Transaction
   @override

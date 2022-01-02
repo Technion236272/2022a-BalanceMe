@@ -1,10 +1,10 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:flutter/services.dart';
 
 // Navigation
 void navigateToPage(context, Widget page, AppPages? pageEnum) {
@@ -144,6 +144,8 @@ bool matchingPasswordValidator(String? value, String? confirmValue) => (essentia
 bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toString()) && value! > 0);
 
 bool notEmailValidator(String? value) => (essentialFieldValidator(value.toString()) && !value!.contains("@"));
+
+bool emailValidator(String? value) => (essentialFieldValidator(value) && EmailValidator.validate(value!));
 
 // Time
 DateTime getCurrentMonth(int endOfMonth, [DateTime? specificDate]) {

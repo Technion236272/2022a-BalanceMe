@@ -316,7 +316,7 @@ class LanguageHe extends Languages {
   String get strTransactionName => "‎שם התנועה";
 
   @override
-  String get strAddDescription => "‎תיאור...";
+  String get strAddDescription => "‎תיאור... (אופציונלי)";
 
   @override
   String get strEmptyDescription => "‎אין תיאור זמין";
@@ -400,6 +400,9 @@ class LanguageHe extends Languages {
 
   @override
   String get strWorkspaceCreated => "‎מרחב העבודה נוצר בהצלחה";
+
+  @override
+  String get strInviteUserToWorkspace => "‎הזמן משתמש למרחב העבודה";
 
   // Set Category And Transaction
   @override

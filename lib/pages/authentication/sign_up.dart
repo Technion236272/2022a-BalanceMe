@@ -76,7 +76,7 @@ class _SignUpState extends State<SignUp> {
   String? _emailValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return EmailValidator.validate(value!) ? null : Languages.of(context)!.strBadEmail;
+      return emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
     }
     return message;
   }

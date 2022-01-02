@@ -299,6 +299,18 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  Future<bool> GET_isUserExist(String user) async {
+    try {
+      bool isExist = false;
+      await _firestore.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) {
+        isExist = generalInfo.exists;
+      });
+      return isExist;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> GET_balanceModel({VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback}) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
@@ -454,12 +466,17 @@ class UserStorage with ChangeNotifier {
       await _modifyUsersInWorkspace(workspace, _getLeader);
 
       if (leader == null) {
-        // TODO- show error
+        // TODO- show error (return bool)
       } else {
-        Json joiningRequest = {"type": UserMessage.JoinWorkspace.index, "applicant": _authRepository!.user!.email!};
+        Json joiningRequest = {"type": UserMessage.JoinWorkspace.index, "workspace": workspace, "applicant": _authRepository!.user!.email!};
         _SEND_messageToUser(leader!, joiningRequest);
       }
     }
+  }
+
+  void SEND_inviteWorkspaceRequest(String workspace, String user, String? requestContent) {
+    Json joiningRequest = {"type": UserMessage.InviteWorkspace.index, "workspace": workspace, "requestContent": requestContent == null ? "" : requestContent};
+    _SEND_messageToUser(user, joiningRequest);
   }
 
   void SEND_resetUserMessages() async {

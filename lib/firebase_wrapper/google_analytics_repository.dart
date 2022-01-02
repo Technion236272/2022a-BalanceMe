@@ -120,6 +120,10 @@ class GoogleAnalytics {
     _logEvent("WorkspaceJoinRequestSent", {"user": _getUserEmail(), "workspace": workspace});
   }
 
+  void logInviteUserToWorkspace(String workspace, String invitedUser) {
+    _logEvent("InviteUserToWorkspace", {"user": _getUserEmail(), "workspace": workspace, "invitedUser": invitedUser});
+  }
+
   void logMultipleProviders({String? providerLinked}) async {
     List<String> methods = await _getUserProviders();
     if (methods.length == gc.maxAccounts) {
