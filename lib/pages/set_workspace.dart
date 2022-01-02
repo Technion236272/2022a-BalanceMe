@@ -76,20 +76,12 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  void _createNewWorkspace(Json? data) {
-    userStorage.SEND_balanceModel();  // TODO- needed?
-    if (authRepository.user != null && authRepository.user!.email != null) {
-      userStorage.createWorkspaceUsers(authRepository.user!.email!);
-      userStorage.SEND_workspaceUsers();
-    }
-  }
-
   void _chooseWorkspace(String workspace) async {
     userStorage.userData!.currentWorkspace = workspace;
     (authRepository.user != null && workspace != authRepository.user!.email) ? await userStorage.GET_workspaceUsers() : userStorage.resetWorkspaceUsers();
     setState(() {});
     userStorage.SEND_generalInfo();
-    await userStorage.GET_balanceModel(failureCallback: _createNewWorkspace);
+    await userStorage.GET_balanceModel();
     widget.afterChangeWorkspaceCB == null ? null : widget.afterChangeWorkspaceCB!();
     displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strChanged));
     GoogleAnalytics.instance.logWorkspaceChanged(workspace);
@@ -108,6 +100,17 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     GoogleAnalytics.instance.logWorkspaceRemoved(workspace);
   }
 
+  void _createNewWorkspace(String newWorkspace) async {
+    if (await userStorage.createNewWorkspace(newWorkspace)) {
+      setState(() {});
+      displaySnackBar(context, Languages.of(context)!.strWorkspaceCreated);
+      GoogleAnalytics.instance.logWorkspaceCreated(newWorkspace);
+    } else {
+      displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
+    }
+    _closeModalBottomSheet();
+  }
+
   void _joinWorkspace(String workspace) {
     if (userStorage.userData != null) {
       setState(() {
@@ -116,8 +119,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       userStorage.SEND_generalInfo();
     }
     userStorage.SEND_joinWorkspaceRequest(workspace);
-    displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
     _closeModalBottomSheet();
+    displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
+    GoogleAnalytics.instance.logWorkspaceJoinRequestSent(workspace);
   }
 
   void _addWorkspace() async {
@@ -128,7 +132,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
         await showYesNoAlertDialog(context, Languages.of(context)!.strJoinWorkspace, () => {_joinWorkspace(_addWorkspaceController.text)}, _closeModalBottomSheet);
 
       } else {
-        // _createNewWorkspace(_addWorkspaceController.text);  // TODO- dont forget close modal
+        _createNewWorkspace(_addWorkspaceController.text);
       }
     }
   }

@@ -29,6 +29,7 @@ abstract class Languages {
   String get strDismiss;
   String get strManage;
   String get strResend;
+  String get strProblemOccurred;
 
 // Settings
   String get strProfile;
@@ -151,6 +152,7 @@ abstract class Languages {
   String get strWorkspaceJoinRequestSent;
   String get strPendingWorkspaceRequests;
   String get strJoiningWorkspaceRequestExist;
+  String get strWorkspaceCreated;
 
   // Set Category And Transaction
   String get strTypeSelection;

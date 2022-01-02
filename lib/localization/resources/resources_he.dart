@@ -64,8 +64,11 @@ class LanguageHe extends Languages {
   @override
   String get strManage =>"‎נהל";
 
-  // @override
+  @override
   String get strResend =>"‎שלח שוב";
+
+  @override
+  String get strProblemOccurred => "‎התרחשה בעיה, יש לנסות שוב מאוחר יותר";
 
   // Settings
   @override
@@ -394,6 +397,9 @@ class LanguageHe extends Languages {
 
   @override
   String get strJoiningWorkspaceRequestExist => "‎בקשת הצטרפות למרחב העבודה כבר נשלחה";
+
+  @override
+  String get strWorkspaceCreated => "‎מרחב העבודה נוצר בהצלחה";
 
   // Set Category And Transaction
   @override

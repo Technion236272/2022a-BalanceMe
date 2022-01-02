@@ -64,8 +64,11 @@ class LanguageEn extends Languages {
   @override
   String get strManage =>"Manage";  // TODO
 
-  // @override
+  @override
   String get strResend =>"Resend";
+
+  @override
+  String get strProblemOccurred =>"Problem occurred, please try again later";
 
 // Settings
   @override
@@ -394,6 +397,9 @@ class LanguageEn extends Languages {
 
   @override
   String get strJoiningWorkspaceRequestExist => "A joining request to this workspace is already exist";
+
+  @override
+  String get strWorkspaceCreated => "The workspace has been created";
 
   // Set Category And Transaction
   @override

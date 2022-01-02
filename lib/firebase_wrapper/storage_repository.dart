@@ -82,12 +82,28 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void createWorkspaceUsers(String leaderEmail) {
+  void initWorkspaceUsers(String leaderEmail) {
     _workspaceUsers = WorkspaceUsers(leaderEmail);
   }
 
   void resetWorkspaceUsers() {
     _workspaceUsers = null;
+  }
+
+  Future<bool> createNewWorkspace(String newWorkspace) async {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
+      SEND_balanceModel(doc: newWorkspace);
+
+      WorkspaceUsers? currentWorkspaceUser = (_workspaceUsers == null) ? null : workspaceUsers!.copy();
+      initWorkspaceUsers(_authRepository!.user!.email!);
+      await SEND_workspaceUsers(workspace: newWorkspace);
+      _workspaceUsers = currentWorkspaceUser;
+
+      _userData!.workspaceOptions.add(newWorkspace);
+      SEND_generalInfo();
+      return true;
+    }
+    return false;
   }
 
   Future<void> _modifyUsersInWorkspace(String workspace, Function operator) async {
@@ -379,11 +395,11 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_balanceModel() async {
+  void SEND_balanceModel({String? doc}) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
       String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.user!.email! : _userData!.currentWorkspace;
-      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).set({
+      await _firestore.collection(config.firebaseVersion).doc(doc == null ? workspace : doc).collection(config.categoriesDoc).doc(date).set({
         config.categoriesDoc: _balance.toJson()
       });
     } else {

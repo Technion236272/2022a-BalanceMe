@@ -112,6 +112,14 @@ class GoogleAnalytics {
     _logEvent("WorkspaceRemoved", {"user": _getUserEmail(), "workspace": workspace});
   }
 
+  void logWorkspaceCreated(String workspace) {
+    _logEvent("WorkspaceCreated", {"user": _getUserEmail(), "workspace": workspace});
+  }
+
+  void logWorkspaceJoinRequestSent(String workspace) {
+    _logEvent("WorkspaceJoinRequestSent", {"user": _getUserEmail(), "workspace": workspace});
+  }
+
   void logMultipleProviders({String? providerLinked}) async {
     List<String> methods = await _getUserProviders();
     if (methods.length == gc.maxAccounts) {
