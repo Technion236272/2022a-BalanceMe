@@ -48,34 +48,6 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     return message;
   }
 
-  Widget _getWorkspace(String workspace) {
-    return Padding(
-      padding: gc.workspaceTilePadding,
-      child: Container(
-        decoration: BoxDecoration(
-          color: gc.entryColor,
-          borderRadius: BorderRadius.circular(gc.entryBorderRadius),
-          border: Border.all(
-              color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
-          ),
-          boxShadow: [
-            userStorage.userData!.currentWorkspace == workspace ? gc.workspaceTileShadow : BoxShadow()
-          ],
-        ),
-        child: ListTile(
-          title: Text(
-            workspace,
-            style: TextStyle(
-                color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
-                fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
-          onTap: workspace == userStorage.userData!.currentWorkspace ? null : () => {_chooseWorkspace(workspace)},
-        ),
-      ),
-    );
-  }
-
   void _chooseWorkspace(String workspace) async {
     userStorage.userData!.currentWorkspace = workspace;
     (authRepository.user != null && workspace != authRepository.user!.email) ? await userStorage.GET_workspaceUsers() : userStorage.resetWorkspaceUsers();
@@ -202,6 +174,34 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                   child: Text(Languages.of(context)!.strAdd)),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _getWorkspace(String workspace) {
+    return Padding(
+      padding: gc.workspaceTilePadding,
+      child: Container(
+        decoration: BoxDecoration(
+          color: gc.entryColor,
+          borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+          border: Border.all(
+            color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
+          ),
+          boxShadow: [
+            userStorage.userData!.currentWorkspace == workspace ? gc.workspaceTileShadow : BoxShadow()
+          ],
+        ),
+        child: ListTile(
+          title: Text(
+            workspace,
+            style: TextStyle(
+              color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
+              fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+          onTap: workspace == userStorage.userData!.currentWorkspace ? null : () => {_chooseWorkspace(workspace)},
         ),
       ),
     );

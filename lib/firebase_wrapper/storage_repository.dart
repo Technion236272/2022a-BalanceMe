@@ -338,7 +338,7 @@ class UserStorage with ChangeNotifier {
         && (workspace != null || (_userData != null && _userData!.currentWorkspace != "" &&  _userData!.currentWorkspace != _authRepository!.user!.email!))) {
 
       workspace = (workspace == null) ?_userData!.currentWorkspace : workspace;
-      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.workspaceUsers).doc(config.workspaceUsers).get().then((users) {
+      await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) {
         if (users.exists && users.data() != null) { // There is data
           _workspaceUsers = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]);
           successCallback != null ? successCallback(users.data()![config.workspaceUsers]) : null;
@@ -359,7 +359,7 @@ class UserStorage with ChangeNotifier {
   Future<bool> GET_isWorkspaceExist(String workspace) async {
     try {
       bool isExist = false;
-      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.workspaceUsers).doc(config.workspaceUsers).get().then((workspace) {
+      await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((workspace) {
         isExist = workspace.exists;
       });
       return isExist;
@@ -412,7 +412,7 @@ class UserStorage with ChangeNotifier {
         && (workspace != null || (_userData != null && _userData!.currentWorkspace != "" &&  _userData!.currentWorkspace != _authRepository!.user!.email!))) {
 
       workspace = (workspace == null) ?_userData!.currentWorkspace : workspace;
-      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.workspaceUsers).doc(config.workspaceUsers).set({
+      await _firestore.collection(config.firebaseVersion).doc(workspace).set({
         config.workspaceUsers: _workspaceUsers!.toJson()
       });
     } else {
