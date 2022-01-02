@@ -14,23 +14,20 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoogleAnalytics.instance.logAppOpen();
-  final SharedPreferences prefs =await SharedPreferences.getInstance();
   await SentryFlutter.init((options) {
     options.dsn = config.dsnForSentry;
     options.tracesSampleRate = config.traceSampleRate;
     options.release = config.releaseName;
-  }, appRunner: () => runApp(App(prefs: prefs,)));
+  }, appRunner: () => runApp(App()));
 }
 
 class App extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  final SharedPreferences prefs;
-  App({Key? key, required this.prefs}) : super(key: key);
+  App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +40,7 @@ class App extends StatelessWidget {
                   child: Text(snapshot.error.toString(), textDirection: TextDirection.ltr)));
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return BalanceMeApp(prefs: prefs,);
+          return BalanceMeApp();
         }
         return const Center(child: CircularProgressIndicator());
       },
@@ -52,8 +49,7 @@ class App extends StatelessWidget {
 }
 
 class BalanceMeApp extends StatefulWidget {
-  const BalanceMeApp({Key? key, required this.prefs}) : super(key: key);
-  final SharedPreferences prefs;
+  const BalanceMeApp({Key? key}) : super(key: key);
   static void setLocale(BuildContext context, Locale newLocale) {
     _BalanceMeAppState? state = context.findAncestorStateOfType<_BalanceMeAppState>();
     state!.setLocale(newLocale);
@@ -88,24 +84,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
     return supportedLocales.first;
   }
 
-  bool _wasWalkthroughSeen() {
-    return widget.prefs.containsKey(gc.walkthroughShown) &&
-        widget.prefs.getBool(gc.walkthroughShown) != null &&
-        widget.prefs.getBool(gc.walkthroughShown)!;
-  }
 
-  void _setWalkthroughSeen() {
-    widget.prefs.setBool(gc.walkthroughShown, true);
-  }
-
-  Widget _getHome() {
-    if (_wasWalkthroughSeen()) {
-      return HomePage();
-    } else {
-      _setWalkthroughSeen();
-      return IntroWalkthrough();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +120,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
             GlobalCupertinoLocalizations.delegate,
           ],
           localeResolutionCallback: localeResolution,
-          home:_getHome(),
+          home:HomePage(),
         ));
   }
 }

@@ -150,4 +150,3 @@ dynamic indexToEnum(List values, int index) {
     return null;
   }
 }
-

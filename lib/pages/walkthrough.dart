@@ -1,3 +1,4 @@
+import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/home.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ OnbordingData _walkthroughScreen(
 }
 
 List<OnbordingData> _listOfWalkthroughScreens(BuildContext context) {
-  final List<OnbordingData> list = [
+  return [
     _walkthroughScreen(
         gc.welcomeWalkthrough,
         Languages.of(context)!.strWelcomeTitle,
@@ -43,7 +44,6 @@ List<OnbordingData> _listOfWalkthroughScreens(BuildContext context) {
         Languages.of(context)!.strBalanceTitle,
         Languages.of(context)!.strBalanceDescription),
   ];
-  return list;
 }
 
 final List<Color> _imageColor = [
@@ -58,11 +58,21 @@ class _IntroWalkthroughState extends State<IntroWalkthrough> {
       onbordingDataList: _listOfWalkthroughScreens(context),
       colors: _imageColor,
       nextButton: Icon(gc.nextIcon, color: gc.nextColor),
-      lastButton: Icon(gc.finishIcon, color: gc.doneColor,),
-      pageRoute: MaterialPageRoute<void>(builder: (BuildContext context) {return HomePage();},),
-      skipButton: Text(
-        Languages.of(context)!.strSkip,
-        style: TextStyle(color: gc.linkColors, fontSize: gc.skipSize),
+      lastButton: IconButton(
+        color: gc.doneColor,
+        icon: Icon(gc.finishIcon),
+        onPressed: () {
+          navigateBack(context);
+        },
+      ),
+      skipButton: TextButton(
+        onPressed: () {
+          navigateBack(context);
+        },
+        child: Text(
+          Languages.of(context)!.strSkip,
+          style: TextStyle(color: gc.linkColors, fontSize: gc.skipSize),
+        ),
       ),
       selectedDotColor: gc.alternativePrimary,
       unSelectdDotColor: gc.tabUnselectedLabelColor,
