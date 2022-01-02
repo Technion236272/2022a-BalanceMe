@@ -392,6 +392,9 @@ class LanguageHe extends Languages {
   @override
   String get strPendingWorkspaceRequests => "‎בקשות הצטרפות ממתינות:";
 
+  @override
+  String get strJoiningWorkspaceRequestExist => "‎בקשת הצטרפות למרחב העבודה כבר נשלחה";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "‎סוג";

@@ -150,6 +150,7 @@ abstract class Languages {
   String get strJoinWorkspace;
   String get strWorkspaceJoinRequestSent;
   String get strPendingWorkspaceRequests;
+  String get strJoiningWorkspaceRequestExist;
 
   // Set Category And Transaction
   String get strTypeSelection;

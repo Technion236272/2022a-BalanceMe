@@ -28,6 +28,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
+  // ================ LOGIC ================
+
   bool get _shouldShowWorkspaceUsers => userStorage.workspaceUsers != null && !userStorage.workspaceUsers!.isOnlyLeader;
 
   bool get _shouldShowPendingRequests => userStorage.userData != null && userStorage.userData!.workspaceRequests.isNotEmpty;
@@ -39,6 +41,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     }
     if (message == null && userStorage.userData != null) {
       message = userStorage.userData!.workspaceOptions.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
+    }
+    if (message == null && userStorage.userData != null) {
+      message = userStorage.userData!.workspaceRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
     }
     return message;
   }
@@ -118,7 +123,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   void _addWorkspace() async {
     if (_formKey.currentState != null && _formKey.currentState!.validate() && userStorage.userData != null) {
 
-      if (await userStorage.GET_isWorkspaceExist(_addWorkspaceController.text)) {  // TODO- add checking in pending
+      if (await userStorage.GET_isWorkspaceExist(_addWorkspaceController.text)) {
         navigateBack(context);
         await showYesNoAlertDialog(context, Languages.of(context)!.strJoinWorkspace, () => {_joinWorkspace(_addWorkspaceController.text)}, _closeModalBottomSheet);
 
@@ -129,7 +134,18 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _resendJoiningRequest() {
-    // TODO
+    displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
+  }
+
+  // ================ UI ================
+
+  void _closeModalBottomSheet() {
+    _addWorkspaceController.text = "";
+    navigateBack(context);
+  }
+
+  void _showModalBottomSheet() {
+    openModalBottomSheet(context, [_getAddWorkspaceModal()]);
   }
 
   Widget _getAddWorkspaceModal() {
@@ -187,24 +203,6 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  void _closeModalBottomSheet() {
-    _addWorkspaceController.text = "";
-    navigateBack(context);
-  }
-
-  void _showModalBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext _context) {
-        return SafeArea(
-          child: Wrap(
-            children: [_getAddWorkspaceModal()],
-          ),
-        );
-      },
-    );
-  }
-
   Widget _buildWorkspaceFromString(String workspace) {
     return (authRepository.user != null && workspace == authRepository.user!.email) ?
       _getWorkspace(workspace) : GenericDeleteDismissible(
@@ -215,35 +213,39 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  List<Widget> _getAllWorkspaces() {
-    if (userStorage.userData == null) {
-      navigateBack(context);
-      return [];
+  List<Widget> _getTiles(List list, Function buildUserFunction) {
+    List<Widget> tiles = [];
+    for (String tile in list) {
+      tiles.add(buildUserFunction(tile));
     }
-    List<Widget> workspaces = [];
-    for (String workspace in userStorage.userData!.workspaceOptions) {
-      workspaces.add(_buildWorkspaceFromString(workspace));
-    }
-    return workspaces.isEmpty ? [] : workspaces;
+    return tiles.isEmpty ? [] : tiles;
+  }
+
+  Widget _getListView(List<Widget> children) {
+    return ListView(
+      children: children,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+    );
   }
 
   Widget _buildWorkspaceUserFromString(String user) {
     return (authRepository.user != null && user == authRepository.user!.email) ? Container() : Padding(
-            padding: gc.workspaceTilePadding,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Icon(
-                  gc.userIcon,
-                  color: gc.secondaryColor,
-                ),
-                Text(
-                  user,
-                  style: TextStyle(color: gc.secondaryColor, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          );
+      padding: gc.workspaceTilePadding,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Icon(
+            gc.userIcon,
+            color: gc.secondaryColor,
+          ),
+          Text(
+            user,
+            style: TextStyle(color: gc.secondaryColor, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildPendingRequestFromString(String user) {
@@ -268,12 +270,24 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  List<Widget> _getWorkspaceUsers(List users, Function buildUserFunction) {
-    List<Widget> usersList = [];
-    for (String user in users) {
-      usersList.add(buildUserFunction(user));
-    }
-    return usersList.isEmpty ? [] : usersList;
+  Widget _getUserList(bool visibleCondition, String title, List<Widget> listTiles, [BoxDecoration? decoration]) {
+    return Visibility(
+      visible: visibleCondition,
+      child: Column(
+        children: [
+          Text(title),
+          Padding(
+            padding: gc.userTilePadding,
+            child: Container(
+              width: MediaQuery.of(context).size.width / 3,
+              decoration: decoration,
+              child: _getListView(listTiles),
+            ),
+          ),
+          const Divider(),
+        ],
+      ),
+    );
   }
 
   @override
@@ -288,59 +302,29 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             children: [
               Text(Languages.of(context)!.strWorkspaceExplanation), // TODO- write the content
               const Divider(),
-              Text(_shouldShowWorkspaceUsers ? Languages.of(context)!.strOtherWorkspaceUsers : Languages.of(context)!.strEmptyWorkspace),
-              Padding(
-                padding: gc.userTilePadding,
-                child: Visibility(
-                  visible: _shouldShowWorkspaceUsers,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    decoration: BoxDecoration(
-                      color: gc.primaryColor,
-                      borderRadius: BorderRadius.circular(gc.entryBorderRadius),
-                    ),
-                    child: ListView(
-                      children: _getWorkspaceUsers((userStorage.workspaceUsers == null) ? [] : userStorage.workspaceUsers!.users, _buildWorkspaceUserFromString),
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                    ),
-                  ),
+              Visibility(visible: !_shouldShowWorkspaceUsers, child: Column(children: [Text(Languages.of(context)!.strEmptyWorkspace), const Divider()])),
+              _getUserList(
+                _shouldShowWorkspaceUsers,
+                Languages.of(context)!.strOtherWorkspaceUsers,
+                _getTiles((userStorage.workspaceUsers == null) ? [] : userStorage.workspaceUsers!.users, _buildWorkspaceUserFromString),
+                BoxDecoration(
+                  color: gc.primaryColor,
+                  borderRadius: BorderRadius.circular(gc.entryBorderRadius),
                 ),
               ),
-              const Divider(),
-              Visibility(
-                visible: _shouldShowPendingRequests,
-                child: Column(
-                  children: [
-                    Text(Languages.of(context)!.strPendingWorkspaceRequests),
-                    Padding(  // TODO- export
-                      padding: gc.userTilePadding,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: ListView(
-                          children: _getWorkspaceUsers((userStorage.userData == null) ? [] : userStorage.userData!.workspaceRequests, _buildPendingRequestFromString),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                        ),
-                      ),
-                    ),
-                    const Divider(),
-                  ],
-                ),
+              _getUserList(
+                _shouldShowPendingRequests,
+                Languages.of(context)!.strPendingWorkspaceRequests,
+                _getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceRequests, _buildPendingRequestFromString),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(Languages.of(context)!.strChooseWorkspace),
-                  IconButton(
-                      onPressed: _showModalBottomSheet, icon: Icon(gc.addIcon))
+                  IconButton(onPressed: _showModalBottomSheet, icon: Icon(gc.addIcon))
                 ],
               ),
-              ListView(
-                children: _getAllWorkspaces(),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-              ),
+              _getListView(_getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceOptions, _buildWorkspaceFromString)),
             ],
           ),
         ),

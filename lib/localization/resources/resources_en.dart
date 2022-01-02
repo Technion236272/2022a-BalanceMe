@@ -392,6 +392,9 @@ class LanguageEn extends Languages {
   @override
   String get strPendingWorkspaceRequests => "Pending joining requests:";
 
+  @override
+  String get strJoiningWorkspaceRequestExist => "A joining request to this workspace is already exist";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "Type";

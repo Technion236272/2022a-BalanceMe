@@ -84,6 +84,19 @@ void showDismissBanner(BuildContext context, String message) {
   );
 }
 
+void openModalBottomSheet(BuildContext context, List<Widget> children) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext _context) {
+      return SafeArea(
+        child: Wrap(
+          children: children,
+        ),
+      );
+    },
+  );
+}
+
 // Numbers
 double getPercentage(double amount, double total) {
   return (amount / total) * 100;
