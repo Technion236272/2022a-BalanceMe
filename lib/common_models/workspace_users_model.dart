@@ -59,4 +59,8 @@ class WorkspaceUsers {
       leader = newLeader;
     }
   }
+
+  void addPendingJoiningRequest(String applicant) {
+    pendingJoiningRequests.add(applicant);
+  }
 }

@@ -71,6 +71,12 @@ class LanguageHe extends Languages {
   String get strResend =>"‎שלח שוב";
 
   @override
+  String get strApprove =>"‎אישור";
+
+  @override
+  String get strReject =>"דחייה‎";
+
+  @override
   String get strProblemOccurred => "‎התרחשה בעיה, יש לנסות שוב מאוחר יותר";
 
   // Settings
@@ -411,7 +417,7 @@ class LanguageHe extends Languages {
   String get strUserInvitedToWorkspace => "Good news!\nYou have been invited to join % workspace by #!";
 
   @override
-  String get strUserRequestJoiningToWorkspace => "# requests to join your % workspace";
+  String get strUserRequestJoiningToWorkspace => "# requests to join % workspace";
 
   @override
   String get strUserAcceptsInvitation => "# accepts your invitation to join %!";

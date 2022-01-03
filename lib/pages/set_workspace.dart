@@ -119,6 +119,14 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
   }
 
+  void _approveJoiningRequest(String workspace) {
+    // TODO
+  }
+
+  void _disapproveJoiningRequest(String workspace) {
+    // TODO
+  }
+
   // ================ UI ================
 
   void _closeModalBottomSheet() {
@@ -281,6 +289,35 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
+  Widget _buildJoiningRequestsFromString(String tile) {
+    return Padding(
+      padding: gc.workspaceTilePadding,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            tile,
+            style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
+          ),
+          TextButton(
+            onPressed: () => {_approveJoiningRequest(tile)},
+            child: Text(
+              Languages.of(context)!.strApprove,
+              style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
+            ),
+          ),
+          TextButton(
+            onPressed: () => {_disapproveJoiningRequest(tile)},
+            child: Text(
+              Languages.of(context)!.strReject,
+              style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _getUserList(bool visibleCondition, String title, List<Widget> listTiles, [BoxDecoration? decoration]) {
     return Visibility(
       visible: visibleCondition,
@@ -327,6 +364,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                 _shouldShowPendingRequests,
                 Languages.of(context)!.strPendingWorkspaceRequests,
                 _getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceRequests, _buildPendingRequestFromString),
+              ),
+              Visibility(  // TODO- use _getUserList instead of _getListView (add string for title)
+                visible: userStorage.workspaceUsers != null && userStorage.workspaceUsers!.isPendingJoiningRequests,
+                child: _getListView(_getTiles((userStorage.workspaceUsers == null) ? [] : userStorage.workspaceUsers!.pendingJoiningRequests, _buildJoiningRequestsFromString)),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

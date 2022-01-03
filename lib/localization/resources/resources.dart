@@ -30,6 +30,8 @@ abstract class Languages {
   String get strDismiss;
   String get strManage;
   String get strResend;
+  String get strApprove;
+  String get strReject;
   String get strProblemOccurred;
 
 // Settings

@@ -423,6 +423,12 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  void SEND_addPendingJoiningRequest(String workspace, String applicant) async {
+    await FirebaseFirestore.instance.collection(config.firebaseVersion).doc(workspace).update({
+      "${config.workspaceUsers}.pendingJoiningRequests" : FieldValue.arrayUnion([applicant]),
+    });
+  }
+
   void SEND_deleteWorkspace(String workspace) async {  // TODO
     // if (_userData != null) {
     //   var workspaceToDelete = _firestore.collection(config.firebaseVersion).doc(workspace);
@@ -478,7 +484,7 @@ class UserStorage with ChangeNotifier {
       await _modifyUsersInWorkspace(workspace, _getLeader);
 
       if (leader != null) {
-        Json joiningRequest = {"type": UserMessage.JoinWorkspace.index, "workspace": workspace, "applicant": _authRepository!.user!.email!};
+        Json joiningRequest = {"type": UserMessage.JoinWorkspace.index, "workspace": workspace, "user": _authRepository!.user!.email!};
         _SEND_messageToUser(leader!, joiningRequest);
         return true;
       }
@@ -486,7 +492,7 @@ class UserStorage with ChangeNotifier {
     return false;
   }
 
-  void SEND_inviteWorkspaceRequest(String workspace, String user, String? requestContent) {
+  void SEND_inviteWorkspaceRequest(String workspace, String user, String? requestContent) {  // TODO- change requestContent to user
     Json joiningRequest = {"type": UserMessage.InviteWorkspace.index, "workspace": workspace, "requestContent": requestContent == null ? "" : requestContent};
     _SEND_messageToUser(user, joiningRequest);
   }

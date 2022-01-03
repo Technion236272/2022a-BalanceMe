@@ -71,6 +71,12 @@ class LanguageEn extends Languages {
   String get strResend =>"Resend";
 
   @override
+  String get strApprove =>"Approve";
+
+  @override
+  String get strReject =>"Reject";
+
+  @override
   String get strProblemOccurred =>"Problem occurred, please try again later";
 
 // Settings
@@ -411,7 +417,7 @@ class LanguageEn extends Languages {
   String get strUserInvitedToWorkspace => "Good news!\nYou have been invited to join % workspace by #!";
 
   @override
-  String get strUserRequestJoiningToWorkspace => "# requests to join your % workspace";
+  String get strUserRequestJoiningToWorkspace => "# requests to join % workspace";
 
   @override
   String get strUserAcceptsInvitation => "# accepts your invitation to join %!";
