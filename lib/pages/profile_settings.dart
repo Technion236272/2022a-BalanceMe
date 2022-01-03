@@ -98,13 +98,40 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     imageOptions.add(() async {
       await _chooseAvatarSource(ImageSource.camera);
     });
+    imageOptions.add(() async {
+      await _deleteAvatar();
+    });
     return imageOptions;
+  }
+
+  Future<void> _deleteAvatar() async {
+    if (widget.authRepository.avatarUrl == null) {
+      navigateBack(context);
+      displaySnackBar(context, Languages.of(context)!.strDeleteProfileFailed);
+      return;
+    }
+    showYesNoAlertDialog(context, Languages.of(context)!.strDeleteProfileAlert,
+        _deleteImage, _cancelDeleteImage);
+  }
+
+  void _cancelDeleteImage() {
+    navigateBack(context);
+    navigateBack(context);
+  }
+
+  void _deleteImage() {
+    setState(() {
+      widget.authRepository.deleteAvatarUrl();
+    });
+    navigateBack(context);
+    navigateBack(context);
   }
 
   List<Widget?> _iconsLeading() {
     List<Widget?> icons = [];
     icons.add(const Icon(gc.galleryChoice));
     icons.add(const Icon(gc.cameraChoice));
+    icons.add(const Icon(gc.deleteIcon));
     return icons;
   }
 
@@ -112,6 +139,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     List<String> titles = [];
     titles.add(Languages.of(context)!.strGalleryOption);
     titles.add(Languages.of(context)!.strCameraOption);
+    titles.add(Languages.of(context)!.strDeleteProfile);
     return titles;
   }
 

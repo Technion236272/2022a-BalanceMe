@@ -45,6 +45,9 @@ abstract class Languages {
   String get strProfileInfo;
   String get strPasswordChangeInfo;
   String get strConstants;
+  String get strDeleteProfile;
+  String get strDeleteProfileFailed;
+  String get strDeleteProfileAlert;
   // Login
   String get strWelcomeBack;
   String get strWelcomeAboard;

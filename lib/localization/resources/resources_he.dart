@@ -109,6 +109,16 @@ class LanguageHe extends Languages {
 
   @override
   String get strConstants => "הגדרות קבועות:‎";
+
+  @override
+  String get strDeleteProfile => "מחק את תמונת הפרופיל ‎";
+
+  @override
+  String get strDeleteProfileFailed => "המחיקה נכשלה כיוון שאין תמונת פרופיל‎";
+
+  @override
+  String get strDeleteProfileAlert => "‎האם ברצונך למחוק את תמונת הפרופיל שלך?";
+
   // Login
   @override
   String get strWelcomeBack => "‎ברוכים השבים!";

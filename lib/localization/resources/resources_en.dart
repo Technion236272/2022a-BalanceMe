@@ -109,6 +109,16 @@ class LanguageEn extends Languages {
 
   @override
   String get strConstants => "Constant settings:";
+
+  @override
+  String get strDeleteProfile => "Delete profile image";
+
+  @override
+  String get strDeleteProfileFailed => "Delete failed because you have no profile image";
+
+  @override
+  String get strDeleteProfileAlert => "Are you sure you want to delete your profile image?";
+
 // Login
   @override
   String get strWelcomeBack => "Welcome Back!";
