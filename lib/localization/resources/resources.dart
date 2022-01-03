@@ -155,6 +155,12 @@ abstract class Languages {
   String get strJoiningWorkspaceRequestExist;
   String get strWorkspaceCreated;
   String get strInviteUserToWorkspace;
+  String get strUserInvitedToWorkspace;
+  String get strUserRequestJoiningToWorkspace;
+  String get strUserAcceptsInvitation;
+  String get strUserRejectsInvitation;
+  String get strUserApproveJoining;
+  String get strUserDisapproveJoining;
 
   // Set Category And Transaction
   String get strTypeSelection;

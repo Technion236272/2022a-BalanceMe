@@ -65,7 +65,12 @@ Future<void> showYesNoAlertDialog(BuildContext context, String alertContent, Voi
   );
 }
 
-void showDismissBanner(BuildContext context, String message) {
+void showDismissBanner(String message) {
+  if (globalNavigatorKey.currentContext == null) {
+    return;
+  }
+
+  BuildContext context = globalNavigatorKey.currentContext!;
   void _onDismissed() => { ScaffoldMessenger.of(context).hideCurrentMaterialBanner() };
 
   ScaffoldMessenger.of(context).showMaterialBanner(

@@ -124,6 +124,18 @@ class GoogleAnalytics {
     _logEvent("InviteUserToWorkspace", {"user": _getUserEmail(), "workspace": workspace, "invitedUser": invitedUser});
   }
 
+  void logHandleMessageSuccess(String message) {
+    _logEvent("HandleMessageSuccess", {"user": _getUserEmail(), "message": message});
+  }
+
+  void logHandleUnknownMessage(String message) {
+    _logEvent("HandleUnknownMessage", {"user": _getUserEmail(), "message": message});
+  }
+
+  void logHandleMessageFailed() {
+    _logEvent("HandleMessageFailed", {"user": _getUserEmail()});
+  }
+
   void logMultipleProviders({String? providerLinked}) async {
     List<String> methods = await _getUserProviders();
     if (methods.length == gc.maxAccounts) {

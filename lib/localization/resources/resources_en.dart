@@ -407,6 +407,24 @@ class LanguageEn extends Languages {
   @override
   String get strInviteUserToWorkspace => "Invite user to workspace";
 
+  @override
+  String get strUserInvitedToWorkspace => "Good news!\nYou have been invited to join % workspace by #!";
+
+  @override
+  String get strUserRequestJoiningToWorkspace => "# requests to join your % workspace";
+
+  @override
+  String get strUserAcceptsInvitation => "# accepts your invitation to join %!";
+
+  @override
+  String get strUserRejectsInvitation => "Unfortunately, # rejects your invitation to join %!";
+
+  @override
+  String get strUserApproveJoining => "Your application to join % workspace has been approved by #!";
+
+  @override
+  String get strUserDisapproveJoining => "Your application to join % workspace has been rejected by #";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "Type";

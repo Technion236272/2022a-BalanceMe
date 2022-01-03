@@ -1,8 +1,11 @@
 // ================= Global Types =================
+import 'package:flutter/material.dart';
 import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/global/utils.dart';
+
+final globalNavigatorKey = GlobalKey<NavigatorState>();
 
 enum AuthStatus {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
@@ -24,7 +27,7 @@ enum LoginMethod {Regular, Facebook, Google}
 
 enum Currency {NIS, USD, EURO}
 
-enum UserMessage {JoinWorkspace, InviteWorkspace, AcceptWorkspace, RejectWorkspace}
+enum UserMessage {JoinWorkspace, InviteWorkspace, ShowMessage}
 
 Map<Currency, String> CurrencySign = {Currency.NIS: "₪", Currency.USD: "\$", Currency.EURO: "€"};
 
@@ -54,7 +57,9 @@ SortedList<Category> getCategorySortedList() => SortedList<Category>((a, b) => a
 
 SortedList<Transaction> getTransactionSortedList() => SortedList<Transaction>((a, b) => a.compareTo(b));
 
-SortedList<String> getStringSortedList() => SortedList<String>((a, b) => a.contains("@") ? -1 : a.compareStrings(b));
+SortedList<String> getNoEmailSortedList() => SortedList<String>((a, b) => a.contains("@") ? -1 : a.compareStrings(b));
+
+SortedList<String> getStringSortedList() => SortedList<String>();
 
 class PrimitiveWrapper{
   var value;
