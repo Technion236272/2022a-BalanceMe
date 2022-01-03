@@ -1,5 +1,6 @@
 // ================= Storage Repository =================
 import 'package:flutter/cupertino.dart';
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -38,6 +39,10 @@ class UserStorage with ChangeNotifier {
     if (authRepository.status == AuthStatus.Authenticated) {
       _userData = (authRepository.user != null) ? _userData : UserModel(userEmail);
 
+      if (_userMessagesStream == null) {
+        startHandleUserMessage();
+      }
+
       // if (_userData ?.currentWorkspace == "" && userEmail != "") {  // TODO- check if needed
       //   _userData!.initWorkspaces(userEmail);
       //   SEND_generalInfo();
@@ -46,6 +51,7 @@ class UserStorage with ChangeNotifier {
     } else {
       _userData = UserModel(userEmail);
       resetBalance();
+      finishHandleUserMessage();
     }
 
     notifyListeners();
@@ -60,6 +66,7 @@ class UserStorage with ChangeNotifier {
   BalanceModel _balance = BalanceModel();
   WorkspaceUsers? _workspaceUsers;
   DateTime? currentDate;
+  StreamSubscription? _userMessagesStream;
 
   // Handling
   UserModel? get userData => _userData;
@@ -380,22 +387,6 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void GET_handleUserMessage() async {
-    return;
-
-    // if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
-    //   await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).get().then((userMessages) {
-    //     if (userMessages.exists && userMessages.data() != null) {
-    //       handleUserMessages(userMessages.data()![config.userMessages]);
-    //       SEND_resetUserMessages();
-    //       notifyListeners();
-    //     }
-    //   });
-    // } else {
-    //   GoogleAnalytics.instance.logPreCheckFailed("GetUserMessage");
-    // }
-  }
-
   // SEND
   void SEND_generalInfo() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
@@ -442,7 +433,28 @@ class UserStorage with ChangeNotifier {
     // }
   }
 
-  // Send Messages
+
+  // ================== Messages ==================
+
+  void startHandleUserMessage() {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+      _userMessagesStream = _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).snapshots().listen((messages) {
+        if (messages.data() != null) {
+          print(messages.data()![config.userMessages]);  // TODO- delete
+          MessagesController.handleUserMessages(messages.data()![config.userMessages]);
+          SEND_resetUserMessages();
+        }
+      });
+    }
+  }
+
+  void finishHandleUserMessage() {
+    if (_userMessagesStream != null) {
+      _userMessagesStream!.cancel();
+      _userMessagesStream = null;
+    }
+  }
+
   void _SEND_messageToUser(String receiver, Json message) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
       await _firestore.collection(config.firebaseVersion).doc(receiver).update({

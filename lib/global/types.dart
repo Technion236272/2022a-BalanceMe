@@ -30,6 +30,8 @@ Map<Currency, String> CurrencySign = {Currency.NIS: "₪", Currency.USD: "\$", C
 
 typedef Json = Map<String, dynamic>;
 
+typedef Message = Json;
+
 typedef VoidCallbackInt = void Function(int);
 
 typedef VoidCallbackCategory = void Function(Category, Category?);
