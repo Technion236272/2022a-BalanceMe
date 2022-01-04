@@ -2,7 +2,7 @@
 import 'package:balance_me/global/types.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:async/async.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
@@ -353,7 +353,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     return Scaffold(
         appBar: MinorAppBar(Languages.of(context)!.strManageWorkspaces),
         body: StreamBuilder(
-            stream: StreamZip([userStorage.STREAM_workspaceUsers(), userStorage.STREAM_belongsWorkspaces()]),
+            stream: CombineLatestStream.list([userStorage.STREAM_workspaceUsers(), userStorage.STREAM_belongsWorkspaces()]),
             builder: (BuildContext context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
 
               if (!snapshot.hasData || snapshot.data![0].data() == null || snapshot.data![1].data() == null || (snapshot.data![1].data()! as Json)["belongsWorkspaces"] == null) {
