@@ -478,7 +478,13 @@ class UserStorage with ChangeNotifier {
     // }
   }
 
-  Stream<DocumentSnapshot> SEND_workspaceUsersStream() {
+  // Stream
+
+  Stream<DocumentSnapshot> STREAM_generalInfo() {
+    return _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).snapshots();
+  }
+
+  Stream<DocumentSnapshot> STREAM_workspaceUsers() {
       return _firestore.collection(config.firebaseVersion).doc(_userData!.currentWorkspace).snapshots();
   }
 

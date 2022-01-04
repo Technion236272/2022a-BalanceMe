@@ -2,6 +2,7 @@
 import 'package:balance_me/global/types.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
@@ -350,15 +351,18 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     return Scaffold(
         appBar: MinorAppBar(Languages.of(context)!.strManageWorkspaces),
         body: StreamBuilder(
-            stream: userStorage.SEND_workspaceUsersStream(),
-            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            stream: StreamZip([userStorage.STREAM_generalInfo(), userStorage.STREAM_workspaceUsers()]),
+            builder: (BuildContext context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
 
-              if (!snapshot.hasData || snapshot.data!.data() == null) {
+              if (!snapshot.hasData || snapshot.data![0].data() == null || snapshot.data![1].data() == null) {
                 return Center(child: CircularProgressIndicator());
               }
 
+              print(snapshot.data![1].data()!);
+              print(snapshot.data![0].data()!);
+
               _workspaceUsers = (authRepository.user != null && userStorage.userData != null && userStorage.userData!.currentWorkspace != authRepository.user!.email) ?
-                WorkspaceUsers.fromJson((snapshot.data!.data()! as Json)["workspaceUsers"]) : null;
+                WorkspaceUsers.fromJson((snapshot.data![1].data()! as Json)["workspaceUsers"]) : null;
 
               return SingleChildScrollView(
                       child: Padding(
