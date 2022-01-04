@@ -115,7 +115,6 @@ class UserStorage with ChangeNotifier {
 
       if (workspaceUsers.isEmpty) {
         SEND_deleteWorkspace(workspace);
-        return;
 
       } else if (workspaceUsers.leader == _authRepository!.user!.email!) {
         workspaceUsers.setLeader();
@@ -371,6 +370,16 @@ class UserStorage with ChangeNotifier {
         }
       });
       return workspaceUsers;
+  }
+
+  Future<String?> GET_workspaceLeader(String workspace) async {
+    String? leader;
+    await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) {
+      if (users.exists && users.data() != null) {
+        leader = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]).leader;
+      }
+    });
+    return leader;
   }
 
   // SEND

@@ -65,7 +65,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     GoogleAnalytics.instance.logWorkspaceChanged(workspace);
   }
 
-  void _removeWorkspace(String workspace) {  // TODO- check (maybe need setState)
+  void _removeWorkspace(String workspace) {
     userStorage.removeUserFromWorkspace(workspace);
 
     if (userStorage.userData != null && workspace == userStorage.userData!.currentWorkspace && authRepository.user != null) {
@@ -76,28 +76,26 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     GoogleAnalytics.instance.logWorkspaceRemoved(workspace);
   }
 
-  void _createNewWorkspace(String newWorkspace) {  // TODO- check (maybe need setState)
+  void _createNewWorkspace(String newWorkspace) {
       userStorage.createNewWorkspace(newWorkspace);
       _closeModalBottomSheet();
       displaySnackBar(context, Languages.of(context)!.strWorkspaceCreated);
       GoogleAnalytics.instance.logWorkspaceCreated(newWorkspace);
   }
 
-  void _requestJoiningWorkspace(String workspace) async {  // TODO- check
-    if (_workspaceUsers != null && authRepository.user != null && authRepository.user!.email != null && !_belongWorkspace.joiningRequests.contains(workspace)) {
+  void _requestJoiningWorkspace(String workspace) async {
+    if (authRepository.user != null && authRepository.user!.email != null && !_belongWorkspace.joiningRequests.contains(workspace)) {
       userStorage.SEND_updateJoiningRequests(authRepository.user!.email!, workspace, true);
       _closeModalBottomSheet();
+    }
 
-      if (await userStorage.SEND_joinWorkspaceRequest(workspace, _workspaceUsers!.leader)) {
-        displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
-        GoogleAnalytics.instance.logWorkspaceJoinRequestSent(workspace);
-
-      } else {
-        displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
-      }
+    String? workspaceLeader = await userStorage.GET_workspaceLeader(workspace);
+    if (workspaceLeader != null && await userStorage.SEND_joinWorkspaceRequest(workspace, workspaceLeader)) {
+      displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
+      GoogleAnalytics.instance.logWorkspaceJoinRequestSent(workspace);
 
     } else {
-      // TODO- show msg request already exists
+      displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
     }
   }
 
@@ -112,11 +110,6 @@ class _SetWorkspaceState extends State<SetWorkspace> {
         _createNewWorkspace(_addWorkspaceController.text);
       }
     }
-  }
-
-  void _resendJoiningRequest(String workspace) {  // TODO- check
-    _requestJoiningWorkspace(workspace);
-    displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
   }
 
   void _approveJoiningRequest(String approvedUser) {  // TODO- check
@@ -278,7 +271,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
           ),
           TextButton(
-            onPressed: () => {_resendJoiningRequest(tile)},
+            onPressed: () => {_requestJoiningWorkspace(tile)},
             child: Text(
               Languages.of(context)!.strResend,
               style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
