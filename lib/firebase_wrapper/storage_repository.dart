@@ -115,12 +115,18 @@ class UserStorage with ChangeNotifier {
   }
 
   Future<void> _modifyUsersInWorkspace(String workspace, Function operator) async {
+    print("@@@@@@");
     WorkspaceUsers? currentWorkspaceUser = (_workspaceUsers == null) ? null : workspaceUsers!.copy();
+    print(workspace);
+    print(_workspaceUsers!.toJson());
     await GET_workspaceUsers(workspace: workspace);
     if (_workspaceUsers != null && _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+      print(_workspaceUsers!.toJson());
       await operator();
     }
     _workspaceUsers = currentWorkspaceUser;
+    print(_workspaceUsers!.toJson());
+    print("@@@@@@");
   }
 
   void addNewUserToWorkspace(String workspace, {String? user}) {
@@ -470,6 +476,10 @@ class UserStorage with ChangeNotifier {
     // } else {
     //   GoogleAnalytics.instance.logPreCheckFailed("SendDeleteWorkspace");
     // }
+  }
+
+  Stream<DocumentSnapshot> SEND_workspaceUsersStream() {
+      return _firestore.collection(config.firebaseVersion).doc(_userData!.currentWorkspace).snapshots();
   }
 
   // ================== Messages ==================

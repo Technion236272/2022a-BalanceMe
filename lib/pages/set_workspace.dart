@@ -1,8 +1,11 @@
 // ================= Set Workspace Page =================
+import 'package:balance_me/global/types.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
+import 'package:balance_me/common_models/workspace_users_model.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/generic_dismissible.dart';
@@ -23,13 +26,14 @@ class SetWorkspace extends StatefulWidget {
 class _SetWorkspaceState extends State<SetWorkspace> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _addWorkspaceController = TextEditingController();
+  late WorkspaceUsers _workspaceUsers;
 
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
   // ================ LOGIC ================
 
-  bool get _shouldShowWorkspaceUsers => userStorage.workspaceUsers != null && !userStorage.workspaceUsers!.isOnlyLeader;
+  bool get _shouldShowWorkspaceUsers => !_workspaceUsers.isOnlyLeader;
 
   bool get _shouldShowPendingRequests => userStorage.userData != null && userStorage.userData!.workspaceRequests.isNotEmpty;
 
@@ -120,12 +124,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _approveJoiningRequest(String approvedUser) async {
-    print(userStorage.workspaceUsers!.toJson());
+    print(_workspaceUsers.toJson());
     await userStorage.approveUserJoiningRequest(context, approvedUser);
-    Future.delayed(Duration(milliseconds: 100), () {
-      setState(() {});
-    });
-    print(userStorage.workspaceUsers!.toJson());
+    setState(() {});
+    print(_workspaceUsers.toJson());
   }
 
   void _rejectedJoiningRequest(String rejectedUser) {
@@ -348,47 +350,61 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MinorAppBar(Languages.of(context)!.strManageWorkspaces),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: gc.workspacesGeneralPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(Languages.of(context)!.strWorkspaceExplanation), // TODO- write the content
-              const Divider(),
-              Visibility(visible: !_shouldShowWorkspaceUsers, child: Column(children: [Text(Languages.of(context)!.strEmptyWorkspace), const Divider()])),
-              _getUserList(
-                _shouldShowWorkspaceUsers,
-                Languages.of(context)!.strOtherWorkspaceUsers,
-                _getTiles((userStorage.workspaceUsers == null) ? [] : userStorage.workspaceUsers!.users, _buildWorkspaceUserFromString),
-                BoxDecoration(
-                  color: gc.primaryColor,
-                  borderRadius: BorderRadius.circular(gc.entryBorderRadius),
-                ),
-              ),
-              _getUserList(
-                _shouldShowPendingRequests,
-                Languages.of(context)!.strPendingWorkspaceRequests,
-                _getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceRequests, _buildPendingRequestFromString),
-              ),
-              _getUserList(
-                userStorage.workspaceUsers != null && userStorage.workspaceUsers!.isPendingJoiningRequests,
-                Languages.of(context)!.strPendingUsersRequestsTitle,
-                _getTiles((userStorage.workspaceUsers == null) ? [] : userStorage.workspaceUsers!.pendingJoiningRequests, _buildJoiningRequestsFromString),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(Languages.of(context)!.strChooseWorkspace),
-                  IconButton(onPressed: _showModalBottomSheet, icon: Icon(gc.addIcon))
-                ],
-              ),
-              _getListView(_getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceOptions, _buildWorkspaceFromString)),
-            ],
-          ),
-        ),
-      ),
+        appBar: MinorAppBar(Languages.of(context)!.strManageWorkspaces),
+        body: StreamBuilder(
+            stream: userStorage.SEND_workspaceUsersStream(),
+            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              _workspaceUsers = WorkspaceUsers.fromJson((snapshot.data!.data()! as Json)["workspaceUsers"]);
+              return SingleChildScrollView(
+                      child: Padding(
+                        padding: gc.workspacesGeneralPadding,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(Languages.of(context)!.strWorkspaceExplanation), // TODO- write the content
+                            const Divider(),
+                            Visibility(
+                                visible: !_shouldShowWorkspaceUsers,
+                                child: Column(children: [Text(Languages.of(context)!.strEmptyWorkspace), const Divider()])),
+                            _getUserList(
+                              _shouldShowWorkspaceUsers,
+                              Languages.of(context)!.strOtherWorkspaceUsers,
+                              _getTiles(_workspaceUsers.users, _buildWorkspaceUserFromString),
+                              BoxDecoration(
+                                color: gc.primaryColor,
+                                borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+                              ),
+                            ),
+                            _getUserList(_shouldShowPendingRequests,
+                              Languages.of(context)!.strPendingWorkspaceRequests,
+                              _getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceRequests, _buildPendingRequestFromString),
+                            ),
+                            _getUserList(
+                              _workspaceUsers.isPendingJoiningRequests,
+                              Languages.of(context)!.strPendingUsersRequestsTitle,
+                              _getTiles(_workspaceUsers.pendingJoiningRequests, _buildJoiningRequestsFromString),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(Languages.of(context)!.strChooseWorkspace),
+                                IconButton(
+                                    onPressed: _showModalBottomSheet,
+                                    icon: Icon(gc.addIcon))
+                              ],
+                            ),
+                            _getListView(_getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceOptions, _buildWorkspaceFromString)),
+                          ],
+                        ),
+                      ),
+                    );
+              }
+        )
     );
   }
 }
