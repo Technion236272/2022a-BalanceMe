@@ -65,47 +65,40 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     GoogleAnalytics.instance.logWorkspaceChanged(workspace);
   }
 
-  void _removeWorkspace(String workspace) async {
-    await userStorage.removeUserFromWorkspace(workspace);
+  void _removeWorkspace(String workspace) {  // TODO- check (maybe need setState)
+    userStorage.removeUserFromWorkspace(workspace);
 
     if (userStorage.userData != null && workspace == userStorage.userData!.currentWorkspace && authRepository.user != null) {
       _chooseWorkspace(authRepository.user!.email!);
-    } else {
-      setState(() {});
     }
 
     displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
     GoogleAnalytics.instance.logWorkspaceRemoved(workspace);
   }
 
-  void _createNewWorkspace(String newWorkspace) async {
-    // if (await userStorage.createNewWorkspace(newWorkspace)) {
-    //   setState(() {});
-    //   displaySnackBar(context, Languages.of(context)!.strWorkspaceCreated);
-    //   GoogleAnalytics.instance.logWorkspaceCreated(newWorkspace);
-    // } else {
-    //   displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
-    // }
-    // _closeModalBottomSheet();
+  void _createNewWorkspace(String newWorkspace) {  // TODO- check (maybe need setState)
+      userStorage.createNewWorkspace(newWorkspace);
+      _closeModalBottomSheet();
+      displaySnackBar(context, Languages.of(context)!.strWorkspaceCreated);
+      GoogleAnalytics.instance.logWorkspaceCreated(newWorkspace);
   }
 
-  void _requestJoiningWorkspace(String workspace) async {
-    // if (!_belongWorkspace.joiningRequests.contains(workspace)) {
-    //   if (userStorage.userData != null) {
-    //     setState(() {
-    //       _belongWorkspace.joiningRequests.add(workspace);
-    //     });
-    //     userStorage.SEND_belongWorkspace();
-    //   }
-    //   _closeModalBottomSheet();
-    // }
-    //
-    // if (await userStorage.SEND_joinWorkspaceRequest(workspace)) {
-    //   displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
-    //   GoogleAnalytics.instance.logWorkspaceJoinRequestSent(workspace);
-    // } else {
-    //   displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
-    // }
+  void _requestJoiningWorkspace(String workspace) async {  // TODO- check
+    if (_workspaceUsers != null && authRepository.user != null && authRepository.user!.email != null && !_belongWorkspace.joiningRequests.contains(workspace)) {
+      userStorage.SEND_updateJoiningRequests(authRepository.user!.email!, workspace, true);
+      _closeModalBottomSheet();
+
+      if (await userStorage.SEND_joinWorkspaceRequest(workspace, _workspaceUsers!.leader)) {
+        displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
+        GoogleAnalytics.instance.logWorkspaceJoinRequestSent(workspace);
+
+      } else {
+        displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
+      }
+
+    } else {
+      // TODO- show msg request already exists
+    }
   }
 
   void _addWorkspace() async {
@@ -121,20 +114,17 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     }
   }
 
-  void _resendJoiningRequest(String workspace) {
+  void _resendJoiningRequest(String workspace) {  // TODO- check
     _requestJoiningWorkspace(workspace);
     displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
   }
 
-  void _approveJoiningRequest(String approvedUser) async {
-    await userStorage.approveUserJoiningRequest(context, approvedUser);
-    setState(() {});
+  void _approveJoiningRequest(String approvedUser) {  // TODO- check
+    userStorage.approveUserJoiningRequest(context, approvedUser);
   }
 
-  void _rejectedJoiningRequest(String rejectedUser) {
-    setState(() {
-      userStorage.rejectUserJoiningRequest(context, rejectedUser);
-    });
+  void _rejectedJoiningRequest(String rejectedUser) {  // TODO- check
+    userStorage.rejectUserJoiningRequest(context, rejectedUser);
   }
 
   // ================ UI ================

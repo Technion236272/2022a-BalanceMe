@@ -47,17 +47,18 @@ class MessagesController {  // TODO- check validity of messages
   }
 
   static void _handleJoinWorkspace(Message message) {  // TODO- type, workspace, user
-    message["message"] = Languages.of(context!)!.strUserRequestJoiningToWorkspace;
-    _handleShowMessage(message);  // TODO- add actions
-    userStorage.SEND_updatePendingJoiningRequest(message["workspace"], message["user"], true);
-    if (userStorage.userData != null && userStorage.userData!.currentWorkspace == message["workspace"]) {
-      userStorage.GET_workspaceUsers();
-    }
+    // message["message"] = Languages.of(context!)!.strUserRequestJoiningToWorkspace;
+    // _handleShowMessage(message);  // TODO- add actions
+    // userStorage.SEND_updatePendingJoiningRequest(message["workspace"], message["user"], true);
+    // if (userStorage.userData != null && userStorage.userData!.currentWorkspace == message["workspace"]) {
+    //   userStorage.GET_workspaceUsers();
+    // }
   }
 
   static void _handleInviteWorkspace(Message message) {  // TODO- type, workspace, user
-    message["message"] = Languages.of(context!)!.strUserInvitedToWorkspace;
-    _handleShowMessage(message);  // TODO- add actions
+    // message["message"] = Languages.of(context!)!.strUserInvitedToWorkspace;
+    // _handleShowMessage(message);  // TODO- add actions
+
     // userStorage.SEND_addPendingJoiningRequest(message["workspace"], message["user"]);  // TODO- implement something similar
     // if (userStorage.userData != null && userStorage.userData!.currentWorkspace == message["workspace"]) {
     //   userStorage.GET_workspaceUsers();
@@ -65,7 +66,7 @@ class MessagesController {  // TODO- check validity of messages
   }
 
   static void _handleShowMessage(Message message) {
-    showDismissBanner(message["message"].replaceAll("%", message["workspace"]).replaceAll("#", message["user"]));
+    // showDismissBanner(message["message"].replaceAll("%", message["workspace"]).replaceAll("#", message["user"]));
   }
 
   static void _handleRejectWorkspace(Message message) {

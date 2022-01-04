@@ -165,13 +165,13 @@ class _SummaryPageState extends State<SummaryPage> {
                   child: Row(
                     children: [
                       Text(userStorage.userData!.currentWorkspace),
-                      Visibility(
-                        visible: userStorage.workspaceUsers != null && authRepository.user != null && userStorage.workspaceUsers!.leader == authRepository.user!.email,
-                        child: ElevatedButton(
-                          onPressed: _openManageWorkspace,
-                          child: Text(Languages.of(context)!.strManage),
-                        ),
-                      ),
+                      // Visibility(  // TODO
+                      //   visible: userStorage.workspaceUsers != null && authRepository.user != null && userStorage.workspaceUsers!.leader == authRepository.user!.email,
+                      //   child: ElevatedButton(
+                      //     onPressed: _openManageWorkspace,
+                      //     child: Text(Languages.of(context)!.strManage),
+                      //   ),
+                      // ),
                       ElevatedButton(
                         onPressed: _openSetWorkspace,
                         child: Text(Languages.of(context)!.strSet),

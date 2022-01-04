@@ -26,7 +26,6 @@ class UserStorage with ChangeNotifier {
     if (_authRepository != null && _authRepository!.status == AuthStatus.Authenticated) {
       GET_generalInfo(context);
       _authRepository!.getAvatarUrl();
-      (_userData!.currentWorkspace != _authRepository!.user!.email) ? GET_workspaceUsers() : resetWorkspaceUsers();
     }
   }
 
@@ -70,14 +69,12 @@ class UserStorage with ChangeNotifier {
   AuthRepository? _authRepository;
   UserModel? _userData;
   BalanceModel _balance = BalanceModel();
-  WorkspaceUsers? _workspaceUsers;  // TODO- remove?
   DateTime? currentDate;
   StreamSubscription? _userMessagesStream;
 
   // Handling
   UserModel? get userData => _userData;
   BalanceModel get balance => _balance;
-  WorkspaceUsers? get workspaceUsers => _workspaceUsers;
 
   // ================== Setters and Getters ==================
 
@@ -96,100 +93,56 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void initWorkspaceUsers(String leaderEmail) {
-    _workspaceUsers = WorkspaceUsers(leaderEmail);
-  }
-
-  void resetWorkspaceUsers() {
-    _workspaceUsers = null;
-  }
-
-  Future<void> createNewWorkspace(String newWorkspace) async {
-    // if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-    //   SEND_balanceModel(doc: newWorkspace);
-    //
-    //   WorkspaceUsers? currentWorkspaceUser = (_workspaceUsers == null) ? null : workspaceUsers!.copy();
-    //   initWorkspaceUsers(_authRepository!.user!.email!);
-    //   await SEND_workspaceUsers(workspace: newWorkspace);
-    //   _workspaceUsers = currentWorkspaceUser;
-    //
-    //   _userData!.belongs.add(newWorkspace);
-    //   SEND_generalInfo();
-    //   return true;
-    // }
-    // return false;
-  }
-
-  Future<void> _modifyUsersInWorkspace(String workspace, Function operator) async {
-    print("@@@@@@");
-    WorkspaceUsers? currentWorkspaceUser = (_workspaceUsers == null) ? null : workspaceUsers!.copy();
-    print(workspace);
-    print(_workspaceUsers!.toJson());
-    await GET_workspaceUsers(workspace: workspace);
-    if (_workspaceUsers != null && _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
-      print(_workspaceUsers!.toJson());
-      await operator();
+  bool createNewWorkspace(String newWorkspace) {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
+      SEND_balanceModel(doc: newWorkspace);
+      SEND_workspaceUsers(newWorkspace, WorkspaceUsers(_authRepository!.user!.email!));
+      SEND_updateBelongsWorkspaces(_authRepository!.user!.email!, newWorkspace, true);
+      return true;
     }
-    _workspaceUsers = currentWorkspaceUser;
-    print(_workspaceUsers!.toJson());
+    return false;
   }
 
-  void addNewUserToWorkspace(String workspace, {String? user}) {
-    // void _addNewUser() async {
-    //   _workspaceUsers!.addUser(user == null ? _authRepository!.user!.email! : user);
-    //   await SEND_workspaceUsers(workspace: workspace);
-    // }
-    //
-    // if (user == null) {
-    //   if (userData != null) {
-    //     userData!.belongs.add(workspace);
-    //     SEND_generalInfo();
-    //   }
-    //
-    // } else {
-    //   SEND_updateWorkspaceOptions(user, workspace, true);
-    // }
-    //
-    // _modifyUsersInWorkspace(workspace, _addNewUser);
+  void addNewUserToWorkspace(String workspace, String user) {
+    SEND_updateWorkspaceUsers(user, workspace, true);
+    SEND_updateBelongsWorkspaces(user, workspace, true);
   }
 
-  Future<void> removeUserFromWorkspace(String workspace) async {
-    // void _removeUser() async {
-    //   _workspaceUsers!.removeUser(_authRepository!.user!.email!);
-    //
-    //   if (_workspaceUsers!.isEmpty) {
-    //     SEND_deleteWorkspace(workspace);
-    //     return;
-    //
-    //   } else if (_workspaceUsers!.leader == _authRepository!.user!.email!) {
-    //     _workspaceUsers!.setLeader();
-    //   }
-    //   await SEND_workspaceUsers(workspace: workspace);
-    // }
-    //
-    // if (userData != null) {
-    //   userData!.belongs.remove(workspace);
-    //   SEND_generalInfo();
-    // }
-    // _modifyUsersInWorkspace(workspace, _removeUser);
+  void removeUserFromWorkspace(String workspace) async {
+    WorkspaceUsers? workspaceUsers = await GET_workspaceUsers(workspace);
+    if (workspaceUsers != null && _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+      workspaceUsers.removeUser(_authRepository!.user!.email!);
+
+      if (workspaceUsers.isEmpty) {
+        SEND_deleteWorkspace(workspace);
+        return;
+
+      } else if (workspaceUsers.leader == _authRepository!.user!.email!) {
+        workspaceUsers.setLeader();
+      }
+
+      SEND_workspaceUsers(workspace, workspaceUsers);
+      SEND_updateBelongsWorkspaces(_authRepository!.user!.email!, workspace, false);
+    }
   }
 
-  void _removePendingJoiningRequest(String approvedUser) {  // TODO- if using stream, no need save locally
-    _workspaceUsers!.removePendingJoiningRequest(approvedUser);
-    SEND_updatePendingJoiningRequest(userData!.currentWorkspace, approvedUser, false);
-  }
+  void approveUserJoiningRequest(BuildContext context, String approvedUser) {
+    if (_userData != null) {
+      SEND_updatePendingJoiningRequest(userData!.currentWorkspace, approvedUser, false);
+      addNewUserToWorkspace(userData!.currentWorkspace, approvedUser);
+    }
 
-  Future<void> approveUserJoiningRequest(BuildContext context, String approvedUser) async {
-    if (_workspaceUsers != null && _userData != null && _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
-      _removePendingJoiningRequest(approvedUser);
-      addNewUserToWorkspace(userData!.currentWorkspace, user: approvedUser);
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
       SEND_showMessageToUser(approvedUser, Languages.of(context)!.strUserApproveJoining, _authRepository!.user!.email!, _userData!.currentWorkspace);
     }
   }
 
   void rejectUserJoiningRequest(BuildContext context, String rejectedUser) {
-    if (_workspaceUsers != null && _userData != null && _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
-      _removePendingJoiningRequest(rejectedUser);
+    if (_userData != null) {
+      SEND_updatePendingJoiningRequest(userData!.currentWorkspace, rejectedUser, false);
+    }
+
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
       SEND_showMessageToUser(rejectedUser, Languages.of(context)!.strUserDisapproveJoining, _authRepository!.user!.email!, _userData!.currentWorkspace);
     }
   }
@@ -410,27 +363,14 @@ class UserStorage with ChangeNotifier {
     isSignIn ? await GET_balanceModel(successCallback: _addCurrentBalance, failureCallback: _addCurrentBalance) : _addCurrentBalance();
   }
 
-  Future<void> GET_workspaceUsers({String? workspace, VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback}) async {
-    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null
-        && (workspace != null || (_userData != null && _userData!.currentWorkspace != "" &&  _userData!.currentWorkspace != _authRepository!.user!.email!))) {
-
-      workspace = (workspace == null) ?_userData!.currentWorkspace : workspace;
+  Future<WorkspaceUsers?> GET_workspaceUsers(String workspace) async {
+      WorkspaceUsers? workspaceUsers;
       await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) {
-        if (users.exists && users.data() != null) { // There is data
-          _workspaceUsers = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]);
-          successCallback != null ? successCallback(users.data()![config.workspaceUsers]) : null;
-
-        } else {  // There is no data
-          resetWorkspaceUsers();
-          failureCallback != null ? failureCallback(null) : null;
+        if (users.exists && users.data() != null) {
+          workspaceUsers = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]);
         }
-        notifyListeners();
       });
-
-    } else {
-      failureCallback != null ? failureCallback(null) : null;
-      GoogleAnalytics.instance.logPreCheckFailed("GetWorkspaceUsers");
-    }
+      return workspaceUsers;
   }
 
   // SEND
@@ -456,27 +396,20 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  Future<void> SEND_workspaceUsers({String? workspace}) async {
-    if (_authRepository != null && _authRepository!.user != null && _workspaceUsers != null && _authRepository!.user!.email != null
-        && (workspace != null || (_userData != null && _userData!.currentWorkspace != "" &&  _userData!.currentWorkspace != _authRepository!.user!.email!))) {
-
-      workspace = (workspace == null) ?_userData!.currentWorkspace : workspace;
-      await _firestore.collection(config.firebaseVersion).doc(workspace).set({
-        config.workspaceUsers: _workspaceUsers!.toJson()
-      });
-    } else {
-      GoogleAnalytics.instance.logPreCheckFailed("SendWorkspaceUsers");
-    }
+  void SEND_workspaceUsers(String workspace, WorkspaceUsers workspaceUsers) {
+    _firestore.collection(config.firebaseVersion).doc(workspace).set({
+      config.workspaceUsers: workspaceUsers.toJson()
+    });
   }
 
-  void SEND_updateWorkspaceOptions(String user, String workspace, bool toAdd) async {
-    await FirebaseFirestore.instance.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.generalInfoDoc).update({
-      "${config.generalInfoDoc}.workspaceOptions" : toAdd? FieldValue.arrayUnion([workspace]) : FieldValue.arrayRemove([workspace]),
+  Future<void> SEND_updateWorkspaceUsers(String user, String workspace, bool toAdd) async {
+    await _firestore.collection(config.firebaseVersion).doc(workspace).update({
+      "${config.workspaceUsers}.users" : toAdd? FieldValue.arrayUnion([user]) : FieldValue.arrayRemove([user]),
     });
   }
 
   void SEND_updatePendingJoiningRequest(String workspace, String applicant, bool toAdd) async {
-    await FirebaseFirestore.instance.collection(config.firebaseVersion).doc(workspace).update({
+    await _firestore.collection(config.firebaseVersion).doc(workspace).update({
       "${config.workspaceUsers}.pendingJoiningRequests" : toAdd? FieldValue.arrayUnion([applicant]) : FieldValue.arrayRemove([applicant]),
     });
   }
@@ -558,23 +491,11 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  Future<bool> SEND_joinWorkspaceRequest(String workspace) async {
-    String? leader;
-
-    void _getLeader() {
-      if (_workspaceUsers != null) {
-        leader = _workspaceUsers!.leader;
-      }
-    }
-
+  Future<bool> SEND_joinWorkspaceRequest(String workspace, String leader) async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
-      await _modifyUsersInWorkspace(workspace, _getLeader);
-
-      if (leader != null) {
-        Json joiningRequest = {"type": UserMessage.JoinWorkspace.index, "workspace": workspace, "user": _authRepository!.user!.email!};
-        _SEND_messageToUser(leader!, joiningRequest);
-        return true;
-      }
+      Json joiningRequest = {"type": UserMessage.JoinWorkspace.index, "workspace": workspace, "user": _authRepository!.user!.email!};
+      _SEND_messageToUser(leader, joiningRequest);
+      return true;
     }
     return false;
   }
