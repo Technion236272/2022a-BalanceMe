@@ -112,11 +112,11 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     }
   }
 
-  void _approveJoiningRequest(String approvedUser) {  // TODO- check
+  void _approveJoiningRequest(String approvedUser) {
     userStorage.approveUserJoiningRequest(context, approvedUser);
   }
 
-  void _rejectedJoiningRequest(String rejectedUser) {  // TODO- check
+  void _rejectedJoiningRequest(String rejectedUser) {
     userStorage.rejectUserJoiningRequest(context, rejectedUser);
   }
 

@@ -280,7 +280,6 @@ class UserStorage with ChangeNotifier {
   // ================== Requests ==================
 
   // isExist
-
   Future<bool> _isDocExist(DocumentReference docPath, {String? specificKey}) async {
     try {
       bool isExist = false;
@@ -456,7 +455,6 @@ class UserStorage with ChangeNotifier {
   }
 
   // Stream
-
   Stream<DocumentSnapshot> STREAM_generalInfo() {
     return _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).snapshots();
   }
@@ -515,7 +513,7 @@ class UserStorage with ChangeNotifier {
   }
 
   void SEND_showMessageToUser(String receiver, String message, String user, String workspace) {
-    _SEND_messageToUser(receiver, {"message": message, "user": user, "workspace": workspace});
+    _SEND_messageToUser(receiver, {"type": UserMessage.ShowMessage.index, "message": message, "user": user, "workspace": workspace});
   }
 
   void SEND_resetUserMessages() async {
