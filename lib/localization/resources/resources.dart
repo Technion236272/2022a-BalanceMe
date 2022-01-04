@@ -163,6 +163,7 @@ abstract class Languages {
   String get strUserRejectsInvitation;
   String get strUserApproveJoining;
   String get strUserDisapproveJoining;
+  String get strPendingUsersRequestsTitle;
 
   // Set Category And Transaction
   String get strTypeSelection;

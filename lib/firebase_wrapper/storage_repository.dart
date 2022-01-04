@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sorted_list/sorted_list.dart';
+import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/locale_controller.dart';
@@ -122,16 +123,22 @@ class UserStorage with ChangeNotifier {
     _workspaceUsers = currentWorkspaceUser;
   }
 
-  void addNewUserToWorkspace(String workspace) {
+  void addNewUserToWorkspace(String workspace, {String? user}) {
     void _addNewUser() async {
-      _workspaceUsers!.addUser(_authRepository!.user!.email!);
+      _workspaceUsers!.addUser(user == null ? _authRepository!.user!.email! : user);
       await SEND_workspaceUsers(workspace: workspace);
     }
 
-    if (userData != null) {
-      userData!.workspaceOptions.add(workspace);
-      SEND_generalInfo();
+    if (user == null) {
+      if (userData != null) {
+        userData!.workspaceOptions.add(workspace);
+        SEND_generalInfo();
+      }
+
+    } else {
+      SEND_updateWorkspaceOptions(user, workspace, true);
     }
+
     _modifyUsersInWorkspace(workspace, _addNewUser);
   }
 
@@ -154,6 +161,26 @@ class UserStorage with ChangeNotifier {
       SEND_generalInfo();
     }
     _modifyUsersInWorkspace(workspace, _removeUser);
+  }
+
+  void _removePendingJoiningRequest(String approvedUser) {  // TODO- if using stream, no need save locally
+    _workspaceUsers!.removePendingJoiningRequest(approvedUser);
+    SEND_updatePendingJoiningRequest(userData!.currentWorkspace, approvedUser, false);
+  }
+
+  Future<void> approveUserJoiningRequest(BuildContext context, String approvedUser) async {
+    if (_workspaceUsers != null && _userData != null && _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+      _removePendingJoiningRequest(approvedUser);
+      addNewUserToWorkspace(userData!.currentWorkspace, user: approvedUser);
+      SEND_showMessageToUser(approvedUser, Languages.of(context)!.strUserApproveJoining, _authRepository!.user!.email!, _userData!.currentWorkspace);
+    }
+  }
+
+  void rejectUserJoiningRequest(BuildContext context, String rejectedUser) {
+    if (_workspaceUsers != null && _userData != null && _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+      _removePendingJoiningRequest(rejectedUser);
+      SEND_showMessageToUser(rejectedUser, Languages.of(context)!.strUserDisapproveJoining, _authRepository!.user!.email!, _userData!.currentWorkspace);
+    }
   }
 
   void setEndOfMonthDay(int endOfMonthDay) {
@@ -423,9 +450,15 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_addPendingJoiningRequest(String workspace, String applicant) async {
+  void SEND_updateWorkspaceOptions(String user, String workspace, bool toAdd) async {
+    await FirebaseFirestore.instance.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.generalInfoDoc).update({
+      "${config.generalInfoDoc}.workspaceOptions" : toAdd? FieldValue.arrayUnion([workspace]) : FieldValue.arrayRemove([workspace]),
+    });
+  }
+
+  void SEND_updatePendingJoiningRequest(String workspace, String applicant, bool toAdd) async {
     await FirebaseFirestore.instance.collection(config.firebaseVersion).doc(workspace).update({
-      "${config.workspaceUsers}.pendingJoiningRequests" : FieldValue.arrayUnion([applicant]),
+      "${config.workspaceUsers}.pendingJoiningRequests" : toAdd? FieldValue.arrayUnion([applicant]) : FieldValue.arrayRemove([applicant]),
     });
   }
 
@@ -438,7 +471,6 @@ class UserStorage with ChangeNotifier {
     //   GoogleAnalytics.instance.logPreCheckFailed("SendDeleteWorkspace");
     // }
   }
-
 
   // ================== Messages ==================
 
@@ -495,6 +527,10 @@ class UserStorage with ChangeNotifier {
   void SEND_inviteWorkspaceRequest(String workspace, String user, String? requestContent) {  // TODO- change requestContent to user
     Json joiningRequest = {"type": UserMessage.InviteWorkspace.index, "workspace": workspace, "requestContent": requestContent == null ? "" : requestContent};
     _SEND_messageToUser(user, joiningRequest);
+  }
+
+  void SEND_showMessageToUser(String receiver, String message, String user, String workspace) {
+    _SEND_messageToUser(receiver, {"message": message, "user": user, "workspace": workspace});
   }
 
   void SEND_resetUserMessages() async {

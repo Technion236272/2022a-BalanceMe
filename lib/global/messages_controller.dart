@@ -49,7 +49,7 @@ class MessagesController {  // TODO- check validity of messages
   static void _handleJoinWorkspace(Message message) {  // TODO- type, workspace, user
     message["message"] = Languages.of(context!)!.strUserRequestJoiningToWorkspace;
     _handleShowMessage(message);  // TODO- add actions
-    userStorage.SEND_addPendingJoiningRequest(message["workspace"], message["user"]);
+    userStorage.SEND_updatePendingJoiningRequest(message["workspace"], message["user"], true);
     if (userStorage.userData != null && userStorage.userData!.currentWorkspace == message["workspace"]) {
       userStorage.GET_workspaceUsers();
     }

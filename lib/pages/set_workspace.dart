@@ -119,12 +119,19 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
   }
 
-  void _approveJoiningRequest(String workspace) {
-    // TODO
+  void _approveJoiningRequest(String approvedUser) async {
+    print(userStorage.workspaceUsers!.toJson());
+    await userStorage.approveUserJoiningRequest(context, approvedUser);
+    Future.delayed(Duration(milliseconds: 100), () {
+      setState(() {});
+    });
+    print(userStorage.workspaceUsers!.toJson());
   }
 
-  void _disapproveJoiningRequest(String workspace) {
-    // TODO
+  void _rejectedJoiningRequest(String rejectedUser) {
+    setState(() {
+      userStorage.rejectUserJoiningRequest(context, rejectedUser);
+    });
   }
 
   // ================ UI ================
@@ -293,7 +300,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     return Padding(
       padding: gc.workspaceTilePadding,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
             tile,
@@ -307,7 +314,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             ),
           ),
           TextButton(
-            onPressed: () => {_disapproveJoiningRequest(tile)},
+            onPressed: () => {_rejectedJoiningRequest(tile)},
             child: Text(
               Languages.of(context)!.strReject,
               style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
@@ -365,9 +372,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                 Languages.of(context)!.strPendingWorkspaceRequests,
                 _getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceRequests, _buildPendingRequestFromString),
               ),
-              Visibility(  // TODO- use _getUserList instead of _getListView (add string for title)
-                visible: userStorage.workspaceUsers != null && userStorage.workspaceUsers!.isPendingJoiningRequests,
-                child: _getListView(_getTiles((userStorage.workspaceUsers == null) ? [] : userStorage.workspaceUsers!.pendingJoiningRequests, _buildJoiningRequestsFromString)),
+              _getUserList(
+                userStorage.workspaceUsers != null && userStorage.workspaceUsers!.isPendingJoiningRequests,
+                Languages.of(context)!.strPendingUsersRequestsTitle,
+                _getTiles((userStorage.workspaceUsers == null) ? [] : userStorage.workspaceUsers!.pendingJoiningRequests, _buildJoiningRequestsFromString),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

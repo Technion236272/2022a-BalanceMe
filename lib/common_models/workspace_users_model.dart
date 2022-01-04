@@ -63,4 +63,8 @@ class WorkspaceUsers {
   void addPendingJoiningRequest(String applicant) {
     pendingJoiningRequests.add(applicant);
   }
+
+  void removePendingJoiningRequest(String applicant) {
+    pendingJoiningRequests.remove(applicant);
+  }
 }

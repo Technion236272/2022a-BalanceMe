@@ -431,6 +431,9 @@ class LanguageEn extends Languages {
   @override
   String get strUserDisapproveJoining => "Your application to join % workspace has been rejected by #";
 
+  @override
+  String get strPendingUsersRequestsTitle => "Those users want to join this workspace:";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "Type";
