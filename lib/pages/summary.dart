@@ -47,7 +47,7 @@ class _SummaryPageState extends State<SummaryPage> {
     if (_formKey.currentState != null && _formKey.currentState!.validate() && userStorage.userData != null) {
       if (userStorage.userData != null) {
 
-        if (await userStorage.GET_isUserExist(_userNameController.text)) {
+        if (await userStorage.isExist_generalInfo(_userNameController.text)) {
           userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, _userNameController.text, _requestContentController.text);
           displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
           GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, _userNameController.text);

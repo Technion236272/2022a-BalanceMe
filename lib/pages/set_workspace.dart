@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
 import 'package:balance_me/common_models/workspace_users_model.dart';
+import 'package:balance_me/common_models/belongs_workspaces.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/generic_dismissible.dart';
@@ -28,6 +29,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _addWorkspaceController = TextEditingController();
   late WorkspaceUsers? _workspaceUsers;
+  late BelongsWorkspaces _belongWorkspace;
 
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
@@ -36,7 +38,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   bool get _shouldShowWorkspaceUsers => _workspaceUsers != null && !_workspaceUsers!.isOnlyLeader;
 
-  bool get _shouldShowPendingRequests => userStorage.userData != null && userStorage.userData!.workspaceRequests.isNotEmpty;
+  bool get _shouldShowPendingRequests => _belongWorkspace.joiningRequests.isNotEmpty;
 
   String? _addWorkspaceValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
@@ -44,10 +46,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       message = notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
     }
     if (message == null && userStorage.userData != null) {
-      message = userStorage.userData!.workspaceOptions.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
+      message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
     }
     if (message == null && userStorage.userData != null) {
-      message = userStorage.userData!.workspaceRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
+      message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
     }
     return message;
   }
@@ -77,39 +79,39 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _createNewWorkspace(String newWorkspace) async {
-    if (await userStorage.createNewWorkspace(newWorkspace)) {
-      setState(() {});
-      displaySnackBar(context, Languages.of(context)!.strWorkspaceCreated);
-      GoogleAnalytics.instance.logWorkspaceCreated(newWorkspace);
-    } else {
-      displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
-    }
-    _closeModalBottomSheet();
+    // if (await userStorage.createNewWorkspace(newWorkspace)) {
+    //   setState(() {});
+    //   displaySnackBar(context, Languages.of(context)!.strWorkspaceCreated);
+    //   GoogleAnalytics.instance.logWorkspaceCreated(newWorkspace);
+    // } else {
+    //   displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
+    // }
+    // _closeModalBottomSheet();
   }
 
   void _requestJoiningWorkspace(String workspace) async {
-    if (!userStorage.userData!.workspaceRequests.contains(workspace)) {
-      if (userStorage.userData != null) {
-        setState(() {
-          userStorage.userData!.workspaceRequests.add(workspace);
-        });
-        userStorage.SEND_generalInfo();
-      }
-      _closeModalBottomSheet();
-    }
-
-    if (await userStorage.SEND_joinWorkspaceRequest(workspace)) {
-      displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
-      GoogleAnalytics.instance.logWorkspaceJoinRequestSent(workspace);
-    } else {
-      displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
-    }
+    // if (!_belongWorkspace.joiningRequests.contains(workspace)) {
+    //   if (userStorage.userData != null) {
+    //     setState(() {
+    //       _belongWorkspace.joiningRequests.add(workspace);
+    //     });
+    //     userStorage.SEND_belongWorkspace();
+    //   }
+    //   _closeModalBottomSheet();
+    // }
+    //
+    // if (await userStorage.SEND_joinWorkspaceRequest(workspace)) {
+    //   displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
+    //   GoogleAnalytics.instance.logWorkspaceJoinRequestSent(workspace);
+    // } else {
+    //   displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
+    // }
   }
 
   void _addWorkspace() async {
     if (_formKey.currentState != null && _formKey.currentState!.validate() && userStorage.userData != null) {
 
-      if (await userStorage.GET_isWorkspaceExist(_addWorkspaceController.text)) {
+      if (await userStorage.isExist_Workspace(_addWorkspaceController.text)) {
         navigateBack(context);
         await showYesNoAlertDialog(context, Languages.of(context)!.strJoinWorkspace, () => {_requestJoiningWorkspace(_addWorkspaceController.text)}, _closeModalBottomSheet);
 
@@ -351,10 +353,11 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     return Scaffold(
         appBar: MinorAppBar(Languages.of(context)!.strManageWorkspaces),
         body: StreamBuilder(
-            stream: StreamZip([userStorage.STREAM_generalInfo(), userStorage.STREAM_workspaceUsers()]),
+            stream: StreamZip([userStorage.STREAM_workspaceUsers(), userStorage.STREAM_belongsWorkspaces()]),
             builder: (BuildContext context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
 
-              if (!snapshot.hasData || snapshot.data![0].data() == null || snapshot.data![1].data() == null) {
+              if (!snapshot.hasData || snapshot.data![0].data() == null || (snapshot.data![0].data()! as Json)["workspaceUsers"] == null
+                  || snapshot.data![1].data() == null || (snapshot.data![1].data()! as Json)["belongsWorkspaces"] == null) {
                 return Center(child: CircularProgressIndicator());
               }
 
@@ -362,7 +365,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
               print(snapshot.data![0].data()!);
 
               _workspaceUsers = (authRepository.user != null && userStorage.userData != null && userStorage.userData!.currentWorkspace != authRepository.user!.email) ?
-                WorkspaceUsers.fromJson((snapshot.data![1].data()! as Json)["workspaceUsers"]) : null;
+                WorkspaceUsers.fromJson((snapshot.data![0].data()! as Json)["workspaceUsers"]) : null;
+
+              _belongWorkspace = BelongsWorkspaces.fromJson((snapshot.data![1].data()! as Json)["belongsWorkspaces"]);
 
               return SingleChildScrollView(
                       child: Padding(
@@ -386,7 +391,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                             ),
                             _getUserList(_shouldShowPendingRequests,
                               Languages.of(context)!.strPendingWorkspaceRequests,
-                              _getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceRequests, _buildPendingRequestFromString),
+                              _getTiles((userStorage.userData == null) ? [] : _belongWorkspace.joiningRequests, _buildPendingRequestFromString),
                             ),
                             _getUserList(
                               _workspaceUsers == null ? false : _workspaceUsers!.isPendingJoiningRequests,
@@ -402,7 +407,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                                     icon: Icon(gc.addIcon))
                               ],
                             ),
-                            _getListView(_getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceOptions, _buildWorkspaceFromString)),
+                            _getListView(_getTiles((userStorage.userData == null) ? [] : _belongWorkspace.belongs, _buildWorkspaceFromString)),
                           ],
                         ),
                       ),

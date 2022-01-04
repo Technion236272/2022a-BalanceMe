@@ -9,10 +9,7 @@ class UserModel {
       [this.endOfMonthDay = gc.defaultEndOfMonthDay,
       this.userCurrency = gc.defaultUserCurrency,
       this.isDarkMode = false,
-      this.language = ""]) {
-    this.workspaceOptions = getNoEmailSortedList();
-    this.workspaceRequests = getNoEmailSortedList();
-  }
+      this.language = ""]);
 
   String currentWorkspace;
   int endOfMonthDay;
@@ -21,8 +18,6 @@ class UserModel {
   String? lastName;
   bool isDarkMode;
   String language;
-  late SortedList<String> workspaceOptions;
-  late SortedList<String> workspaceRequests;
 
   void updateFromJson(Json json) {
     if (json["groupName"] != null) {
@@ -47,14 +42,6 @@ class UserModel {
     if (json["language"] != null) {
       language = json["language"];
     }
-    if (json["workspaceOptions"] != null) {
-      workspaceOptions = getNoEmailSortedList();
-      workspaceOptions.addAll(jsonToElementList(json["workspaceOptions"], (workspace) => workspace).cast<String>());
-    }
-    if (json["workspaceRequests"] != null) {
-      workspaceRequests = getNoEmailSortedList();
-      workspaceRequests.addAll(jsonToElementList(json["workspaceRequests"], (workspace) => workspace).cast<String>());
-    }
   }
 
   Json toJson() => {
@@ -64,15 +51,6 @@ class UserModel {
     'firstName': firstName,
     'lastName': lastName,
     'isDarkMode': isDarkMode,
-    'language': language,
-    'workspaceOptions': workspaceOptions.toList(),
-    'workspaceRequests': workspaceRequests.toList()
+    'language': language
   };
-
-  void initWorkspaces(String userEmail) {  // TODO- check if needed
-    currentWorkspace = userEmail;
-    workspaceOptions = getNoEmailSortedList();
-    workspaceOptions.add(userEmail);
-    // TODO- add init workspaceRequests
-  }
 }

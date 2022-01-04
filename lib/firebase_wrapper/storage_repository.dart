@@ -10,6 +10,7 @@ import 'package:balance_me/localization/locale_controller.dart';
 import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/common_models/workspace_users_model.dart';
+import 'package:balance_me/common_models/belongs_workspaces.dart';
 import 'package:balance_me/global/messages_controller.dart';
 import 'package:balance_me/common_models/category_model.dart' as model;
 import 'package:balance_me/common_models/transaction_model.dart' as model;
@@ -33,7 +34,7 @@ class UserStorage with ChangeNotifier {
     _buildUserStorage(authRepository);
   }
 
-  void _buildUserStorage(AuthRepository authRepository) {
+  void _buildUserStorage(AuthRepository authRepository) async {
     _authRepository = authRepository;
     String userEmail = authRepository.user == null ? "" : authRepository.user!.email!;
 
@@ -48,6 +49,10 @@ class UserStorage with ChangeNotifier {
       //   _userData!.initWorkspaces(userEmail);
       //   SEND_generalInfo();
       // }
+
+      if (!await isExist_BelongsWorkspaces()) {  // TODO- check if needed and consider add messages
+        SEND_initialBelongWorkspace();
+      }
 
     } else {
       _userData = UserModel(userEmail);
@@ -65,7 +70,7 @@ class UserStorage with ChangeNotifier {
   AuthRepository? _authRepository;
   UserModel? _userData;
   BalanceModel _balance = BalanceModel();
-  WorkspaceUsers? _workspaceUsers;
+  WorkspaceUsers? _workspaceUsers;  // TODO- remove?
   DateTime? currentDate;
   StreamSubscription? _userMessagesStream;
 
@@ -84,6 +89,7 @@ class UserStorage with ChangeNotifier {
     currentDate = (time == null) ? DateTime.now() : time;
   }
 
+  // Workspace Methods
   void setCurrentWorkspace(String groupName) {
     if (_userData != null) {
       _userData!.currentWorkspace = groupName;
@@ -98,20 +104,20 @@ class UserStorage with ChangeNotifier {
     _workspaceUsers = null;
   }
 
-  Future<bool> createNewWorkspace(String newWorkspace) async {
-    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      SEND_balanceModel(doc: newWorkspace);
-
-      WorkspaceUsers? currentWorkspaceUser = (_workspaceUsers == null) ? null : workspaceUsers!.copy();
-      initWorkspaceUsers(_authRepository!.user!.email!);
-      await SEND_workspaceUsers(workspace: newWorkspace);
-      _workspaceUsers = currentWorkspaceUser;
-
-      _userData!.workspaceOptions.add(newWorkspace);
-      SEND_generalInfo();
-      return true;
-    }
-    return false;
+  Future<void> createNewWorkspace(String newWorkspace) async {
+    // if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
+    //   SEND_balanceModel(doc: newWorkspace);
+    //
+    //   WorkspaceUsers? currentWorkspaceUser = (_workspaceUsers == null) ? null : workspaceUsers!.copy();
+    //   initWorkspaceUsers(_authRepository!.user!.email!);
+    //   await SEND_workspaceUsers(workspace: newWorkspace);
+    //   _workspaceUsers = currentWorkspaceUser;
+    //
+    //   _userData!.belongs.add(newWorkspace);
+    //   SEND_generalInfo();
+    //   return true;
+    // }
+    // return false;
   }
 
   Future<void> _modifyUsersInWorkspace(String workspace, Function operator) async {
@@ -126,47 +132,46 @@ class UserStorage with ChangeNotifier {
     }
     _workspaceUsers = currentWorkspaceUser;
     print(_workspaceUsers!.toJson());
-    print("@@@@@@");
   }
 
   void addNewUserToWorkspace(String workspace, {String? user}) {
-    void _addNewUser() async {
-      _workspaceUsers!.addUser(user == null ? _authRepository!.user!.email! : user);
-      await SEND_workspaceUsers(workspace: workspace);
-    }
-
-    if (user == null) {
-      if (userData != null) {
-        userData!.workspaceOptions.add(workspace);
-        SEND_generalInfo();
-      }
-
-    } else {
-      SEND_updateWorkspaceOptions(user, workspace, true);
-    }
-
-    _modifyUsersInWorkspace(workspace, _addNewUser);
+    // void _addNewUser() async {
+    //   _workspaceUsers!.addUser(user == null ? _authRepository!.user!.email! : user);
+    //   await SEND_workspaceUsers(workspace: workspace);
+    // }
+    //
+    // if (user == null) {
+    //   if (userData != null) {
+    //     userData!.belongs.add(workspace);
+    //     SEND_generalInfo();
+    //   }
+    //
+    // } else {
+    //   SEND_updateWorkspaceOptions(user, workspace, true);
+    // }
+    //
+    // _modifyUsersInWorkspace(workspace, _addNewUser);
   }
 
   Future<void> removeUserFromWorkspace(String workspace) async {
-    void _removeUser() async {
-      _workspaceUsers!.removeUser(_authRepository!.user!.email!);
-
-      if (_workspaceUsers!.isEmpty) {
-        SEND_deleteWorkspace(workspace);
-        return;
-
-      } else if (_workspaceUsers!.leader == _authRepository!.user!.email!) {
-        _workspaceUsers!.setLeader();
-      }
-      await SEND_workspaceUsers(workspace: workspace);
-    }
-
-    if (userData != null) {
-      userData!.workspaceOptions.remove(workspace);
-      SEND_generalInfo();
-    }
-    _modifyUsersInWorkspace(workspace, _removeUser);
+    // void _removeUser() async {
+    //   _workspaceUsers!.removeUser(_authRepository!.user!.email!);
+    //
+    //   if (_workspaceUsers!.isEmpty) {
+    //     SEND_deleteWorkspace(workspace);
+    //     return;
+    //
+    //   } else if (_workspaceUsers!.leader == _authRepository!.user!.email!) {
+    //     _workspaceUsers!.setLeader();
+    //   }
+    //   await SEND_workspaceUsers(workspace: workspace);
+    // }
+    //
+    // if (userData != null) {
+    //   userData!.belongs.remove(workspace);
+    //   SEND_generalInfo();
+    // }
+    // _modifyUsersInWorkspace(workspace, _removeUser);
   }
 
   void _removePendingJoiningRequest(String approvedUser) {  // TODO- if using stream, no need save locally
@@ -189,6 +194,7 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  // General Info Methods
   void setEndOfMonthDay(int endOfMonthDay) {
     if (_userData != null) {
       _userData!.endOfMonthDay = endOfMonthDay;
@@ -225,6 +231,7 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  // Balance Methods
   bool _isCategoryAlreadyExist(model.Category category) {
     SortedList<model.Category> categoryList = _balance.getListByCategory(category);
     return categoryList.contains(category);
@@ -320,6 +327,36 @@ class UserStorage with ChangeNotifier {
 
   // ================== Requests ==================
 
+  // isExist
+
+  Future<bool> _isDocExist(DocumentReference docPath, {String? specificKey}) async {
+    try {
+      bool isExist = false;
+      await docPath.get().then((data) {
+        isExist = data.exists;
+
+        if (isExist && specificKey != null) {
+          isExist = (data.data() != null && (data.data()! as Json)[specificKey] != null);
+        }
+      });
+      return isExist;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> isExist_Workspace(String workspace) async {
+    return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(workspace));
+  }
+
+  Future<bool> isExist_generalInfo(String user) async {
+    return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.generalInfoDoc));
+  }
+
+  Future<bool> isExist_BelongsWorkspaces() async {
+    return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!), specificKey: config.belongsWorkspaces);
+  }
+
   // GET
   Future<void> GET_generalInfo(BuildContext context) async {  // Get General Info
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
@@ -336,18 +373,6 @@ class UserStorage with ChangeNotifier {
       });
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("GetPostLogin");
-    }
-  }
-
-  Future<bool> GET_isUserExist(String user) async {
-    try {
-      bool isExist = false;
-      await _firestore.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) {
-        isExist = generalInfo.exists;
-      });
-      return isExist;
-    } catch (e) {
-      return false;
     }
   }
 
@@ -408,18 +433,6 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  Future<bool> GET_isWorkspaceExist(String workspace) async {
-    try {
-      bool isExist = false;
-      await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((workspace) {
-        isExist = workspace.exists;
-      });
-      return isExist;
-    } catch (e) {
-      return false;
-    }
-  }
-
   // SEND
   void SEND_generalInfo() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
@@ -468,6 +481,28 @@ class UserStorage with ChangeNotifier {
     });
   }
 
+  void SEND_initialBelongWorkspace() {
+    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
+      _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).update({
+        config.belongsWorkspaces: BelongsWorkspaces(_authRepository!.user!.email!).toJson(),
+      });
+    } else {
+      GoogleAnalytics.instance.logPreCheckFailed("SendInitialBelongWorkspace");
+    }
+  }
+
+  void SEND_updateBelongsWorkspaces(String user, String workspace, bool toAdd) {
+    _firestore.collection(config.firebaseVersion).doc(user).update({
+      "${config.belongsWorkspaces}.belongs" : toAdd? FieldValue.arrayUnion([workspace]) : FieldValue.arrayRemove([workspace]),
+    });
+  }
+
+  void SEND_updateJoiningRequests(String user, String workspace, bool toAdd) {
+    _firestore.collection(config.firebaseVersion).doc(user).update({
+      "${config.belongsWorkspaces}.joiningRequests" : toAdd? FieldValue.arrayUnion([workspace]) : FieldValue.arrayRemove([workspace]),
+    });
+  }
+
   void SEND_deleteWorkspace(String workspace) async {  // TODO
     // if (_userData != null) {
     //   var workspaceToDelete = _firestore.collection(config.firebaseVersion).doc(workspace);
@@ -486,6 +521,10 @@ class UserStorage with ChangeNotifier {
 
   Stream<DocumentSnapshot> STREAM_workspaceUsers() {
       return _firestore.collection(config.firebaseVersion).doc(_userData!.currentWorkspace).snapshots();
+  }
+
+  Stream<DocumentSnapshot> STREAM_belongsWorkspaces() {
+    return _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).snapshots();
   }
 
   // ================== Messages ==================
@@ -551,7 +590,7 @@ class UserStorage with ChangeNotifier {
 
   void SEND_resetUserMessages() async {
     if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null) {
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).set({
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).update({
         config.userMessages: [],
       });
     } else {
