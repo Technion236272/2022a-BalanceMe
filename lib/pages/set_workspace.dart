@@ -356,15 +356,15 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             stream: StreamZip([userStorage.STREAM_workspaceUsers(), userStorage.STREAM_belongsWorkspaces()]),
             builder: (BuildContext context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
 
-              if (!snapshot.hasData || snapshot.data![0].data() == null || (snapshot.data![0].data()! as Json)["workspaceUsers"] == null
-                  || snapshot.data![1].data() == null || (snapshot.data![1].data()! as Json)["belongsWorkspaces"] == null) {
+              if (!snapshot.hasData || snapshot.data![0].data() == null || snapshot.data![1].data() == null || (snapshot.data![1].data()! as Json)["belongsWorkspaces"] == null) {
                 return Center(child: CircularProgressIndicator());
               }
 
               print(snapshot.data![1].data()!);
               print(snapshot.data![0].data()!);
 
-              _workspaceUsers = (authRepository.user != null && userStorage.userData != null && userStorage.userData!.currentWorkspace != authRepository.user!.email) ?
+              _workspaceUsers = ((authRepository.user != null && userStorage.userData != null && userStorage.userData!.currentWorkspace != authRepository.user!.email)
+                && (snapshot.data![0].data()! as Json)["workspaceUsers"] != null) ?
                 WorkspaceUsers.fromJson((snapshot.data![0].data()! as Json)["workspaceUsers"]) : null;
 
               _belongWorkspace = BelongsWorkspaces.fromJson((snapshot.data![1].data()! as Json)["belongsWorkspaces"]);
