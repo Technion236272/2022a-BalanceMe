@@ -26,14 +26,14 @@ class SetWorkspace extends StatefulWidget {
 class _SetWorkspaceState extends State<SetWorkspace> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _addWorkspaceController = TextEditingController();
-  late WorkspaceUsers _workspaceUsers;
+  late WorkspaceUsers? _workspaceUsers;
 
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
   // ================ LOGIC ================
 
-  bool get _shouldShowWorkspaceUsers => !_workspaceUsers.isOnlyLeader;
+  bool get _shouldShowWorkspaceUsers => _workspaceUsers != null && !_workspaceUsers!.isOnlyLeader;
 
   bool get _shouldShowPendingRequests => userStorage.userData != null && userStorage.userData!.workspaceRequests.isNotEmpty;
 
@@ -52,9 +52,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _chooseWorkspace(String workspace) async {
-    userStorage.userData!.currentWorkspace = workspace;
-    (authRepository.user != null && workspace != authRepository.user!.email) ? await userStorage.GET_workspaceUsers() : userStorage.resetWorkspaceUsers();
-    setState(() {});
+    setState(() {
+      userStorage.userData!.currentWorkspace = workspace;
+    });
     userStorage.SEND_generalInfo();
     await userStorage.GET_balanceModel();
     widget.afterChangeWorkspaceCB == null ? null : widget.afterChangeWorkspaceCB!();
@@ -124,10 +124,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _approveJoiningRequest(String approvedUser) async {
-    print(_workspaceUsers.toJson());
     await userStorage.approveUserJoiningRequest(context, approvedUser);
     setState(() {});
-    print(_workspaceUsers.toJson());
   }
 
   void _rejectedJoiningRequest(String rejectedUser) {
@@ -355,11 +353,13 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             stream: userStorage.SEND_workspaceUsersStream(),
             builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
-              if (!snapshot.hasData) {
+              if (!snapshot.hasData || snapshot.data!.data() == null) {
                 return Center(child: CircularProgressIndicator());
               }
 
-              _workspaceUsers = WorkspaceUsers.fromJson((snapshot.data!.data()! as Json)["workspaceUsers"]);
+              _workspaceUsers = (authRepository.user != null && userStorage.userData != null && userStorage.userData!.currentWorkspace != authRepository.user!.email) ?
+                WorkspaceUsers.fromJson((snapshot.data!.data()! as Json)["workspaceUsers"]) : null;
+
               return SingleChildScrollView(
                       child: Padding(
                         padding: gc.workspacesGeneralPadding,
@@ -374,7 +374,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                             _getUserList(
                               _shouldShowWorkspaceUsers,
                               Languages.of(context)!.strOtherWorkspaceUsers,
-                              _getTiles(_workspaceUsers.users, _buildWorkspaceUserFromString),
+                              _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.users, _buildWorkspaceUserFromString),
                               BoxDecoration(
                                 color: gc.primaryColor,
                                 borderRadius: BorderRadius.circular(gc.entryBorderRadius),
@@ -385,9 +385,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                               _getTiles((userStorage.userData == null) ? [] : userStorage.userData!.workspaceRequests, _buildPendingRequestFromString),
                             ),
                             _getUserList(
-                              _workspaceUsers.isPendingJoiningRequests,
+                              _workspaceUsers == null ? false : _workspaceUsers!.isPendingJoiningRequests,
                               Languages.of(context)!.strPendingUsersRequestsTitle,
-                              _getTiles(_workspaceUsers.pendingJoiningRequests, _buildJoiningRequestsFromString),
+                              _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.pendingJoiningRequests, _buildJoiningRequestsFromString),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
