@@ -7,7 +7,7 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 
-class MessagesController {  // TODO- check validity of messages
+class MessagesController {
   static BuildContext? context = globalNavigatorKey.currentContext;
   static late UserStorage userStorage;
 
@@ -19,28 +19,27 @@ class MessagesController {  // TODO- check validity of messages
 
       userStorage = Provider.of<UserStorage>(context!, listen: false);
       for (var message in messages) {
-print("&&&&&&&&&");
-print(message);
-print(indexToEnum(UserMessage.values, message["type"]));
-        switch (indexToEnum(UserMessage.values, message["type"])) {
-          case UserMessage.JoinWorkspace:
-            _handleJoinWorkspace(message);
-            break;
+        if (_isMessageValid(message)) {
+          switch (indexToEnum(UserMessage.values, message["type"])) {
+            case UserMessage.JoinWorkspace:
+              _handleJoinWorkspace(message);
+              break;
 
-          case UserMessage.InviteWorkspace:
-            _handleInviteWorkspace(message);
-            break;
+            case UserMessage.InviteWorkspace:
+              _handleInviteWorkspace(message);
+              break;
 
             case UserMessage.ShowMessage:
-            _handleShowMessage(message);
-            break;
+              _handleShowMessage(message);
+              break;
 
-          default:
-            GoogleAnalytics.instance.logHandleUnknownMessage(message.toString());
-            break;
+            default:
+              GoogleAnalytics.instance.logHandleUnknownMessage(message.toString());
+              break;
+          }
+
+          GoogleAnalytics.instance.logHandleMessageSuccess(message.toString());
         }
-
-        GoogleAnalytics.instance.logHandleMessageSuccess(message.toString());
       }
 
     } catch (e) {
@@ -49,26 +48,30 @@ print(indexToEnum(UserMessage.values, message["type"]));
   }
 
   static void _handleJoinWorkspace(Message message) {
-    void replayRequest(bool isApproved) {
-      userStorage.replayUserJoiningRequest(context!, message["user"], isApproved, message["workspace"]);
+    void replyRequest(bool isApproved) {
+      userStorage.replyUserJoiningRequest(context!, message["user"], isApproved, message["workspace"]);
     }
 
     message["message"] = Languages.of(context!)!.strUserRequestJoiningToWorkspace;
-    _handleShowMessage(message, [[() => {replayRequest(true)}, Languages.of(context!)!.strApprove], [() => {replayRequest(false)}, Languages.of(context!)!.strReject]]);
+    _handleShowMessage(message, [[() => {replyRequest(true)}, Languages.of(context!)!.strApprove], [() => {replyRequest(false)}, Languages.of(context!)!.strReject]]);
     userStorage.SEND_updatePendingJoiningRequest(message["workspace"], message["user"], true);
   }
 
   static void _handleInviteWorkspace(Message message) {
-    void replayRequest(bool isAccepted) {
-      userStorage.replayWorkspaceInvitation(context!, message["workspace"], isAccepted);
+    void replyRequest(bool isAccepted) {
+      userStorage.replyWorkspaceInvitation(context!, message["workspace"], isAccepted);
     }
 
     message["message"] = Languages.of(context!)!.strUserInvitedToWorkspace;
-    _handleShowMessage(message, [[() => {replayRequest(true)}, Languages.of(context!)!.strApprove], [() => {replayRequest(false)}, Languages.of(context!)!.strReject]]);
+    _handleShowMessage(message, [[() => {replyRequest(true)}, Languages.of(context!)!.strApprove], [() => {replyRequest(false)}, Languages.of(context!)!.strReject]]);
     userStorage.SEND_updateInvitationsList(message["workspace"], true);
   }
 
   static void _handleShowMessage(Message message, [List<List>? actions]) {
     showDismissBanner(message["message"].replaceAll("%", message["workspace"]).replaceAll("#", message["user"]), actions);
+  }
+
+  static bool _isMessageValid(Message message) {
+    return message["type"] != null && message["workspace"] != null && message["user"] != null;
   }
 }

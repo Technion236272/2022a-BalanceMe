@@ -39,7 +39,7 @@ class _SettingsState extends State<Settings> {
   void _changeCurrency() {
     if (widget.userStorage.userData != null) {
       Currency userCurrency = CurrencySign.keys.firstWhere((i) => CurrencySign[i] == _currencyController.value);
-      widget.userStorage.setUserCurrency(userCurrency);
+      widget.userStorage.userData!.userCurrency = userCurrency;
       if (widget.authRepository.status == AuthStatus.Authenticated) {
         widget.userStorage.SEND_generalInfo();
       }

@@ -129,11 +129,11 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _approveRequest(String approved, bool? isInvitation) {
-    (isInvitation != null && !!isInvitation) ? userStorage.replayWorkspaceInvitation(context, approved, true) : userStorage.replayUserJoiningRequest(context, approved, true);
+    (isInvitation != null && !!isInvitation) ? userStorage.replyWorkspaceInvitation(context, approved, true) : userStorage.replyUserJoiningRequest(context, approved, true);
   }
 
   void _rejectedRequest(String rejected, bool? isInvitation) {
-    (isInvitation != null && !!isInvitation) ? userStorage.replayWorkspaceInvitation(context, rejected, false) : userStorage.replayUserJoiningRequest(context, rejected, false);
+    (isInvitation != null && !!isInvitation) ? userStorage.replyWorkspaceInvitation(context, rejected, false) : userStorage.replyUserJoiningRequest(context, rejected, false);
   }
 
   void _inviteUserToWorkspace() async {

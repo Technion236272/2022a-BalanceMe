@@ -87,12 +87,6 @@ class UserStorage with ChangeNotifier {
   }
 
   // Workspace Methods
-  void setCurrentWorkspace(String groupName) {
-    if (_userData != null) {
-      _userData!.currentWorkspace = groupName;
-    }
-  }
-
   bool createNewWorkspace(String newWorkspace) {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
       SEND_balanceModel(doc: newWorkspace);
@@ -125,7 +119,7 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void replayUserJoiningRequest(BuildContext context, String user, isApproved, [String? workspace]) {
+  void replyUserJoiningRequest(BuildContext context, String user, isApproved, [String? workspace]) {
     if (workspace != null || _userData != null) {
       workspace = (workspace == null) ? userData!.currentWorkspace : workspace;
       SEND_updatePendingJoiningRequest(workspace, user, false);
@@ -138,7 +132,7 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void replayWorkspaceInvitation(BuildContext context, String workspace, isAccepted) async {
+  void replyWorkspaceInvitation(BuildContext context, String workspace, isAccepted) async {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
       SEND_updateInvitationsList(workspace, false);
       isAccepted ? addNewUserToWorkspace(workspace, _authRepository!.getEmail!) : null;
@@ -147,37 +141,6 @@ class UserStorage with ChangeNotifier {
       if (workspaceLeader != null) {
         SEND_showMessageToUser(workspaceLeader, isAccepted ? Languages.of(context)!.strUserApproveInvitation : Languages.of(context)!.strUserRejectInvitation, _authRepository!.getEmail!, workspace);
       }
-    }
-  }
-
-  // General Info Methods
-  void setUserCurrency(Currency userCurrency) {
-    if (_userData != null) {
-      _userData!.userCurrency = userCurrency;
-    }
-  }
-
-  void setFirstName(String firstName) {
-    if (_userData != null) {
-      _userData!.firstName = firstName;
-    }
-  }
-
-  void setLastName(String lastName) {
-    if (_userData != null) {
-      _userData!.lastName = lastName;
-    }
-  }
-
-  void setDarkMode(bool isDarkMode) {
-    if (_userData != null) {
-      _userData!.isDarkMode = isDarkMode;
-    }
-  }
-
-  void setLanguage(String language) {
-    if (_userData != null) {
-      _userData!.language = language;
     }
   }
 

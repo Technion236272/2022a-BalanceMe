@@ -79,15 +79,23 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   void _updateFirstName() {
-    widget.userStorage.setFirstName(_controllerFirstName.text);
-    _saveProfile();
-    _enableEditFirstName(null);
+    if (widget.userStorage.userData != null) {
+      widget.userStorage.userData!.firstName = _controllerFirstName.text;
+      _saveProfile();
+      _enableEditFirstName(null);
+    } else {
+      displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
+    }
   }
 
   void _updateLastName() {
-    widget.userStorage.setLastName(_controllerLastName.text);
-    _saveProfile();
-    _enableEditLastName(null);
+    if (widget.userStorage.userData != null) {
+      widget.userStorage.userData!.lastName = _controllerLastName.text;
+      _saveProfile();
+      _enableEditLastName(null);
+    } else {
+      displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
+    }
   }
 
   List<GestureTapCallback?> _getActions() {
