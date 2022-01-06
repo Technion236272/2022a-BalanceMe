@@ -434,6 +434,12 @@ class LanguageHe extends Languages {
   @override
   String get strPendingUsersRequestsTitle => "Those users want to join this workspace:";
 
+  @override
+  String get strInvitedSuccessfullyWorkspace => "An invitation to the workspace has been sent"; // TODO
+
+  @override
+  String get strCantInviteYourself => "You can't invite yourself into workspace"; // TODO
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "‎סוג";

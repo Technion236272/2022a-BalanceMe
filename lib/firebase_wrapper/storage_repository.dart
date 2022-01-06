@@ -507,8 +507,8 @@ class UserStorage with ChangeNotifier {
     return false;
   }
 
-  void SEND_inviteWorkspaceRequest(String workspace, String user, String? requestContent) {  // TODO- change requestContent to user
-    Json joiningRequest = {"type": UserMessage.InviteWorkspace.index, "workspace": workspace, "requestContent": requestContent == null ? "" : requestContent};
+  void SEND_inviteWorkspaceRequest(String workspace, String user) {
+    Json joiningRequest = {"type": UserMessage.InviteWorkspace.index, "workspace": workspace, "user": user};
     _SEND_messageToUser(user, joiningRequest);
   }
 

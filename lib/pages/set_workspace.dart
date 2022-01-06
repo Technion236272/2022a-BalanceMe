@@ -40,10 +40,27 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   bool get _shouldShowPendingRequests => _belongWorkspace.joiningRequests.isNotEmpty;
 
-  String? _modalBottomSheetValidatorFunction(String? value) {  // TODO- check all scenarios
+  String? _addUserValidatorFunction(String? value) {  // TODO- check all scenarios
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
       message = notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+    }
+    if (message == null) {
+      message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
+    }
+    if (message == null) {
+      message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
+    }
+    return message;
+  }
+
+  String? _inviteUserValidatorFunction(String? value) {
+    String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
+    if (message == null) {
+      message = emailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+    }
+    if (message == null && authRepository.user != null) {  // TODO: maybe it is unnaccecary
+      message = authRepository.user!.email != value ? null : Languages.of(context)!.strCantInviteYourself;
     }
     if (message == null) {
       message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
@@ -120,24 +137,19 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     userStorage.rejectUserJoiningRequest(context, rejectedUser);
   }
 
-  void _inviteUserToWorkspace() async {  // TODO- fix
-    // if (_modalBottomSheetFormKey.currentState != null && _modalBottomSheetFormKey.currentState!.validate() && userStorage.userData != null) {
-    //   if (userStorage.userData != null) {
-    //
-    //     if (await userStorage.isExist_generalInfo(_modalBottomSheetFormKey.text)) {
-    //       userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, _inviteUserController.text);
-    //       displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
-    //       GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, _inviteUserController.text);
-    //     } else {
-    //       displaySnackBar(context, Languages.of(context)!.strUserNotFound);
-    //     }
-    //
-    //   } else {
-    //     displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
-    //   }
-    //
-    //   _closeModalBottomSheet();
-    // }
+  void _inviteUserToWorkspace() async {
+    if (_modalBottomSheetFormKey.currentState != null && _modalBottomSheetFormKey.currentState!.validate()) {
+
+      if (await userStorage.isExist_generalInfo(_modalBottomSheetController.text)) {
+        userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, _modalBottomSheetController.text);
+        displaySnackBar(context, Languages.of(context)!.strInvitedSuccessfullyWorkspace);
+        GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, _modalBottomSheetController.text);
+      } else {
+        displaySnackBar(context, Languages.of(context)!.strUserNotFound);
+      }
+
+      _closeModalBottomSheet();
+    }
   }
 
   // ================ UI ================
@@ -194,7 +206,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                   isAddWorkspace ? Languages.of(context)!.strWorkspace : Languages.of(context)!.strEmailText,
                   isBordered: true,
                   isValid: true,
-                  validatorFunction: _modalBottomSheetValidatorFunction,
+                  validatorFunction: isAddWorkspace ? _addUserValidatorFunction : _inviteUserValidatorFunction,
                 ),
               ),
               ElevatedButton(
