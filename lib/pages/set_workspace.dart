@@ -26,10 +26,10 @@ class SetWorkspace extends StatefulWidget {
 }
 
 class _SetWorkspaceState extends State<SetWorkspace> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController _addWorkspaceController = TextEditingController();
+  final _modalBottomSheetFormKey = GlobalKey<FormState>();
   late WorkspaceUsers? _workspaceUsers;
   late BelongsWorkspaces _belongWorkspace;
+  TextEditingController _modalBottomSheetController = TextEditingController();
 
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
@@ -40,15 +40,15 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   bool get _shouldShowPendingRequests => _belongWorkspace.joiningRequests.isNotEmpty;
 
-  String? _addWorkspaceValidatorFunction(String? value) {
+  String? _modalBottomSheetValidatorFunction(String? value) {  // TODO- check all scenarios
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
       message = notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
     }
-    if (message == null && userStorage.userData != null) {
+    if (message == null) {
       message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
     }
-    if (message == null && userStorage.userData != null) {
+    if (message == null) {
       message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
     }
     return message;
@@ -100,14 +100,14 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _addWorkspace() async {
-    if (_formKey.currentState != null && _formKey.currentState!.validate() && userStorage.userData != null) {
+    if (_modalBottomSheetFormKey.currentState != null && _modalBottomSheetFormKey.currentState!.validate() && userStorage.userData != null) {
 
-      if (await userStorage.isExist_Workspace(_addWorkspaceController.text)) {
+      if (await userStorage.isExist_Workspace(_modalBottomSheetController.text)) {
         navigateBack(context);
-        await showYesNoAlertDialog(context, Languages.of(context)!.strJoinWorkspace, () => {_requestJoiningWorkspace(_addWorkspaceController.text)}, _closeModalBottomSheet);
+        await showYesNoAlertDialog(context, Languages.of(context)!.strJoinWorkspace, () => {_requestJoiningWorkspace(_modalBottomSheetController.text)}, _closeModalBottomSheet);
 
       } else {
-        _createNewWorkspace(_addWorkspaceController.text);
+        _createNewWorkspace(_modalBottomSheetController.text);
       }
     }
   }
@@ -120,24 +120,45 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     userStorage.rejectUserJoiningRequest(context, rejectedUser);
   }
 
+  void _inviteUserToWorkspace() async {  // TODO- fix
+    // if (_modalBottomSheetFormKey.currentState != null && _modalBottomSheetFormKey.currentState!.validate() && userStorage.userData != null) {
+    //   if (userStorage.userData != null) {
+    //
+    //     if (await userStorage.isExist_generalInfo(_modalBottomSheetFormKey.text)) {
+    //       userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, _inviteUserController.text);
+    //       displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strRemoved));
+    //       GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, _inviteUserController.text);
+    //     } else {
+    //       displaySnackBar(context, Languages.of(context)!.strUserNotFound);
+    //     }
+    //
+    //   } else {
+    //     displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
+    //   }
+    //
+    //   _closeModalBottomSheet();
+    // }
+  }
+
   // ================ UI ================
 
   void _closeModalBottomSheet() {
-    _addWorkspaceController.text = "";
+    _modalBottomSheetController.text = "";
+    _modalBottomSheetController.text = "";
     navigateBack(context);
   }
 
-  void _showModalBottomSheet() {
-    openModalBottomSheet(context, [_getAddWorkspaceModal()]);
+  void _showModalBottomSheet(bool isAddWorkspace) {
+    openModalBottomSheet([_getModalBottomSheet(isAddWorkspace)]);
   }
 
-  Widget _getAddWorkspaceModal() {
+  Widget _getModalBottomSheet(bool isAddWorkspace) {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SizedBox(
         height: MediaQuery.of(context).size.height / gc.bottomSheetSizeScale,
         child: Form(
-          key: _formKey,
+          key: _modalBottomSheetFormKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -150,8 +171,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                          Languages.of(context)!.strAddNewWorkspace,
-                          style: gc.bottomSheetTextStyle,
+                        isAddWorkspace ? Languages.of(context)!.strAddNewWorkspace :  Languages.of(context)!.strInviteUserToWorkspace,
+                        style: gc.bottomSheetTextStyle,
                       ),
                       IconButton(
                         onPressed: _closeModalBottomSheet,
@@ -167,18 +188,18 @@ class _SetWorkspaceState extends State<SetWorkspace> {
               Padding(
                 padding: gc.bottomSheetPadding,
                 child: FormTextField(
-                  _addWorkspaceController,
+                  _modalBottomSheetController,
                   1,
                   1,
-                  Languages.of(context)!.strWorkspace,
+                  isAddWorkspace ? Languages.of(context)!.strWorkspace : Languages.of(context)!.strEmailText,
                   isBordered: true,
                   isValid: true,
-                  validatorFunction: _addWorkspaceValidatorFunction,
+                  validatorFunction: _modalBottomSheetValidatorFunction,
                 ),
               ),
               ElevatedButton(
-                  onPressed: _addWorkspace,
-                  child: Text(Languages.of(context)!.strAdd),
+                  onPressed: isAddWorkspace ? _addWorkspace : _inviteUserToWorkspace,
+                  child: isAddWorkspace ? Text(Languages.of(context)!.strAdd) : Text(Languages.of(context)!.strInvite),
               ),
             ],
           ),
@@ -385,9 +406,17 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(Languages.of(context)!.strChooseWorkspace),
+                                Visibility(
+                                  visible: _workspaceUsers != null && authRepository.user != null && _workspaceUsers!.leader == authRepository.user!.email,
+                                  child: TextButton(
+                                    onPressed: () => {_showModalBottomSheet(false)},
+                                    child: Text(Languages.of(context)!.strInvite),
+                                  ),
+                                ),
                                 IconButton(
-                                    onPressed: _showModalBottomSheet,
-                                    icon: Icon(gc.addIcon))
+                                    onPressed: () => {_showModalBottomSheet(true)},
+                                    icon: Icon(gc.addIcon),
+                                ),
                               ],
                             ),
                             _getListView(_getTiles((userStorage.userData == null) ? [] : _belongWorkspace.belongs, _buildWorkspaceFromString)),

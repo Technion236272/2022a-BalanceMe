@@ -21,6 +21,6 @@ List<Widget> createOptions(List<GestureTapCallback?> actions,
   return options;
 }
 
-void imagePicker(BuildContext context, List<GestureTapCallback?> actions, List<Widget?> leading, List<String> titles) {
-  openModalBottomSheet(context, createOptions(actions, leading, titles));
+void imagePicker(List<GestureTapCallback?> actions, List<Widget?> leading, List<String> titles) {
+  openModalBottomSheet(createOptions(actions, leading, titles));
 }

@@ -144,7 +144,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   void _showImageSourceChoice() async {
-    imagePicker(context, _getActions(), _iconsLeading(), _getOptionTitles());
+    imagePicker(_getActions(), _iconsLeading(), _getOptionTitles());
   }
 
   @override

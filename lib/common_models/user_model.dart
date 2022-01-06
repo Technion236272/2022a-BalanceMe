@@ -1,5 +1,4 @@
 // ================= User Data Model =================
-import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import "package:balance_me/global/constants.dart" as gc;

@@ -89,7 +89,12 @@ void showDismissBanner(String message) {
   );
 }
 
-void openModalBottomSheet(BuildContext context, List<Widget> children) {
+void openModalBottomSheet(List<Widget> children) {
+  if (globalNavigatorKey.currentContext == null) {
+    return;
+  }
+
+  BuildContext context = globalNavigatorKey.currentContext!;
   showModalBottomSheet(
     context: context,
     builder: (BuildContext _context) {
