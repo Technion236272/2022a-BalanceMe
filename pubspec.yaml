@@ -54,6 +54,7 @@ dependencies:
   email_validator: 2.0.1
   flutter_masked_text2: ^0.9.1
   rxdart: ^0.27.3
+  cross_connectivity: any
 
 dev_dependencies:
   flutter_test:
