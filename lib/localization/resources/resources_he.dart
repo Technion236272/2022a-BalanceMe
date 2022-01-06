@@ -319,6 +319,12 @@ class LanguageHe extends Languages {
   @override
   String get strBadNumberForm => "‎הטקסט שהוכנס איננו מספר";
 
+  @override
+  String get strIncomeTransactionInfo => "‎דוגמאות להכנסות: \n - משכורת מ... \n - תשלום שכירות מ...";
+
+  @override
+  String get strExpenseTransactionInfo => "‎דוגמאות להוצאות: \n - שכר דירה \n - סרט בקולנוע \n - קניית חולצה ב...";
+
   // Archive
   @override
   String get strDataUnavailable => "‎אין מידע זמין עבור פרק הזמן הנבחר";

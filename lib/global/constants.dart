@@ -176,7 +176,8 @@ const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
 
 //Category and Transaction
 const EdgeInsets topPadding = EdgeInsets.only(top: 20.0);
-const double smallTextFields = 280;
+const double smallTextFields = 250;
+const double textFieldAndTooltipSizedBox = 325;
 const double generalTextFieldsPadding = 8.0;
 const double inputFontSize = 45;
 Color inputFontColor = Colors.grey.shade700;

@@ -318,6 +318,12 @@ class LanguageRu extends Languages {
 
   @override
   String get strBadNumberForm => "Вставленный текст - это не число";
+  //TODO - Translate this please
+  @override
+  String get strIncomeTransactionInfo => "Income transactions examples:\n - Salary from... \n - Rental payment from...";
+
+  @override
+  String get strExpenseTransactionInfo => "Expense transactions examples:\n - Rental payment \n - Watching cinema movie \n - Buying T-shirt in...";
 
   // Archive
   @override
