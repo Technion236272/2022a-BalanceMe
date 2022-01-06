@@ -320,10 +320,16 @@ class LanguageHe extends Languages {
   String get strBadNumberForm => "‎הטקסט שהוכנס איננו מספר";
 
   @override
-  String get strIncomeTransactionInfo => "‎דוגמאות להכנסות: \n - משכורת מ... \n - תשלום שכירות מ...";
+  String get strIncomeTransactionInfo => "‎דוגמאות להכנסות: \n תשלום שכירות מ... \n משכורת מ... \n החזר מס מ...";
 
   @override
-  String get strExpenseTransactionInfo => "‎דוגמאות להוצאות: \n - שכר דירה \n - סרט בקולנוע \n - קניית חולצה ב...";
+  String get strExpenseTransactionInfo => "‎דוגמאות להוצאות: \n שכר דירה \n הוצאות חשמל \n קניית מצרכים \n קניית חולצה ב... \n סרט בקולנוע";
+
+  @override
+  String get strIncomeCategoryInfo => "‎דוגמא לקטגורית הכנסות:\n שכירויות \n משכורות \n החזרים";
+
+  @override
+  String get strExpenseCategoryInfo => "‎דוגמא לקטגורית הוצאות:\n הוצאות דירה \n הוצאות סופרמרקט \n קניות \n תחביבים";
 
   // Archive
   @override

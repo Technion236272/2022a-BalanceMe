@@ -126,6 +126,8 @@ abstract class Languages {
   String get strBadNumberForm;
   String get strIncomeTransactionInfo;
   String get strExpenseTransactionInfo;
+  String get strIncomeCategoryInfo;
+  String get strExpenseCategoryInfo;
 
   // Archive
   String get strDataUnavailable;

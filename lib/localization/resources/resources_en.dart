@@ -320,10 +320,16 @@ class LanguageEn extends Languages {
   String get strBadNumberForm => "The inserted text is not a number";
 
   @override
-  String get strIncomeTransactionInfo => "Income transactions examples:\n - Salary from... \n - Rental payment from...";
+  String get strIncomeTransactionInfo => "Income transactions examples: \n Rental payment from... \n Salary from... \n Tax refund from...";
 
   @override
-  String get strExpenseTransactionInfo => "Expense transactions examples:\n - Rental payment \n - Watching cinema movie \n - Buying T-shirt in...";
+  String get strExpenseTransactionInfo => "Expense transactions examples:\n Rental payment \n Electricity expenses \n Groceries \n Buying T-shirt in... \n Watching cinema movie";
+
+  @override
+  String get strIncomeCategoryInfo => "Income Category examples:\n Rental payments \n Salaries \n Refunds";
+
+  @override
+  String get strExpenseCategoryInfo => "Expense Category examples:\n Apartment \n Supermarket \n Shopping \n Hobbies";
 
   // Archive
   @override
