@@ -40,6 +40,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   bool get _shouldShowPendingRequests => _belongWorkspace.joiningRequests.isNotEmpty;
 
+  bool get _shouldShowInvitations => _belongWorkspace.invitations.isNotEmpty;
+
   String? _addUserValidatorFunction(String? value) {  // TODO- check all scenarios
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
@@ -56,18 +58,15 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   String? _inviteUserValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
-    if (message == null) {
-      message = emailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
-    }
-    if (message == null && authRepository.user != null) {  // TODO: maybe it is unnaccecary
-      message = authRepository.user!.email != value ? null : Languages.of(context)!.strCantInviteYourself;
-    }
-    if (message == null) {
-      message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
-    }
-    if (message == null) {
-      message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
-    }
+    // if (message == null) {
+    //   message = emailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+    // }
+    // if (message == null) {
+    //   message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
+    // }
+    // if (message == null) {
+    //   message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
+    // }
     return message;
   }
 
@@ -129,12 +128,12 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     }
   }
 
-  void _approveJoiningRequest(String approvedUser) {
-    userStorage.approveUserJoiningRequest(context, approvedUser);
+  void _approveRequest(String approved, bool? isInvitation) {
+    (isInvitation != null && isInvitation) ? userStorage.acceptWorkspaceInvitation(context, approved) : userStorage.approveUserJoiningRequest(context, approved);
   }
 
-  void _rejectedJoiningRequest(String rejectedUser) {
-    userStorage.rejectUserJoiningRequest(context, rejectedUser);
+  void _rejectedRequest(String rejected, bool? isInvitation) {
+    (isInvitation != null && isInvitation) ? userStorage.rejectWorkspaceInvitation(context, rejected) : userStorage.rejectUserJoiningRequest(context, rejected);
   }
 
   void _inviteUserToWorkspace() async {
@@ -248,7 +247,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  Widget _buildWorkspaceFromString(String workspace) {
+  Widget _buildWorkspaceFromString(String workspace, bool? param) {
     return (authRepository.user != null && workspace == authRepository.user!.email) ?
       _getWorkspace(workspace) : GenericDeleteDismissible(
       workspace,
@@ -258,10 +257,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  List<Widget> _getTiles(List list, Function buildUserFunction) {
+  List<Widget> _getTiles(List list, Function buildUserFunction, [bool? paramForFunction]) {
     List<Widget> tiles = [];
     for (String tile in list) {
-      tiles.add(buildUserFunction(tile));
+      tiles.add(buildUserFunction(tile, paramForFunction));
     }
     return tiles.isEmpty ? [] : tiles;
   }
@@ -274,7 +273,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  Widget _buildWorkspaceUserFromString(String user) {
+  Widget _buildWorkspaceUserFromString(String user, bool? param) {
     return (authRepository.user != null && user == authRepository.user!.email) ? Container() : Padding(
       padding: gc.workspaceTilePadding,
       child: Row(
@@ -293,7 +292,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  Widget _buildPendingRequestFromString(String tile) {
+  Widget _buildPendingRequestFromString(String tile, bool? param) {
     return Padding(
       padding: gc.workspaceTilePadding,
       child: Row(
@@ -315,7 +314,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  Widget _buildJoiningRequestsFromString(String tile) {
+  Widget _buildApproveRejectFromString(String tile, bool? isInvitation) {
     return Padding(
       padding: gc.workspaceTilePadding,
       child: Row(
@@ -326,14 +325,14 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
           ),
           TextButton(
-            onPressed: () => {_approveJoiningRequest(tile)},
+            onPressed: () => {_approveRequest(tile, isInvitation)},
             child: Text(
               Languages.of(context)!.strApprove,
               style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
             ),
           ),
           TextButton(
-            onPressed: () => {_rejectedJoiningRequest(tile)},
+            onPressed: () => {_rejectedRequest(tile, isInvitation)},
             child: Text(
               Languages.of(context)!.strReject,
               style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
@@ -372,7 +371,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             stream: CombineLatestStream.list([userStorage.STREAM_workspaceUsers(), userStorage.STREAM_belongsWorkspaces()]),
             builder: (BuildContext context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
 
-              if (!snapshot.hasData || snapshot.data![0].data() == null || snapshot.data![1].data() == null || (snapshot.data![1].data()! as Json)["belongsWorkspaces"] == null) {
+              if (!snapshot.hasData || snapshot.data![0].data() == null ||
+                  snapshot.data![1].data() == null || (snapshot.data![1].data()! as Json)["belongsWorkspaces"] == null) {
                 return Center(child: CircularProgressIndicator());
               }
 
@@ -405,14 +405,20 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                                 borderRadius: BorderRadius.circular(gc.entryBorderRadius),
                               ),
                             ),
-                            _getUserList(_shouldShowPendingRequests,
+                            _getUserList(
+                              _shouldShowPendingRequests,
                               Languages.of(context)!.strPendingWorkspaceRequests,
                               _getTiles((userStorage.userData == null) ? [] : _belongWorkspace.joiningRequests, _buildPendingRequestFromString),
                             ),
                             _getUserList(
+                              _shouldShowInvitations,
+                              Languages.of(context)!.strPendingInvitationsRequests,
+                              _getTiles((userStorage.userData == null) ? [] : _belongWorkspace.invitations, _buildApproveRejectFromString, true),
+                            ),
+                            _getUserList(
                               _workspaceUsers == null ? false : _workspaceUsers!.isPendingJoiningRequests,
                               Languages.of(context)!.strPendingUsersRequestsTitle,
-                              _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.pendingJoiningRequests, _buildJoiningRequestsFromString),
+                              _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.pendingJoiningRequests, _buildApproveRejectFromString),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

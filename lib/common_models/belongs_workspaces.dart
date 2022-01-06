@@ -9,10 +9,12 @@ class BelongsWorkspaces {
     belongs.add(userEmail);
 
     this.joiningRequests = getNoEmailSortedList();
+    this.invitations = getNoEmailSortedList();
   }
 
   late SortedList<String> belongs;
   late SortedList<String> joiningRequests;
+  late SortedList<String> invitations;
 
   BelongsWorkspaces.fromJson(Json json) {
     if (json["belongs"] != null) {
@@ -23,10 +25,15 @@ class BelongsWorkspaces {
       joiningRequests = getNoEmailSortedList();
       joiningRequests.addAll(jsonToElementList(json["joiningRequests"], (workspace) => workspace).cast<String>());
     }
+    if (json["invitations"] != null) {
+      invitations = getNoEmailSortedList();
+      invitations.addAll(jsonToElementList(json["invitations"], (workspace) => workspace).cast<String>());
+    }
   }
 
   Json toJson() => {
     'belongs': belongs.toList(),
-    'joiningRequests': joiningRequests.toList()
+    'joiningRequests': joiningRequests.toList(),
+    'invitations': invitations.toList()
   };
 }

@@ -440,6 +440,15 @@ class LanguageRu extends Languages {
   @override
   String get strCantInviteYourself => "You can't invite yourself into workspace";
 
+  @override
+  String get strPendingInvitationsRequests => "You have been invited to join:";
+
+  @override
+  String get strUserApproveInvitation => "# accepts your invitation to join % workspace";
+
+  @override
+  String get strUserRejectInvitation => "# rejects your invitation to join % workspace";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "вид";

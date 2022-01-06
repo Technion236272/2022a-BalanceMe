@@ -17,8 +17,6 @@ class WorkspaceUsers {
 
   WorkspaceUsers.fromJson(Json workspaceUsersJson) {
     _initSortedLists();
-    print("@@@@@@");
-    print(workspaceUsersJson);
     users.addAll(jsonToElementList(workspaceUsersJson["users"], (user) => user).cast<String>());
     leader = workspaceUsersJson["leader"];
     pendingJoiningRequests.addAll(jsonToElementList(workspaceUsersJson["pendingJoiningRequests"], (user) => user).cast<String>());

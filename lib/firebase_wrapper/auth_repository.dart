@@ -21,9 +21,7 @@ class AuthRepository with ChangeNotifier {
   AuthStatus _status = AuthStatus.Uninitialized;
   String? _avatarUrl;
 
-
   final FirebaseStorage _storage = FirebaseStorage.instanceFor(bucket: config.storageBucketPath);
-
 
   AuthRepository.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onAuthStateChanged);
@@ -36,6 +34,8 @@ class AuthRepository with ChangeNotifier {
   User? get user => _user;
 
   String? get avatarUrl => _avatarUrl;
+
+  String? get getEmail =>  (user == null) ? null : user!.email;
 
   Future<bool> signUp(String email, String password, BuildContext context) async {
     try {

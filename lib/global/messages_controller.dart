@@ -19,7 +19,9 @@ class MessagesController {  // TODO- check validity of messages
 
       userStorage = Provider.of<UserStorage>(context!, listen: false);
       for (var message in messages) {
-
+print("&&&&&&&&&");
+print(message);
+print(indexToEnum(UserMessage.values, message["type"]));
         switch (indexToEnum(UserMessage.values, message["type"])) {
           case UserMessage.JoinWorkspace:
             _handleJoinWorkspace(message);
@@ -46,30 +48,19 @@ class MessagesController {  // TODO- check validity of messages
     }
   }
 
-  static void _handleJoinWorkspace(Message message) {  // TODO- type, workspace, user
-    // message["message"] = Languages.of(context!)!.strUserRequestJoiningToWorkspace;
-    // _handleShowMessage(message);  // TODO- add actions
-    // userStorage.SEND_updatePendingJoiningRequest(message["workspace"], message["user"], true);
-    // if (userStorage.userData != null && userStorage.userData!.currentWorkspace == message["workspace"]) {
-    //   userStorage.GET_workspaceUsers();
-    // }
+  static void _handleJoinWorkspace(Message message) {
+    message["message"] = Languages.of(context!)!.strUserRequestJoiningToWorkspace;
+    _handleShowMessage(message);  // TODO- add actions
+    userStorage.SEND_updatePendingJoiningRequest(message["workspace"], message["user"], true);
   }
 
-  static void _handleInviteWorkspace(Message message) {  // TODO- type, workspace, user
-    // message["message"] = Languages.of(context!)!.strUserInvitedToWorkspace;
-    // _handleShowMessage(message);  // TODO- add actions
-
-    // userStorage.SEND_addPendingJoiningRequest(message["workspace"], message["user"]);  // TODO- implement something similar
-    // if (userStorage.userData != null && userStorage.userData!.currentWorkspace == message["workspace"]) {
-    //   userStorage.GET_workspaceUsers();
-    // }
+  static void _handleInviteWorkspace(Message message) {
+    message["message"] = Languages.of(context!)!.strUserInvitedToWorkspace;
+    _handleShowMessage(message);  // TODO- add actions
+    userStorage.SEND_updateInvitationsList(message["workspace"], true);
   }
 
   static void _handleShowMessage(Message message) {
-    // showDismissBanner(message["message"].replaceAll("%", message["workspace"]).replaceAll("#", message["user"]));
-  }
-
-  static void _handleRejectWorkspace(Message message) {
-
+    showDismissBanner(message["message"].replaceAll("%", message["workspace"]).replaceAll("#", message["user"]));
   }
 }
