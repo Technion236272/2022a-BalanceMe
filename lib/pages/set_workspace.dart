@@ -58,15 +58,15 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   String? _inviteUserValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
-    // if (message == null) {
-    //   message = emailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
-    // }
-    // if (message == null) {
-    //   message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
-    // }
-    // if (message == null) {
-    //   message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
-    // }
+    if (message == null) {
+      message = emailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+    }
+    if (message == null) {
+      message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
+    }
+    if (message == null) {
+      message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
+    }
     return message;
   }
 
@@ -129,11 +129,11 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _approveRequest(String approved, bool? isInvitation) {
-    (isInvitation != null && isInvitation) ? userStorage.acceptWorkspaceInvitation(context, approved) : userStorage.approveUserJoiningRequest(context, approved);
+    (isInvitation != null && !!isInvitation) ? userStorage.replayWorkspaceInvitation(context, approved, true) : userStorage.replayUserJoiningRequest(context, approved, true);
   }
 
   void _rejectedRequest(String rejected, bool? isInvitation) {
-    (isInvitation != null && isInvitation) ? userStorage.rejectWorkspaceInvitation(context, rejected) : userStorage.rejectUserJoiningRequest(context, rejected);
+    (isInvitation != null && !!isInvitation) ? userStorage.replayWorkspaceInvitation(context, rejected, false) : userStorage.replayUserJoiningRequest(context, rejected, false);
   }
 
   void _inviteUserToWorkspace() async {
@@ -379,8 +379,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
               print(snapshot.data![1].data()!);
               print(snapshot.data![0].data()!);
 
-              _workspaceUsers = ((authRepository.user != null && userStorage.userData != null && userStorage.userData!.currentWorkspace != authRepository.user!.email)
-                && (snapshot.data![0].data()! as Json)["workspaceUsers"] != null) ?
+              _workspaceUsers = (authRepository.user != null && userStorage.userData != null && userStorage.userData!.currentWorkspace != authRepository.user!.email
+                && (snapshot.data![0].data()! as Json)["workspaceUsers"] != null && WorkspaceUsers.isJsonValid((snapshot.data![0].data()! as Json)["workspaceUsers"])) ?
                 WorkspaceUsers.fromJson((snapshot.data![0].data()! as Json)["workspaceUsers"]) : null;
 
               _belongWorkspace = BelongsWorkspaces.fromJson((snapshot.data![1].data()! as Json)["belongsWorkspaces"]);

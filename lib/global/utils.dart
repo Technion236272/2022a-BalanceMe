@@ -65,13 +65,35 @@ Future<void> showYesNoAlertDialog(BuildContext context, String alertContent, Voi
   );
 }
 
-void showDismissBanner(String message) {
+void showDismissBanner(String message, [List<List>? actions]) {
   if (globalNavigatorKey.currentContext == null) {
     return;
   }
-
   BuildContext context = globalNavigatorKey.currentContext!;
-  void _onDismissed() => { ScaffoldMessenger.of(context).hideCurrentMaterialBanner() };
+
+  void _onPressed(Function? callback) {
+    if (callback != null) {
+      callback();
+    }
+    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+  }
+
+  List closeAction = [null, Languages.of(context)!.strClose];
+  if (actions == null) {
+    actions = [closeAction];
+  } else {
+    actions.add(closeAction);
+  }
+
+  List<Widget> bannerActions = [];
+  for (var action in actions) {
+    bannerActions.add(
+      TextButton(
+          onPressed: () => {_onPressed(action[0])},
+          child: Text(action[1]),
+      )
+    );
+  }
 
   ScaffoldMessenger.of(context).showMaterialBanner(
      MaterialBanner(
@@ -79,12 +101,7 @@ void showDismissBanner(String message) {
        content: Text(message),
        backgroundColor: gc.bannerColor,
        leading: Icon(gc.detailsIcon),
-       actions: [
-        TextButton(
-          onPressed: _onDismissed,
-          child: Text(Languages.of(context)!.strClose),
-        ),
-      ],
+       actions: bannerActions,
     ),
   );
 }

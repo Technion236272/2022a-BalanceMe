@@ -45,6 +45,10 @@ class WorkspaceUsers {
 
   bool get isPendingJoiningRequests => pendingJoiningRequests.isNotEmpty;
 
+  static bool isJsonValid(Json json) {
+    return json["users"] != null && json["leader"] != null && json["pendingJoiningRequests"] != null;
+  }
+
   void addUser(String user) {
     users.add(user);
   }

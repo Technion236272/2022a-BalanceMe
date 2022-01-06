@@ -1,5 +1,5 @@
 // ================= Messages Controller =================
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -49,18 +49,26 @@ print(indexToEnum(UserMessage.values, message["type"]));
   }
 
   static void _handleJoinWorkspace(Message message) {
+    void replayRequest(bool isApproved) {
+      userStorage.replayUserJoiningRequest(context!, message["user"], isApproved, message["workspace"]);
+    }
+
     message["message"] = Languages.of(context!)!.strUserRequestJoiningToWorkspace;
-    _handleShowMessage(message);  // TODO- add actions
+    _handleShowMessage(message, [[() => {replayRequest(true)}, Languages.of(context!)!.strApprove], [() => {replayRequest(false)}, Languages.of(context!)!.strReject]]);
     userStorage.SEND_updatePendingJoiningRequest(message["workspace"], message["user"], true);
   }
 
   static void _handleInviteWorkspace(Message message) {
+    void replayRequest(bool isAccepted) {
+      userStorage.replayWorkspaceInvitation(context!, message["workspace"], isAccepted);
+    }
+
     message["message"] = Languages.of(context!)!.strUserInvitedToWorkspace;
-    _handleShowMessage(message);  // TODO- add actions
+    _handleShowMessage(message, [[() => {replayRequest(true)}, Languages.of(context!)!.strApprove], [() => {replayRequest(false)}, Languages.of(context!)!.strReject]]);
     userStorage.SEND_updateInvitationsList(message["workspace"], true);
   }
 
-  static void _handleShowMessage(Message message) {
-    showDismissBanner(message["message"].replaceAll("%", message["workspace"]).replaceAll("#", message["user"]));
+  static void _handleShowMessage(Message message, [List<List>? actions]) {
+    showDismissBanner(message["message"].replaceAll("%", message["workspace"]).replaceAll("#", message["user"]), actions);
   }
 }

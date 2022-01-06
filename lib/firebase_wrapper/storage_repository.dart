@@ -125,57 +125,32 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void approveUserJoiningRequest(BuildContext context, String approvedUser) {
-    if (_userData != null) {
-      SEND_updatePendingJoiningRequest(userData!.currentWorkspace, approvedUser, false);
-      addNewUserToWorkspace(userData!.currentWorkspace, approvedUser);
-    }
+  void replayUserJoiningRequest(BuildContext context, String user, isApproved, [String? workspace]) {
+    if (workspace != null || _userData != null) {
+      workspace = (workspace == null) ? userData!.currentWorkspace : workspace;
+      SEND_updatePendingJoiningRequest(workspace, user, false);
+      SEND_updateJoiningRequests(user, workspace, false);
+      isApproved ? addNewUserToWorkspace(workspace, user) : null;
 
-    if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      SEND_showMessageToUser(approvedUser, Languages.of(context)!.strUserApproveJoining, _authRepository!.getEmail!, _userData!.currentWorkspace);
-    }
-  }
-
-  void rejectUserJoiningRequest(BuildContext context, String rejectedUser) {
-    if (_userData != null) {
-      SEND_updatePendingJoiningRequest(userData!.currentWorkspace, rejectedUser, false);
-    }
-
-    if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      SEND_showMessageToUser(rejectedUser, Languages.of(context)!.strUserDisapproveJoining, _authRepository!.getEmail!, _userData!.currentWorkspace);
-    }
-  }
-
-  void acceptWorkspaceInvitation(BuildContext context, String workspace) async {
-    if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      SEND_updateInvitationsList(workspace, false);
-      addNewUserToWorkspace(workspace, _authRepository!.getEmail!);
-
-      String? workspaceLeader = await GET_workspaceLeader(workspace);
-      if (workspaceLeader != null) {
-        SEND_showMessageToUser(workspaceLeader, Languages.of(context)!.strUserApproveInvitation, _authRepository!.getEmail!, workspace);
+      if (_authRepository != null && _authRepository!.getEmail != null) {
+        SEND_showMessageToUser(user, isApproved ? Languages.of(context)!.strUserApproveJoining : Languages.of(context)!.strUserDisapproveJoining, _authRepository!.getEmail!, workspace);
       }
     }
   }
 
-  void rejectWorkspaceInvitation(BuildContext context, String workspace) async {
+  void replayWorkspaceInvitation(BuildContext context, String workspace, isAccepted) async {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
       SEND_updateInvitationsList(workspace, false);
+      isAccepted ? addNewUserToWorkspace(workspace, _authRepository!.getEmail!) : null;
 
       String? workspaceLeader = await GET_workspaceLeader(workspace);
       if (workspaceLeader != null) {
-        SEND_showMessageToUser(workspaceLeader, Languages.of(context)!.strUserRejectInvitation, _authRepository!.getEmail!, workspace);
+        SEND_showMessageToUser(workspaceLeader, isAccepted ? Languages.of(context)!.strUserApproveInvitation : Languages.of(context)!.strUserRejectInvitation, _authRepository!.getEmail!, workspace);
       }
     }
   }
 
   // General Info Methods
-  void setEndOfMonthDay(int endOfMonthDay) {
-    if (_userData != null) {
-      _userData!.endOfMonthDay = endOfMonthDay;
-    }
-  }
-
   void setUserCurrency(Currency userCurrency) {
     if (_userData != null) {
       _userData!.userCurrency = userCurrency;
@@ -405,9 +380,9 @@ class UserStorage with ChangeNotifier {
   }
 
   // SEND
-  void SEND_generalInfo() async {
+  void SEND_generalInfo() {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).set({
+      _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).set({
       config.generalInfoDoc: _userData!.toJson(),
       });
     } else {
@@ -415,11 +390,11 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_balanceModel({String? doc}) async {
+  void SEND_balanceModel({String? doc}) {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
       String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.getEmail! : _userData!.currentWorkspace;
-      await _firestore.collection(config.firebaseVersion).doc(doc == null ? workspace : doc).collection(config.categoriesDoc).doc(date).set({
+      _firestore.collection(config.firebaseVersion).doc(doc == null ? workspace : doc).collection(config.categoriesDoc).doc(date).set({
         config.categoriesDoc: _balance.toJson()
       });
     } else {
@@ -433,14 +408,14 @@ class UserStorage with ChangeNotifier {
     });
   }
 
-  Future<void> SEND_updateWorkspaceUsers(String user, String workspace, bool toAdd) async {
-    await _firestore.collection(config.firebaseVersion).doc(workspace).update({
+  void SEND_updateWorkspaceUsers(String user, String workspace, bool toAdd) {
+    _firestore.collection(config.firebaseVersion).doc(workspace).update({
       "${config.workspaceUsers}.users" : toAdd? FieldValue.arrayUnion([user]) : FieldValue.arrayRemove([user]),
     });
   }
 
-  void SEND_updatePendingJoiningRequest(String workspace, String applicant, bool toAdd) async {
-    await _firestore.collection(config.firebaseVersion).doc(workspace).update({
+  void SEND_updatePendingJoiningRequest(String workspace, String applicant, bool toAdd) {
+    _firestore.collection(config.firebaseVersion).doc(workspace).update({
       "${config.workspaceUsers}.pendingJoiningRequests" : toAdd? FieldValue.arrayUnion([applicant]) : FieldValue.arrayRemove([applicant]),
     });
   }
