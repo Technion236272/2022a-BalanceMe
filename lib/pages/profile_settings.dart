@@ -122,7 +122,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   void _deleteImage()  {
-
     navigateBack(context);
     navigateBack(context);
     setState(() async {

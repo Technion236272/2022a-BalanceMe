@@ -28,7 +28,8 @@ class _UserAvatarState extends State<UserAvatar> {
                       height:widget._radius,
                       width:widget._radius,
                       fit: BoxFit.cover,
-                      placeholder: gc.load, image: widget._authRepository.avatarUrl!)
+                      placeholder: gc.load,
+                      image: widget._authRepository.avatarUrl!)
               ),
             ),
           )
