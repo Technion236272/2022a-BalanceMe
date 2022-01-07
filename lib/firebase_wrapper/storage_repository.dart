@@ -21,8 +21,10 @@ import 'package:balance_me/global/config.dart' as config;
 class UserStorage with ChangeNotifier {
   UserStorage.instance(BuildContext context, AuthRepository authRepository) {
     _buildUserStorage(authRepository);
-    _userData = (_userData == null) ? UserModel(_authRepository!.user!.email!) : _userData;
-    if (_authRepository != null && _authRepository!.status == AuthStatus.Authenticated) {
+    _userData =
+    (_userData == null) ? UserModel(_authRepository!.user!.email!) : _userData;
+    if (_authRepository != null &&
+        _authRepository!.status == AuthStatus.Authenticated) {
       GET_generalInfo(context);
       _authRepository!.getAvatarUrl();
     }
@@ -35,10 +37,12 @@ class UserStorage with ChangeNotifier {
   void _buildUserStorage(AuthRepository authRepository) {
     _authRepository = authRepository;
 
-    String userEmail = authRepository.user == null ? "" : authRepository.user!.email!;
+    String userEmail = authRepository.user == null ? "" : authRepository.user!
+        .email!;
 
     if (authRepository.status == AuthStatus.Authenticated) {
-      _userData = (authRepository.user != null) ? _userData : UserModel(userEmail);
+      _userData =
+      (authRepository.user != null) ? _userData : UserModel(userEmail);
     } else {
       _userData = UserModel(userEmail);
       resetBalance();
@@ -57,6 +61,7 @@ class UserStorage with ChangeNotifier {
 
   // Handling
   UserModel? get userData => _userData;
+
   BalanceModel get balance => _balance;
 
   // ================== Setters and Getters ==================
@@ -112,11 +117,13 @@ class UserStorage with ChangeNotifier {
   }
 
   bool _isCategoryAlreadyExist(model.Category category) {
-    SortedList<model.Category> categoryList = _balance.getListByCategory(category);
+    SortedList<model.Category> categoryList = _balance.getListByCategory(
+        category);
     return categoryList.contains(category);
   }
 
-  bool _isTransactionAlreadyExist(model.Category category, model.Transaction transaction) {
+  bool _isTransactionAlreadyExist(model.Category category,
+      model.Transaction transaction) {
     return category.transactions.contains(transaction);
   }
 
@@ -126,8 +133,10 @@ class UserStorage with ChangeNotifier {
   }
 
   void _changeCategory(model.Category category, EntryOperation operation) {
-    SortedList<model.Category> categoryList = _balance.getListByCategory(category);
-    operation == EntryOperation.Add ? categoryList.add(category) : categoryList.remove(category);
+    SortedList<model.Category> categoryList = _balance.getListByCategory(
+        category);
+    operation == EntryOperation.Add ? categoryList.add(category) : categoryList
+        .remove(category);
   }
 
   bool addCategory(model.Category newCategory) {
@@ -136,7 +145,8 @@ class UserStorage with ChangeNotifier {
     }
     _changeCategory(newCategory, EntryOperation.Add);
     _saveBalance();
-    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, newCategory);
+    GoogleAnalytics.instance.logEntrySaved(
+        Entry.Category, EntryOperation.Add, newCategory);
     return true;
   }
 
@@ -144,61 +154,73 @@ class UserStorage with ChangeNotifier {
     _changeCategory(newCategory, EntryOperation.Remove);
     if (allFlow) {
       _saveBalance();
-      GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, newCategory);
+      GoogleAnalytics.instance.logEntrySaved(
+          Entry.Category, EntryOperation.Remove, newCategory);
     }
   }
 
   bool editCategory(model.Category newCategory, model.Category oldCategory) {
-    if (newCategory.isIncome != oldCategory.isIncome && _isCategoryAlreadyExist(newCategory)) {
+    if (newCategory.isIncome != oldCategory.isIncome &&
+        _isCategoryAlreadyExist(newCategory)) {
       return false;
     }
 
     removeCategory(oldCategory, false);
     _changeCategory(newCategory, EntryOperation.Add);
     _saveBalance();
-    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Edit, newCategory);
+    GoogleAnalytics.instance.logEntrySaved(
+        Entry.Category, EntryOperation.Edit, newCategory);
     return true;
   }
 
-  bool addTransaction(model.Category category, model.Transaction newTransaction) {
+  bool addTransaction(model.Category category,
+      model.Transaction newTransaction) {
     if (_isTransactionAlreadyExist(category, newTransaction)) {
       return false;
     }
 
     category.addTransaction(newTransaction);
     _saveBalance();
-    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Add, category);
+    GoogleAnalytics.instance.logEntrySaved(
+        Entry.Transaction, EntryOperation.Add, category);
     return true;
   }
 
-  void removeTransaction(model.Category category, model.Transaction newTransaction, [bool allFlow = true]) {
+  void removeTransaction(model.Category category,
+      model.Transaction newTransaction, [bool allFlow = true]) {
     category.removeTransaction(newTransaction);
     if (allFlow) {
       _saveBalance();
-      GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
+      GoogleAnalytics.instance.logEntrySaved(
+          Entry.Transaction, EntryOperation.Remove, category);
     }
   }
 
-  bool editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction) {
-    model.Category category = (newCategoryName == oldCategory.name) ? oldCategory : _balance.findCategory(newCategoryName);
+  bool editTransaction(model.Category oldCategory, String newCategoryName,
+      model.Transaction oldTransaction, model.Transaction newTransaction) {
+    model.Category category = (newCategoryName == oldCategory.name)
+        ? oldCategory
+        : _balance.findCategory(newCategoryName);
     removeTransaction(oldCategory, oldTransaction, false);
     category.addTransaction(newTransaction);
 
     _saveBalance();
-    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Edit, newTransaction);
+    GoogleAnalytics.instance.logEntrySaved(
+        Entry.Transaction, EntryOperation.Edit, newTransaction);
     return true;
   }
 
   Future<void> _getBalanceIfEndOfMonth() async {
-    if (currentDate != null && currentDate!.isSameDate(DateTime.now())) {  // if user in balance page- check only one previous month (prevent recursion)
-      currentDate =  DateTime(currentDate!.year, currentDate!.month - 1, currentDate!.day);
-      await GET_balanceModel(  // get previous month data and filter the constants transaction
+    if (currentDate != null && currentDate!.isSameDate(DateTime
+        .now())) { // if user in balance page- check only one previous month (prevent recursion)
+      currentDate =
+          DateTime(currentDate!.year, currentDate!.month - 1, currentDate!.day);
+      await GET_balanceModel( // get previous month data and filter the constants transaction
           successCallback: (Json data) {
             _balance = _balance.filterCategoriesWithConstantsTransaction();
           });
       currentDate = DateTime.now();
       SEND_balanceModel();
-
     } else {
       _balance = BalanceModel();
     }
@@ -207,9 +229,13 @@ class UserStorage with ChangeNotifier {
   // ================== Requests ==================
 
   // GET
-  Future<void> GET_generalInfo(BuildContext context) async {  // Get General Info
-    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) {
+  Future<void> GET_generalInfo(BuildContext context) async {
+    // Get General Info
+    if (_authRepository != null && _authRepository!.user != null &&
+        _authRepository!.user!.email != null && _userData != null) {
+      await _firestore.collection(config.firebaseVersion).doc(
+          _authRepository!.user!.email!).collection(config.generalInfoDoc).doc(
+          config.generalInfoDoc).get().then((generalInfo) {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
           if (_userData != null && _userData!.language != "") {
@@ -217,7 +243,8 @@ class UserStorage with ChangeNotifier {
           }
           notifyListeners();
         } else {
-          GoogleAnalytics.instance.logRequestDataNotExists("postLogin", generalInfo);
+          GoogleAnalytics.instance.logRequestDataNotExists(
+              "postLogin", generalInfo);
         }
       });
     } else {
@@ -225,28 +252,34 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  Future<void> GET_balanceModel({VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback}) async {
-    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.categoriesDoc).doc(date).get().then((categories) async {
+  Future<void> GET_balanceModel(
+      {VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback}) async {
+    if (_authRepository != null && _authRepository!.user != null &&
+        _authRepository!.user!.email != null && _userData != null) {
+      String date = getCurrentMonthPerEndMonthDay(
+          userData!.endOfMonthDay, currentDate);
+      await _firestore.collection(config.firebaseVersion).doc(
+          _authRepository!.user!.email!).collection(config.categoriesDoc).doc(
+          date).get().then((categories) async {
         if (categories.exists && categories.data() != null) { // There is data
-          _balance = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
-          successCallback != null ? successCallback(categories.data()![config.categoriesDoc]) : null;
-
-        } else {  // There is no data
+          _balance =
+              BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
+          successCallback != null ? successCallback(
+              categories.data()![config.categoriesDoc]) : null;
+        } else { // There is no data
           await _getBalanceIfEndOfMonth();
           failureCallback != null ? failureCallback(null) : null;
         }
         notifyListeners();
       });
-
     } else {
       failureCallback != null ? failureCallback(null) : null;
       GoogleAnalytics.instance.logPreCheckFailed("GetBalanceModel");
     }
   }
 
-  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool isSignIn) async {
+  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance,
+      bool isSignIn) async {
     void _addCurrentBalance([Json? data]) {
       if (!lastBalance.isEmpty) {
         _balance = _balance.filterCategoriesWithDifferentNames(lastBalance);
@@ -256,7 +289,8 @@ class UserStorage with ChangeNotifier {
     }
 
     if (isSignIn) {
-      await GET_balanceModel(successCallback: _addCurrentBalance, failureCallback: _addCurrentBalance);
+      await GET_balanceModel(successCallback: _addCurrentBalance,
+          failureCallback: _addCurrentBalance);
     } else {
       _addCurrentBalance();
     }
@@ -264,9 +298,12 @@ class UserStorage with ChangeNotifier {
 
   // SEND
   void SEND_generalInfo() async {
-    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).set({
-      config.generalInfoDoc: _userData!.toJson(),
+    if (_authRepository != null && _authRepository!.user != null &&
+        _authRepository!.user!.email != null && _userData != null) {
+      await _firestore.collection(config.firebaseVersion).doc(
+          _authRepository!.user!.email!).collection(config.generalInfoDoc).doc(
+          config.generalInfoDoc).set({
+        config.generalInfoDoc: _userData!.toJson(),
       });
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("SendGeneralInfo");
@@ -274,22 +311,27 @@ class UserStorage with ChangeNotifier {
   }
 
   void SEND_balanceModel() async {
-    if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-      String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.categoriesDoc).doc(date).set({
+    if (_authRepository != null && _authRepository!.user != null &&
+        _authRepository!.user!.email != null && _userData != null) {
+      String date = getCurrentMonthPerEndMonthDay(
+          userData!.endOfMonthDay, currentDate);
+      await _firestore.collection(config.firebaseVersion).doc(
+          _authRepository!.user!.email!).collection(config.categoriesDoc).doc(
+          date).set({
         config.categoriesDoc: _balance.toJson()
       });
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("SendBalanceModel");
     }
   }
+
   // ================== Storage ==================
-  void uploadTransactionImage(
-      String date, String categoryName, bool isIncome,String transactionName,XFile? attachedImage) async {
+  void uploadTransactionImage(String date, String categoryName, bool isIncome,
+      String transactionName, XFile? attachedImage) async {
     if (_authRepository != null &&
         _authRepository!.user != null &&
         _authRepository!.user!.email != null &&
-        _userData != null && attachedImage!=null) {
+        _userData != null && attachedImage != null) {
       Reference storageReference = FirebaseStorage.instance.ref().child(
           _authRepository!.user!.email! +
               '/' +
@@ -301,20 +343,21 @@ class UserStorage with ChangeNotifier {
               '/' +
               transactionName);
       UploadTask uploadedTransactionImage =
-          storageReference.putFile(File(attachedImage.path));
+      storageReference.putFile(File(attachedImage.path));
       await uploadedTransactionImage;
     }
     notifyListeners();
   }
 
-  Future<String?> getTransactionImage( String date, String categoryName, bool isIncome,String transactionName) async {
+  Future<String?> getTransactionImage(String date, String categoryName,
+      bool isIncome, String transactionName) async {
     try {
-      String? attachedImage=null;
+      String? attachedImage = null;
       if (_authRepository != null &&
           _authRepository!.user != null &&
           _authRepository!.user!.email != null &&
           _userData != null) {
-        Reference storageReference =FirebaseStorage.instance.ref().child(
+        Reference storageReference = FirebaseStorage.instance.ref().child(
             _authRepository!.user!.email! +
                 '/' +
                 date +
@@ -325,13 +368,34 @@ class UserStorage with ChangeNotifier {
                 '/' +
                 transactionName);
         attachedImage = await storageReference.getDownloadURL();
+        notifyListeners();
         return attachedImage;
       }
+      notifyListeners();
       return null;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
-       return null;
+      notifyListeners();
+      return null;
     }
-    notifyListeners();
+  }
+  void deletePreviousImage(String date, String categoryName, bool isIncome,
+      String transactionName) async {
+    if (_authRepository != null &&
+        _authRepository!.user != null &&
+        _authRepository!.user!.email != null &&
+        _userData != null) {
+      Reference storageReference = FirebaseStorage.instance.ref().child(
+          _authRepository!.user!.email! +
+              '/' +
+              date +
+              '/' +
+              (isIncome ? config.income : config.expense) +
+              '/' +
+              categoryName +
+              '/' +
+              transactionName);
+      await storageReference.delete();
+    }
   }
 }

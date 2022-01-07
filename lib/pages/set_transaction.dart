@@ -257,7 +257,6 @@ class _SetTransactionState extends State<SetTransaction> {
    return
    userStorage.getTransactionImage( _dateRangePickerController.value, widget._currentCategory.name, widget._currentCategory.isIncome, _transactionNameController.text);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -369,7 +368,8 @@ class _SetTransactionState extends State<SetTransaction> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ActionButton(_isUploadingImage, Languages.of(context)!.strUpload,_showImageSourceChoice),
+                              ActionButton(_isUploadingImage, Languages.of(context)!.strUpload,
+                                 _showImageSourceChoice),
                               _pickedImage==null ? Icon(gc.imagePlaceHolder):CircleAvatar(
                                 backgroundColor: gc.secondaryColor,
                                 backgroundImage:NetworkImage(
