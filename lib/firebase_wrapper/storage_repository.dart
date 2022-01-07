@@ -1,4 +1,8 @@
 // ================= Storage Repository =================
+
+import 'dart:io';
+import 'package:cross_file/cross_file.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sorted_list/sorted_list.dart';
@@ -277,5 +281,28 @@ class UserStorage with ChangeNotifier {
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("SendBalanceModel");
     }
+  }
+  // ================== Storage ==================
+  void uploadTransactionImage(
+      String date, String categoryName, bool isIncome,String transactionName,XFile? attachedImage) async {
+    if (_authRepository != null &&
+        _authRepository!.user != null &&
+        _authRepository!.user!.email != null &&
+        _userData != null && attachedImage!=null) {
+      Reference storageReference = FirebaseStorage.instance.ref().child(
+          _authRepository!.user!.email! +
+              '/' +
+              date +
+              '/' +
+              (isIncome ? config.income : config.expense) +
+              '/' +
+              categoryName +
+              '/' +
+              transactionName);
+      UploadTask uploadedTransactionImage =
+          storageReference.putFile(File(attachedImage.path));
+      await uploadedTransactionImage;
+    }
+    notifyListeners();
   }
 }

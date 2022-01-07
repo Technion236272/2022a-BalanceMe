@@ -1,5 +1,7 @@
 // ================= Set Transaction =================
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/date_picker.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -16,6 +18,7 @@ import 'package:balance_me/widgets/generic_edit_button.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:balance_me/widgets/image_picker.dart';
 
 class SetTransaction extends StatefulWidget {
   SetTransaction(this._mode, this._currentCategory, this._currencySign, {this.callback, this.currentTransaction, Key? key}) : super(key: key);
@@ -39,8 +42,8 @@ class _SetTransactionState extends State<SetTransaction> {
   late PrimitiveWrapper _dropDownController;
   bool _isConstant = gc.defaultIsConstant;
   bool _performingSave = false;
-
   bool get performingAction => _performingSave;
+  bool _isUploadingImage=false;
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
   @override
@@ -182,6 +185,68 @@ class _SetTransactionState extends State<SetTransaction> {
     _updatePerformingSave(false);
   }
 
+  List<Widget?> _iconsLeading() {
+    List<Widget?> icons = [];
+    icons.add(const Icon(gc.galleryChoice));
+    icons.add(const Icon(gc.cameraChoice));
+    return icons;
+  }
+  List<String> _getOptionTitles() {
+    List<String> titles = [];
+    titles.add(Languages.of(context)!.strGalleryOption);
+    titles.add(Languages.of(context)!.strCameraOption);
+    return titles;
+  }
+  List<GestureTapCallback?> _getActions() {
+    List<GestureTapCallback?> imageOptions = [];
+    imageOptions.add(() async {
+      await _pickAttachedImage(ImageSource.gallery);
+    });
+    imageOptions.add(() async {
+      await _pickAttachedImage(ImageSource.camera);
+    });
+    return imageOptions;
+  }
+  void _showImageSourceChoice() async {
+    imagePicker(context, _getActions(), _iconsLeading(), _getOptionTitles());
+  }
+  Future<void> _pickAttachedImage(ImageSource source) async {
+    if (source == ImageSource.gallery) {
+      if (await Permission.storage.request().isGranted) {
+        await _uploadImage(ImageSource.gallery);
+      }
+    } else {
+      if (await Permission.camera.request().isGranted) {
+        await _uploadImage(ImageSource.camera);
+      }
+    }
+    navigateBack(context);
+  }
+  Future<void> _uploadImage(ImageSource src) async {
+    setState(() {
+      _isUploadingImage = true;
+    });
+    ImagePicker picker = ImagePicker();
+
+    XFile? pickedImage = await picker.pickImage(source: src);
+
+    if (pickedImage == null) {
+      displaySnackBar(context, Languages.of(context)!.strNoImagePicked);
+    } else {
+      setState(() {
+        if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+          userStorage.uploadTransactionImage(
+              _dateRangePickerController.value, widget._currentCategory.name,
+              widget._currentCategory.isIncome, _transactionNameController.text,
+              pickedImage);
+        }
+      });
+    }
+    setState(() {
+      _isUploadingImage = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -269,6 +334,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       leadingWidgets: [
                         Text(Languages.of(context)!.strDate),
                         Text(Languages.of(context)!.strConstantSwitch),
+                        Text(Languages.of(context)!.strAttachedImage),
                       ],
                       trailingWidgets: [
                         widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date)
@@ -287,6 +353,12 @@ class _SetTransactionState extends State<SetTransaction> {
                           onChanged: (widget._mode == DetailsPageMode.Details || (userStorage.currentDate != null && !userStorage.currentDate!.isSameDate(DateTime.now()))) ?
                               null : _switchConstant,
                         ),
+                        // ActionButton(_isUploadingImage, Languages.of(context)!.strUpload, _uploadImage),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width/gc.imageWidthScale,
+                          child: ActionButton(_isUploadingImage, Languages.of(context)!.strUpload,_showImageSourceChoice),
+                        )
+
                     ],
                       isScrollable: false,
                     ),

@@ -124,6 +124,8 @@ abstract class Languages {
   String get strTypeSelection;
   String get strConstantSwitch;
   String get strBadNumberForm;
+  String get strAttachedImage;
+  String get strUpload;
 
   // Archive
   String get strDataUnavailable;

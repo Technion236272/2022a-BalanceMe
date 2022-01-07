@@ -319,6 +319,12 @@ class LanguageRu extends Languages {
   @override
   String get strBadNumberForm => "Вставленный текст - это не число";
 
+  @override
+  String get strAttachedImage => "Прикрепленный образ";
+
+  @override
+  String get strUpload => "загрузить";
+
   // Archive
   @override
   String get strDataUnavailable => "нет Данные за выбранный месяц";

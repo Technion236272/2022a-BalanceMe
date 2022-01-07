@@ -319,6 +319,12 @@ class LanguageHe extends Languages {
   @override
   String get strBadNumberForm => "‎הטקסט שהוכנס איננו מספר";
 
+  @override
+  String get strAttachedImage => "‎תמונה משויכת";
+
+  @override
+  String get strUpload => "העלאה‎";
+
   // Archive
   @override
   String get strDataUnavailable => "‎אין מידע זמין עבור פרק הזמן הנבחר";

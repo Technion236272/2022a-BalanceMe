@@ -319,6 +319,12 @@ class LanguageEn extends Languages {
   @override
   String get strBadNumberForm => "The inserted text is not a number";
 
+  @override
+  String get strAttachedImage => "Attached image";
+
+  @override
+  String get strUpload => "Upload";
+
   // Archive
   @override
   String get strDataUnavailable => "There is no data for the selected month";
