@@ -36,6 +36,7 @@ const IconData editIcon = Icons.edit;
 const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
 const IconData calendarIcon = Icons.date_range_sharp;
+const IconData imagePlaceHolder=Icons.photo;
 
 // Colors
 const Color primaryColor = Colors.blue; // TODO- change to the chosen color
@@ -115,7 +116,7 @@ const String lock = 'assets/images/recovery-password.png';
 const String key = 'assets/images/key.png';
 const double imageScale = 3.0;
 const double walletScale = 5.0;
-
+const String load='assets/images/load.png';
 // RingPieChart
 const String pieChartInnerRadius = '65%';
 const LegendPosition pieChartLegendPosition = LegendPosition.bottom;
@@ -263,3 +264,4 @@ const double attributeFontSize = 10;
 
 //attached image
 const double imageWidthScale=2.5;
+

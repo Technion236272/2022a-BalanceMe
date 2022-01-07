@@ -44,14 +44,20 @@ class _SetTransactionState extends State<SetTransaction> {
   bool _performingSave = false;
   bool get performingAction => _performingSave;
   bool _isUploadingImage=false;
+  String? _pickedImage;
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
   @override
   void initState() {
     super.initState();
     _initControllers();
+    _initImage();
   }
 
+  void _initImage() async
+  {
+      _pickedImage = await _getAttachedImage();
+  }
   void _initControllers() {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
     _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? ""
@@ -246,6 +252,11 @@ class _SetTransactionState extends State<SetTransaction> {
       _isUploadingImage = false;
     });
   }
+  Future<String?> _getAttachedImage()
+  async {
+   return
+   userStorage.getTransactionImage( _dateRangePickerController.value, widget._currentCategory.name, widget._currentCategory.isIncome, _transactionNameController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -353,10 +364,20 @@ class _SetTransactionState extends State<SetTransaction> {
                           onChanged: (widget._mode == DetailsPageMode.Details || (userStorage.currentDate != null && !userStorage.currentDate!.isSameDate(DateTime.now()))) ?
                               null : _switchConstant,
                         ),
-                        // ActionButton(_isUploadingImage, Languages.of(context)!.strUpload, _uploadImage),
                         SizedBox(
                           width: MediaQuery.of(context).size.width/gc.imageWidthScale,
-                          child: ActionButton(_isUploadingImage, Languages.of(context)!.strUpload,_showImageSourceChoice),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ActionButton(_isUploadingImage, Languages.of(context)!.strUpload,_showImageSourceChoice),
+                              _pickedImage==null ? Icon(gc.imagePlaceHolder):CircleAvatar(
+                                backgroundColor: gc.secondaryColor,
+                                backgroundImage:NetworkImage(
+                                    _pickedImage!
+                                ) ,
+                              ),
+                            ],
+                          ),
                         )
 
                     ],
