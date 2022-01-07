@@ -242,22 +242,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               Languages.of(context)!.strFirstName,
               haveBorder: false,
               onChanged: _enableEditFirstName,
-              suffix: GenericIconButton(
-                onTap: _updateFirstName,
-                isDisabled: _isDisabledFirstName,
-                opacity: gc.disabledOpacity,
-              ),
             ),
             TextBox(
               _controllerLastName,
               Languages.of(context)!.strLastName,
               haveBorder: false,
               onChanged: _enableEditLastName,
-              suffix: GenericIconButton(
-                onTap: _updateLastName,
-                isDisabled: _isDisabledLastName,
-                opacity: gc.disabledOpacity,
-              ),
             ),
             ActionButton(_isLoading, Languages.of(context)!.strUpdate,_isDisabledFirstName &&_isDisabledLastName? null:_saveChanges),
           ],
