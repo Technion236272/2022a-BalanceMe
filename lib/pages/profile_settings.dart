@@ -1,5 +1,8 @@
 // ================= Profile Page =================
+import 'dart:ffi';
+
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/widgets/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -30,6 +33,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   late TextEditingController _controllerLastName;
   bool _isDisabledFirstName = true;
   bool _isDisabledLastName = true;
+  bool _isLoading=false;
 
   @override
   void dispose() {
@@ -80,13 +84,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   void _updateFirstName() {
     widget.userStorage.setFirstName(_controllerFirstName.text);
-    _saveProfile();
     _enableEditFirstName(null);
   }
 
   void _updateLastName() {
     widget.userStorage.setLastName(_controllerLastName.text);
-    _saveProfile();
     _enableEditLastName(null);
   }
 
@@ -119,12 +121,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     navigateBack(context);
   }
 
-  void _deleteImage() {
-    setState(() {
-      widget.authRepository.deleteAvatarUrl();
+  void _deleteImage()  {
+
+    navigateBack(context);
+    navigateBack(context);
+    setState(() async {
+    await  widget.authRepository.deleteAvatarUrl();
     });
-    navigateBack(context);
-    navigateBack(context);
   }
 
   List<Widget?> _iconsLeading() {
@@ -175,6 +178,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     imagePicker(context, _getActions(), _iconsLeading(), _getOptionTitles());
   }
 
+  void _saveChanges() {
+    setState(() {
+      _isLoading = true;
+    });
+    _updateFirstName();
+    _updateLastName();
+    _saveProfile();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,7 +204,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 height: MediaQuery.of(context).size.width/gc.avatarSizedBoxHeightScale,
                 child: Stack(
                   children: [
-                    UserAvatar(widget.authRepository, MediaQuery.of(context).size.width/gc.profileAvatarRadiusScale,proportion: gc.avatarProportion,),
+                    UserAvatar(widget.authRepository, MediaQuery.of(context).size.width/gc.profileAvatarRadiusScale,),
                     Positioned(
                       right:0,
                       bottom: 0,
@@ -244,6 +259,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 opacity: gc.disabledOpacity,
               ),
             ),
+            ActionButton(_isLoading, Languages.of(context)!.strUpdate,_isDisabledFirstName &&_isDisabledLastName? null:_saveChanges),
           ],
         ),
       ),

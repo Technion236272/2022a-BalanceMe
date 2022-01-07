@@ -13,7 +13,7 @@ class ActionButton extends StatelessWidget {
 
   final dynamic _showLoading;
   final String _textButton;
-  final VoidCallback _onPressedCallback;
+  final VoidCallback? _onPressedCallback;
   final ButtonStyle? style;
   final bool fillStyle;
   final Color buttonColor;

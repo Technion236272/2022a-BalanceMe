@@ -48,6 +48,7 @@ abstract class Languages {
   String get strDeleteProfile;
   String get strDeleteProfileFailed;
   String get strDeleteProfileAlert;
+  String get strUpdate;
   // Login
   String get strWelcomeBack;
   String get strWelcomeAboard;
@@ -136,4 +137,5 @@ abstract class Languages {
   String get strAbout;
   String get strLegalese;
   String get strScalesIcon;
+  String get strLoadIcon;
 }

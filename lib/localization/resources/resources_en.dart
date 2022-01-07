@@ -119,6 +119,8 @@ class LanguageEn extends Languages {
   @override
   String get strDeleteProfileAlert => "Are you sure you want to delete your profile image?";
 
+  @override
+  String get strUpdate => "UPDATE";
 // Login
   @override
   String get strWelcomeBack => "Welcome Back!";
@@ -345,4 +347,7 @@ class LanguageEn extends Languages {
 
   @override
   String get strScalesIcon => "Scales icon";
+
+  @override
+  String get strLoadIcon => "Load icon";
 }

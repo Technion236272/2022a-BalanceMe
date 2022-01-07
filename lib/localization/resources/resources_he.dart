@@ -119,6 +119,9 @@ class LanguageHe extends Languages {
   @override
   String get strDeleteProfileAlert => "‎האם ברצונך למחוק את תמונת הפרופיל שלך?";
 
+  @override
+  String get strUpdate => "עדכון‎";
+
   // Login
   @override
   String get strWelcomeBack => "‎ברוכים השבים!";
@@ -344,4 +347,7 @@ class LanguageHe extends Languages {
 
   @override
   String get strScalesIcon => "‎אייקון מאזניים";
+
+  @override
+  String get strLoadIcon => "אייקון טעינה‎";
 }

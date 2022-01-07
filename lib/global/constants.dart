@@ -115,6 +115,7 @@ const String lock = 'assets/images/recovery-password.png';
 const String key = 'assets/images/key.png';
 const double imageScale = 3.0;
 const double walletScale = 5.0;
+const String load='assets/images/load.png';
 
 // RingPieChart
 const String pieChartInnerRadius = '65%';
@@ -146,7 +147,7 @@ const Color dividerColor = Colors.blueGrey;
 
 //settings
 const double newPasswordSize = 22.0;
-const double profileAvatarRadiusScale = 6.0;
+const double profileAvatarRadiusScale = 3.5;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
 const EdgeInsets avatarPadding = EdgeInsets.all(8.0);
@@ -162,6 +163,7 @@ const EdgeInsets settingAppbarAvatarPadding = EdgeInsets.all(4.0);
 const double settingDefaultAppbarAvatarSize = 55;
 const double separateConstantsScale=20.0;
 const double avatarProportion=150.0;
+
 
 //error messages
 const String weakPassword = "weak-password";
@@ -261,3 +263,4 @@ const int maxAccounts=2;
 const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
+const String loadLink="https://www.freeiconspng.com/img/7952";

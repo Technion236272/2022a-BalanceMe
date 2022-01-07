@@ -1,4 +1,3 @@
-import 'package:balance_me/global/login_utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:flutter/material.dart';

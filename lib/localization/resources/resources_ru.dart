@@ -115,6 +115,9 @@ class LanguageRu extends Languages {
   @override
   String get strDeleteProfileAlert => "Удалить образ вашего профиля?";
 
+  @override
+  String get strUpdate => "обновить";
+
   // Login
   @override
   String get strWelcomeBack => "с возвращением!";
@@ -343,4 +346,7 @@ class LanguageRu extends Languages {
 
   @override
   String get strScalesIcon => "Значок Весы";
+
+  @override
+  String get strLoadIcon => "значок загрузки";
 }

@@ -235,6 +235,7 @@ class AuthRepository with ChangeNotifier {
         Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' + _user!.email.toString());
          await storageReference.delete();
          _avatarUrl=null;
+        notifyListeners();
       }
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
