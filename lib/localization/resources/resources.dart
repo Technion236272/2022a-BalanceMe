@@ -124,6 +124,10 @@ abstract class Languages {
   String get strTypeSelection;
   String get strConstantSwitch;
   String get strBadNumberForm;
+  String get strIncomeTransactionInfo;
+  String get strExpenseTransactionInfo;
+  String get strIncomeCategoryInfo;
+  String get strExpenseCategoryInfo;
 
   // Archive
   String get strDataUnavailable;

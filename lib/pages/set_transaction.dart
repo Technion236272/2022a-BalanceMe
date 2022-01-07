@@ -1,4 +1,5 @@
 // ================= Set Transaction =================
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/date_picker.dart';
@@ -196,16 +197,25 @@ class _SetTransactionState extends State<SetTransaction> {
                 Column(
                 children: [
                   SizedBox(
-                    width: gc.smallTextFields,
-                    child: FormTextField(
-                      _transactionNameController,
-                      1,
-                      1,
-                      Languages.of(context)!.strTransactionName,
-                      isBordered: true,
-                      isValid: true,
-                      isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _lineLimitValidatorFunction,
+                    width: gc.textFieldAndTooltipSizedBox,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GenericTooltip(tip: widget._currentCategory.isIncome ? Languages.of(context)!.strIncomeTransactionInfo : Languages.of(context)!.strExpenseTransactionInfo),
+                        SizedBox(
+                          width: gc.smallTextFields,
+                          child: FormTextField(
+                            _transactionNameController,
+                            1,
+                            1,
+                            Languages.of(context)!.strTransactionName,
+                            isBordered: true,
+                            isValid: true,
+                            isEnabled: widget._mode != DetailsPageMode.Details,
+                            validatorFunction: _lineLimitValidatorFunction,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(

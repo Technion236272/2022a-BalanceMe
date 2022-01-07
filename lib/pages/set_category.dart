@@ -1,4 +1,5 @@
 // ================= Set Category =================
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -153,6 +154,10 @@ class _SetCategoryState extends State<SetCategory> {
     _updatePerformingSave(false);
   }
 
+  void _radiobuttonOnChanged(){
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,16 +170,25 @@ class _SetCategoryState extends State<SetCategory> {
             child: Column(
               children: [
                 SizedBox(
-                  width: gc.smallTextFields,
-                  child: FormTextField(
-                    _categoryNameController,
-                    1,
-                    1,
-                    Languages.of(context)!.strCategoryName,
-                    isBordered: true,
-                    isValid: true,
-                    isEnabled: widget._mode != DetailsPageMode.Details,
-                    validatorFunction: _lineLimitValidatorFunction,
+                  width: gc.textFieldAndTooltipSizedBox,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      GenericTooltip(tip: _categoryTypeController.value == Languages.of(context)!.strIncome ? Languages.of(context)!.strIncomeCategoryInfo : Languages.of(context)!.strExpenseCategoryInfo),
+                      SizedBox(
+                        width: gc.smallTextFields,
+                        child: FormTextField(
+                          _categoryNameController,
+                          1,
+                          1,
+                          Languages.of(context)!.strCategoryName,
+                          isBordered: true,
+                          isValid: true,
+                          isEnabled: widget._mode != DetailsPageMode.Details,
+                          validatorFunction: _lineLimitValidatorFunction,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -217,6 +231,7 @@ class _SetCategoryState extends State<SetCategory> {
                           Languages.of(context)!.strIncome
                         ],
                           _categoryTypeController,
+                          onChangeCallback: _radiobuttonOnChanged,
                           isDisabled: widget._mode == DetailsPageMode.Details,
                         ),
                       ],
