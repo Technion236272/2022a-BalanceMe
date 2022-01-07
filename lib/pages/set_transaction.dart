@@ -197,12 +197,14 @@ class _SetTransactionState extends State<SetTransaction> {
     icons.add(const Icon(gc.cameraChoice));
     return icons;
   }
+
   List<String> _getOptionTitles() {
     List<String> titles = [];
     titles.add(Languages.of(context)!.strGalleryOption);
     titles.add(Languages.of(context)!.strCameraOption);
     return titles;
   }
+
   List<GestureTapCallback?> _getActions() {
     List<GestureTapCallback?> imageOptions = [];
     imageOptions.add(() async {
@@ -213,9 +215,11 @@ class _SetTransactionState extends State<SetTransaction> {
     });
     return imageOptions;
   }
+
   void _showImageSourceChoice() async {
     imagePicker(context, _getActions(), _iconsLeading(), _getOptionTitles());
   }
+
   Future<void> _pickAttachedImage(ImageSource source) async {
     if (source == ImageSource.gallery) {
       if (await Permission.storage.request().isGranted) {
@@ -228,6 +232,7 @@ class _SetTransactionState extends State<SetTransaction> {
     }
     navigateBack(context);
   }
+
   Future<void> _uploadImage(ImageSource src) async {
     setState(() {
       _isUploadingImage = true;
@@ -252,10 +257,15 @@ class _SetTransactionState extends State<SetTransaction> {
       _isUploadingImage = false;
     });
   }
+
   Future<String?> _getAttachedImage()
   async {
    return
    userStorage.getTransactionImage( _dateRangePickerController.value, widget._currentCategory.name, widget._currentCategory.isIncome, _transactionNameController.text);
+  }
+
+  bool _isUploadDisabled() {
+    return widget._mode==DetailsPageMode.Details || (widget._mode==DetailsPageMode.Add && _transactionNameController.text=="");
   }
   @override
   Widget build(BuildContext context) {
@@ -369,7 +379,7 @@ class _SetTransactionState extends State<SetTransaction> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ActionButton(_isUploadingImage, Languages.of(context)!.strUpload,
-                                 _showImageSourceChoice),
+                                  _isUploadDisabled() ? null:_showImageSourceChoice),
                               _pickedImage==null ? Icon(gc.imagePlaceHolder):CircleAvatar(
                                 backgroundColor: gc.secondaryColor,
                                 backgroundImage:NetworkImage(

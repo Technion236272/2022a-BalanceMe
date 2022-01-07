@@ -398,4 +398,34 @@ class UserStorage with ChangeNotifier {
       await storageReference.delete();
     }
   }
-}
+
+  Future<void> updateCategoryImages(
+      model.Category previousCategory, model.Category currentCategory) async {
+    if (_authRepository != null &&
+        _authRepository!.user != null &&
+        _authRepository!.user!.email != null) {
+      for(int i=0;i<previousCategory.transactions.length;i++)
+        {
+         await updateTransactionImage(previousCategory.transactions[i], currentCategory.transactions[i], currentCategory, previousCategory);
+        }
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateTransactionImage(
+      model.Transaction previousTransaction, model.Transaction currentTransaction,model.Category currentCategory,model.Category previousCategory) async {
+    if (_authRepository != null &&
+        _authRepository!.user != null &&
+        _authRepository!.user!.email != null) {
+      String? path = await getTransactionImage(previousTransaction.date,
+          previousCategory.name, previousCategory.isIncome, previousTransaction.name);
+      if (path!=null) {
+        uploadTransactionImage(currentTransaction.date, currentCategory.name,
+            currentCategory.isIncome, currentTransaction.name, XFile(path));
+        deletePreviousImage(previousTransaction.date, previousCategory.name,
+            previousCategory.isIncome, previousTransaction.name);
+      }
+    }
+      notifyListeners();
+    }
+  }
