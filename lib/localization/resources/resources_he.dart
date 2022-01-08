@@ -358,6 +358,49 @@ class LanguageHe extends Languages {
   @override
   String get strBalanceSummary => "‎סיכום מאזן חודשי";
 
+  @override
+  String get strCurrentIncomes => "‎הכנסות בפועל";
+
+  @override
+  String get strExpectedIncomes => "‎הכנסות צפויות";
+
+  @override
+  String get strCurrentExpenses => "‎הוצאות בפועל";
+
+  @override
+  String get strExpectedExpenses => "‎הוצאות צפויות";
+
+  @override
+  String get strTotalExpectedBalance => "‎מאזן צפוי";
+
+  @override
+  String get strTotalCurrentBalance => "‎מאזן בפועל";
+
+  @override
+  String get strCurrentBankBalance => "‎מאזן נוכחי בבנק";
+
+  @override
+  String get strExpectedBankBalance => "‎מאזן מצופה בבנק";
+
+  @override
+  String get strBeginningMonthBalance => "‎מאזן בבנק";
+
+  @override
+  String get strBankInfo => "‎מאזן נוכחי בבנק = מאזן בבנק + מאזן בפועל \nמאזן מצופה בבנק = מאזן בבנק + מאזן צפוי";
+
+  @override
+  String get strBeginningMontBalanceInfo => "‎שדה אופציונלי זה מאפשר להזין את הסכום הקיים בחשבון הבנק בתחילת החודש ולקבל מידע לגבי מצב חשבון הבנק";
+
+  @override
+  String get strIncomeBalanceInfo => "‎הכנסות בפועל מול הכנסות צפויות בכל הקטגוריות";
+
+  @override
+  String get strExpensesBalanceInfo => "‎הוצאות בפועל מול הוצאות צפויות בכל הקטגוריות";
+
+  @override
+  String get strTotalBalanceInfo => "‎מאזן בפועל = הכנסות בפועל - הוצאות בפועל \nמאזן צפוי = הכנסות צפויות - הוצאות צפויות";
+
+
   // Workspaces
   @override
   String get strWorkspace => "‎מרחב עבודה";

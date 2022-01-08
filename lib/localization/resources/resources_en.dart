@@ -358,6 +358,48 @@ class LanguageEn extends Languages {
   @override
   String get strBalanceSummary => "Monthly Balance Summary";
 
+  @override
+  String get strCurrentIncomes => "Current Incomes";
+
+  @override
+  String get strExpectedIncomes => "Expected Incomes";
+
+  @override
+  String get strCurrentExpenses => "Current Expenses";
+
+  @override
+  String get strExpectedExpenses => "Expected Expenses";
+
+  @override
+  String get strTotalExpectedBalance => "Total Expected Balance";
+
+  @override
+  String get strTotalCurrentBalance => "Total Current Balance";
+
+  @override
+  String get strCurrentBankBalance => "Current Bank Balance";
+
+  @override
+  String get strExpectedBankBalance => "Expected Bank Balance";
+
+  @override
+  String get strBeginningMonthBalance => "Bank balance";
+
+  @override
+  String get strBankInfo => "Current Bank Balance = Bank balance + Total Current Balance \nExpected Bank Balance = Bank balance + Total Expected Balance";
+
+  @override
+  String get strBeginningMontBalanceInfo => "This optional field allows you to enter the existing amount in the bank account at the beginning of the month and receive information about the status of the bank account";
+
+  @override
+  String get strIncomeBalanceInfo => "All categories current incomes vs expected incomes";
+
+  @override
+  String get strExpensesBalanceInfo => "All categories current expenses vs expected expenses";
+
+  @override
+  String get strTotalBalanceInfo => "Total Current Balance = Current Incomes - Current Expenses \nTotal Expected Balance = Expected Incomes - Expected Expenses";
+
   // Workspaces
   @override
   String get strWorkspace => "Workspace";

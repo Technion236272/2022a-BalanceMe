@@ -13,6 +13,7 @@ const int defaultPrecision = 2;
 const bool defaultIsConstant = false;
 const int defaultMaxCharactersLimit = 20;
 const defaultMinPasswordLimit = 6;
+const double zero = 0.0;
 
 // Localization
 const String rtl = "rtl";
@@ -53,6 +54,9 @@ Color disabledColor = Colors.black38;
 Color shadowColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
 Color bannerColor = Color(0xFFE0E0E0);
+const Color workspaceAskToJoinColor = Color(0xffffccbc);
+const Color workspaceInvitationsColor = Color(0xffffffee);
+const Color workspaceUsersRequestsColor = Colors.amberAccent;
 
 // AppBar
 const double appBarAvatarRadius = 40;
@@ -267,6 +271,7 @@ const double attributeFontSize = 10;
 
 //Workspaces
 const double bottomSheetSizeScale = 3.5;
+const double workspaceUsersScale = 2;
 const EdgeInsets bottomSheetPadding = EdgeInsets.all(10.0);
 const TextStyle bottomSheetTextStyle = TextStyle(fontSize: 16);
 const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
@@ -276,3 +281,13 @@ BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, off
 
 // Banner
 const double bannerPadding = 20;
+
+//Summery
+const EdgeInsets summeryTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
+BorderRadius summeryTilesRadius = BorderRadius.circular(20);
+const EdgeInsets summeryHorizontalPadding = const EdgeInsets.only(left: 8.0, right: 8.0);
+const EdgeInsets summeryVerticalPadding = const EdgeInsets.only(top: 8.0, bottom: 8.0);
+const double setWorkspaceButtonWidth = 75;
+const double setWorkspaceButtonHeight = 25;
+const double currentWorkspaceBoxScale = 4;
+const double summeryChartBoxScale = 4.2;

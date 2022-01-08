@@ -293,53 +293,57 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _buildPendingRequestFromString(String tile, bool? param) {
-    return Padding(
-      padding: gc.workspaceTilePadding,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: gc.workspacesGeneralPadding,
+          child: Text(
             tile,
             style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
           ),
-          TextButton(
-            onPressed: () => {_requestJoiningWorkspace(tile)},
-            child: Text(
-              Languages.of(context)!.strResend,
-              style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
-            ),
+        ),
+        TextButton(
+          onPressed: () => {_requestJoiningWorkspace(tile)},
+          child: Text(
+            Languages.of(context)!.strResend,
+            style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildApproveRejectFromString(String tile, bool? isInvitation) {
-    return Padding(
-      padding: gc.workspaceTilePadding,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: gc.workspacesGeneralPadding,
+          child: Text(
             tile,
             style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
           ),
-          TextButton(
-            onPressed: () => {_approveRequest(tile, isInvitation)},
-            child: Text(
-              Languages.of(context)!.strApprove,
-              style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
+        ),
+        Row(
+          children: [
+            TextButton(
+              onPressed: () => {_approveRequest(tile, isInvitation)},
+              child: Text(
+                Languages.of(context)!.strApprove,
+                style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          TextButton(
-            onPressed: () => {_rejectedRequest(tile, isInvitation)},
-            child: Text(
-              Languages.of(context)!.strReject,
-              style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
+            TextButton(
+              onPressed: () => {_rejectedRequest(tile, isInvitation)},
+              child: Text(
+                Languages.of(context)!.strReject,
+                style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -352,12 +356,11 @@ class _SetWorkspaceState extends State<SetWorkspace> {
           Padding(
             padding: gc.userTilePadding,
             child: Container(
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width,
               decoration: decoration,
               child: _getListView(listTiles),
             ),
           ),
-          const Divider(),
         ],
       ),
     );
@@ -389,36 +392,56 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                       child: Padding(
                         padding: gc.workspacesGeneralPadding,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(Languages.of(context)!.strWorkspaceExplanation), // TODO- write the content
                             const Divider(),
                             Visibility(
                                 visible: !_shouldShowWorkspaceUsers,
                                 child: Column(children: [Text(Languages.of(context)!.strEmptyWorkspace), const Divider()])),
-                            _getUserList(
-                              _shouldShowWorkspaceUsers,
-                              Languages.of(context)!.strOtherWorkspaceUsers,
-                              _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.users, _buildWorkspaceUserFromString),
-                              BoxDecoration(
-                                color: gc.primaryColor,
-                                borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width/gc.workspaceUsersScale,
+                              child: _getUserList(
+                                _shouldShowWorkspaceUsers,
+                                Languages.of(context)!.strOtherWorkspaceUsers,
+                                _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.users, _buildWorkspaceUserFromString),
+                                BoxDecoration(
+                                  color: gc.primaryColor,
+                                  borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+                                ),
                               ),
                             ),
-                            _getUserList(
-                              _shouldShowPendingRequests,
-                              Languages.of(context)!.strPendingWorkspaceRequests,
-                              _getTiles((userStorage.userData == null) ? [] : _belongWorkspace.joiningRequests, _buildPendingRequestFromString),
+                            Card(
+                              color: gc.workspaceAskToJoinColor,
+                              child: Padding(
+                                padding: (userStorage.userData != null && _belongWorkspace.joiningRequests.length > gc.zero) ? gc.userTilePadding : EdgeInsets.zero,
+                                child: _getUserList(
+                                  _shouldShowPendingRequests,
+                                  Languages.of(context)!.strPendingWorkspaceRequests,
+                                  _getTiles((userStorage.userData == null) ? [] : _belongWorkspace.joiningRequests, _buildPendingRequestFromString),
+                                ),
+                              ),
                             ),
-                            _getUserList(
-                              _shouldShowInvitations,
-                              Languages.of(context)!.strPendingInvitationsRequests,
-                              _getTiles((userStorage.userData == null) ? [] : _belongWorkspace.invitations, _buildApproveRejectFromString, true),
+                            Card(
+                              color: gc.workspaceInvitationsColor,
+                              child: Padding(
+                                padding: (userStorage.userData != null && _belongWorkspace.invitations.length > gc.zero) ? gc.userTilePadding : EdgeInsets.zero,
+                                child: _getUserList(
+                                  _shouldShowInvitations,
+                                  Languages.of(context)!.strPendingInvitationsRequests,
+                                  _getTiles((userStorage.userData == null) ? [] : _belongWorkspace.invitations, _buildApproveRejectFromString, true),
+                                ),
+                              ),
                             ),
-                            _getUserList(
-                              _workspaceUsers == null ? false : _workspaceUsers!.isPendingJoiningRequests,
-                              Languages.of(context)!.strPendingUsersRequestsTitle,
-                              _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.pendingJoiningRequests, _buildApproveRejectFromString),
+                            Card(
+                              color: gc.workspaceUsersRequestsColor,
+                              child: Padding(
+                                padding: (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.length > gc.zero) ? gc.userTilePadding : EdgeInsets.zero,
+                                child: _getUserList(
+                                  _workspaceUsers == null ? false : _workspaceUsers!.isPendingJoiningRequests,
+                                  Languages.of(context)!.strPendingUsersRequestsTitle,
+                                  _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.pendingJoiningRequests, _buildApproveRejectFromString),
+                                ),
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
