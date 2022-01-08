@@ -27,6 +27,7 @@ void navigateBack(context) {
 void displaySnackBar(BuildContext context, String msg, [String? actionLabel, VoidCallback? actionCallback]) {
   final snackBar = SnackBar(
     content: Text(msg),
+    backgroundColor: globalIsDarkMode ? gc.darkPrimaryColor : null,
     action: (actionLabel == null || actionCallback == null) ? null
     : SnackBarAction(
       label: actionLabel,

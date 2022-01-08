@@ -57,12 +57,18 @@ class BalanceMeApp extends StatefulWidget {
     state!.setLocale(newLocale);
   }
 
+  static void setTheme(BuildContext context, bool isDarkMode) {
+    _BalanceMeAppState? state = context.findAncestorStateOfType<_BalanceMeAppState>();
+    state!.setTheme(isDarkMode);
+  }
+
   @override
   State<BalanceMeApp> createState() => _BalanceMeAppState();
 }
 
 class _BalanceMeAppState extends State<BalanceMeApp> {
   Locale? _locale;
+  ThemeMode _theme = globalIsDarkMode ? ThemeMode.dark : ThemeMode.light;
 
   @override
   void didChangeDependencies() async {
@@ -74,6 +80,13 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
     setState(() {
       _locale = locale;
     });
+  }
+
+  void setTheme(bool isDarkMode) {
+    setState(() {
+      _theme = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    });
+    globalIsDarkMode = isDarkMode;
   }
 
   Locale? localeResolution(locale, supportedLocales) {
@@ -111,6 +124,14 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
               foregroundColor: gc.secondaryColor,
             ),
           ),
+          darkTheme: ThemeData(
+            appBarTheme: const AppBarTheme(
+              backgroundColor: gc.darkPrimaryColor,
+              foregroundColor: gc.darkSecondaryColor,
+            ),
+            scaffoldBackgroundColor: gc.darkPrimaryColor,
+          ),
+          themeMode: _theme,
           debugShowCheckedModeBanner: false,
           locale: _locale,
           supportedLocales: getSupportedLocales(),

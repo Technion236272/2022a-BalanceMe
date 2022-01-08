@@ -1,5 +1,7 @@
 // ================= Balance Page =================
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -9,6 +11,7 @@ import 'package:balance_me/pages/welcome.dart';
 import 'package:balance_me/pages/set_category.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
 class BalanceManager extends StatefulWidget {
@@ -23,27 +26,11 @@ class BalanceManager extends StatefulWidget {
 
 class _BalanceManagerState extends State<BalanceManager> {
   BalanceTabs _currentTab = BalanceTabs.Summary;
-  bool _waitingForData = true;
 
   @override
   void initState() {
     super.initState();
-    _init();
-  }
-
-  void _init() {
     widget._userStorage.setDate();
-    if (widget._authRepository.status == AuthStatus.Authenticated) {
-      widget._userStorage.GET_balanceModel(successCallback: _stopWaitingForDataCB, failureCallback: _stopWaitingForDataCB);
-    } else {
-      _stopWaitingForDataCB();
-    }
-  }
-
-  void _stopWaitingForDataCB([Json? data]) {
-    setState(() {
-      _waitingForData = false;
-    });
   }
 
   bool _shouldShowWelcomePage() => widget._userStorage.balance.isEmpty &&
@@ -76,9 +63,21 @@ class _BalanceManagerState extends State<BalanceManager> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: _waitingForData ? const Center(child: CircularProgressIndicator())
-      : (_shouldShowWelcomePage()) ?
-      WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]),
+      body: StreamBuilder(
+        stream: widget._userStorage.STREAM_balanceModel(),
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+          if ((!snapshot.hasData || snapshot.data!.data() == null || !BalanceModel.isBalanceValid(snapshot.data!.data()! as Json))
+              && widget._authRepository.status == AuthStatus.Authenticated) {
+            // TODO- handle end of month?
+            return Center(child: CircularProgressIndicator());
+          }
+
+          BalanceModel balanceModel = !snapshot.hasData ? BalanceModel() : BalanceModel.fromJson((snapshot.data!.data()! as Json)[config.categoriesDoc]);
+          widget._userStorage.assignBalance(balanceModel);
+          return (_shouldShowWelcomePage()) ? WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]);
+        },
+      ),
       floatingActionButton: Visibility(
         visible: _shouldShowWelcomePage() || _currentTab != BalanceTabs.Summary,
         child: FloatingActionButton.extended(

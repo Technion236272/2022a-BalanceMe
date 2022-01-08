@@ -37,10 +37,8 @@ class _SummaryPageState extends State<SummaryPage> {
     //TODO - initial all balance info from the firebase
   }
 
-  void _rebuildPage() => {setState(() => null)};
-
   void _openSetWorkspace() {
-    navigateToPage(context, SetWorkspace(afterChangeWorkspaceCB: _rebuildPage), AppPages.SetWorkspace);
+    navigateToPage(context, SetWorkspace(), AppPages.SetWorkspace);
   }
 
   void _updateBeginningBalance() {

@@ -1,6 +1,7 @@
 // ================= Storage Repository =================
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
+import 'package:balance_me/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -82,14 +83,32 @@ class UserStorage with ChangeNotifier {
     _balance = BalanceModel();
   }
 
+  void assignBalance(BalanceModel balanceModel) {
+    _balance = balanceModel;
+  }
+
   void setDate([DateTime? time]) {
     currentDate = (time == null) ? DateTime.now() : time;
   }
 
+  void setTheme(BuildContext context, bool isDarkMode) {
+    BalanceMeApp.setTheme(context, isDarkMode);
+    if (_userData != null && _authRepository != null && _authRepository!.status == AuthStatus.Authenticated) {
+      _userData!.isDarkMode = isDarkMode;
+      SEND_generalInfo();
+    }
+  }
+
   // Workspace Methods
+  void chooseWorkspace(String workspace) {
+    userData!.currentWorkspace = workspace;
+    SEND_updateCurrentWorkspace(workspace);
+    notifyListeners();
+  }
+
   bool createNewWorkspace(String newWorkspace) {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      SEND_balanceModel(doc: newWorkspace);
+      SEND_fullBalanceModel(balance: BalanceModel(), workspace: newWorkspace);
       SEND_workspaceUsers(newWorkspace, WorkspaceUsers(_authRepository!.getEmail!));
       SEND_updateBelongsList(_authRepository!.getEmail!, newWorkspace, true);
       return true;
@@ -154,32 +173,18 @@ class UserStorage with ChangeNotifier {
     return category.transactions.contains(transaction);
   }
 
-  void _saveBalance() {
-    SEND_balanceModel();
-    notifyListeners();
-  }
-
-  void _changeCategory(model.Category category, EntryOperation operation) {
-    SortedList<model.Category> categoryList = _balance.getListByCategory(category);
-    operation == EntryOperation.Add ? categoryList.add(category) : categoryList.remove(category);
-  }
-
   bool addCategory(model.Category newCategory) {
     if (_isCategoryAlreadyExist(newCategory)) {
       return false;
     }
-    _changeCategory(newCategory, EntryOperation.Add);
-    _saveBalance();
+    SEND_updateCategory(newCategory, true);
     GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Add, newCategory);
     return true;
   }
 
-  void removeCategory(model.Category newCategory, [bool allFlow = true]) {
-    _changeCategory(newCategory, EntryOperation.Remove);
-    if (allFlow) {
-      _saveBalance();
-      GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, newCategory);
-    }
+  void removeCategory(model.Category newCategory) {
+    SEND_updateCategory(newCategory, false);
+    GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Remove, newCategory);
   }
 
   bool editCategory(model.Category newCategory, model.Category oldCategory) {
@@ -187,9 +192,10 @@ class UserStorage with ChangeNotifier {
       return false;
     }
 
-    removeCategory(oldCategory, false);
-    _changeCategory(newCategory, EntryOperation.Add);
-    _saveBalance();
+    _balance.getListByCategory(oldCategory).remove(oldCategory);
+    _balance.getListByCategory(newCategory).add(newCategory);
+    SEND_fullBalanceModel();
+
     GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Edit, newCategory);
     return true;
   }
@@ -199,26 +205,25 @@ class UserStorage with ChangeNotifier {
       return false;
     }
 
-    category.addTransaction(newTransaction);
-    _saveBalance();
+    _balance.findCategory(category.name).addTransaction(newTransaction);
+    SEND_fullBalanceModel();
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Add, category);
     return true;
   }
 
-  void removeTransaction(model.Category category, model.Transaction newTransaction, [bool allFlow = true]) {
-    category.removeTransaction(newTransaction);
-    if (allFlow) {
-      _saveBalance();
-      GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
-    }
+  void removeTransaction(model.Category category, model.Transaction newTransaction) {
+    _balance.findCategory(category.name).removeTransaction(newTransaction);
+    SEND_fullBalanceModel();
+    GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
   }
 
   bool editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction) {
+    oldCategory = _balance.findCategory(oldCategory.name);
     model.Category category = (newCategoryName == oldCategory.name) ? oldCategory : _balance.findCategory(newCategoryName);
-    removeTransaction(oldCategory, oldTransaction, false);
+    oldCategory.removeTransaction(oldTransaction);
     category.addTransaction(newTransaction);
 
-    _saveBalance();
+    SEND_fullBalanceModel();
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Edit, newTransaction);
     return true;
   }
@@ -231,7 +236,7 @@ class UserStorage with ChangeNotifier {
             _balance = _balance.filterCategoriesWithConstantsTransaction();
           });
       currentDate = DateTime.now();
-      SEND_balanceModel();
+      SEND_fullBalanceModel();
 
     } else {
       _balance = BalanceModel();
@@ -278,6 +283,9 @@ class UserStorage with ChangeNotifier {
           if (_userData != null && _userData!.language != "") {
             changeLanguage(context, _userData!.language);
           }
+          if (_userData != null) {
+            BalanceMeApp.setTheme(context, _userData!.isDarkMode);
+          }
           notifyListeners();
         } else {
           GoogleAnalytics.instance.logRequestDataNotExists("postLogin", generalInfo);
@@ -314,7 +322,7 @@ class UserStorage with ChangeNotifier {
     void _addCurrentBalance([Json? data]) {
       if (!lastBalance.isEmpty) {
         _balance = _balance.filterCategoriesWithDifferentNames(lastBalance);
-        SEND_balanceModel();
+        SEND_fullBalanceModel();
         notifyListeners();
       }
     }
@@ -353,15 +361,49 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_balanceModel({String? doc}) {
+  void _SEND_BalanceModel(Function sendCallback, String logName, [String? workspace]) {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
-      String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.getEmail! : _userData!.currentWorkspace;
-      _firestore.collection(config.firebaseVersion).doc(doc == null ? workspace : doc).collection(config.categoriesDoc).doc(date).set({
-        config.categoriesDoc: _balance.toJson()
-      });
+
+      if (workspace == null) {
+        workspace = (_userData!.currentWorkspace == "") ? _authRepository!.getEmail! : _userData!.currentWorkspace;
+      }
+
+      sendCallback(workspace, date);
     } else {
-      GoogleAnalytics.instance.logPreCheckFailed("SendBalanceModel");
+      GoogleAnalytics.instance.logPreCheckFailed(logName);
+    }
+  }
+
+  void SEND_fullBalanceModel({BalanceModel? balance, String? workspace}) {
+    void _sendFullBalance(String workspace, String date) {
+      balance = (balance == null) ? _balance : balance;
+      print("^^^^^^^^^^^");
+      print(balance!.toJson());
+      _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).set({
+        config.categoriesDoc: balance!.toJson(),
+      });
+    }
+
+    _SEND_BalanceModel(_sendFullBalance, "SendFullBalanceModel", workspace);
+  }
+
+  void SEND_updateCategory(model.Category category, bool toAdd, [String? workspace]) {
+    void _updateCategory(String workspace, String date) {
+      _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).update({
+        "${config.categoriesDoc}.${category.isIncome ? config.incomeCategoriesField : config.expenseCategoriesField}":
+        toAdd? FieldValue.arrayUnion([category.toJson()]) : FieldValue.arrayRemove([category.toJson()]),
+      });
+    }
+
+    _SEND_BalanceModel(_updateCategory, "SendUpdateCategory", workspace);
+  }
+
+  void SEND_updateCurrentWorkspace(String workspace) {
+    if (_authRepository != null && _authRepository!.getEmail != null) {
+      _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).update({
+        "${config.generalInfoDoc}.groupName" : workspace,
+      });
     }
   }
 
@@ -394,8 +436,6 @@ class UserStorage with ChangeNotifier {
   }
 
   void SEND_updateBelongsWorkspaces(String entry, String user, String workspace, bool toAdd) {
-    print("${config.belongsWorkspaces}.$entry");
-    print(workspace);
     _firestore.collection(config.firebaseVersion).doc(user).update({
       "${config.belongsWorkspaces}.$entry" : toAdd? FieldValue.arrayUnion([workspace]) : FieldValue.arrayRemove([workspace]),
     });
@@ -411,7 +451,6 @@ class UserStorage with ChangeNotifier {
 
   void SEND_updateInvitationsList(String workspace, bool toAdd) {
     if (_authRepository != null && _authRepository!.getEmail != null) {
-      print(_authRepository!.getEmail!);
       SEND_updateBelongsWorkspaces("invitations", _authRepository!.getEmail!, workspace, toAdd);
     }
   }
@@ -431,7 +470,7 @@ class UserStorage with ChangeNotifier {
     return _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).snapshots();
   }
 
-  Stream<DocumentSnapshot>? STREAM_balanceModel({VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback}) {  // TODO: handle end of month
+  Stream<DocumentSnapshot>? STREAM_balanceModel() {  // TODO: handle end of month
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
       String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.getEmail! : _userData!.currentWorkspace;
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
@@ -440,27 +479,6 @@ class UserStorage with ChangeNotifier {
     } else {
       return null;
     }
-
-    // TODO- check what is relevant
-    // if (_authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null && _userData != null) {
-    //   String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
-    //   String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.user!.email! : _userData!.currentWorkspace;
-    //   _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).get().then((categories) async {
-    //     if (categories.exists && categories.data() != null) { // There is data
-    //       _balance = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
-    //       successCallback != null ? successCallback(categories.data()![config.categoriesDoc]) : null;
-    //
-    //     } else {  // There is no data
-    //       await _getBalanceIfEndOfMonth();
-    //       failureCallback != null ? failureCallback(null) : null;
-    //     }
-    //     notifyListeners();
-    //   });
-    //
-    // } else {
-    //   failureCallback != null ? failureCallback(null) : null;
-    //   GoogleAnalytics.instance.logPreCheckFailed("GetBalanceModel");
-    // }
   }
 
   Stream<DocumentSnapshot> STREAM_workspaceUsers() {
@@ -477,8 +495,6 @@ class UserStorage with ChangeNotifier {
     if (_authRepository != null && _authRepository!.getEmail != null) {
       _userMessagesStream = _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).snapshots().listen((messages) {
         if (messages.data() != null) {
-          print("*****************");
-          print(messages.data()![config.userMessages]);  // TODO- delete
           MessagesController.handleUserMessages(messages.data()![config.userMessages]);
           SEND_resetUserMessages();
         }

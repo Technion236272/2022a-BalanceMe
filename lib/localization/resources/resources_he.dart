@@ -99,6 +99,9 @@ class LanguageHe extends Languages {
   String get strLanguageSettings => "‎שפה";
 
   @override
+  String get strDarkModeSettings => "‎מצב כהה";
+
+  @override
   String get strVersionSettings => "גירסה‎";
 
   @override
@@ -139,6 +142,9 @@ class LanguageHe extends Languages {
 
   @override
   String get strLanguageInfo => "השפה שהאפליקציה תציג‎";
+
+  @override
+  String get strDarkModeInfo => "‎הצבעים בהם תוצג האפליקציה";
 
   @override
   String get strAboutInfo => "חבילות ורשיונות בשימוש באפליקציה‎";

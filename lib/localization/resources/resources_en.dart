@@ -99,6 +99,9 @@ class LanguageEn extends Languages {
   String get strLanguageSettings => "Language";
 
   @override
+  String get strDarkModeSettings => "Dark Mode";
+
+  @override
   String get strVersionSettings => "Version";
 
   @override
@@ -139,6 +142,9 @@ class LanguageEn extends Languages {
 
   @override
   String get strLanguageInfo => "The language the app will display";
+
+  @override
+  String get strDarkModeInfo => "The theme the app will display";
 
   @override
   String get strAboutInfo => "Packages and licenses which the app uses";

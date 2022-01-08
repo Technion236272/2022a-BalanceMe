@@ -5,7 +5,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Defaults
 int defaultPage = AppPages.Balance.index;
-const bool darkMode = false;
+const bool defaultIsDarkMode = false;
 const List<int> daysOfMonth = [1, 10, 15];
 const int defaultEndOfMonthDay = 10;
 const Currency defaultUserCurrency = Currency.NIS;
@@ -43,6 +43,8 @@ const IconData userIcon = Icons.verified_user;
 // Colors
 const Color primaryColor = Colors.blue;
 const Color secondaryColor = Colors.white;
+const Color darkPrimaryColor = Colors.white10;
+const Color darkSecondaryColor = Colors.black;
 const Color bottomNavigationSelectedColor = primaryColor;
 const Color alternativePrimary = Color(0xff4e21ff);
 const Color tabColor = Color(0xffd3ff21);

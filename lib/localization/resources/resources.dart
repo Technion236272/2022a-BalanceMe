@@ -41,6 +41,7 @@ abstract class Languages {
   String get strCurrencySettings;
   String get strEndOfMonthSettings;
   String get strLanguageSettings;
+  String get strDarkModeSettings;
   String get strVersionSettings;
   String get strNewPassword;
   String get strPasswordUpdate;
@@ -55,6 +56,7 @@ abstract class Languages {
   String get strVersionInfo;
   String get strCurrencyInfo;
   String get strLanguageInfo;
+  String get strDarkModeInfo;
   String get strAboutInfo;
   String get strProfileInfo;
   String get strPasswordChangeInfo;

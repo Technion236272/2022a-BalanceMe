@@ -4,8 +4,11 @@ import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
-final globalNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey<NavigatorState>();
+
+bool globalIsDarkMode = gc.defaultIsDarkMode;
 
 enum AuthStatus {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 

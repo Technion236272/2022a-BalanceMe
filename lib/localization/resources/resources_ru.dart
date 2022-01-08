@@ -98,6 +98,9 @@ class LanguageRu extends Languages {
   String get strLanguageSettings => "язык";
 
   @override
+  String get strDarkModeSettings => "Dark Mode";
+
+  @override
   String get strVersionSettings => "Версия";
 
   @override
@@ -135,6 +138,9 @@ class LanguageRu extends Languages {
 
   @override
   String get strLanguageInfo => "Язык, который будет отображаться приложением";
+
+  @override
+  String get strDarkModeInfo => "The theme the app will display";
 
   @override
   String get strAboutInfo => "Пакеты и лицензии, используемые приложением";

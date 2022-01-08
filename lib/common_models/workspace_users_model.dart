@@ -45,14 +45,6 @@ class WorkspaceUsers {
 
   bool get isPendingJoiningRequests => pendingJoiningRequests.isNotEmpty;
 
-  static bool isJsonValid(Json json) {
-    return json["users"] != null && json["leader"] != null && json["pendingJoiningRequests"] != null;
-  }
-
-  void addUser(String user) {
-    users.add(user);
-  }
-
   void removeUser(String user) {
     users.remove(user);
   }
@@ -64,11 +56,7 @@ class WorkspaceUsers {
     }
   }
 
-  void addPendingJoiningRequest(String applicant) {
-    pendingJoiningRequests.add(applicant);
-  }
-
-  void removePendingJoiningRequest(String applicant) {
-    pendingJoiningRequests.remove(applicant);
+  static bool isWorkspaceUsersValid(Json json) {
+    return json["users"] != null && json["leader"] != null && json["pendingJoiningRequests"] != null;
   }
 }

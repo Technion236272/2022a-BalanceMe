@@ -17,9 +17,7 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetWorkspace extends StatefulWidget {
-  const SetWorkspace({this.afterChangeWorkspaceCB, Key? key}) : super(key: key);
-
-  final VoidCallback? afterChangeWorkspaceCB;
+  const SetWorkspace({Key? key}) : super(key: key);
 
   @override
   _SetWorkspaceState createState() => _SetWorkspaceState();
@@ -72,11 +70,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   void _chooseWorkspace(String workspace) async {
     setState(() {
-      userStorage.userData!.currentWorkspace = workspace;
+      userStorage.chooseWorkspace(workspace);
     });
-    userStorage.SEND_generalInfo();
-    await userStorage.GET_balanceModel();
-    widget.afterChangeWorkspaceCB == null ? null : widget.afterChangeWorkspaceCB!();
     displaySnackBar(context, Languages.of(context)!.strWorkspaceOperationSuccessful.replaceAll("%", Languages.of(context)!.strChanged));
     GoogleAnalytics.instance.logWorkspaceChanged(workspace);
   }
@@ -379,11 +374,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                 return Center(child: CircularProgressIndicator());
               }
 
-              print(snapshot.data![1].data()!);
-              print(snapshot.data![0].data()!);
-
               _workspaceUsers = (authRepository.user != null && userStorage.userData != null && userStorage.userData!.currentWorkspace != authRepository.user!.email
-                && (snapshot.data![0].data()! as Json)["workspaceUsers"] != null && WorkspaceUsers.isJsonValid((snapshot.data![0].data()! as Json)["workspaceUsers"])) ?
+                && (snapshot.data![0].data()! as Json)["workspaceUsers"] != null && WorkspaceUsers.isWorkspaceUsersValid((snapshot.data![0].data()! as Json)["workspaceUsers"])) ?
                 WorkspaceUsers.fromJson((snapshot.data![0].data()! as Json)["workspaceUsers"]) : null;
 
               _belongWorkspace = BelongsWorkspaces.fromJson((snapshot.data![1].data()! as Json)["belongsWorkspaces"]);

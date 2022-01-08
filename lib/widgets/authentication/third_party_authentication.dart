@@ -1,6 +1,7 @@
 // ================= Google and Facebook buttons=================
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 import 'package:auth_buttons/auth_buttons.dart';
@@ -28,9 +29,7 @@ class GoogleButton extends StatelessWidget {
         onPressed: () {
           onPressedGoogle(context);
         },
-        darkMode: _userStorage.userData != null
-            ? _userStorage.userData!.isDarkMode
-            : gc.darkMode,
+        darkMode: globalIsDarkMode,
       ),
     );
   }
@@ -59,9 +58,7 @@ class FacebookButton extends StatelessWidget {
         onPressed: () {
           onPressedFacebook(context);
         },
-        darkMode: _userStorage.userData != null
-            ? _userStorage.userData!.isDarkMode
-            : gc.darkMode,
+        darkMode: globalIsDarkMode,
       ),
     );
   }
