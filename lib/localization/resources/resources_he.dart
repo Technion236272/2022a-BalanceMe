@@ -79,6 +79,9 @@ class LanguageHe extends Languages {
   @override
   String get strProblemOccurred => "‎התרחשה בעיה, יש לנסות שוב מאוחר יותר";
 
+  @override
+  String get strHide =>"‎הסתר";
+
   // Settings
   @override
   String get strProfile => "‎פרופיל";

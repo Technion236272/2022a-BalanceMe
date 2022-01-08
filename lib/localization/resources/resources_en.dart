@@ -65,7 +65,7 @@ class LanguageEn extends Languages {
   String get strDismiss =>"Dismiss";
 
   @override
-  String get strManage =>"Manage";  // TODO
+  String get strManage =>"Manage";
 
   @override
   String get strResend =>"Resend";
@@ -78,6 +78,9 @@ class LanguageEn extends Languages {
 
   @override
   String get strProblemOccurred =>"Problem occurred, please try again later";
+
+  @override
+  String get strHide =>"Hide";
 
 // Settings
   @override

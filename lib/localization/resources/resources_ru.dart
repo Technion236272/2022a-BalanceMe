@@ -78,6 +78,9 @@ class LanguageRu extends Languages {
   @override
   String get strProblemOccurred =>"Problem occurred, please try again later";
 
+  @override
+  String get strHide =>"Hide";
+
   // Settings
   @override
   String get strProfile => "профиль";

@@ -33,6 +33,7 @@ abstract class Languages {
   String get strApprove;
   String get strReject;
   String get strProblemOccurred;
+  String get strHide;
 
 // Settings
   String get strProfile;
@@ -61,6 +62,7 @@ abstract class Languages {
   String get strProfileInfo;
   String get strPasswordChangeInfo;
   String get strConstants;
+
   // Login
   String get strWelcomeBack;
   String get strWelcomeAboard;

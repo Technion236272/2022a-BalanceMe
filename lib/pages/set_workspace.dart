@@ -146,6 +146,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     }
   }
 
+  void _hideJoiningRequest(String workspace) {
+    userStorage.SEND_updateJoiningRequests(authRepository.user!.email!, workspace, false);
+  }
+
   // ================ UI ================
 
   void _closeModalBottomSheet() {
@@ -287,52 +291,30 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     );
   }
 
-  Widget _buildPendingRequestFromString(String tile, bool? param) {
+  Widget _buildTwoButtonTile(String text, Function firstOnPress, String firstText, Function secondOnPress, String secondText) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
           padding: gc.workspacesGeneralPadding,
           child: Text(
-            tile,
-            style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
-          ),
-        ),
-        TextButton(
-          onPressed: () => {_requestJoiningWorkspace(tile)},
-          child: Text(
-            Languages.of(context)!.strResend,
-            style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildApproveRejectFromString(String tile, bool? isInvitation) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: gc.workspacesGeneralPadding,
-          child: Text(
-            tile,
+            text,
             style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
           ),
         ),
         Row(
           children: [
             TextButton(
-              onPressed: () => {_approveRequest(tile, isInvitation)},
+              onPressed: () => {firstOnPress(text)},
               child: Text(
-                Languages.of(context)!.strApprove,
+                firstText,
                 style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
               ),
             ),
             TextButton(
-              onPressed: () => {_rejectedRequest(tile, isInvitation)},
+              onPressed: () => {secondOnPress(text)},
               child: Text(
-                Languages.of(context)!.strReject,
+                secondText,
                 style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
               ),
             ),
@@ -340,6 +322,17 @@ class _SetWorkspaceState extends State<SetWorkspace> {
         ),
       ],
     );
+  }
+
+  Widget _buildPendingRequestFromString(String tile, bool? param) {
+    return _buildTwoButtonTile(tile, _hideJoiningRequest, Languages.of(context)!.strHide, _requestJoiningWorkspace, Languages.of(context)!.strResend);
+  }
+
+  Widget _buildApproveRejectFromString(String tile, bool? isInvitation) {
+    void approveRequest(text) => {_approveRequest(text, isInvitation)};
+    void rejectRequest(text) => {_rejectedRequest(text, isInvitation)};
+
+    return _buildTwoButtonTile(tile, approveRequest, Languages.of(context)!.strApprove, rejectRequest, Languages.of(context)!.strReject);
   }
 
   Widget _getUserList(bool visibleCondition, String title, List<Widget> listTiles, [BoxDecoration? decoration]) {
