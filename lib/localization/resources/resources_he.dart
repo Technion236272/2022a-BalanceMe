@@ -358,6 +358,33 @@ class LanguageHe extends Languages {
   @override
   String get strBalanceSummary => "‎סיכום מאזן חודשי";
 
+  @override
+  String get strCurrentIncomes => "‎הכנסות בפועל";
+
+  @override
+  String get strExpectedIncomes => "‎הכנסות צפויות";
+
+  @override
+  String get strCurrentExpenses => "‎הוצאות בפועל";
+
+  @override
+  String get strExpectedExpenses => "‎הוצאות צפויות";
+
+  @override
+  String get strTotalExpectedBalance => "‎מאזן צפוי";
+
+  @override
+  String get strTotalCurrentBalance => "‎מאזן בפועל";
+
+  @override
+  String get strCurrentBankBalance => "‎מאזן נוכחי בבנק";
+
+  @override
+  String get strExpectedBankBalance => "‎מאזן מצופה בבנק";
+
+  @override
+  String get strBeginningMonthBalance => "‎מאזן בבנק";
+
   // Workspaces
   @override
   String get strWorkspace => "‎מרחב עבודה";

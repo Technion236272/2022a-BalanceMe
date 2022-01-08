@@ -137,6 +137,16 @@ abstract class Languages {
   // Summary
   String get strSummary;
   String get strBalanceSummary;
+  String get strCurrentIncomes;
+  String get strExpectedIncomes;
+  String get strCurrentExpenses;
+  String get strExpectedExpenses;
+  String get strTotalExpectedBalance;
+  String get strTotalCurrentBalance;
+  String get strCurrentBankBalance;
+  String get strExpectedBankBalance;
+  String get strBeginningMonthBalance;
+
 
   // Workspaces
   String get strWorkspace;

@@ -358,6 +358,33 @@ class LanguageEn extends Languages {
   @override
   String get strBalanceSummary => "Monthly Balance Summary";
 
+  @override
+  String get strCurrentIncomes => "Current Incomes";
+
+  @override
+  String get strExpectedIncomes => "Expected Incomes";
+
+  @override
+  String get strCurrentExpenses => "Current Expenses";
+
+  @override
+  String get strExpectedExpenses => "Expected Expenses";
+
+  @override
+  String get strTotalExpectedBalance => "Total Expected Balance";
+
+  @override
+  String get strTotalCurrentBalance => "Total Current Balance";
+
+  @override
+  String get strCurrentBankBalance => "Current Bank Balance";
+
+  @override
+  String get strExpectedBankBalance => "Expected Bank Balance";
+
+  @override
+  String get strBeginningMonthBalance => "Bank balance";
+
   // Workspaces
   @override
   String get strWorkspace => "Workspace";
