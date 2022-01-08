@@ -501,6 +501,18 @@ class LanguageEn extends Languages {
   @override
   String get strBadNumberForm => "The inserted text is not a number";
 
+  @override
+  String get strIncomeTransactionInfo => "Income transactions examples: \n Rental payment from... \n Salary from... \n Tax refund from...";
+
+  @override
+  String get strExpenseTransactionInfo => "Expense transactions examples:\n Rental payment \n Electricity expenses \n Groceries \n Buying T-shirt in... \n Watching cinema movie";
+
+  @override
+  String get strIncomeCategoryInfo => "Income Category examples:\n Rental payments \n Salaries \n Refunds";
+
+  @override
+  String get strExpenseCategoryInfo => "Expense Category examples:\n Apartment \n Supermarket \n Shopping \n Hobbies";
+
   // Archive
   @override
   String get strDataUnavailable => "There is no data for the selected month";
