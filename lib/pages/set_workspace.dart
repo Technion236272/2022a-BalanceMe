@@ -293,24 +293,24 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _buildPendingRequestFromString(String tile, bool? param) {
-    return Padding(
-      padding: gc.workspaceTilePadding,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: gc.workspacesGeneralPadding,
+          child: Text(
             tile,
             style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
           ),
-          TextButton(
-            onPressed: () => {_requestJoiningWorkspace(tile)},
-            child: Text(
-              Languages.of(context)!.strResend,
-              style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
-            ),
+        ),
+        TextButton(
+          onPressed: () => {_requestJoiningWorkspace(tile)},
+          child: Text(
+            Languages.of(context)!.strResend,
+            style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

@@ -4,7 +4,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 class GenericTooltip extends StatefulWidget {
   const GenericTooltip({Key? key, this.tip, this.style}) : super(key: key);
   final String? tip;
-  final TextStyle style;
+  final TextStyle? style;
 
   @override
   _GenericTooltipState createState() => _GenericTooltipState();
