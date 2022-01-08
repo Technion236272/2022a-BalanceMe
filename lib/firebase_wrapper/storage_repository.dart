@@ -455,14 +455,14 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_deleteWorkspace(String workspace) async {  // TODO
-    // if (_userData != null) {
-    //   var workspaceToDelete = _firestore.collection(config.firebaseVersion).doc(workspace);
-    //   await workspaceToDelete.update({config.workspaceUsers: FieldValue.delete()});
-    //   workspaceToDelete.delete();
-    // } else {
-    //   GoogleAnalytics.instance.logPreCheckFailed("SendDeleteWorkspace");
-    // }
+  void SEND_deleteWorkspace(String workspace) async {
+    late List<QueryDocumentSnapshot<Json>> docs;
+    await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).get().then((value) => docs = value.docs.toList());
+    for (var doc in docs) {
+      List<String> tokens = doc.reference.path.split("/");
+      _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(tokens[3]).delete();
+    }
+    _firestore.collection(config.firebaseVersion).doc(workspace).delete();
   }
 
   // Stream
