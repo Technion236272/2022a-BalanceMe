@@ -1,5 +1,6 @@
 // ================= Summary Page =================
 import 'package:balance_me/widgets/generic_edit_button.dart';
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -70,63 +71,78 @@ class _SummaryPageState extends State<SummaryPage> {
     return message;
   }
 
-  Widget _summaryCardWidget(String firstTitle, double firstAmount, String secTitle, double secAmount){
-    return Card(
-      shadowColor: gc.primaryColor.withOpacity(0.5),
-      elevation: gc.cardElevationHeight,
-      shape: RoundedRectangleBorder(
-        side: const BorderSide(
-            color: gc.primaryColor, width: gc.cardBorderWidth),
-        borderRadius: BorderRadius.circular(gc.entryBorderRadius),
-      ),
+  Widget _summaryCardWidget(String tip, String firstTitle, double firstAmount, String secTitle, double secAmount){
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
-                child: Text(
-                  firstTitle,
-                  style: TextStyle(
-                    color: gc.disabledColor,
-                    fontSize: gc.fontSizeLoginImage,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Text(firstAmount.toString(),
-                style: TextStyle(
-                  color: gc.primaryColor,
-                  fontSize: gc.fontSizeLoginImage,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+          Expanded(
+            flex: 1,
+            child: GenericTooltip(
+              tip: tip,
+              style: TextStyle(fontSize: 12, color: gc.secondaryColor),
+            ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(gc.categoryTopPadding),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
-                  child: Text(secTitle,
-                    style: TextStyle(
-                      color: gc.disabledColor,
-                      fontSize: gc.fontSizeLoginImage,
-                      fontWeight: FontWeight.bold,
+          Expanded(
+            flex: 9,
+            child: Card(
+              shadowColor: gc.primaryColor.withOpacity(0.5),
+              elevation: gc.cardElevationHeight,
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(
+                    color: gc.primaryColor, width: gc.cardBorderWidth),
+                borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
+                        child: Text(
+                          firstTitle,
+                          style: TextStyle(
+                            color: gc.disabledColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Text(firstAmount.toString(),
+                        style: TextStyle(
+                          color: gc.primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(gc.categoryTopPadding),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
+                          child: Text(secTitle,
+                            style: TextStyle(
+                              color: gc.disabledColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Text(secAmount.toString(),
+                          style: TextStyle(
+                            color: gc.primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                Text(secAmount.toString(),
-                  style: TextStyle(
-                    color: gc.primaryColor,
-                    fontSize: gc.fontSizeLoginImage,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -190,25 +206,38 @@ class _SummaryPageState extends State<SummaryPage> {
               ],
             ),
             Divider(),
-            TextBox( //TODO - Not completed yet
-              _controllerBeginningMonthBalance,
-              Languages.of(context)!.strBeginningMonthBalance, //TODO - Change to correct string
-              isNumeric: true,
-              validatorFunction: _positiveNumberValidatorFunction,
-              haveBorder: false,
-              onChanged: _enableEditBeginningBalance,
-              suffix: GenericIconButton(
-                onTap: _updateBeginningBalance,
-                isDisabled: _isDisabledBeginningBalance,
-                opacity: gc.disabledOpacity,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                GenericTooltip(
+                  tip: Languages.of(context)!.strBeginningMontBalanceInfo,
+                  style: TextStyle(fontSize: 12, color: gc.secondaryColor),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width/1.25,
+                  child: TextBox( //TODO - Not completed yet
+                    _controllerBeginningMonthBalance,
+                    Languages.of(context)!.strBeginningMonthBalance, //TODO - Change to correct string
+                    isNumeric: true,
+                    validatorFunction: _positiveNumberValidatorFunction,
+                    haveBorder: false,
+                    onChanged: _enableEditBeginningBalance,
+                    suffix: GenericIconButton(
+                      onTap: _updateBeginningBalance,
+                      isDisabled: _isDisabledBeginningBalance,
+                      opacity: gc.disabledOpacity,
+                    ),
+                  ),
+                ),
+              ],
             ),
             Visibility(
                 visible: _beginningMonthBalance != gc.zero,
-                child: _summaryCardWidget(Languages.of(context)!.strCurrentBankBalance, _beginningMonthBalance + (_currentIncomes - _currentExpenses), Languages.of(context)!.strExpectedBankBalance, _beginningMonthBalance + (_ExpectedIncomes - _ExpectedExpenses))),
-            _summaryCardWidget(Languages.of(context)!.strCurrentIncomes, _currentIncomes, Languages.of(context)!.strExpectedIncomes, _ExpectedIncomes),
-            _summaryCardWidget(Languages.of(context)!.strCurrentExpenses, _currentExpenses, Languages.of(context)!.strExpectedExpenses, _ExpectedExpenses),
-            _summaryCardWidget(Languages.of(context)!.strTotalCurrentBalance, (_currentIncomes - _currentExpenses), Languages.of(context)!.strTotalExpectedBalance, (_ExpectedIncomes - _ExpectedExpenses)),
+                child: _summaryCardWidget(Languages.of(context)!.strBankInfo, Languages.of(context)!.strCurrentBankBalance, _beginningMonthBalance + (_currentIncomes - _currentExpenses), Languages.of(context)!.strExpectedBankBalance, _beginningMonthBalance + (_ExpectedIncomes - _ExpectedExpenses))),
+            _summaryCardWidget(Languages.of(context)!.strIncomeBalanceInfo, Languages.of(context)!.strCurrentIncomes, _currentIncomes, Languages.of(context)!.strExpectedIncomes, _ExpectedIncomes),
+            _summaryCardWidget(Languages.of(context)!.strExpensesBalanceInfo, Languages.of(context)!.strCurrentExpenses, _currentExpenses, Languages.of(context)!.strExpectedExpenses, _ExpectedExpenses),
+            _summaryCardWidget(Languages.of(context)!.strTotalBalanceInfo, Languages.of(context)!.strTotalCurrentBalance, (_currentIncomes - _currentExpenses), Languages.of(context)!.strTotalExpectedBalance, (_ExpectedIncomes - _ExpectedExpenses)),
           ],
         ),
       ),

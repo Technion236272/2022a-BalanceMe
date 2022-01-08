@@ -146,6 +146,12 @@ abstract class Languages {
   String get strCurrentBankBalance;
   String get strExpectedBankBalance;
   String get strBeginningMonthBalance;
+  String get strBeginningMontBalanceInfo;
+  String get strBankInfo;
+  String get strIncomeBalanceInfo;
+  String get strExpensesBalanceInfo;
+  String get strTotalBalanceInfo;
+
 
 
   // Workspaces

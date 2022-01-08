@@ -54,6 +54,9 @@ Color disabledColor = Colors.black38;
 Color shadowColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
 Color bannerColor = Color(0xFFE0E0E0);
+const Color workspaceAskToJoinColor = Color(0xffffccbc);
+const Color workspaceInvitationsColor = Color(0xffffffee);
+const Color workspaceUsersRequestsColor = Colors.amberAccent;
 
 // AppBar
 const double appBarAvatarRadius = 40;

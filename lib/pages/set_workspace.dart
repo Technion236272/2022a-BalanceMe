@@ -411,7 +411,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                               ),
                             ),
                             Card(
-                              color: Colors.amberAccent,
+                              color: gc.workspaceAskToJoinColor,
                               child: Padding(
                                 padding: (userStorage.userData != null && _belongWorkspace.joiningRequests.length > gc.zero) ? gc.userTilePadding : EdgeInsets.zero,
                                 child: _getUserList(
@@ -422,7 +422,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                               ),
                             ),
                             Card(
-                              color: Colors.amberAccent,
+                              color: gc.workspaceInvitationsColor,
                               child: Padding(
                                 padding: (userStorage.userData != null && _belongWorkspace.invitations.length > gc.zero) ? gc.userTilePadding : EdgeInsets.zero,
                                 child: _getUserList(
@@ -433,7 +433,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                               ),
                             ),
                             Card(
-                              color: Colors.amberAccent,
+                              color: gc.workspaceUsersRequestsColor,
                               child: Padding(
                                 padding: (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.length > gc.zero) ? gc.userTilePadding : EdgeInsets.zero,
                                 child: _getUserList(
