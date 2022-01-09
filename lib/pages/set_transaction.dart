@@ -219,7 +219,7 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   void _showImageSourceChoice() async {
-    imagePicker(context, _getActions(), _iconsLeading(), _getOptionTitles());
+    imagePicker(_getActions(), _iconsLeading(), _getOptionTitles());
   }
 
   Future<void> _pickAttachedImage(ImageSource source) async {

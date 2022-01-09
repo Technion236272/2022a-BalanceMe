@@ -569,28 +569,14 @@ class UserStorage with ChangeNotifier {
   }
 
   // ================== Storage ==================
-  void uploadTransactionImage(String date, String categoryName, bool isIncome,
-      String transactionName, XFile? attachedImage) async {
+  void uploadTransactionImage(String date, String categoryName, bool isIncome, String transactionName, XFile? attachedImage) async {
     try {
-      if (_authRepository != null &&
-              _authRepository!.user != null &&
-              _authRepository!.user!.email != null &&
-              _userData != null && attachedImage != null) {
-            Reference storageReference = FirebaseStorage.instance.ref().child(
-                _authRepository!.user!.email! +
-                    '/' +
-                    date +
-                    '/' +
-                    (isIncome ? config.income : config.expense) +
-                    '/' +
-                    categoryName +
-                    '/' +
-                    transactionName);
-            UploadTask uploadedTransactionImage =
-            storageReference.putFile(File(attachedImage.path));
+      if (_authRepository != null && _authRepository!.getEmail != null && attachedImage != null) {
+            Reference storageReference = FirebaseStorage.instance.ref().child(_authRepository!.getEmail! + '/' + date + '/' + (isIncome ? config.income : config.expense) + '/' + categoryName + '/' + transactionName);
+            UploadTask uploadedTransactionImage = storageReference.putFile(File(attachedImage.path));
             await uploadedTransactionImage;
           }
-    } catch (e,stackTrace) {
+    } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       notifyListeners();
       return;
@@ -671,9 +657,7 @@ class UserStorage with ChangeNotifier {
 
   Future<void> transferTransactionImage(
       model.Transaction previousTransaction, model.Transaction currentTransaction,model.Category currentCategory,model.Category previousCategory) async {
-    if (_authRepository != null &&
-        _authRepository!.user != null &&
-        _authRepository!.user!.email != null) {
+    if (_authRepository != null && _authRepository!.getEmail != null) {
       String? path = await getTransactionImage(previousTransaction.date,
           previousCategory.name, previousCategory.isIncome, previousTransaction.name);
       if (path!=null) {
