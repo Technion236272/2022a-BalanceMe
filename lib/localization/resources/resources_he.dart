@@ -160,6 +160,19 @@ class LanguageHe extends Languages {
 
   @override
   String get strConstants => "הגדרות קבועות:‎";
+
+  @override
+  String get strInviteFriend => "הזמנת חבר‎";
+
+  @override
+  String get strInviteFriendInfo => "בלחיצה על הכפתור ניתן לשתף את האפליקציה עם חברים‎";
+
+  @override
+  String get strInviteFriendContent => "‎נסו את האפליקציה לניהול פיננסי שמאפשרת מעקב ובקרה על התקציב החודשי. ניתן להכניס את ההוצאות וההכנסות הצפויות ולעדכן במהלך החודש את ההכנסות וההוצאות בפועל. \n%";
+
+  @override
+  String get strInviteFriendSubject => "‎נסה את האפליקציה לניהול חשבון אישי";
+
   // Login
   @override
   String get strWelcomeBack => "‎ברוכים השבים!";

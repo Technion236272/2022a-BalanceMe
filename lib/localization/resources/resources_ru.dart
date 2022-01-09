@@ -157,6 +157,18 @@ class LanguageRu extends Languages {
   @override
   String get strConstants => "Постоянные настройки:";
 
+  @override
+  String get strInviteFriend => "Invite a friend";
+
+  @override
+  String get strInviteFriendInfo => "Click on the button for inviting your friend to enjoy the app";
+
+  @override
+  String get strInviteFriendContent => "You are welcome to try a perfect app that will allow you to keep track of your budgets, manage incomes and expenses easily, and compare your spending with previous months with our intuitive archive.\n%";
+
+  @override
+  String get strInviteFriendSubject => "Try BalanceMe App";
+
   // Login
   @override
   String get strWelcomeBack => "с возвращением!";

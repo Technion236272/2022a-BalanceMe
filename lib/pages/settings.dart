@@ -1,5 +1,6 @@
 // ================= Settings Page =================
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/global/types.dart';
@@ -66,6 +67,10 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  void _inviteFriend() {
+    Share.share(Languages.of(context)!.strInviteFriendContent.replaceAll("%", gc.googlePlayURL), subject: Languages.of(context)!.strInviteFriendSubject);
+  }
+
   void _getAbout() {
     showAboutDialog(
         context: context,
@@ -102,12 +107,17 @@ class _SettingsState extends State<Settings> {
         Languages.of(context)!.strConstants,
         style: _getTextDesign(),
       ),
+      leadingWidgetWithInfo(Languages.of(context)!.strInviteFriend, Languages.of(context)!.strInviteFriendInfo),
       leadingWidgetWithInfo(Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
       leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings, Languages.of(context)!.strEndOfMonthInfo),
       leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings, Languages.of(context)!.strVersionInfo),
     ];
     List<Widget?> trailingSettings = [
       null,
+      IconButton(
+        onPressed: _inviteFriend,
+        icon: _getSettingsArrow(),
+      ),
       IconButton(
         onPressed: _getAbout,
         icon: _getSettingsArrow(),

@@ -62,6 +62,10 @@ abstract class Languages {
   String get strProfileInfo;
   String get strPasswordChangeInfo;
   String get strConstants;
+  String get strInviteFriend;
+  String get strInviteFriendInfo;
+  String get strInviteFriendContent;
+  String get strInviteFriendSubject;
 
   // Login
   String get strWelcomeBack;

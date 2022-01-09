@@ -285,7 +285,7 @@ BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, off
 // Banner
 const double bannerPadding = 20;
 
-//Summery
+//Summary
 const EdgeInsets summeryTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 BorderRadius summeryTilesRadius = BorderRadius.circular(20);
 const EdgeInsets summeryHorizontalPadding = const EdgeInsets.only(left: 8.0, right: 8.0);
@@ -294,3 +294,6 @@ const double setWorkspaceButtonWidth = 75;
 const double setWorkspaceButtonHeight = 25;
 const double currentWorkspaceBoxScale = 4;
 const double summeryChartBoxScale = 4.2;
+
+// InviteFriend
+const String googlePlayURL = "https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me";
