@@ -247,6 +247,13 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  void updateSendMonthlyReport(bool toSend) {
+    if (userData != null) {
+      userData!.sendReport = toSend;
+      SEND_generalInfo();
+    }
+  }
+
   void sendEndOfMonthReport() {
     if (_authRepository == null || _authRepository!.getEmail == null || globalNavigatorKey.currentContext == null) {
       return;
@@ -281,6 +288,7 @@ class UserStorage with ChangeNotifier {
 
   // ================== Requests ==================
 
+  // sendEmail
   void sendEmail(String recipient, String subject, String text) async {
     if (globalNavigatorKey.currentContext == null) {
       return;

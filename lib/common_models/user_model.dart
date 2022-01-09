@@ -9,7 +9,8 @@ class UserModel {
       this.userCurrency = gc.defaultUserCurrency,
       this.isDarkMode = false,
       this.language = "",
-      this.bankBalance]);
+      this.bankBalance,
+      this.sendReport = true]);
 
   String currentWorkspace;
   int endOfMonthDay;
@@ -19,6 +20,7 @@ class UserModel {
   bool isDarkMode;
   String language;
   double? bankBalance;
+  bool sendReport;
 
   void updateFromJson(Json json) {
     if (json["groupName"] != null) {
@@ -46,6 +48,9 @@ class UserModel {
     if (json["bankBalance"] != null) {
       bankBalance = json["bankBalance"];
     }
+    if (json["sendReport"] != null) {
+      sendReport = json["sendReport"];
+    }
   }
 
   Json toJson() => {
@@ -56,6 +61,7 @@ class UserModel {
     'lastName': lastName,
     'isDarkMode': isDarkMode,
     'language': language,
-    'bankBalance': bankBalance
+    'bankBalance': bankBalance,
+    'sendReport': sendReport
   };
 }

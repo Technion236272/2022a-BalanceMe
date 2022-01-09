@@ -570,4 +570,10 @@ class LanguageEn extends Languages {
 
   @override
   String get strEndOfMonthBankBalance => "Bank balance after";
+
+  @override
+  String get strSendMonthlyReport => "Receive monthly report";
+
+  @override
+  String get strSendMonthlyReportInfo => "Mark it if you wish to get a monthly report to your email at the end of the month";
 }

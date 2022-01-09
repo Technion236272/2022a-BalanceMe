@@ -58,6 +58,14 @@ class _SettingsState extends State<Settings> {
     return Text(gc.defaultEndOfMonthDay.toString(), style: _getTextDesign());
   }
 
+  void _toggleSendEmail(bool? isChecked) {
+    if (isChecked != null) {
+      setState(() {
+        widget.userStorage.updateSendMonthlyReport(isChecked);
+      });
+    }
+  }
+
   Widget _getSettingsArrow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -137,6 +145,7 @@ class _SettingsState extends State<Settings> {
       widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strProfile, Languages.of(context)!.strProfileInfo) : null,
       widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strPasswordSettings, Languages.of(context)!.strPasswordChangeInfo) : null,
       widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strCurrencySettings, Languages.of(context)!.strCurrencyInfo) : null,
+      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strSendMonthlyReport, Languages.of(context)!.strSendMonthlyReportInfo) : null,
       leadingWidgetWithInfo(Languages.of(context)!.strLanguageSettings, Languages.of(context)!.strLanguageInfo),
       leadingWidgetWithInfo(Languages.of(context)!.strDarkModeSettings, Languages.of(context)!.strDarkModeInfo),
     ];
@@ -154,6 +163,8 @@ class _SettingsState extends State<Settings> {
       ),
       widget.authRepository.status != AuthStatus.Authenticated ? null :
         GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
+      widget.authRepository.status != AuthStatus.Authenticated ? null :
+        Checkbox(value: widget.userStorage.userData!.sendReport, onChanged: _toggleSendEmail),
       const LanguageDropDown(),
       Switch(value: globalIsDarkMode, onChanged: _setTheme),
     ];

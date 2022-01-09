@@ -217,4 +217,6 @@ abstract class Languages {
   String get strFinalIncomes;
   String get strFinalExpenses;
   String get strEndOfMonthBankBalance;
+  String get strSendMonthlyReport;
+  String get strSendMonthlyReportInfo;
 }
