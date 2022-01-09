@@ -1,10 +1,10 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:flutter/services.dart';
 
 // Navigation
 void navigateToPage(context, Widget page, AppPages? pageEnum) {
@@ -21,13 +21,13 @@ void navigateToPage(context, Widget page, AppPages? pageEnum) {
 void navigateBack(context) {
   Navigator.pop(context);
   FocusScope.of(context).unfocus(); // Remove the keyboard
-  GoogleAnalytics.instance.logNavigateBack();
 }
 
 // Messages
 void displaySnackBar(BuildContext context, String msg, [String? actionLabel, VoidCallback? actionCallback]) {
   final snackBar = SnackBar(
     content: Text(msg),
+    backgroundColor: globalIsDarkMode ? gc.darkPrimaryColor : null,
     action: (actionLabel == null || actionCallback == null) ? null
     : SnackBarAction(
       label: actionLabel,
@@ -63,6 +63,65 @@ Future<void> showYesNoAlertDialog(BuildContext context, String alertContent, Voi
         onPressed: _noCallback,
       ),
     ]
+  );
+}
+
+void showDismissBanner(String message, [List<List>? actions]) {
+  if (globalNavigatorKey.currentContext == null) {
+    return;
+  }
+  BuildContext context = globalNavigatorKey.currentContext!;
+
+  void _onPressed(Function? callback) {
+    if (callback != null) {
+      callback();
+    }
+    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+  }
+
+  List closeAction = [null, Languages.of(context)!.strClose];
+  if (actions == null) {
+    actions = [closeAction];
+  } else {
+    actions.add(closeAction);
+  }
+
+  List<Widget> bannerActions = [];
+  for (var action in actions) {
+    bannerActions.add(
+      TextButton(
+          onPressed: () => {_onPressed(action[0])},
+          child: Text(action[1]),
+      )
+    );
+  }
+
+  ScaffoldMessenger.of(context).showMaterialBanner(
+     MaterialBanner(
+       padding: EdgeInsets.all(gc.bannerPadding),
+       content: Text(message),
+       backgroundColor: gc.bannerColor,
+       leading: Icon(gc.detailsIcon),
+       actions: bannerActions,
+    ),
+  );
+}
+
+void openModalBottomSheet(List<Widget> children) {
+  if (globalNavigatorKey.currentContext == null) {
+    return;
+  }
+
+  BuildContext context = globalNavigatorKey.currentContext!;
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext _context) {
+      return SafeArea(
+        child: Wrap(
+          children: children,
+        ),
+      );
+    },
   );
 }
 
@@ -111,6 +170,10 @@ bool lineLimitMinValidator(String? value, int minLimit) => (essentialFieldValida
 bool matchingPasswordValidator(String? value, String? confirmValue) => (essentialFieldValidator(value) && essentialFieldValidator(confirmValue) && value==confirmValue);
 
 bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toString()) && value! > 0);
+
+bool notEmailValidator(String? value) => (essentialFieldValidator(value.toString()) && !value!.contains("@"));
+
+bool emailValidator(String? value) => (essentialFieldValidator(value) && EmailValidator.validate(value!));
 
 // Time
 DateTime getCurrentMonth(int endOfMonth, [DateTime? specificDate]) {

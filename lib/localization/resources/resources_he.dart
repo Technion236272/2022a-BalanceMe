@@ -37,6 +37,51 @@ class LanguageHe extends Languages {
   @override
   String get strDate =>"‎תאריך";
 
+  @override
+  String get strAdd =>"‎הוסף";
+
+  @override
+  String get strAdded =>"‎הוסף";
+
+  @override
+  String get strRemoved =>"‎נמחק";
+
+  @override
+  String get strChanged =>"‎השתנה";
+
+  @override
+  String get strSet =>"‎שנה";
+
+  @override
+  String get strClose =>"‎סגור";
+
+  @override
+  String get strJoin =>"‎הצטרף";
+
+  @override
+  String get strInvite =>"‎הזמן";
+
+  @override
+  String get strDismiss =>"‎דחה";
+
+  @override
+  String get strManage =>"‎נהל";
+
+  @override
+  String get strResend =>"‎שלח שוב";
+
+  @override
+  String get strApprove =>"‎אישור";
+
+  @override
+  String get strReject =>"דחייה‎";
+
+  @override
+  String get strProblemOccurred => "‎התרחשה בעיה, יש לנסות שוב מאוחר יותר";
+
+  @override
+  String get strHide =>"‎הסתר";
+
   // Settings
   @override
   String get strProfile => "‎פרופיל";
@@ -55,6 +100,9 @@ class LanguageHe extends Languages {
 
   @override
   String get strLanguageSettings => "‎שפה";
+
+  @override
+  String get strDarkModeSettings => "‎מצב כהה";
 
   @override
   String get strVersionSettings => "גירסה‎";
@@ -97,6 +145,9 @@ class LanguageHe extends Languages {
 
   @override
   String get strLanguageInfo => "השפה שהאפליקציה תציג‎";
+
+  @override
+  String get strDarkModeInfo => "‎הצבעים בהם תוצג האפליקציה";
 
   @override
   String get strAboutInfo => "חבילות ורשיונות בשימוש באפליקציה‎";
@@ -283,7 +334,7 @@ class LanguageHe extends Languages {
   String get strTransactionName => "‎שם התנועה";
 
   @override
-  String get strAddDescription => "‎תיאור...";
+  String get strAddDescription => "‎תיאור... (אופציונלי)";
 
   @override
   String get strEmptyDescription => "‎אין תיאור זמין";
@@ -309,6 +360,147 @@ class LanguageHe extends Languages {
   @override
   String get strVerifyRemoval => "‎האם למחוק את ה%?";
 
+  // Summary
+  @override
+  String get strSummary => "‎סיכום";
+
+  @override
+  String get strBalanceSummary => "‎סיכום מאזן חודשי";
+
+  @override
+  String get strCurrentIncomes => "‎הכנסות בפועל";
+
+  @override
+  String get strExpectedIncomes => "‎הכנסות צפויות";
+
+  @override
+  String get strCurrentExpenses => "‎הוצאות בפועל";
+
+  @override
+  String get strExpectedExpenses => "‎הוצאות צפויות";
+
+  @override
+  String get strTotalExpectedBalance => "‎מאזן צפוי";
+
+  @override
+  String get strTotalCurrentBalance => "‎מאזן בפועל";
+
+  @override
+  String get strCurrentBankBalance => "‎מאזן נוכחי בבנק";
+
+  @override
+  String get strExpectedBankBalance => "‎מאזן מצופה בבנק";
+
+  @override
+  String get strBeginningMonthBalance => "‎מאזן בבנק";
+
+  @override
+  String get strBankInfo => "‎מאזן נוכחי בבנק = מאזן בבנק + מאזן בפועל \nמאזן מצופה בבנק = מאזן בבנק + מאזן צפוי";
+
+  @override
+  String get strBeginningMontBalanceInfo => "‎שדה אופציונלי זה מאפשר להזין את הסכום הקיים בחשבון הבנק בתחילת החודש ולקבל מידע לגבי מצב חשבון הבנק";
+
+  @override
+  String get strIncomeBalanceInfo => "‎הכנסות בפועל מול הכנסות צפויות בכל הקטגוריות";
+
+  @override
+  String get strExpensesBalanceInfo => "‎הוצאות בפועל מול הוצאות צפויות בכל הקטגוריות";
+
+  @override
+  String get strTotalBalanceInfo => "‎מאזן בפועל = הכנסות בפועל - הוצאות בפועל \nמאזן צפוי = הכנסות צפויות - הוצאות צפויות";
+
+
+  // Workspaces
+  @override
+  String get strWorkspace => "‎מרחב עבודה";
+
+  @override
+  String get strWorkspaceExplanation => "";  // TODO
+
+  @override
+  String get strChooseWorkspace => "‎הוספת מרחב עבודה:";
+
+  @override
+  String get strAddNewWorkspace => "‎שם מרחב העבודה חדש";
+
+  @override
+  String get strWorkspaceOperationSuccessful => "‎מרחב העבודה % בהצלחה";
+
+  @override
+  String get strCurrentWorkspace => "‎מרחב העבודה הנוכחי";
+
+  @override
+  String get strManageWorkspaces => "‎ניהול מרחבי עבודה";
+
+  @override
+  String get strNotEmailValidator => "‎השדה לא יכול להכיל את התו @";
+
+  @override
+  String get strWorkspaceAlreadyExist => "‎הינך כבר חלק ממרחב העבודה";
+
+  @override
+  String get strOtherWorkspaceUsers => "‎משתמשים נוספים במרחב:";
+
+  @override
+  String get strEmptyWorkspace => "‎מרחב העבודה ריק";
+
+  @override
+  String get strWorkspaceInvitation => "‎%הזמין אותך להצטרף למרחב העבודה בשם #.\n";
+
+  @override
+  String get strJoinWorkspace => "‎מרחב העבודה כבר קיים.\nהאם לשלוח בקשת הצטרפות למרחב?";
+
+  @override
+  String get strWorkspaceJoinRequestSent => "‎בקשת הצטרפות למרחב העבודה נשלחה";
+
+  @override
+  String get strPendingWorkspaceRequests => "‎בקשות הצטרפות ממתינות:";
+
+  @override
+  String get strJoiningWorkspaceRequestExist => "‎בקשת הצטרפות למרחב העבודה כבר נשלחה";
+
+  @override
+  String get strWorkspaceCreated => "‎מרחב העבודה נוצר בהצלחה";
+
+  @override
+  String get strInviteUserToWorkspace => "‎הזמן משתמש למרחב העבודה";
+
+  @override
+  String get strUserInvitedToWorkspace => "Good news!\nYou have been invited to join % workspace by #!";
+
+  @override
+  String get strUserRequestJoiningToWorkspace => "# requests to join % workspace";
+
+  @override
+  String get strUserAcceptsInvitation => "# accepts your invitation to join %!";
+
+  @override
+  String get strUserRejectsInvitation => "Unfortunately, # rejects your invitation to join %!";
+
+  @override
+  String get strUserApproveJoining => "Your application to join % workspace has been approved by #!";
+
+  @override
+  String get strUserDisapproveJoining => "Your application to join % workspace has been rejected by #";
+
+  @override
+  String get strPendingUsersRequestsTitle => "Those users want to join this workspace:";
+
+  @override
+  String get strInvitedSuccessfullyWorkspace => "An invitation to the workspace has been sent";
+
+  @override
+  String get strCantInviteYourself => "You can't invite yourself into workspace";
+
+  @override
+  String get strPendingInvitationsRequests => "You have been invited to join:";
+
+  @override
+  String get strUserApproveInvitation => "# accepts your invitation to join % workspace";
+
+  @override
+  String get strUserRejectInvitation => "# rejects your invitation to join % workspace";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "‎סוג";
@@ -324,6 +516,18 @@ class LanguageHe extends Languages {
 
   @override
   String get strUpload => "העלאה‎";
+
+  @override
+  String get strIncomeTransactionInfo => "‎דוגמאות להכנסות: \n תשלום שכירות מ... \n משכורת מ... \n החזר מס מ...";
+
+  @override
+  String get strExpenseTransactionInfo => "‎דוגמאות להוצאות: \n שכר דירה \n הוצאות חשמל \n קניית מצרכים \n קניית חולצה ב... \n סרט בקולנוע";
+
+  @override
+  String get strIncomeCategoryInfo => "‎דוגמא לקטגורית הכנסות:\n שכירויות \n משכורות \n החזרים";
+
+  @override
+  String get strExpenseCategoryInfo => "‎דוגמא לקטגורית הוצאות:\n הוצאות דירה \n הוצאות סופרמרקט \n קניות \n תחביבים";
 
   // Archive
   @override

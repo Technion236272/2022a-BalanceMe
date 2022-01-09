@@ -1,6 +1,7 @@
 // ================= Image picker widget =================
-import 'package:balance_me/global/constants.dart' as gc;
 import 'package:flutter/material.dart';
+import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 List<Widget> createOptions(List<GestureTapCallback?> actions,
     List<Widget?> leading, List<String> titles) {
@@ -20,15 +21,6 @@ List<Widget> createOptions(List<GestureTapCallback?> actions,
   return options;
 }
 
-void imagePicker(BuildContext context, List<GestureTapCallback?> actions,
-    List<Widget?> leading, List<String> titles) {
-  showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return SafeArea(
-          child: Wrap(
-            children: createOptions(actions, leading, titles),
-          ),
-        );
-      });
+void imagePicker(List<GestureTapCallback?> actions, List<Widget?> leading, List<String> titles) {
+  openModalBottomSheet(createOptions(actions, leading, titles));
 }

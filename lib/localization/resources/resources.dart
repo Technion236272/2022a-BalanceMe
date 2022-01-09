@@ -19,6 +19,21 @@ abstract class Languages {
   String get strYes;
   String get strNo;
   String get strDate;
+  String get strAdd;
+  String get strAdded;
+  String get strRemoved;
+  String get strChanged;
+  String get strSet;
+  String get strClose;
+  String get strJoin;
+  String get strInvite;
+  String get strDismiss;
+  String get strManage;
+  String get strResend;
+  String get strApprove;
+  String get strReject;
+  String get strProblemOccurred;
+  String get strHide;
 
 // Settings
   String get strProfile;
@@ -27,6 +42,7 @@ abstract class Languages {
   String get strCurrencySettings;
   String get strEndOfMonthSettings;
   String get strLanguageSettings;
+  String get strDarkModeSettings;
   String get strVersionSettings;
   String get strNewPassword;
   String get strPasswordUpdate;
@@ -41,10 +57,12 @@ abstract class Languages {
   String get strVersionInfo;
   String get strCurrencyInfo;
   String get strLanguageInfo;
+  String get strDarkModeInfo;
   String get strAboutInfo;
   String get strProfileInfo;
   String get strPasswordChangeInfo;
   String get strConstants;
+
   // Login
   String get strWelcomeBack;
   String get strWelcomeAboard;
@@ -120,12 +138,68 @@ abstract class Languages {
   String get strDelete;
   String get strVerifyRemoval;
 
+  // Summary
+  String get strSummary;
+  String get strBalanceSummary;
+  String get strCurrentIncomes;
+  String get strExpectedIncomes;
+  String get strCurrentExpenses;
+  String get strExpectedExpenses;
+  String get strTotalExpectedBalance;
+  String get strTotalCurrentBalance;
+  String get strCurrentBankBalance;
+  String get strExpectedBankBalance;
+  String get strBeginningMonthBalance;
+  String get strBeginningMontBalanceInfo;
+  String get strBankInfo;
+  String get strIncomeBalanceInfo;
+  String get strExpensesBalanceInfo;
+  String get strTotalBalanceInfo;
+
+
+
+  // Workspaces
+  String get strWorkspace;
+  String get strWorkspaceExplanation;
+  String get strChooseWorkspace;
+  String get strAddNewWorkspace;
+  String get strWorkspaceOperationSuccessful;
+  String get strCurrentWorkspace;
+  String get strManageWorkspaces;
+  String get strNotEmailValidator;
+  String get strWorkspaceAlreadyExist;
+  String get strOtherWorkspaceUsers;
+  String get strEmptyWorkspace;
+  String get strWorkspaceInvitation;
+  String get strJoinWorkspace;
+  String get strWorkspaceJoinRequestSent;
+  String get strPendingWorkspaceRequests;
+  String get strJoiningWorkspaceRequestExist;
+  String get strWorkspaceCreated;
+  String get strInviteUserToWorkspace;
+  String get strUserInvitedToWorkspace;
+  String get strUserRequestJoiningToWorkspace;
+  String get strUserAcceptsInvitation;
+  String get strUserRejectsInvitation;
+  String get strUserApproveJoining;
+  String get strUserDisapproveJoining;
+  String get strPendingUsersRequestsTitle;
+  String get strInvitedSuccessfullyWorkspace;
+  String get strCantInviteYourself;
+  String get strPendingInvitationsRequests;
+  String get strUserApproveInvitation;
+  String get strUserRejectInvitation;
+
   // Set Category And Transaction
   String get strTypeSelection;
   String get strConstantSwitch;
   String get strBadNumberForm;
   String get strAttachedImage;
   String get strUpload;
+  String get strIncomeTransactionInfo;
+  String get strExpenseTransactionInfo;
+  String get strIncomeCategoryInfo;
+  String get strExpenseCategoryInfo;
 
   // Archive
   String get strDataUnavailable;

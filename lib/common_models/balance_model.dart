@@ -85,4 +85,8 @@ class BalanceModel {
     findCategoryByName (category) => category.name == categoryName;
     return incomeCategories.firstWhere(findCategoryByName, orElse: () => expensesCategories.firstWhere(findCategoryByName));
   }
+
+  static bool isBalanceValid(Json json) {
+    return json[config.categoriesDoc] != null && json[config.categoriesDoc][config.expenseCategoriesField] != null && json[config.categoriesDoc][config.incomeCategoriesField] != null;
+  }
 }

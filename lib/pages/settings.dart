@@ -1,7 +1,6 @@
 // ================= Settings Page =================
-import 'package:balance_me/widgets/generic_tooltip.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -39,11 +38,15 @@ class _SettingsState extends State<Settings> {
   void _changeCurrency() {
     if (widget.userStorage.userData != null) {
       Currency userCurrency = CurrencySign.keys.firstWhere((i) => CurrencySign[i] == _currencyController.value);
-      widget.userStorage.setUserCurrency(userCurrency);
+      widget.userStorage.userData!.userCurrency = userCurrency;
       if (widget.authRepository.status == AuthStatus.Authenticated) {
         widget.userStorage.SEND_generalInfo();
       }
     }
+  }
+
+  void _setTheme(bool isDarkMode) {
+    widget.userStorage.setTheme(context, isDarkMode);
   }
 
   TextStyle _getTextDesign() {
@@ -85,12 +88,9 @@ class _SettingsState extends State<Settings> {
 
   Row leadingWidgetWithInfo(String settingName, String tip) {
     return Row(
-
       mainAxisSize: MainAxisSize.min,
       children: [
-        GenericTooltip(
-          tip: tip,
-        ),
+        GenericTooltip(tip: tip),
         Text(settingName),
       ],
     );
@@ -102,12 +102,9 @@ class _SettingsState extends State<Settings> {
         Languages.of(context)!.strConstants,
         style: _getTextDesign(),
       ),
-      leadingWidgetWithInfo(
-          Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
-      leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings,
-          Languages.of(context)!.strEndOfMonthInfo),
-      leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings,
-          Languages.of(context)!.strVersionInfo),
+      leadingWidgetWithInfo(Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
+      leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings, Languages.of(context)!.strEndOfMonthInfo),
+      leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings, Languages.of(context)!.strVersionInfo),
     ];
     List<Widget?> trailingSettings = [
       null,
@@ -121,17 +118,17 @@ class _SettingsState extends State<Settings> {
     return ListViewGeneric(
         leadingWidgets: leadingSettings,
         trailingWidgets: trailingSettings,
-        isScrollable: false);
+        isScrollable: false,
+    );
   }
 
   Widget _getSettingsList() {
     List<Widget?> leadingSettings = [
-      widget.authRepository.status == AuthStatus.Authenticated ?leadingWidgetWithInfo(Languages.of(context)!.strProfile,
-          Languages.of(context)!.strProfileInfo) :null,
-      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strPasswordSettings,
-          Languages.of(context)!.strPasswordChangeInfo) : null,
-      leadingWidgetWithInfo(Languages.of(context)!.strCurrencySettings, Languages.of(context)!.strCurrencyInfo),
+      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strProfile, Languages.of(context)!.strProfileInfo) : null,
+      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strPasswordSettings, Languages.of(context)!.strPasswordChangeInfo) : null,
+      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strCurrencySettings, Languages.of(context)!.strCurrencyInfo) : null,
       leadingWidgetWithInfo(Languages.of(context)!.strLanguageSettings, Languages.of(context)!.strLanguageInfo),
+      leadingWidgetWithInfo(Languages.of(context)!.strDarkModeSettings, Languages.of(context)!.strDarkModeInfo),
     ];
 
     List<Widget?> trailingSettings = [
@@ -145,9 +142,10 @@ class _SettingsState extends State<Settings> {
           onPressed: _openChangePassword,
           icon: _getSettingsArrow(),
       ),
-      GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
+      widget.authRepository.status != AuthStatus.Authenticated ? null :
+        GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
       const LanguageDropDown(),
-
+      Switch(value: globalIsDarkMode, onChanged: _setTheme),
     ];
 
     return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);
@@ -159,12 +157,16 @@ class _SettingsState extends State<Settings> {
 
     return Scaffold(
       body: SingleChildScrollView(
-          child: Column( children:[_getSettingsList(),
+          child: Column(
+            children:[
+              _getSettingsList(),
               Divider(
                 height: MediaQuery.of(context).size.height/gc.separateConstantsScale,
                 color: gc.secondaryColor,
               ),
-            _getConstantsList()], ),
+            _getConstantsList()
+            ],
+          ),
       ),
     );
   }

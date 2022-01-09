@@ -37,6 +37,51 @@ class LanguageEn extends Languages {
   @override
   String get strDate =>"Date";
 
+  @override
+  String get strAdd =>"Add";
+
+  @override
+  String get strAdded =>"added";
+
+  @override
+  String get strRemoved =>"removed";
+
+  @override
+  String get strChanged =>"changed";
+
+  @override
+  String get strSet =>"Set";
+
+  @override
+  String get strClose =>"Close";
+
+  @override
+  String get strJoin =>"Join";
+
+  @override
+  String get strInvite =>"Invite";
+
+  @override
+  String get strDismiss =>"Dismiss";
+
+  @override
+  String get strManage =>"Manage";
+
+  @override
+  String get strResend =>"Resend";
+
+  @override
+  String get strApprove =>"Approve";
+
+  @override
+  String get strReject =>"Reject";
+
+  @override
+  String get strProblemOccurred =>"Problem occurred, please try again later";
+
+  @override
+  String get strHide =>"Hide";
+
 // Settings
   @override
   String get strProfile => "Profile";
@@ -55,6 +100,9 @@ class LanguageEn extends Languages {
 
   @override
   String get strLanguageSettings => "Language";
+
+  @override
+  String get strDarkModeSettings => "Dark Mode";
 
   @override
   String get strVersionSettings => "Version";
@@ -97,6 +145,9 @@ class LanguageEn extends Languages {
 
   @override
   String get strLanguageInfo => "The language the app will display";
+
+  @override
+  String get strDarkModeInfo => "The theme the app will display";
 
   @override
   String get strAboutInfo => "Packages and licenses which the app uses";
@@ -283,7 +334,7 @@ class LanguageEn extends Languages {
   String get strTransactionName => "Transaction Name";
 
   @override
-  String get strAddDescription => "Add Description...";
+  String get strAddDescription => "Add Description... (optional)";
 
   @override
   String get strEmptyDescription => "There is no description";
@@ -309,6 +360,146 @@ class LanguageEn extends Languages {
   @override
   String get strVerifyRemoval => "Are you sure you want to remove this %?";
 
+  // Summary
+  @override
+  String get strSummary => "Summary";
+
+  @override
+  String get strBalanceSummary => "Monthly Balance Summary";
+
+  @override
+  String get strCurrentIncomes => "Current Incomes";
+
+  @override
+  String get strExpectedIncomes => "Expected Incomes";
+
+  @override
+  String get strCurrentExpenses => "Current Expenses";
+
+  @override
+  String get strExpectedExpenses => "Expected Expenses";
+
+  @override
+  String get strTotalExpectedBalance => "Total Expected Balance";
+
+  @override
+  String get strTotalCurrentBalance => "Total Current Balance";
+
+  @override
+  String get strCurrentBankBalance => "Current Bank Balance";
+
+  @override
+  String get strExpectedBankBalance => "Expected Bank Balance";
+
+  @override
+  String get strBeginningMonthBalance => "Bank balance";
+
+  @override
+  String get strBankInfo => "Current Bank Balance = Bank balance + Total Current Balance \nExpected Bank Balance = Bank balance + Total Expected Balance";
+
+  @override
+  String get strBeginningMontBalanceInfo => "This optional field allows you to enter the existing amount in the bank account at the beginning of the month and receive information about the status of the bank account";
+
+  @override
+  String get strIncomeBalanceInfo => "All categories current incomes vs expected incomes";
+
+  @override
+  String get strExpensesBalanceInfo => "All categories current expenses vs expected expenses";
+
+  @override
+  String get strTotalBalanceInfo => "Total Current Balance = Current Incomes - Current Expenses \nTotal Expected Balance = Expected Incomes - Expected Expenses";
+
+  // Workspaces
+  @override
+  String get strWorkspace => "Workspace";
+
+  @override
+  String get strWorkspaceExplanation => "some explanation";  // TODO
+
+  @override
+  String get strChooseWorkspace => "Choose workspace:";
+
+  @override
+  String get strAddNewWorkspace => "New workspace name";
+
+  @override
+  String get strWorkspaceOperationSuccessful => "The workspace was % successfully";
+
+  @override
+  String get strCurrentWorkspace => "Current Workspace";
+
+  @override
+  String get strManageWorkspaces => "Manage Workspaces";
+
+  @override
+  String get strNotEmailValidator => "This field include the character @";
+
+  @override
+  String get strWorkspaceAlreadyExist => "You are already a member in this workspace";
+
+  @override
+  String get strOtherWorkspaceUsers => "Other users in the workspace:";
+
+  @override
+  String get strEmptyWorkspace => "You are alone in this workspace";
+
+  @override
+  String get strWorkspaceInvitation => "% invites you to join his workspace named #.\n";  // TODO
+
+  @override
+  String get strJoinWorkspace => "This workspace is already exist.\nDo you want to send a joining request to this workspace?";
+
+  @override
+  String get strWorkspaceJoinRequestSent => "A joining request to the workspace has been sent";
+
+  @override
+  String get strPendingWorkspaceRequests => "Pending joining requests:";
+
+  @override
+  String get strJoiningWorkspaceRequestExist => "A joining request to this workspace is already exist";
+
+  @override
+  String get strWorkspaceCreated => "The workspace has been created";
+
+  @override
+  String get strInviteUserToWorkspace => "Invite user to workspace";
+
+  @override
+  String get strUserInvitedToWorkspace => "Good news!\nYou have been invited to join % workspace by #!";
+
+  @override
+  String get strUserRequestJoiningToWorkspace => "# requests to join % workspace";
+
+  @override
+  String get strUserAcceptsInvitation => "# accepts your invitation to join %!";
+
+  @override
+  String get strUserRejectsInvitation => "Unfortunately, # rejects your invitation to join %!";
+
+  @override
+  String get strUserApproveJoining => "Your application to join % workspace has been approved by #!";
+
+  @override
+  String get strUserDisapproveJoining => "Your application to join % workspace has been rejected by #";
+
+  @override
+  String get strPendingUsersRequestsTitle => "Those users want to join this workspace:";
+
+  @override
+  String get strInvitedSuccessfullyWorkspace => "An invitation to the workspace has been sent";
+
+  @override
+  String get strCantInviteYourself => "You can't invite yourself into workspace";
+
+  @override
+  String get strPendingInvitationsRequests => "You have been invited to join:";
+
+  @override
+  String get strUserApproveInvitation => "# accepts your invitation to join % workspace";
+
+  @override
+  String get strUserRejectInvitation => "# rejects your invitation to join % workspace";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "Type";
@@ -324,6 +515,18 @@ class LanguageEn extends Languages {
 
   @override
   String get strUpload => "Upload";
+
+  @override
+  String get strIncomeTransactionInfo => "Income transactions examples: \n Rental payment from... \n Salary from... \n Tax refund from...";
+
+  @override
+  String get strExpenseTransactionInfo => "Expense transactions examples:\n Rental payment \n Electricity expenses \n Groceries \n Buying T-shirt in... \n Watching cinema movie";
+
+  @override
+  String get strIncomeCategoryInfo => "Income Category examples:\n Rental payments \n Salaries \n Refunds";
+
+  @override
+  String get strExpenseCategoryInfo => "Expense Category examples:\n Apartment \n Supermarket \n Shopping \n Hobbies";
 
   // Archive
   @override

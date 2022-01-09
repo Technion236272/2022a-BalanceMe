@@ -1,5 +1,7 @@
 // ================= Home Page =================
 import 'package:flutter/material.dart';
+import 'package:cross_connectivity/cross_connectivity.dart';
+import 'package:balance_me/pages/connection_lost_page.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/bottom_navigation.dart';
@@ -44,10 +46,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Consumer2<AuthRepository, UserStorage>(
         builder: (context, authRepository, userStorage, child) {
-          return Scaffold(
-            appBar: MainAppBar(authRepository, userStorage, _selectedPage),
-            body: _getCurrentPage(authRepository, userStorage),
-            bottomNavigationBar: BottomNavigation(_selectedPage, _updateSelectedPage),
+          return ConnectivityBuilder(
+            builder: (context, isConnected, status) {
+              return (isConnected != null && !!isConnected) ? Scaffold(
+                appBar: MainAppBar(authRepository, userStorage, _selectedPage),
+                body: _getCurrentPage(authRepository, userStorage),
+                bottomNavigationBar: BottomNavigation(_selectedPage, _updateSelectedPage),
+              ) : ConnectionLostPage();
+            }
           );
         }
     );

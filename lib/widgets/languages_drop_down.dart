@@ -47,8 +47,10 @@ class _LanguageDropDownState extends State<LanguageDropDown> {
         changeLanguage(context, language.languageCode);
       });
 
-      userStorage.setLanguage(language.languageCode);
-      userStorage.SEND_generalInfo();
+      if (userStorage.userData != null) {
+        userStorage.userData!.language = language.languageCode;
+        userStorage.SEND_generalInfo();
+      }
     }
   }
 

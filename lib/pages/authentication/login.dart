@@ -1,7 +1,6 @@
 // ================= Login Page =================
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
@@ -64,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _emailValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return EmailValidator.validate(value!) ? null : Languages.of(context)!.strBadEmail;
+      return emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
     }
     return message;
   }
