@@ -156,8 +156,6 @@ abstract class Languages {
   String get strExpensesBalanceInfo;
   String get strTotalBalanceInfo;
 
-
-
   // Workspaces
   String get strWorkspace;
   String get strWorkspaceExplanation;

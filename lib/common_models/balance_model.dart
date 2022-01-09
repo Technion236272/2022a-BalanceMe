@@ -86,6 +86,17 @@ class BalanceModel {
     return incomeCategories.firstWhere(findCategoryByName, orElse: () => expensesCategories.firstWhere(findCategoryByName));
   }
 
+  double getTotalAmount({bool isIncome = true, bool isExpected = true}) {
+    double totalAmount = 0;
+    SortedList<Category> categoryList = isIncome ? incomeCategories : expensesCategories;
+
+    categoryList.forEach((category) {
+      totalAmount += isExpected ? category.expected : category.amount;
+    });
+
+    return totalAmount;
+  }
+
   static bool isBalanceValid(Json json) {
     return json[config.categoriesDoc] != null && json[config.categoriesDoc][config.expenseCategoriesField] != null && json[config.categoriesDoc][config.incomeCategoriesField] != null;
   }

@@ -392,7 +392,7 @@ class LanguageHe extends Languages {
   String get strExpectedBankBalance => "‎מאזן מצופה בבנק";
 
   @override
-  String get strBeginningMonthBalance => "‎מאזן בבנק";
+  String get strBeginningMonthBalance => "‎מאזן בבנק בתחילת החודש";
 
   @override
   String get strBankInfo => "‎מאזן נוכחי בבנק = מאזן בבנק + מאזן בפועל \nמאזן מצופה בבנק = מאזן בבנק + מאזן צפוי";

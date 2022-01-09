@@ -1,8 +1,8 @@
 // ================= Summary Page =================
-import 'package:balance_me/widgets/generic_edit_button.dart';
-import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:balance_me/widgets/generic_edit_button.dart';
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/set_workspace.dart';
@@ -20,53 +20,59 @@ class SummaryPage extends StatefulWidget {
 }
 
 class _SummaryPageState extends State<SummaryPage> {
+  bool _isDisabledBankBalance = true;
+  late double _currentIncomes;
+  late double _currentExpenses;
+  late double _expectedIncomes;
+  late double _expectedExpenses;
+  late TextEditingController _controllerBankBalance;
+
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
-  bool _isDisabledBeginningBalance = true;
-  double _beginningMonthBalance = 0;
-  double _currentIncomes = 0;
-  double _currentExpenses = 0;
-  double _ExpectedIncomes = 0;
-  double _ExpectedExpenses = 0;
-  late TextEditingController _controllerBeginningMonthBalance;
 
   @override
   void initState() {
     super.initState();
-    _controllerBeginningMonthBalance = TextEditingController(text: "");
-    //TODO - initial all balance info from the firebase
+    _init();
+  }
+
+  void _init() {
+    String bankBalance = (userStorage.userData != null && userStorage.userData!.bankBalance != null) ? userStorage.userData!.bankBalance.toString() : "";
+    _controllerBankBalance = TextEditingController(text: bankBalance);
+
+    _currentIncomes = userStorage.balance.getTotalAmount(isIncome: true, isExpected: false);
+    _currentExpenses = userStorage.balance.getTotalAmount(isIncome: false, isExpected: false);
+    _expectedIncomes = userStorage.balance.getTotalAmount(isIncome: true, isExpected: true);
+    _expectedExpenses = userStorage.balance.getTotalAmount(isIncome: false, isExpected: true);
   }
 
   void _openSetWorkspace() {
     navigateToPage(context, SetWorkspace(), AppPages.SetWorkspace);
   }
 
-  void _updateBeginningBalance() {
-    //TODO - Save the bank balance in the firebase
-    if(_controllerBeginningMonthBalance.text != ""){
-      _beginningMonthBalance = double.parse(_controllerBeginningMonthBalance.text);
-    }
-    _enableEditBeginningBalance(null);
-  }
+  bool get showWorkspacesAndBankBalance => (authRepository.status == AuthStatus.Authenticated && userStorage.userData != null && userStorage.currentDate != null);
 
-  bool _enableEditCondition(String? value) => (value == null || value == "");
+  void _updateBankBalance() {
+    if (userStorage.userData != null) {
+      double? newBankBalance;
 
-  void _enableEditBeginningBalance(String? value) {
-    setState(() {
-      _isDisabledBeginningBalance = _enableEditCondition(value);
-    });
-  }
-
-  String? _positiveNumberValidatorFunction(String? value) {
-    String? message = value;
-    if (message == null) {
-      try {
-        return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
-      } catch(e) {
-        return Languages.of(context)!.strBadNumberForm;
+      if (_controllerBankBalance.text != "") {
+        newBankBalance = double.parse(_controllerBankBalance.text);
       }
+
+      userStorage.userData!.bankBalance = newBankBalance;
+      userStorage.SEND_generalInfo();
+      _enableEditBankBalance(null);
+      FocusScope.of(context).unfocus(); // Remove the keyboard
     }
-    return message;
+  }
+
+  bool _enableEditCondition(String? value) => (value == null);
+
+  void _enableEditBankBalance(String? value) {
+    setState(() {
+      _isDisabledBankBalance = _enableEditCondition(value);
+    });
   }
 
   Widget _summaryCardWidget(String tip, String firstTitle, double firstAmount, String secTitle, double secAmount){
@@ -169,7 +175,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 Expanded(
                   flex: 1,
                   child: Visibility(
-                    visible: authRepository.status == AuthStatus.Authenticated && userStorage.userData != null,
+                    visible: showWorkspacesAndBankBalance,
                     child: Text(
                       Languages.of(context)!.strCurrentWorkspace,
                       style: TextStyle(fontWeight: FontWeight.bold
@@ -180,13 +186,13 @@ class _SummaryPageState extends State<SummaryPage> {
                 Expanded(
                   flex: 1,
                   child: Visibility(
-                    visible: authRepository.status == AuthStatus.Authenticated && userStorage.userData != null,
+                    visible: showWorkspacesAndBankBalance,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(
-                            width: MediaQuery.of(context).size.width/gc.currentWorkspaceBoxScale,
+                            width: MediaQuery.of(context).size.width / gc.currentWorkspaceBoxScale,
                             child: Text(userStorage.userData!.currentWorkspace)
                         ),
                         SizedBox(
@@ -204,40 +210,48 @@ class _SummaryPageState extends State<SummaryPage> {
               ],
             ),
             Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                GenericTooltip(
-                  tip: Languages.of(context)!.strBeginningMontBalanceInfo,
-                  style: TextStyle(fontSize: 12, color: gc.secondaryColor),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width/1.25,
-                  child: TextBox( //TODO - Not completed yet
-                    _controllerBeginningMonthBalance,
-                    Languages.of(context)!.strBeginningMonthBalance, //TODO - Change to correct string
-                    isNumeric: true,
-                    validatorFunction: _positiveNumberValidatorFunction,
-                    haveBorder: false,
-                    onChanged: _enableEditBeginningBalance,
-                    suffix: GenericIconButton(
-                      onTap: _updateBeginningBalance,
-                      isDisabled: _isDisabledBeginningBalance,
-                      opacity: gc.disabledOpacity,
+            Visibility(
+              visible: showWorkspacesAndBankBalance,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  GenericTooltip(
+                    tip: Languages.of(context)!.strBeginningMontBalanceInfo,
+                    style: TextStyle(fontSize: 12, color: gc.secondaryColor),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width/1.25,
+                    child: TextBox( //TODO - Not completed yet
+                      _controllerBankBalance,
+                      Languages.of(context)!.strBeginningMonthBalance,
+                      isNumeric: true,
+                      haveBorder: false,
+                      onChanged: _enableEditBankBalance,
+                      suffix: GenericIconButton(
+                        onTap: _updateBankBalance,
+                        isDisabled: _isDisabledBankBalance,
+                        opacity: gc.disabledOpacity,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Visibility(
-                visible: _beginningMonthBalance != gc.zero,
-                child: _summaryCardWidget(Languages.of(context)!.strBankInfo, Languages.of(context)!.strCurrentBankBalance, _beginningMonthBalance + (_currentIncomes - _currentExpenses), Languages.of(context)!.strExpectedBankBalance, _beginningMonthBalance + (_ExpectedIncomes - _ExpectedExpenses))),
-            _summaryCardWidget(Languages.of(context)!.strIncomeBalanceInfo, Languages.of(context)!.strCurrentIncomes, _currentIncomes, Languages.of(context)!.strExpectedIncomes, _ExpectedIncomes),
-            _summaryCardWidget(Languages.of(context)!.strExpensesBalanceInfo, Languages.of(context)!.strCurrentExpenses, _currentExpenses, Languages.of(context)!.strExpectedExpenses, _ExpectedExpenses),
-            _summaryCardWidget(Languages.of(context)!.strTotalBalanceInfo, Languages.of(context)!.strTotalCurrentBalance, (_currentIncomes - _currentExpenses), Languages.of(context)!.strTotalExpectedBalance, (_ExpectedIncomes - _ExpectedExpenses)),
+            showWorkspacesAndBankBalance && userStorage.userData!.bankBalance != null ?
+            _summaryCardWidget(
+                Languages.of(context)!.strBankInfo,
+                Languages.of(context)!.strCurrentBankBalance,
+                userStorage.userData!.bankBalance! + (_currentIncomes - _currentExpenses),
+                Languages.of(context)!.strExpectedBankBalance,
+                userStorage.userData!.bankBalance! + (_expectedIncomes - _expectedExpenses)) : Container(),
+            Divider(),
+            _summaryCardWidget(Languages.of(context)!.strIncomeBalanceInfo, Languages.of(context)!.strCurrentIncomes, _currentIncomes, Languages.of(context)!.strExpectedIncomes, _expectedIncomes),
+            _summaryCardWidget(Languages.of(context)!.strExpensesBalanceInfo, Languages.of(context)!.strCurrentExpenses, _currentExpenses, Languages.of(context)!.strExpectedExpenses, _expectedExpenses),
+            _summaryCardWidget(Languages.of(context)!.strTotalBalanceInfo, Languages.of(context)!.strTotalCurrentBalance, (_currentIncomes - _currentExpenses), Languages.of(context)!.strTotalExpectedBalance, (_expectedIncomes - _expectedExpenses)),
           ],
         ),
       ),
-    );  }
+    );
+  }
 }

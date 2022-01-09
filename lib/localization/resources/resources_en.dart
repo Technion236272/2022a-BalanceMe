@@ -392,7 +392,7 @@ class LanguageEn extends Languages {
   String get strExpectedBankBalance => "Expected Bank Balance";
 
   @override
-  String get strBeginningMonthBalance => "Bank balance";
+  String get strBeginningMonthBalance => "Bank balance before";
 
   @override
   String get strBankInfo => "Current Bank Balance = Bank balance + Total Current Balance \nExpected Bank Balance = Bank balance + Total Expected Balance";
