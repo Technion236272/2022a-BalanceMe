@@ -174,12 +174,14 @@ class UserStorage with ChangeNotifier {
   }
 
   bool addTransaction(model.Category category,
-      model.Transaction newTransaction) {
+      model.Transaction newTransaction,{XFile? pickedImage}) {
     if (_isTransactionAlreadyExist(category, newTransaction)) {
       return false;
     }
-
     category.addTransaction(newTransaction);
+    if (pickedImage!=null) {
+      uploadTransactionImage(newTransaction.date, category.name, category.isIncome, newTransaction.name, pickedImage);
+    }
     _saveBalance();
     GoogleAnalytics.instance.logEntrySaved(
         Entry.Transaction, EntryOperation.Add, category);
@@ -196,18 +198,31 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  
   bool editTransaction(model.Category oldCategory, String newCategoryName,
-      model.Transaction oldTransaction, model.Transaction newTransaction) {
+      model.Transaction oldTransaction, model.Transaction newTransaction,{XFile? pickedImage}) {
     model.Category category = (newCategoryName == oldCategory.name)
         ? oldCategory
         : _balance.findCategory(newCategoryName);
     removeTransaction(oldCategory, oldTransaction, false);
     category.addTransaction(newTransaction);
-
+    
+    if (pickedImage!=null) {
+      uploadTransactionImage(newTransaction.date,newCategoryName,category.isIncome,newTransaction.name,pickedImage);
+      deletePreviousImage(oldTransaction.date, oldCategory.name, oldCategory.isIncome, oldTransaction.name);
+    }
+    else if(checkChanges(newTransaction, oldTransaction, newCategoryName, oldCategory, category)) {
+      transferTransactionImage(oldTransaction, newTransaction, category, oldCategory);
+    }
     _saveBalance();
     GoogleAnalytics.instance.logEntrySaved(
         Entry.Transaction, EntryOperation.Edit, newTransaction);
     return true;
+  }
+
+  bool checkChanges(model.Transaction newTransaction, model.Transaction oldTransaction, String newCategoryName, model.Category oldCategory, model.Category category) {
+    return (newTransaction.date!=oldTransaction.date || newCategoryName!=oldCategory.name ||
+      category.isIncome!=oldCategory.isIncome || oldTransaction.name!=newTransaction.name);
   }
 
   Future<void> _getBalanceIfEndOfMonth() async {
@@ -328,23 +343,29 @@ class UserStorage with ChangeNotifier {
   // ================== Storage ==================
   void uploadTransactionImage(String date, String categoryName, bool isIncome,
       String transactionName, XFile? attachedImage) async {
-    if (_authRepository != null &&
-        _authRepository!.user != null &&
-        _authRepository!.user!.email != null &&
-        _userData != null && attachedImage != null) {
-      Reference storageReference = FirebaseStorage.instance.ref().child(
-          _authRepository!.user!.email! +
-              '/' +
-              date +
-              '/' +
-              (isIncome ? config.income : config.expense) +
-              '/' +
-              categoryName +
-              '/' +
-              transactionName);
-      UploadTask uploadedTransactionImage =
-      storageReference.putFile(File(attachedImage.path));
-      await uploadedTransactionImage;
+    try {
+      if (_authRepository != null &&
+              _authRepository!.user != null &&
+              _authRepository!.user!.email != null &&
+              _userData != null && attachedImage != null) {
+            Reference storageReference = FirebaseStorage.instance.ref().child(
+                _authRepository!.user!.email! +
+                    '/' +
+                    date +
+                    '/' +
+                    (isIncome ? config.income : config.expense) +
+                    '/' +
+                    categoryName +
+                    '/' +
+                    transactionName);
+            UploadTask uploadedTransactionImage =
+            storageReference.putFile(File(attachedImage.path));
+            await uploadedTransactionImage;
+          }
+    } catch (e,stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+      notifyListeners();
+      return;
     }
     notifyListeners();
   }
@@ -381,21 +402,27 @@ class UserStorage with ChangeNotifier {
   }
   void deletePreviousImage(String date, String categoryName, bool isIncome,
       String transactionName) async {
-    if (_authRepository != null &&
-        _authRepository!.user != null &&
-        _authRepository!.user!.email != null &&
-        _userData != null) {
-      Reference storageReference = FirebaseStorage.instance.ref().child(
-          _authRepository!.user!.email! +
-              '/' +
-              date +
-              '/' +
-              (isIncome ? config.income : config.expense) +
-              '/' +
-              categoryName +
-              '/' +
-              transactionName);
-      await storageReference.delete();
+    try {
+      if (_authRepository != null &&
+              _authRepository!.user != null &&
+              _authRepository!.user!.email != null &&
+              _userData != null) {
+            Reference storageReference = FirebaseStorage.instance.ref().child(
+                _authRepository!.user!.email! +
+                    '/' +
+                    date +
+                    '/' +
+                    (isIncome ? config.income : config.expense) +
+                    '/' +
+                    categoryName +
+                    '/' +
+                    transactionName);
+            await storageReference.delete();
+          }
+    } catch (e,stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+      notifyListeners();
+      return;
     }
   }
 
@@ -406,13 +433,15 @@ class UserStorage with ChangeNotifier {
         _authRepository!.user!.email != null) {
       for(int i=0;i<previousCategory.transactions.length;i++)
         {
-         await updateTransactionImage(previousCategory.transactions[i], currentCategory.transactions[i], currentCategory, previousCategory);
+         await transferTransactionImage(previousCategory.transactions[i], currentCategory.transactions[i], currentCategory, previousCategory);
         }
       notifyListeners();
     }
   }
 
-  Future<void> updateTransactionImage(
+
+
+  Future<void> transferTransactionImage(
       model.Transaction previousTransaction, model.Transaction currentTransaction,model.Category currentCategory,model.Category previousCategory) async {
     if (_authRepository != null &&
         _authRepository!.user != null &&
@@ -420,7 +449,7 @@ class UserStorage with ChangeNotifier {
       String? path = await getTransactionImage(previousTransaction.date,
           previousCategory.name, previousCategory.isIncome, previousTransaction.name);
       if (path!=null) {
-        uploadTransactionImage(currentTransaction.date, currentCategory.name,
+       uploadTransactionImage(currentTransaction.date, currentCategory.name,
             currentCategory.isIncome, currentTransaction.name, XFile(path));
         deletePreviousImage(previousTransaction.date, previousCategory.name,
             previousCategory.isIncome, previousTransaction.name);

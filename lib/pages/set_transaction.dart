@@ -44,7 +44,8 @@ class _SetTransactionState extends State<SetTransaction> {
   bool _performingSave = false;
   bool get performingAction => _performingSave;
   bool _isUploadingImage=false;
-  String? _pickedImage;
+  String? _attachedImage;
+  XFile? pickedImage;
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
 
   @override
@@ -56,7 +57,7 @@ class _SetTransactionState extends State<SetTransaction> {
 
   void _initImage() async
   {
-      _pickedImage = await _getAttachedImage();
+      _attachedImage = await _getAttachedImage();
   }
   void _initControllers() {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
@@ -178,9 +179,9 @@ class _SetTransactionState extends State<SetTransaction> {
 
       if (widget._mode == DetailsPageMode.Add) {
         Category category = (_dropDownController.value == widget._currentCategory.name) ? widget._currentCategory : userStorage.balance.findCategory(_dropDownController.value);
-        message = userStorage.addTransaction(category, createNewTransaction()) ? message : Languages.of(context)!.strAlreadyExist;
+        message = userStorage.addTransaction(category, createNewTransaction(),pickedImage: pickedImage) ? message : Languages.of(context)!.strAlreadyExist;
       } else {
-        message = userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction()) ? message : Languages.of(context)!.strAlreadyExist;
+        message = userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction(),pickedImage: pickedImage) ? message : Languages.of(context)!.strAlreadyExist;
       }
 
       widget.callback != null ? widget.callback!() : null;
@@ -233,29 +234,23 @@ class _SetTransactionState extends State<SetTransaction> {
     navigateBack(context);
   }
 
-  Future<void> _uploadImage(ImageSource src) async {
+  void _saveImage(bool state) {
     setState(() {
-      _isUploadingImage = true;
+      _isUploadingImage = state;
     });
+  }
+
+  Future<void> _uploadImage(ImageSource src) async {
+    _saveImage(true);
     ImagePicker picker = ImagePicker();
 
-    XFile? pickedImage = await picker.pickImage(source: src);
+    pickedImage = await picker.pickImage(source: src);
 
     if (pickedImage == null) {
       displaySnackBar(context, Languages.of(context)!.strNoImagePicked);
-    } else {
-      setState(() {
-        if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-          userStorage.uploadTransactionImage(
-              _dateRangePickerController.value, widget._currentCategory.name,
-              widget._currentCategory.isIncome, _transactionNameController.text,
-              pickedImage);
-        }
-      });
     }
-    setState(() {
-      _isUploadingImage = false;
-    });
+
+    _saveImage(false);
   }
 
   Future<String?> _getAttachedImage()
@@ -380,10 +375,10 @@ class _SetTransactionState extends State<SetTransaction> {
                             children: [
                               ActionButton(_isUploadingImage, Languages.of(context)!.strUpload,
                                   _isUploadDisabled() ? null:_showImageSourceChoice),
-                              _pickedImage==null ? Icon(gc.imagePlaceHolder):CircleAvatar(
+                              _attachedImage==null ? Icon(gc.imagePlaceHolder):CircleAvatar(
                                 backgroundColor: gc.secondaryColor,
                                 backgroundImage:NetworkImage(
-                                    _pickedImage!
+                                    _attachedImage!
                                 ) ,
                               ),
                             ],
