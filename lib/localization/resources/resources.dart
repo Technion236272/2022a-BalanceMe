@@ -205,8 +205,16 @@ abstract class Languages {
   String get strDataUnavailable;
   String get strDataReloadSuccessful;
 
-  //About
+  // About
   String get strAbout;
   String get strLegalese;
   String get strScalesIcon;
+
+  // Monthly Report
+  String get strMonthlyReportSubject;
+  String get strMonthlyReportContentHeader;
+  String get strMonthlyReportContentFooter;
+  String get strFinalIncomes;
+  String get strFinalExpenses;
+  String get strEndOfMonthBankBalance;
 }

@@ -297,3 +297,7 @@ const double summeryChartBoxScale = 4.2;
 
 // InviteFriend
 const String googlePlayURL = "https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me";
+
+// SendEmail
+const String appEmail = "appbalanceme@gmail.com";
+const String appPassword = "BalanceMe2022@";

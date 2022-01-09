@@ -551,4 +551,23 @@ class LanguageHe extends Languages {
 
   @override
   String get strScalesIcon => "‎אייקון מאזניים";
+
+  // Monthly Report
+  @override
+  String get strMonthlyReportSubject => "Your Monthly Report Is Here!";
+
+  @override
+  String get strMonthlyReportContentHeader => "Hurrah! Another month is ended. It is a good time to summarize the month:";
+
+  @override
+  String get strMonthlyReportContentFooter => "As usual, the constants transactions for the next month are created.\nSee you next month!";
+
+  @override
+  String get strFinalIncomes => "Total incomes";
+
+  @override
+  String get strFinalExpenses => "Total expenses";
+
+  @override
+  String get strEndOfMonthBankBalance => "Bank balance after";
 }

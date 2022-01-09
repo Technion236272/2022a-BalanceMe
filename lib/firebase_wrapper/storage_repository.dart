@@ -1,11 +1,14 @@
 // ================= Storage Repository =================
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
+import 'package:mailer/mailer.dart' as mail;
+import 'package:mailer/smtp_server.dart';
 import 'package:balance_me/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
+import 'package:balance_me/firebase_wrapper/sentry_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/locale_controller.dart';
 import 'package:balance_me/common_models/user_model.dart';
@@ -18,6 +21,7 @@ import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/config.dart' as config;
+import 'package:balance_me/global/constants.dart' as gc;
 
 class UserStorage with ChangeNotifier {
   UserStorage.instance(BuildContext context, AuthRepository authRepository) {
@@ -243,7 +247,62 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  void sendEndOfMonthReport() {
+    if (_authRepository == null || _authRepository!.getEmail == null || globalNavigatorKey.currentContext == null) {
+      return;
+    }
+    BuildContext context = globalNavigatorKey.currentContext!;
+
+    double totalIncomes = _balance.getTotalAmount(isIncome: true, isExpected: false);
+    double totalExpenses = _balance.getTotalAmount(isIncome: false, isExpected: false);
+    double expectedIncomes = _balance.getTotalAmount(isIncome: true, isExpected: true);
+    double expectedExpenses = _balance.getTotalAmount(isIncome: false, isExpected: true);
+
+    String monthlySummary =
+        Languages.of(context)!.strExpectedIncomes + " " + expectedIncomes.toString() + "\n" +
+        Languages.of(context)!.strFinalIncomes + " " + totalIncomes.toString() + "\n\n" +
+        Languages.of(context)!.strExpectedExpenses + " " + expectedExpenses.toString() + "\n" +
+        Languages.of(context)!.strFinalExpenses + " " + totalExpenses.toString() + "\n\n" +
+        Languages.of(context)!.strTotalExpectedBalance + " " + (expectedIncomes - expectedExpenses).toString() + "\n" +
+        Languages.of(context)!.strTotalCurrentBalance + " " + (totalIncomes - totalExpenses).toString();
+
+    if (_userData != null && _userData!.bankBalance != null) {
+      monthlySummary +=
+          "\n\n" + Languages.of(context)!.strBeginningMonthBalance + " " + _userData!.bankBalance!.toString() + "\n" +
+          Languages.of(context)!.strEndOfMonthBankBalance + " " + (userData!.bankBalance! + (totalIncomes - totalExpenses)).toString();
+    }
+
+    sendEmail(_authRepository!.getEmail!, Languages.of(context)!.strMonthlyReportSubject,
+        Languages.of(context)!.strMonthlyReportContentHeader + "\n\n" +
+        monthlySummary + "\n\n" +
+        Languages.of(context)!.strMonthlyReportContentFooter
+    );
+  }
+
   // ================== Requests ==================
+
+  void sendEmail(String recipient, String subject, String text) async {
+    if (globalNavigatorKey.currentContext == null) {
+      return;
+    }
+    BuildContext context = globalNavigatorKey.currentContext!;
+
+    SmtpServer smtpServer = gmail(gc.appEmail, gc.appPassword);
+    final message = mail.Message()
+      ..from = mail.Address(gc.appEmail, Languages.of(context)!.strAppName)
+      ..recipients.add(recipient)
+      ..subject = subject
+      ..text = text;
+
+    try {
+      await mail.send(message, smtpServer);
+    } catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+    }
+    var connection = mail.PersistentConnection(smtpServer);
+    await connection.send(message);
+    await connection.close();
+  }
 
   // isExist
   Future<bool> _isDocExist(DocumentReference docPath, {String? specificKey}) async {
