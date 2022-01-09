@@ -19,6 +19,7 @@ const String incomeCategoriesField = "incomeCategories";
 const String expenseCategoriesField = "expensesCategories";
 const String expense = "expense";
 const String income = "income";
+const String imageWrite='previousImage.png';
 
 // Sentry Config
 const String dsnForSentry = 'https://789c12b26df3418db5e7c6956794189f@o1092925.ingest.sentry.io/6111884';

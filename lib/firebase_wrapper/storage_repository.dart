@@ -1,5 +1,5 @@
 // ================= Storage Repository =================
-
+import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:balance_me/firebase_wrapper/sentry_repository.dart';
 import 'package:cross_file/cross_file.dart';
@@ -199,6 +199,7 @@ class UserStorage with ChangeNotifier {
 
     _balance.getListByCategory(oldCategory).remove(oldCategory);
     _balance.getListByCategory(newCategory).add(newCategory);
+    updateCategoryImages(oldCategory,newCategory);
     SEND_fullBalanceModel();
 
     GoogleAnalytics.instance.logEntrySaved(Entry.Category, EntryOperation.Edit, newCategory);
@@ -214,7 +215,7 @@ class UserStorage with ChangeNotifier {
     _balance.findCategory(category.name).addTransaction(newTransaction);
 
     if (pickedImage != null) {
-      uploadTransactionImage(newTransaction.date, category.name, category.isIncome, newTransaction.name, pickedImage);
+      uploadTransactionImage(newTransaction,category, pickedImage.path);
     }
 
     SEND_fullBalanceModel();
@@ -228,29 +229,33 @@ class UserStorage with ChangeNotifier {
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
   }
 
+  void editImage(XFile? pickedImage,model.Transaction newTransaction,model.Transaction oldTransaction,model.Category oldCategory,model.Category newCategory)
+  {
+    //new image was chosen
+    if (pickedImage != null) {
+      uploadTransactionImage(newTransaction, newCategory, pickedImage.path);
+      deletePreviousImage(oldTransaction, oldCategory);
+    }
+    //same image path changed
+    else if
+    (isPathChanged(newTransaction, oldTransaction, oldCategory, newCategory)) {
+      transferTransactionImage(oldTransaction, newTransaction, newCategory, oldCategory);
+    }
+  }
   bool editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction,
       model.Transaction newTransaction, {XFile? pickedImage}) {
     oldCategory = _balance.findCategory(oldCategory.name);
     model.Category category = (newCategoryName == oldCategory.name) ? oldCategory : _balance.findCategory(newCategoryName);
     oldCategory.removeTransaction(oldTransaction);
     category.addTransaction(newTransaction);
-
-    if (pickedImage != null) {//TODO: check if is needed
-      uploadTransactionImage(newTransaction.date, newCategoryName, category.isIncome, newTransaction.name, pickedImage);
-      deletePreviousImage(oldTransaction.date, oldCategory.name, oldCategory.isIncome, oldTransaction.name);
-
-    } else if (checkChanges(newTransaction, oldTransaction, newCategoryName, oldCategory, category)) {
-      transferTransactionImage(oldTransaction, newTransaction, category, oldCategory);
-    }
-
+    editImage(pickedImage,newTransaction,oldTransaction,oldCategory,category);
     SEND_fullBalanceModel();
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Edit, newTransaction);
     return true;
   }
-//TODO: rename is path changed
-  bool checkChanges(model.Transaction newTransaction, model.Transaction oldTransaction, String newCategoryName, model.Category oldCategory, model.Category category) {
-    return (newTransaction.date != oldTransaction.date || newCategoryName != oldCategory.name ||
-        category.isIncome != oldCategory.isIncome || oldTransaction.name != newTransaction.name);
+
+  bool isPathChanged(model.Transaction newTransaction, model.Transaction oldTransaction, model.Category oldCategory, model.Category newCategory) {
+    return ( newCategory.name != oldCategory.name || newCategory.isIncome != oldCategory.isIncome || oldTransaction.name != newTransaction.name);
   }
 
   Future<void> _getBalanceIfEndOfMonth() async {
@@ -569,11 +574,12 @@ class UserStorage with ChangeNotifier {
   }
 
   // ================== Storage ==================
-  void uploadTransactionImage(String date, String categoryName, bool isIncome, String transactionName, XFile? attachedImage) async {
+  void uploadTransactionImage(model.Transaction transaction,model.Category category,String? path) async {
     try {
-      if (_authRepository != null && _authRepository!.getEmail != null && attachedImage != null) {
-            Reference storageReference = FirebaseStorage.instance.ref().child(_authRepository!.getEmail! + '/' + date + '/' + (isIncome ? config.income : config.expense) + '/' + categoryName + '/' + transactionName);
-            UploadTask uploadedTransactionImage = storageReference.putFile(File(attachedImage.path));
+      if (_authRepository != null && _authRepository!.getEmail != null && _userData!=null && path != null) {
+            Reference storageReference = FirebaseStorage.instance.ref().child(transactionToPath(transaction, category));
+
+            UploadTask uploadedTransactionImage = storageReference.putFile(File(path));
             await uploadedTransactionImage;
           }
     } catch (e, stackTrace) {
@@ -584,24 +590,12 @@ class UserStorage with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String?> getTransactionImage(String date, String categoryName,
-      bool isIncome, String transactionName) async {
+  Future<String?> getTransactionImageUrl(model.Transaction transaction,model.Category category) async {
     try {
       String? attachedImage = null;
-      if (_authRepository != null &&
-          _authRepository!.user != null &&
-          _authRepository!.user!.email != null &&
-          _userData != null) {
+      if (isUploadImage() && _userData != null) {
         Reference storageReference = FirebaseStorage.instance.ref().child(
-            _authRepository!.user!.email! +
-                '/' +
-                date +
-                '/' +
-                (isIncome ? config.income : config.expense) +
-                '/' +
-                categoryName +
-                '/' +
-                transactionName);
+            transactionToPath(transaction, category));
         attachedImage = await storageReference.getDownloadURL();
         notifyListeners();
         return attachedImage;
@@ -614,23 +608,10 @@ class UserStorage with ChangeNotifier {
       return null;
     }
   }
-  void deletePreviousImage(String date, String categoryName, bool isIncome,
-      String transactionName) async {
+  void deletePreviousImage(model.Transaction transaction, model.Category category) async {
     try {
-      if (_authRepository != null &&
-              _authRepository!.user != null &&
-              _authRepository!.user!.email != null &&
-              _userData != null) {
-            Reference storageReference = FirebaseStorage.instance.ref().child(
-                _authRepository!.user!.email! +
-                    '/' +
-                    date +
-                    '/' +
-                    (isIncome ? config.income : config.expense) +
-                    '/' +
-                    categoryName +
-                    '/' +
-                    transactionName);
+      if (isUploadImage()) {
+            Reference storageReference = FirebaseStorage.instance.ref().child(transactionToPath(transaction, category));
             await storageReference.delete();
           }
     } catch (e,stackTrace) {
@@ -640,11 +621,11 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  bool isUploadImage() => _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null;
+
   Future<void> updateCategoryImages(
       model.Category previousCategory, model.Category currentCategory) async {
-    if (_authRepository != null &&
-        _authRepository!.user != null &&
-        _authRepository!.user!.email != null) {
+    if (isUploadImage() && _userData!=null) {
       for(int i=0;i<previousCategory.transactions.length;i++)
         {
          await transferTransactionImage(previousCategory.transactions[i], currentCategory.transactions[i], currentCategory, previousCategory);
@@ -653,20 +634,37 @@ class UserStorage with ChangeNotifier {
     }
   }
 
+  String transactionToPath(
+      model.Transaction transaction, model.Category category) {
+    String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
+    return _authRepository!.user!.email! + '/' + date + '/' + (category.isIncome ? config.income : config.expense) + '/' + category.name + '/' + transaction.name;
+  }
 
 
-  Future<void> transferTransactionImage(
-      model.Transaction previousTransaction, model.Transaction currentTransaction,model.Category currentCategory,model.Category previousCategory) async {
-    if (_authRepository != null && _authRepository!.getEmail != null) {
-      String? path = await getTransactionImage(previousTransaction.date,
-          previousCategory.name, previousCategory.isIncome, previousTransaction.name);
-      if (path!=null) {
-       uploadTransactionImage(currentTransaction.date, currentCategory.name,
-            currentCategory.isIncome, currentTransaction.name, XFile(path));
-        deletePreviousImage(previousTransaction.date, previousCategory.name,
-            previousCategory.isIncome, previousTransaction.name);
+
+  Future<File?> downloadImageFile(model.Transaction transaction, model.Category category) async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    File downloadToFile = File('${appDocDir.path}/${config.imageWrite}');
+    try {
+      if (isUploadImage()) {
+        await FirebaseStorage.instance.ref().child(transactionToPath(transaction, category)).writeToFile(downloadToFile);
+        return downloadToFile;
       }
+    } catch(e, stackTrace)
+    {
+      SentryMonitor().sendToSentry(e, stackTrace);
+      notifyListeners();
+      return null;
     }
+  }
+//path: email/(date) from send balance month and year/isIncome/category.name/transaction.name
+  Future<void> transferTransactionImage(model.Transaction previousTransaction, model.Transaction currentTransaction,model.Category currentCategory,model.Category previousCategory) async {
+      File? file = await downloadImageFile(previousTransaction, previousCategory);
+      if (file!=null) {
+       uploadTransactionImage(currentTransaction, currentCategory, file.path);
+       deletePreviousImage(previousTransaction, previousCategory);
+      }
+
       notifyListeners();
     }
   }

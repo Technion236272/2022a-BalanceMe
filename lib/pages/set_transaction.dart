@@ -256,8 +256,7 @@ class _SetTransactionState extends State<SetTransaction> {
 
   Future<String?> _getAttachedImage()
   async {
-   return
-   userStorage.getTransactionImage( _dateRangePickerController.value, widget._currentCategory.name, widget._currentCategory.isIncome, _transactionNameController.text);
+     return widget.currentTransaction!=null? userStorage.getTransactionImageUrl(widget.currentTransaction!,widget._currentCategory):null;
   }
 
   bool _isUploadDisabled() {
