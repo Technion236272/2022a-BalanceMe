@@ -1,4 +1,5 @@
 // ================= Set Transaction =================
+import 'package:balance_me/pages/show_image.dart';
 import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -263,6 +264,10 @@ class _SetTransactionState extends State<SetTransaction> {
   bool _isUploadDisabled() {
     return widget._mode==DetailsPageMode.Details || (widget._mode==DetailsPageMode.Add && _transactionNameController.text=="");
   }
+
+  void _showImage() {
+    _attachedImage != null && widget.currentTransaction!=null?navigateToPage(context, AttachedImage(_attachedImage!,widget.currentTransaction!.name), AppPages.ShowImage):displaySnackBar(context, Languages.of(context)!.strNothingToShow);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -385,11 +390,12 @@ class _SetTransactionState extends State<SetTransaction> {
                             children: [
                              _attachedImage==null? ActionButton(_isUploadingImage, Languages.of(context)!.strUpload, _isUploadDisabled() ? null:_showImageSourceChoice):
                              ActionButton(_isUploadingImage, Languages.of(context)!.strChange, _isUploadDisabled() ? null:_showImageSourceChoice),
-                              _attachedImage==null ? Icon(gc.imagePlaceHolder):CircleAvatar(
-                                backgroundColor: gc.secondaryColor,
-                                backgroundImage:NetworkImage(
-                                    _attachedImage!
-                                ) ,
+                              _attachedImage==null ? Icon(gc.imagePlaceHolder):
+                              GestureDetector(
+                                onTap:_showImage,
+                                child: CircleAvatar(backgroundColor: gc.secondaryColor, backgroundImage:NetworkImage(_attachedImage!
+                                  ) ,
+                                ),
                               ),
                             ],
                           ),
