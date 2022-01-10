@@ -33,11 +33,10 @@ class _BalanceManagerState extends State<BalanceManager> {
     widget._userStorage.setDate();
   }
 
-  bool _shouldShowWelcomePage() => widget._userStorage.balance.isEmpty &&
-      widget._userStorage.userData?.currentWorkspace == widget._authRepository.user?.email ||
-      widget._userStorage.userData?.currentWorkspace == "";
+  bool _shouldShowWelcomePage() => widget._userStorage.balance.isEmpty;
 
   void _setCurrentTab(int currentTab) {
+    FocusScope.of(context).unfocus(); // Remove the keyboard
     setState(() {
       _currentTab = BalanceTabs.values[currentTab];
     });
@@ -73,8 +72,10 @@ class _BalanceManagerState extends State<BalanceManager> {
             return Center(child: CircularProgressIndicator());
           }
 
-          BalanceModel balanceModel = !snapshot.hasData ? BalanceModel() : BalanceModel.fromJson((snapshot.data!.data()! as Json)[config.categoriesDoc]);
-          widget._userStorage.assignBalance(balanceModel);
+          if (snapshot.hasData) {
+            widget._userStorage.assignBalance(BalanceModel.fromJson((snapshot.data!.data()! as Json)[config.categoriesDoc]));
+          }
+
           return (_shouldShowWelcomePage()) ? WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]);
         },
       ),
