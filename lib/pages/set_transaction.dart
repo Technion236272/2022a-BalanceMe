@@ -218,6 +218,7 @@ class _SetTransactionState extends State<SetTransaction> {
     return imageOptions;
   }
 
+
   void _showImageSourceChoice() async {
     imagePicker(_getActions(), _iconsLeading(), _getOptionTitles());
   }
@@ -382,8 +383,8 @@ class _SetTransactionState extends State<SetTransaction> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ActionButton(_isUploadingImage, Languages.of(context)!.strUpload,
-                                  _isUploadDisabled() ? null:_showImageSourceChoice),
+                             _attachedImage==null? ActionButton(_isUploadingImage, Languages.of(context)!.strUpload, _isUploadDisabled() ? null:_showImageSourceChoice):
+                             ActionButton(_isUploadingImage, Languages.of(context)!.strChange, _isUploadDisabled() ? null:_showImageSourceChoice),
                               _attachedImage==null ? Icon(gc.imagePlaceHolder):CircleAvatar(
                                 backgroundColor: gc.secondaryColor,
                                 backgroundImage:NetworkImage(

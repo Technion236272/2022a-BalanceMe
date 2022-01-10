@@ -137,6 +137,7 @@ abstract class Languages {
   String get strAlreadyExist;
   String get strDelete;
   String get strVerifyRemoval;
+  String get strChange;
 
   // Summary
   String get strSummary;

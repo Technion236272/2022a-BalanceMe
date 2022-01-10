@@ -360,6 +360,9 @@ class LanguageHe extends Languages {
   @override
   String get strVerifyRemoval => "‎האם למחוק את ה%?";
 
+  @override
+  String get strChange => "שינוי‎";
+
   // Summary
   @override
   String get strSummary => "‎סיכום";

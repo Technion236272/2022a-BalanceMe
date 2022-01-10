@@ -360,6 +360,9 @@ class LanguageRu extends Languages {
   @override
   String get strVerifyRemoval => "Вы уверены, что хотите стереть это %?";
 
+  @override
+  String get strChange => "изменить";
+
   // Summary
   @override
   String get strSummary => "Summary";

@@ -360,6 +360,9 @@ class LanguageEn extends Languages {
   @override
   String get strVerifyRemoval => "Are you sure you want to remove this %?";
 
+  @override
+  String get strChange => "Change";
+
   // Summary
   @override
   String get strSummary => "Summary";
