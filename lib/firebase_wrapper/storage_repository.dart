@@ -581,18 +581,17 @@ class UserStorage with ChangeNotifier {
 
             UploadTask uploadedTransactionImage = storageReference.putFile(File(path));
             await uploadedTransactionImage;
+            notifyListeners();
           }
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       notifyListeners();
-      return;
     }
-    notifyListeners();
   }
 
   Future<String?> getTransactionImageUrl(model.Transaction transaction,model.Category category) async {
+    String? attachedImage = null;
     try {
-      String? attachedImage = null;
       if (isUploadImage() && _userData != null) {
         Reference storageReference = FirebaseStorage.instance.ref().child(
             transactionToPath(transaction, category));
@@ -600,14 +599,13 @@ class UserStorage with ChangeNotifier {
         notifyListeners();
         return attachedImage;
       }
-      notifyListeners();
-      return null;
+      return attachedImage;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
-      notifyListeners();
-      return null;
+      return attachedImage;
     }
   }
+
   void deletePreviousImage(model.Transaction transaction, model.Category category) async {
     try {
       if (isUploadImage()) {
@@ -621,7 +619,7 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  bool isUploadImage() => _authRepository != null && _authRepository!.user != null && _authRepository!.user!.email != null;
+  bool isUploadImage() => _authRepository != null && _authRepository!.getEmail != null;
 
   Future<void> updateCategoryImages(
       model.Category previousCategory, model.Category currentCategory) async {
@@ -634,10 +632,9 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  String transactionToPath(
-      model.Transaction transaction, model.Category category) {
+  String transactionToPath(model.Transaction transaction, model.Category category) {
     String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
-    return _authRepository!.user!.email! + '/' + date + '/' + (category.isIncome ? config.income : config.expense) + '/' + category.name + '/' + transaction.name;
+    return _authRepository!.getEmail! + '/' + date + '/' + (category.isIncome ? config.incomeCategoriesDir : config.expenseCategoriesDir) + '/' + category.name + '/' + transaction.name;
   }
 
 
@@ -653,10 +650,10 @@ class UserStorage with ChangeNotifier {
     } catch(e, stackTrace)
     {
       SentryMonitor().sendToSentry(e, stackTrace);
-      notifyListeners();
       return null;
     }
   }
+
 //path: email/(date) from send balance month and year/isIncome/category.name/transaction.name
   Future<void> transferTransactionImage(model.Transaction previousTransaction, model.Transaction currentTransaction,model.Category currentCategory,model.Category previousCategory) async {
       File? file = await downloadImageFile(previousTransaction, previousCategory);

@@ -17,8 +17,8 @@ const String belongsWorkspaces = "belongsWorkspaces";
 const String userMessages = "userMessages";
 const String incomeCategoriesField = "incomeCategories";
 const String expenseCategoriesField = "expensesCategories";
-const String expense = "expense";
-const String income = "income";
+const String expenseCategoriesDir = "expense";
+const String incomeCategoriesDir = "income";
 const String imageWrite='previousImage.png';
 
 // Sentry Config

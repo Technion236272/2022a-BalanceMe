@@ -57,10 +57,10 @@ class _SetTransactionState extends State<SetTransaction> {
     _initImage();
   }
 
-  void _initImage() async
-  {
-      _attachedImage = await _getAttachedImage();
+  void _initImage() async {
+    _attachedImage = await _getAttachedImage();
   }
+
   void _initControllers() {
     _transactionNameController = TextEditingController(text: widget.currentTransaction == null ? null : widget.currentTransaction!.name);
     _transactionAmountController = TextEditingController(text: widget.currentTransaction == null ? ""
@@ -268,6 +268,27 @@ class _SetTransactionState extends State<SetTransaction> {
   void _showImage() {
     _attachedImage != null && widget.currentTransaction!=null?navigateToPage(context, AttachedImage(_attachedImage!,widget.currentTransaction!.name), AppPages.ShowImage):displaySnackBar(context, Languages.of(context)!.strNothingToShow);
   }
+
+  ActionButton _showUploadOrChange(BuildContext context) {
+    return _attachedImage == null
+        ? ActionButton(_isUploadingImage, Languages.of(context)!.strUpload,
+            _isUploadDisabled() ? null : _showImageSourceChoice)
+        : ActionButton(_isUploadingImage, Languages.of(context)!.strChange,
+        _isUploadDisabled() ? null : _showImageSourceChoice);
+  }
+
+  StatelessWidget _showAttachedImage() {
+    return _attachedImage == null
+        ? Icon(gc.imagePlaceHolder)
+        : GestureDetector(
+            onTap: _showImage,
+            child: CircleAvatar(
+              backgroundColor: gc.secondaryColor,
+              backgroundImage: NetworkImage(_attachedImage!),
+            ),
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -388,15 +409,8 @@ class _SetTransactionState extends State<SetTransaction> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                             _attachedImage==null? ActionButton(_isUploadingImage, Languages.of(context)!.strUpload, _isUploadDisabled() ? null:_showImageSourceChoice):
-                             ActionButton(_isUploadingImage, Languages.of(context)!.strChange, _isUploadDisabled() ? null:_showImageSourceChoice),
-                              _attachedImage==null ? Icon(gc.imagePlaceHolder):
-                              GestureDetector(
-                                onTap:_showImage,
-                                child: CircleAvatar(backgroundColor: gc.secondaryColor, backgroundImage:NetworkImage(_attachedImage!
-                                  ) ,
-                                ),
-                              ),
+                              _showUploadOrChange(context),
+                              _showAttachedImage(),
                             ],
                           ),
                         )
