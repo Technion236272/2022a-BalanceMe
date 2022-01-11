@@ -211,7 +211,7 @@ class _SummaryPageState extends State<SummaryPage> {
             ),
             Divider(),
             Visibility(
-              visible: showWorkspacesAndBankBalance,
+              visible: showWorkspacesAndBankBalance && userStorage.userData!.currentWorkspace == authRepository.getEmail,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
@@ -238,7 +238,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 ],
               ),
             ),
-            showWorkspacesAndBankBalance && userStorage.userData!.bankBalance != null ?
+            showWorkspacesAndBankBalance && userStorage.userData!.bankBalance != null && userStorage.userData!.currentWorkspace == authRepository.getEmail ?
             _summaryCardWidget(
                 Languages.of(context)!.strBankInfo,
                 Languages.of(context)!.strCurrentBankBalance,

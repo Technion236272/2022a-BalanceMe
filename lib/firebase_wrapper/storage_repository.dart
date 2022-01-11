@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:mailer/mailer.dart' as mail;
 import 'package:mailer/smtp_server.dart';
 import 'package:balance_me/main.dart';
+import 'package:balance_me/global/dispatcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/localization/resources/resources.dart';
@@ -247,19 +248,35 @@ class UserStorage with ChangeNotifier {
     return true;
   }
 
-  Future<void> _getBalanceIfEndOfMonth() async {
-    if (currentDate != null && currentDate!.isSameDate(DateTime.now())) {  // if user in balance page- check only one previous month (prevent recursion)
-      currentDate =  DateTime(currentDate!.year, currentDate!.month - 1, currentDate!.day);
-      await GET_balanceModel(  // get previous month data and filter the constants transaction
-          successCallback: (Json data) {
-            _balance = _balance.filterCategoriesWithConstantsTransaction();
-          });
-      currentDate = DateTime.now();
-      SEND_fullBalanceModel();
+  void getBalanceAfterEndOfMonth() {
+    GeneralInfoDispatcher.subscribe(() async {
+      String date = getCurrentMonthPerEndMonthDay(_userData!.endOfMonthDay, DateTime.now());
+      print("@@@@ currentData $date");
+      print("@@@@ _userData!.lastUpdatedDate ${_userData!.lastUpdatedDate}");
+      if (currentDate == null || _userData == null || _userData!.lastUpdatedDate == date) {
+        print("Same Date- RETUREN");
+        return;
+      }
 
-    } else {
-      _balance = BalanceModel();
-    }
+      _userData!.lastUpdatedDate = date;
+      print("@@ enter getBalanceAfterEndOfMonth");
+
+      DateTime previousMonth = DateTime(currentDate!.year, currentDate!.month - 1, currentDate!.day);
+      BalanceModel? balanceModel = await GET_balanceModel(dateTime: previousMonth);
+
+      print("@@ SEND_fullBalanceModel = ${balanceModel.filterCategoriesWithConstantsTransaction().toJson()}");
+
+      SEND_balanceModelAfterLogin(balanceModel.filterCategoriesWithConstantsTransaction());
+
+      if (_userData!.currentWorkspace == _authRepository!.getEmail && _userData!.bankBalance != null) {
+        _userData!.bankBalance = _userData!.bankBalance! + balance.getTotalAmount(isIncome: true, isExpected: false) - balance.getTotalAmount(isIncome: false, isExpected: false);
+      }
+      SEND_generalInfo();
+
+      if (_userData!.sendReport && !balanceModel.isEmpty) {
+        sendEndOfMonthReport(balanceModel, previousMonth.month);
+      }
+    });
   }
 
   void updateSendMonthlyReport(bool toSend) {
@@ -269,16 +286,16 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void sendEndOfMonthReport() {
-    if (_authRepository == null || _authRepository!.getEmail == null || globalNavigatorKey.currentContext == null) {
+  void sendEndOfMonthReport(BalanceModel balanceModel, int month) async {
+    if (_authRepository == null || _authRepository!.getEmail == null || _userData == null || globalNavigatorKey.currentContext == null) {
       return;
     }
     BuildContext context = globalNavigatorKey.currentContext!;
 
-    double totalIncomes = _balance.getTotalAmount(isIncome: true, isExpected: false);
-    double totalExpenses = _balance.getTotalAmount(isIncome: false, isExpected: false);
-    double expectedIncomes = _balance.getTotalAmount(isIncome: true, isExpected: true);
-    double expectedExpenses = _balance.getTotalAmount(isIncome: false, isExpected: true);
+    double totalIncomes = balanceModel.getTotalAmount(isIncome: true, isExpected: false);
+    double totalExpenses = balanceModel.getTotalAmount(isIncome: false, isExpected: false);
+    double expectedIncomes = balanceModel.getTotalAmount(isIncome: true, isExpected: true);
+    double expectedExpenses = balanceModel.getTotalAmount(isIncome: false, isExpected: true);
 
     String monthlySummary =
         Languages.of(context)!.strExpectedIncomes + " " + expectedIncomes.toString() + "\n" +
@@ -288,13 +305,23 @@ class UserStorage with ChangeNotifier {
         Languages.of(context)!.strTotalExpectedBalance + " " + (expectedIncomes - expectedExpenses).toString() + "\n" +
         Languages.of(context)!.strTotalCurrentBalance + " " + (totalIncomes - totalExpenses).toString();
 
-    if (_userData != null && _userData!.bankBalance != null) {
+    if (_userData!.bankBalance != null) {
       monthlySummary +=
           "\n\n" + Languages.of(context)!.strBeginningMonthBalance + " " + _userData!.bankBalance!.toString() + "\n" +
           Languages.of(context)!.strEndOfMonthBankBalance + " " + (userData!.bankBalance! + (totalIncomes - totalExpenses)).toString();
     }
 
-    sendEmail(_authRepository!.getEmail!, Languages.of(context)!.strMonthlyReportSubject,
+    List<String> recipients = [_authRepository!.getEmail!];
+    if (_userData!.currentWorkspace != _authRepository!.getEmail!) {
+      WorkspaceUsers? workspaceUsers = await GET_workspaceUsers(_userData!.currentWorkspace);
+      if (workspaceUsers != null) {
+        recipients = workspaceUsers.users;
+      }
+    }
+
+    sendEmail(
+        recipients,
+        Languages.of(context)!.strMonthlyReportSubject.replaceAll("%", month.toString()).replaceAll("#", _userData!.currentWorkspace),
         Languages.of(context)!.strMonthlyReportContentHeader + "\n\n" +
         monthlySummary + "\n\n" +
         Languages.of(context)!.strMonthlyReportContentFooter
@@ -304,7 +331,7 @@ class UserStorage with ChangeNotifier {
   // ================== Requests ==================
 
   // sendEmail
-  void sendEmail(String recipient, String subject, String text) async {
+  void sendEmail(List<String> recipients, String subject, String text) async {
     if (globalNavigatorKey.currentContext == null) {
       return;
     }
@@ -313,7 +340,7 @@ class UserStorage with ChangeNotifier {
     SmtpServer smtpServer = gmail(gc.appEmail, gc.appPassword);
     final message = mail.Message()
       ..from = mail.Address(gc.appEmail, Languages.of(context)!.strAppName)
-      ..recipients.add(recipient)
+      ..recipients.addAll(recipients)
       ..subject = subject
       ..text = text;
 
@@ -356,12 +383,20 @@ class UserStorage with ChangeNotifier {
     return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!), specificKey: config.belongsWorkspaces);
   }
 
+  Future<bool> isExist_BalanceModel() async {
+    String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.getEmail! : _userData!.currentWorkspace;
+    String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
+
+    return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date));
+  }
+
   // GET
   Future<void> GET_generalInfo(BuildContext context) async {  // Get General Info
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
       await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
+          GeneralInfoDispatcher.notifyAll();
           if (_userData != null && _userData!.language != "") {
             changeLanguage(context, _userData!.language);
           }
@@ -378,38 +413,30 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  Future<void> GET_balanceModel({VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback}) async {
-      if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
+  Future<BalanceModel> GET_balanceModel({VoidCallbackJson? successCallback, VoidCallbackNull? failureCallback, DateTime? dateTime}) async {
+    BalanceModel balanceModel = BalanceModel();
+
+    if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
+      String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, dateTime == null ? currentDate : dateTime);
       String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.getEmail! : _userData!.currentWorkspace;
+      print("@@ GET_balanceModel");
+      print("@@ $workspace/$date");
       await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).get().then((categories) async {
         if (categories.exists && categories.data() != null) { // There is data
-          _balance = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
+          balanceModel = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
           successCallback != null ? successCallback(categories.data()![config.categoriesDoc]) : null;
 
         } else {  // There is no data
-          await _getBalanceIfEndOfMonth();
           failureCallback != null ? failureCallback(null) : null;
         }
-        notifyListeners();
       });
 
     } else {
       failureCallback != null ? failureCallback(null) : null;
       GoogleAnalytics.instance.logPreCheckFailed("GetBalanceModel");
     }
-  }
 
-  Future<void> GET_balanceModelAfterLogin(BalanceModel lastBalance, bool isSignIn) async {
-    void _addCurrentBalance([Json? data]) {
-      if (!lastBalance.isEmpty) {
-        _balance = _balance.filterCategoriesWithDifferentNames(lastBalance);
-        SEND_fullBalanceModel();
-        notifyListeners();
-      }
-    }
-
-    isSignIn ? await GET_balanceModel(successCallback: _addCurrentBalance, failureCallback: _addCurrentBalance) : _addCurrentBalance();
+    return balanceModel;
   }
 
   Future<WorkspaceUsers?> GET_workspaceUsers(String workspace) async {
@@ -433,9 +460,9 @@ class UserStorage with ChangeNotifier {
   }
 
   // SEND
-  void SEND_generalInfo() {
+  Future<void> SEND_generalInfo() async {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).set({
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).set({
       config.generalInfoDoc: _userData!.toJson(),
       });
     } else {
@@ -466,6 +493,17 @@ class UserStorage with ChangeNotifier {
     }
 
     _SEND_BalanceModel(_sendFullBalance, workspace);
+  }
+
+  void SEND_balanceModelAfterLogin(BalanceModel lastBalance) {
+    if (_userData != null && _userData!.lastUpdatedDate != getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, DateTime.now())) {
+      return;
+    }
+
+    GeneralInfoDispatcher.subscribe(() {
+      _balance = _balance.filterCategoriesWithDifferentNames(lastBalance);
+      SEND_fullBalanceModel();
+    });
   }
 
   void SEND_updateCategory(model.Category category, bool toAdd, [String? workspace]) {
@@ -550,7 +588,7 @@ class UserStorage with ChangeNotifier {
     return _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).snapshots();
   }
 
-  Stream<DocumentSnapshot>? STREAM_balanceModel() {  // TODO: handle end of month
+  Stream<DocumentSnapshot>? STREAM_balanceModel() {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
       String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.getEmail! : _userData!.currentWorkspace;
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
