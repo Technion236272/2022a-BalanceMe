@@ -2,12 +2,14 @@
 import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class WorkspaceUsers {
   WorkspaceUsers(String leaderEmail) {
     _initSortedLists();
     users.add(leaderEmail);
     leader = leaderEmail;
+    lastUpdatedDate = getCurrentMonthPerEndMonthDay(gc.defaultEndOfMonthDay, DateTime.now());
   }
 
   void _initSortedLists() {
@@ -20,23 +22,27 @@ class WorkspaceUsers {
     users.addAll(jsonToElementList(workspaceUsersJson["users"], (user) => user).cast<String>());
     leader = workspaceUsersJson["leader"];
     pendingJoiningRequests.addAll(jsonToElementList(workspaceUsersJson["pendingJoiningRequests"], (user) => user).cast<String>());
+    lastUpdatedDate = workspaceUsersJson["lastUpdatedDate"];
   }
 
   WorkspaceUsers copy() {
     WorkspaceUsers newWorkspace = WorkspaceUsers(leader);
     newWorkspace.users.addAll(users);
     newWorkspace.pendingJoiningRequests.addAll(pendingJoiningRequests);
+    newWorkspace.lastUpdatedDate = lastUpdatedDate;
     return newWorkspace;
   }
 
   late SortedList<String> users;
   late String leader;
   late SortedList<String> pendingJoiningRequests;
+  late String lastUpdatedDate;
 
   Json toJson() => {
     'users': users.toList(),
     'leader': leader,
     'pendingJoiningRequests': pendingJoiningRequests.toList(),
+    'lastUpdatedDate': lastUpdatedDate
   };
 
   bool get isEmpty => users.isEmpty;
@@ -57,6 +63,6 @@ class WorkspaceUsers {
   }
 
   static bool isWorkspaceUsersValid(Json json) {
-    return json["users"] != null && json["leader"] != null && json["pendingJoiningRequests"] != null;
+    return json["users"] != null && json["leader"] != null && json["pendingJoiningRequests"] != null && json["lastUpdatedDate"] != null;
   }
 }

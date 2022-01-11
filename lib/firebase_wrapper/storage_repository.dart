@@ -248,17 +248,35 @@ class UserStorage with ChangeNotifier {
     return true;
   }
 
+  Future<String?> _getLastUpdatedDate() async {
+    if (_userData == null || _authRepository == null) {
+      return null;
+    } else if (_userData!.currentWorkspace == _authRepository!.getEmail) {
+      return _userData!.lastUpdatedDate;
+    }
+    WorkspaceUsers? workspaceUsers = await GET_workspaceUsers(_userData!.currentWorkspace);
+    return workspaceUsers == null ? null : workspaceUsers.lastUpdatedDate;
+  }
+
+  void _setLastUpdatedDate(String date) {
+    if (_userData != null && _authRepository != null && _userData!.currentWorkspace == _authRepository!.getEmail) {
+      _userData!.lastUpdatedDate = date;
+    } else if (_userData != null) {
+      SEND_updateWorkspaceDate(_userData!.currentWorkspace, date);
+    }
+  }
+
   void getBalanceAfterEndOfMonth() {
     GeneralInfoDispatcher.subscribe(() async {
       String date = getCurrentMonthPerEndMonthDay(_userData!.endOfMonthDay, DateTime.now());
       print("@@@@ currentData $date");
       print("@@@@ _userData!.lastUpdatedDate ${_userData!.lastUpdatedDate}");
-      if (currentDate == null || _userData == null || _userData!.lastUpdatedDate == date) {
-        print("Same Date- RETUREN");
+      if (currentDate == null || _userData == null || await _getLastUpdatedDate() == date) {
+        print("Same Date- RETURN");
         return;
       }
 
-      _userData!.lastUpdatedDate = date;
+      _setLastUpdatedDate(date);
       print("@@ enter getBalanceAfterEndOfMonth");
 
       DateTime previousMonth = DateTime(currentDate!.year, currentDate!.month - 1, currentDate!.day);
@@ -270,12 +288,12 @@ class UserStorage with ChangeNotifier {
 
       if (_userData!.currentWorkspace == _authRepository!.getEmail && _userData!.bankBalance != null) {
         _userData!.bankBalance = _userData!.bankBalance! + balance.getTotalAmount(isIncome: true, isExpected: false) - balance.getTotalAmount(isIncome: false, isExpected: false);
+
+        if (_userData!.sendReport && !balanceModel.isEmpty) {
+          sendEndOfMonthReport(balanceModel, previousMonth.month);
+        }
       }
       SEND_generalInfo();
-
-      if (_userData!.sendReport && !balanceModel.isEmpty) {
-        sendEndOfMonthReport(balanceModel, previousMonth.month);
-      }
     });
   }
 
@@ -311,16 +329,8 @@ class UserStorage with ChangeNotifier {
           Languages.of(context)!.strEndOfMonthBankBalance + " " + (userData!.bankBalance! + (totalIncomes - totalExpenses)).toString();
     }
 
-    List<String> recipients = [_authRepository!.getEmail!];
-    if (_userData!.currentWorkspace != _authRepository!.getEmail!) {
-      WorkspaceUsers? workspaceUsers = await GET_workspaceUsers(_userData!.currentWorkspace);
-      if (workspaceUsers != null) {
-        recipients = workspaceUsers.users;
-      }
-    }
-
     sendEmail(
-        recipients,
+        _authRepository!.getEmail!,
         Languages.of(context)!.strMonthlyReportSubject.replaceAll("%", month.toString()).replaceAll("#", _userData!.currentWorkspace),
         Languages.of(context)!.strMonthlyReportContentHeader + "\n\n" +
         monthlySummary + "\n\n" +
@@ -331,7 +341,7 @@ class UserStorage with ChangeNotifier {
   // ================== Requests ==================
 
   // sendEmail
-  void sendEmail(List<String> recipients, String subject, String text) async {
+  void sendEmail(String recipients, String subject, String text) async {
     if (globalNavigatorKey.currentContext == null) {
       return;
     }
@@ -340,7 +350,7 @@ class UserStorage with ChangeNotifier {
     SmtpServer smtpServer = gmail(gc.appEmail, gc.appPassword);
     final message = mail.Message()
       ..from = mail.Address(gc.appEmail, Languages.of(context)!.strAppName)
-      ..recipients.addAll(recipients)
+      ..recipients.add(recipients)
       ..subject = subject
       ..text = text;
 
@@ -496,10 +506,6 @@ class UserStorage with ChangeNotifier {
   }
 
   void SEND_balanceModelAfterLogin(BalanceModel lastBalance) {
-    if (_userData != null && _userData!.lastUpdatedDate != getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, DateTime.now())) {
-      return;
-    }
-
     GeneralInfoDispatcher.subscribe(() {
       _balance = _balance.filterCategoriesWithDifferentNames(lastBalance);
       SEND_fullBalanceModel();
@@ -543,7 +549,13 @@ class UserStorage with ChangeNotifier {
     });
   }
 
-  void SEND_initialBelongWorkspace() {
+  void SEND_updateWorkspaceDate(String workspace, String date) {
+    _firestore.collection(config.firebaseVersion).doc(workspace).update({
+      "${config.workspaceUsers}.lastUpdatedDate" : date,
+    });
+  }
+
+  void SEND_initialBelongWorkspace() {  // TODO- maybe not needed?
     if (_authRepository != null && _authRepository!.getEmail != null) {
       _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).update({
         config.belongsWorkspaces: BelongsWorkspaces(_authRepository!.getEmail!).toJson(),

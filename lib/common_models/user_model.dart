@@ -50,7 +50,6 @@ class UserModel {
       language = json["language"];
     }
     if (json["bankBalance"] != null) {
-      print(json["bankBalance"]);
       bankBalance = (json["bankBalance"] as num).toDouble();
     }
     if (json["sendReport"] != null) {
