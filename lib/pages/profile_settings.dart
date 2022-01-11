@@ -100,9 +100,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     imageOptions.add(() async {
       await _chooseAvatarSource(ImageSource.camera);
     });
-    imageOptions.add(() async {
-      await _deleteAvatar();
-    });
+    if (widget.authRepository.avatarUrl != null) {
+      imageOptions.add(() async {
+        await _deleteAvatar();
+      });
+    }
     return imageOptions;
   }
 
@@ -121,19 +123,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     navigateBack(context);
   }
 
-  void _deleteImage()  {
-    navigateBack(context);
-    navigateBack(context);
-    setState(() async {
-    await  widget.authRepository.deleteAvatarUrl();
-    });
+  void _deleteImage()async{
+    _cancelDeleteImage();
+    await widget.authRepository.deleteAvatarUrl();
   }
 
   List<Widget?> _iconsLeading() {
     List<Widget?> icons = [];
     icons.add(const Icon(gc.galleryChoice));
     icons.add(const Icon(gc.cameraChoice));
-    icons.add(const Icon(gc.deleteIcon));
+    if (widget.authRepository.avatarUrl!=null) {
+      icons.add(const Icon(gc.deleteIcon));
+    }
     return icons;
   }
 
@@ -141,7 +142,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     List<String> titles = [];
     titles.add(Languages.of(context)!.strGalleryOption);
     titles.add(Languages.of(context)!.strCameraOption);
-    titles.add(Languages.of(context)!.strDeleteProfile);
+
+    if (widget.authRepository.avatarUrl!=null) {
+      titles.add(Languages.of(context)!.strDeleteProfile);
+    }
     return titles;
   }
 
@@ -177,16 +181,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     imagePicker(context, _getActions(), _iconsLeading(), _getOptionTitles());
   }
 
-  void _saveChanges() {
+  void _updateIsLoadingState(bool state) {
     setState(() {
-      _isLoading = true;
+      _isLoading = state;
     });
+  }
+  void _saveChanges() {
+    _updateIsLoadingState(true);
     _updateFirstName();
     _updateLastName();
     _saveProfile();
-    setState(() {
-      _isLoading = false;
-    });
+    _updateIsLoadingState(false);
   }
 
   @override
