@@ -1,4 +1,5 @@
 // ================= Summary Page =================
+import 'package:balance_me/global/dispatcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/generic_edit_button.dart';
@@ -25,7 +26,7 @@ class _SummaryPageState extends State<SummaryPage> {
   late double _currentExpenses;
   late double _expectedIncomes;
   late double _expectedExpenses;
-  late TextEditingController _controllerBankBalance;
+  TextEditingController _controllerBankBalance = TextEditingController();
 
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
@@ -37,9 +38,14 @@ class _SummaryPageState extends State<SummaryPage> {
   }
 
   void _init() {
-    String bankBalance = (userStorage.userData != null && userStorage.userData!.bankBalance != null) ? userStorage.userData!.bankBalance.toString() : "";
-    _controllerBankBalance = TextEditingController(text: bankBalance);
+    GeneralInfoDispatcher.subscribe(() {
+      if (userStorage.userData != null && userStorage.userData!.bankBalance != null) {
+        TextEditingController(text: userStorage.userData!.bankBalance.toString());
+      }
+    });
+  }
 
+  void _calculateBalance() {
     _currentIncomes = userStorage.balance.getTotalAmount(isIncome: true, isExpected: false);
     _currentExpenses = userStorage.balance.getTotalAmount(isIncome: false, isExpected: false);
     _expectedIncomes = userStorage.balance.getTotalAmount(isIncome: true, isExpected: true);
@@ -50,7 +56,12 @@ class _SummaryPageState extends State<SummaryPage> {
     navigateToPage(context, SetWorkspace(), AppPages.SetWorkspace);
   }
 
-  bool get showWorkspacesAndBankBalance => (authRepository.status == AuthStatus.Authenticated && userStorage.userData != null && userStorage.currentDate != null);
+  bool get showWorkspacesAndBankBalance {
+    print(authRepository.status == AuthStatus.Authenticated);
+    print(userStorage.userData != null);
+    print(userStorage.currentDate);
+    return (authRepository.status == AuthStatus.Authenticated && userStorage.userData != null && userStorage.currentDate != null);
+  }
 
   void _updateBankBalance() {
     if (userStorage.userData != null) {
@@ -156,6 +167,7 @@ class _SummaryPageState extends State<SummaryPage> {
 
   @override
   Widget build(BuildContext context) {
+    _calculateBalance();
     return SingleChildScrollView(
       child: Padding(
         padding: gc.summeryHorizontalPadding,
@@ -163,12 +175,14 @@ class _SummaryPageState extends State<SummaryPage> {
           children: [
             Padding(
               padding: gc.summeryVerticalPadding,
-              child: Text(
-                Languages.of(context)!.strBalanceSummary,
-                style: TextStyle(fontSize: gc.tabFontSize, fontWeight: FontWeight.bold),
+              child: Visibility(
+                visible: userStorage.currentDate != null,
+                child: Text(
+                  Languages.of(context)!.strBalanceSummary,
+                  style: TextStyle(fontSize: gc.tabFontSize, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
-            // TODO- design: add diagram
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -209,7 +223,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 )
               ],
             ),
-            Divider(),
+            Visibility(visible: showWorkspacesAndBankBalance && userStorage.userData!.currentWorkspace == authRepository.getEmail, child: Divider()),
             Visibility(
               visible: showWorkspacesAndBankBalance && userStorage.userData!.currentWorkspace == authRepository.getEmail,
               child: Row(

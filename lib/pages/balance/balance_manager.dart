@@ -33,7 +33,7 @@ class _BalanceManagerState extends State<BalanceManager> {
     widget._userStorage.setDate();
   }
 
-  bool _shouldShowWelcomePage() => widget._userStorage.balance.isEmpty;
+  bool _shouldShowWelcomePage() => widget._userStorage.balance.isEmpty && widget._authRepository.status != AuthStatus.Authenticated;
 
   void _setCurrentTab(int currentTab) {
     FocusScope.of(context).unfocus(); // Remove the keyboard
