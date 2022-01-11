@@ -264,6 +264,8 @@ class UserStorage with ChangeNotifier {
       await GET_balanceModel(  // get previous month data and filter the constants transaction
           successCallback: (Json data) {
             _balance = _balance.filterCategoriesWithConstantsTransaction();
+            transferConstantImages(_balance.incomeCategories);
+            transferConstantImages(_balance.expensesCategories);
           });
       currentDate = DateTime.now();
       SEND_fullBalanceModel();
@@ -664,4 +666,20 @@ class UserStorage with ChangeNotifier {
 
       notifyListeners();
     }
+
+  void transferConstantImages(List<model.Category> constantCategories) {
+    constantCategories.forEach((category) {
+      category.transactions.forEach((transaction) async {
+        if (transaction.isConstant) {
+          model.Transaction prevMonth = transaction;
+          String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, currentDate);
+          prevMonth.date = date;
+          File? image = await downloadImageFile(prevMonth, category);
+          if (image != null) {
+            uploadTransactionImage(transaction, category, image.path);
+          }
+        }
+      });
+    });
   }
+}
