@@ -1,4 +1,5 @@
 // ================= Summary Page =================
+import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/global/dispatcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,8 @@ import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SummaryPage extends StatefulWidget {
-  const SummaryPage({Key? key}) : super(key: key);
+  const SummaryPage(this._balance, {Key? key}) : super(key: key);
+  final BalanceModel _balance;
 
   @override
   _SummaryPageState createState() => _SummaryPageState();
@@ -46,10 +48,10 @@ class _SummaryPageState extends State<SummaryPage> {
   }
 
   void _calculateBalance() {
-    _currentIncomes = userStorage.balance.getTotalAmount(isIncome: true, isExpected: false);
-    _currentExpenses = userStorage.balance.getTotalAmount(isIncome: false, isExpected: false);
-    _expectedIncomes = userStorage.balance.getTotalAmount(isIncome: true, isExpected: true);
-    _expectedExpenses = userStorage.balance.getTotalAmount(isIncome: false, isExpected: true);
+    _currentIncomes = widget._balance.getTotalAmount(isIncome: true, isExpected: false);
+    _currentExpenses = widget._balance.getTotalAmount(isIncome: false, isExpected: false);
+    _expectedIncomes = widget._balance.getTotalAmount(isIncome: true, isExpected: true);
+    _expectedExpenses = widget._balance.getTotalAmount(isIncome: false, isExpected: true);
   }
 
   void _openSetWorkspace() {
@@ -57,9 +59,6 @@ class _SummaryPageState extends State<SummaryPage> {
   }
 
   bool get showWorkspacesAndBankBalance {
-    print(authRepository.status == AuthStatus.Authenticated);
-    print(userStorage.userData != null);
-    print(userStorage.currentDate);
     return (authRepository.status == AuthStatus.Authenticated && userStorage.userData != null && userStorage.currentDate != null);
   }
 

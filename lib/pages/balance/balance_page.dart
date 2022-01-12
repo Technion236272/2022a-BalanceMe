@@ -24,7 +24,7 @@ class BalancePage extends StatelessWidget {
     return TabGeneric(
       getGenericTabs([Languages.of(context)!.strSummary, Languages.of(context)!.strExpenses, Languages.of(context)!.strIncomes]),
       [
-        SummaryPage(),
+        SummaryPage(this._balanceModel),
         _getTabBarView(context, _balanceModel.expensesCategories),
         _getTabBarView(context, _balanceModel.incomeCategories),
       ],
