@@ -12,6 +12,7 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
+import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SummaryPage extends StatefulWidget {
@@ -125,7 +126,8 @@ class _SummaryPageState extends State<SummaryPage> {
                           ),
                         ),
                       ),
-                      Text(firstAmount.toString(),
+                      Text(
+                        firstAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                         style: TextStyle(
                           color: gc.primaryColor,
                           fontWeight: FontWeight.bold,
@@ -146,7 +148,8 @@ class _SummaryPageState extends State<SummaryPage> {
                             ),
                           ),
                         ),
-                        Text(secAmount.toString(),
+                        Text(
+                          secAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                           style: TextStyle(
                             color: gc.primaryColor,
                             fontWeight: FontWeight.bold,
