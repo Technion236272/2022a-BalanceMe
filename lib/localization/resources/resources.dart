@@ -52,7 +52,9 @@ abstract class Languages {
   String get strWeakPassword;
   String get strNotSignedIn;
   String get strSignInTimeout;
-  String get strChangeLanguageAlertDialogContent;
+  String get strLanguage;
+  String get strTheme;
+  String get strBeforeChangeAlertDialogContent;
   String get strEndOfMonthInfo;
   String get strVersionInfo;
   String get strCurrencyInfo;

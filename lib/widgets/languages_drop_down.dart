@@ -32,7 +32,7 @@ class _LanguageDropDownState extends State<LanguageDropDown> {
     if (Provider.of<AuthRepository>(context, listen: false).status != AuthStatus.Authenticated && !userStorage.balance.isEmpty) {
       await showYesNoAlertDialog(
           context,
-          Languages.of(context)!.strChangeLanguageAlertDialogContent,
+          Languages.of(context)!.strBeforeChangeAlertDialogContent.replaceAll("%", Languages.of(context)!.strLanguage),
           _changeLanguageCallback,
           _closeDialogCallback
       );

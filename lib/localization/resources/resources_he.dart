@@ -132,7 +132,13 @@ class LanguageHe extends Languages {
   String get strSignInTimeout => "‎אין חשבון רשום כעת, יש לנסות שוב";
 
   @override
-  String get strChangeLanguageAlertDialogContent => "‎שימו לב:\nשינוי השפה עלול לגרום לאיפוס המידע. על מנת לשמור את המידע יש להתחבר או להירשם.\nהאם ברצונך להחליף שפה בכל זאת?";
+  String get strLanguage => "‎שפה";
+
+  @override
+  String get strTheme => "‎צבעים";
+
+  @override
+  String get strBeforeChangeAlertDialogContent => "‎שימו לב:\nשינוי ה% עלול לגרום לאיפוס המידע. על מנת לשמור את המידע יש להתחבר או להירשם.\nהאם ברצונך להחליף % בכל זאת?";
 
   @override
   String get strEndOfMonthInfo => "זהו היום בו המידע שלך מהמאזן מועבר לארכיון‎";

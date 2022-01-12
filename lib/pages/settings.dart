@@ -7,6 +7,7 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/authentication/change_password.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
+import 'package:balance_me/widgets/dark_mode_switcher.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -44,10 +45,6 @@ class _SettingsState extends State<Settings> {
         widget.userStorage.SEND_generalInfo();
       }
     }
-  }
-
-  void _setTheme(bool isDarkMode) {
-    widget.userStorage.setTheme(context, isDarkMode);
   }
 
   TextStyle _getTextDesign() {
@@ -166,7 +163,7 @@ class _SettingsState extends State<Settings> {
       widget.authRepository.status != AuthStatus.Authenticated ? null :
         Checkbox(value: widget.userStorage.userData!.sendReport, onChanged: _toggleSendEmail),
       const LanguageDropDown(),
-      Switch(value: globalIsDarkMode, onChanged: _setTheme),
+      const DarkModeSwitcher(),
     ];
 
     return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);

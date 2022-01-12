@@ -132,7 +132,13 @@ class LanguageEn extends Languages {
   String get strSignInTimeout => "Password change failed. sign in and try again";
 
   @override
-  String get strChangeLanguageAlertDialogContent => "Attention:\nchange language might reset all your data. For saving the data, please log-in or sign up first.\nAre you sure you want to change the language?";
+  String get strLanguage => "language";
+
+  @override
+  String get strTheme => "theme";
+
+  @override
+  String get strBeforeChangeAlertDialogContent => "Attention:\nChange % might reset all your data. For saving the data, please log-in or sign up first.\nAre you sure you want to change the %?";
 
   @override
   String get strEndOfMonthInfo => "This is the day when your balance data is sent to the archive";
