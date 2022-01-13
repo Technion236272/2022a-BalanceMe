@@ -172,8 +172,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   Widget _getModalBottomSheet(bool isAddWorkspace) {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
-      child: SizedBox(
+      child: Container(
         height: MediaQuery.of(context).size.height / gc.bottomSheetSizeScale,
+        color: Theme.of(context).cardColor,
         child: Form(
           key: _modalBottomSheetFormKey,
           child: Column(
@@ -232,13 +233,13 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       padding: gc.workspaceTilePadding,
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColorLight,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(gc.entryBorderRadius),
           border: Border.all(
             color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).disabledColor,
           ),
           boxShadow: [
-            userStorage.userData!.currentWorkspace == workspace ? BoxShadow(color: Theme.of(context).toggleableActiveColor, blurRadius: 2, offset: Offset(2,2)) : BoxShadow()
+            userStorage.userData!.currentWorkspace == workspace ? BoxShadow(color: Theme.of(context).shadowColor, blurRadius: 2, offset: Offset(2,2)) : BoxShadow()
           ],
         ),
         child: ListTile(
@@ -345,7 +346,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       visible: visibleCondition,
       child: Column(
         children: [
-          Text(title, style: Theme.of(context).textTheme.headline5,),
+          Text(title, style: Theme.of(context).textTheme.headline3,),
           Padding(
             padding: gc.userTilePadding,
             child: Container(

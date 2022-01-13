@@ -42,7 +42,7 @@ class TextBox extends StatelessWidget {
           keyboardType: isNumeric ? TextInputType.number : TextInputType.multiline,
           validator: validatorFunction,
           inputFormatters: isNumeric ? [
-            FilteringTextInputFormatter.allow(RegExp(r'^[+-]?\d+\.?\d{0,2}'))] : [],
+            FilteringTextInputFormatter.allow(RegExp(r'(^-?\d*\.?\d{0,2})'))] : [],
           obscureText: hideText,
           onChanged: onChanged,
           textAlign: textAlign == null ? TextAlign.start : textAlign!,
