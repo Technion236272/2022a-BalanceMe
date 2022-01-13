@@ -52,6 +52,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
     if (message == null) {
       message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
     }
+    if (message == null) {
+      return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+    }
     return message;
   }
 
