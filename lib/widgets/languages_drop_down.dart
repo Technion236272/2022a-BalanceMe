@@ -57,6 +57,7 @@ class _LanguageDropDownState extends State<LanguageDropDown> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton<LanguageData>(
+      dropdownColor: Theme.of(context).cardColor,
       hint: Text(Languages.of(context)!.languageName),
       onChanged: _onChangeLanguage,
       items: LanguageData.languageList().map<DropdownMenuItem<LanguageData>>(

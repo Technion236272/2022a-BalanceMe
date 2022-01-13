@@ -29,20 +29,20 @@ class GenericInfo extends StatelessWidget {
             children: [title == null ? Container()
                 : Text(
                   title!,
-                  style: const TextStyle(fontSize: gc.infoTitleFontSize),
+                  style: TextStyle(fontSize: gc.infoTitleFontSize),
                 ),
               topInfo == null ? Container()
                   : Padding(
                     padding: gc.innerColumnPadding,
                     child: Text(
                       topInfo!,
-                      style: const TextStyle(fontSize: gc.infoFontSize),
+                      style: TextStyle(fontSize: gc.infoFontSize),
                     ),
                   ),
               bottomInfo == null ? Container()
                   : Text(
                     bottomInfo!,
-                    style: const TextStyle(fontSize: gc.infoFontSize),
+                    style: TextStyle(fontSize: gc.infoFontSize),
                   ),],
           ),
         ),

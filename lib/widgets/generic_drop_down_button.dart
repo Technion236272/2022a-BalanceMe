@@ -73,7 +73,7 @@ class _GenericDropDownButtonState extends State<GenericDropDownButton> {
             value: widget._dropDownButtonController.value,
             items: itemsList,
             onChanged: _onChanged,
-            dropdownColor: Theme.of(context).primaryColorLight,
+            dropdownColor: Theme.of(context).cardColor,
             isExpanded: true,
             menuMaxHeight: gc.numOfItems,
             iconSize: gc.dropDownIconSize,

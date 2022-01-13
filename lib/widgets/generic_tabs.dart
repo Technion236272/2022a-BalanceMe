@@ -27,7 +27,7 @@ class _TabGenericState extends State<TabGeneric> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).highlightColor,
+                  color: Theme.of(context).bottomAppBarColor,
                   borderRadius: BorderRadius.circular(gc.tabBorderRadius),
                 ),
                 child: TabBar(

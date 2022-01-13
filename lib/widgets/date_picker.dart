@@ -235,7 +235,7 @@ class _ArchiveDatePickerState extends State<ArchiveDatePicker> {
             child: OutlinedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith(
-                      (states) => Theme.of(context).primaryColorLight),
+                      (states) => Theme.of(context).primaryColorDark),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(widget.height / 2),
@@ -249,12 +249,12 @@ class _ArchiveDatePickerState extends State<ArchiveDatePicker> {
                     children: [
                       Text(
                         initialDateString,
-                        style: Theme.of(context).textTheme.subtitle1
+                        style: TextStyle(color: Theme.of(context).hintColor, fontSize: 15.0, fontWeight: FontWeight.bold),
                       ),
                       Icon(
                         widget.isVisible ? gc.expandIcon : gc.minimizeIcon,
                         size: gc.datePickerIconSize,
-                        color: Theme.of(context).hoverColor,
+                        color: Theme.of(context).hintColor,
                       ),
                     ],
                   ),
@@ -286,8 +286,8 @@ class _ArchiveDatePickerState extends State<ArchiveDatePicker> {
                     maxDate: widget.lastDate != null ? widget.lastDate! : DateTime.now(),
                     view: DateRangePickerView.year,
                     selectionColor: Theme.of(context).primaryColor,
-                    backgroundColor: Theme.of(context).hoverColor,
-                    selectionTextStyle: Theme.of(context).textTheme.subtitle1,
+                    backgroundColor: Theme.of(context).focusColor,
+                    selectionTextStyle: TextStyle(color: gc.whiteColor, fontSize: 15.0, fontWeight: FontWeight.bold),
                     showNavigationArrow: true,
                     showActionButtons: true,
                     allowViewNavigation: false,

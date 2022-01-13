@@ -159,7 +159,7 @@ double rightCircleTop = leftCircleTop + 30;
 double welcomeTop = leftCircleTop + 30;
 double balanceInfoTop = leftCircleTop + 80;
 double startedInfoTop = leftCircleTop + 130;
-Color backgroundDesignColor = Colors.grey.shade300;
+Color backgroundDesignColor = Color(0xfffefefe);
 
 //ListView
 const Color dividerColor = Colors.blueGrey;
@@ -245,7 +245,7 @@ const double entryPadding = 8.0;
 const double entryBorderRadius = 10;
 Color entryColor = Colors.white;
 Color entryShadow = Colors.grey.withOpacity(0.5);
-const double shadowDesignConstant = 3;
+const double shadowDesignConstant = 5;
 Color incomeEntryColor = Colors.green.shade600;
 Color expenseEntryColor = Colors.red.shade600;
 

@@ -27,7 +27,7 @@ void navigateBack(context) {
 void displaySnackBar(BuildContext context, String msg, [String? actionLabel, VoidCallback? actionCallback]) {
   final snackBar = SnackBar(
     content: Text(msg),
-    backgroundColor: Theme.of(context).primaryColorLight,
+    backgroundColor: Theme.of(context).splashColor,
     action: (actionLabel == null || actionCallback == null) ? null
     : SnackBarAction(
       label: actionLabel,
