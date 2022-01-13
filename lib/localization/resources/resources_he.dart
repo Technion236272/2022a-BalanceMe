@@ -41,9 +41,6 @@ class LanguageHe extends Languages {
   String get strAdd =>"‎הוסף";
 
   @override
-  String get strAdded =>"‎הוסף";
-
-  @override
   String get strRemoved =>"‎נמחק";
 
   @override
@@ -56,16 +53,7 @@ class LanguageHe extends Languages {
   String get strClose =>"‎סגור";
 
   @override
-  String get strJoin =>"‎הצטרף";
-
-  @override
   String get strInvite =>"‎הזמן";
-
-  @override
-  String get strDismiss =>"‎דחה";
-
-  @override
-  String get strManage =>"‎נהל";
 
   @override
   String get strResend =>"‎שלח שוב";
@@ -434,7 +422,10 @@ class LanguageHe extends Languages {
   String get strWorkspace => "‎מרחב עבודה";
 
   @override
-  String get strWorkspaceExplanation => "";  // TODO
+  String get strWorkspaceExplanation => "‎מרחב עבודה מאפשר לנהל ולשתף את המאזן החודשי בין מספר אנשים.\nבעמוד זה ניתן להוסיף מרחב חדש (אם המרחב כבר קיים ניתן לשלוח בקשת הצטרפות למייסד המרחב), להזמין משתמשים למרחב, למחוק מרחב ולהחליף בין מרחבים.";
+
+  @override
+  String get strWorkspaceTooltip => "‎כל מרחב עבודה מתפקד כיחידה עצמאית וכל שינוי, הוספה והסרה ישתקף בו ולא ישפיע על מרחבים אחרים. ניתן לפתוח מספר לא מוגבל של מרחבי עבודה ולשתף כל אחד מהם עם מספר לא מוגבל של משתמשים. כל שינוי, הוספה או הסרה של הכנסה או הוצאה במרחב ישתקף אוטומטית אצל כל המשתמשים במרחב. ניתן להשתמש במרחבי העבודה גם לניהול אירוע מיוחד הדורש תכנון ספיציפי בפני עצמו, כגון אירוע משפחתי, טיול ועוד.";
 
   @override
   String get strChooseWorkspace => "‎הוספת מרחב עבודה:";
@@ -464,9 +455,6 @@ class LanguageHe extends Languages {
   String get strEmptyWorkspace => "‎מרחב העבודה ריק";
 
   @override
-  String get strWorkspaceInvitation => "‎%הזמין אותך להצטרף למרחב העבודה בשם #.\n";
-
-  @override
   String get strJoinWorkspace => "‎מרחב העבודה כבר קיים.\nהאם לשלוח בקשת הצטרפות למרחב?";
 
   @override
@@ -485,40 +473,31 @@ class LanguageHe extends Languages {
   String get strInviteUserToWorkspace => "‎הזמן משתמש למרחב העבודה";
 
   @override
-  String get strUserInvitedToWorkspace => "Good news!\nYou have been invited to join % workspace by #!";
+  String get strUserInvitedToWorkspace => "‎חדשות טובות!\n המשתמש # הזמין אותך להצטרף למרחב העבודה %";
 
   @override
-  String get strUserRequestJoiningToWorkspace => "# requests to join % workspace";
+  String get strUserRequestJoiningToWorkspace => "‎המשתמש # ביקש להצטרף למרחב העבודה %";
 
   @override
-  String get strUserAcceptsInvitation => "# accepts your invitation to join %!";
+  String get strUserApproveJoining => "‎בקשתך להצטרף למרחב העבודה % אושרה על ידי המשתמש #";
 
   @override
-  String get strUserRejectsInvitation => "Unfortunately, # rejects your invitation to join %!";
+  String get strUserDisapproveJoining => "‎בקשתך להצטרף למרחב העבודה % נדחתה על ידי המשתמש #";
 
   @override
-  String get strUserApproveJoining => "Your application to join % workspace has been approved by #!";
+  String get strPendingUsersRequestsTitle => "‎המשתמשים הבאים מעוניינים להצטרף למרחב העבודה הזה:";
 
   @override
-  String get strUserDisapproveJoining => "Your application to join % workspace has been rejected by #";
+  String get strInvitedSuccessfullyWorkspace => "‎הזמנת הצטרפות למרחב העבודה נשלחה";
 
   @override
-  String get strPendingUsersRequestsTitle => "Those users want to join this workspace:";
+  String get strPendingInvitationsRequests => "‎הוזמנת להצטרף למרחבי העבודה הבאים:";
 
   @override
-  String get strInvitedSuccessfullyWorkspace => "An invitation to the workspace has been sent";
+  String get strUserApproveInvitation => "‎המשתמש # אישר את הזמנתך להצטרף למרחב העבודה %";
 
   @override
-  String get strCantInviteYourself => "You can't invite yourself into workspace";
-
-  @override
-  String get strPendingInvitationsRequests => "You have been invited to join:";
-
-  @override
-  String get strUserApproveInvitation => "# accepts your invitation to join % workspace";
-
-  @override
-  String get strUserRejectInvitation => "# rejects your invitation to join % workspace";
+  String get strUserRejectInvitation => "‎המשתמש # דחה את הזמנתך להצטרף למרחב העבודה %";
 
   // Set Category And Transaction
   @override
@@ -560,26 +539,26 @@ class LanguageHe extends Languages {
 
   // Monthly Report
   @override
-  String get strMonthlyReportSubject => "Your Report For Month % Is Here! [Workspace: #]";
+  String get strMonthlyReportSubject => "‎הדו״ח לחודש % כבר כאן!";
 
   @override
-  String get strMonthlyReportContentHeader => "Hurrah! Another month is ended. It is a good time to summarize the month:";
+  String get strMonthlyReportContentHeader => "‎הידד! עוד חודש הגיע לסיומו. זהו זמן מצוין לסכם את החודש:";
 
   @override
-  String get strMonthlyReportContentFooter => "As usual, the constants transactions for the next month are created.\nSee you next month!";
+  String get strMonthlyReportContentFooter => "‎כרגיל, כל התנועות הקבועות לחודש הבא נוצרו.\nלהתראות בחודש הבא!";
 
   @override
-  String get strFinalIncomes => "Total incomes";
+  String get strFinalIncomes => "‎סך כל ההכנסות";
 
   @override
-  String get strFinalExpenses => "Total expenses";
+  String get strFinalExpenses => "‎סך כל ההוצאות";
 
   @override
-  String get strEndOfMonthBankBalance => "Bank balance after";
+  String get strEndOfMonthBankBalance => "‎המאזן בבנק בסוף החודש";
 
   @override
-  String get strSendMonthlyReport => "Receive monthly report";
+  String get strSendMonthlyReport => "‎קבל דו״ח חודשי";
 
   @override
-  String get strSendMonthlyReportInfo => "Mark it if you wish to get a monthly report to your email at the end of the month";
+  String get strSendMonthlyReportInfo => "‎יש לסמן אם ברצונך לקבל בדואר האלקטרוני דו״ח בסוף כל חודש";
 }

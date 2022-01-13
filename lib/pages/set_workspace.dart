@@ -1,8 +1,9 @@
 // ================= Set Workspace Page =================
-import 'package:balance_me/global/types.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:balance_me/global/types.dart';
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
@@ -378,7 +379,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                         padding: gc.workspacesGeneralPadding,
                         child: Column(
                           children: [
-                            Text(Languages.of(context)!.strWorkspaceExplanation), // TODO- write the content
+                            Text(Languages.of(context)!.strWorkspaceExplanation),
+                            GenericTooltip(tip: Languages.of(context)!.strWorkspaceTooltip),
                             const Divider(),
                             Visibility(
                                 visible: !_shouldShowWorkspaceUsers,

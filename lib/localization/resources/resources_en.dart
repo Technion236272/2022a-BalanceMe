@@ -41,9 +41,6 @@ class LanguageEn extends Languages {
   String get strAdd =>"Add";
 
   @override
-  String get strAdded =>"added";
-
-  @override
   String get strRemoved =>"removed";
 
   @override
@@ -56,16 +53,7 @@ class LanguageEn extends Languages {
   String get strClose =>"Close";
 
   @override
-  String get strJoin =>"Join";
-
-  @override
   String get strInvite =>"Invite";
-
-  @override
-  String get strDismiss =>"Dismiss";
-
-  @override
-  String get strManage =>"Manage";
 
   @override
   String get strResend =>"Resend";
@@ -433,7 +421,10 @@ class LanguageEn extends Languages {
   String get strWorkspace => "Workspace";
 
   @override
-  String get strWorkspaceExplanation => "some explanation";  // TODO
+  String get strWorkspaceExplanation => "‎מרחב עבודה מאפשר לנהל ולשתף את המאזן החודשי בין מספר אנשים.\nבעמוד זה ניתן להוסיף מרחב חדש (אם המרחב כבר קיים ניתן לשלוח בקשת הצטרפות למייסד המרחב), להזמין משתמשים למרחב, למחוק מרחב ולהחליף בין מרחבים.";  // TODO- translate to english
+
+  @override
+  String get strWorkspaceTooltip => "‎כל מרחב עבודה מתפקד כיחידה עצמאית וכל שינוי, הוספה והסרה ישתקף בו ולא ישפיע על מרחבים אחרים. ניתן לפתוח מספר לא מוגבל של מרחבי עבודה ולשתף כל אחד מהם עם מספר לא מוגבל של משתמשים. כל שינוי, הוספה או הסרה של הכנסה או הוצאה במרחב ישתקף אוטומטית אצל כל המשתמשים במרחב. ניתן להשתמש במרחבי העבודה גם לניהול אירוע מיוחד הדורש תכנון ספיציפי בפני עצמו, כגון אירוע משפחתי, טיול ועוד.";  // TODO- translate to english
 
   @override
   String get strChooseWorkspace => "Choose workspace:";
@@ -451,7 +442,7 @@ class LanguageEn extends Languages {
   String get strManageWorkspaces => "Manage Workspaces";
 
   @override
-  String get strNotEmailValidator => "This field include the character @";
+  String get strNotEmailValidator => "This field can't include the character @";
 
   @override
   String get strWorkspaceAlreadyExist => "You are already a member in this workspace";
@@ -461,9 +452,6 @@ class LanguageEn extends Languages {
 
   @override
   String get strEmptyWorkspace => "You are alone in this workspace";
-
-  @override
-  String get strWorkspaceInvitation => "% invites you to join his workspace named #.\n";  // TODO
 
   @override
   String get strJoinWorkspace => "This workspace is already exist.\nDo you want to send a joining request to this workspace?";
@@ -490,12 +478,6 @@ class LanguageEn extends Languages {
   String get strUserRequestJoiningToWorkspace => "# requests to join % workspace";
 
   @override
-  String get strUserAcceptsInvitation => "# accepts your invitation to join %!";
-
-  @override
-  String get strUserRejectsInvitation => "Unfortunately, # rejects your invitation to join %!";
-
-  @override
   String get strUserApproveJoining => "Your application to join % workspace has been approved by #!";
 
   @override
@@ -506,9 +488,6 @@ class LanguageEn extends Languages {
 
   @override
   String get strInvitedSuccessfullyWorkspace => "An invitation to the workspace has been sent";
-
-  @override
-  String get strCantInviteYourself => "You can't invite yourself into workspace";
 
   @override
   String get strPendingInvitationsRequests => "You have been invited to join:";

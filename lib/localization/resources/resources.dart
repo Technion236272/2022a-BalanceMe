@@ -20,15 +20,11 @@ abstract class Languages {
   String get strNo;
   String get strDate;
   String get strAdd;
-  String get strAdded;
   String get strRemoved;
   String get strChanged;
   String get strSet;
   String get strClose;
-  String get strJoin;
   String get strInvite;
-  String get strDismiss;
-  String get strManage;
   String get strResend;
   String get strApprove;
   String get strReject;
@@ -165,6 +161,7 @@ abstract class Languages {
   // Workspaces
   String get strWorkspace;
   String get strWorkspaceExplanation;
+  String get strWorkspaceTooltip;
   String get strChooseWorkspace;
   String get strAddNewWorkspace;
   String get strWorkspaceOperationSuccessful;
@@ -174,7 +171,6 @@ abstract class Languages {
   String get strWorkspaceAlreadyExist;
   String get strOtherWorkspaceUsers;
   String get strEmptyWorkspace;
-  String get strWorkspaceInvitation;
   String get strJoinWorkspace;
   String get strWorkspaceJoinRequestSent;
   String get strPendingWorkspaceRequests;
@@ -183,13 +179,10 @@ abstract class Languages {
   String get strInviteUserToWorkspace;
   String get strUserInvitedToWorkspace;
   String get strUserRequestJoiningToWorkspace;
-  String get strUserAcceptsInvitation;
-  String get strUserRejectsInvitation;
   String get strUserApproveJoining;
   String get strUserDisapproveJoining;
   String get strPendingUsersRequestsTitle;
   String get strInvitedSuccessfullyWorkspace;
-  String get strCantInviteYourself;
   String get strPendingInvitationsRequests;
   String get strUserApproveInvitation;
   String get strUserRejectInvitation;

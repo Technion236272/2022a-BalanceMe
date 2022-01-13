@@ -333,7 +333,7 @@ class UserStorage with ChangeNotifier {
 
     sendEmail(
         _authRepository!.getEmail!,
-        Languages.of(context)!.strMonthlyReportSubject.replaceAll("%", month.toString()).replaceAll("#", _userData!.currentWorkspace),
+        Languages.of(context)!.strMonthlyReportSubject.replaceAll("%", month.toString()),
         Languages.of(context)!.strMonthlyReportContentHeader + "\n\n" +
         monthlySummary + "\n\n" +
         Languages.of(context)!.strMonthlyReportContentFooter
