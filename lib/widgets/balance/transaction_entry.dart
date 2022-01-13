@@ -37,7 +37,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
   Widget _getTransactionEntryWidget() {
     return Container(
       decoration: BoxDecoration(
-        color: gc.entryColor,
+        color: Theme.of(context).cardColor,
         boxShadow: [
           BoxShadow(
             color: gc.entryShadow,
@@ -69,7 +69,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
             Center(
               child: IconButton(
                 onPressed: _openTransactionDetails,
-                icon: const Icon(gc.detailsIcon),
+                icon: Icon(gc.detailsIcon, color: Theme.of(context).hoverColor,),
               ),
             ),
           ],

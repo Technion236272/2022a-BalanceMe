@@ -15,6 +15,8 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
+import 'global/themes.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoogleAnalytics.instance.logAppOpen();
@@ -118,19 +120,8 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
             );
           },
           title: Languages.of(context) == null ? "" : Languages.of(context)!.strAppTitle,
-          theme: ThemeData(
-            appBarTheme: const AppBarTheme(
-              backgroundColor: gc.primaryColor,
-              foregroundColor: gc.secondaryColor,
-            ),
-          ),
-          darkTheme: ThemeData(
-            appBarTheme: const AppBarTheme(
-              backgroundColor: gc.darkPrimaryColor,
-              foregroundColor: gc.darkSecondaryColor,
-            ),
-            scaffoldBackgroundColor: gc.darkPrimaryColor,
-          ),
+          theme: Themes(isDark: false).getTheme(),
+          darkTheme: Themes(isDark: true).getTheme(),
           themeMode: _theme,
           debugShowCheckedModeBanner: false,
           locale: _locale,

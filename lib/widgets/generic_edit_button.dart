@@ -17,7 +17,7 @@ class GenericIconButton extends StatelessWidget {
       onPressed:isDisabled? null :onTap,
       disabledColor: gc.disabledColor.withOpacity(opacity),
       iconSize: iconSize ?? gc.editIconSize,
-      color: color ?? gc.alternativePrimary,
+      color: color ?? Theme.of(context).toggleableActiveColor,
       icon: const Icon(gc.editIcon),
     );
   }

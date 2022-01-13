@@ -75,7 +75,7 @@ class _SummaryPageState extends State<SummaryPage> {
     });
   }
 
-  Widget _summaryCardWidget(String tip, String firstTitle, double firstAmount, String secTitle, double secAmount){
+  Widget _summaryCardWidget(String tip, String firstTitle, double firstAmount, String secTitle, double secAmount, bool isIncome){
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Row(
@@ -92,11 +92,12 @@ class _SummaryPageState extends State<SummaryPage> {
           Expanded(
             flex: 9,
             child: Card(
-              shadowColor: gc.primaryColor.withOpacity(0.5),
+              shadowColor: isIncome ? ((secAmount <= firstAmount) ? gc.incomeEntryColor : gc.expenseEntryColor) : ((firstAmount <= secAmount) ? gc.incomeEntryColor : gc.expenseEntryColor),
               elevation: gc.cardElevationHeight,
               shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                    color: gc.primaryColor, width: gc.cardBorderWidth),
+                side: BorderSide(
+                    color: isIncome ? ((secAmount <= firstAmount) ? gc.incomeEntryColor : gc.expenseEntryColor) : ((firstAmount <= secAmount) ? gc.incomeEntryColor : gc.expenseEntryColor),
+                    width: gc.cardBorderWidth),
                 borderRadius: BorderRadius.circular(gc.entryBorderRadius),
               ),
               child: Row(
@@ -109,15 +110,12 @@ class _SummaryPageState extends State<SummaryPage> {
                         padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                         child: Text(
                           firstTitle,
-                          style: TextStyle(
-                            color: gc.disabledColor,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.subtitle1
                         ),
                       ),
                       Text(firstAmount.toString(),
                         style: TextStyle(
-                          color: gc.primaryColor,
+                          color: isIncome ? ((secAmount <= firstAmount) ? gc.incomeEntryColor : gc.expenseEntryColor) : ((firstAmount <= secAmount) ? gc.incomeEntryColor : gc.expenseEntryColor),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -130,15 +128,12 @@ class _SummaryPageState extends State<SummaryPage> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                           child: Text(secTitle,
-                            style: TextStyle(
-                              color: gc.disabledColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.subtitle1
                           ),
                         ),
                         Text(secAmount.toString(),
                           style: TextStyle(
-                            color: gc.primaryColor,
+                            color: Theme.of(context).toggleableActiveColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -244,11 +239,11 @@ class _SummaryPageState extends State<SummaryPage> {
                 Languages.of(context)!.strCurrentBankBalance,
                 userStorage.userData!.bankBalance! + (_currentIncomes - _currentExpenses),
                 Languages.of(context)!.strExpectedBankBalance,
-                userStorage.userData!.bankBalance! + (_expectedIncomes - _expectedExpenses)) : Container(),
+                userStorage.userData!.bankBalance! + (_expectedIncomes - _expectedExpenses), false) : Container(),
             Divider(),
-            _summaryCardWidget(Languages.of(context)!.strIncomeBalanceInfo, Languages.of(context)!.strCurrentIncomes, _currentIncomes, Languages.of(context)!.strExpectedIncomes, _expectedIncomes),
-            _summaryCardWidget(Languages.of(context)!.strExpensesBalanceInfo, Languages.of(context)!.strCurrentExpenses, _currentExpenses, Languages.of(context)!.strExpectedExpenses, _expectedExpenses),
-            _summaryCardWidget(Languages.of(context)!.strTotalBalanceInfo, Languages.of(context)!.strTotalCurrentBalance, (_currentIncomes - _currentExpenses), Languages.of(context)!.strTotalExpectedBalance, (_expectedIncomes - _expectedExpenses)),
+            _summaryCardWidget(Languages.of(context)!.strIncomeBalanceInfo, Languages.of(context)!.strCurrentIncomes, _currentIncomes, Languages.of(context)!.strExpectedIncomes, _expectedIncomes, true),
+            _summaryCardWidget(Languages.of(context)!.strExpensesBalanceInfo, Languages.of(context)!.strCurrentExpenses, _currentExpenses, Languages.of(context)!.strExpectedExpenses, _expectedExpenses, false),
+            _summaryCardWidget(Languages.of(context)!.strTotalBalanceInfo, Languages.of(context)!.strTotalCurrentBalance, (_currentIncomes - _currentExpenses), Languages.of(context)!.strTotalExpectedBalance, (_expectedIncomes - _expectedExpenses), false),
           ],
         ),
       ),

@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
   IconButton _hidingPasswordEye() {
     return IconButton(
       icon: Icon(showPassword ? gc.hidePassword : gc.showPassword),
-      color: gc.hidePasswordColor,
+      color: Theme.of(context).hoverColor,
       onPressed: _hideText,
     );
   }
@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: _openForgotPasswordPage,
                 child: Text(
                   Languages.of(context)!.strForgotPassword,
-                  style: const TextStyle(color: gc.linkColors),
+                  style: TextStyle(color: Theme.of(context).toggleableActiveColor),
                 ),
               ),
               _performingLogin ?
@@ -139,9 +139,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ) : ElevatedButton(
                 child: Text(Languages.of(context)!.strSignIn),
                 onPressed: _signIn,
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary),
-                ),
               ),
             ],
           ),

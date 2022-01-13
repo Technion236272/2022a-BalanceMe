@@ -31,16 +31,6 @@ class TextBox extends StatelessWidget {
   final TextAlign? textAlign;
   final bool isNumeric;
 
-  OutlineInputBorder focusBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(gc.textFieldRadius),
-      borderSide: const BorderSide(
-        color: gc.primaryColor,
-        width: gc.borderWidth,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -61,10 +51,6 @@ class TextBox extends StatelessWidget {
             contentPadding: textBoxSize,
             hintText: _hintText,
             label: _hintText == null ? null : Text(_hintText!),
-            border: focusBorder(),
-            focusedBorder: haveBorder ? focusBorder() : null,
-            enabledBorder: haveBorder ? focusBorder() : null,
-            errorBorder: haveBorder ? focusBorder() : null,
             suffixIcon: suffix,
           ),
         ),

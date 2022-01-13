@@ -23,13 +23,10 @@ class FormTextField  extends StatelessWidget {
   final bool isEnabled;
   final StringCallbackStringNullable? validatorFunction;
 
-  OutlineInputBorder focusBorder() {
+  OutlineInputBorder noBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(gc.textFieldRadius),
-      borderSide: const BorderSide(
-        color: gc.primaryColor,
-        width: gc.borderWidth,
-      ),
+      borderSide: BorderSide.none,
     );
   }
 
@@ -43,11 +40,10 @@ class FormTextField  extends StatelessWidget {
       textDirection: LanguageHe().languageCode == getLocale().languageCode ? TextDirection.rtl : TextDirection.ltr,
       decoration: InputDecoration(
         hintText: _hintText,
-        hintStyle: gc.defaultHintStyle,
-        border: isBordered ? focusBorder() : null,
-        focusedBorder: isBordered ? focusBorder() : null,
-        enabledBorder: isBordered ? focusBorder() : null,
-        errorBorder: isBordered ? focusBorder() : null,
+        border: isBordered ? null : noBorder(),
+        focusedBorder: isBordered ? null : noBorder(),
+        enabledBorder: isBordered ? null : noBorder(),
+        errorBorder: isBordered ? null : noBorder(),
       ),
       textAlign: isValid ? TextAlign.center : TextAlign.start,
       initialValue: initialValue,
@@ -55,7 +51,6 @@ class FormTextField  extends StatelessWidget {
       validator: isValid ? validatorFunction : null,
       style: isBordered ? null : TextStyle(
           fontSize: gc.inputFontSize,
-          color: gc.inputFontColor
       ),
     );
   }

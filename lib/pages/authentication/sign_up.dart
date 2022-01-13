@@ -48,7 +48,7 @@ class _SignUpState extends State<SignUp> {
   Widget _hidingPasswordEye() {
     return IconButton(
       icon: Icon(signUpPasswordVisible ? gc.hidePassword : gc.showPassword),
-      color: gc.hidePasswordColor,
+      color: Theme.of(context).hoverColor,
       onPressed: () {
         setState(() {
           signUpPasswordVisible = !signUpPasswordVisible;
@@ -60,7 +60,7 @@ class _SignUpState extends State<SignUp> {
   Widget _hidingConfirmPasswordEye() {
     return IconButton(
       icon: Icon(confirmPasswordVisible ? gc.hidePassword : gc.showPassword),
-      color: gc.hidePasswordColor,
+      color: Theme.of(context).hoverColor,
       onPressed: () {
         setState(() {
           confirmPasswordVisible = !confirmPasswordVisible;
@@ -147,10 +147,6 @@ class _SignUpState extends State<SignUp> {
                   : ElevatedButton(
                       child: Text(Languages.of(context)!.strSignIn),
                       onPressed: _signUp,
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            gc.alternativePrimary),
-                      ),
                     ),
             ],
           ),

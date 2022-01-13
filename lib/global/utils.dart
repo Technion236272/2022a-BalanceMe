@@ -27,7 +27,7 @@ void navigateBack(context) {
 void displaySnackBar(BuildContext context, String msg, [String? actionLabel, VoidCallback? actionCallback]) {
   final snackBar = SnackBar(
     content: Text(msg),
-    backgroundColor: globalIsDarkMode ? gc.darkPrimaryColor : null,
+    backgroundColor: Theme.of(context).primaryColorLight,
     action: (actionLabel == null || actionCallback == null) ? null
     : SnackBarAction(
       label: actionLabel,
@@ -41,8 +41,8 @@ Future<void> showAlertDialog(BuildContext context, String alertContent, {String?
   showDialog<String>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
-      title: alertTitle == null ? null : Text(alertTitle),
-      content: Text(alertContent),
+      title: alertTitle == null ? null : Text(alertTitle, style: Theme.of(context).textTheme.subtitle1),
+      content: Text(alertContent, style: Theme.of(context).textTheme.bodyText2),
       actions: alertActions,
     ),
   );
@@ -55,11 +55,11 @@ Future<void> showYesNoAlertDialog(BuildContext context, String alertContent, Voi
     alertTitle: alertTitle,
     alertActions: [
       TextButton(
-        child: Text(Languages.of(context)!.strYes),
+        child: Text(Languages.of(context)!.strYes, style: Theme.of(context).textTheme.subtitle1,),
         onPressed: _yesCallback,
       ),
       TextButton(
-        child: Text(Languages.of(context)!.strNo),
+        child: Text(Languages.of(context)!.strNo, style: Theme.of(context).textTheme.subtitle1),
         onPressed: _noCallback,
       ),
     ]

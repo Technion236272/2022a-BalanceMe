@@ -82,11 +82,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                   padding: const EdgeInsets.only(left: gc.categoryHeaderPadding, right: gc.categoryHeaderPadding),
                   child: Text(
                     widget._category.name,
-                    style: const TextStyle(
-                        color: gc.primaryColor,
-                        fontSize: gc.fontSizeLoginImage,
-                        fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
               ),
@@ -100,7 +96,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                       iconSize: gc.iconSize,
                       padding: const EdgeInsets.fromLTRB(gc.iconHorizontalPadding,gc.iconVerticalPadding,gc.iconHorizontalPadding,gc.iconVerticalPadding),
                       constraints: const BoxConstraints(),
-                      color: gc.primaryColor,
+                      color: Theme.of(context).hoverColor,
                       onPressed: _openAddTransactionPage,
                       icon: const Icon(gc.addIcon),
                     ),
@@ -109,7 +105,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                     iconSize: gc.iconSize,
                     padding: const EdgeInsets.fromLTRB(gc.iconHorizontalPadding,gc.iconVerticalPadding,gc.iconHorizontalPadding,gc.iconVerticalPadding),
                     constraints: const BoxConstraints(),
-                    color: gc.primaryColor,
+                    color: Theme.of(context).hoverColor,
                     onPressed: _openCategoryDetails,
                     icon: const Icon(gc.detailsIcon),
                   ),
@@ -121,7 +117,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                           ? const EdgeInsets.fromLTRB(gc.iconHorizontalPadding,gc.iconVerticalPadding,gc.iconHorizontalPadding,gc.iconVerticalPadding)
                       : const EdgeInsets.fromLTRB(gc.iconHorizontalPadding,gc.iconVerticalPadding,gc.iconHorizontalPadding,gc.iconVerticalPadding),
                       constraints: const BoxConstraints(),
-                      color: gc.primaryColor,
+                      color: Theme.of(context).hoverColor,
                       onPressed: _confirmRemoval,
                       icon: const Icon(gc.deleteIcon),
                     ),
@@ -132,7 +128,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
                         iconSize: gc.iconSize,
                         padding: const EdgeInsets.fromLTRB(gc.iconHorizontalPadding,gc.iconVerticalPadding,gc.iconHorizontalPadding,gc.iconVerticalPadding),
                         constraints: const BoxConstraints(),
-                        color: gc.primaryColor,
+                        color: Theme.of(context).hoverColor,
                         onPressed: widget._toggleCategory,
                         icon: Icon(
                             widget._isCategoryOpen
@@ -154,10 +150,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               widget._category.amount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!) +
                   gc.inPracticeExpectedSeparator +
                   widget._category.expected.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
-              style: const TextStyle(
-                  color: gc.primaryColor,
-                  fontSize: gc.fontSizeLoginImage,
-                  fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
         ),
@@ -174,7 +167,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
               percent: _getProgressPercentage(),
               center: Text((_getProgressPercentage() * 100).toPrecision().toPercentageFormat()),
               linearStrokeCap: LinearStrokeCap.roundAll,
-              progressColor: gc.primaryColor,
+              progressColor: Theme.of(context).toggleableActiveColor,
             ),
           ),
         ),
@@ -182,8 +175,7 @@ class _CategoryHeaderState extends State<CategoryHeader> {
             visible: widget._isCategoryOpen && widget._category.transactions.isNotEmpty,
             child: const Padding(
               padding: EdgeInsets.only(bottom: gc.categoryAroundPadding),
-              child: Divider(
-                  color: gc.primaryColor, thickness: gc.dividerThickness),
+              child: Divider()
             ))
       ]),
     );

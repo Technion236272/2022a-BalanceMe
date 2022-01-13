@@ -27,17 +27,13 @@ class _TabGenericState extends State<TabGeneric> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: gc.tabBarColor,
+                  color: Theme.of(context).highlightColor,
                   borderRadius: BorderRadius.circular(gc.tabBorderRadius),
                 ),
                 child: TabBar(
                     onTap:(int value) { if (widget.onSwitch!=null) {
                       widget.onSwitch!(value);
                     }},
-                    indicator: BoxDecoration(
-                      color: gc.tabIndicatorColor,
-                      borderRadius: BorderRadius.circular(gc.tabBorderRadius),
-                    ),
                     labelColor: gc.tabLabelColor,
                     indicatorSize: TabBarIndicatorSize.tab,
                     labelStyle: TextStyle(fontSize: gc.tabFontSize, fontWeight: FontWeight.bold),

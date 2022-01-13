@@ -49,7 +49,7 @@ class _GenericRadioButtonState extends State<GenericRadioButton> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Radio<String>(
-            activeColor: widget.isDisabled ? gc.disabledColor : gc.primaryColor,
+            activeColor: widget.isDisabled ? gc.disabledColor : null,
             value: data,
             groupValue: widget._radioButtonController.value,
             onChanged: widget.isDisabled ? null : _activateRadioButton,

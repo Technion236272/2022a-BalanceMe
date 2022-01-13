@@ -41,8 +41,8 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
             shadowColor: gc.primaryColor.withOpacity(0.5),
             elevation: gc.cardElevationHeight,
             shape: RoundedRectangleBorder(
-              side: const BorderSide(
-                  color: gc.primaryColor, width: gc.cardBorderWidth),
+              side: BorderSide(
+                  color: Theme.of(context).toggleableActiveColor, width: gc.cardBorderWidth),
               borderRadius: BorderRadius.circular(gc.entryBorderRadius),
             ),
             child: Row(
@@ -57,11 +57,7 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
                         padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                         child: Text(
                           Languages.of(context)!.strCurrent,
-                          style: TextStyle(
-                              color: gc.disabledColor,
-                              fontSize: gc.fontSizeLoginImage,
-                              fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ),
                       Text(_getTotalCategoriesListAmount(false).toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
@@ -85,19 +81,11 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                         child: Text(Languages.of(context)!.expected,
-                            style: TextStyle(
-                                color: gc.disabledColor,
-                                fontSize: gc.fontSizeLoginImage,
-                                fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ),
                       Text(_getTotalCategoriesListAmount(true).toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
-                          style: const TextStyle(
-                              color: gc.primaryColor,
-                              fontSize: gc.fontSizeLoginImage,
-                              fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.subtitle2,
                       ),
                     ],
                   ),

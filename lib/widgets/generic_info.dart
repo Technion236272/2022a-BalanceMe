@@ -17,7 +17,7 @@ class GenericInfo extends StatelessWidget {
         width: MediaQuery.of(context).size.width - gc.generalInfoWidthCorrection,
         height: gc.generalInfoHeight,
         decoration: BoxDecoration(
-          color: gc.backgroundDesignColor,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(gc.cardBorderRadius),
         ),
         child: Padding(
