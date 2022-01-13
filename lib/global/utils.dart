@@ -142,12 +142,12 @@ extension Ex on num {
   String toPercentageFormat() => toString() + "%";
   String toMoneyFormat([String? currencySign]) {
     currencySign = (currencySign == null) ? CurrencySign[gc.defaultUserCurrency] : currencySign;
-    return toPrecision().toString() + currencySign!;  // TODO- find a way to add the symbol in the correct direction according to the locale
+    return toPrecision().toString() + currencySign!;
   }
 }
 
 extension Dt on DateTime {
-  String toFullDate() => "$day-$month-$year";  // TODO- find a way to present the date correct direction according to the locale
+  String toFullDate() => "$day-$month-$year";
   bool isSameDate(DateTime other) => year == other.year && month == other.month && day == other.day;
 }
 
@@ -193,6 +193,19 @@ DateTime getCurrentMonth(int endOfMonth, [DateTime? specificDate]) {
 String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
   specificDate = getCurrentMonth(endOfMonth, specificDate);
   return specificDate.month.toString() + specificDate.year.toString();
+}
+
+// TextDirection
+TextDirection getTextDirection([String? languageDirection]) {
+  if (globalNavigatorKey.currentContext == null) {
+    return TextDirection.rtl;
+  }
+  BuildContext context = globalNavigatorKey.currentContext!;
+
+  if (languageDirection == null) {
+    return Languages.of(context)!.languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr;
+  }
+  return languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr;
 }
 
 // Converters
