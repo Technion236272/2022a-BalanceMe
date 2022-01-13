@@ -169,7 +169,7 @@ class _SetTransactionState extends State<SetTransaction> {
       String message = Languages.of(context)!.strSaveSucceeded;
 
       if (widget._mode == DetailsPageMode.Add) {
-        Category category = (_dropDownController.value == widget._currentCategory.name) ? widget._currentCategory : userStorage.balance.findCategory(_dropDownController.value);
+        Category category = (_dropDownController.value == widget._currentCategory.name) ? widget._currentCategory : userStorage.balance.findCategory(_dropDownController.value, widget._currentCategory.isIncome);
         message = userStorage.addTransaction(category, createNewTransaction()) ? message : Languages.of(context)!.strAlreadyExist;
       } else {
         message = userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction()) ? message : Languages.of(context)!.strAlreadyExist;

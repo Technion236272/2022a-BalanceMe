@@ -196,10 +196,6 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  bool _isTransactionAlreadyExist(model.Category category, model.Transaction transaction) {
-    return category.transactions.contains(transaction);
-  }
-
   bool addCategory(model.Category newCategory) {
     if (_isCategoryAlreadyExist(newCategory)) {
       return false;
@@ -230,25 +226,22 @@ class UserStorage with ChangeNotifier {
   }
 
   bool addTransaction(model.Category category, model.Transaction newTransaction) {
-    if (_isTransactionAlreadyExist(category, newTransaction)) {
-      return false;
-    }
-
-    _balance.findCategory(category.name).addTransaction(newTransaction);
+    _balance.findCategory(category.name, category.isIncome).addTransaction(newTransaction);
     SEND_fullBalanceModel();
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Add, category);
     return true;
   }
 
   void removeTransaction(model.Category category, model.Transaction newTransaction) {
-    _balance.findCategory(category.name).removeTransaction(newTransaction);
+    _balance.findCategory(category.name, category.isIncome).removeTransaction(newTransaction);
     SEND_fullBalanceModel();
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
   }
 
   bool editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction) {
-    oldCategory = _balance.findCategory(oldCategory.name);
-    model.Category category = (newCategoryName == oldCategory.name) ? oldCategory : _balance.findCategory(newCategoryName);
+    oldCategory = _balance.findCategory(oldCategory.name, oldCategory.isIncome);
+    model.Category category = (newCategoryName == oldCategory.name) ? oldCategory : _balance.findCategory(newCategoryName, oldCategory.isIncome);
+
     oldCategory.removeTransaction(oldTransaction);
     category.addTransaction(newTransaction);
 
