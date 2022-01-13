@@ -427,7 +427,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                                 padding: (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.length > gc.zero) ? gc.userTilePadding : EdgeInsets.zero,
                                 child: _getUserList(
                                   _workspaceUsers == null ? false : _workspaceUsers!.isPendingJoiningRequests,
-                                  Languages.of(context)!.strPendingUsersRequestsTitle,
+                                  Languages.of(context)!.strPendingUsersRequestsTitle.replaceAll("%", userStorage.userData!.currentWorkspace),
                                   _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.pendingJoiningRequests, _buildApproveRejectFromString),
                                 ),
                               ),

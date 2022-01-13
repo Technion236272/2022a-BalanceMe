@@ -460,7 +460,7 @@ class LanguageRu extends Languages {
   String get strWorkspaceJoinRequestSent => "A joining request to the workspace has been sent";
 
   @override
-  String get strPendingWorkspaceRequests => "Pending joining requests:";
+  String get strPendingWorkspaceRequests => "You have requested to join:";
 
   @override
   String get strJoiningWorkspaceRequestExist => "A joining request to this workspace is already exist";
@@ -484,7 +484,7 @@ class LanguageRu extends Languages {
   String get strUserDisapproveJoining => "Your application to join % workspace has been rejected by #";
 
   @override
-  String get strPendingUsersRequestsTitle => "Those users want to join this workspace:";
+  String get strPendingUsersRequestsTitle => 'Those users want to join "%":';
 
   @override
   String get strInvitedSuccessfullyWorkspace => "An invitation to the workspace has been sent";

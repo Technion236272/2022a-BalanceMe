@@ -461,7 +461,7 @@ class LanguageHe extends Languages {
   String get strWorkspaceJoinRequestSent => "‎בקשת הצטרפות למרחב העבודה נשלחה";
 
   @override
-  String get strPendingWorkspaceRequests => "‎בקשות הצטרפות ממתינות:";
+  String get strPendingWorkspaceRequests => "‎ביקשת להצטרף למרחבי העבודה הבאים:";
 
   @override
   String get strJoiningWorkspaceRequestExist => "‎בקשת הצטרפות למרחב העבודה כבר נשלחה";
@@ -485,7 +485,7 @@ class LanguageHe extends Languages {
   String get strUserDisapproveJoining => "‎בקשתך להצטרף למרחב העבודה % נדחתה על ידי המשתמש #";
 
   @override
-  String get strPendingUsersRequestsTitle => "‎המשתמשים הבאים מעוניינים להצטרף למרחב העבודה הזה:";
+  String get strPendingUsersRequestsTitle => '‎המשתמשים הבאים מעוניינים להצטרף ל-"%":';
 
   @override
   String get strInvitedSuccessfullyWorkspace => "‎הזמנת הצטרפות למרחב העבודה נשלחה";
