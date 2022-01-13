@@ -55,11 +55,11 @@ Future<void> showYesNoAlertDialog(BuildContext context, String alertContent, Voi
     alertTitle: alertTitle,
     alertActions: [
       TextButton(
-        child: Text(Languages.of(context)!.strYes, style: Theme.of(context).textTheme.subtitle1,),
+        child: Text(Languages.of(context)!.strYes),
         onPressed: _yesCallback,
       ),
       TextButton(
-        child: Text(Languages.of(context)!.strNo, style: Theme.of(context).textTheme.subtitle1),
+        child: Text(Languages.of(context)!.strNo),
         onPressed: _noCallback,
       ),
     ]
