@@ -181,6 +181,14 @@ class UserStorage with ChangeNotifier {
     return categoryList.contains(category);
   }
 
+  bool _isCategoryEdited(model.Category newCategory, model.Category oldCategory) {
+    SortedList<model.Category> categoryList = getCategorySortedList();
+    categoryList.addAll(_balance.getListByCategory(newCategory));
+    categoryList.remove(oldCategory);
+    categoryList.add(newCategory);
+    return categoryList.where((category) => category.name == newCategory.name).toList().length == 1;
+  }
+
   void _changeCategory(model.Category category, EntryOperation operation) {
     if (_authRepository != null && _authRepository!.status != AuthStatus.Authenticated) {
       SortedList<model.Category> categoryList = _balance.getListByCategory(category);
@@ -209,7 +217,7 @@ class UserStorage with ChangeNotifier {
   }
 
   bool editCategory(model.Category newCategory, model.Category oldCategory) {
-    if (_isCategoryAlreadyExist(newCategory)) {
+    if (_isCategoryAlreadyExist(newCategory) && ((newCategory.isIncome != oldCategory.isIncome) || !_isCategoryEdited(newCategory, oldCategory))) {
       return false;
     }
 
@@ -508,7 +516,10 @@ class UserStorage with ChangeNotifier {
   }
 
   void SEND_balanceModelAfterLogin(BalanceModel lastBalance) {
-    GeneralInfoDispatcher.subscribe(() {
+    GeneralInfoDispatcher.subscribe(() async {
+      if (_balance.isEmpty) {
+        _balance = await GET_balanceModel();
+      }
       _balance = _balance.filterCategoriesWithDifferentNames(lastBalance);
       SEND_fullBalanceModel();
     });
