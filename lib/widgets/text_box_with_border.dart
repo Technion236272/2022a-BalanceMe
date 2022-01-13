@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:balance_me/global/types.dart';
-import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 /// The widget receives the following parameters-
@@ -41,17 +41,8 @@ class TextBox extends StatelessWidget {
     );
   }
 
-  TextDirection _getTextDirection(BuildContext context) {
-    if (languageDirection == null) {
-      return Languages.of(context)!.languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr;
-    }
-    return languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr;
-  }
-
   @override
   Widget build(BuildContext context) {
-    print(Languages.of(context)!.languageDirection);
-    print(Languages.of(context)!.languageDirection == gc.rtl);
     return SizedBox(
       height: textBoxHeight,
       child: Padding(
@@ -65,7 +56,7 @@ class TextBox extends StatelessWidget {
           obscureText: hideText,
           onChanged: onChanged,
           textAlign: textAlign == null ? TextAlign.start : textAlign!,
-          textDirection: _getTextDirection(context),
+          textDirection: getTextDirection(languageDirection),
           decoration: InputDecoration(
             contentPadding: textBoxSize,
             hintText: _hintText,

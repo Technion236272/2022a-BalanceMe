@@ -129,6 +129,7 @@ class _SummaryPageState extends State<SummaryPage> {
                       ),
                       Text(
                         currentAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
+                        textDirection: getTextDirection(gc.ltr),
                         style: TextStyle(
                           color: getColorForCard(currentAboveExpected, currentAmount, expectedAmount),
                           fontWeight: FontWeight.bold,
@@ -151,6 +152,7 @@ class _SummaryPageState extends State<SummaryPage> {
                         ),
                         Text(
                           expectedAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
+                          textDirection: getTextDirection(gc.ltr),
                           style: TextStyle(
                             color: getColorForCard(currentAboveExpected, currentAmount, expectedAmount),
                             fontWeight: FontWeight.bold,
@@ -235,10 +237,10 @@ class _SummaryPageState extends State<SummaryPage> {
                 children: [
                   GenericTooltip(
                     tip: Languages.of(context)!.strBeginningMontBalanceInfo,
-                    style: TextStyle(fontSize: 12, color: gc.secondaryColor),
+                    style: TextStyle(fontSize: gc.summaryTooltipFontSize, color: gc.secondaryColor),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width/1.25,
+                    width: MediaQuery.of(context).size.width / 1.25,
                     child: TextBox(
                       _controllerBankBalance,
                       Languages.of(context)!.strBeginningMonthBalance,

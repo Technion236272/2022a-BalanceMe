@@ -294,6 +294,7 @@ const double setWorkspaceButtonWidth = 75;
 const double setWorkspaceButtonHeight = 25;
 const double currentWorkspaceBoxScale = 4;
 const double summeryChartBoxScale = 4.2;
+const double summaryTooltipFontSize = 12;
 
 // InviteFriend
 const String googlePlayURL = "https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me";
