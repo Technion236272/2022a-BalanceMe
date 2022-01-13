@@ -246,6 +246,19 @@ class AuthRepository with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteAvatarUrl() async {
+    try {
+      if (user != null) {
+        Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' + _user!.email.toString());
+         await storageReference.delete();
+         _avatarUrl=null;
+        notifyListeners();
+      }
+    } catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+    }
+  }
+
   Future<void> getAvatarUrl() async {
     try {
       if (_user != null ) {

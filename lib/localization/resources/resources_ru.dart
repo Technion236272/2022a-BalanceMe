@@ -106,6 +106,18 @@ class LanguageRu extends Languages {
   @override
   String get strConstants => "Постоянные настройки:";
 
+  @override
+  String get strDeleteProfile => "Удалить образ профиля";
+
+  @override
+  String get strDeleteProfileFailed => "Ошибка удаления, так как у вас нет образа профиля";
+
+  @override
+  String get strDeleteProfileAlert => "Удалить образ вашего профиля?";
+
+  @override
+  String get strUpdate => "обновить";
+
   // Login
   @override
   String get strWelcomeBack => "с возвращением!";
@@ -346,4 +358,7 @@ class LanguageRu extends Languages {
 
   @override
   String get strScalesIcon => "Значок Весы";
+
+  @override
+  String get strLoadIcon => "значок загрузки";
 }

@@ -109,6 +109,18 @@ class LanguageEn extends Languages {
 
   @override
   String get strConstants => "Constant settings:";
+
+  @override
+  String get strDeleteProfile => "Delete profile image";
+
+  @override
+  String get strDeleteProfileFailed => "Delete failed because you have no profile image";
+
+  @override
+  String get strDeleteProfileAlert => "Are you sure you want to delete your profile image?";
+
+  @override
+  String get strUpdate => "UPDATE";
 // Login
   @override
   String get strWelcomeBack => "Welcome Back!";
@@ -347,4 +359,7 @@ class LanguageEn extends Languages {
 
   @override
   String get strScalesIcon => "Scales icon";
+
+  @override
+  String get strLoadIcon => "Load icon";
 }
