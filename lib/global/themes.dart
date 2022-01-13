@@ -39,7 +39,7 @@ class Themes{
       indicatorColor: gc.darkSecondaryColor,
       hintColor: gc.whiteColor,
       bottomAppBarColor: gc.darkSecondaryColor,
-      splashColor: gc.darkPrimaryLightColor,
+      splashColor: gc.whiteColor,
       appBarTheme: const AppBarTheme(
         backgroundColor: gc.darkPrimaryColor,
         foregroundColor: gc.darkSecondaryColor,
