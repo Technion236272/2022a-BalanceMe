@@ -1,6 +1,6 @@
 // ================= Dark Mode Switcher Widget =================
-import 'package:balance_me/global/types.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';

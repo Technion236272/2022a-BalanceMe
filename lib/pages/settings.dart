@@ -1,4 +1,5 @@
 // ================= Settings Page =================
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:balance_me/widgets/generic_tooltip.dart';
@@ -44,6 +45,7 @@ class _SettingsState extends State<Settings> {
       if (widget.authRepository.status == AuthStatus.Authenticated) {
         widget.userStorage.SEND_generalInfo();
       }
+      GoogleAnalytics.instance.logChangeCurrency(userCurrency);
     }
   }
 
@@ -60,6 +62,7 @@ class _SettingsState extends State<Settings> {
       setState(() {
         widget.userStorage.updateSendMonthlyReport(isChecked);
       });
+      GoogleAnalytics.instance.logToggleSendEmail(isChecked);
     }
   }
 
@@ -74,6 +77,7 @@ class _SettingsState extends State<Settings> {
 
   void _inviteFriend() {
     Share.share(Languages.of(context)!.strInviteFriendContent.replaceAll("%", gc.googlePlayURL), subject: Languages.of(context)!.strInviteFriendSubject);
+    GoogleAnalytics.instance.logInviteFriendOpened();
   }
 
   void _getAbout() {

@@ -102,6 +102,7 @@ class UserStorage with ChangeNotifier {
       _userData!.isDarkMode = isDarkMode;
       SEND_generalInfo();
     }
+    GoogleAnalytics.instance.logChangeTheme(isDarkMode);
   }
 
   // Workspace Methods
@@ -291,6 +292,7 @@ class UserStorage with ChangeNotifier {
 
         if (_userData!.sendReport && !balanceModel.isEmpty) {
           sendEndOfMonthReport(balanceModel, previousMonth.month);
+          GoogleAnalytics.instance.logEmailSent();
         }
       }
       SEND_generalInfo();
