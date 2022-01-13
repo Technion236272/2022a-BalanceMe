@@ -1,4 +1,5 @@
 // ================= SignUp page =================
+import 'package:balance_me/widgets/authentication/generic_password_eye.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -45,28 +46,16 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-  Widget _hidingPasswordEye() {
-    return IconButton(
-      icon: Icon(signUpPasswordVisible ? gc.hidePassword : gc.showPassword),
-      color: gc.hidePasswordColor,
-      onPressed: () {
-        setState(() {
-          signUpPasswordVisible = !signUpPasswordVisible;
-        });
-      },
-    );
+  void _hideText() {
+    setState(() {
+      signUpPasswordVisible = !signUpPasswordVisible;
+    });
   }
 
-  Widget _hidingConfirmPasswordEye() {
-    return IconButton(
-      icon: Icon(confirmPasswordVisible ? gc.hidePassword : gc.showPassword),
-      color: gc.hidePasswordColor,
-      onPressed: () {
-        setState(() {
-          confirmPasswordVisible = !confirmPasswordVisible;
-        });
-      },
-    );
+  void _hideConfirmText() {
+    setState(() {
+      confirmPasswordVisible = !confirmPasswordVisible;
+    });
   }
 
   String? _essentialFieldValidatorFunction(String? value) {
@@ -124,14 +113,14 @@ class _SignUpState extends State<SignUp> {
                 controllerPassword,
                 Languages.of(context)!.strPassword,
                 hideText: signUpPasswordVisible,
-                suffix: _hidingPasswordEye(),
+                suffix: PasswordEye(signUpPasswordVisible,_hideText),
                 validatorFunction: _passwordValidatorFunction,
               ),
               TextBox(
                 controllerConfirmPassword,
                 Languages.of(context)!.strConfirmPassword,
                 hideText: confirmPasswordVisible,
-                suffix: _hidingConfirmPasswordEye(),
+                suffix: PasswordEye(confirmPasswordVisible,_hideConfirmText),
                 validatorFunction: _confirmPasswordValidatorFunction,
               ),
               SizedBox(

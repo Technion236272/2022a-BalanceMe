@@ -272,4 +272,11 @@ class AuthRepository with ChangeNotifier {
       displaySnackBar(context, Languages.of(context)!.strSignInTimeout);
     }
   }
+
+  Future<LoginMethod?> getSignInMethod() async {
+    if (_user != null && _user!.email != null) {
+      List<String> methods = await _auth.fetchSignInMethodsForEmail(_user!.email!);
+      return getProvider(methods.first);
+    }
+  }
 }

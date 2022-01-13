@@ -1,4 +1,5 @@
 // ================= Login Page =================
+import 'package:balance_me/widgets/authentication/generic_password_eye.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:email_validator/email_validator.dart';
@@ -47,14 +48,6 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       showPassword = !showPassword;
     });
-  }
-
-  IconButton _hidingPasswordEye() {
-    return IconButton(
-      icon: Icon(showPassword ? gc.hidePassword : gc.showPassword),
-      color: gc.hidePasswordColor,
-      onPressed: _hideText,
-    );
   }
 
   String? _essentialFieldValidatorFunction(String? value) {
@@ -108,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 controllerPassword,
                 Languages.of(context)!.strPassword,
                 hideText: showPassword,
-                suffix: _hidingPasswordEye(),
+                suffix: PasswordEye(showPassword,_hideText),
                 validatorFunction: _passwordValidatorFunction,
               ),
               SizedBox(
