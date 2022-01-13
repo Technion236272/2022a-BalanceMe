@@ -98,10 +98,11 @@ void showDismissBanner(String message, [List<List>? actions]) {
 
   ScaffoldMessenger.of(context).showMaterialBanner(
      MaterialBanner(
+       contentTextStyle: TextStyle(color: Theme.of(context).scaffoldBackgroundColor, fontWeight: FontWeight.bold),
        padding: EdgeInsets.all(gc.bannerPadding),
        content: Text(message),
-       backgroundColor: gc.bannerColor,
-       leading: Icon(gc.detailsIcon),
+       backgroundColor: Theme.of(context).splashColor,
+       leading: Icon(gc.detailsIcon, color: Theme.of(context).scaffoldBackgroundColor,),
        actions: bannerActions,
     ),
   );
