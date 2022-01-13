@@ -448,6 +448,15 @@ class LanguageEn extends Languages {
   String get strWorkspaceAlreadyExist => "You are already a member in this workspace";
 
   @override
+  String get strUserAlreadyRequestToJoin => "The user has already requested to join this workspace";
+
+  @override
+  String get strYouAlreadyInvitedToJoin => "You already have been invited to join this workspace";
+
+  @override
+  String get strUserAlreadyInWorkspace => "The user is already in this workspace";
+
+  @override
   String get strOtherWorkspaceUsers => "Other users in the workspace:";
 
   @override

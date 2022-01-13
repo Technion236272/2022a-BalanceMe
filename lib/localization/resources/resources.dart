@@ -169,6 +169,9 @@ abstract class Languages {
   String get strManageWorkspaces;
   String get strNotEmailValidator;
   String get strWorkspaceAlreadyExist;
+  String get strUserAlreadyRequestToJoin;
+  String get strYouAlreadyInvitedToJoin;
+  String get strUserAlreadyInWorkspace;
   String get strOtherWorkspaceUsers;
   String get strEmptyWorkspace;
   String get strJoinWorkspace;

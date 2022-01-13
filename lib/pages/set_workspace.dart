@@ -53,7 +53,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
     }
     if (message == null) {
-      return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+      message = lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+    }
+    if (message == null) {
+      message = _belongWorkspace.invitations.contains(value) ? Languages.of(context)!.strYouAlreadyInvitedToJoin : null;
     }
     return message;
   }
@@ -61,13 +64,13 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   String? _inviteUserValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
-      message = emailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+      message = emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
     }
     if (message == null) {
-      message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
+      message = (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.contains(value)) ? Languages.of(context)!.strUserAlreadyRequestToJoin : null;
     }
     if (message == null) {
-      message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
+      message = (_workspaceUsers != null && _workspaceUsers!.users.contains(value)) ? Languages.of(context)!.strUserAlreadyInWorkspace : null;
     }
     return message;
   }
@@ -241,6 +244,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
         child: ListTile(
           title: Text(
             workspace,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
               fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal,
@@ -284,12 +288,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Icon(
-            gc.userIcon,
-            color: gc.secondaryColor,
-          ),
           Text(
             user,
+            textAlign: TextAlign.center,
             style: TextStyle(color: gc.secondaryColor, fontWeight: FontWeight.bold),
           ),
         ],

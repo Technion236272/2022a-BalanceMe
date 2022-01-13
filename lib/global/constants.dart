@@ -38,7 +38,6 @@ const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
 const IconData calendarIcon = Icons.date_range_sharp;
 const IconData closeIcon = Icons.close;
-const IconData userIcon = Icons.verified_user;
 
 // Colors
 const Color primaryColor = Colors.blue;

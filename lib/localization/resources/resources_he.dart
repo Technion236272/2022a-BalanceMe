@@ -449,6 +449,15 @@ class LanguageHe extends Languages {
   String get strWorkspaceAlreadyExist => "‎הינך כבר חלק ממרחב העבודה";
 
   @override
+  String get strUserAlreadyRequestToJoin => "‎המשתמש כבר ביקש להצטרף למרחב העבודה";
+
+  @override
+  String get strYouAlreadyInvitedToJoin => "‎כבר הוזמנת להצטרף למרחב העבודה";
+
+  @override
+  String get strUserAlreadyInWorkspace => "‎המשתמש כבר נמצא בסביבת העבודה";
+
+  @override
   String get strOtherWorkspaceUsers => "‎משתמשים נוספים במרחב:";
 
   @override
