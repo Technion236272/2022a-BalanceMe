@@ -219,3 +219,11 @@ dynamic indexToEnum(List values, int index) {
     return null;
   }
 }
+
+// Colors
+Color getColorForCard(bool currentAboveExpected, double currentAmount, double expectedAmount) {
+  if (currentAboveExpected) {
+    return currentAmount >= expectedAmount ? gc.incomeEntryColor : gc.expenseEntryColor;
+  }
+  return expectedAmount >= currentAmount ? gc.incomeEntryColor : gc.expenseEntryColor;
+}

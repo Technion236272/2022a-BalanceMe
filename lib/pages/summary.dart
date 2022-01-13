@@ -12,7 +12,6 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
-import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SummaryPage extends StatefulWidget {
@@ -42,7 +41,7 @@ class _SummaryPageState extends State<SummaryPage> {
 
   void _init() {
     GeneralInfoDispatcher.subscribe(() {
-      if (userStorage.userData != null && userStorage.userData!.bankBalance != null) {
+      if (mounted && userStorage.userData != null && userStorage.userData!.bankBalance != null) {
         TextEditingController(text: userStorage.userData!.bankBalance.toString());
       }
     });
@@ -86,7 +85,7 @@ class _SummaryPageState extends State<SummaryPage> {
     });
   }
 
-  Widget _summaryCardWidget(String tip, String firstTitle, double firstAmount, String secTitle, double secAmount){
+  Widget _summaryCardWidget(String tip, String firstTitle, double currentAmount, String secTitle, double expectedAmount, bool currentAboveExpected){
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Row(
@@ -106,8 +105,10 @@ class _SummaryPageState extends State<SummaryPage> {
               shadowColor: gc.primaryColor.withOpacity(0.5),
               elevation: gc.cardElevationHeight,
               shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                    color: gc.primaryColor, width: gc.cardBorderWidth),
+                side: BorderSide(
+                    color: getColorForCard(currentAboveExpected, currentAmount, expectedAmount),
+                    width: gc.cardBorderWidth,
+                ),
                 borderRadius: BorderRadius.circular(gc.entryBorderRadius),
               ),
               child: Row(
@@ -127,9 +128,9 @@ class _SummaryPageState extends State<SummaryPage> {
                         ),
                       ),
                       Text(
-                        firstAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
+                        currentAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                         style: TextStyle(
-                          color: gc.primaryColor,
+                          color: getColorForCard(currentAboveExpected, currentAmount, expectedAmount),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -149,9 +150,9 @@ class _SummaryPageState extends State<SummaryPage> {
                           ),
                         ),
                         Text(
-                          secAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
+                          expectedAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                           style: TextStyle(
-                            color: gc.primaryColor,
+                            color: getColorForCard(currentAboveExpected, currentAmount, expectedAmount),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -238,7 +239,7 @@ class _SummaryPageState extends State<SummaryPage> {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width/1.25,
-                    child: TextBox( //TODO - Not completed yet
+                    child: TextBox(
                       _controllerBankBalance,
                       Languages.of(context)!.strBeginningMonthBalance,
                       isNumeric: true,
@@ -260,11 +261,12 @@ class _SummaryPageState extends State<SummaryPage> {
                 Languages.of(context)!.strCurrentBankBalance,
                 userStorage.userData!.bankBalance! + (_currentIncomes - _currentExpenses),
                 Languages.of(context)!.strExpectedBankBalance,
-                userStorage.userData!.bankBalance! + (_expectedIncomes - _expectedExpenses)) : Container(),
+                userStorage.userData!.bankBalance! + (_expectedIncomes - _expectedExpenses),
+                true) : Container(),
             Divider(),
-            _summaryCardWidget(Languages.of(context)!.strIncomeBalanceInfo, Languages.of(context)!.strCurrentIncomes, _currentIncomes, Languages.of(context)!.strExpectedIncomes, _expectedIncomes),
-            _summaryCardWidget(Languages.of(context)!.strExpensesBalanceInfo, Languages.of(context)!.strCurrentExpenses, _currentExpenses, Languages.of(context)!.strExpectedExpenses, _expectedExpenses),
-            _summaryCardWidget(Languages.of(context)!.strTotalBalanceInfo, Languages.of(context)!.strTotalCurrentBalance, (_currentIncomes - _currentExpenses), Languages.of(context)!.strTotalExpectedBalance, (_expectedIncomes - _expectedExpenses)),
+            _summaryCardWidget(Languages.of(context)!.strIncomeBalanceInfo, Languages.of(context)!.strCurrentIncomes, _currentIncomes, Languages.of(context)!.strExpectedIncomes, _expectedIncomes, true),
+            _summaryCardWidget(Languages.of(context)!.strExpensesBalanceInfo, Languages.of(context)!.strCurrentExpenses, _currentExpenses, Languages.of(context)!.strExpectedExpenses, _expectedExpenses, false),
+            _summaryCardWidget(Languages.of(context)!.strTotalBalanceInfo, Languages.of(context)!.strTotalCurrentBalance, (_currentIncomes - _currentExpenses), Languages.of(context)!.strTotalExpectedBalance, (_expectedIncomes - _expectedExpenses), true),
           ],
         ),
       ),
