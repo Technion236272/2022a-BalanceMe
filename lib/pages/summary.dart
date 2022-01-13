@@ -1,4 +1,6 @@
 // ================= Summary Page =================
+import 'package:balance_me/common_models/balance_model.dart';
+import 'package:balance_me/global/dispatcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/generic_edit_button.dart';
@@ -13,7 +15,8 @@ import 'package:balance_me/widgets/text_box_with_border.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SummaryPage extends StatefulWidget {
-  const SummaryPage({Key? key}) : super(key: key);
+  const SummaryPage(this._balance, {Key? key}) : super(key: key);
+  final BalanceModel _balance;
 
   @override
   _SummaryPageState createState() => _SummaryPageState();
@@ -25,7 +28,7 @@ class _SummaryPageState extends State<SummaryPage> {
   late double _currentExpenses;
   late double _expectedIncomes;
   late double _expectedExpenses;
-  late TextEditingController _controllerBankBalance;
+  TextEditingController _controllerBankBalance = TextEditingController();
 
   AuthRepository get authRepository => Provider.of<AuthRepository>(context, listen: false);
   UserStorage get userStorage => Provider.of<UserStorage>(context, listen: false);
@@ -37,20 +40,27 @@ class _SummaryPageState extends State<SummaryPage> {
   }
 
   void _init() {
-    String bankBalance = (userStorage.userData != null && userStorage.userData!.bankBalance != null) ? userStorage.userData!.bankBalance.toString() : "";
-    _controllerBankBalance = TextEditingController(text: bankBalance);
+    GeneralInfoDispatcher.subscribe(() {
+      if (mounted && userStorage.userData != null && userStorage.userData!.bankBalance != null) {
+        _controllerBankBalance = TextEditingController(text: userStorage.userData!.bankBalance.toString());
+      }
+    });
+  }
 
-    _currentIncomes = userStorage.balance.getTotalAmount(isIncome: true, isExpected: false);
-    _currentExpenses = userStorage.balance.getTotalAmount(isIncome: false, isExpected: false);
-    _expectedIncomes = userStorage.balance.getTotalAmount(isIncome: true, isExpected: true);
-    _expectedExpenses = userStorage.balance.getTotalAmount(isIncome: false, isExpected: true);
+  void _calculateBalance() {
+    _currentIncomes = widget._balance.getTotalAmount(isIncome: true, isExpected: false);
+    _currentExpenses = widget._balance.getTotalAmount(isIncome: false, isExpected: false);
+    _expectedIncomes = widget._balance.getTotalAmount(isIncome: true, isExpected: true);
+    _expectedExpenses = widget._balance.getTotalAmount(isIncome: false, isExpected: true);
   }
 
   void _openSetWorkspace() {
     navigateToPage(context, SetWorkspace(), AppPages.SetWorkspace);
   }
 
-  bool get showWorkspacesAndBankBalance => (authRepository.status == AuthStatus.Authenticated && userStorage.userData != null && userStorage.currentDate != null);
+  bool get showWorkspacesAndBankBalance {
+    return (authRepository.status == AuthStatus.Authenticated && userStorage.userData != null && userStorage.currentDate != null);
+  }
 
   void _updateBankBalance() {
     if (userStorage.userData != null) {
@@ -113,7 +123,8 @@ class _SummaryPageState extends State<SummaryPage> {
                           style: Theme.of(context).textTheme.subtitle1
                         ),
                       ),
-                      Text(firstAmount.toString(),
+                      Text(
+                        firstAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                         style: TextStyle(
                           color: isIncome ? ((secAmount <= firstAmount) ? gc.incomeEntryColor : gc.expenseEntryColor) : ((firstAmount <= secAmount) ? gc.incomeEntryColor : gc.expenseEntryColor),
                           fontWeight: FontWeight.bold,
@@ -131,7 +142,8 @@ class _SummaryPageState extends State<SummaryPage> {
                             style: Theme.of(context).textTheme.subtitle1
                           ),
                         ),
-                        Text(secAmount.toString(),
+                        Text(
+                          secAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                           style: TextStyle(
                             color: Theme.of(context).toggleableActiveColor,
                             fontWeight: FontWeight.bold,
@@ -151,6 +163,7 @@ class _SummaryPageState extends State<SummaryPage> {
 
   @override
   Widget build(BuildContext context) {
+    _calculateBalance();
     return SingleChildScrollView(
       child: Padding(
         padding: gc.summeryHorizontalPadding,
@@ -158,12 +171,14 @@ class _SummaryPageState extends State<SummaryPage> {
           children: [
             Padding(
               padding: gc.summeryVerticalPadding,
-              child: Text(
-                Languages.of(context)!.strBalanceSummary,
-                style: TextStyle(fontSize: gc.tabFontSize, fontWeight: FontWeight.bold),
+              child: Visibility(
+                visible: userStorage.currentDate != null,
+                child: Text(
+                  Languages.of(context)!.strBalanceSummary,
+                  style: TextStyle(fontSize: gc.tabFontSize, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
-            // TODO- design: add diagram
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -204,9 +219,9 @@ class _SummaryPageState extends State<SummaryPage> {
                 )
               ],
             ),
-            Divider(),
+            Visibility(visible: showWorkspacesAndBankBalance && userStorage.userData!.currentWorkspace == authRepository.getEmail, child: Divider()),
             Visibility(
-              visible: showWorkspacesAndBankBalance,
+              visible: showWorkspacesAndBankBalance && userStorage.userData!.currentWorkspace == authRepository.getEmail,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
@@ -217,12 +232,13 @@ class _SummaryPageState extends State<SummaryPage> {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width/1.25,
-                    child: TextBox( //TODO - Not completed yet
+                    child: TextBox(
                       _controllerBankBalance,
                       Languages.of(context)!.strBeginningMonthBalance,
                       isNumeric: true,
                       haveBorder: false,
                       onChanged: _enableEditBankBalance,
+                      languageDirection: gc.ltr,
                       suffix: GenericIconButton(
                         onTap: _updateBankBalance,
                         isDisabled: _isDisabledBankBalance,
@@ -233,7 +249,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 ],
               ),
             ),
-            showWorkspacesAndBankBalance && userStorage.userData!.bankBalance != null ?
+            showWorkspacesAndBankBalance && userStorage.userData!.bankBalance != null && userStorage.userData!.currentWorkspace == authRepository.getEmail ?
             _summaryCardWidget(
                 Languages.of(context)!.strBankInfo,
                 Languages.of(context)!.strCurrentBankBalance,

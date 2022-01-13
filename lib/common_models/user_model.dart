@@ -10,7 +10,10 @@ class UserModel {
       this.isDarkMode = false,
       this.language = "",
       this.bankBalance,
-      this.sendReport = true]);
+      this.sendReport = true]) {
+    lastUpdatedDate = getCurrentMonthPerEndMonthDay(endOfMonthDay, DateTime.now());
+
+  }
 
   String currentWorkspace;
   int endOfMonthDay;
@@ -21,6 +24,7 @@ class UserModel {
   String language;
   double? bankBalance;
   bool sendReport;
+  late String lastUpdatedDate;
 
   void updateFromJson(Json json) {
     if (json["groupName"] != null) {
@@ -46,10 +50,13 @@ class UserModel {
       language = json["language"];
     }
     if (json["bankBalance"] != null) {
-      bankBalance = json["bankBalance"];
+      bankBalance = (json["bankBalance"] as num).toDouble();
     }
     if (json["sendReport"] != null) {
       sendReport = json["sendReport"];
+    }
+    if (json["lastUpdatedDate"] != null) {
+      lastUpdatedDate = json["lastUpdatedDate"];
     }
   }
 
@@ -62,6 +69,7 @@ class UserModel {
     'isDarkMode': isDarkMode,
     'language': language,
     'bankBalance': bankBalance,
-    'sendReport': sendReport
+    'sendReport': sendReport,
+    'lastUpdatedDate': lastUpdatedDate
   };
 }

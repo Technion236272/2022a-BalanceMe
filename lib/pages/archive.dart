@@ -1,5 +1,6 @@
 // ================= Archive Page =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -24,6 +25,7 @@ class Archive extends StatefulWidget {
 
 class _ArchiveState extends State<Archive> {
   final DateRangePickerController _dateController = DateRangePickerController();
+  BalanceModel? _balanceModel;
   bool _isIncomeTab = false;
   bool _isVisible = false;
   bool _waitingForData = false;
@@ -60,7 +62,7 @@ class _ArchiveState extends State<Archive> {
     _stopWaitingForDataCB();
   }
 
-  void _getCurrentBalance() {
+  void _getCurrentBalance() async {
     if (widget._authRepository.status == AuthStatus.Authenticated && _dateController.selectedDate != null) {
       int endOfMonthDay = (widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay;
       DateTime requestedRange = DateTime(_dateController.selectedDate!.year, _dateController.selectedDate!.month, endOfMonthDay);
@@ -69,13 +71,10 @@ class _ArchiveState extends State<Archive> {
         return;
       }
 
-      widget._userStorage.setDate(requestedRange);
-      setState(() {
-        _waitingForData = true;
-        widget._userStorage.GET_balanceModel(successCallback: _showMsgAccordingToBalance, failureCallback: _showMsgAccordingToBalance);
-      });
-      GoogleAnalytics.instance.logArchiveDateChange(widget._userStorage.currentDate!.toFullDate());
-
+      _waitingForData = true;
+      _balanceModel = await widget._userStorage.GET_balanceModel(dateTime: requestedRange, successCallback: _showMsgAccordingToBalance, failureCallback: _showMsgAccordingToBalance);
+      setState(() {});
+      GoogleAnalytics.instance.logArchiveDateChange(requestedRange.toFullDate());
     } else {
       _showMsgAccordingToBalance();
     }
@@ -92,8 +91,8 @@ class _ArchiveState extends State<Archive> {
         children: [
           _waitingForData ? const Center(child: CircularProgressIndicator())
 
-          : (widget._userStorage.currentDate != null && !widget._userStorage.balance.isEmpty) ?
-              ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)])
+          : (_balanceModel != null && !_balanceModel!.isEmpty) ?
+              ListView(children: [BalancePage(_balanceModel!, _setCurrentTab)])
               : GenericInfo(topInfo: Languages.of(context)!.strDataUnavailable),
           Padding(
             padding: const EdgeInsets.only(top: gc.archiveDatePickerPadding),

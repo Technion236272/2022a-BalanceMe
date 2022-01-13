@@ -17,6 +17,7 @@ const double zero = 0.0;
 
 // Localization
 const String rtl = "rtl";
+const String ltr = "ltr";
 
 // Icons
 const IconData settingArrow = Icons.arrow_forward_ios_sharp;
@@ -38,7 +39,6 @@ const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
 const IconData calendarIcon = Icons.date_range_sharp;
 const IconData closeIcon = Icons.close;
-const IconData userIcon = Icons.verified_user;
 
 // Colors
 const Color whiteColor = Colors.white;

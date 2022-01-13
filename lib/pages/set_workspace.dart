@@ -1,8 +1,9 @@
 // ================= Set Workspace Page =================
-import 'package:balance_me/global/types.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:balance_me/global/types.dart';
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
@@ -40,16 +41,22 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   bool get _shouldShowInvitations => _belongWorkspace.invitations.isNotEmpty;
 
-  String? _addUserValidatorFunction(String? value) {  // TODO- check all scenarios
+  String? _addUserValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
-    if (message == null) {
-      message = notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
-    }
     if (message == null) {
       message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
     }
     if (message == null) {
+      message = notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+    }
+    if (message == null) {
       message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
+    }
+    if (message == null) {
+      message = lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+    }
+    if (message == null) {
+      message = _belongWorkspace.invitations.contains(value) ? Languages.of(context)!.strYouAlreadyInvitedToJoin : null;
     }
     return message;
   }
@@ -57,13 +64,13 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   String? _inviteUserValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
-      message = emailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+      message = emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
     }
     if (message == null) {
-      message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
+      message = (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.contains(value)) ? Languages.of(context)!.strUserAlreadyRequestToJoin : null;
     }
     if (message == null) {
-      message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
+      message = (_workspaceUsers != null && _workspaceUsers!.users.contains(value)) ? Languages.of(context)!.strUserAlreadyInWorkspace : null;
     }
     return message;
   }
@@ -196,7 +203,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
               ),
               const Divider(),
               Padding(
-                padding: gc.bottomSheetPadding,
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: FormTextField(
                   _modalBottomSheetController,
                   1,
@@ -205,6 +213,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                   isBordered: true,
                   isValid: true,
                   validatorFunction: isAddWorkspace ? _addUserValidatorFunction : _inviteUserValidatorFunction,
+                  autofocus: true,
                 ),
               ),
               ElevatedButton(
@@ -235,6 +244,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
         child: ListTile(
           title: Text(
             workspace,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).hoverColor,
               fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal,
@@ -278,12 +288,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Icon(
-            gc.userIcon,
-            color: gc.secondaryColor,
-          ),
           Text(
             user,
+            textAlign: TextAlign.center,
             style: TextStyle(color: gc.secondaryColor, fontWeight: FontWeight.bold),
           ),
         ],
@@ -376,6 +383,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                         padding: gc.workspacesGeneralPadding,
                         child: Column(
                           children: [
+                            Text(Languages.of(context)!.strWorkspaceExplanation),
+                            GenericTooltip(tip: Languages.of(context)!.strWorkspaceTooltip),
                             Text(
                               Languages.of(context)!.strWorkspaceExplanation,
                               style: Theme.of(context).textTheme.subtitle1,
@@ -445,7 +454,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                                 padding: (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.length > gc.zero) ? gc.userTilePadding : EdgeInsets.zero,
                                 child: _getUserList(
                                   _workspaceUsers == null ? false : _workspaceUsers!.isPendingJoiningRequests,
-                                  Languages.of(context)!.strPendingUsersRequestsTitle,
+                                  Languages.of(context)!.strPendingUsersRequestsTitle.replaceAll("%", userStorage.userData!.currentWorkspace),
                                   _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.pendingJoiningRequests, _buildApproveRejectFromString),
                                 ),
                               ),

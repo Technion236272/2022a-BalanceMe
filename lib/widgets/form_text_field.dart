@@ -10,7 +10,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 
 class FormTextField  extends StatelessWidget {
   const FormTextField (this._controller, this._minLines, this._maxLines, this._hintText, {this.isBordered = false, this.isValid = false,
-    this.isNumeric = false, this.initialValue, this.isEnabled = true, this.validatorFunction, Key? key}) : super(key: key);
+    this.isNumeric = false, this.initialValue, this.isEnabled = true, this.validatorFunction, this.autofocus = false, Key? key}) : super(key: key);
 
   final TextEditingController? _controller;
   final int _minLines;
@@ -22,6 +22,7 @@ class FormTextField  extends StatelessWidget {
   final String? initialValue;
   final bool isEnabled;
   final StringCallbackStringNullable? validatorFunction;
+  final bool autofocus;
 
   OutlineInputBorder noBorder() {
     return OutlineInputBorder(
@@ -34,6 +35,7 @@ class FormTextField  extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: _controller,
+      autofocus: autofocus,
       keyboardType: isNumeric ? TextInputType.number : TextInputType.multiline,
       minLines: _minLines,
       maxLines: _maxLines,

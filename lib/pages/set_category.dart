@@ -130,7 +130,6 @@ class _SetCategoryState extends State<SetCategory> {
       _categoryTypeController.value == Languages.of(context)!.strIncome,
       double.parse(_categoryExpectedController.text.toString().split(widget._currencySign).first),
       _categoryDescriptionController.text.toString(),
-      widget.currentCategory == null ? null : widget.currentCategory!.amount,
       widget.currentCategory == null ? null : widget.currentCategory!.transactions,
     );
   }

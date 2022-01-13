@@ -62,11 +62,7 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
                       ),
                       Text(_getTotalCategoriesListAmount(false).toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                           style: TextStyle(
-                              color: (widget._categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(false)>=_getTotalCategoriesListAmount(true))
-                                      ? gc.incomeEntryColor
-                                      : (!widget._categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(true)>_getTotalCategoriesListAmount(false))
-                                      ? gc.incomeEntryColor
-                                      : gc.expenseEntryColor,
+                              color: getColorForCard(widget._categories.elementAt(0).isIncome, _getTotalCategoriesListAmount(false), _getTotalCategoriesListAmount(true)),
                               fontSize: gc.fontSizeLoginImage,
                               fontWeight: FontWeight.bold,
                           ),

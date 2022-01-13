@@ -1,4 +1,5 @@
 // ================= Settings Page =================
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:balance_me/widgets/generic_tooltip.dart';
@@ -7,6 +8,7 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/authentication/change_password.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
+import 'package:balance_me/widgets/dark_mode_switcher.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -43,11 +45,8 @@ class _SettingsState extends State<Settings> {
       if (widget.authRepository.status == AuthStatus.Authenticated) {
         widget.userStorage.SEND_generalInfo();
       }
+      GoogleAnalytics.instance.logChangeCurrency(userCurrency);
     }
-  }
-
-  void _setTheme(bool isDarkMode) {
-    widget.userStorage.setTheme(context, isDarkMode);
   }
 
   TextStyle _getTextDesign() {
@@ -63,6 +62,7 @@ class _SettingsState extends State<Settings> {
       setState(() {
         widget.userStorage.updateSendMonthlyReport(isChecked);
       });
+      GoogleAnalytics.instance.logToggleSendEmail(isChecked);
     }
   }
 
@@ -77,6 +77,7 @@ class _SettingsState extends State<Settings> {
 
   void _inviteFriend() {
     Share.share(Languages.of(context)!.strInviteFriendContent.replaceAll("%", gc.googlePlayURL), subject: Languages.of(context)!.strInviteFriendSubject);
+    GoogleAnalytics.instance.logInviteFriendOpened();
   }
 
   void _getAbout() {
@@ -166,7 +167,7 @@ class _SettingsState extends State<Settings> {
       widget.authRepository.status != AuthStatus.Authenticated ? null :
         Checkbox(value: widget.userStorage.userData!.sendReport, onChanged: _toggleSendEmail),
       const LanguageDropDown(),
-      Switch(value: globalIsDarkMode, onChanged: _setTheme),
+      const DarkModeSwitcher(),
     ];
 
     return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);

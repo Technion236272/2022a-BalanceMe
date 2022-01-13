@@ -5,20 +5,20 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
 
 class Category {
-  Category(this.name, this.isIncome, this.expected, this.description, [double? amount, SortedList<Transaction>? transactions]) {
+  Category(this.name, this.isIncome, this.expected, this.description, [SortedList<Transaction>? transactions]) {
     this.transactions = transactions ?? getTransactionSortedList();
-    this.amount = amount ?? calcTotalAmount();
+    this.amount = calcTotalAmount();
   }
 
   Category.fromJson(Json categoryJson) {
     name = categoryJson["name"];
     expected = categoryJson["expected"].toDouble();
     description = categoryJson["description"];
-    amount = categoryJson["amount"].toDouble();
     isIncome = categoryJson["isIncome"];
 
     transactions = getTransactionSortedList();
     transactions.addAll(jsonToElementList(categoryJson["transactions"], (json) => Transaction.fromJson(json)).cast<Transaction>());
+    amount = calcTotalAmount();
   }
 
   double calcTotalAmount() {
@@ -38,12 +38,10 @@ class Category {
 
   void addTransaction(Transaction transaction) {
     transactions.add(transaction);
-    amount += transaction.amount;
   }
 
   void removeTransaction(Transaction transaction) {
     transactions.remove(transaction);
-    amount -= transaction.amount;
   }
 
   Category? filterConstantsTransaction() {
@@ -55,7 +53,7 @@ class Category {
     }
 
     if (constantTransactions.isNotEmpty) {
-      return Category(name, isIncome, expected, description, null, constantTransactions);
+      return Category(name, isIncome, expected, description, constantTransactions);
     }
     return null;
   }
@@ -65,7 +63,6 @@ class Category {
     'isIncome': isIncome,
     'expected': expected,
     'description': description,
-    'amount': amount,
     'transactions': listToJsonList(transactions)
   };
 

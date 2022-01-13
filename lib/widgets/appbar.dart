@@ -1,5 +1,6 @@
 // ================= AppBar Widget =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/global/dispatcher.dart';
 import 'package:balance_me/pages/authentication/authentication_manager.dart';
 import 'package:balance_me/widgets/user_avatar.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -8,7 +9,6 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-
 
 // MinorAppBar
 class MinorAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -68,10 +68,10 @@ class _MainAppBarState extends State<MainAppBar> {
   void _logoutApp() {
     setState(() {
       widget._authRepository.signOut();
-      if (Languages.of(context) != null) {
-        displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogout);
-      }
     });
+    widget._userStorage.resetBalance();
+    GeneralInfoDispatcher.reset();
+    displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogout);
   }
 
   @override

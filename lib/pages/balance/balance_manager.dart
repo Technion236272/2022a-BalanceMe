@@ -33,7 +33,7 @@ class _BalanceManagerState extends State<BalanceManager> {
     widget._userStorage.setDate();
   }
 
-  bool _shouldShowWelcomePage() => widget._userStorage.balance.isEmpty;
+  bool _shouldShowWelcomePage() => widget._userStorage.balance.isEmpty && widget._authRepository.status != AuthStatus.Authenticated;
 
   void _setCurrentTab(int currentTab) {
     FocusScope.of(context).unfocus(); // Remove the keyboard
@@ -66,13 +66,13 @@ class _BalanceManagerState extends State<BalanceManager> {
         stream: widget._userStorage.STREAM_balanceModel(),
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
-          if ((!snapshot.hasData || snapshot.data!.data() == null || !BalanceModel.isBalanceValid(snapshot.data!.data()! as Json))
-              && widget._authRepository.status == AuthStatus.Authenticated) {
-            // TODO- handle end of month?
+          if ((!snapshot.hasData || snapshot.data!.data() == null || !BalanceModel.isBalanceValid(snapshot.data!.data()! as Json)) && widget._authRepository.status == AuthStatus.Authenticated) {
+            print("@@ No data, try to get previous month data");
+            widget._userStorage.getBalanceAfterEndOfMonth();
             return Center(child: CircularProgressIndicator());
           }
 
-          if (snapshot.hasData) {
+          if (widget._authRepository.status == AuthStatus.Authenticated && snapshot.hasData) {
             widget._userStorage.assignBalance(BalanceModel.fromJson((snapshot.data!.data()! as Json)[config.categoriesDoc]));
           }
 
