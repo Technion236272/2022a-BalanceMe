@@ -41,10 +41,8 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
             shadowColor: gc.primaryColor.withOpacity(0.5),
             elevation: gc.cardElevationHeight,
             shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: getColorForCard(widget._categories.elementAt(0).isIncome, _getTotalCategoriesListAmount(false), _getTotalCategoriesListAmount(true)),
-                  width: gc.cardBorderWidth
-              ),
+              side: const BorderSide(
+                  color: gc.primaryColor, width: gc.cardBorderWidth),
               borderRadius: BorderRadius.circular(gc.entryBorderRadius),
             ),
             child: Row(
@@ -91,9 +89,9 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
                         ),
                       ),
                       Text(_getTotalCategoriesListAmount(true).toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
-                          style: TextStyle(
-                            color: getColorForCard(widget._categories.elementAt(0).isIncome, _getTotalCategoriesListAmount(false), _getTotalCategoriesListAmount(true)),
-                            fontSize: gc.fontSizeLoginImage,
+                          style: const TextStyle(
+                              color: gc.primaryColor,
+                              fontSize: gc.fontSizeLoginImage,
                               fontWeight: FontWeight.bold,
                           ),
                       ),
