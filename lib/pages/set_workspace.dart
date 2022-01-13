@@ -41,13 +41,13 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   bool get _shouldShowInvitations => _belongWorkspace.invitations.isNotEmpty;
 
-  String? _addUserValidatorFunction(String? value) {  // TODO- check all scenarios
+  String? _addUserValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
-      message = notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+      message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
     }
     if (message == null) {
-      message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
+      message = notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
     }
     if (message == null) {
       message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
@@ -197,7 +197,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
               ),
               const Divider(),
               Padding(
-                padding: gc.bottomSheetPadding,
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: FormTextField(
                   _modalBottomSheetController,
                   1,
@@ -206,6 +207,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                   isBordered: true,
                   isValid: true,
                   validatorFunction: isAddWorkspace ? _addUserValidatorFunction : _inviteUserValidatorFunction,
+                  autofocus: true,
                 ),
               ),
               ElevatedButton(

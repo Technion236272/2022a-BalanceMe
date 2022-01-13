@@ -68,6 +68,7 @@ void recoverPassword(String? email, BuildContext context) async {
 }
 
 void startLoginProcess(BuildContext context, Future<bool> loginFunction, String loginFunctionName, bool isSigningIn, UserStorage userStorage, {VoidCallback? failureCallback}) async {
+  GeneralInfoDispatcher.reset();
   BalanceModel lastBalance = userStorage.balance.copy();
   if (await loginFunction) {
 

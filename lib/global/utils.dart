@@ -114,15 +114,21 @@ void openModalBottomSheet(List<Widget> children) {
 
   BuildContext context = globalNavigatorKey.currentContext!;
   showModalBottomSheet(
-    context: context,
-    builder: (BuildContext _context) {
-      return SafeArea(
-        child: Wrap(
-          children: children,
-        ),
-      );
-    },
-  );
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: SafeArea(
+                child: Wrap(
+                  children: children,
+                ),
+              ),
+            ));
+      });
 }
 
 // Numbers
