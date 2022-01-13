@@ -1,5 +1,6 @@
 // ================= A Class For Russian Language =================
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class LanguageRu extends Languages {
   // General
@@ -10,7 +11,7 @@ class LanguageRu extends Languages {
   String get languageCode => "ru";
 
   @override
-  String get languageDirection => "ltr";
+  String get languageDirection => gc.ltr;
 
   @override
   String get strAppName => "BalanceMe";
@@ -386,16 +387,16 @@ class LanguageRu extends Languages {
   String get strExpectedExpenses => "Expected Expenses";
 
   @override
-  String get strTotalExpectedBalance => "Total Expected Balance";
+  String get strTotalExpectedBalance => "Total Expected";
 
   @override
-  String get strTotalCurrentBalance => "Total Current Balance";
+  String get strTotalCurrentBalance => "Total Current";
 
   @override
-  String get strCurrentBankBalance => "Current Bank Balance";
+  String get strCurrentBankBalance => "Current Bank";
 
   @override
-  String get strExpectedBankBalance => "Expected Bank Balance";
+  String get strExpectedBankBalance => "Expected Bank";
 
   @override
   String get strBeginningMonthBalance => "Bank balance before";

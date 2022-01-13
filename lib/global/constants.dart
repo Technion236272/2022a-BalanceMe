@@ -17,6 +17,7 @@ const double zero = 0.0;
 
 // Localization
 const String rtl = "rtl";
+const String ltr = "ltr";
 
 // Icons
 const IconData settingArrow = Icons.arrow_forward_ios_sharp;

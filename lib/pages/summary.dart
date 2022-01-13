@@ -42,7 +42,7 @@ class _SummaryPageState extends State<SummaryPage> {
   void _init() {
     GeneralInfoDispatcher.subscribe(() {
       if (mounted && userStorage.userData != null && userStorage.userData!.bankBalance != null) {
-        TextEditingController(text: userStorage.userData!.bankBalance.toString());
+        _controllerBankBalance = TextEditingController(text: userStorage.userData!.bankBalance.toString());
       }
     });
   }
@@ -245,6 +245,7 @@ class _SummaryPageState extends State<SummaryPage> {
                       isNumeric: true,
                       haveBorder: false,
                       onChanged: _enableEditBankBalance,
+                      languageDirection: gc.ltr,
                       suffix: GenericIconButton(
                         onTap: _updateBankBalance,
                         isDisabled: _isDisabledBankBalance,

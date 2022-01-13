@@ -1,5 +1,6 @@
 // ================= A Class For English Language =================
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class LanguageEn extends Languages {
 
@@ -11,7 +12,7 @@ class LanguageEn extends Languages {
   String get languageCode => "en";
 
   @override
-  String get languageDirection => "ltr";
+  String get languageDirection => gc.ltr;
 
   @override
   String get strAppName => "BalanceMe";
@@ -387,16 +388,16 @@ class LanguageEn extends Languages {
   String get strExpectedExpenses => "Expected Expenses";
 
   @override
-  String get strTotalExpectedBalance => "Total Expected Balance";
+  String get strTotalExpectedBalance => "Total Expected";
 
   @override
-  String get strTotalCurrentBalance => "Total Current Balance";
+  String get strTotalCurrentBalance => "Total Current";
 
   @override
-  String get strCurrentBankBalance => "Current Bank Balance";
+  String get strCurrentBankBalance => "Current Bank";
 
   @override
-  String get strExpectedBankBalance => "Expected Bank Balance";
+  String get strExpectedBankBalance => "Expected Bank";
 
   @override
   String get strBeginningMonthBalance => "Bank balance before";

@@ -1,10 +1,9 @@
 // ================= Text box with an (optional) border widget =================
-import 'package:balance_me/localization/locale_controller.dart';
-import 'package:balance_me/localization/resources/resources_he.dart';
 import 'package:flutter/material.dart';
-import 'package:balance_me/global/types.dart';
-import 'package:balance_me/global/constants.dart' as gc;
 import 'package:flutter/services.dart';
+import 'package:balance_me/global/types.dart';
+import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 /// The widget receives the following parameters-
 /// controller- to attach to the text, for functions
@@ -17,7 +16,7 @@ import 'package:flutter/services.dart';
 /// textBoxSize-optional inner padding in the text box which will increase its size- for longer text
 class TextBox extends StatelessWidget {
   const TextBox(this.controller, this._hintText, {this.hideText = false, this.haveBorder = true,
-    this.suffix, this.textBoxHeight, this.textBoxSize, this.validatorFunction, this.isNumeric = false, Key? key, this.onChanged, this.textAlign}) : super(key: key);
+    this.suffix, this.textBoxHeight, this.textBoxSize, this.validatorFunction, this.isNumeric = false, this.languageDirection, Key? key, this.onChanged, this.textAlign}) : super(key: key);
 
   final TextEditingController controller;
   final String? _hintText;
@@ -30,6 +29,7 @@ class TextBox extends StatelessWidget {
   final VoidCallbackString? onChanged;
   final TextAlign? textAlign;
   final bool isNumeric;
+  final String? languageDirection;
 
   OutlineInputBorder focusBorder() {
     return OutlineInputBorder(
@@ -41,8 +41,17 @@ class TextBox extends StatelessWidget {
     );
   }
 
+  TextDirection _getTextDirection(BuildContext context) {
+    if (languageDirection == null) {
+      return Languages.of(context)!.languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr;
+    }
+    return languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(Languages.of(context)!.languageDirection);
+    print(Languages.of(context)!.languageDirection == gc.rtl);
     return SizedBox(
       height: textBoxHeight,
       child: Padding(
@@ -56,7 +65,7 @@ class TextBox extends StatelessWidget {
           obscureText: hideText,
           onChanged: onChanged,
           textAlign: textAlign == null ? TextAlign.start : textAlign!,
-          textDirection: LanguageHe().languageCode == getLocale().languageCode ? TextDirection.rtl : TextDirection.ltr,
+          textDirection: _getTextDirection(context),
           decoration: InputDecoration(
             contentPadding: textBoxSize,
             hintText: _hintText,
