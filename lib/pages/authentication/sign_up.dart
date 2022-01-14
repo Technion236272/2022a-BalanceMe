@@ -145,7 +145,7 @@ class _SignUpState extends State<SignUp> {
                       child: CircularProgressIndicator(),
                     )
                   : ElevatedButton(
-                      child: Text(Languages.of(context)!.strSignIn),
+                      child: Text(Languages.of(context)!.strSignUp),
                       onPressed: _signUp,
                     ),
             ],
