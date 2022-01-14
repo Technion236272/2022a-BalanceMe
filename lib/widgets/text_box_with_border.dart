@@ -31,16 +31,6 @@ class TextBox extends StatelessWidget {
   final bool isNumeric;
   final String? languageDirection;
 
-  OutlineInputBorder focusBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(gc.textFieldRadius),
-      borderSide: const BorderSide(
-        color: gc.primaryColor,
-        width: gc.borderWidth,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -52,7 +42,7 @@ class TextBox extends StatelessWidget {
           keyboardType: isNumeric ? TextInputType.number : TextInputType.multiline,
           validator: validatorFunction,
           inputFormatters: isNumeric ? [
-            FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))] : [],
+            FilteringTextInputFormatter.allow(RegExp(r'(^-?\d*\.?\d{0,2})'))] : [],
           obscureText: hideText,
           onChanged: onChanged,
           textAlign: textAlign == null ? TextAlign.start : textAlign!,
@@ -61,10 +51,6 @@ class TextBox extends StatelessWidget {
             contentPadding: textBoxSize,
             hintText: _hintText,
             label: _hintText == null ? null : Text(_hintText!),
-            border: focusBorder(),
-            focusedBorder: haveBorder ? focusBorder() : null,
-            enabledBorder: haveBorder ? focusBorder() : null,
-            errorBorder: haveBorder ? focusBorder() : null,
             suffixIcon: suffix,
           ),
         ),

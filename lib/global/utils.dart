@@ -26,8 +26,8 @@ void navigateBack(context) {
 // Messages
 void displaySnackBar(BuildContext context, String msg, [String? actionLabel, VoidCallback? actionCallback]) {
   final snackBar = SnackBar(
-    content: Text(msg),
-    backgroundColor: globalIsDarkMode ? gc.darkPrimaryColor : null,
+    content: Text(msg, style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor, fontWeight: FontWeight.bold),),
+    backgroundColor: Theme.of(context).splashColor,
     action: (actionLabel == null || actionCallback == null) ? null
     : SnackBarAction(
       label: actionLabel,
@@ -41,8 +41,8 @@ Future<void> showAlertDialog(BuildContext context, String alertContent, {String?
   showDialog<String>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
-      title: alertTitle == null ? null : Text(alertTitle),
-      content: Text(alertContent),
+      title: alertTitle == null ? null : Text(alertTitle, style: Theme.of(context).textTheme.subtitle1),
+      content: Text(alertContent, style: Theme.of(context).textTheme.bodyText2),
       actions: alertActions,
     ),
   );
@@ -98,10 +98,11 @@ void showDismissBanner(String message, [List<List>? actions]) {
 
   ScaffoldMessenger.of(context).showMaterialBanner(
      MaterialBanner(
+       contentTextStyle: TextStyle(color: Theme.of(context).scaffoldBackgroundColor, fontWeight: FontWeight.bold),
        padding: EdgeInsets.all(gc.bannerPadding),
        content: Text(message),
-       backgroundColor: gc.bannerColor,
-       leading: Icon(gc.detailsIcon),
+       backgroundColor: Theme.of(context).splashColor,
+       leading: Icon(gc.detailsIcon, color: Theme.of(context).scaffoldBackgroundColor,),
        actions: bannerActions,
     ),
   );

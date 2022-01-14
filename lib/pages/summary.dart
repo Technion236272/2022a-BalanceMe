@@ -102,7 +102,7 @@ class _SummaryPageState extends State<SummaryPage> {
           Expanded(
             flex: 9,
             child: Card(
-              shadowColor: gc.primaryColor.withOpacity(0.5),
+              shadowColor: getColorForCard(currentAboveExpected, currentAmount, expectedAmount),
               elevation: gc.cardElevationHeight,
               shape: RoundedRectangleBorder(
                 side: BorderSide(
@@ -121,10 +121,7 @@ class _SummaryPageState extends State<SummaryPage> {
                         padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                         child: Text(
                           firstTitle,
-                          style: TextStyle(
-                            color: gc.disabledColor,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.subtitle1
                         ),
                       ),
                       Text(
@@ -144,10 +141,7 @@ class _SummaryPageState extends State<SummaryPage> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                           child: Text(secTitle,
-                            style: TextStyle(
-                              color: gc.disabledColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.subtitle1
                           ),
                         ),
                         Text(

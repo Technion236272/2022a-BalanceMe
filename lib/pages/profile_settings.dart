@@ -188,17 +188,15 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   visible: widget.authRepository.user != null,
                   child: Container(
                       decoration: BoxDecoration(
-                        color: gc.emailContainerBGColor,
+                        color: Theme.of(context).toggleableActiveColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(gc.emailContainerBorderRadius),
-                        border: Border.all(color: gc.primaryColor)
+                        border: Border.all(color: Theme.of(context).toggleableActiveColor)
                       ),
                       child: Padding(
                         padding: gc.emailContainerPadding,
                         child: Text(
                           widget.authRepository.user!.email!,
-                          style: const TextStyle(
-                              fontSize: gc.emailContainerFontSize,
-                              color: gc.primaryColor),),
+                          style: Theme.of(context).textTheme.caption),
                       )),
               ),
             ),

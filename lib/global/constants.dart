@@ -41,11 +41,21 @@ const IconData calendarIcon = Icons.date_range_sharp;
 const IconData closeIcon = Icons.close;
 
 // Colors
+const Color whiteColor = Colors.white;
+const Color blackColor = Colors.black;
 const Color primaryColor = Colors.blue;
+const Color primaryLightColor = Color(0xff6ec6ff);
+const Color primaryDarkColor = Color(0xff0069c0);
 const Color secondaryColor = Colors.white;
-const Color darkPrimaryColor = Colors.white10;
-const Color darkSecondaryColor = Colors.black;
-const Color bottomNavigationSelectedColor = primaryColor;
+const Color secondaryDarkColor = Color(0xff888888);
+const Color darkPrimaryColor = Color(0xff37464f);
+const Color darkPrimaryLightColor = Color(0xff62717b);
+const Color darkPrimaryDarkColor = Color(0xff101f27);
+const Color darkSecondaryColor = Color(0xffff8f00);
+const Color darkSecondaryLightColor = Color(0xffffc046);
+const Color darkSecondaryDarkColor = Color(0xffc56000);
+const Color darkVeryLightColor = Color(0xffc0d0dc);
+const Color darkTextButtonColor = Color(0xff1e4d76);
 const Color alternativePrimary = Color(0xff4e21ff);
 const Color tabColor = Color(0xffd3ff21);
 const Color linkColors = Color(0xffbc21ff);
@@ -56,9 +66,9 @@ Color disabledColor = Colors.black38;
 Color shadowColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
 Color bannerColor = Color(0xFFE0E0E0);
-const Color workspaceAskToJoinColor = Color(0xffffccbc);
-const Color workspaceInvitationsColor = Color(0xffffffee);
-const Color workspaceUsersRequestsColor = Colors.amberAccent;
+const Color workspaceAskToJoinColor = Color(0xffffaa6c);
+const Color workspaceInvitationsColor = Color(0xffffdc9b);
+const Color workspaceUsersRequestsColor = Color(0xffc87b3f);
 
 // AppBar
 const double appBarAvatarRadius = 40;
@@ -149,7 +159,7 @@ double rightCircleTop = leftCircleTop + 30;
 double welcomeTop = leftCircleTop + 30;
 double balanceInfoTop = leftCircleTop + 80;
 double startedInfoTop = leftCircleTop + 130;
-Color backgroundDesignColor = Colors.grey.shade300;
+Color backgroundDesignColor = Color(0xfffefefe);
 
 //ListView
 const Color dividerColor = Colors.blueGrey;
@@ -235,7 +245,7 @@ const double entryPadding = 8.0;
 const double entryBorderRadius = 10;
 Color entryColor = Colors.white;
 Color entryShadow = Colors.grey.withOpacity(0.5);
-const double shadowDesignConstant = 3;
+const double shadowDesignConstant = 5;
 Color incomeEntryColor = Colors.green.shade600;
 Color expenseEntryColor = Colors.red.shade600;
 
@@ -249,7 +259,7 @@ const double cardBorderWidth = 2.0;
 const double cardThinBorderWidth = 1.0;
 const double iconHorizontalPadding = 5.0;
 const double iconVerticalPadding = 10.0;
-const double iconSize = 30.0;
+const double iconSize = 24.0;
 const double listViewBottomPadding = 140;
 const double categoryHeaderPadding = 20.0;
 
@@ -274,7 +284,7 @@ const double attributeFontSize = 10;
 
 //Workspaces
 const double bottomSheetSizeScale = 3.5;
-const double workspaceUsersScale = 2;
+const double workspaceUsersScale = 1.8;
 const EdgeInsets bottomSheetPadding = EdgeInsets.all(10.0);
 const TextStyle bottomSheetTextStyle = TextStyle(fontSize: 16);
 const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);

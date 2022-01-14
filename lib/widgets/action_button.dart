@@ -18,12 +18,6 @@ class ActionButton extends StatelessWidget {
   final bool fillStyle;
   final Color buttonColor;
 
-  ButtonStyle filledButtonColor() {
-    return ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(buttonColor),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return (_showLoading.runtimeType == bool ? _showLoading : _showLoading()) ?
@@ -33,7 +27,6 @@ class ActionButton extends StatelessWidget {
     : ElevatedButton(
       child: Text(_textButton),
       onPressed: _onPressedCallback,
-      style: fillStyle ? filledButtonColor() : style,
     );
   }
 }

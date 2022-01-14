@@ -54,7 +54,7 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget _getDaysOfMonthRadio() {
-    return Text(gc.defaultEndOfMonthDay.toString(), style: _getTextDesign());
+    return Text(gc.defaultEndOfMonthDay.toString(), style: Theme.of(context).textTheme.bodyText2);
   }
 
   void _toggleSendEmail(bool? isChecked) {
@@ -114,7 +114,7 @@ class _SettingsState extends State<Settings> {
     List<Widget?> leadingSettings = [
       Text(
         Languages.of(context)!.strConstants,
-        style: _getTextDesign(),
+        style:Theme.of(context).textTheme.subtitle1,
       ),
       leadingWidgetWithInfo(Languages.of(context)!.strInviteFriend, Languages.of(context)!.strInviteFriendInfo),
       leadingWidgetWithInfo(Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
@@ -132,7 +132,7 @@ class _SettingsState extends State<Settings> {
         icon: _getSettingsArrow(),
       ),
       _getDaysOfMonthRadio(),
-      Text(config.projectVersion, style: _getTextDesign())
+      Text(config.projectVersion, style: Theme.of(context).textTheme.bodyText2)
     ];
     return ListViewGeneric(
         leadingWidgets: leadingSettings,
@@ -182,9 +182,8 @@ class _SettingsState extends State<Settings> {
           child: Column(
             children:[
               _getSettingsList(),
-              Divider(
+              SizedBox(
                 height: MediaQuery.of(context).size.height/gc.separateConstantsScale,
-                color: gc.secondaryColor,
               ),
             _getConstantsList()
             ],

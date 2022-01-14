@@ -172,8 +172,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   Widget _getModalBottomSheet(bool isAddWorkspace) {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
-      child: SizedBox(
+      child: Container(
         height: MediaQuery.of(context).size.height / gc.bottomSheetSizeScale,
+        color: Theme.of(context).cardColor,
         child: Form(
           key: _modalBottomSheetFormKey,
           child: Column(
@@ -232,13 +233,13 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       padding: gc.workspaceTilePadding,
       child: Container(
         decoration: BoxDecoration(
-          color: gc.entryColor,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(gc.entryBorderRadius),
           border: Border.all(
-            color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
+            color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).disabledColor,
           ),
           boxShadow: [
-            userStorage.userData!.currentWorkspace == workspace ? gc.workspaceTileShadow : BoxShadow()
+            userStorage.userData!.currentWorkspace == workspace ? BoxShadow(color: Theme.of(context).shadowColor, blurRadius: 2, offset: Offset(2,2)) : BoxShadow()
           ],
         ),
         child: ListTile(
@@ -246,7 +247,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             workspace,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
+              color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).hoverColor,
               fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal,
             ),
           ),
@@ -306,7 +307,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
           padding: gc.workspacesGeneralPadding,
           child: Text(
             text,
-            style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.headline5,
           ),
         ),
         Row(
@@ -315,14 +316,12 @@ class _SetWorkspaceState extends State<SetWorkspace> {
               onPressed: () => {firstOnPress(text)},
               child: Text(
                 firstText,
-                style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
               ),
             ),
             TextButton(
               onPressed: () => {secondOnPress(text)},
               child: Text(
                 secondText,
-                style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -347,7 +346,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       visible: visibleCondition,
       child: Column(
         children: [
-          Text(title),
+          Text(title, style: Theme.of(context).textTheme.headline3,),
           Padding(
             padding: gc.userTilePadding,
             child: Container(
@@ -387,19 +386,44 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                           children: [
                             Text(Languages.of(context)!.strWorkspaceExplanation),
                             GenericTooltip(tip: Languages.of(context)!.strWorkspaceTooltip),
+                            Text(
+                              Languages.of(context)!.strWorkspaceExplanation,
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ), // TODO- write the content
                             const Divider(),
                             Visibility(
                                 visible: !_shouldShowWorkspaceUsers,
-                                child: Column(children: [Text(Languages.of(context)!.strEmptyWorkspace), const Divider()])),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width/gc.workspaceUsersScale,
-                              child: _getUserList(
-                                _shouldShowWorkspaceUsers,
-                                Languages.of(context)!.strOtherWorkspaceUsers,
-                                _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.users, _buildWorkspaceUserFromString),
-                                BoxDecoration(
-                                  color: gc.primaryColor,
-                                  borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+                                child: Column(
+                                    children: [
+                                      Text(
+                                        Languages.of(context)!.strEmptyWorkspace,
+                                        style: Theme.of(context).textTheme.subtitle1,
+                                      ),
+                                      const Divider()
+                                    ],
+                                ),
+                            ),
+                            Visibility(
+                              visible: _shouldShowWorkspaceUsers,
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width/gc.workspaceUsersScale,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(Languages.of(context)!.strOtherWorkspaceUsers, style: Theme.of(context).textTheme.subtitle1,),
+                                    Padding(
+                                      padding: gc.userTilePadding,
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).toggleableActiveColor,
+                                          borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+                                        ),
+                                        child: _getListView(_getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.users, _buildWorkspaceUserFromString)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -444,7 +468,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                                   visible: _workspaceUsers != null && authRepository.user != null && _workspaceUsers!.leader == authRepository.user!.email,
                                   child: TextButton(
                                     onPressed: () => {_showModalBottomSheet(false)},
-                                    child: Text(Languages.of(context)!.strInvite),
+                                    child: Text(Languages.of(context)!.strInvite, style: Theme.of(context).textTheme.subtitle2,),
                                   ),
                                 ),
                                 IconButton(

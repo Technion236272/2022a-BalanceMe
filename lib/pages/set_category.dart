@@ -192,15 +192,20 @@ class _SetCategoryState extends State<SetCategory> {
                 ),
                 SizedBox(
                   width: gc.smallTextFields,
-                  child: FormTextField(
-                      _categoryExpectedController,
-                      1,
-                      1,
-                      Languages.of(context)!.expected,
-                      isValid: true,
-                      isNumeric: true,
-                      isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _positiveNumberValidatorFunction,
+                  child: Column(
+                    children: [
+                      FormTextField(
+                          _categoryExpectedController,
+                          1,
+                          1,
+                          Languages.of(context)!.expected,
+                          isValid: true,
+                          isNumeric: true,
+                          isEnabled: widget._mode != DetailsPageMode.Details,
+                          validatorFunction: _positiveNumberValidatorFunction,
+                      ),
+                      Divider(color: Theme.of(context).primaryColorLight),
+                    ],
                   ),
                 ),
                 Padding(
@@ -212,7 +217,7 @@ class _SetCategoryState extends State<SetCategory> {
                     visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),
                     child: GenericIconButton(
                       onTap: widget._mode == DetailsPageMode.Details ? _toggleEditDetailsMode : null,
-                      color: gc.primaryColor,
+                      color: Theme.of(context).hoverColor,
                       iconSize: gc.editIconSize,
                     ),
                   ),
