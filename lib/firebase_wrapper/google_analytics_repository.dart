@@ -103,6 +103,18 @@ class GoogleAnalytics {
     _logEvent("ToggleSendEmail", {"user": _getUserEmail(), "SendReport": isChecked});
   }
 
+  void logRateUsOpened() {
+    _logEvent("RateUsOpened", {"user": _getUserEmail()});
+  }
+
+  void logRateUsCancel() {
+    _logEvent("RateUsCancel", {"user": _getUserEmail()});
+  }
+
+  void logRateUsSubmit() {
+    _logEvent("RateUsSubmit", {"user": _getUserEmail()});
+  }
+
   // FireBase
   void logPreCheckFailed(String functionName) {
     _logEvent("${functionName}PreCheckFailed", {"user": _getUserEmail()});

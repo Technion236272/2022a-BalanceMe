@@ -1,7 +1,8 @@
 // ================= Settings Page =================
-import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:balance_me/global/rate_us.dart';
 import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/global/types.dart';
@@ -80,6 +81,15 @@ class _SettingsState extends State<Settings> {
     GoogleAnalytics.instance.logInviteFriendOpened();
   }
 
+  void _openRateUs() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => RateUs(),
+    );
+    GoogleAnalytics.instance.logRateUsOpened();
+  }
+
   void _getAbout() {
     showAboutDialog(
         context: context,
@@ -126,6 +136,7 @@ class _SettingsState extends State<Settings> {
         style: Theme.of(context).textTheme.subtitle1,
       ),
       Text(Languages.of(context)!.strInviteFriend),
+      Text(Languages.of(context)!.strRateUs),
       Text(Languages.of(context)!.strAbout),
       leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings, Languages.of(context)!.strEndOfMonthInfo),
       Text(Languages.of(context)!.strVersionSettings),
@@ -134,6 +145,10 @@ class _SettingsState extends State<Settings> {
       null,
       IconButton(
         onPressed: _inviteFriend,
+        icon: _getSettingsArrow(),
+      ),
+      IconButton(
+        onPressed: _openRateUs,
         icon: _getSettingsArrow(),
       ),
       IconButton(

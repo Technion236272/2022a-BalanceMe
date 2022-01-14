@@ -331,7 +331,7 @@ class UserStorage with ChangeNotifier {
     }
 
     sendEmail(
-        _authRepository!.getEmail!,
+        [_authRepository!.getEmail!],
         Languages.of(context)!.strMonthlyReportSubject.replaceAll("%", month.toString()),
         Languages.of(context)!.strMonthlyReportContentHeader + "\n\n" +
         monthlySummary + "\n\n" +
@@ -339,10 +339,14 @@ class UserStorage with ChangeNotifier {
     );
   }
 
+  void sendReview(double rate, String comment) {
+    sendEmail(gc.sendReviewEmail, "New Rate for BalanceMe app has been recorded", "rate: $rate\ncomment: $comment");
+  }
+
   // ================== Requests ==================
 
   // sendEmail
-  void sendEmail(String recipients, String subject, String text) async {
+  void sendEmail(List<String> recipients, String subject, String text) async {
     if (globalNavigatorKey.currentContext == null) {
       return;
     }
@@ -351,7 +355,7 @@ class UserStorage with ChangeNotifier {
     SmtpServer smtpServer = gmail(gc.appEmail, gc.appPassword);
     final message = mail.Message()
       ..from = mail.Address(gc.appEmail, Languages.of(context)!.strAppName)
-      ..recipients.add(recipients)
+      ..recipients.addAll(recipients)
       ..subject = subject
       ..text = text;
 
@@ -360,9 +364,6 @@ class UserStorage with ChangeNotifier {
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
     }
-    var connection = mail.PersistentConnection(smtpServer);
-    await connection.send(message);
-    await connection.close();
   }
 
   // isExist

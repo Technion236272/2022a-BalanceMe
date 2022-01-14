@@ -216,4 +216,11 @@ abstract class Languages {
   String get strEndOfMonthBankBalance;
   String get strSendMonthlyReport;
   String get strSendMonthlyReportInfo;
+
+  // RateUs
+  String get strRateUs;
+  String get strRateUsExplanation;
+  String get strSubmit;
+  String get strCommentHint;
+  String get strRateRecorded;
 }
