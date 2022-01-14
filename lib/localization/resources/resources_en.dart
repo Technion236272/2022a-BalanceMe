@@ -197,12 +197,6 @@ class LanguageEn extends Languages {
   String get strSuccessfullyLogout => "Successfully logged out";
 
   @override
-  String get strSuccessfullyLogin => "You logged in successfully. Duplicate categories might be removed.";
-
-  @override
-  String get strSuccessfullySignUp => "You signed up successfully. You can edit your settings in settings page";
-
-  @override
   String get strSignUp => "Sign Up";
 
   @override
@@ -261,6 +255,18 @@ class LanguageEn extends Languages {
 
   @override
   String get strLinkProviderError => "An account with this email already exists under a different provider";
+
+  @override
+  String get strSignUpWith => "Sign up with %";
+
+  @override
+  String get strLoginWith => "Login with %";
+
+  @override
+  String get strGoogle => "Google";
+
+  @override
+  String get strFacebook => "Facebook";
 
   // Password Recovery
   @override

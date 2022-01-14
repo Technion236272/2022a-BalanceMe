@@ -8,7 +8,8 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/utils.dart';
 
 class DarkModeSwitcher extends StatefulWidget {
-  const DarkModeSwitcher({Key? key}) : super(key: key);
+  DarkModeSwitcher(this._initValue, {Key? key}) : super(key: key);
+  bool _initValue;
 
   @override
   State<DarkModeSwitcher> createState() => _DarkModeSwitcherState();
@@ -47,6 +48,6 @@ class _DarkModeSwitcherState extends State<DarkModeSwitcher> {
 
   @override
   Widget build(BuildContext context) {
-    return Switch(value: globalIsDarkMode, onChanged: _onSetTheme);
+    return Switch(value: widget._initValue, onChanged: _onSetTheme);
   }
 }

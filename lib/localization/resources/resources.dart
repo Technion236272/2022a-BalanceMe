@@ -75,8 +75,6 @@ abstract class Languages {
   String get strLogin;
   String get strLogout;
   String get strSuccessfullyLogout;
-  String get strSuccessfullyLogin;
-  String get strSuccessfullySignUp;
   String get strSignUp;
   String get strEmailText;
   String get strPassword;
@@ -97,6 +95,10 @@ abstract class Languages {
   String get strEmailInUse;
   String get strTooManyProviders;
   String get strLinkProviderError;
+  String get strSignUpWith;
+  String get strLoginWith;
+  String get strGoogle;
+  String get strFacebook;
 
   // Password Recovery
   String get strRecoverPassword;

@@ -196,12 +196,6 @@ class LanguageHe extends Languages {
   String get strSuccessfullyLogout => "‎התנתקת בהצלחה";
 
   @override
-  String get strSuccessfullyLogin => "‎התחברת למערכת בהצלחה. קטגוריות כפולות נמחקו";
-
-  @override
-  String get strSuccessfullySignUp => "‎נרשמת למערכת בהצלחה. ניתן לגשת לעמוד ההגדרות על מנת לערוך אותן";
-
-  @override
   String get strSignUp => "הרשמה‎";
 
   @override
@@ -260,6 +254,18 @@ class LanguageHe extends Languages {
 
   @override
   String get strLinkProviderError => "קיים חשבון עם כתובת זו תחת ספק אחר‎";
+
+  @override
+  String get strSignUpWith => "‎הרשמה עם %";
+
+  @override
+  String get strLoginWith => "‎התחברות עם %";
+
+  @override
+  String get strGoogle => "‎גוגל";
+
+  @override
+  String get strFacebook => "‎פייסבוק";
 
   // Password Recovery
   @override
