@@ -123,8 +123,8 @@ class _SettingsState extends State<Settings> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        GenericTooltip(tip: tip),
         Text(settingName),
+        GenericTooltip(tip: tip),
       ],
     );
   }
