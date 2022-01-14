@@ -415,13 +415,13 @@ class UserStorage with ChangeNotifier {
       await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
-          GeneralInfoDispatcher.notifyAll();
           if (_userData != null && _userData!.language != "") {
             changeLanguage(context, _userData!.language);
           }
           if (_userData != null) {
             BalanceMeApp.setTheme(context, _userData!.isDarkMode);
           }
+          GeneralInfoDispatcher.notifyAll();
           notifyListeners();
         } else {
           GoogleAnalytics.instance.logRequestDataNotExists("postLogin", generalInfo);
