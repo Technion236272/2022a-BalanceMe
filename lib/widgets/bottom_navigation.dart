@@ -31,7 +31,6 @@ class BottomNavigation extends StatelessWidget {
         ),
       ],
       currentIndex: _selectedPage,
-      selectedItemColor: gc.bottomNavigationSelectedColor,
       onTap: _updateSelectedPage,
     );
   }

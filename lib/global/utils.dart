@@ -1,10 +1,10 @@
 // ================= Utils For Project =================
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:flutter/services.dart';
 
 // Navigation
 void navigateToPage(context, Widget page, AppPages? pageEnum) {
@@ -21,13 +21,13 @@ void navigateToPage(context, Widget page, AppPages? pageEnum) {
 void navigateBack(context) {
   Navigator.pop(context);
   FocusScope.of(context).unfocus(); // Remove the keyboard
-  GoogleAnalytics.instance.logNavigateBack();
 }
 
 // Messages
 void displaySnackBar(BuildContext context, String msg, [String? actionLabel, VoidCallback? actionCallback]) {
   final snackBar = SnackBar(
-    content: Text(msg),
+    content: Text(msg, style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor, fontWeight: FontWeight.bold),),
+    backgroundColor: Theme.of(context).splashColor,
     action: (actionLabel == null || actionCallback == null) ? null
     : SnackBarAction(
       label: actionLabel,
@@ -41,8 +41,8 @@ Future<void> showAlertDialog(BuildContext context, String alertContent, {String?
   showDialog<String>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
-      title: alertTitle == null ? null : Text(alertTitle),
-      content: Text(alertContent),
+      title: alertTitle == null ? null : Text(alertTitle, style: Theme.of(context).textTheme.subtitle1),
+      content: Text(alertContent, style: Theme.of(context).textTheme.bodyText2),
       actions: alertActions,
     ),
   );
@@ -66,6 +66,72 @@ Future<void> showYesNoAlertDialog(BuildContext context, String alertContent, Voi
   );
 }
 
+void showDismissBanner(String message, [List<List>? actions]) {
+  if (globalNavigatorKey.currentContext == null) {
+    return;
+  }
+  BuildContext context = globalNavigatorKey.currentContext!;
+
+  void _onPressed(Function? callback) {
+    if (callback != null) {
+      callback();
+    }
+    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+  }
+
+  List closeAction = [null, Languages.of(context)!.strClose];
+  if (actions == null) {
+    actions = [closeAction];
+  } else {
+    actions.add(closeAction);
+  }
+
+  List<Widget> bannerActions = [];
+  for (var action in actions) {
+    bannerActions.add(
+      TextButton(
+          onPressed: () => {_onPressed(action[0])},
+          child: Text(action[1]),
+      )
+    );
+  }
+
+  ScaffoldMessenger.of(context).showMaterialBanner(
+     MaterialBanner(
+       contentTextStyle: TextStyle(color: Theme.of(context).scaffoldBackgroundColor, fontWeight: FontWeight.bold),
+       padding: EdgeInsets.all(gc.bannerPadding),
+       content: Text(message),
+       backgroundColor: Theme.of(context).splashColor,
+       leading: Icon(gc.detailsIcon, color: Theme.of(context).scaffoldBackgroundColor,),
+       actions: bannerActions,
+    ),
+  );
+}
+
+void openModalBottomSheet(List<Widget> children) {
+  if (globalNavigatorKey.currentContext == null) {
+    return;
+  }
+
+  BuildContext context = globalNavigatorKey.currentContext!;
+  showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: SafeArea(
+                child: Wrap(
+                  children: children,
+                ),
+              ),
+            ));
+      });
+}
+
 // Numbers
 double getPercentage(double amount, double total) {
   return (amount / total) * 100;
@@ -77,12 +143,12 @@ extension Ex on num {
   String toPercentageFormat() => toString() + "%";
   String toMoneyFormat([String? currencySign]) {
     currencySign = (currencySign == null) ? CurrencySign[gc.defaultUserCurrency] : currencySign;
-    return toPrecision().toString() + currencySign!;  // TODO- find a way to add the symbol in the correct direction according to the locale
+    return toPrecision().toString() + currencySign!;
   }
 }
 
 extension Dt on DateTime {
-  String toFullDate() => "$day-$month-$year";  // TODO- find a way to present the date correct direction according to the locale
+  String toFullDate() => "$day-$month-$year";
   bool isSameDate(DateTime other) => year == other.year && month == other.month && day == other.day;
 }
 
@@ -112,6 +178,10 @@ bool matchingPasswordValidator(String? value, String? confirmValue) => (essentia
 
 bool positiveNumberValidator(num? value) => (essentialFieldValidator(value.toString()) && value! > 0);
 
+bool notEmailValidator(String? value) => (essentialFieldValidator(value.toString()) && !value!.contains("@"));
+
+bool emailValidator(String? value) => (essentialFieldValidator(value) && EmailValidator.validate(value!));
+
 // Time
 DateTime getCurrentMonth(int endOfMonth, [DateTime? specificDate]) {
   specificDate = specificDate ?? DateTime.now();
@@ -124,6 +194,19 @@ DateTime getCurrentMonth(int endOfMonth, [DateTime? specificDate]) {
 String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
   specificDate = getCurrentMonth(endOfMonth, specificDate);
   return specificDate.month.toString() + specificDate.year.toString();
+}
+
+// TextDirection
+TextDirection getTextDirection([String? languageDirection]) {
+  if (globalNavigatorKey.currentContext == null) {
+    return TextDirection.rtl;
+  }
+  BuildContext context = globalNavigatorKey.currentContext!;
+
+  if (languageDirection == null) {
+    return Languages.of(context)!.languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr;
+  }
+  return languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr;
 }
 
 // Converters
@@ -149,4 +232,12 @@ dynamic indexToEnum(List values, int index) {
   } catch (e) {
     return null;
   }
+}
+
+// Colors
+Color getColorForCard(bool currentAboveExpected, double currentAmount, double expectedAmount) {
+  if (currentAboveExpected) {
+    return currentAmount >= expectedAmount ? gc.incomeEntryColor : gc.expenseEntryColor;
+  }
+  return expectedAmount >= currentAmount ? gc.incomeEntryColor : gc.expenseEntryColor;
 }

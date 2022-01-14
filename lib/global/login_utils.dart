@@ -1,5 +1,6 @@
 // ================= Login and SignUp Functions =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/global/dispatcher.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/sentry_repository.dart';
 import 'package:balance_me/global/utils.dart';
@@ -31,7 +32,7 @@ void emailPasswordSignUp(String? email, String? password, String? confirmPasswor
     displaySnackBar(context, Languages.of(context)!.strMissingFields);
     return;
   }
-  if (password!=confirmPassword) {
+  if (password != confirmPassword) {
     displaySnackBar(context, Languages.of(context)!.strMismatchingPasswords);
     return;
   }
@@ -67,21 +68,23 @@ void recoverPassword(String? email, BuildContext context) async {
 }
 
 void startLoginProcess(BuildContext context, Future<bool> loginFunction, String loginFunctionName, bool isSigningIn, UserStorage userStorage, {VoidCallback? failureCallback}) async {
+  GeneralInfoDispatcher.reset();
   BalanceModel lastBalance = userStorage.balance.copy();
   if (await loginFunction) {
 
     Future.delayed(const Duration(milliseconds: 10), () async {
       if (isSigningIn) {
         await userStorage.GET_generalInfo(context);
+        userStorage.SEND_balanceModelAfterLogin(lastBalance);
         GoogleAnalytics.instance.logLogin(loginFunctionName);
       } else {
-        userStorage.SEND_generalInfo();
+        await userStorage.SEND_fullBalanceModel(balance: lastBalance);
+        GeneralInfoDispatcher.reset();
+        userStorage.SEND_initialUserDoc();
         GoogleAnalytics.instance.logSignUp(loginFunctionName);
       }
 
-      await userStorage.GET_balanceModelAfterLogin(lastBalance, isSigningIn);
       navigateBack(context);
-      isSigningIn ? displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogin) : displaySnackBar(context, Languages.of(context)!.strSuccessfullySignUp);
     });
 
   } else if (failureCallback != null) {

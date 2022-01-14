@@ -51,10 +51,11 @@ class _CategoryComplexState extends State<CategoryComplex> {
   Widget build(BuildContext context) {
     return Card(
       elevation: gc.cardElevationHeight,
-      shadowColor: gc.primaryColor.withOpacity(0.5),
+      shadowColor:Theme.of(context).primaryColorDark.withOpacity(0.5),
       shape: RoundedRectangleBorder(
         side: const BorderSide(
-            color: Colors.black38, width: gc.cardThinBorderWidth),
+            color: Colors.black38,
+            width: gc.cardThinBorderWidth),
         borderRadius: BorderRadius.circular(gc.cardBorderRadius),
       ),
       child: Column(

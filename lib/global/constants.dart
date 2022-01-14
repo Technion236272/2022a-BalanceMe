@@ -5,7 +5,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Defaults
 int defaultPage = AppPages.Balance.index;
-const bool darkMode = false;
+const bool defaultIsDarkMode = false;
 const List<int> daysOfMonth = [1, 10, 15];
 const int defaultEndOfMonthDay = 10;
 const Currency defaultUserCurrency = Currency.NIS;
@@ -13,9 +13,11 @@ const int defaultPrecision = 2;
 const bool defaultIsConstant = false;
 const int defaultMaxCharactersLimit = 20;
 const defaultMinPasswordLimit = 6;
+const double zero = 0.0;
 
 // Localization
 const String rtl = "rtl";
+const String ltr = "ltr";
 
 // Icons
 const IconData settingArrow = Icons.arrow_forward_ios_sharp;
@@ -27,7 +29,7 @@ const IconData settingsPage = Icons.settings;
 const IconData archivePage = Icons.archive;
 const IconData hidePassword = Icons.remove_red_eye_outlined;
 const IconData showPassword = Icons.remove_red_eye;
-const IconData transactionDetailsIcon = Icons.info;
+const IconData detailsIcon = Icons.info;
 const IconData expandIcon = Icons.expand_less;
 const IconData minimizeIcon = Icons.expand_more;
 const IconData addIcon = Icons.add;
@@ -36,11 +38,24 @@ const IconData editIcon = Icons.edit;
 const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
 const IconData calendarIcon = Icons.date_range_sharp;
+const IconData closeIcon = Icons.close;
 
 // Colors
-const Color primaryColor = Colors.blue; // TODO- change to the chosen color
+const Color whiteColor = Colors.white;
+const Color blackColor = Colors.black;
+const Color primaryColor = Colors.blue;
+const Color primaryLightColor = Color(0xff6ec6ff);
+const Color primaryDarkColor = Color(0xff0069c0);
 const Color secondaryColor = Colors.white;
-const Color bottomNavigationSelectedColor = primaryColor;
+const Color secondaryDarkColor = Color(0xff888888);
+const Color darkPrimaryColor = Color(0xff37464f);
+const Color darkPrimaryLightColor = Color(0xff62717b);
+const Color darkPrimaryDarkColor = Color(0xff101f27);
+const Color darkSecondaryColor = Color(0xffff8f00);
+const Color darkSecondaryLightColor = Color(0xffffc046);
+const Color darkSecondaryDarkColor = Color(0xffc56000);
+const Color darkVeryLightColor = Color(0xffc0d0dc);
+const Color darkTextButtonColor = Color(0xff1e4d76);
 const Color alternativePrimary = Color(0xff4e21ff);
 const Color tabColor = Color(0xffd3ff21);
 const Color linkColors = Color(0xffbc21ff);
@@ -48,7 +63,12 @@ const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
 const Color leaveColor = Color(0xFFE30E0E);
 Color disabledColor = Colors.black38;
+Color shadowColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
+Color bannerColor = Color(0xFFE0E0E0);
+const Color workspaceAskToJoinColor = Color(0xffffaa6c);
+const Color workspaceInvitationsColor = Color(0xffffdc9b);
+const Color workspaceUsersRequestsColor = Color(0xffc87b3f);
 
 // AppBar
 const double appBarAvatarRadius = 40;
@@ -94,7 +114,7 @@ const int widthSmallAndMediumSizeMatching = 30;
 const int widthLargeSizeMatching = 20;
 const EdgeInsetsGeometry cardMargin = EdgeInsets.all(5.0);
 Color cardShadowColor = Colors.grey.withOpacity(0.5);
-const Color cardBGColor = Colors.grey; //TODO - change to chosen color
+const Color cardBGColor = Colors.grey;
 
 //Tabs
 const Color tabLabelColor = Colors.black;
@@ -140,7 +160,7 @@ double rightCircleTop = leftCircleTop + 30;
 double welcomeTop = leftCircleTop + 30;
 double balanceInfoTop = leftCircleTop + 80;
 double startedInfoTop = leftCircleTop + 130;
-Color backgroundDesignColor = Colors.grey.shade300;
+Color backgroundDesignColor = Color(0xfffefefe);
 
 //ListView
 const Color dividerColor = Colors.blueGrey;
@@ -228,7 +248,7 @@ const double entryPadding = 8.0;
 const double entryBorderRadius = 10;
 Color entryColor = Colors.white;
 Color entryShadow = Colors.grey.withOpacity(0.5);
-const double shadowDesignConstant = 3;
+const double shadowDesignConstant = 5;
 Color incomeEntryColor = Colors.green.shade600;
 Color expenseEntryColor = Colors.red.shade600;
 
@@ -242,7 +262,7 @@ const double cardBorderWidth = 2.0;
 const double cardThinBorderWidth = 1.0;
 const double iconHorizontalPadding = 5.0;
 const double iconVerticalPadding = 10.0;
-const double iconSize = 30.0;
+const double iconSize = 24.0;
 const double listViewBottomPadding = 140;
 const double categoryHeaderPadding = 20.0;
 
@@ -265,3 +285,34 @@ const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-ju
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
 const String loadLink="https://www.freeiconspng.com/img/7952";
+
+//Workspaces
+const double bottomSheetSizeScale = 3.5;
+const double workspaceUsersScale = 1.8;
+const EdgeInsets bottomSheetPadding = EdgeInsets.all(10.0);
+const TextStyle bottomSheetTextStyle = TextStyle(fontSize: 16);
+const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
+const EdgeInsets workspacesGeneralPadding = EdgeInsets.all(8.0);
+const EdgeInsets userTilePadding = EdgeInsets.only(top: 8.0);
+BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2,0));
+
+// Banner
+const double bannerPadding = 20;
+
+//Summary
+const EdgeInsets summeryTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
+BorderRadius summeryTilesRadius = BorderRadius.circular(20);
+const EdgeInsets summeryHorizontalPadding = const EdgeInsets.only(left: 8.0, right: 8.0);
+const EdgeInsets summeryVerticalPadding = const EdgeInsets.only(top: 8.0, bottom: 8.0);
+const double setWorkspaceButtonWidth = 75;
+const double setWorkspaceButtonHeight = 25;
+const double currentWorkspaceBoxScale = 4;
+const double summeryChartBoxScale = 4.2;
+const double summaryTooltipFontSize = 12;
+
+// InviteFriend
+const String googlePlayURL = "https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me";
+
+// SendEmail
+const String appEmail = "appbalanceme@gmail.com";
+const String appPassword = "BalanceMe2022@";

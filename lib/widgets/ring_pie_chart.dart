@@ -48,13 +48,14 @@ class RingPieChart extends StatelessWidget {
             padding: gc.centerPadding,
             child: Text(
               _totalPercentage!.toInt().toPercentageFormat(),
-              style: TextStyle(color: gc.pieChartCenterText, fontSize: gc.percentSize),
+              style: TextStyle(color: Theme.of(context).hoverColor, fontSize: gc.percentSize),
             ),
           ),
         ),
         Center(
           child: SfCircularChart(
               legend: Legend(
+                textStyle: Theme.of(context).textTheme.bodyText2,
                 isVisible: _showLegend,
                 position: gc.pieChartLegendPosition,
                 title: _legendTitle != null ? LegendTitle(

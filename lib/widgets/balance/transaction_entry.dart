@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/widgets/generic_dismissible.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/common_models/transaction_model.dart';
 import 'package:balance_me/pages/set_transaction.dart';
@@ -29,37 +30,18 @@ class _TransactionEntryState extends State<TransactionEntry> {
     navigateToPage(context, SetTransaction(DetailsPageMode.Details, widget._currentCategory, CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!, currentTransaction: widget._transaction), AppPages.SetTransaction);
   }
 
-  void _closeDialogCallback() {
-    navigateBack(context);
-  }
-
-  Future<void> _confirmRemoval() async {
-    await showYesNoAlertDialog(
-        context,
-        Languages.of(context)!.strVerifyRemoval.replaceAll("%", Languages.of(context)!.strTransaction),
-        _confirmRemovalCallback,
-        _closeDialogCallback);
-  }
-
-  void _confirmRemovalCallback() {
+  void _removeCallback() {
     widget._removeTransactionCB(widget._transaction);
-    _closeDialogCallback();
-  }
-
-  Future<bool?> _transactionDismissed(DismissDirection direction) async {
-    await _confirmRemoval();
   }
 
   Widget _getTransactionEntryWidget() {
     return Container(
       decoration: BoxDecoration(
-        color: gc.entryColor,
+        color: Theme.of(context).cardColor,
         boxShadow: [
           BoxShadow(
-            color: gc.entryShadow,
-            spreadRadius: gc.shadowDesignConstant,
+            color: Theme.of(context).primaryColorDark,
             blurRadius: gc.shadowDesignConstant,
-            offset: const Offset(gc.shadowDesignConstant, gc.shadowDesignConstant), // changes position of shadow
           ),
         ],
         borderRadius: BorderRadius.circular(gc.entryBorderRadius),
@@ -70,7 +52,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
           widget._transaction.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text(widget._transaction.date),
+        subtitle: Text(widget._transaction.date, style: TextStyle(color: Theme.of(context).disabledColor),),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -85,7 +67,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
             Center(
               child: IconButton(
                 onPressed: _openTransactionDetails,
-                icon: const Icon(gc.transactionDetailsIcon),
+                icon: Icon(gc.detailsIcon, color: Theme.of(context).hoverColor,),
               ),
             ),
           ],
@@ -99,30 +81,12 @@ class _TransactionEntryState extends State<TransactionEntry> {
     return Padding(
       padding: const EdgeInsets.only(left: gc.entryPadding, right: gc.entryPadding, bottom: gc.entryPadding),
       child: (userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now())) ?
-      Dismissible(
-        key: ValueKey<String>(widget._transaction.name),
-        background: Container(
-            decoration: BoxDecoration(
-              color: gc.primaryColor,
-              borderRadius: BorderRadius.circular(gc.entryBorderRadius),
-            ),
-            child: Row(
-              children: <Widget>[
-                const Icon(
-                  gc.deleteIcon,
-                  color: gc.secondaryColor,
-                ),
-                Text(
-                  Languages.of(context)!.strDelete.replaceAll("%", Languages.of(context)!.strTransaction),
-                  style: const TextStyle(
-                    color: gc.secondaryColor,
-                  ),
-                ),
-              ],
-            )),
-        child: _getTransactionEntryWidget(),
-        confirmDismiss: _transactionDismissed,
-      ) : _getTransactionEntryWidget(),
+        GenericDeleteDismissible(
+          widget._transaction.name,
+          Languages.of(context)!.strTransaction,
+          _getTransactionEntryWidget(),
+          removeCallback: _removeCallback,
+        ) : _getTransactionEntryWidget(),
     );
   }
 }
