@@ -13,12 +13,17 @@ class GenericTooltip extends StatefulWidget {
 class _GenericTooltipState extends State<GenericTooltip> {
   @override
   Widget build(BuildContext context) {
-    return Tooltip(
-      message: widget.tip,
-      textStyle: widget.style,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Icon(gc.detailsIcon),
+    return Visibility(
+      visible: widget.tip != null,
+      child: Tooltip(
+        message: widget.tip == null ? "" : widget.tip!,
+        textStyle: widget.style,
+        margin: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5.0),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(gc.detailsIcon),
+        ),
       ),
     );
   }
