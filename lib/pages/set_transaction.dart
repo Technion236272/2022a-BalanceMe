@@ -210,7 +210,7 @@ class _SetTransactionState extends State<SetTransaction> {
                           _transactionAmountController,
                           1,
                           1,
-                          Languages.of(context)!.amount,
+                          widget._currentCategory.isIncome ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense,
                           isValid: true,
                           isNumeric: true,
                           isEnabled: widget._mode != DetailsPageMode.Details,

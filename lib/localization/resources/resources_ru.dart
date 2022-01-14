@@ -326,9 +326,6 @@ class LanguageRu extends Languages {
   String get expected => "ожиданная";
 
   @override
-  String get amount => "сумма";
-
-  @override
   String get strCategory => "категория";
 
   @override

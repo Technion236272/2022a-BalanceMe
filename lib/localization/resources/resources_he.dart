@@ -326,9 +326,6 @@ class LanguageHe extends Languages {
   String get expected => "צפוי‎";
 
   @override
-  String get amount => "‎כמות";
-
-  @override
   String get strCategory => "‎קטגוריה";
 
   @override

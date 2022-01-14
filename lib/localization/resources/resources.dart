@@ -125,7 +125,6 @@ abstract class Languages {
   String get strIncomes;
   String get strCurrent;
   String get expected;
-  String get amount;
   String get strCategory;
   String get strAddCategory;
   String get strTransaction;
