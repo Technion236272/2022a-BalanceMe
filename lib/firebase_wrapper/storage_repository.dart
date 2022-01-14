@@ -277,21 +277,13 @@ class UserStorage with ChangeNotifier {
   void getBalanceAfterEndOfMonth() {
     GeneralInfoDispatcher.subscribe(() async {
       String date = getCurrentMonthPerEndMonthDay(_userData!.endOfMonthDay, DateTime.now());
-      print("@@@@ currentData $date");
-      print("@@@@ _userData!.lastUpdatedDate ${_userData!.lastUpdatedDate}");
       if (currentDate == null || _userData == null || await _getLastUpdatedDate() == date) {
-        print("Same Date- RETURN");
         return;
       }
 
       _setLastUpdatedDate(date);
-      print("@@ enter getBalanceAfterEndOfMonth");
-
       DateTime previousMonth = DateTime(currentDate!.year, currentDate!.month - 1, currentDate!.day);
       BalanceModel? balanceModel = await GET_balanceModel(dateTime: previousMonth);
-
-      print("@@ SEND_fullBalanceModel = ${balanceModel.filterCategoriesWithConstantsTransaction().toJson()}");
-
       SEND_balanceModelAfterLogin(balanceModel.filterCategoriesWithConstantsTransaction());
 
       if (_userData!.currentWorkspace == _authRepository!.getEmail && _userData!.bankBalance != null) {
@@ -438,8 +430,6 @@ class UserStorage with ChangeNotifier {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, dateTime == null ? currentDate : dateTime);
       String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.getEmail! : _userData!.currentWorkspace;
-      print("@@ GET_balanceModel");
-      print("@@ $workspace/$date");
       await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).get().then((categories) async {
         if (categories.exists && categories.data() != null) { // There is data
           balanceModel = BalanceModel.fromJson(categories.data()![config.categoriesDoc]);
