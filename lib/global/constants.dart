@@ -114,7 +114,7 @@ const int widthSmallAndMediumSizeMatching = 30;
 const int widthLargeSizeMatching = 20;
 const EdgeInsetsGeometry cardMargin = EdgeInsets.all(5.0);
 Color cardShadowColor = Colors.grey.withOpacity(0.5);
-const Color cardBGColor = Colors.grey; //TODO - change to chosen color
+const Color cardBGColor = Colors.grey;
 
 //Tabs
 const Color tabLabelColor = Colors.black;

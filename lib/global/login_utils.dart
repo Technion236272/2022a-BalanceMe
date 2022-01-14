@@ -79,7 +79,7 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
         GoogleAnalytics.instance.logLogin(loginFunctionName);
       } else {
         await userStorage.SEND_fullBalanceModel(balance: lastBalance);
-        GeneralInfoDispatcher.reset();  // TODO?
+        GeneralInfoDispatcher.reset();
         userStorage.SEND_initialUserDoc();
         GoogleAnalytics.instance.logSignUp(loginFunctionName);
       }
