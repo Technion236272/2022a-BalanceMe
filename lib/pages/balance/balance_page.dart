@@ -19,12 +19,15 @@ class BalancePage extends StatelessWidget {
 
   Widget _getTabBarView(BuildContext context, List<Category> categoriesList){
     return categoriesList.isNotEmpty ? CategoriesType(categoriesList)
-        : Column(
+        : Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
+          child: Column(
       children: [
-        AddCategoryButton(gc.defaultCategoryType == BalanceTabs.Incomes),
-        GenericInfo(bottomInfo: Languages.of(context)!.strNothingToShow)
+          AddCategoryButton(gc.defaultCategoryType == BalanceTabs.Incomes),
+          GenericInfo(bottomInfo: Languages.of(context)!.strNothingToShow)
       ],
-    );
+    ),
+        );
   }
 
   @override
