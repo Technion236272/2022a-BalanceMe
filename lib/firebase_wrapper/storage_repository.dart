@@ -41,22 +41,17 @@ class UserStorage with ChangeNotifier {
 
   void _buildUserStorage(AuthRepository authRepository) async {
     _authRepository = authRepository;
-    String userEmail = authRepository.user == null ? "" : authRepository.user!.email!;
+    String userEmail = (authRepository.user == null || authRepository.getEmail == null) ? "" : authRepository.getEmail!;
 
     if (authRepository.status == AuthStatus.Authenticated) {
       _userData = (authRepository.user != null) ? _userData : UserModel(userEmail);
 
-      if (_userMessagesStream == null) {
-        startHandleUserMessage();
+      if (!await isExist_BelongsWorkspaces()) {
+        await SEND_initialUserDoc();
       }
 
-      // if (_userData ?.currentWorkspace == "" && userEmail != "") {  // TODO- check if needed
-      //   _userData!.initWorkspaces(userEmail);
-      //   SEND_generalInfo();
-      // }
-
-      if (!await isExist_BelongsWorkspaces()) {  // TODO- check if needed and consider add messages
-        SEND_initialBelongWorkspace();
+      if (_userMessagesStream == null) {
+        startHandleUserMessage();
       }
 
     } else {
@@ -90,6 +85,17 @@ class UserStorage with ChangeNotifier {
 
   void assignBalance(BalanceModel balanceModel) {
     _balance = balanceModel;
+  }
+
+  void createUserData() {
+    BuildContext? context = globalNavigatorKey.currentContext;
+    _userData = UserModel(
+      (_authRepository != null && _authRepository!.getEmail != null ? _authRepository!.getEmail! : ""),
+      firstName: (_userData == null) ? null : _userData!.firstName,
+      lastName: (_userData == null) ? null : _userData!.lastName,
+      isDarkMode: globalIsDarkMode,
+      language: (_userData == null || _userData!.language == "" || context == null) ? Languages.of(context!)!.languageCode : _userData!.language
+    );
   }
 
   void setDate([DateTime? time]) {
@@ -497,10 +503,10 @@ class UserStorage with ChangeNotifier {
     }
   }
 
-  void SEND_fullBalanceModel({BalanceModel? balance, String? workspace}) {
-    void _sendFullBalance(String workspace, String date) {
+  Future<void> SEND_fullBalanceModel({BalanceModel? balance, String? workspace}) async {
+    void _sendFullBalance(String workspace, String date) async {
       balance = (balance == null) ? _balance : balance;
-      _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).set({
+      await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).set({
         config.categoriesDoc: balance!.toJson(),
       });
     }
@@ -561,10 +567,13 @@ class UserStorage with ChangeNotifier {
     });
   }
 
-  void SEND_initialBelongWorkspace() {  // TODO- maybe not needed?
+  Future<void> SEND_initialUserDoc() async {
     if (_authRepository != null && _authRepository!.getEmail != null) {
-      _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).update({
+      createUserData();
+      SEND_generalInfo();
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).set({
         config.belongsWorkspaces: BelongsWorkspaces(_authRepository!.getEmail!).toJson(),
+        config.userMessages: [],
       });
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("SendInitialBelongWorkspace");
@@ -627,7 +636,7 @@ class UserStorage with ChangeNotifier {
   void startHandleUserMessage() {
     if (_authRepository != null && _authRepository!.getEmail != null) {
       _userMessagesStream = _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).snapshots().listen((messages) {
-        if (messages.data() != null) {
+        if (messages.data() != null && messages.data()![config.userMessages] != null) {
           MessagesController.handleUserMessages(messages.data()![config.userMessages]);
           SEND_resetUserMessages();
         }
