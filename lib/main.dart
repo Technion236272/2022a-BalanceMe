@@ -15,7 +15,7 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
-import 'global/themes.dart';
+import 'controllers/theme_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -120,8 +120,8 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
             );
           },
           title: Languages.of(context) == null ? "" : Languages.of(context)!.strAppTitle,
-          theme: Themes(isDark: false).getTheme(),
-          darkTheme: Themes(isDark: true).getTheme(),
+          theme: ThemeController(isDark: false).getTheme(),
+          darkTheme: ThemeController(isDark: true).getTheme(),
           themeMode: _theme,
           debugShowCheckedModeBanner: false,
           locale: _locale,

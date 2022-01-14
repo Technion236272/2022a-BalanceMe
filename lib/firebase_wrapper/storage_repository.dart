@@ -16,7 +16,7 @@ import 'package:balance_me/common_models/user_model.dart';
 import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/common_models/workspace_users_model.dart';
 import 'package:balance_me/common_models/belongs_workspaces.dart';
-import 'package:balance_me/global/messages_controller.dart';
+import 'package:balance_me/controllers/messages_controller.dart';
 import 'package:balance_me/common_models/category_model.dart' as model;
 import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/types.dart';

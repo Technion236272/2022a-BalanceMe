@@ -1,25 +1,16 @@
 // ================= App Themes =================
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:balance_me/localization/locale_controller.dart';
-import 'package:balance_me/localization/languages_controller.dart';
-import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/firebase_wrapper/auth_repository.dart';
-import 'package:balance_me/firebase_wrapper/storage_repository.dart';
-import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:balance_me/pages/home.dart';
-import 'package:balance_me/global/types.dart';
-import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
-class Themes{
-  const Themes({this.isDark = false});
+class ThemeController {
+  const ThemeController({this.isDark = false});
   final bool isDark;
 
-  ThemeData _darkMode(){
+  ThemeData getTheme() {
+    return isDark ? _darkMode() : _lightMode();
+  }
+
+  ThemeData _darkMode() {
     return ThemeData(
       primaryColor: gc.darkPrimaryColor,
       primaryColorLight: gc.darkPrimaryLightColor,
@@ -43,7 +34,10 @@ class Themes{
       appBarTheme: const AppBarTheme(
         backgroundColor: gc.darkPrimaryColor,
         foregroundColor: gc.darkSecondaryColor,
-        titleTextStyle: TextStyle(color: gc.darkSecondaryColor, fontSize: 18.0, fontWeight: FontWeight.bold),
+        titleTextStyle: TextStyle(
+            color: gc.darkSecondaryColor,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: gc.darkSecondaryColor,
@@ -52,31 +46,48 @@ class Themes{
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: gc.darkPrimaryDarkColor,
           selectedItemColor: gc.darkSecondaryColor,
-          unselectedItemColor: gc.darkPrimaryLightColor
-      ),
+          unselectedItemColor: gc.darkPrimaryLightColor),
       iconTheme: IconThemeData(
         color: gc.darkVeryLightColor,
         size: gc.iconSize,
       ),
       textTheme: const TextTheme(
-        headline1: TextStyle(color: gc.darkPrimaryDarkColor, fontSize: 20.0, fontWeight: FontWeight.bold),
+        headline1: TextStyle(
+            color: gc.darkPrimaryDarkColor,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold),
         headline2: TextStyle(color: gc.darkPrimaryDarkColor, fontSize: 20.0),
-        headline3: TextStyle(color: gc.darkPrimaryDarkColor, fontSize: 18.0, fontWeight: FontWeight.bold),
+        headline3: TextStyle(
+            color: gc.darkPrimaryDarkColor,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold),
         headline4: TextStyle(color: gc.darkPrimaryDarkColor, fontSize: 18.0),
-        headline5: TextStyle(color: gc.darkPrimaryDarkColor, fontSize: 15.0, fontWeight: FontWeight.bold),
+        headline5: TextStyle(
+            color: gc.darkPrimaryDarkColor,
+            fontSize: 15.0,
+            fontWeight: FontWeight.bold),
         headline6: TextStyle(color: gc.darkPrimaryDarkColor, fontSize: 15.0),
         bodyText1: TextStyle(color: gc.darkPrimaryColor, fontSize: 15.0),
         bodyText2: TextStyle(color: gc.whiteColor, fontSize: 15.0),
-        subtitle1: TextStyle(color: gc.whiteColor, fontSize: 15.0, fontWeight: FontWeight.bold),
-        subtitle2: TextStyle(color: gc.darkSecondaryColor, fontSize: 15, fontWeight: FontWeight.bold),
-        caption: TextStyle(color: gc.darkSecondaryColor, fontSize: 15, fontWeight: FontWeight.bold),
+        subtitle1: TextStyle(
+            color: gc.whiteColor, fontSize: 15.0, fontWeight: FontWeight.bold),
+        subtitle2: TextStyle(
+            color: gc.darkSecondaryColor,
+            fontSize: 15,
+            fontWeight: FontWeight.bold),
+        caption: TextStyle(
+            color: gc.darkSecondaryColor,
+            fontSize: 15,
+            fontWeight: FontWeight.bold),
         overline: TextStyle(color: gc.darkPrimaryDarkColor, fontSize: 15.0),
-        button: TextStyle(color: gc.whiteColor, fontSize: 15.0, fontWeight: FontWeight.bold),
+        button: TextStyle(
+            color: gc.whiteColor, fontSize: 15.0, fontWeight: FontWeight.bold),
       ),
       dialogTheme: DialogTheme(
-          backgroundColor: gc.darkPrimaryLightColor,
-          titleTextStyle: TextStyle(color: gc.whiteColor, fontSize: 15.0, fontWeight: FontWeight.bold),
-          contentTextStyle: TextStyle(color: gc.whiteColor, fontSize: 15.0),
+        backgroundColor: gc.darkPrimaryLightColor,
+        titleTextStyle: TextStyle(
+            color: gc.whiteColor, fontSize: 15.0, fontWeight: FontWeight.bold),
+        contentTextStyle: TextStyle(color: gc.whiteColor, fontSize: 15.0),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
@@ -108,17 +119,19 @@ class Themes{
         thickness: gc.dividerThickness,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(gc.darkSecondaryColor),
-            foregroundColor: MaterialStateProperty.all<Color>(gc.darkPrimaryDarkColor),
-            shadowColor: MaterialStateProperty.all<Color>(gc.darkPrimaryDarkColor),
-          ),
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(gc.darkSecondaryColor),
+          foregroundColor:
+              MaterialStateProperty.all<Color>(gc.darkPrimaryDarkColor),
+          shadowColor:
+              MaterialStateProperty.all<Color>(gc.darkPrimaryDarkColor),
+        ),
       ),
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(gc.darkSecondaryDarkColor)
-          )
-      ),
+              foregroundColor:
+                  MaterialStateProperty.all(gc.darkSecondaryDarkColor))),
       cardTheme: CardTheme(
         color: gc.darkPrimaryLightColor,
         shadowColor: gc.darkPrimaryDarkColor,
@@ -131,16 +144,18 @@ class Themes{
         ),
       ),
       tabBarTheme: TabBarTheme(
-          indicator: BoxDecoration(
+        indicator: BoxDecoration(
             color: gc.darkSecondaryDarkColor,
             borderRadius: BorderRadius.circular(gc.tabBorderRadius),
-            boxShadow: [BoxShadow(color: Colors.black, blurRadius: 15, offset: Offset(5,2))]
-          ),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black, blurRadius: 15, offset: Offset(5, 2))
+            ]),
       ),
     );
   }
 
-  ThemeData _brightMode(){
+  ThemeData _lightMode() {
     return ThemeData(
       primaryColor: gc.primaryColor,
       primaryColorLight: gc.primaryLightColor,
@@ -164,7 +179,10 @@ class Themes{
       appBarTheme: const AppBarTheme(
         backgroundColor: gc.primaryColor,
         foregroundColor: gc.secondaryColor,
-        titleTextStyle: TextStyle(color: gc.secondaryColor, fontSize: 18.0, fontWeight: FontWeight.bold),
+        titleTextStyle: TextStyle(
+            color: gc.secondaryColor,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: gc.primaryColor,
@@ -173,30 +191,43 @@ class Themes{
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: gc.secondaryColor,
           selectedItemColor: gc.primaryColor,
-          unselectedItemColor: gc.secondaryDarkColor
-      ),
+          unselectedItemColor: gc.secondaryDarkColor),
       iconTheme: IconThemeData(
         color: gc.primaryDarkColor,
         size: gc.iconSize,
       ),
       textTheme: const TextTheme(
-        headline1: TextStyle(color: gc.secondaryColor, fontSize: 20.0, fontWeight: FontWeight.bold),
+        headline1: TextStyle(
+            color: gc.secondaryColor,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold),
         headline2: TextStyle(color: gc.secondaryColor, fontSize: 20.0),
-        headline3: TextStyle(color: gc.blackColor, fontSize: 18.0, fontWeight: FontWeight.bold),
+        headline3: TextStyle(
+            color: gc.blackColor, fontSize: 18.0, fontWeight: FontWeight.bold),
         headline4: TextStyle(color: gc.secondaryColor, fontSize: 18.0),
-        headline5: TextStyle(color: gc.blackColor, fontSize: 15.0, fontWeight: FontWeight.bold),
+        headline5: TextStyle(
+            color: gc.blackColor, fontSize: 15.0, fontWeight: FontWeight.bold),
         headline6: TextStyle(color: gc.secondaryColor, fontSize: 15.0),
         bodyText1: TextStyle(color: gc.primaryColor, fontSize: 15.0),
         bodyText2: TextStyle(color: gc.blackColor, fontSize: 15.0),
-        subtitle1: TextStyle(color: gc.primaryDarkColor, fontSize: 15.0, fontWeight: FontWeight.bold),
-        subtitle2: TextStyle(color: gc.secondaryColor, fontSize: 15, fontWeight: FontWeight.bold),
-        caption: TextStyle(color: gc.primaryColor, fontSize: 15, fontWeight: FontWeight.bold),
+        subtitle1: TextStyle(
+            color: gc.primaryDarkColor,
+            fontSize: 15.0,
+            fontWeight: FontWeight.bold),
+        subtitle2: TextStyle(
+            color: gc.secondaryColor,
+            fontSize: 15,
+            fontWeight: FontWeight.bold),
+        caption: TextStyle(
+            color: gc.primaryColor, fontSize: 15, fontWeight: FontWeight.bold),
         overline: TextStyle(color: gc.primaryDarkColor, fontSize: 15.0),
-        button: TextStyle(color: gc.blackColor, fontSize: 15.0, fontWeight: FontWeight.bold),
+        button: TextStyle(
+            color: gc.blackColor, fontSize: 15.0, fontWeight: FontWeight.bold),
       ),
       dialogTheme: DialogTheme(
         backgroundColor: gc.secondaryColor,
-        titleTextStyle: TextStyle(color: gc.blackColor, fontSize: 15.0, fontWeight: FontWeight.bold),
+        titleTextStyle: TextStyle(
+            color: gc.blackColor, fontSize: 15.0, fontWeight: FontWeight.bold),
         contentTextStyle: TextStyle(color: gc.blackColor, fontSize: 15.0),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -239,9 +270,7 @@ class Themes{
       ),
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(gc.primaryColor)
-          )
-      ),
+              foregroundColor: MaterialStateProperty.all(gc.primaryColor))),
       cardTheme: CardTheme(
         color: gc.secondaryColor,
         shadowColor: gc.shadowColor,
@@ -257,13 +286,11 @@ class Themes{
         indicator: BoxDecoration(
             color: gc.tabIndicatorColor,
             borderRadius: BorderRadius.circular(gc.tabBorderRadius),
-            boxShadow: [BoxShadow(color: Colors.black, blurRadius: 15, offset: Offset(5,2))]
-        ),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black, blurRadius: 15, offset: Offset(5, 2))
+            ]),
       ),
     );
-  }
-
-  ThemeData getTheme(){
-    return isDark ? _darkMode() :_brightMode();
   }
 }
