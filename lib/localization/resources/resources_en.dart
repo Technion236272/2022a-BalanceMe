@@ -133,34 +133,10 @@ class LanguageEn extends Languages {
   String get strEndOfMonthInfo => "This is the day when your balance data is sent to the archive";
 
   @override
-  String get strVersionInfo => "The current version of the app";
-
-  @override
-  String get strCurrencyInfo => "The type of currency which will be used for your balance";
-
-  @override
-  String get strLanguageInfo => "The language the app will display";
-
-  @override
-  String get strDarkModeInfo => "The theme the app will display";
-
-  @override
-  String get strAboutInfo => "Packages and licenses which the app uses";
-
-  @override
-  String get strProfileInfo => "Your profile, name and image";
-
-  @override
-  String get strPasswordChangeInfo => "Changing the password you sign in with";
-
-  @override
   String get strConstants => "Constant settings:";
 
   @override
   String get strInviteFriend => "Invite a friend";
-
-  @override
-  String get strInviteFriendInfo => "Click on the button for inviting your friend to enjoy the app";
 
   @override
   String get strInviteFriendContent => "You are welcome to try a perfect app that will allow you to keep track of your budgets, manage incomes and expenses easily, and compare your spending with previous months with our intuitive archive.\n%";
