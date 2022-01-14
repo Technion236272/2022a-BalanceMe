@@ -158,6 +158,18 @@ class LanguageRu extends Languages {
   @override
   String get strInviteFriendSubject => "Try BalanceMe App";
 
+  @override
+  String get strDeleteProfile => "Удалить образ профиля";
+
+  @override
+  String get strDeleteProfileFailed => "Ошибка удаления, так как у вас нет образа профиля";
+
+  @override
+  String get strDeleteProfileAlert => "Удалить образ вашего профиля?";
+
+  @override
+  String get strUpdate => "обновить";
+
   // Login
   @override
   String get strWelcomeBack => "с возвращением!";
@@ -373,7 +385,7 @@ class LanguageRu extends Languages {
 
   @override
   String get strBalanceSummary => "Monthly Balance Summary";
-  //TODO - Translate this please
+
   @override
   String get strCurrentIncomes => "Current Incomes";
 
@@ -570,4 +582,7 @@ class LanguageRu extends Languages {
 
   @override
   String get strSendMonthlyReportInfo => "Mark it if you wish to get a monthly report to your email at the end of the month";
+
+  @override
+  String get strLoadIcon => "значок загрузки";
 }

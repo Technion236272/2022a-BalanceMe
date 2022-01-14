@@ -12,7 +12,7 @@ import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/global/types.dart';
 
 void signInGoogle(BuildContext context, AuthRepository authRepository,UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInGoogle(context), LoginMethod.Google.toCleanString(), true, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInGoogle(context,true), LoginMethod.Google.toCleanString(), true, userStorage, failureCallback: failureCallback);
 }
 
 void signInFacebook(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
@@ -20,7 +20,7 @@ void signInFacebook(BuildContext context, AuthRepository authRepository, UserSto
 }
 
 void signUpGoogle(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInGoogle(context), LoginMethod.Google.toCleanString(), false, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInGoogle(context,false), LoginMethod.Google.toCleanString(), false, userStorage, failureCallback: failureCallback);
 }
 
 void signUpFacebook(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {

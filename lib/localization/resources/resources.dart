@@ -64,6 +64,10 @@ abstract class Languages {
   String get strInviteFriendInfo;
   String get strInviteFriendContent;
   String get strInviteFriendSubject;
+  String get strDeleteProfile;
+  String get strDeleteProfileFailed;
+  String get strDeleteProfileAlert;
+  String get strUpdate;
 
   // Login
   String get strWelcomeBack;
@@ -207,6 +211,7 @@ abstract class Languages {
   String get strAbout;
   String get strLegalese;
   String get strScalesIcon;
+  String get strLoadIcon;
 
   // Monthly Report
   String get strMonthlyReportSubject;

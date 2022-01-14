@@ -96,6 +96,15 @@ class _SettingsState extends State<Settings> {
             trailing: Text(Languages.of(context)!.strScalesIcon),
           ),
           const Text(gc.scalesLink, style: TextStyle(fontSize: gc.attributeFontSize)),
+          ListTile(
+            leading: Image.asset(
+              gc.load,
+              height: MediaQuery.of(context).size.height / gc.scalesProportion,
+              width: MediaQuery.of(context).size.width / gc.scalesProportion,
+            ),
+            trailing: Text(Languages.of(context)!.strLoadIcon),
+          ),
+          const Text(gc.loadLink, style: TextStyle(fontSize: gc.attributeFontSize)),
         ],
     );
   }

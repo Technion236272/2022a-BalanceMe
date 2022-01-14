@@ -168,6 +168,18 @@ class LanguageEn extends Languages {
   @override
   String get strInviteFriendSubject => "Try BalanceMe App";
 
+
+  @override
+  String get strDeleteProfile => "Delete profile image";
+
+  @override
+  String get strDeleteProfileFailed => "Delete failed because you have no profile image";
+
+  @override
+  String get strDeleteProfileAlert => "Are you sure you want to delete your profile image?";
+
+  @override
+  String get strUpdate => "UPDATE";
 // Login
   @override
   String get strWelcomeBack => "Welcome Back!";
@@ -571,4 +583,7 @@ class LanguageEn extends Languages {
 
   @override
   String get strSendMonthlyReportInfo => "Mark it if you wish to get a monthly report to your email at the end of the month";
+
+  @override
+  String get strLoadIcon => "Load icon";
 }

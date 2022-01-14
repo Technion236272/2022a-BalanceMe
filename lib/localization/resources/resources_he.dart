@@ -156,6 +156,18 @@ class LanguageHe extends Languages {
   String get strConstants => "הגדרות קבועות:‎";
 
   @override
+  String get strDeleteProfile => "מחק את תמונת הפרופיל ‎";
+
+  @override
+  String get strDeleteProfileFailed => "המחיקה נכשלה כיוון שאין תמונת פרופיל‎";
+
+  @override
+  String get strDeleteProfileAlert => "‎האם ברצונך למחוק את תמונת הפרופיל שלך?";
+
+  @override
+  String get strUpdate => "עדכון‎";
+
+  @override
   String get strInviteFriend => "הזמנת חבר‎";
 
   @override
@@ -545,6 +557,9 @@ class LanguageHe extends Languages {
 
   @override
   String get strScalesIcon => "‎אייקון מאזניים";
+
+  @override
+  String get strLoadIcon => "אייקון טעינה‎";
 
   // Monthly Report
   @override
