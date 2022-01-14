@@ -82,12 +82,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   void _updateFirstName() {
-    widget.userStorage.setFirstName(_controllerFirstName.text);
+    widget.userStorage.userData!.firstName = _controllerFirstName.text;
     _enableEditFirstName(null);
   }
 
   void _updateLastName() {
-    widget.userStorage.setLastName(_controllerLastName.text);
+    widget.userStorage.userData!.lastName = _controllerLastName.text;
     _enableEditLastName(null);
   }
 
@@ -185,6 +185,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       _isLoading = state;
     });
   }
+
   void _saveChanges() {
     _updateIsLoadingState(true);
     _updateFirstName();
