@@ -67,7 +67,6 @@ class _BalanceManagerState extends State<BalanceManager> {
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
           if ((!snapshot.hasData || snapshot.data!.data() == null || !BalanceModel.isBalanceValid(snapshot.data!.data()! as Json)) && widget._authRepository.status == AuthStatus.Authenticated) {
-            print("@@ No data, try to get previous month data");
             widget._userStorage.getBalanceAfterEndOfMonth();
             return Center(child: CircularProgressIndicator());
           }

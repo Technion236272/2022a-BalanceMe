@@ -32,7 +32,7 @@ void emailPasswordSignUp(String? email, String? password, String? confirmPasswor
     displaySnackBar(context, Languages.of(context)!.strMissingFields);
     return;
   }
-  if (password!=confirmPassword) {
+  if (password != confirmPassword) {
     displaySnackBar(context, Languages.of(context)!.strMismatchingPasswords);
     return;
   }
@@ -75,16 +75,16 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
     Future.delayed(const Duration(milliseconds: 10), () async {
       if (isSigningIn) {
         await userStorage.GET_generalInfo(context);
+        userStorage.SEND_balanceModelAfterLogin(lastBalance);
         GoogleAnalytics.instance.logLogin(loginFunctionName);
       } else {
-        await userStorage.SEND_generalInfo();
-        GeneralInfoDispatcher.notifyAll();
+        await userStorage.SEND_fullBalanceModel(balance: lastBalance);
+        GeneralInfoDispatcher.reset();
+        userStorage.SEND_initialUserDoc();
         GoogleAnalytics.instance.logSignUp(loginFunctionName);
       }
 
-      userStorage.SEND_balanceModelAfterLogin(lastBalance);
       navigateBack(context);
-      isSigningIn ? displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogin) : displaySnackBar(context, Languages.of(context)!.strSuccessfullySignUp);
     });
 
   } else if (failureCallback != null) {

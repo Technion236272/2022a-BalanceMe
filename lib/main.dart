@@ -86,9 +86,9 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
 
   void setTheme(bool isDarkMode) {
     setState(() {
+      globalIsDarkMode = isDarkMode;
       _theme = isDarkMode ? ThemeMode.dark : ThemeMode.light;
     });
-    globalIsDarkMode = isDarkMode;
   }
 
   Locale? localeResolution(locale, supportedLocales) {

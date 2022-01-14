@@ -5,12 +5,14 @@ import "package:balance_me/global/constants.dart" as gc;
 
 class UserModel {
   UserModel(this.currentWorkspace,
-      [this.endOfMonthDay = gc.defaultEndOfMonthDay,
+     {this.endOfMonthDay = gc.defaultEndOfMonthDay,
       this.userCurrency = gc.defaultUserCurrency,
       this.isDarkMode = false,
       this.language = "",
       this.bankBalance,
-      this.sendReport = true]) {
+      this.firstName,
+      this.lastName,
+      this.sendReport = true}) {
     lastUpdatedDate = getCurrentMonthPerEndMonthDay(endOfMonthDay, DateTime.now());
 
   }

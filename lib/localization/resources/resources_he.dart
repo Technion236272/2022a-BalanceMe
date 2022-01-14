@@ -196,12 +196,6 @@ class LanguageHe extends Languages {
   String get strSuccessfullyLogout => "‎התנתקת בהצלחה";
 
   @override
-  String get strSuccessfullyLogin => "‎התחברת למערכת בהצלחה. קטגוריות כפולות נמחקו";
-
-  @override
-  String get strSuccessfullySignUp => "‎נרשמת למערכת בהצלחה. ניתן לגשת לעמוד ההגדרות על מנת לערוך אותן";
-
-  @override
   String get strSignUp => "הרשמה‎";
 
   @override

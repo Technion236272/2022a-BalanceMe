@@ -197,12 +197,6 @@ class LanguageEn extends Languages {
   String get strSuccessfullyLogout => "Successfully logged out";
 
   @override
-  String get strSuccessfullyLogin => "You logged in successfully. Duplicate categories might be removed.";
-
-  @override
-  String get strSuccessfullySignUp => "You signed up successfully. You can edit your settings in settings page";
-
-  @override
   String get strSignUp => "Sign Up";
 
   @override

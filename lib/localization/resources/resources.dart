@@ -75,8 +75,6 @@ abstract class Languages {
   String get strLogin;
   String get strLogout;
   String get strSuccessfullyLogout;
-  String get strSuccessfullyLogin;
-  String get strSuccessfullySignUp;
   String get strSignUp;
   String get strEmailText;
   String get strPassword;

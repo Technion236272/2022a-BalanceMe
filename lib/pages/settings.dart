@@ -176,7 +176,7 @@ class _SettingsState extends State<Settings> {
       widget.authRepository.status != AuthStatus.Authenticated ? null :
         Checkbox(value: widget.userStorage.userData!.sendReport, onChanged: _toggleSendEmail),
       const LanguageDropDown(),
-      const DarkModeSwitcher(),
+      DarkModeSwitcher(globalIsDarkMode),
     ];
 
     return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);
