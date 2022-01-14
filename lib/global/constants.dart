@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Defaults
 int defaultPage = AppPages.Balance.index;
+const BalanceTabs defaultCategoryType = BalanceTabs.Expenses;
 const bool defaultIsDarkMode = false;
 const List<int> daysOfMonth = [1, 10, 15];
 const int defaultEndOfMonthDay = 10;

@@ -16,11 +16,10 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetCategory extends StatefulWidget {
-  SetCategory(this._mode, this._isIncomeTab, this._currencySign, {this.currentCategory, Key? key}) : super(key: key);
+  SetCategory(this._mode, this._isIncome, {this.currentCategory, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
-  final bool _isIncomeTab;
-  final String _currencySign;
+  final bool _isIncome;
   final Category? currentCategory;
 
   @override
@@ -49,7 +48,7 @@ class _SetCategoryState extends State<SetCategory> {
     _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _categoryExpectedController = TextEditingController(text: widget.currentCategory == null ? ""
         : widget.currentCategory!.expected.toString());
-    _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense);
+    _categoryTypeController = PrimitiveWrapper(widget._isIncome ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense);
   }
 
   void _updatePerformingSave(bool state) {
@@ -91,18 +90,8 @@ class _SetCategoryState extends State<SetCategory> {
     });
   }
 
-  String? _essentialFieldValidatorFunction(String? value) {
-    if(value != null){
-      value = value.split(widget._currencySign).first;
-    }
-    return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
-  }
-
   String? _lineLimitValidatorFunction(String? value) {
-    if(value != null){
-      value = value.split(widget._currencySign).first;
-    }
-    String? message = _essentialFieldValidatorFunction(value);
+    String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
       return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
     }
@@ -110,10 +99,7 @@ class _SetCategoryState extends State<SetCategory> {
   }
 
   String? _positiveNumberValidatorFunction(String? value) {
-    if(value != null){
-      value = value.split(widget._currencySign).first;
-    }
-    String? message = _essentialFieldValidatorFunction(value);
+    String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
       try {
         return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
@@ -128,7 +114,7 @@ class _SetCategoryState extends State<SetCategory> {
     return Category(
       _categoryNameController.text.toString(),
       _categoryTypeController.value == Languages.of(context)!.strIncome,
-      double.parse(_categoryExpectedController.text.toString().split(widget._currencySign).first),
+      double.parse(_categoryExpectedController.text.toString()),
       _categoryDescriptionController.text.toString(),
       widget.currentCategory == null ? null : widget.currentCategory!.transactions,
     );

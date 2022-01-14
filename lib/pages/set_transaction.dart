@@ -19,12 +19,11 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
-  SetTransaction(this._mode, this._currentCategory, this._currencySign, {this.callback, this.currentTransaction, Key? key}) : super(key: key);
+  SetTransaction(this._mode, this._currentCategory, {this.callback, this.currentTransaction, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final Category _currentCategory;
   final Transaction? currentTransaction;
-  final String _currencySign;
   final VoidCallback? callback;
 
   @override
@@ -105,19 +104,8 @@ class _SetTransactionState extends State<SetTransaction> {
     });
   }
 
-  String? _essentialFieldValidatorFunction(String? value) {
-    if (value != null){
-      value = value.split(widget._currencySign).first;
-    }
-    return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
-  }
-
   String? _lineLimitValidatorFunction(String? value) {
-    if (value != null){
-      value = value.split(widget._currencySign).first;
-    }
-
-    String? message = _essentialFieldValidatorFunction(value);
+    String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
       return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
     }
@@ -126,11 +114,7 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   String? _positiveNumberValidatorFunction(String? value) {
-    if (value != null){
-      value = value.split(widget._currencySign).first;
-    }
-
-    String? message = _essentialFieldValidatorFunction(value);
+    String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
       try {
         return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
@@ -156,7 +140,7 @@ class _SetTransactionState extends State<SetTransaction> {
     return Transaction(
         _transactionNameController.text.toString(),
         (_dateRangePickerController.value == null) ? DateTime.now().toFullDate() : _dateRangePickerController.value!,
-        double.parse(_transactionAmountController.text.toString().split(widget._currencySign).first),
+        double.parse(_transactionAmountController.text.toString()),
         _transactionDescriptionController.text.toString(),
         _isConstant
     );

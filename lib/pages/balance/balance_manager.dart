@@ -5,14 +5,10 @@ import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
-import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/balance/balance_page.dart';
 import 'package:balance_me/pages/welcome.dart';
-import 'package:balance_me/pages/set_category.dart';
 import 'package:balance_me/global/types.dart';
-import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/config.dart' as config;
-import 'package:balance_me/global/constants.dart' as gc;
 
 class BalanceManager extends StatefulWidget {
   const BalanceManager(this._authRepository, this._userStorage, {Key? key}) : super(key: key);
@@ -54,10 +50,6 @@ class _BalanceManagerState extends State<BalanceManager> {
     }
   }
 
-  void _openAddCategory() {
-    navigateToPage(context, SetCategory(DetailsPageMode.Add, _currentTab == BalanceTabs.Incomes, CurrencySign[widget._userStorage.userData == null ? gc.defaultUserCurrency : widget._userStorage.userData!.userCurrency]!), AppPages.SetCategory);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,15 +69,6 @@ class _BalanceManagerState extends State<BalanceManager> {
 
           return (_shouldShowWelcomePage()) ? WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]);
         },
-      ),
-      floatingActionButton: Visibility(
-        visible: _shouldShowWelcomePage() || _currentTab != BalanceTabs.Summary,
-        child: FloatingActionButton.extended(
-          label: Text(Languages.of(context)!.strAddCategory),
-          icon: const Icon(gc.addIcon),
-          onPressed: _openAddCategory,
-          tooltip: Languages.of(context)!.strAddCategory,
-        ),
       ),
     );
   }

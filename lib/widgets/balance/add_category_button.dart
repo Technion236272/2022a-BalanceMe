@@ -1,16 +1,18 @@
-import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/pages/connection_lost_page.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_me/pages/set_category.dart';
+import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
-class AddCategoryButton extends StatefulWidget {
-  const AddCategoryButton({Key? key}) : super(key: key);
+class AddCategoryButton extends StatelessWidget {
+  AddCategoryButton(this._isIncome, {Key? key}) : super(key: key);
+  bool _isIncome;
 
-  @override
-  _AddCategoryButtonState createState() => _AddCategoryButtonState();
-}
+  void _openAddCategory(BuildContext context) {
+    navigateToPage(context, SetCategory(DetailsPageMode.Add, _isIncome), AppPages.SetCategory);
+  }
 
-class _AddCategoryButtonState extends State<AddCategoryButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,9 +21,7 @@ class _AddCategoryButtonState extends State<AddCategoryButton> {
         width: gc.addCategoryButtonWidth,
         height: gc.addCategoryButtonHeight,
         child: ElevatedButton(
-            onPressed: () {
-              //TODO - implement Logic
-            },
+            onPressed: () {_openAddCategory(context);},
             style: ButtonStyle(
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(

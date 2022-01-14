@@ -26,7 +26,7 @@ class WelcomePage extends StatelessWidget {
               width: MediaQuery.of(context).size.width / gc.imageScale,
               height: MediaQuery.of(context).size.height / gc.imageScale,
             ),
-            AddCategoryButton(),
+            AddCategoryButton(gc.defaultCategoryType == BalanceTabs.Incomes),
             GenericInfo(
               title: Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.strWelcomeBack : Languages.of(context)!.strWelcomeAboard,
               topInfo: Languages.of(context)!.strBalanceInfo,
