@@ -149,6 +149,10 @@ const double percentSize = 40.0;
 const String inPracticeExpectedSeparator = "/";
 const DismissDirection removeDirection = DismissDirection.startToEnd;
 const double categoryTypeHeaderTopPadding = 13.0;
+const double addCategoryButtonWidth = 150;
+const double addCategoryButtonHeight = 40;
+const EdgeInsets addCategoryButtonPadding = EdgeInsets.all(10);
+const double addCategoryButtonRadius = 20;
 
 //Welcome
 const double imageTop = -40;

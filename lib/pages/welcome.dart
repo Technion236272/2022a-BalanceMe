@@ -1,4 +1,5 @@
 // ================= Welcome Page =================
+import 'package:balance_me/widgets/balance/add_category_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
@@ -25,6 +26,7 @@ class WelcomePage extends StatelessWidget {
               width: MediaQuery.of(context).size.width / gc.imageScale,
               height: MediaQuery.of(context).size.height / gc.imageScale,
             ),
+            AddCategoryButton(),
             GenericInfo(
               title: Provider.of<AuthRepository>(context, listen: false).status == AuthStatus.Authenticated ? Languages.of(context)!.strWelcomeBack : Languages.of(context)!.strWelcomeAboard,
               topInfo: Languages.of(context)!.strBalanceInfo,
