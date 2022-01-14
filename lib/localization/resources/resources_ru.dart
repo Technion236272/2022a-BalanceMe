@@ -132,34 +132,10 @@ class LanguageRu extends Languages {
   String get strEndOfMonthInfo => "В этот день ваши балансовые данные отправляются в архив";
 
   @override
-  String get strVersionInfo => "версия приложения";
-
-  @override
-  String get strCurrencyInfo => "Тип валюты, которая будет использоваться для Вашего баланса";
-
-  @override
-  String get strLanguageInfo => "Язык, который будет отображаться приложением";
-
-  @override
-  String get strDarkModeInfo => "The theme the app will display";
-
-  @override
-  String get strAboutInfo => "Пакеты и лицензии, используемые приложением";
-
-  @override
-  String get strProfileInfo => "Ваш профиль, има и образ";
-
-  @override
-  String get strPasswordChangeInfo => "Изменение пароля при входе";
-
-  @override
   String get strConstants => "Постоянные настройки:";
 
   @override
   String get strInviteFriend => "Invite a friend";
-
-  @override
-  String get strInviteFriendInfo => "Click on the button for inviting your friend to enjoy the app";
 
   @override
   String get strInviteFriendContent => "You are welcome to try a perfect app that will allow you to keep track of your budgets, manage incomes and expenses easily, and compare your spending with previous months with our intuitive archive.\n%";

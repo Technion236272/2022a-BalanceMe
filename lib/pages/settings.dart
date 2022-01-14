@@ -123,12 +123,12 @@ class _SettingsState extends State<Settings> {
     List<Widget?> leadingSettings = [
       Text(
         Languages.of(context)!.strConstants,
-        style:Theme.of(context).textTheme.subtitle1,
+        style: Theme.of(context).textTheme.subtitle1,
       ),
-      leadingWidgetWithInfo(Languages.of(context)!.strInviteFriend, Languages.of(context)!.strInviteFriendInfo),
-      leadingWidgetWithInfo(Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
+      Text(Languages.of(context)!.strInviteFriend),
+      Text(Languages.of(context)!.strAbout),
       leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings, Languages.of(context)!.strEndOfMonthInfo),
-      leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings, Languages.of(context)!.strVersionInfo),
+      Text(Languages.of(context)!.strVersionSettings),
     ];
     List<Widget?> trailingSettings = [
       null,
@@ -152,12 +152,12 @@ class _SettingsState extends State<Settings> {
 
   Widget _getSettingsList() {
     List<Widget?> leadingSettings = [
-      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strProfile, Languages.of(context)!.strProfileInfo) : null,
-      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strPasswordSettings, Languages.of(context)!.strPasswordChangeInfo) : null,
-      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strCurrencySettings, Languages.of(context)!.strCurrencyInfo) : null,
+      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strProfile) : null,
+      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strPasswordSettings) : null,
+      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strCurrencySettings) : null,
       widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strSendMonthlyReport, Languages.of(context)!.strSendMonthlyReportInfo) : null,
-      leadingWidgetWithInfo(Languages.of(context)!.strLanguageSettings, Languages.of(context)!.strLanguageInfo),
-      leadingWidgetWithInfo(Languages.of(context)!.strDarkModeSettings, Languages.of(context)!.strDarkModeInfo),
+      Text(Languages.of(context)!.strLanguageSettings),
+      Text(Languages.of(context)!.strDarkModeSettings),
     ];
 
     List<Widget?> trailingSettings = [
