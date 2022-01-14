@@ -187,12 +187,6 @@ class LanguageRu extends Languages {
   String get strSuccessfullyLogout => "удачный выход";
 
   @override
-  String get strSuccessfullyLogin => "Вы успешно вошли в систему. Дубликаты категорий могут быть удалены.";
-
-  @override
-  String get strSuccessfullySignUp => "Вы зарегистрировались успешно. Настройки можно изменить на странице настроек";
-
-  @override
   String get strSignUp => "регистрация";
 
   @override

@@ -85,7 +85,6 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
       }
 
       navigateBack(context);
-      isSigningIn ? displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogin) : displaySnackBar(context, Languages.of(context)!.strSuccessfullySignUp);
     });
 
   } else if (failureCallback != null) {
