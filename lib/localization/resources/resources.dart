@@ -95,6 +95,10 @@ abstract class Languages {
   String get strEmailInUse;
   String get strTooManyProviders;
   String get strLinkProviderError;
+  String get strSignUpWith;
+  String get strLoginWith;
+  String get strGoogle;
+  String get strFacebook;
 
   // Password Recovery
   String get strRecoverPassword;
