@@ -23,7 +23,7 @@ class RateUs extends StatelessWidget {
     BuildContext context = globalNavigatorKey.currentContext!;
 
     Provider.of<UserStorage>(context, listen: false).sendReview(response.rating, response.comment);
-    GoogleAnalytics.instance.logRateUsSubmit();
+    GoogleAnalytics.instance.logRateUsSubmit(response.rating, response.comment);
     displaySnackBar(context, Languages.of(context)!.strRateRecorded);
   }
 

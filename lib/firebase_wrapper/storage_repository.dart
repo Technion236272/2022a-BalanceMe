@@ -340,7 +340,10 @@ class UserStorage with ChangeNotifier {
   }
 
   void sendReview(double rate, String comment) {
-    sendEmail(gc.sendReviewEmail, "New Rate for BalanceMe app has been recorded", "rate: $rate\ncomment: $comment");
+    sendEmail(
+        gc.sendReviewEmail,
+        "New Rate for BalanceMe app has been recorded",
+        "User: ${_authRepository == null || _authRepository!.getEmail == null ? "unauthenticated" : _authRepository!.getEmail}\nRate: $rate\nComment: $comment");
   }
 
   // ================== Requests ==================

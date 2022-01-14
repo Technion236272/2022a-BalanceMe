@@ -111,8 +111,8 @@ class GoogleAnalytics {
     _logEvent("RateUsCancel", {"user": _getUserEmail()});
   }
 
-  void logRateUsSubmit() {
-    _logEvent("RateUsSubmit", {"user": _getUserEmail()});
+  void logRateUsSubmit(double rate, String comment) {
+    _logEvent("RateUsSubmit", {"user": _getUserEmail(), "rate": rate, "comment": comment});
   }
 
   // FireBase
