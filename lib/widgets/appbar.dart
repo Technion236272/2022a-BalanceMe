@@ -1,4 +1,5 @@
 // ================= AppBar Widget =================
+import 'package:balance_me/pages/profile_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/dispatcher.dart';
 import 'package:balance_me/pages/authentication/authentication_manager.dart';
@@ -74,12 +75,20 @@ class _MainAppBarState extends State<MainAppBar> {
     displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogout);
   }
 
+  void _profileTap(){
+    navigateToPage(context, ProfileSettings( authRepository: widget._authRepository, userStorage: widget._userStorage), null);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(_getAppBarTitle(context)),
       centerTitle: true,
-      leading: UserAvatar(widget._authRepository, gc.appBarAvatarRadius),
+      leading: Visibility(
+          visible: widget._authRepository.status == AuthStatus.Authenticated,
+          child: GestureDetector(
+            onTap: _profileTap,
+              child: UserAvatar(widget._authRepository, gc.appBarAvatarRadius))),
       actions: [
         widget._authRepository.status == AuthStatus.Authenticated ?
             IconButton(
