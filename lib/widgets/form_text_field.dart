@@ -1,8 +1,6 @@
 // ================= Form Text Field =================
 import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/localization/locale_controller.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/localization/resources/resources_he.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:balance_me/global/types.dart';
@@ -42,7 +40,7 @@ class FormTextField  extends StatelessWidget {
       keyboardType: isNumeric ? TextInputType.number : TextInputType.multiline,
       minLines: _minLines,
       maxLines: _maxLines,
-      textDirection: LanguageHe().languageCode == getLocale().languageCode ? TextDirection.rtl : TextDirection.ltr,
+      textDirection: getTextDirection(Languages.of(context)!.languageDirection),
       decoration: InputDecoration(
         hintText: _hintText,
         hintStyle: gc.defaultHintStyle,
