@@ -384,12 +384,11 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                         padding: gc.workspacesGeneralPadding,
                         child: Column(
                           children: [
-                            Text(Languages.of(context)!.strWorkspaceExplanation),
-                            GenericTooltip(tip: Languages.of(context)!.strWorkspaceTooltip),
                             Text(
                               Languages.of(context)!.strWorkspaceExplanation,
                               style: Theme.of(context).textTheme.subtitle1,
-                            ), // TODO- write the content
+                            ),
+                            GenericTooltip(tip: Languages.of(context)!.strWorkspaceTooltip),
                             const Divider(),
                             Visibility(
                                 visible: !_shouldShowWorkspaceUsers,
