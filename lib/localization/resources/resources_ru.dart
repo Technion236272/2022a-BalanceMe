@@ -120,6 +120,15 @@ class LanguageRu extends Languages {
   String get strSignInTimeout => "Не обнаружено записаней аккаунт.убедитесь, что вы зарегистрированы и попробуйте снова";
 
   @override
+  String get strLanguage => "language";
+
+  @override
+  String get strTheme => "theme";
+
+  @override
+  String get strBeforeChangeAlertDialogContent => "Attention:\nChange % might reset all your data. For saving the data, please log-in or sign up first.\nAre you sure you want to change the %?";
+
+  @override
   String get strEndOfMonthInfo => "В этот день ваши балансовые данные отправляются в архив";
 
   @override
@@ -247,13 +256,16 @@ class LanguageRu extends Languages {
   String get strLinkProviderError => "Учетная запись с этим электронная почта уже существует под другим провайдером";
 
   @override
-  String get strLanguage => "language";
+  String get strSignUpWith => "Sign up with %";
 
   @override
-  String get strTheme => "theme";
+  String get strLoginWith => "Login with %";
 
   @override
-  String get strBeforeChangeAlertDialogContent => "Attention:\nChange % might reset all your data. For saving the data, please log-in or sign up first.\nAre you sure you want to change the %?";
+  String get strGoogle => "Google";
+
+  @override
+  String get strFacebook => "Facebook";
 
   // Password Recovery
   @override
@@ -421,7 +433,6 @@ class LanguageRu extends Languages {
 
   @override
   String get strTotalBalanceInfo => "Total Current Balance = Current Incomes - Current Expenses \nTotal Expected Balance = Expected Incomes - Expected Expenses";
-
 
   // Workspaces
   @override

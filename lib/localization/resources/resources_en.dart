@@ -256,6 +256,18 @@ class LanguageEn extends Languages {
   @override
   String get strLinkProviderError => "An account with this email already exists under a different provider";
 
+  @override
+  String get strSignUpWith => "Sign up with %";
+
+  @override
+  String get strLoginWith => "Login with %";
+
+  @override
+  String get strGoogle => "Google";
+
+  @override
+  String get strFacebook => "Facebook";
+
   // Password Recovery
   @override
   String get strRecoverPassword => "Password recovery";

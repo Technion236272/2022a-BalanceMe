@@ -255,6 +255,18 @@ class LanguageHe extends Languages {
   @override
   String get strLinkProviderError => "קיים חשבון עם כתובת זו תחת ספק אחר‎";
 
+  @override
+  String get strSignUpWith => "‎הרשמה עם %";
+
+  @override
+  String get strLoginWith => "‎התחברות עם %";
+
+  @override
+  String get strGoogle => "‎גוגל";
+
+  @override
+  String get strFacebook => "‎פייסבוק";
+
   // Password Recovery
   @override
   String get strRecoverPassword => "שחזור סיסמה‎";
