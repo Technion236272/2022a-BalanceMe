@@ -312,6 +312,7 @@ const double summeryChartBoxScale = 4.2;
 const double summaryTooltipFontSize = 12;
 
 // Rate Us
+const double rateUsImageSize = 120;
 const double rateUsAppNameFontSize = 25;
 const double rateUsExplanationFontSize = 15;
 
