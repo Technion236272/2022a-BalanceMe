@@ -41,8 +41,7 @@ class TextBox extends StatelessWidget {
           controller: controller,
           keyboardType: isNumeric ? TextInputType.number : TextInputType.multiline,
           validator: validatorFunction,
-          inputFormatters: isNumeric ? [
-            FilteringTextInputFormatter.allow(RegExp(r'(^-?\d*\.?\d{0,2})'))] : [],
+          inputFormatters: isNumeric ? [numberFormatter(false)] : [],
           obscureText: hideText,
           onChanged: onChanged,
           textAlign: textAlign == null ? TextAlign.start : textAlign!,

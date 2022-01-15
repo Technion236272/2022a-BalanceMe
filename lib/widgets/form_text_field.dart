@@ -37,6 +37,7 @@ class FormTextField  extends StatelessWidget {
       keyboardType: isNumeric ? TextInputType.number : TextInputType.multiline,
       minLines: _minLines,
       maxLines: _maxLines,
+      inputFormatters: isNumeric ? [numberFormatter(true)] : [],
       textDirection: getTextDirection(Languages.of(context)!.languageDirection),
       decoration: InputDecoration(
         hintText: _hintText,

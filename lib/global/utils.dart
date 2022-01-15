@@ -5,6 +5,7 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:flutter/services.dart';
 
 // Navigation
 void navigateToPage(context, Widget page, AppPages? pageEnum) {
@@ -166,6 +167,8 @@ extension St on String {
 extension En on Enum {
   String toCleanString() => toString().split(".")[1];
 }
+
+FilteringTextInputFormatter numberFormatter(bool positiveOnly) => positiveOnly ? FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})')) : FilteringTextInputFormatter.allow(RegExp(r'(^-?\d*\.?\d{0,2})'));
 
 // Validators
 bool essentialFieldValidator(String? value) => (value != null && value.isNotEmpty);
