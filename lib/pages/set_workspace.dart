@@ -141,10 +141,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   void _inviteUserToWorkspace() async {
     if (_modalBottomSheetFormKey.currentState != null && _modalBottomSheetFormKey.currentState!.validate()) {
 
-      if (await userStorage.isExist_generalInfo(_modalBottomSheetController.text)) {
-        userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, _modalBottomSheetController.text);
+      if (await userStorage.isExist_generalInfo(_modalBottomSheetController.text.toLowerCase())) {
+        userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, _modalBottomSheetController.text.toLowerCase());
         displaySnackBar(context, Languages.of(context)!.strInvitedSuccessfullyWorkspace);
-        GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, _modalBottomSheetController.text);
+        GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, _modalBottomSheetController.text.toLowerCase());
       } else {
         displaySnackBar(context, Languages.of(context)!.strUserNotFound);
       }
