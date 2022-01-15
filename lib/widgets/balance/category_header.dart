@@ -38,11 +38,11 @@ class _CategoryHeaderState extends State<CategoryHeader> {
   }
 
   void _openAddTransactionPage() {
-    navigateToPage(context, SetTransaction(DetailsPageMode.Add, widget._category, CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!, callback: widget._openCategory), AppPages.SetTransaction);
+    navigateToPage(context, SetTransaction(DetailsPageMode.Add, widget._category, callback: widget._openCategory), AppPages.SetTransaction);
   }
 
   void _openCategoryDetails() {
-    navigateToPage(context, SetCategory(DetailsPageMode.Details, widget._category.isIncome, CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!, currentCategory: widget._category), AppPages.SetCategory);
+    navigateToPage(context, SetCategory(DetailsPageMode.Details, widget._category.isIncome, currentCategory: widget._category), AppPages.SetCategory);
   }
 
   void _removeCategory() {

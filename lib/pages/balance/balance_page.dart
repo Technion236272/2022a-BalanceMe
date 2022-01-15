@@ -2,12 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/summary.dart';
+import 'package:balance_me/widgets/balance/add_category_button.dart';
 import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/common_models/category_model.dart';
 import 'package:balance_me/widgets/balance/categories_type.dart';
 import 'package:balance_me/widgets/generic_tabs.dart';
 import 'package:balance_me/widgets/generic_info.dart';
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class BalancePage extends StatelessWidget {
   BalancePage(this._balanceModel, this._changeCurrentTab, {Key? key}) : super(key: key);
@@ -16,7 +18,16 @@ class BalancePage extends StatelessWidget {
   final VoidCallbackInt _changeCurrentTab;
 
   Widget _getTabBarView(BuildContext context, List<Category> categoriesList){
-    return categoriesList.isNotEmpty ? CategoriesType(categoriesList) : GenericInfo(bottomInfo: Languages.of(context)!.strNothingToShow);
+    return categoriesList.isNotEmpty ? CategoriesType(categoriesList)
+        : Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
+          child: Column(
+      children: [
+          AddCategoryButton(gc.defaultCategoryType == BalanceTabs.Incomes),
+          GenericInfo(bottomInfo: Languages.of(context)!.strNothingToShow)
+      ],
+    ),
+        );
   }
 
   @override

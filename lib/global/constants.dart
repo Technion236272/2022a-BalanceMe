@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Defaults
 int defaultPage = AppPages.Balance.index;
+const BalanceTabs defaultCategoryType = BalanceTabs.Expenses;
 const bool defaultIsDarkMode = false;
 const List<int> daysOfMonth = [1, 10, 15];
 const int defaultEndOfMonthDay = 10;
@@ -150,6 +151,10 @@ const double percentSize = 40.0;
 const String inPracticeExpectedSeparator = "/";
 const DismissDirection removeDirection = DismissDirection.startToEnd;
 const double categoryTypeHeaderTopPadding = 13.0;
+const double addCategoryButtonWidth = 170;
+const double addCategoryButtonHeight = 40;
+const EdgeInsets addCategoryButtonPadding = EdgeInsets.all(10);
+const double addCategoryButtonRadius = 20;
 
 //Welcome
 const double imageTop = -40;
