@@ -64,7 +64,6 @@ class MessagesController {
 
     message["message"] = Languages.of(context!)!.strUserInvitedToWorkspace;
     _handleShowMessage(message, [[() => {replyRequest(true)}, Languages.of(context!)!.strApprove], [() => {replyRequest(false)}, Languages.of(context!)!.strReject]]);
-    userStorage.SEND_updateInvitationsList(message["workspace"], true);
   }
 
   static void _handleShowMessage(Message message, [List<List>? actions]) {

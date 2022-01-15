@@ -166,7 +166,7 @@ class UserStorage with ChangeNotifier {
 
   void replyWorkspaceInvitation(BuildContext context, String workspace, isAccepted) async {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      SEND_updateInvitationsList(workspace, false);
+      SEND_updateInvitationsList(workspace, _authRepository!.getEmail!, false);
       isAccepted ? addNewUserToWorkspace(workspace, _authRepository!.getEmail!) : null;
 
       String? workspaceLeader = await GET_workspaceLeader(workspace);
@@ -588,10 +588,8 @@ class UserStorage with ChangeNotifier {
     SEND_updateBelongsWorkspaces("joiningRequests", user, workspace, toAdd);
   }
 
-  void SEND_updateInvitationsList(String workspace, bool toAdd) {
-    if (_authRepository != null && _authRepository!.getEmail != null) {
-      SEND_updateBelongsWorkspaces("invitations", _authRepository!.getEmail!, workspace, toAdd);
-    }
+  void SEND_updateInvitationsList(String workspace, String invitedUser, bool toAdd) {
+    SEND_updateBelongsWorkspaces("invitations", invitedUser, workspace, toAdd);
   }
 
   void SEND_deleteWorkspace(String workspace) async {
