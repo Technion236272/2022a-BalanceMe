@@ -52,16 +52,8 @@ abstract class Languages {
   String get strTheme;
   String get strBeforeChangeAlertDialogContent;
   String get strEndOfMonthInfo;
-  String get strVersionInfo;
-  String get strCurrencyInfo;
-  String get strLanguageInfo;
-  String get strDarkModeInfo;
-  String get strAboutInfo;
-  String get strProfileInfo;
-  String get strPasswordChangeInfo;
   String get strConstants;
   String get strInviteFriend;
-  String get strInviteFriendInfo;
   String get strInviteFriendContent;
   String get strInviteFriendSubject;
   String get strDeleteProfile;
@@ -223,4 +215,11 @@ abstract class Languages {
   String get strEndOfMonthBankBalance;
   String get strSendMonthlyReport;
   String get strSendMonthlyReportInfo;
+
+  // RateUs
+  String get strRateUs;
+  String get strRateUsExplanation;
+  String get strSubmit;
+  String get strCommentHint;
+  String get strRateRecorded;
 }

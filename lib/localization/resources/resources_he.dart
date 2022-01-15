@@ -132,27 +132,6 @@ class LanguageHe extends Languages {
   String get strEndOfMonthInfo => "זהו היום בו המידע שלך מהמאזן מועבר לארכיון‎";
 
   @override
-  String get strVersionInfo => "הגרסה הנוכחית של האפליקציה‎";
-
-  @override
-  String get strCurrencyInfo => "סוג המטבע שישומש למאזן‎";
-
-  @override
-  String get strLanguageInfo => "השפה שהאפליקציה תציג‎";
-
-  @override
-  String get strDarkModeInfo => "‎הצבעים בהם תוצג האפליקציה";
-
-  @override
-  String get strAboutInfo => "חבילות ורשיונות בשימוש באפליקציה‎";
-
-  @override
-  String get strProfileInfo => "‎הפרופיל שלך, שם ותמונה";
-
-  @override
-  String get strPasswordChangeInfo => "‎שינוי הסיסמה להרשמה";
-
-  @override
   String get strConstants => "הגדרות קבועות:‎";
 
   @override
@@ -169,9 +148,6 @@ class LanguageHe extends Languages {
 
   @override
   String get strInviteFriend => "הזמנת חבר‎";
-
-  @override
-  String get strInviteFriendInfo => "בלחיצה על הכפתור ניתן לשתף את האפליקציה עם חברים‎";
 
   @override
   String get strInviteFriendContent => "‎נסו את האפליקציה לניהול פיננסי שמאפשרת מעקב ובקרה על התקציב החודשי. ניתן להכניס את ההוצאות וההכנסות הצפויות ולעדכן במהלך החודש את ההכנסות וההוצאות בפועל. \n%";
@@ -588,4 +564,20 @@ class LanguageHe extends Languages {
 
   @override
   String get strSendMonthlyReportInfo => "‎יש לסמן אם ברצונך לקבל בדואר האלקטרוני דו״ח בסוף כל חודש";
+
+  // RateUs
+  @override
+  String get strRateUs => "‎דרגו אותנו";
+
+  @override
+  String get strRateUsExplanation => "‎בחרו בכוכב כדי לדרג. אם תרצו, ניתן להוסיף פירוט נוסף";
+
+  @override
+  String get strSubmit => "‎שליחה";
+
+  @override
+  String get strCommentHint => "‎כתבו את דעתכם כאן (אופציונלי)";
+
+  @override
+  String get strRateRecorded => "‎המשוב נקלט בהצלחה, תודה רבה!";
 }
