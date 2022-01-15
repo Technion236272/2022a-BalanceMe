@@ -84,8 +84,12 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _removeWorkspace(String workspace) {
-    userStorage.removeUserFromWorkspace(workspace);
+    if (authRepository.user != null && workspace == authRepository.getEmail) {
+      displaySnackBar(context, Languages.of(context)!.strCantRemovePersonalWorkspace);
+      return;
+    }
 
+    userStorage.removeUserFromWorkspace(workspace);
     if (userStorage.userData != null && workspace == userStorage.userData!.currentWorkspace && authRepository.user != null) {
       _chooseWorkspace(authRepository.user!.email!);
     }
@@ -260,8 +264,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _buildWorkspaceFromString(String workspace, bool? param) {
-    return (authRepository.user != null && workspace == authRepository.user!.email) ?
-      _getWorkspace(workspace) : GenericDeleteDismissible(
+    return GenericDeleteDismissible(
       workspace,
       Languages.of(context)!.strWorkspace,
       _getWorkspace(workspace),

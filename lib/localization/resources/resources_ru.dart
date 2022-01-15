@@ -501,6 +501,9 @@ class LanguageRu extends Languages {
   @override
   String get strUserRejectInvitation => "# rejects your invitation to join % workspace";
 
+  @override
+  String get strCantRemovePersonalWorkspace => "You can't remove your personal workspace";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "вид";

@@ -200,27 +200,27 @@ class _SummaryPageState extends State<SummaryPage> {
                   flex: 1,
                   child: Visibility(
                     visible: showWorkspacesAndBankBalance,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width / gc.currentWorkspaceBoxScale,
-                            child: Text(userStorage.userData!.currentWorkspace)
-                        ),
-                        SizedBox(
-                          width: gc.setWorkspaceButtonWidth,
-                          height: gc.setWorkspaceButtonHeight,
-                          child: ElevatedButton(
-                            onPressed: _openSetWorkspace,
-                            child: Text(Languages.of(context)!.strSet),
-                          ),
-                        ),
-                      ],
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width / gc.currentWorkspaceBoxScale,
+                        child: Text(userStorage.userData!.currentWorkspace)
                     ),
                   ),
                 )
               ],
+            ),
+            Visibility(
+              visible: showWorkspacesAndBankBalance,
+              child: Padding(
+                padding: EdgeInsets.only(top: gc.setWorkspaceButtonPadding),
+                child: SizedBox(
+                  width: gc.setWorkspaceButtonWidth,
+                  height: gc.setWorkspaceButtonHeight,
+                  child: ElevatedButton(
+                    onPressed: _openSetWorkspace,
+                    child: Text(Languages.of(context)!.strSet),
+                  ),
+                ),
+              ),
             ),
             Visibility(visible: showWorkspacesAndBankBalance && userStorage.userData!.currentWorkspace == authRepository.getEmail, child: Divider()),
             Visibility(

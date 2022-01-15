@@ -502,6 +502,9 @@ class LanguageHe extends Languages {
   @override
   String get strUserRejectInvitation => "‎המשתמש # דחה את הזמנתך להצטרף למרחב העבודה %";
 
+  @override
+  String get strCantRemovePersonalWorkspace => "‎לא ניתן למחוק את מרחב העבודה הפרטי";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "‎סוג";

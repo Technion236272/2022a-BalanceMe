@@ -51,6 +51,7 @@ class UserStorage with ChangeNotifier {
         SEND_resetUserMessages();
       }
 
+      print(_authRepository!.user);
       if (_userMessagesStream == null) {
         startHandleUserMessage();
       }
@@ -625,7 +626,9 @@ class UserStorage with ChangeNotifier {
 
   // ================== Messages ==================
 
-  void startHandleUserMessage() {
+  void startHandleUserMessage() async {
+    print("startHandleUserMessage");
+    print(StackTrace.current);
     if (_authRepository != null && _authRepository!.getEmail != null) {
       _userMessagesStream = _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).snapshots().listen((messages) {
         if (messages.data() != null && messages.data()![config.userMessages] != null) {
@@ -668,6 +671,7 @@ class UserStorage with ChangeNotifier {
   }
 
   void SEND_resetUserMessages() async {
+    print(StackTrace.current);
     if (_authRepository != null && _authRepository!.getEmail != null) {
       await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).set({
         config.userMessages: [],
