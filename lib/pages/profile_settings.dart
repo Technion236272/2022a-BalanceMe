@@ -199,7 +199,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 height: MediaQuery.of(context).size.width/gc.avatarSizedBoxHeightScale,
                 child: Stack(
                   children: [
-                    UserAvatar(widget.authRepository, MediaQuery.of(context).size.width/gc.profileAvatarRadiusScale,),
+                    Center(child: UserAvatar(widget.authRepository, MediaQuery.of(context).size.width/gc.profileAvatarRadiusScale)),
                     Positioned(
                       right:0,
                       bottom: 0,
