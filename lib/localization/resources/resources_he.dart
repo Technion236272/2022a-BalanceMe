@@ -214,7 +214,7 @@ class LanguageHe extends Languages {
   String get strCameraOption => "מצלמה‎";
 
   @override
-  String get strMinPasswordLimit => "‎אורך הסיסמה צריך להיות לפחות % תווים";
+  String get strMinPasswordLimit => "‎אורך הסיסמה  להיות לפחות %";
 
   @override
   String get strBadEmail => "‎כתובת הדואר האלקטרוני שהוזנה אינה תקינה";

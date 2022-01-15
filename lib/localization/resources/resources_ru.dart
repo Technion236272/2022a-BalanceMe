@@ -214,7 +214,7 @@ class LanguageRu extends Languages {
   String get strCameraOption => "камера";
 
   @override
-  String get strMinPasswordLimit => "Пароль должен содержать минимум % символов";
+  String get strMinPasswordLimit => "Password length should be at least %";
 
   @override
   String get strBadEmail => "Ваша электронная почта плохо оформлено";

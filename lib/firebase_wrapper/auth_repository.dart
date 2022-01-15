@@ -283,12 +283,12 @@ class AuthRepository with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updatePassword(BuildContext context, String newPassword) async {
+  Future<void> updatePassword(BuildContext context, String newPassword, Function? failureCB) async {
     if (_user != null) {
       try {
         await _user!.updatePassword(newPassword);
         notifyListeners();
-        displaySnackBar(context, Languages.of(context)!.strChangePasswordSuccess);
+        return;
       } on FirebaseAuthException catch (e, stackTrace) {
         SentryMonitor().sendToSentry(e, stackTrace);
         if (e.code == gc.weakPassword) {
@@ -301,5 +301,6 @@ class AuthRepository with ChangeNotifier {
     } else {
       displaySnackBar(context, Languages.of(context)!.strSignInTimeout);
     }
+    failureCB != null ? failureCB() : null;
   }
 }

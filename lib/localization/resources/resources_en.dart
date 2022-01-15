@@ -215,7 +215,7 @@ class LanguageEn extends Languages {
   String get strCameraOption => "Camera";
 
   @override
-  String get strMinPasswordLimit => "The password should contain at least % characters";
+  String get strMinPasswordLimit => "Password length should be at least %";
 
   @override
   String get strBadEmail => "Your email is badly formed";
