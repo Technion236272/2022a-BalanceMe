@@ -303,9 +303,6 @@ class LanguageEn extends Languages {
   String get expected => "Expected";
 
   @override
-  String get amount => "Amount";
-
-  @override
   String get strCategory => "category";
 
   @override

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/common_models/category_model.dart';
+import 'package:balance_me/widgets/balance/add_category_button.dart';
 import 'package:balance_me/widgets/ring_pie_chart.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/types.dart';
@@ -34,9 +35,9 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
     return Padding(
       padding: const EdgeInsets.only(top: gc.categoryTypeHeaderTopPadding),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           RingPieChart(widget._categories, true, null),
+          AddCategoryButton(widget._categories.first.isIncome),
           Card(
             shadowColor: gc.primaryColor.withOpacity(0.5),
             elevation: gc.cardElevationHeight,
