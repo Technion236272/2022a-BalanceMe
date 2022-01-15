@@ -12,7 +12,6 @@ class MessagesController {
   static late UserStorage userStorage;
 
   static void handleUserMessages(List<dynamic> messages) {
-    print(messages);
     try {
       if (context == null) {
         return;
