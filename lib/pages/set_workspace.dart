@@ -41,6 +41,12 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   bool get _shouldShowInvitations => _belongWorkspace.invitations.isNotEmpty;
 
+  @override
+  void dispose() {
+    _modalBottomSheetController.dispose();
+    super.dispose();
+  }
+
   String? _addUserValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {

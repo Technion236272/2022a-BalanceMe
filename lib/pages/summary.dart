@@ -39,6 +39,12 @@ class _SummaryPageState extends State<SummaryPage> {
     _init();
   }
 
+  @override
+  void dispose() {
+    _controllerBankBalance.dispose();
+    super.dispose();
+  }
+
   void _init() {
     GeneralInfoDispatcher.subscribe(() {
       if (mounted && userStorage.userData != null && userStorage.userData!.bankBalance != null) {
