@@ -127,8 +127,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   List<Widget?> _iconsLeading() {
     List<Widget?> icons = [];
-    icons.add(const Icon(gc.galleryChoice));
-    icons.add(const Icon(gc.cameraChoice));
+    icons.add(const Icon(gc.galleryChoice, color: gc.darkVeryLightColor));
+    icons.add(const Icon(gc.cameraChoice, color: gc.darkVeryLightColor));
     if (widget.authRepository.avatarUrl != null) {
       icons.add(const Icon(gc.deleteIcon));
     }
