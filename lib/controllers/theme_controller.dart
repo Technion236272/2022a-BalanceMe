@@ -131,7 +131,7 @@ class ThemeController {
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
               foregroundColor:
-                  MaterialStateProperty.all(gc.darkSecondaryDarkColor))),
+                  MaterialStateProperty.all(gc.darkSecondaryColor))),
       cardTheme: CardTheme(
         color: gc.darkPrimaryLightColor,
         shadowColor: gc.darkPrimaryDarkColor,

@@ -81,7 +81,10 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
                         ),
                       ),
                       Text(_getTotalCategoriesListAmount(true).toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
-                          style: Theme.of(context).textTheme.subtitle2,
+                          style: TextStyle(
+                          color: Theme.of(context).toggleableActiveColor,
+                          fontSize: gc.expectedFontSize,
+                          fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

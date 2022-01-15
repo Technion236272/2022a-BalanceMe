@@ -204,6 +204,7 @@ const double buttonPadding = 50.0;
 const double editIconSize = 30.0;
 const double listTileHeight = 30.0;
 const double containerWidth = 200;
+const double expectedFontSize = 15;
 
 //Dropdown widget
 const double dropDownRadius = 30;
@@ -290,6 +291,7 @@ const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 const EdgeInsets workspacesGeneralPadding = EdgeInsets.all(8.0);
 const EdgeInsets userTilePadding = EdgeInsets.only(top: 8.0);
 BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2,0));
+const double inviteFontSize = 15;
 
 // Banner
 const double bannerPadding = 20;

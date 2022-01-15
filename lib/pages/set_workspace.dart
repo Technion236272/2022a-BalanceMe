@@ -469,7 +469,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                                   visible: _workspaceUsers != null && authRepository.user != null && _workspaceUsers!.leader == authRepository.user!.email,
                                   child: TextButton(
                                     onPressed: () => {_showModalBottomSheet(false)},
-                                    child: Text(Languages.of(context)!.strInvite, style: Theme.of(context).textTheme.subtitle2,),
+                                    child: Text(Languages.of(context)!.strInvite, style: TextStyle(
+                                        color: Theme.of(context).toggleableActiveColor,
+                                        fontSize: gc.inviteFontSize,
+                                        fontWeight: FontWeight.bold)),
                                   ),
                                 ),
                                 IconButton(
