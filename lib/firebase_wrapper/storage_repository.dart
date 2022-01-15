@@ -671,7 +671,7 @@ class UserStorage with ChangeNotifier {
 
   void SEND_resetUserMessages() async {
     if (_authRepository != null && _authRepository!.getEmail != null) {
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).update({
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).set({
         config.userMessages: [],
       });
     } else {
