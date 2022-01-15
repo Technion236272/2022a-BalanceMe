@@ -49,14 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  IconButton _hidingPasswordEye() {
-    return IconButton(
-      icon: Icon(showPassword ? gc.hidePassword : gc.showPassword),
-      color: Theme.of(context).hoverColor,
-      onPressed: _hideText,
-    );
-  }
-
   String? _essentialFieldValidatorFunction(String? value) {
     return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
   }
@@ -108,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 controllerPassword,
                 Languages.of(context)!.strPassword,
                 hideText: showPassword,
-                suffix: PasswordEye(showPassword,_hideText),
+                suffix: PasswordEye(showPassword, _hideText),
                 validatorFunction: _passwordValidatorFunction,
               ),
               SizedBox(
