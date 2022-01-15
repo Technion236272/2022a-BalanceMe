@@ -167,8 +167,8 @@ Color backgroundDesignColor = Color(0xfffefefe);
 const Color dividerColor = Colors.blueGrey;
 
 //settings
-const double newPasswordSize = 22.0;
 const double profileAvatarRadiusScale = 3.5;
+const double newPasswordSize = 20.0;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
 const EdgeInsets avatarPadding = EdgeInsets.all(8.0);
