@@ -568,4 +568,20 @@ class LanguageEn extends Languages {
 
   @override
   String get strLoadIcon => "Load icon";
+
+  // RateUs
+  @override
+  String get strRateUs => "Rate Us";
+
+  @override
+  String get strRateUsExplanation => "Tap a star to set your rating. Add more description here if you want";
+
+  @override
+  String get strSubmit => "Submit";
+
+  @override
+  String get strCommentHint => "Set your comment here (optional)";
+
+  @override
+  String get strRateRecorded => "Your review has been recorded, thank you!";
 }

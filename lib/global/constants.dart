@@ -13,6 +13,7 @@ const int defaultPrecision = 2;
 const bool defaultIsConstant = false;
 const int defaultMaxCharactersLimit = 20;
 const defaultMinPasswordLimit = 6;
+const double defaultInitialRating = 1.0;
 const double zero = 0.0;
 
 // Localization
@@ -310,9 +311,14 @@ const double currentWorkspaceBoxScale = 4;
 const double summeryChartBoxScale = 4.2;
 const double summaryTooltipFontSize = 12;
 
+// Rate Us
+const double rateUsAppNameFontSize = 25;
+const double rateUsExplanationFontSize = 15;
+
 // InviteFriend
 const String googlePlayURL = "https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me";
 
 // SendEmail
 const String appEmail = "appbalanceme@gmail.com";
 const String appPassword = "BalanceMe2022@";
+const List<String> sendReviewEmail = ["razle102030@gmail.com", "Tazachil@gmail.com"];

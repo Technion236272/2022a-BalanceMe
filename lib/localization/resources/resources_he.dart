@@ -567,4 +567,20 @@ class LanguageHe extends Languages {
 
   @override
   String get strSendMonthlyReportInfo => "‎יש לסמן אם ברצונך לקבל בדואר האלקטרוני דו״ח בסוף כל חודש";
+
+  // RateUs
+  @override
+  String get strRateUs => "‎דרגו אותנו";
+
+  @override
+  String get strRateUsExplanation => "‎בחרו בכוכב כדי לדרג. אם תרצו, ניתן להוסיף פירוט נוסף";
+
+  @override
+  String get strSubmit => "‎שליחה";
+
+  @override
+  String get strCommentHint => "‎כתבו את דעתכם כאן (אופציונלי)";
+
+  @override
+  String get strRateRecorded => "‎המשוב נקלט בהצלחה, תודה רבה!";
 }
