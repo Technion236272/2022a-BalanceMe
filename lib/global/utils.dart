@@ -26,8 +26,8 @@ void navigateBack(context) {
 // Messages
 void displaySnackBar(BuildContext context, String msg, [String? actionLabel, VoidCallback? actionCallback]) {
   final snackBar = SnackBar(
-    content: Text(msg),
-    backgroundColor: globalIsDarkMode ? gc.darkPrimaryColor : null,
+    content: Text(msg, style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor, fontWeight: FontWeight.bold),),
+    backgroundColor: Theme.of(context).splashColor,
     action: (actionLabel == null || actionCallback == null) ? null
     : SnackBarAction(
       label: actionLabel,
@@ -41,8 +41,8 @@ Future<void> showAlertDialog(BuildContext context, String alertContent, {String?
   showDialog<String>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
-      title: alertTitle == null ? null : Text(alertTitle),
-      content: Text(alertContent),
+      title: alertTitle == null ? null : Text(alertTitle, style: Theme.of(context).textTheme.subtitle1),
+      content: Text(alertContent, style: Theme.of(context).textTheme.bodyText2),
       actions: alertActions,
     ),
   );
@@ -98,10 +98,11 @@ void showDismissBanner(String message, [List<List>? actions]) {
 
   ScaffoldMessenger.of(context).showMaterialBanner(
      MaterialBanner(
+       contentTextStyle: TextStyle(color: Theme.of(context).scaffoldBackgroundColor, fontWeight: FontWeight.bold),
        padding: EdgeInsets.all(gc.bannerPadding),
        content: Text(message),
-       backgroundColor: gc.bannerColor,
-       leading: Icon(gc.detailsIcon),
+       backgroundColor: Theme.of(context).splashColor,
+       leading: Icon(gc.detailsIcon, color: Theme.of(context).scaffoldBackgroundColor,),
        actions: bannerActions,
     ),
   );
@@ -114,15 +115,21 @@ void openModalBottomSheet(List<Widget> children) {
 
   BuildContext context = globalNavigatorKey.currentContext!;
   showModalBottomSheet(
-    context: context,
-    builder: (BuildContext _context) {
-      return SafeArea(
-        child: Wrap(
-          children: children,
-        ),
-      );
-    },
-  );
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: SafeArea(
+                child: Wrap(
+                  children: children,
+                ),
+              ),
+            ));
+      });
 }
 
 // Numbers
@@ -136,12 +143,12 @@ extension Ex on num {
   String toPercentageFormat() => toString() + "%";
   String toMoneyFormat([String? currencySign]) {
     currencySign = (currencySign == null) ? CurrencySign[gc.defaultUserCurrency] : currencySign;
-    return toPrecision().toString() + currencySign!;  // TODO- find a way to add the symbol in the correct direction according to the locale
+    return toPrecision().toString() + currencySign!;
   }
 }
 
 extension Dt on DateTime {
-  String toFullDate() => "$day-$month-$year";  // TODO- find a way to present the date correct direction according to the locale
+  String toFullDate() => "$day-$month-$year";
   bool isSameDate(DateTime other) => year == other.year && month == other.month && day == other.day;
 }
 
@@ -189,6 +196,19 @@ String getCurrentMonthPerEndMonthDay(int endOfMonth, DateTime? specificDate) {
   return specificDate.month.toString() + specificDate.year.toString();
 }
 
+// TextDirection
+TextDirection getTextDirection([String? languageDirection]) {
+  if (globalNavigatorKey.currentContext == null) {
+    return TextDirection.rtl;
+  }
+  BuildContext context = globalNavigatorKey.currentContext!;
+
+  if (languageDirection == null) {
+    return Languages.of(context)!.languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr;
+  }
+  return languageDirection == gc.rtl ? TextDirection.rtl : TextDirection.ltr;
+}
+
 // Converters
 List<Json> listToJsonList(List elements) {
   List<Json> jsonList = [];
@@ -212,4 +232,12 @@ dynamic indexToEnum(List values, int index) {
   } catch (e) {
     return null;
   }
+}
+
+// Colors
+Color getColorForCard(bool currentAboveExpected, double currentAmount, double expectedAmount) {
+  if (currentAboveExpected) {
+    return currentAmount >= expectedAmount ? gc.incomeEntryColor : gc.expenseEntryColor;
+  }
+  return expectedAmount >= currentAmount ? gc.incomeEntryColor : gc.expenseEntryColor;
 }

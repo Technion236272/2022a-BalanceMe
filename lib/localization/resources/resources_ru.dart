@@ -1,5 +1,6 @@
 // ================= A Class For Russian Language =================
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class LanguageRu extends Languages {
   // General
@@ -10,7 +11,7 @@ class LanguageRu extends Languages {
   String get languageCode => "ru";
 
   @override
-  String get languageDirection => "ltr";
+  String get languageDirection => gc.ltr;
 
   @override
   String get strAppName => "BalanceMe";
@@ -40,9 +41,6 @@ class LanguageRu extends Languages {
   String get strAdd =>"Add";
 
   @override
-  String get strAdded =>"added";
-
-  @override
   String get strRemoved =>"removed";
 
   @override
@@ -55,16 +53,7 @@ class LanguageRu extends Languages {
   String get strClose =>"Close";
 
   @override
-  String get strJoin =>"Join";
-
-  @override
   String get strInvite =>"Invite";
-
-  @override
-  String get strDismiss =>"Dismiss";
-
-  @override
-  String get strManage =>"Manage";
 
   @override
   String get strResend =>"Resend";
@@ -131,31 +120,40 @@ class LanguageRu extends Languages {
   String get strSignInTimeout => "Не обнаружено записаней аккаунт.убедитесь, что вы зарегистрированы и попробуйте снова";
 
   @override
+  String get strLanguage => "language";
+
+  @override
+  String get strTheme => "theme";
+
+  @override
+  String get strBeforeChangeAlertDialogContent => "Attention:\nChange % might reset all your data. For saving the data, please log-in or sign up first.\nAre you sure you want to change the %?";
+
+  @override
   String get strEndOfMonthInfo => "В этот день ваши балансовые данные отправляются в архив";
 
   @override
-  String get strVersionInfo => "версия приложения";
-
-  @override
-  String get strCurrencyInfo => "Тип валюты, которая будет использоваться для Вашего баланса";
-
-  @override
-  String get strLanguageInfo => "Язык, который будет отображаться приложением";
-
-  @override
-  String get strDarkModeInfo => "The theme the app will display";
-
-  @override
-  String get strAboutInfo => "Пакеты и лицензии, используемые приложением";
-
-  @override
-  String get strProfileInfo => "Ваш профиль, има и образ";
-
-  @override
-  String get strPasswordChangeInfo => "Изменение пароля при входе";
-
-  @override
   String get strConstants => "Постоянные настройки:";
+
+  @override
+  String get strInviteFriend => "Invite a friend";
+
+  @override
+  String get strInviteFriendContent => "You are welcome to try a perfect app that will allow you to keep track of your budgets, manage incomes and expenses easily, and compare your spending with previous months with our intuitive archive.\n%";
+
+  @override
+  String get strInviteFriendSubject => "Try BalanceMe App";
+
+  @override
+  String get strDeleteProfile => "Удалить образ профиля";
+
+  @override
+  String get strDeleteProfileFailed => "Ошибка удаления, так как у вас нет образа профиля";
+
+  @override
+  String get strDeleteProfileAlert => "Удалить образ вашего профиля?";
+
+  @override
+  String get strUpdate => "обновить";
 
   // Login
   @override
@@ -172,12 +170,6 @@ class LanguageRu extends Languages {
 
   @override
   String get strSuccessfullyLogout => "удачный выход";
-
-  @override
-  String get strSuccessfullyLogin => "Вы успешно вошли в систему. Дубликаты категорий могут быть удалены.";
-
-  @override
-  String get strSuccessfullySignUp => "Вы зарегистрировались успешно. Настройки можно изменить на странице настроек";
 
   @override
   String get strSignUp => "регистрация";
@@ -240,7 +232,16 @@ class LanguageRu extends Languages {
   String get strLinkProviderError => "Учетная запись с этим электронная почта уже существует под другим провайдером";
 
   @override
-  String get strChangeLanguageAlertDialogContent => "внимание:\nизменить язык может сбросить все ваши данные. Для сохранения данных, пожалуйста, войдите или зарегистрируйтесь сначала.\nВы уверены, что хотите изменить язык?";
+  String get strSignUpWith => "Sign up with %";
+
+  @override
+  String get strLoginWith => "Login with %";
+
+  @override
+  String get strGoogle => "Google";
+
+  @override
+  String get strFacebook => "Facebook";
 
   // Password Recovery
   @override
@@ -369,7 +370,7 @@ class LanguageRu extends Languages {
 
   @override
   String get strBalanceSummary => "Monthly Balance Summary";
-  //TODO - Translate this please
+
   @override
   String get strCurrentIncomes => "Current Incomes";
 
@@ -383,19 +384,19 @@ class LanguageRu extends Languages {
   String get strExpectedExpenses => "Expected Expenses";
 
   @override
-  String get strTotalExpectedBalance => "Total Expected Balance";
+  String get strTotalExpectedBalance => "Total Expected";
 
   @override
-  String get strTotalCurrentBalance => "Total Current Balance";
+  String get strTotalCurrentBalance => "Total Current";
 
   @override
-  String get strCurrentBankBalance => "Current Bank Balance";
+  String get strCurrentBankBalance => "Current Bank";
 
   @override
-  String get strExpectedBankBalance => "Expected Bank Balance";
+  String get strExpectedBankBalance => "Expected Bank";
 
   @override
-  String get strBeginningMonthBalance => "Bank balance";
+  String get strBeginningMonthBalance => "Bank balance before";
 
   @override
   String get strBankInfo => "Current Bank Balance = Bank balance + Total Current Balance \nExpected Bank Balance = Bank balance + Total Expected Balance";
@@ -412,13 +413,15 @@ class LanguageRu extends Languages {
   @override
   String get strTotalBalanceInfo => "Total Current Balance = Current Incomes - Current Expenses \nTotal Expected Balance = Expected Incomes - Expected Expenses";
 
-
   // Workspaces
   @override
   String get strWorkspace => "Workspace";
 
   @override
-  String get strWorkspaceExplanation => "";  // TODO
+  String get strWorkspaceExplanation => "‎מרחב עבודה מאפשר לנהל ולשתף את המאזן החודשי בין מספר משתמשים.\nבעמוד זה ניתן להוסיף מרחב חדש (אם המרחב כבר קיים ניתן לשלוח בקשת הצטרפות למייסד המרחב), להזמין משתמשים למרחב, למחוק מרחב ולהחליף בין מרחבים.";
+
+  @override
+  String get strWorkspaceTooltip => "‎כל מרחב עבודה מתפקד כיחידה עצמאית וכל שינוי, הוספה והסרה ישתקף בו ולא ישפיע על מרחבים אחרים. ניתן לפתוח מספר לא מוגבל של מרחבי עבודה ולשתף כל אחד מהם עם מספר לא מוגבל של משתמשים. כל שינוי, הוספה או הסרה של הכנסה או הוצאה במרחב ישתקף אוטומטית אצל כל המשתמשים במרחב. ניתן להשתמש במרחבי העבודה גם לניהול אירוע מיוחד הדורש תכנון ספיציפי בפני עצמו, כגון אירוע משפחתי, טיול ועוד.";
 
   @override
   String get strChooseWorkspace => "Choose workspace:";
@@ -442,13 +445,19 @@ class LanguageRu extends Languages {
   String get strWorkspaceAlreadyExist => "You are already a member in this workspace";
 
   @override
+  String get strUserAlreadyRequestToJoin => "The user has already requested to join this workspace";
+
+  @override
+  String get strYouAlreadyInvitedToJoin => "You already have been invited to join this workspace";
+
+  @override
+  String get strUserAlreadyInWorkspace => "The user is already in this workspace";
+
+  @override
   String get strOtherWorkspaceUsers => "Other users in the workspace:";
 
   @override
   String get strEmptyWorkspace => "You are alone in this workspace";
-
-  @override
-  String get strWorkspaceInvitation => "% invites you to join his workspace named #.\n";
 
   @override
   String get strJoinWorkspace => "This workspace is already exist.\nDo you want to send a joining request to this workspace?";
@@ -457,7 +466,7 @@ class LanguageRu extends Languages {
   String get strWorkspaceJoinRequestSent => "A joining request to the workspace has been sent";
 
   @override
-  String get strPendingWorkspaceRequests => "Pending joining requests:";
+  String get strPendingWorkspaceRequests => "You have requested to join:";
 
   @override
   String get strJoiningWorkspaceRequestExist => "A joining request to this workspace is already exist";
@@ -475,25 +484,16 @@ class LanguageRu extends Languages {
   String get strUserRequestJoiningToWorkspace => "# requests to join % workspace";
 
   @override
-  String get strUserAcceptsInvitation => "# accepts your invitation to join %!";
-
-  @override
-  String get strUserRejectsInvitation => "Unfortunately, # rejects your invitation to join %!";
-
-  @override
   String get strUserApproveJoining => "Your application to join % workspace has been approved by #!";
 
   @override
   String get strUserDisapproveJoining => "Your application to join % workspace has been rejected by #";
 
   @override
-  String get strPendingUsersRequestsTitle => "Those users want to join this workspace:";
+  String get strPendingUsersRequestsTitle => 'Those users want to join "%":';
 
   @override
   String get strInvitedSuccessfullyWorkspace => "An invitation to the workspace has been sent";
-
-  @override
-  String get strCantInviteYourself => "You can't invite yourself into workspace";
 
   @override
   String get strPendingInvitationsRequests => "You have been invited to join:";
@@ -513,7 +513,7 @@ class LanguageRu extends Languages {
 
   @override
   String get strBadNumberForm => "Вставленный текст - это не число";
-  //TODO - Translate this please
+
   @override
   String get strIncomeTransactionInfo => "Income transactions examples: \n Rental payment from... \n Salary from... \n Tax refund from...";
 
@@ -547,4 +547,48 @@ class LanguageRu extends Languages {
 
   @override
   String get strScalesIcon => "Значок Весы";
+
+  // Monthly Report
+  @override
+  String get strMonthlyReportSubject => "Your Report For Month % Is Here! [Workspace: #]";
+
+  @override
+  String get strMonthlyReportContentHeader => "Hurrah! Another month is ended. It is a good time to summarize the month:";
+
+  @override
+  String get strMonthlyReportContentFooter => "As usual, the constants transactions for the next month are created.\nSee you next month!";
+
+  @override
+  String get strFinalIncomes => "Total incomes";
+
+  @override
+  String get strFinalExpenses => "Total expenses";
+
+  @override
+  String get strEndOfMonthBankBalance => "Bank balance after";
+
+  @override
+  String get strSendMonthlyReport => "Receive monthly report";
+
+  @override
+  String get strSendMonthlyReportInfo => "Mark it if you wish to get a monthly report to your email at the end of the month";
+
+  @override
+  String get strLoadIcon => "значок загрузки";
+
+  // RateUs
+  @override
+  String get strRateUs => "Rate Us";
+
+  @override
+  String get strRateUsExplanation => "Tap a star to set your rating. Add more description here if you want";
+
+  @override
+  String get strSubmit => "Submit";
+
+  @override
+  String get strCommentHint => "Set your comment here (optional)";
+
+  @override
+  String get strRateRecorded => "Your review has been recorded, thank you!";
 }

@@ -81,9 +81,21 @@ class BalanceModel {
     return category.isIncome ? incomeCategories : expensesCategories;
   }
 
-  Category findCategory(String categoryName) {
+  Category findCategory(String categoryName, bool isIncome) {
     findCategoryByName (category) => category.name == categoryName;
-    return incomeCategories.firstWhere(findCategoryByName, orElse: () => expensesCategories.firstWhere(findCategoryByName));
+    SortedList<Category> categoryList = isIncome ? incomeCategories : expensesCategories;
+    return categoryList.firstWhere(findCategoryByName);
+  }
+
+  double getTotalAmount({bool isIncome = true, bool isExpected = true}) {
+    double totalAmount = 0;
+    SortedList<Category> categoryList = isIncome ? incomeCategories : expensesCategories;
+
+    categoryList.forEach((category) {
+      totalAmount += isExpected ? category.expected : category.amount;
+    });
+
+    return totalAmount;
   }
 
   static bool isBalanceValid(Json json) {

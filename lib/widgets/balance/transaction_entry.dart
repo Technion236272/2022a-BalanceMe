@@ -37,13 +37,11 @@ class _TransactionEntryState extends State<TransactionEntry> {
   Widget _getTransactionEntryWidget() {
     return Container(
       decoration: BoxDecoration(
-        color: gc.entryColor,
+        color: Theme.of(context).cardColor,
         boxShadow: [
           BoxShadow(
-            color: gc.entryShadow,
-            spreadRadius: gc.shadowDesignConstant,
+            color: Theme.of(context).primaryColorDark,
             blurRadius: gc.shadowDesignConstant,
-            offset: const Offset(gc.shadowDesignConstant, gc.shadowDesignConstant), // changes position of shadow
           ),
         ],
         borderRadius: BorderRadius.circular(gc.entryBorderRadius),
@@ -54,7 +52,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
           widget._transaction.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text(widget._transaction.date),
+        subtitle: Text(widget._transaction.date, style: TextStyle(color: Theme.of(context).disabledColor),),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -69,7 +67,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
             Center(
               child: IconButton(
                 onPressed: _openTransactionDetails,
-                icon: const Icon(gc.detailsIcon),
+                icon: Icon(gc.detailsIcon, color: Theme.of(context).hoverColor,),
               ),
             ),
           ],

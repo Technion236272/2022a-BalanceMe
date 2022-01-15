@@ -1,8 +1,9 @@
 // ================= Set Workspace Page =================
-import 'package:balance_me/global/types.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:balance_me/global/types.dart';
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/form_text_field.dart';
@@ -40,16 +41,22 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   bool get _shouldShowInvitations => _belongWorkspace.invitations.isNotEmpty;
 
-  String? _addUserValidatorFunction(String? value) {  // TODO- check all scenarios
+  String? _addUserValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
-    if (message == null) {
-      message = notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
-    }
     if (message == null) {
       message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
     }
     if (message == null) {
+      message = notEmailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+    }
+    if (message == null) {
       message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
+    }
+    if (message == null) {
+      message = lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
+    }
+    if (message == null) {
+      message = _belongWorkspace.invitations.contains(value) ? Languages.of(context)!.strYouAlreadyInvitedToJoin : null;
     }
     return message;
   }
@@ -57,13 +64,13 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   String? _inviteUserValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
-      message = emailValidator(value) ? null : Languages.of(context)!.strNotEmailValidator;
+      message = emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
     }
     if (message == null) {
-      message = _belongWorkspace.belongs.contains(value) ? Languages.of(context)!.strWorkspaceAlreadyExist : null;
+      message = (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.contains(value)) ? Languages.of(context)!.strUserAlreadyRequestToJoin : null;
     }
     if (message == null) {
-      message = _belongWorkspace.joiningRequests.contains(value) ? Languages.of(context)!.strJoiningWorkspaceRequestExist : null;
+      message = (_workspaceUsers != null && _workspaceUsers!.users.contains(value)) ? Languages.of(context)!.strUserAlreadyInWorkspace : null;
     }
     return message;
   }
@@ -165,8 +172,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   Widget _getModalBottomSheet(bool isAddWorkspace) {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
-      child: SizedBox(
+      child: Container(
         height: MediaQuery.of(context).size.height / gc.bottomSheetSizeScale,
+        color: Theme.of(context).cardColor,
         child: Form(
           key: _modalBottomSheetFormKey,
           child: Column(
@@ -196,7 +204,8 @@ class _SetWorkspaceState extends State<SetWorkspace> {
               ),
               const Divider(),
               Padding(
-                padding: gc.bottomSheetPadding,
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: FormTextField(
                   _modalBottomSheetController,
                   1,
@@ -205,6 +214,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                   isBordered: true,
                   isValid: true,
                   validatorFunction: isAddWorkspace ? _addUserValidatorFunction : _inviteUserValidatorFunction,
+                  autofocus: true,
                 ),
               ),
               ElevatedButton(
@@ -223,20 +233,21 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       padding: gc.workspaceTilePadding,
       child: Container(
         decoration: BoxDecoration(
-          color: gc.entryColor,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(gc.entryBorderRadius),
           border: Border.all(
-            color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
+            color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).disabledColor,
           ),
           boxShadow: [
-            userStorage.userData!.currentWorkspace == workspace ? gc.workspaceTileShadow : BoxShadow()
+            userStorage.userData!.currentWorkspace == workspace ? BoxShadow(color: Theme.of(context).shadowColor, blurRadius: 2, offset: Offset(2,2)) : BoxShadow()
           ],
         ),
         child: ListTile(
           title: Text(
             workspace,
+            textAlign: TextAlign.center,
             style: TextStyle(
-              color: userStorage.userData!.currentWorkspace == workspace ? gc.primaryColor : gc.disabledColor,
+              color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).hoverColor,
               fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal,
             ),
           ),
@@ -278,12 +289,9 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Icon(
-            gc.userIcon,
-            color: gc.secondaryColor,
-          ),
           Text(
             user,
+            textAlign: TextAlign.center,
             style: TextStyle(color: gc.secondaryColor, fontWeight: FontWeight.bold),
           ),
         ],
@@ -299,7 +307,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
           padding: gc.workspacesGeneralPadding,
           child: Text(
             text,
-            style: TextStyle(color: gc.disabledColor, fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.headline5,
           ),
         ),
         Row(
@@ -308,14 +316,12 @@ class _SetWorkspaceState extends State<SetWorkspace> {
               onPressed: () => {firstOnPress(text)},
               child: Text(
                 firstText,
-                style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
               ),
             ),
             TextButton(
               onPressed: () => {secondOnPress(text)},
               child: Text(
                 secondText,
-                style: TextStyle(color: gc.primaryColor, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -340,7 +346,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       visible: visibleCondition,
       child: Column(
         children: [
-          Text(title),
+          Text(title, style: Theme.of(context).textTheme.headline3,),
           Padding(
             padding: gc.userTilePadding,
             child: Container(
@@ -378,20 +384,45 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                         padding: gc.workspacesGeneralPadding,
                         child: Column(
                           children: [
-                            Text(Languages.of(context)!.strWorkspaceExplanation), // TODO- write the content
+                            Text(
+                              Languages.of(context)!.strWorkspaceExplanation,
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ),
+                            GenericTooltip(tip: Languages.of(context)!.strWorkspaceTooltip),
                             const Divider(),
                             Visibility(
                                 visible: !_shouldShowWorkspaceUsers,
-                                child: Column(children: [Text(Languages.of(context)!.strEmptyWorkspace), const Divider()])),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width/gc.workspaceUsersScale,
-                              child: _getUserList(
-                                _shouldShowWorkspaceUsers,
-                                Languages.of(context)!.strOtherWorkspaceUsers,
-                                _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.users, _buildWorkspaceUserFromString),
-                                BoxDecoration(
-                                  color: gc.primaryColor,
-                                  borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+                                child: Column(
+                                    children: [
+                                      Text(
+                                        Languages.of(context)!.strEmptyWorkspace,
+                                        style: Theme.of(context).textTheme.subtitle1,
+                                      ),
+                                      const Divider()
+                                    ],
+                                ),
+                            ),
+                            Visibility(
+                              visible: _shouldShowWorkspaceUsers,
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width/gc.workspaceUsersScale,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(Languages.of(context)!.strOtherWorkspaceUsers, style: Theme.of(context).textTheme.subtitle1,),
+                                    Padding(
+                                      padding: gc.userTilePadding,
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).toggleableActiveColor,
+                                          borderRadius: BorderRadius.circular(gc.entryBorderRadius),
+                                        ),
+                                        child: _getListView(_getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.users, _buildWorkspaceUserFromString)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -423,7 +454,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                                 padding: (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.length > gc.zero) ? gc.userTilePadding : EdgeInsets.zero,
                                 child: _getUserList(
                                   _workspaceUsers == null ? false : _workspaceUsers!.isPendingJoiningRequests,
-                                  Languages.of(context)!.strPendingUsersRequestsTitle,
+                                  Languages.of(context)!.strPendingUsersRequestsTitle.replaceAll("%", userStorage.userData!.currentWorkspace),
                                   _getTiles(_workspaceUsers == null ? [] : _workspaceUsers!.pendingJoiningRequests, _buildApproveRejectFromString),
                                 ),
                               ),
@@ -436,7 +467,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                                   visible: _workspaceUsers != null && authRepository.user != null && _workspaceUsers!.leader == authRepository.user!.email,
                                   child: TextButton(
                                     onPressed: () => {_showModalBottomSheet(false)},
-                                    child: Text(Languages.of(context)!.strInvite),
+                                    child: Text(Languages.of(context)!.strInvite, style: Theme.of(context).textTheme.subtitle2,),
                                   ),
                                 ),
                                 IconButton(

@@ -5,10 +5,17 @@ import "package:balance_me/global/constants.dart" as gc;
 
 class UserModel {
   UserModel(this.currentWorkspace,
-      [this.endOfMonthDay = gc.defaultEndOfMonthDay,
+     {this.endOfMonthDay = gc.defaultEndOfMonthDay,
       this.userCurrency = gc.defaultUserCurrency,
       this.isDarkMode = false,
-      this.language = ""]);
+      this.language = "",
+      this.bankBalance,
+      this.firstName,
+      this.lastName,
+      this.sendReport = true}) {
+    lastUpdatedDate = getCurrentMonthPerEndMonthDay(endOfMonthDay, DateTime.now());
+
+  }
 
   String currentWorkspace;
   int endOfMonthDay;
@@ -17,6 +24,9 @@ class UserModel {
   String? lastName;
   bool isDarkMode;
   String language;
+  double? bankBalance;
+  bool sendReport;
+  late String lastUpdatedDate;
 
   void updateFromJson(Json json) {
     if (json["groupName"] != null) {
@@ -41,6 +51,15 @@ class UserModel {
     if (json["language"] != null) {
       language = json["language"];
     }
+    if (json["bankBalance"] != null) {
+      bankBalance = (json["bankBalance"] as num).toDouble();
+    }
+    if (json["sendReport"] != null) {
+      sendReport = json["sendReport"];
+    }
+    if (json["lastUpdatedDate"] != null) {
+      lastUpdatedDate = json["lastUpdatedDate"];
+    }
   }
 
   Json toJson() => {
@@ -50,6 +69,9 @@ class UserModel {
     'firstName': firstName,
     'lastName': lastName,
     'isDarkMode': isDarkMode,
-    'language': language
+    'language': language,
+    'bankBalance': bankBalance,
+    'sendReport': sendReport,
+    'lastUpdatedDate': lastUpdatedDate
   };
 }

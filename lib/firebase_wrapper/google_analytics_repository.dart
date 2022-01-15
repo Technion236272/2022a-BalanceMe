@@ -54,10 +54,6 @@ class GoogleAnalytics {
     }
   }
 
-  void logNavigateBack() {
-    _logEvent("NavigateBack", {"user": _getUserEmail()});
-  }
-
   void logEntrySaved(Entry entry, EntryOperation operation, dynamic entryObj) {
     _logEvent("${entry.toCleanString()}${operation.toCleanString()}", {"user": _getUserEmail(), entry.toCleanString(): entryObj.toJson()});
   }
@@ -75,8 +71,16 @@ class GoogleAnalytics {
     }
   }
 
+  void logChangeCurrency(Currency userCurrency) {
+    _logEvent("ChangeCurrency", {'currency': userCurrency.toCleanString(), "user": _getUserEmail()});
+  }
+
   void logChangeLanguage(String selectedLanguageCode) {
     _logEvent("ChangeLanguage", {'language': selectedLanguageCode, "user": _getUserEmail()});
+  }
+
+  void logChangeTheme(bool isDarkMode) {
+    _logEvent("ChangeTheme", {"user": _getUserEmail(), "isDark": isDarkMode ? "Dark" : "Light"});
   }
 
   void logRecoverPassword() {
@@ -85,6 +89,30 @@ class GoogleAnalytics {
 
   void logArchiveDateChange(String? date) {
     _logEvent("ArchiveDateChange", {"user": _getUserEmail(), "date": date ?? ""});
+  }
+
+  void logInviteFriendOpened() {
+    _logEvent("InviteFriendOpened", {"user": _getUserEmail()});
+  }
+
+  void logEmailSent() {
+    _logEvent("SentEmail", {"user": _getUserEmail()});
+  }
+
+  void logToggleSendEmail(bool isChecked) {
+    _logEvent("ToggleSendEmail", {"user": _getUserEmail(), "SendReport": isChecked});
+  }
+
+  void logRateUsOpened() {
+    _logEvent("RateUsOpened", {"user": _getUserEmail()});
+  }
+
+  void logRateUsCancel() {
+    _logEvent("RateUsCancel", {"user": _getUserEmail()});
+  }
+
+  void logRateUsSubmit(double rate, String comment) {
+    _logEvent("RateUsSubmit", {"user": _getUserEmail(), "rate": rate, "comment": comment});
   }
 
   // FireBase

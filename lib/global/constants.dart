@@ -13,10 +13,12 @@ const int defaultPrecision = 2;
 const bool defaultIsConstant = false;
 const int defaultMaxCharactersLimit = 20;
 const defaultMinPasswordLimit = 6;
+const double defaultInitialRating = 1.0;
 const double zero = 0.0;
 
 // Localization
 const String rtl = "rtl";
+const String ltr = "ltr";
 
 // Icons
 const IconData settingArrow = Icons.arrow_forward_ios_sharp;
@@ -42,11 +44,21 @@ const IconData userIcon = Icons.verified_user;
 const IconData imagePlaceHolder=Icons.photo;
 
 // Colors
+const Color whiteColor = Colors.white;
+const Color blackColor = Colors.black;
 const Color primaryColor = Colors.blue;
+const Color primaryLightColor = Color(0xff6ec6ff);
+const Color primaryDarkColor = Color(0xff0069c0);
 const Color secondaryColor = Colors.white;
-const Color darkPrimaryColor = Colors.white10;
-const Color darkSecondaryColor = Colors.black;
-const Color bottomNavigationSelectedColor = primaryColor;
+const Color secondaryDarkColor = Color(0xff888888);
+const Color darkPrimaryColor = Color(0xff37464f);
+const Color darkPrimaryLightColor = Color(0xff62717b);
+const Color darkPrimaryDarkColor = Color(0xff101f27);
+const Color darkSecondaryColor = Color(0xffff8f00);
+const Color darkSecondaryLightColor = Color(0xffffc046);
+const Color darkSecondaryDarkColor = Color(0xffc56000);
+const Color darkVeryLightColor = Color(0xffc0d0dc);
+const Color darkTextButtonColor = Color(0xff1e4d76);
 const Color alternativePrimary = Color(0xff4e21ff);
 const Color tabColor = Color(0xffd3ff21);
 const Color linkColors = Color(0xffbc21ff);
@@ -57,9 +69,9 @@ Color disabledColor = Colors.black38;
 Color shadowColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
 Color bannerColor = Color(0xFFE0E0E0);
-const Color workspaceAskToJoinColor = Color(0xffffccbc);
-const Color workspaceInvitationsColor = Color(0xffffffee);
-const Color workspaceUsersRequestsColor = Colors.amberAccent;
+const Color workspaceAskToJoinColor = Color(0xffffaa6c);
+const Color workspaceInvitationsColor = Color(0xffffdc9b);
+const Color workspaceUsersRequestsColor = Color(0xffc87b3f);
 
 // AppBar
 const double appBarAvatarRadius = 40;
@@ -105,7 +117,7 @@ const int widthSmallAndMediumSizeMatching = 30;
 const int widthLargeSizeMatching = 20;
 const EdgeInsetsGeometry cardMargin = EdgeInsets.all(5.0);
 Color cardShadowColor = Colors.grey.withOpacity(0.5);
-const Color cardBGColor = Colors.grey; //TODO - change to chosen color
+const Color cardBGColor = Colors.grey;
 
 //Tabs
 const Color tabLabelColor = Colors.black;
@@ -151,14 +163,14 @@ double rightCircleTop = leftCircleTop + 30;
 double welcomeTop = leftCircleTop + 30;
 double balanceInfoTop = leftCircleTop + 80;
 double startedInfoTop = leftCircleTop + 130;
-Color backgroundDesignColor = Colors.grey.shade300;
+Color backgroundDesignColor = Color(0xfffefefe);
 
 //ListView
 const Color dividerColor = Colors.blueGrey;
 
 //settings
 const double newPasswordSize = 22.0;
-const double profileAvatarRadiusScale = 6.0;
+const double profileAvatarRadiusScale = 3.5;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
 const EdgeInsets avatarPadding = EdgeInsets.all(8.0);
@@ -173,6 +185,8 @@ const double emailContainerFontSize = 18;
 const EdgeInsets settingAppbarAvatarPadding = EdgeInsets.all(4.0);
 const double settingDefaultAppbarAvatarSize = 55;
 const double separateConstantsScale=20.0;
+const double avatarProportion=150.0;
+
 
 //error messages
 const String weakPassword = "weak-password";
@@ -237,7 +251,7 @@ const double entryPadding = 8.0;
 const double entryBorderRadius = 10;
 Color entryColor = Colors.white;
 Color entryShadow = Colors.grey.withOpacity(0.5);
-const double shadowDesignConstant = 3;
+const double shadowDesignConstant = 5;
 Color incomeEntryColor = Colors.green.shade600;
 Color expenseEntryColor = Colors.red.shade600;
 
@@ -251,7 +265,7 @@ const double cardBorderWidth = 2.0;
 const double cardThinBorderWidth = 1.0;
 const double iconHorizontalPadding = 5.0;
 const double iconVerticalPadding = 10.0;
-const double iconSize = 30.0;
+const double iconSize = 24.0;
 const double listViewBottomPadding = 140;
 const double categoryHeaderPadding = 20.0;
 
@@ -273,6 +287,7 @@ const int maxAccounts=2;
 const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
+const String loadLink="https://www.freeiconspng.com/img/7952";
 
 //attached image
 const double imageWidthScale=2.5;
@@ -280,7 +295,7 @@ const double imageWidthScale=2.5;
 
 //Workspaces
 const double bottomSheetSizeScale = 3.5;
-const double workspaceUsersScale = 2;
+const double workspaceUsersScale = 1.8;
 const EdgeInsets bottomSheetPadding = EdgeInsets.all(10.0);
 const TextStyle bottomSheetTextStyle = TextStyle(fontSize: 16);
 const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
@@ -291,7 +306,7 @@ BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, off
 // Banner
 const double bannerPadding = 20;
 
-//Summery
+//Summary
 const EdgeInsets summeryTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 BorderRadius summeryTilesRadius = BorderRadius.circular(20);
 const EdgeInsets summeryHorizontalPadding = const EdgeInsets.only(left: 8.0, right: 8.0);
@@ -300,3 +315,16 @@ const double setWorkspaceButtonWidth = 75;
 const double setWorkspaceButtonHeight = 25;
 const double currentWorkspaceBoxScale = 4;
 const double summeryChartBoxScale = 4.2;
+const double summaryTooltipFontSize = 12;
+
+// Rate Us
+const double rateUsAppNameFontSize = 25;
+const double rateUsExplanationFontSize = 15;
+
+// InviteFriend
+const String googlePlayURL = "https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me";
+
+// SendEmail
+const String appEmail = "appbalanceme@gmail.com";
+const String appPassword = "BalanceMe2022@";
+const List<String> sendReviewEmail = ["razle102030@gmail.com", "Tazachil@gmail.com"];

@@ -1,5 +1,7 @@
 // ================= Profile Page =================
+import 'dart:ffi';
 import 'package:balance_me/global/types.dart';
+import 'package:balance_me/widgets/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -30,6 +32,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   late TextEditingController _controllerLastName;
   bool _isDisabledFirstName = true;
   bool _isDisabledLastName = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -79,23 +82,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   void _updateFirstName() {
-    if (widget.userStorage.userData != null) {
-      widget.userStorage.userData!.firstName = _controllerFirstName.text;
-      _saveProfile();
-      _enableEditFirstName(null);
-    } else {
-      displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
-    }
+    widget.userStorage.userData!.firstName = _controllerFirstName.text;
+    _enableEditFirstName(null);
   }
 
   void _updateLastName() {
-    if (widget.userStorage.userData != null) {
-      widget.userStorage.userData!.lastName = _controllerLastName.text;
-      _saveProfile();
-      _enableEditLastName(null);
-    } else {
-      displaySnackBar(context, Languages.of(context)!.strProblemOccurred);
-    }
+    widget.userStorage.userData!.lastName = _controllerLastName.text;
+    _enableEditLastName(null);
   }
 
   List<GestureTapCallback?> _getActions() {
@@ -106,13 +99,41 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     imageOptions.add(() async {
       await _chooseAvatarSource(ImageSource.camera);
     });
+    if (widget.authRepository.avatarUrl != null) {
+      imageOptions.add(() async {
+        await _deleteAvatar();
+      });
+    }
     return imageOptions;
+  }
+
+  Future<void> _deleteAvatar() async {
+    if (widget.authRepository.avatarUrl == null) {
+      navigateBack(context);
+      displaySnackBar(context, Languages.of(context)!.strDeleteProfileFailed);
+      return;
+    }
+    showYesNoAlertDialog(context, Languages.of(context)!.strDeleteProfileAlert,
+        _deleteImage, _cancelDeleteImage);
+  }
+
+  void _cancelDeleteImage() {
+    navigateBack(context);
+    navigateBack(context);
+  }
+
+  void _deleteImage() async {
+    _cancelDeleteImage();
+    await widget.authRepository.deleteAvatarUrl();
   }
 
   List<Widget?> _iconsLeading() {
     List<Widget?> icons = [];
     icons.add(const Icon(gc.galleryChoice));
     icons.add(const Icon(gc.cameraChoice));
+    if (widget.authRepository.avatarUrl != null) {
+      icons.add(const Icon(gc.deleteIcon));
+    }
     return icons;
   }
 
@@ -120,6 +141,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     List<String> titles = [];
     titles.add(Languages.of(context)!.strGalleryOption);
     titles.add(Languages.of(context)!.strCameraOption);
+
+    if (widget.authRepository.avatarUrl!=null) {
+      titles.add(Languages.of(context)!.strDeleteProfile);
+    }
     return titles;
   }
 
@@ -155,6 +180,20 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     imagePicker(_getActions(), _iconsLeading(), _getOptionTitles());
   }
 
+  void _updateIsLoadingState(bool state) {
+    setState(() {
+      _isLoading = state;
+    });
+  }
+
+  void _saveChanges() {
+    _updateIsLoadingState(true);
+    _updateFirstName();
+    _updateLastName();
+    _saveProfile();
+    _updateIsLoadingState(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,7 +208,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 height: MediaQuery.of(context).size.width/gc.avatarSizedBoxHeightScale,
                 child: Stack(
                   children: [
-                    UserAvatar(widget.authRepository, MediaQuery.of(context).size.width/gc.profileAvatarRadiusScale),
+                    UserAvatar(widget.authRepository, MediaQuery.of(context).size.width/gc.profileAvatarRadiusScale,),
                     Positioned(
                       right:0,
                       bottom: 0,
@@ -188,17 +227,15 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   visible: widget.authRepository.user != null,
                   child: Container(
                       decoration: BoxDecoration(
-                        color: gc.emailContainerBGColor,
+                        color: Theme.of(context).toggleableActiveColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(gc.emailContainerBorderRadius),
-                        border: Border.all(color: gc.primaryColor)
+                        border: Border.all(color: Theme.of(context).toggleableActiveColor)
                       ),
                       child: Padding(
                         padding: gc.emailContainerPadding,
                         child: Text(
                           widget.authRepository.user!.email!,
-                          style: const TextStyle(
-                              fontSize: gc.emailContainerFontSize,
-                              color: gc.primaryColor),),
+                          style: Theme.of(context).textTheme.caption),
                       )),
               ),
             ),
@@ -207,23 +244,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               Languages.of(context)!.strFirstName,
               haveBorder: false,
               onChanged: _enableEditFirstName,
-              suffix: GenericIconButton(
-                onTap: _updateFirstName,
-                isDisabled: _isDisabledFirstName,
-                opacity: gc.disabledOpacity,
-              ),
             ),
             TextBox(
               _controllerLastName,
               Languages.of(context)!.strLastName,
               haveBorder: false,
               onChanged: _enableEditLastName,
-              suffix: GenericIconButton(
-                onTap: _updateLastName,
-                isDisabled: _isDisabledLastName,
-                opacity: gc.disabledOpacity,
-              ),
             ),
+            ActionButton(_isLoading, Languages.of(context)!.strUpdate,_isDisabledFirstName &&_isDisabledLastName? null:_saveChanges),
           ],
         ),
       ),

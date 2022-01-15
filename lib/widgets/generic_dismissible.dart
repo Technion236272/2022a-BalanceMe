@@ -48,7 +48,7 @@ class _GenericDeleteDismissibleState extends State<GenericDeleteDismissible> {
       confirmDismiss: _onDismissed,
       background: Container(
         decoration: BoxDecoration(
-          color: gc.primaryColor,
+          color: Theme.of(context).toggleableActiveColor,
           borderRadius: BorderRadius.circular(gc.entryBorderRadius),
         ),
         child: Row(

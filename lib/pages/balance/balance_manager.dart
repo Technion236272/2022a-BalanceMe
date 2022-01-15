@@ -33,11 +33,10 @@ class _BalanceManagerState extends State<BalanceManager> {
     widget._userStorage.setDate();
   }
 
-  bool _shouldShowWelcomePage() => widget._userStorage.balance.isEmpty &&
-      widget._userStorage.userData?.currentWorkspace == widget._authRepository.user?.email ||
-      widget._userStorage.userData?.currentWorkspace == "";
+  bool _shouldShowWelcomePage() => widget._userStorage.balance.isEmpty && widget._authRepository.status != AuthStatus.Authenticated;
 
   void _setCurrentTab(int currentTab) {
+    FocusScope.of(context).unfocus(); // Remove the keyboard
     setState(() {
       _currentTab = BalanceTabs.values[currentTab];
     });
@@ -67,14 +66,15 @@ class _BalanceManagerState extends State<BalanceManager> {
         stream: widget._userStorage.STREAM_balanceModel(),
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
-          if ((!snapshot.hasData || snapshot.data!.data() == null || !BalanceModel.isBalanceValid(snapshot.data!.data()! as Json))
-              && widget._authRepository.status == AuthStatus.Authenticated) {
-            // TODO- handle end of month?
+          if ((!snapshot.hasData || snapshot.data!.data() == null || !BalanceModel.isBalanceValid(snapshot.data!.data()! as Json)) && widget._authRepository.status == AuthStatus.Authenticated) {
+            widget._userStorage.getBalanceAfterEndOfMonth();
             return Center(child: CircularProgressIndicator());
           }
 
-          BalanceModel balanceModel = !snapshot.hasData ? BalanceModel() : BalanceModel.fromJson((snapshot.data!.data()! as Json)[config.categoriesDoc]);
-          widget._userStorage.assignBalance(balanceModel);
+          if (widget._authRepository.status == AuthStatus.Authenticated && snapshot.hasData) {
+            widget._userStorage.assignBalance(BalanceModel.fromJson((snapshot.data!.data()! as Json)[config.categoriesDoc]));
+          }
+
           return (_shouldShowWelcomePage()) ? WelcomePage() : ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]);
         },
       ),

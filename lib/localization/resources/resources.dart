@@ -20,15 +20,11 @@ abstract class Languages {
   String get strNo;
   String get strDate;
   String get strAdd;
-  String get strAdded;
   String get strRemoved;
   String get strChanged;
   String get strSet;
   String get strClose;
-  String get strJoin;
   String get strInvite;
-  String get strDismiss;
-  String get strManage;
   String get strResend;
   String get strApprove;
   String get strReject;
@@ -52,16 +48,18 @@ abstract class Languages {
   String get strWeakPassword;
   String get strNotSignedIn;
   String get strSignInTimeout;
-  String get strChangeLanguageAlertDialogContent;
+  String get strLanguage;
+  String get strTheme;
+  String get strBeforeChangeAlertDialogContent;
   String get strEndOfMonthInfo;
-  String get strVersionInfo;
-  String get strCurrencyInfo;
-  String get strLanguageInfo;
-  String get strDarkModeInfo;
-  String get strAboutInfo;
-  String get strProfileInfo;
-  String get strPasswordChangeInfo;
   String get strConstants;
+  String get strInviteFriend;
+  String get strInviteFriendContent;
+  String get strInviteFriendSubject;
+  String get strDeleteProfile;
+  String get strDeleteProfileFailed;
+  String get strDeleteProfileAlert;
+  String get strUpdate;
 
   // Login
   String get strWelcomeBack;
@@ -69,8 +67,6 @@ abstract class Languages {
   String get strLogin;
   String get strLogout;
   String get strSuccessfullyLogout;
-  String get strSuccessfullyLogin;
-  String get strSuccessfullySignUp;
   String get strSignUp;
   String get strEmailText;
   String get strPassword;
@@ -91,6 +87,10 @@ abstract class Languages {
   String get strEmailInUse;
   String get strTooManyProviders;
   String get strLinkProviderError;
+  String get strSignUpWith;
+  String get strLoginWith;
+  String get strGoogle;
+  String get strFacebook;
 
   // Password Recovery
   String get strRecoverPassword;
@@ -157,11 +157,10 @@ abstract class Languages {
   String get strExpensesBalanceInfo;
   String get strTotalBalanceInfo;
 
-
-
   // Workspaces
   String get strWorkspace;
   String get strWorkspaceExplanation;
+  String get strWorkspaceTooltip;
   String get strChooseWorkspace;
   String get strAddNewWorkspace;
   String get strWorkspaceOperationSuccessful;
@@ -169,9 +168,11 @@ abstract class Languages {
   String get strManageWorkspaces;
   String get strNotEmailValidator;
   String get strWorkspaceAlreadyExist;
+  String get strUserAlreadyRequestToJoin;
+  String get strYouAlreadyInvitedToJoin;
+  String get strUserAlreadyInWorkspace;
   String get strOtherWorkspaceUsers;
   String get strEmptyWorkspace;
-  String get strWorkspaceInvitation;
   String get strJoinWorkspace;
   String get strWorkspaceJoinRequestSent;
   String get strPendingWorkspaceRequests;
@@ -180,13 +181,10 @@ abstract class Languages {
   String get strInviteUserToWorkspace;
   String get strUserInvitedToWorkspace;
   String get strUserRequestJoiningToWorkspace;
-  String get strUserAcceptsInvitation;
-  String get strUserRejectsInvitation;
   String get strUserApproveJoining;
   String get strUserDisapproveJoining;
   String get strPendingUsersRequestsTitle;
   String get strInvitedSuccessfullyWorkspace;
-  String get strCantInviteYourself;
   String get strPendingInvitationsRequests;
   String get strUserApproveInvitation;
   String get strUserRejectInvitation;
@@ -206,8 +204,26 @@ abstract class Languages {
   String get strDataUnavailable;
   String get strDataReloadSuccessful;
 
-  //About
+  // About
   String get strAbout;
   String get strLegalese;
   String get strScalesIcon;
+  String get strLoadIcon;
+
+  // Monthly Report
+  String get strMonthlyReportSubject;
+  String get strMonthlyReportContentHeader;
+  String get strMonthlyReportContentFooter;
+  String get strFinalIncomes;
+  String get strFinalExpenses;
+  String get strEndOfMonthBankBalance;
+  String get strSendMonthlyReport;
+  String get strSendMonthlyReportInfo;
+
+  // RateUs
+  String get strRateUs;
+  String get strRateUsExplanation;
+  String get strSubmit;
+  String get strCommentHint;
+  String get strRateRecorded;
 }

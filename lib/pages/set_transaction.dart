@@ -44,6 +44,7 @@ class _SetTransactionState extends State<SetTransaction> {
   late PrimitiveWrapper _dropDownController;
   bool _isConstant = gc.defaultIsConstant;
   bool _performingSave = false;
+
   bool get performingAction => _performingSave;
   bool _isUploadingImage=false;
   String? _attachedImage;
@@ -180,8 +181,8 @@ class _SetTransactionState extends State<SetTransaction> {
       String message = Languages.of(context)!.strSaveSucceeded;
 
       if (widget._mode == DetailsPageMode.Add) {
-        Category category = (_dropDownController.value == widget._currentCategory.name) ? widget._currentCategory : userStorage.balance.findCategory(_dropDownController.value);
-        message = userStorage.addTransaction(category, createNewTransaction(),pickedImage: pickedImage) ? message : Languages.of(context)!.strAlreadyExist;
+        Category category = (_dropDownController.value == widget._currentCategory.name) ? widget._currentCategory : userStorage.balance.findCategory(_dropDownController.value, widget._currentCategory.isIncome);
+        message = userStorage.addTransaction(category, createNewTransaction()) ? message : Languages.of(context)!.strAlreadyExist;
       } else {
         message = userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction(),pickedImage: pickedImage) ? message : Languages.of(context)!.strAlreadyExist;
       }
@@ -326,15 +327,20 @@ class _SetTransactionState extends State<SetTransaction> {
                   ),
                   SizedBox(
                     width: gc.smallTextFields,
-                    child: FormTextField(
-                      _transactionAmountController,
-                      1,
-                      1,
-                      Languages.of(context)!.amount,
-                      isValid: true,
-                      isNumeric: true,
-                      isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _positiveNumberValidatorFunction,
+                    child: Column(
+                      children: [
+                        FormTextField(
+                          _transactionAmountController,
+                          1,
+                          1,
+                          Languages.of(context)!.amount,
+                          isValid: true,
+                          isNumeric: true,
+                          isEnabled: widget._mode != DetailsPageMode.Details,
+                          validatorFunction: _positiveNumberValidatorFunction,
+                        ),
+                        Divider(color: Theme.of(context).primaryColorLight)
+                      ],
                     ),
                   ),
                   Padding(
@@ -350,7 +356,7 @@ class _SetTransactionState extends State<SetTransaction> {
                               margin: gc.dropDownMargin,
                               padding: gc.dropDownPadding,
                               decoration: BoxDecoration(
-                                color: gc.disabledColor.withOpacity(0.2),
+                                color: Theme.of(context).disabledColor.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(gc.dropDownRadius),
                                 border: gc.disabledDropDownBorder,
                               ),
@@ -370,7 +376,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),
                       child: GenericIconButton(
                         onTap: (widget._mode == DetailsPageMode.Details) ? _toggleEditDetailsMode : null,
-                        color: gc.primaryColor,
+                        color: Theme.of(context).hoverColor,
                         iconSize: gc.editIconSize,
                       ),
                     ),
@@ -391,12 +397,20 @@ class _SetTransactionState extends State<SetTransaction> {
                         widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date)
                         : SizedBox(
                           width: MediaQuery.of(context).size.width/2.5,
-                          child: DatePicker(
-                                dateController: _dateRangePickerController,
-                                view: DatePickerType.Day,
-                                iconColor: gc.primaryColor,
-                                firstDate: getCurrentMonth(userStorage.userData == null ? gc.defaultEndOfMonthDay : userStorage.userData!.endOfMonthDay),
-                                lastDate: DateTime.now(),
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: ColorScheme.light(
+                                primary: Theme.of(context).primaryColor,
+                                onSurface: Theme.of(context).primaryColor, // body text color
+                              ),
+                            ),
+                            child: DatePicker(
+                                  dateController: _dateRangePickerController,
+                                  view: DatePickerType.Day,
+                                  iconColor: Theme.of(context).hoverColor,
+                                  firstDate: getCurrentMonth(userStorage.userData == null ? gc.defaultEndOfMonthDay : userStorage.userData!.endOfMonthDay),
+                                  lastDate: DateTime.now(),
+                            ),
                           ),
                         ),
                         Switch(

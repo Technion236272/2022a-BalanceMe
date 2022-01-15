@@ -15,6 +15,8 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
+import 'controllers/theme_controller.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoogleAnalytics.instance.logAppOpen();
@@ -84,9 +86,9 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
 
   void setTheme(bool isDarkMode) {
     setState(() {
+      globalIsDarkMode = isDarkMode;
       _theme = isDarkMode ? ThemeMode.dark : ThemeMode.light;
     });
-    globalIsDarkMode = isDarkMode;
   }
 
   Locale? localeResolution(locale, supportedLocales) {
@@ -118,19 +120,8 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
             );
           },
           title: Languages.of(context) == null ? "" : Languages.of(context)!.strAppTitle,
-          theme: ThemeData(
-            appBarTheme: const AppBarTheme(
-              backgroundColor: gc.primaryColor,
-              foregroundColor: gc.secondaryColor,
-            ),
-          ),
-          darkTheme: ThemeData(
-            appBarTheme: const AppBarTheme(
-              backgroundColor: gc.darkPrimaryColor,
-              foregroundColor: gc.darkSecondaryColor,
-            ),
-            scaffoldBackgroundColor: gc.darkPrimaryColor,
-          ),
+          theme: ThemeController(isDark: false).getTheme(),
+          darkTheme: ThemeController(isDark: true).getTheme(),
           themeMode: _theme,
           debugShowCheckedModeBanner: false,
           locale: _locale,
