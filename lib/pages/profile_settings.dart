@@ -62,7 +62,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     return null;
   }
 
-  bool _enableEditCondition(String? value, StringCallback nameCallback) => (value == null || value == nameCallback() || value == "");
+  bool _enableEditCondition(String? value, StringCallback nameCallback) => (value == null || value == nameCallback());
 
   void _enableEditFirstName(String? value) {
     setState(() {
@@ -83,12 +83,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   void _updateFirstName() {
     widget.userStorage.userData!.firstName = _controllerFirstName.text;
-    _enableEditFirstName(null);
   }
 
   void _updateLastName() {
     widget.userStorage.userData!.lastName = _controllerLastName.text;
-    _enableEditLastName(null);
   }
 
   List<GestureTapCallback?> _getActions() {
@@ -180,18 +178,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     imagePicker(_getActions(), _iconsLeading(), _getOptionTitles());
   }
 
-  void _updateIsLoadingState(bool state) {
-    setState(() {
-      _isLoading = state;
-    });
-  }
-
   void _saveChanges() {
-    _updateIsLoadingState(true);
     _updateFirstName();
     _updateLastName();
     _saveProfile();
-    _updateIsLoadingState(false);
+    _enableEditFirstName(null);
   }
 
   @override
@@ -251,7 +242,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               haveBorder: false,
               onChanged: _enableEditLastName,
             ),
-            ActionButton(_isLoading, Languages.of(context)!.strUpdate,_isDisabledFirstName &&_isDisabledLastName? null:_saveChanges),
+            ActionButton(_isLoading, Languages.of(context)!.strUpdate, _isDisabledFirstName && _isDisabledLastName ? null : _saveChanges),
           ],
         ),
       ),

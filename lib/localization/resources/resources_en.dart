@@ -574,7 +574,7 @@ class LanguageEn extends Languages {
 
   // RateUs
   @override
-  String get strRateUs => "Rate Us";
+  String get strRateUs => "Rate us";
 
   @override
   String get strRateUsExplanation => "Tap a star to set your rating. Add more description here if you want";
