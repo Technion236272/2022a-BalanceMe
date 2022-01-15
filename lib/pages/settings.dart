@@ -204,11 +204,9 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       body: SingleChildScrollView(
           child: Column(
-            children:[
+            children: [
               _getSettingsList(),
-              SizedBox(
-                height: MediaQuery.of(context).size.height/gc.separateConstantsScale,
-              ),
+              SizedBox(height: MediaQuery.of(context).size.height/gc.separateConstantsScale),
             _getConstantsList()
             ],
           ),

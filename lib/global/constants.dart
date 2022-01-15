@@ -113,7 +113,7 @@ const Color cardBGColor = Colors.grey;
 
 //Tabs
 const Color tabLabelColor = Colors.black;
-const Color unselectedTabLabelColor = Colors.black38;
+const Color unselectedTabLabelColor = Colors.black;
 Color tabIndicatorColor = Colors.lime.shade300;
 const Color tabBarColor = Colors.limeAccent;
 Color tabUnselectedLabelColor = Colors.grey.shade600;

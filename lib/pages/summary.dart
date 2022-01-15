@@ -92,13 +92,7 @@ class _SummaryPageState extends State<SummaryPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Expanded(
-            flex: 1,
-            child: GenericTooltip(
-              tip: tip,
-              style: TextStyle(fontSize: 12, color: gc.secondaryColor),
-            ),
-          ),
+          Expanded(flex: 1, child: GenericTooltip(tip: tip)),
           Expanded(
             flex: 9,
             child: Card(
@@ -229,10 +223,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  GenericTooltip(
-                    tip: Languages.of(context)!.strBeginningMontBalanceInfo,
-                    style: TextStyle(fontSize: gc.summaryTooltipFontSize, color: gc.secondaryColor),
-                  ),
+                  GenericTooltip(tip: Languages.of(context)!.strBeginningMontBalanceInfo),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.25,
                     child: TextBox(
