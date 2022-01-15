@@ -1,4 +1,5 @@
 // ================= Login Page =================
+import 'package:balance_me/widgets/authentication/generic_password_eye.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -107,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 controllerPassword,
                 Languages.of(context)!.strPassword,
                 hideText: showPassword,
-                suffix: _hidingPasswordEye(),
+                suffix: PasswordEye(showPassword,_hideText),
                 validatorFunction: _passwordValidatorFunction,
               ),
               SizedBox(
