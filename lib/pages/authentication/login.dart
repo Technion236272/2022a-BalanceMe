@@ -2,7 +2,6 @@
 import 'package:balance_me/widgets/authentication/generic_password_eye.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/widgets/text_box_with_border.dart';
@@ -50,6 +49,14 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  IconButton _hidingPasswordEye() {
+    return IconButton(
+      icon: Icon(showPassword ? gc.hidePassword : gc.showPassword),
+      color: Theme.of(context).hoverColor,
+      onPressed: _hideText,
+    );
+  }
+
   String? _essentialFieldValidatorFunction(String? value) {
     return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
   }
@@ -57,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _emailValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return EmailValidator.validate(value!) ? null : Languages.of(context)!.strBadEmail;
+      return emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
     }
     return message;
   }
@@ -124,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: _openForgotPasswordPage,
                 child: Text(
                   Languages.of(context)!.strForgotPassword,
-                  style: const TextStyle(color: gc.linkColors),
+                  style: TextStyle(color: Theme.of(context).toggleableActiveColor),
                 ),
               ),
               _performingLogin ?
@@ -133,9 +140,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ) : ElevatedButton(
                 child: Text(Languages.of(context)!.strSignIn),
                 onPressed: _signIn,
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(gc.alternativePrimary),
-                ),
               ),
             ],
           ),

@@ -11,8 +11,11 @@ import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:balance_me/pages/home.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
+
+import 'controllers/theme_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,12 +59,18 @@ class BalanceMeApp extends StatefulWidget {
     state!.setLocale(newLocale);
   }
 
+  static void setTheme(BuildContext context, bool isDarkMode) {
+    _BalanceMeAppState? state = context.findAncestorStateOfType<_BalanceMeAppState>();
+    state!.setTheme(isDarkMode);
+  }
+
   @override
   State<BalanceMeApp> createState() => _BalanceMeAppState();
 }
 
 class _BalanceMeAppState extends State<BalanceMeApp> {
   Locale? _locale;
+  ThemeMode _theme = globalIsDarkMode ? ThemeMode.dark : ThemeMode.light;
 
   @override
   void didChangeDependencies() async {
@@ -72,6 +81,13 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
+    });
+  }
+
+  void setTheme(bool isDarkMode) {
+    setState(() {
+      globalIsDarkMode = isDarkMode;
+      _theme = isDarkMode ? ThemeMode.dark : ThemeMode.light;
     });
   }
 
@@ -96,6 +112,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
           )
         ],
         child: MaterialApp(
+          navigatorKey: globalNavigatorKey,
           builder: (context, child) {
             return MediaQuery(
               child: child!,
@@ -103,12 +120,9 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
             );
           },
           title: Languages.of(context) == null ? "" : Languages.of(context)!.strAppTitle,
-          theme: ThemeData(
-            appBarTheme: const AppBarTheme(
-              backgroundColor: gc.primaryColor,
-              foregroundColor: gc.secondaryColor,
-            ),
-          ),
+          theme: ThemeController(isDark: false).getTheme(),
+          darkTheme: ThemeController(isDark: true).getTheme(),
+          themeMode: _theme,
           debugShowCheckedModeBanner: false,
           locale: _locale,
           supportedLocales: getSupportedLocales(),

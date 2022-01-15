@@ -235,11 +235,10 @@ class _ArchiveDatePickerState extends State<ArchiveDatePicker> {
             child: OutlinedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith(
-                      (states) => gc.primaryColor),
+                      (states) => Theme.of(context).primaryColorDark),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(widget.height / 2),
-                    side: const BorderSide(color: gc.primaryColor),
                   )),
                 ),
                 child: Padding(
@@ -250,15 +249,12 @@ class _ArchiveDatePickerState extends State<ArchiveDatePicker> {
                     children: [
                       Text(
                         initialDateString,
-                        style: const TextStyle(
-                          color: gc.secondaryColor,
-                          fontSize: gc.datePickerFontSize,
-                        ),
+                        style: TextStyle(color: Theme.of(context).hintColor, fontSize: 15.0, fontWeight: FontWeight.bold),
                       ),
                       Icon(
                         widget.isVisible ? gc.expandIcon : gc.minimizeIcon,
                         size: gc.datePickerIconSize,
-                        color: gc.secondaryColor,
+                        color: Theme.of(context).hintColor,
                       ),
                     ],
                   ),
@@ -278,19 +274,27 @@ class _ArchiveDatePickerState extends State<ArchiveDatePicker> {
                     top: gc.datePickerGeneralPadding,
                     right: gc.datePickerRightPadding,
                 ),
-                child: SfDateRangePicker(
-                  controller: widget.dateController,
-                  minDate: widget.firstDate != null ? widget.firstDate! : gc.firstDate,
-                  maxDate: widget.lastDate != null ? widget.lastDate! : DateTime.now(),
-                  view: DateRangePickerView.year,
-                  backgroundColor: gc.secondaryColor,
-                  selectionTextStyle: const TextStyle(color: gc.secondaryColor),
-                  showNavigationArrow: true,
-                  showActionButtons: true,
-                  allowViewNavigation: false,
-                  onSubmit: _onSubmit,
-                  onCancel: _hideDatePicker,
-                  todayHighlightColor: Colors.transparent,
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    colorScheme: ColorScheme.light(
+                      primary: Theme.of(context).toggleableActiveColor,
+                    ),
+                  ),
+                  child: SfDateRangePicker(
+                    controller: widget.dateController,
+                    minDate: widget.firstDate != null ? widget.firstDate! : gc.firstDate,
+                    maxDate: widget.lastDate != null ? widget.lastDate! : DateTime.now(),
+                    view: DateRangePickerView.year,
+                    selectionColor: Theme.of(context).primaryColor,
+                    backgroundColor: Theme.of(context).focusColor,
+                    selectionTextStyle: TextStyle(color: gc.whiteColor, fontSize: 15.0, fontWeight: FontWeight.bold),
+                    showNavigationArrow: true,
+                    showActionButtons: true,
+                    allowViewNavigation: false,
+                    onSubmit: _onSubmit,
+                    onCancel: _hideDatePicker,
+                    todayHighlightColor: Colors.transparent,
+                  ),
                 ),
               ),
             ),

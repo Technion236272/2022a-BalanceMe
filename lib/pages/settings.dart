@@ -1,12 +1,14 @@
 // ================= Settings Page =================
-import 'package:balance_me/widgets/generic_tooltip.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/pages/authentication/change_password.dart';
 import 'package:balance_me/widgets/languages_drop_down.dart';
+import 'package:balance_me/widgets/dark_mode_switcher.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/generic_listview.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -39,10 +41,11 @@ class _SettingsState extends State<Settings> {
   void _changeCurrency() {
     if (widget.userStorage.userData != null) {
       Currency userCurrency = CurrencySign.keys.firstWhere((i) => CurrencySign[i] == _currencyController.value);
-      widget.userStorage.setUserCurrency(userCurrency);
+      widget.userStorage.userData!.userCurrency = userCurrency;
       if (widget.authRepository.status == AuthStatus.Authenticated) {
         widget.userStorage.SEND_generalInfo();
       }
+      GoogleAnalytics.instance.logChangeCurrency(userCurrency);
     }
   }
 
@@ -51,7 +54,16 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget _getDaysOfMonthRadio() {
-    return Text(gc.defaultEndOfMonthDay.toString(), style: _getTextDesign());
+    return Text(gc.defaultEndOfMonthDay.toString(), style: Theme.of(context).textTheme.bodyText2);
+  }
+
+  void _toggleSendEmail(bool? isChecked) {
+    if (isChecked != null) {
+      setState(() {
+        widget.userStorage.updateSendMonthlyReport(isChecked);
+      });
+      GoogleAnalytics.instance.logToggleSendEmail(isChecked);
+    }
   }
 
   Widget _getSettingsArrow() {
@@ -61,6 +73,11 @@ class _SettingsState extends State<Settings> {
         Icon(gc.settingArrow),
       ],
     );
+  }
+
+  void _inviteFriend() {
+    Share.share(Languages.of(context)!.strInviteFriendContent.replaceAll("%", gc.googlePlayURL), subject: Languages.of(context)!.strInviteFriendSubject);
+    GoogleAnalytics.instance.logInviteFriendOpened();
   }
 
   void _getAbout() {
@@ -79,18 +96,24 @@ class _SettingsState extends State<Settings> {
             trailing: Text(Languages.of(context)!.strScalesIcon),
           ),
           const Text(gc.scalesLink, style: TextStyle(fontSize: gc.attributeFontSize)),
+          ListTile(
+            leading: Image.asset(
+              gc.load,
+              height: MediaQuery.of(context).size.height / gc.scalesProportion,
+              width: MediaQuery.of(context).size.width / gc.scalesProportion,
+            ),
+            trailing: Text(Languages.of(context)!.strLoadIcon),
+          ),
+          const Text(gc.loadLink, style: TextStyle(fontSize: gc.attributeFontSize)),
         ],
     );
   }
 
   Row leadingWidgetWithInfo(String settingName, String tip) {
     return Row(
-
       mainAxisSize: MainAxisSize.min,
       children: [
-        GenericTooltip(
-          tip: tip,
-        ),
+        GenericTooltip(tip: tip),
         Text(settingName),
       ],
     );
@@ -100,38 +123,41 @@ class _SettingsState extends State<Settings> {
     List<Widget?> leadingSettings = [
       Text(
         Languages.of(context)!.strConstants,
-        style: _getTextDesign(),
+        style: Theme.of(context).textTheme.subtitle1,
       ),
-      leadingWidgetWithInfo(
-          Languages.of(context)!.strAbout, Languages.of(context)!.strAboutInfo),
-      leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings,
-          Languages.of(context)!.strEndOfMonthInfo),
-      leadingWidgetWithInfo(Languages.of(context)!.strVersionSettings,
-          Languages.of(context)!.strVersionInfo),
+      Text(Languages.of(context)!.strInviteFriend),
+      Text(Languages.of(context)!.strAbout),
+      leadingWidgetWithInfo(Languages.of(context)!.strEndOfMonthSettings, Languages.of(context)!.strEndOfMonthInfo),
+      Text(Languages.of(context)!.strVersionSettings),
     ];
     List<Widget?> trailingSettings = [
       null,
+      IconButton(
+        onPressed: _inviteFriend,
+        icon: _getSettingsArrow(),
+      ),
       IconButton(
         onPressed: _getAbout,
         icon: _getSettingsArrow(),
       ),
       _getDaysOfMonthRadio(),
-      Text(config.projectVersion, style: _getTextDesign())
+      Text(config.projectVersion, style: Theme.of(context).textTheme.bodyText2)
     ];
     return ListViewGeneric(
         leadingWidgets: leadingSettings,
         trailingWidgets: trailingSettings,
-        isScrollable: false);
+        isScrollable: false,
+    );
   }
 
   Widget _getSettingsList() {
     List<Widget?> leadingSettings = [
-      widget.authRepository.status == AuthStatus.Authenticated ?leadingWidgetWithInfo(Languages.of(context)!.strProfile,
-          Languages.of(context)!.strProfileInfo) :null,
-      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strPasswordSettings,
-          Languages.of(context)!.strPasswordChangeInfo) : null,
-      leadingWidgetWithInfo(Languages.of(context)!.strCurrencySettings, Languages.of(context)!.strCurrencyInfo),
-      leadingWidgetWithInfo(Languages.of(context)!.strLanguageSettings, Languages.of(context)!.strLanguageInfo),
+      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strProfile) : null,
+      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strPasswordSettings) : null,
+      widget.authRepository.status == AuthStatus.Authenticated ? Text(Languages.of(context)!.strCurrencySettings) : null,
+      widget.authRepository.status == AuthStatus.Authenticated ? leadingWidgetWithInfo(Languages.of(context)!.strSendMonthlyReport, Languages.of(context)!.strSendMonthlyReportInfo) : null,
+      Text(Languages.of(context)!.strLanguageSettings),
+      Text(Languages.of(context)!.strDarkModeSettings),
     ];
 
     List<Widget?> trailingSettings = [
@@ -145,9 +171,12 @@ class _SettingsState extends State<Settings> {
           onPressed: _openChangePassword,
           icon: _getSettingsArrow(),
       ),
-      GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
+      widget.authRepository.status != AuthStatus.Authenticated ? null :
+        GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
+      widget.authRepository.status != AuthStatus.Authenticated ? null :
+        Checkbox(value: widget.userStorage.userData!.sendReport, onChanged: _toggleSendEmail),
       const LanguageDropDown(),
-
+      DarkModeSwitcher(globalIsDarkMode),
     ];
 
     return ListViewGeneric(leadingWidgets: leadingSettings, trailingWidgets: trailingSettings, isScrollable: false);
@@ -159,12 +188,15 @@ class _SettingsState extends State<Settings> {
 
     return Scaffold(
       body: SingleChildScrollView(
-          child: Column( children:[_getSettingsList(),
-              Divider(
+          child: Column(
+            children:[
+              _getSettingsList(),
+              SizedBox(
                 height: MediaQuery.of(context).size.height/gc.separateConstantsScale,
-                color: gc.secondaryColor,
               ),
-            _getConstantsList()], ),
+            _getConstantsList()
+            ],
+          ),
       ),
     );
   }

@@ -21,9 +21,7 @@ class AuthRepository with ChangeNotifier {
   AuthStatus _status = AuthStatus.Uninitialized;
   String? _avatarUrl;
 
-
   final FirebaseStorage _storage = FirebaseStorage.instanceFor(bucket: config.storageBucketPath);
-
 
   AuthRepository.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onAuthStateChanged);
@@ -36,6 +34,8 @@ class AuthRepository with ChangeNotifier {
   User? get user => _user;
 
   String? get avatarUrl => _avatarUrl;
+
+  String? get getEmail =>  (user == null) ? null : user!.email;
 
   Future<bool> signUp(String email, String password, BuildContext context) async {
     try {
@@ -154,30 +154,44 @@ class AuthRepository with ChangeNotifier {
   }
 
 
-  Future<void> handleProvidersThirdParty(String? email, AuthCredential credential, BuildContext context,String provider) async {
+  Future<void> handleProvidersThirdParty(String? email, AuthCredential credential, BuildContext context, String provider, bool isSignIn) async {
     if (email!=null) {
       List<String> methods = await _auth.fetchSignInMethodsForEmail(email);
-      if (methods.isEmpty || methods.contains(provider)) {
+      if ((methods.isEmpty && !isSignIn) || (methods.contains(provider) && isSignIn)) {
         await FirebaseAuth.instance.signInWithCredential(credential);
-      } else {
+      }
+      else if (methods.isEmpty && isSignIn) {
+          throw FirebaseAuthException(code: gc.userNotFound);
+      }
+      else {
         displaySnackBar(context, Languages.of(context)!.strLinkProviderError);
         GoogleAnalytics.instance.logMultipleProviders(providerLinked: provider);
       }
     }
   }
 
-  Future<bool> signInGoogle(BuildContext context) async {
+  Future<bool> signInGoogle(BuildContext context,bool isSignIn) async {
     try {
       _status = AuthStatus.Authenticating;
       notifyListeners();
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      if (googleUser == null) {
+        return false;
+      }
+      final GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
-      await handleProvidersThirdParty(googleUser?.email,credential,context,gc.google);
+      await handleProvidersThirdParty(googleUser.email,credential,context,gc.google,isSignIn);
       _status = AuthStatus.Authenticated;
       await getAvatarUrl();
       notifyListeners();
       return true;
+    } on FirebaseAuthException catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+      if (e.code == gc.userNotFound) {
+        displaySnackBar(context, Languages.of(context)!.strUserNotFound);
+        GoogleAnalytics.instance.logMultipleProviders(providerLinked: gc.google);
+      }
+      return false;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       _status = AuthStatus.Unauthenticated;
@@ -189,6 +203,9 @@ class AuthRepository with ChangeNotifier {
   Future<bool> signInWithFacebook(BuildContext context) async {
     try {
       final loginResult = await FacebookAuth.instance.login(permissions: gc.permissionFacebook);
+      if (loginResult.accessToken == null) {
+        return false;
+      }
       final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
       await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
       _status = AuthStatus.Authenticated;
@@ -229,13 +246,26 @@ class AuthRepository with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getAvatarUrl() async {
+  Future<void> deleteAvatarUrl() async {
     try {
       if (user != null) {
         Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' + _user!.email.toString());
+         await storageReference.delete();
+         _avatarUrl=null;
+        notifyListeners();
+      }
+    } catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+    }
+  }
+
+  Future<void> getAvatarUrl() async {
+    try {
+      if (_user != null ) {
+        Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' + _user!.email.toString());
         _avatarUrl = await storageReference.getDownloadURL();
       }
-      return null;
+      _avatarUrl = null;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       _avatarUrl = null;

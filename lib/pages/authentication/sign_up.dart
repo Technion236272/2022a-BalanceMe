@@ -50,12 +50,32 @@ class _SignUpState extends State<SignUp> {
     setState(() {
       signUpPasswordVisible = !signUpPasswordVisible;
     });
+  Widget _hidingPasswordEye() {
+    return IconButton(
+      icon: Icon(signUpPasswordVisible ? gc.hidePassword : gc.showPassword),
+      color: Theme.of(context).hoverColor,
+      onPressed: () {
+        setState(() {
+          signUpPasswordVisible = !signUpPasswordVisible;
+        });
+      },
+    );
   }
 
   void _hideConfirmText() {
     setState(() {
       confirmPasswordVisible = !confirmPasswordVisible;
     });
+  Widget _hidingConfirmPasswordEye() {
+    return IconButton(
+      icon: Icon(confirmPasswordVisible ? gc.hidePassword : gc.showPassword),
+      color: Theme.of(context).hoverColor,
+      onPressed: () {
+        setState(() {
+          confirmPasswordVisible = !confirmPasswordVisible;
+        });
+      },
+    );
   }
 
   String? _essentialFieldValidatorFunction(String? value) {
@@ -65,7 +85,7 @@ class _SignUpState extends State<SignUp> {
   String? _emailValidatorFunction(String? value) {
     String? message = _essentialFieldValidatorFunction(value);
     if (message == null) {
-      return EmailValidator.validate(value!) ? null : Languages.of(context)!.strBadEmail;
+      return emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
     }
     return message;
   }
@@ -134,12 +154,8 @@ class _SignUpState extends State<SignUp> {
                       child: CircularProgressIndicator(),
                     )
                   : ElevatedButton(
-                      child: Text(Languages.of(context)!.strSignIn),
+                      child: Text(Languages.of(context)!.strSignUp),
                       onPressed: _signUp,
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            gc.alternativePrimary),
-                      ),
                     ),
             ],
           ),

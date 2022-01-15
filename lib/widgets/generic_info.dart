@@ -17,7 +17,7 @@ class GenericInfo extends StatelessWidget {
         width: MediaQuery.of(context).size.width - gc.generalInfoWidthCorrection,
         height: gc.generalInfoHeight,
         decoration: BoxDecoration(
-          color: gc.backgroundDesignColor,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(gc.cardBorderRadius),
         ),
         child: Padding(
@@ -29,20 +29,20 @@ class GenericInfo extends StatelessWidget {
             children: [title == null ? Container()
                 : Text(
                   title!,
-                  style: const TextStyle(fontSize: gc.infoTitleFontSize),
+                  style: TextStyle(fontSize: gc.infoTitleFontSize),
                 ),
               topInfo == null ? Container()
                   : Padding(
                     padding: gc.innerColumnPadding,
                     child: Text(
                       topInfo!,
-                      style: const TextStyle(fontSize: gc.infoFontSize),
+                      style: TextStyle(fontSize: gc.infoFontSize),
                     ),
                   ),
               bottomInfo == null ? Container()
                   : Text(
                     bottomInfo!,
-                    style: const TextStyle(fontSize: gc.infoFontSize),
+                    style: TextStyle(fontSize: gc.infoFontSize),
                   ),],
           ),
         ),

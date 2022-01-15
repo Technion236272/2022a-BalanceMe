@@ -1,6 +1,5 @@
 // ================= Change password signed in page =================
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
-import 'package:balance_me/global/login_utils.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/widgets/action_button.dart';
 import 'package:balance_me/widgets/authentication/generic_password_eye.dart';
