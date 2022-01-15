@@ -57,17 +57,11 @@ const Color darkSecondaryColor = Color(0xffff8f00);
 const Color darkSecondaryLightColor = Color(0xffffc046);
 const Color darkSecondaryDarkColor = Color(0xffc56000);
 const Color darkVeryLightColor = Color(0xffc0d0dc);
-const Color darkTextButtonColor = Color(0xff1e4d76);
 const Color alternativePrimary = Color(0xff4e21ff);
-const Color tabColor = Color(0xffd3ff21);
-const Color linkColors = Color(0xffbc21ff);
-const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
-const Color leaveColor = Color(0xFFE30E0E);
 Color disabledColor = Colors.black38;
 Color shadowColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
-Color bannerColor = Color(0xFFE0E0E0);
 const Color workspaceAskToJoinColor = Color(0xffffaa6c);
 const Color workspaceInvitationsColor = Color(0xffffdc9b);
 const Color workspaceUsersRequestsColor = Color(0xffc87b3f);
@@ -120,7 +114,7 @@ const Color cardBGColor = Colors.grey;
 
 //Tabs
 const Color tabLabelColor = Colors.black;
-const Color unselectedTabLabelColor = Colors.black38;
+const Color unselectedTabLabelColor = Colors.black;
 Color tabIndicatorColor = Colors.lime.shade300;
 const Color tabBarColor = Colors.limeAccent;
 Color tabUnselectedLabelColor = Colors.grey.shade600;
@@ -215,6 +209,7 @@ const double buttonPadding = 50.0;
 const double editIconSize = 30.0;
 const double listTileHeight = 30.0;
 const double containerWidth = 200;
+const double expectedFontSize = 15;
 
 //Dropdown widget
 const double dropDownRadius = 30;
@@ -301,6 +296,7 @@ const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 const EdgeInsets workspacesGeneralPadding = EdgeInsets.all(8.0);
 const EdgeInsets userTilePadding = EdgeInsets.only(top: 8.0);
 BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2,0));
+const double inviteFontSize = 15;
 
 // Banner
 const double bannerPadding = 20;
@@ -310,6 +306,7 @@ const EdgeInsets summeryTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 BorderRadius summeryTilesRadius = BorderRadius.circular(20);
 const EdgeInsets summeryHorizontalPadding = const EdgeInsets.only(left: 8.0, right: 8.0);
 const EdgeInsets summeryVerticalPadding = const EdgeInsets.only(top: 8.0, bottom: 8.0);
+const double setWorkspaceButtonPadding = 10;
 const double setWorkspaceButtonWidth = 75;
 const double setWorkspaceButtonHeight = 25;
 const double currentWorkspaceBoxScale = 4;
@@ -317,6 +314,7 @@ const double summeryChartBoxScale = 4.2;
 const double summaryTooltipFontSize = 12;
 
 // Rate Us
+const double rateUsImageSize = 120;
 const double rateUsAppNameFontSize = 25;
 const double rateUsExplanationFontSize = 15;
 

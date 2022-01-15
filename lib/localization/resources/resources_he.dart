@@ -214,7 +214,7 @@ class LanguageHe extends Languages {
   String get strCameraOption => "מצלמה‎";
 
   @override
-  String get strMinPasswordLimit => "‎אורך הסיסמה צריך להיות לפחות % תווים";
+  String get strMinPasswordLimit => "‎אורך הסיסמה  להיות לפחות %";
 
   @override
   String get strBadEmail => "‎כתובת הדואר האלקטרוני שהוזנה אינה תקינה";
@@ -498,6 +498,9 @@ class LanguageHe extends Languages {
 
   @override
   String get strUserRejectInvitation => "‎המשתמש # דחה את הזמנתך להצטרף למרחב העבודה %";
+
+  @override
+  String get strCantRemovePersonalWorkspace => "‎לא ניתן למחוק את מרחב העבודה הפרטי";
 
   // Set Category And Transaction
   @override

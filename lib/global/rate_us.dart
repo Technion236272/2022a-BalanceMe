@@ -44,7 +44,11 @@ class RateUs extends StatelessWidget {
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: gc.rateUsExplanationFontSize),
       ),
-      image: Image.asset(gc.balanceImage),
+      image: SizedBox(
+        width: gc.rateUsImageSize,
+        height: gc.rateUsImageSize,
+        child: Image.asset(gc.balanceImage),
+      ),
       submitButtonText: Languages.of(context)!.strSubmit,
       commentHint: Languages.of(context)!.strCommentHint,
       onCancelled: _onCancel,

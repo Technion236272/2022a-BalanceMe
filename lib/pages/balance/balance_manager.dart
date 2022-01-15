@@ -67,7 +67,7 @@ class _BalanceManagerState extends State<BalanceManager> {
             widget._userStorage.assignBalance(BalanceModel.fromJson((snapshot.data!.data()! as Json)[config.categoriesDoc]));
           }
 
-          return (_shouldShowWelcomePage()) ? WelcomePage() : ListView(physics: NeverScrollableScrollPhysics(),children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]);
+          return (_shouldShowWelcomePage()) ? WelcomePage() : ListView(physics: NeverScrollableScrollPhysics(), children: [BalancePage(widget._userStorage.balance, _setCurrentTab)]);
         },
       ),
     );

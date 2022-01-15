@@ -41,6 +41,12 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
   bool get _shouldShowInvitations => _belongWorkspace.invitations.isNotEmpty;
 
+  @override
+  void dispose() {
+    _modalBottomSheetController.dispose();
+    super.dispose();
+  }
+
   String? _addUserValidatorFunction(String? value) {
     String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
@@ -84,8 +90,12 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   void _removeWorkspace(String workspace) {
-    userStorage.removeUserFromWorkspace(workspace);
+    if (authRepository.user != null && workspace == authRepository.getEmail) {
+      displaySnackBar(context, Languages.of(context)!.strCantRemovePersonalWorkspace);
+      return;
+    }
 
+    userStorage.removeUserFromWorkspace(workspace);
     if (userStorage.userData != null && workspace == userStorage.userData!.currentWorkspace && authRepository.user != null) {
       _chooseWorkspace(authRepository.user!.email!);
     }
@@ -141,10 +151,12 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   void _inviteUserToWorkspace() async {
     if (_modalBottomSheetFormKey.currentState != null && _modalBottomSheetFormKey.currentState!.validate()) {
 
-      if (await userStorage.isExist_generalInfo(_modalBottomSheetController.text)) {
-        userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, _modalBottomSheetController.text);
+      String invitedUser = _modalBottomSheetController.text.toLowerCase();
+      if (await userStorage.isExist_generalInfo(invitedUser)) {
+        userStorage.SEND_updateInvitationsList(userStorage.userData!.currentWorkspace, invitedUser, true);
+        userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, invitedUser);
         displaySnackBar(context, Languages.of(context)!.strInvitedSuccessfullyWorkspace);
-        GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, _modalBottomSheetController.text);
+        GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, invitedUser);
       } else {
         displaySnackBar(context, Languages.of(context)!.strUserNotFound);
       }
@@ -258,8 +270,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _buildWorkspaceFromString(String workspace, bool? param) {
-    return (authRepository.user != null && workspace == authRepository.user!.email) ?
-      _getWorkspace(workspace) : GenericDeleteDismissible(
+    return GenericDeleteDismissible(
       workspace,
       Languages.of(context)!.strWorkspace,
       _getWorkspace(workspace),
@@ -467,7 +478,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                                   visible: _workspaceUsers != null && authRepository.user != null && _workspaceUsers!.leader == authRepository.user!.email,
                                   child: TextButton(
                                     onPressed: () => {_showModalBottomSheet(false)},
-                                    child: Text(Languages.of(context)!.strInvite, style: Theme.of(context).textTheme.subtitle2,),
+                                    child: Text(Languages.of(context)!.strInvite, style: TextStyle(
+                                        color: Theme.of(context).toggleableActiveColor,
+                                        fontSize: gc.inviteFontSize,
+                                        fontWeight: FontWeight.bold)),
                                   ),
                                 ),
                                 IconButton(

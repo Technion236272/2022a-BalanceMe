@@ -186,6 +186,7 @@ abstract class Languages {
   String get strPendingInvitationsRequests;
   String get strUserApproveInvitation;
   String get strUserRejectInvitation;
+  String get strCantRemovePersonalWorkspace;
 
   // Set Category And Transaction
   String get strTypeSelection;

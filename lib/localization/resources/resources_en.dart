@@ -215,7 +215,7 @@ class LanguageEn extends Languages {
   String get strCameraOption => "Camera";
 
   @override
-  String get strMinPasswordLimit => "The password should contain at least % characters";
+  String get strMinPasswordLimit => "Password length should be at least %";
 
   @override
   String get strBadEmail => "Your email is badly formed";
@@ -499,6 +499,9 @@ class LanguageEn extends Languages {
   @override
   String get strUserRejectInvitation => "# rejects your invitation to join % workspace";
 
+  @override
+  String get strCantRemovePersonalWorkspace => "You can't remove your personal workspace";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "Type";
@@ -568,7 +571,7 @@ class LanguageEn extends Languages {
 
   // RateUs
   @override
-  String get strRateUs => "Rate Us";
+  String get strRateUs => "Rate us";
 
   @override
   String get strRateUsExplanation => "Tap a star to set your rating. Add more description here if you want";

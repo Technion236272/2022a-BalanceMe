@@ -39,6 +39,12 @@ class _SummaryPageState extends State<SummaryPage> {
     _init();
   }
 
+  @override
+  void dispose() {
+    _controllerBankBalance.dispose();
+    super.dispose();
+  }
+
   void _init() {
     GeneralInfoDispatcher.subscribe(() {
       if (mounted && userStorage.userData != null && userStorage.userData!.bankBalance != null) {
@@ -92,13 +98,7 @@ class _SummaryPageState extends State<SummaryPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Expanded(
-            flex: 1,
-            child: GenericTooltip(
-              tip: tip,
-              style: TextStyle(fontSize: 12, color: gc.secondaryColor),
-            ),
-          ),
+          Expanded(flex: 1, child: GenericTooltip(tip: tip)),
           Expanded(
             flex: 9,
             child: Card(
@@ -200,27 +200,27 @@ class _SummaryPageState extends State<SummaryPage> {
                   flex: 1,
                   child: Visibility(
                     visible: showWorkspacesAndBankBalance,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width / gc.currentWorkspaceBoxScale,
-                            child: Text(userStorage.userData!.currentWorkspace)
-                        ),
-                        SizedBox(
-                          width: gc.setWorkspaceButtonWidth,
-                          height: gc.setWorkspaceButtonHeight,
-                          child: ElevatedButton(
-                            onPressed: _openSetWorkspace,
-                            child: Text(Languages.of(context)!.strSet),
-                          ),
-                        ),
-                      ],
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width / gc.currentWorkspaceBoxScale,
+                        child: Text(userStorage.userData!.currentWorkspace)
                     ),
                   ),
                 )
               ],
+            ),
+            Visibility(
+              visible: showWorkspacesAndBankBalance,
+              child: Padding(
+                padding: EdgeInsets.only(top: gc.setWorkspaceButtonPadding),
+                child: SizedBox(
+                  width: gc.setWorkspaceButtonWidth,
+                  height: gc.setWorkspaceButtonHeight,
+                  child: ElevatedButton(
+                    onPressed: _openSetWorkspace,
+                    child: Text(Languages.of(context)!.strSet),
+                  ),
+                ),
+              ),
             ),
             Visibility(visible: showWorkspacesAndBankBalance && userStorage.userData!.currentWorkspace == authRepository.getEmail, child: Divider()),
             Visibility(
@@ -229,10 +229,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  GenericTooltip(
-                    tip: Languages.of(context)!.strBeginningMontBalanceInfo,
-                    style: TextStyle(fontSize: gc.summaryTooltipFontSize, color: gc.secondaryColor),
-                  ),
+                  GenericTooltip(tip: Languages.of(context)!.strBeginningMontBalanceInfo),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.25,
                     child: TextBox(

@@ -39,10 +39,6 @@ class ThemeController {
             fontSize: 18.0,
             fontWeight: FontWeight.bold),
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: gc.darkSecondaryColor,
-        foregroundColor: Colors.black,
-      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: gc.darkPrimaryDarkColor,
           selectedItemColor: gc.darkSecondaryColor,
@@ -80,8 +76,7 @@ class ThemeController {
             fontSize: 15,
             fontWeight: FontWeight.bold),
         overline: TextStyle(color: gc.darkPrimaryDarkColor, fontSize: 15.0),
-        button: TextStyle(
-            color: gc.whiteColor, fontSize: 15.0, fontWeight: FontWeight.bold),
+        button: TextStyle(color: gc.whiteColor, fontSize: 15.0, fontWeight: FontWeight.bold),
       ),
       dialogTheme: DialogTheme(
         backgroundColor: gc.darkPrimaryLightColor,
@@ -120,18 +115,12 @@ class ThemeController {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(gc.darkSecondaryColor),
-          foregroundColor:
-              MaterialStateProperty.all<Color>(gc.darkPrimaryDarkColor),
-          shadowColor:
-              MaterialStateProperty.all<Color>(gc.darkPrimaryDarkColor),
+          backgroundColor: MaterialStateProperty.all<Color>(gc.darkSecondaryColor),
+          foregroundColor: MaterialStateProperty.all<Color>(gc.darkPrimaryDarkColor),
+          shadowColor: MaterialStateProperty.all<Color>(gc.darkPrimaryDarkColor),
         ),
       ),
-      textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(
-              foregroundColor:
-                  MaterialStateProperty.all(gc.darkSecondaryDarkColor))),
+      textButtonTheme: TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStateProperty.all(gc.darkSecondaryColor))),
       cardTheme: CardTheme(
         color: gc.darkPrimaryLightColor,
         shadowColor: gc.darkPrimaryDarkColor,
@@ -148,9 +137,11 @@ class ThemeController {
             color: gc.darkSecondaryDarkColor,
             borderRadius: BorderRadius.circular(gc.tabBorderRadius),
             boxShadow: [
-              BoxShadow(
-                  color: Colors.black, blurRadius: 15, offset: Offset(5, 2))
+              BoxShadow(color: Colors.black, blurRadius: 15, offset: Offset(5, 2))
             ]),
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: gc.darkVeryLightColor
       ),
     );
   }
@@ -183,10 +174,6 @@ class ThemeController {
             color: gc.secondaryColor,
             fontSize: 18.0,
             fontWeight: FontWeight.bold),
-      ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: gc.primaryColor,
-        foregroundColor: Colors.white,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: gc.secondaryColor,
@@ -269,8 +256,7 @@ class ThemeController {
         ),
       ),
       textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(gc.primaryColor))),
+          style: ButtonStyle(foregroundColor: MaterialStateProperty.all(gc.primaryColor))),
       cardTheme: CardTheme(
         color: gc.secondaryColor,
         shadowColor: gc.shadowColor,
@@ -290,6 +276,9 @@ class ThemeController {
               BoxShadow(
                   color: Colors.black, blurRadius: 15, offset: Offset(5, 2))
             ]),
+      ),
+      listTileTheme: ListTileThemeData(
+          iconColor: gc.primaryDarkColor,
       ),
     );
   }

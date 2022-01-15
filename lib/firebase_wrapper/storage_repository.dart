@@ -48,6 +48,7 @@ class UserStorage with ChangeNotifier {
 
       if (!await isExist_BelongsWorkspaces()) {
         await SEND_initialUserDoc();
+        SEND_resetUserMessages();
       }
 
       if (_userMessagesStream == null) {
@@ -165,7 +166,7 @@ class UserStorage with ChangeNotifier {
 
   void replyWorkspaceInvitation(BuildContext context, String workspace, isAccepted) async {
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      SEND_updateInvitationsList(workspace, false);
+      SEND_updateInvitationsList(workspace, _authRepository!.getEmail!, false);
       isAccepted ? addNewUserToWorkspace(workspace, _authRepository!.getEmail!) : null;
 
       String? workspaceLeader = await GET_workspaceLeader(workspace);
@@ -395,7 +396,7 @@ class UserStorage with ChangeNotifier {
   }
 
   Future<bool> isExist_BelongsWorkspaces() async {
-    return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!), specificKey: config.belongsWorkspaces);
+    return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.belongsWorkspaces), specificKey: config.belongsWorkspaces);
   }
 
   Future<bool> isExist_BalanceModel() async {
@@ -565,9 +566,8 @@ class UserStorage with ChangeNotifier {
     if (_authRepository != null && _authRepository!.getEmail != null) {
       createUserData();
       SEND_generalInfo();
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).set({
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.belongsWorkspaces).set({
         config.belongsWorkspaces: BelongsWorkspaces(_authRepository!.getEmail!).toJson(),
-        config.userMessages: [],
       });
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("SendInitialBelongWorkspace");
@@ -575,7 +575,7 @@ class UserStorage with ChangeNotifier {
   }
 
   void SEND_updateBelongsWorkspaces(String entry, String user, String workspace, bool toAdd) {
-    _firestore.collection(config.firebaseVersion).doc(user).update({
+    _firestore.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.belongsWorkspaces).update({
       "${config.belongsWorkspaces}.$entry" : toAdd? FieldValue.arrayUnion([workspace]) : FieldValue.arrayRemove([workspace]),
     });
   }
@@ -588,10 +588,8 @@ class UserStorage with ChangeNotifier {
     SEND_updateBelongsWorkspaces("joiningRequests", user, workspace, toAdd);
   }
 
-  void SEND_updateInvitationsList(String workspace, bool toAdd) {
-    if (_authRepository != null && _authRepository!.getEmail != null) {
-      SEND_updateBelongsWorkspaces("invitations", _authRepository!.getEmail!, workspace, toAdd);
-    }
+  void SEND_updateInvitationsList(String workspace, String invitedUser, bool toAdd) {
+    SEND_updateBelongsWorkspaces("invitations", invitedUser, workspace, toAdd);
   }
 
   void SEND_deleteWorkspace(String workspace) async {
@@ -622,12 +620,12 @@ class UserStorage with ChangeNotifier {
   }
 
   Stream<DocumentSnapshot> STREAM_belongsWorkspaces() {
-    return _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).snapshots();
+    return _firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.belongsWorkspaces).snapshots();
   }
 
   // ================== Messages ==================
 
-  void startHandleUserMessage() {
+  void startHandleUserMessage() async {
     if (_authRepository != null && _authRepository!.getEmail != null) {
       _userMessagesStream = _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).snapshots().listen((messages) {
         if (messages.data() != null && messages.data()![config.userMessages] != null) {
@@ -671,7 +669,7 @@ class UserStorage with ChangeNotifier {
 
   void SEND_resetUserMessages() async {
     if (_authRepository != null && _authRepository!.getEmail != null) {
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).update({
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).set({
         config.userMessages: [],
       });
     } else {

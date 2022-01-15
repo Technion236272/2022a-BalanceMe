@@ -72,6 +72,7 @@ class _MainAppBarState extends State<MainAppBar> {
     });
     widget._userStorage.resetBalance();
     GeneralInfoDispatcher.reset();
+    widget._userStorage.finishHandleUserMessage();
     displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogout);
   }
 

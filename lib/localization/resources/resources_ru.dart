@@ -214,7 +214,7 @@ class LanguageRu extends Languages {
   String get strCameraOption => "камера";
 
   @override
-  String get strMinPasswordLimit => "Пароль должен содержать минимум % символов";
+  String get strMinPasswordLimit => "Password length should be at least %";
 
   @override
   String get strBadEmail => "Ваша электронная почта плохо оформлено";
@@ -498,6 +498,9 @@ class LanguageRu extends Languages {
   @override
   String get strUserRejectInvitation => "# rejects your invitation to join % workspace";
 
+  @override
+  String get strCantRemovePersonalWorkspace => "You can't remove your personal workspace";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "вид";
@@ -566,7 +569,7 @@ class LanguageRu extends Languages {
 
   // RateUs
   @override
-  String get strRateUs => "Rate Us";
+  String get strRateUs => "Rate us";
 
   @override
   String get strRateUsExplanation => "Tap a star to set your rating. Add more description here if you want";

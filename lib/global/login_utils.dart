@@ -47,7 +47,7 @@ void emailPasswordSignIn(String? email, String? password, BuildContext context, 
   startLoginProcess(context, authRepository.signIn(email, password, context), LoginMethod.Regular.toCleanString(), true, userStorage, failureCallback: failureCallback);
 }
 
-void recoverPassword(String? email, BuildContext context) async {
+void recoverPassword(String? email, BuildContext context, Function? failureCB) async {
   if (email == null) {
     displaySnackBar(context, Languages.of(context)!.strUserNotFound);
     return;
@@ -64,6 +64,7 @@ void recoverPassword(String? email, BuildContext context) async {
   } catch (e, stackTrace) {
     SentryMonitor().sendToSentry(e, stackTrace);
     displaySnackBar(context, Languages.of(context)!.strUserNotFound);
+    failureCB != null ? failureCB() : null;
   }
 }
 
@@ -81,6 +82,7 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
         await userStorage.SEND_fullBalanceModel(balance: lastBalance);
         GeneralInfoDispatcher.reset();
         userStorage.SEND_initialUserDoc();
+        userStorage.SEND_resetUserMessages();
         GoogleAnalytics.instance.logSignUp(loginFunctionName);
       }
 
