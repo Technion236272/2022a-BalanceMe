@@ -50,117 +50,123 @@ class _SignUpState extends State<SignUp> {
     setState(() {
       signUpPasswordVisible = !signUpPasswordVisible;
     });
-  Widget _hidingPasswordEye() {
-    return IconButton(
-      icon: Icon(signUpPasswordVisible ? gc.hidePassword : gc.showPassword),
-      color: Theme.of(context).hoverColor,
-      onPressed: () {
-        setState(() {
-          signUpPasswordVisible = !signUpPasswordVisible;
-        });
-      },
-    );
   }
 
-  void _hideConfirmText() {
-    setState(() {
-      confirmPasswordVisible = !confirmPasswordVisible;
-    });
-  Widget _hidingConfirmPasswordEye() {
-    return IconButton(
-      icon: Icon(confirmPasswordVisible ? gc.hidePassword : gc.showPassword),
-      color: Theme.of(context).hoverColor,
-      onPressed: () {
-        setState(() {
-          confirmPasswordVisible = !confirmPasswordVisible;
-        });
-      },
-    );
-  }
-
-  String? _essentialFieldValidatorFunction(String? value) {
-    return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
-  }
-
-  String? _emailValidatorFunction(String? value) {
-    String? message = _essentialFieldValidatorFunction(value);
-    if (message == null) {
-      return emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
+    void _hideConfirmText() {
+      setState(() {
+        confirmPasswordVisible = !confirmPasswordVisible;
+      });
     }
-    return message;
-  }
 
-  String? _passwordValidatorFunction(String? value) {
-    String? message = _essentialFieldValidatorFunction(value);
-    if (message == null) {
-      return lineLimitMinValidator(value, gc.defaultMinPasswordLimit) ? null : Languages.of(context)!.strMinPasswordLimit.replaceAll("%", gc.defaultMinPasswordLimit.toString());
-    }
-    return message;
-  }
+      String? _essentialFieldValidatorFunction(String? value) {
+        return essentialFieldValidator(value) ? null : Languages.of(context)!
+            .strEssentialField;
+      }
 
-  String? _confirmPasswordValidatorFunction(String? value) {
-    String? message = _passwordValidatorFunction(value);
-    String? confirmMessage = _passwordValidatorFunction(controllerPassword.text);
-    if (message == null && confirmMessage==null) {
-      return matchingPasswordValidator(value,controllerPassword.text) ? null : Languages.of(context)!.strMismatchingPasswords;
-    }
-    return message;
-  }
+      String? _emailValidatorFunction(String? value) {
+        String? message = _essentialFieldValidatorFunction(value);
+        if (message == null) {
+          return emailValidator(value) ? null : Languages.of(context)!
+              .strBadEmail;
+        }
+        return message;
+      }
 
-  void _signUp() {
-    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      _updatePerformingLogin(true);
-      emailPasswordSignUp(controllerEmail.text, controllerPassword.text, controllerConfirmPassword.text, context, widget._authRepository, widget._userStorage, failureCallback: () { _updatePerformingLogin(false); });
-     }
-  }
+      String? _passwordValidatorFunction(String? value) {
+        String? message = _essentialFieldValidatorFunction(value);
+        if (message == null) {
+          return lineLimitMinValidator(value, gc.defaultMinPasswordLimit)
+              ? null
+              : Languages.of(context)!.strMinPasswordLimit.replaceAll(
+              "%", gc.defaultMinPasswordLimit.toString());
+        }
+        return message;
+      }
 
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKey,
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * gc.pageHeightFactor,
-          child: Column(
-            children: [
-              const LoginImage(),
-              TextBox(
-                controllerEmail,
-                Languages.of(context)!.strEmailText,
-                validatorFunction: _emailValidatorFunction,
+      String? _confirmPasswordValidatorFunction(String? value) {
+        String? message = _passwordValidatorFunction(value);
+        String? confirmMessage = _passwordValidatorFunction(
+            controllerPassword.text);
+        if (message == null && confirmMessage == null) {
+          return matchingPasswordValidator(value, controllerPassword.text)
+              ? null
+              : Languages.of(context)!.strMismatchingPasswords;
+        }
+        return message;
+      }
+
+      void _signUp() {
+        if (_formKey.currentState != null &&
+            _formKey.currentState!.validate()) {
+          _updatePerformingLogin(true);
+          emailPasswordSignUp(controllerEmail.text, controllerPassword.text,
+              controllerConfirmPassword.text, context, widget._authRepository,
+              widget._userStorage, failureCallback: () {
+                _updatePerformingLogin(false);
+              });
+        }
+      }
+
+      @override
+      Widget build(BuildContext context) {
+        return SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: SizedBox(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * gc.pageHeightFactor,
+              child: Column(
+                children: [
+                  const LoginImage(),
+                  TextBox(
+                    controllerEmail,
+                    Languages.of(context)!.strEmailText,
+                    validatorFunction: _emailValidatorFunction,
+                  ),
+                  TextBox(
+                    controllerPassword,
+                    Languages.of(context)!.strPassword,
+                    hideText: signUpPasswordVisible,
+                    suffix: PasswordEye(signUpPasswordVisible, _hideText),
+                    validatorFunction: _passwordValidatorFunction,
+                  ),
+                  TextBox(
+                    controllerConfirmPassword,
+                    Languages.of(context)!.strConfirmPassword,
+                    hideText: confirmPasswordVisible,
+                    suffix: PasswordEye(
+                        confirmPasswordVisible, _hideConfirmText),
+                    validatorFunction: _confirmPasswordValidatorFunction,
+                  ),
+                  SizedBox(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width / gc.buttonsScale,
+                      child: GoogleButton(
+                          widget._authRepository, widget._userStorage)),
+                  SizedBox(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width / gc.buttonsScale,
+                      child: FacebookButton(
+                          widget._authRepository, widget._userStorage)),
+                  _performingLogin
+                      ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                      : ElevatedButton(
+                    child: Text(Languages.of(context)!.strSignUp),
+                    onPressed: _signUp,
+                  ),
+                ],
               ),
-              TextBox(
-                controllerPassword,
-                Languages.of(context)!.strPassword,
-                hideText: signUpPasswordVisible,
-                suffix: PasswordEye(signUpPasswordVisible,_hideText),
-                validatorFunction: _passwordValidatorFunction,
-              ),
-              TextBox(
-                controllerConfirmPassword,
-                Languages.of(context)!.strConfirmPassword,
-                hideText: confirmPasswordVisible,
-                suffix: PasswordEye(confirmPasswordVisible,_hideConfirmText),
-                validatorFunction: _confirmPasswordValidatorFunction,
-              ),
-              SizedBox(
-                  width: MediaQuery.of(context).size.width/gc.buttonsScale,
-                  child: GoogleButton(widget._authRepository, widget._userStorage)),
-              SizedBox(
-                  width: MediaQuery.of(context).size.width/gc.buttonsScale,
-                  child: FacebookButton(widget._authRepository, widget._userStorage)),
-              _performingLogin
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : ElevatedButton(
-                      child: Text(Languages.of(context)!.strSignUp),
-                      onPressed: _signUp,
-                    ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
-  }
-}
+        );
+      }
+    }
+
