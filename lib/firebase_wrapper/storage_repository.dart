@@ -253,7 +253,7 @@ class UserStorage with ChangeNotifier {
     GoogleAnalytics.instance.logEntrySaved(Entry.Transaction, EntryOperation.Remove, category);
   }
 
-  bool editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction) {
+  bool editTransaction(model.Category oldCategory, String newCategoryName, model.Transaction oldTransaction, model.Transaction newTransaction,{XFile? pickedImage}) {
     oldCategory = _balance.findCategory(oldCategory.name, oldCategory.isIncome);
     model.Category category = (newCategoryName == oldCategory.name) ? oldCategory : _balance.findCategory(newCategoryName, oldCategory.isIncome);
 
