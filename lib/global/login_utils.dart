@@ -81,6 +81,7 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
         await userStorage.SEND_fullBalanceModel(balance: lastBalance);
         GeneralInfoDispatcher.reset();
         userStorage.SEND_initialUserDoc();
+        userStorage.SEND_resetUserMessages();
         GoogleAnalytics.instance.logSignUp(loginFunctionName);
       }
 
