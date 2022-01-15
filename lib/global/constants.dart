@@ -306,11 +306,13 @@ const EdgeInsets summeryTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 BorderRadius summeryTilesRadius = BorderRadius.circular(20);
 const EdgeInsets summeryHorizontalPadding = const EdgeInsets.only(left: 8.0, right: 8.0);
 const EdgeInsets summeryVerticalPadding = const EdgeInsets.only(top: 8.0, bottom: 8.0);
+const EdgeInsets summeryAllAroundPadding = const EdgeInsets.all(8);
 const double setWorkspaceButtonPadding = 10;
 const double setWorkspaceButtonWidth = 75;
 const double setWorkspaceButtonHeight = 25;
 const double currentWorkspaceBoxScale = 4;
 const double summeryChartBoxScale = 4.2;
+const double summeryTextScale = 2.6;
 const double summaryTooltipFontSize = 12;
 
 // Rate Us
