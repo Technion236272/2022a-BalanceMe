@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Form(
         key: _formKey,
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * gc.pageHeightFactor,
+          height: MediaQuery.of(context).size.height * ((MediaQuery.of(context).orientation == Orientation.landscape) ? gc.pageHeightFactorLandscape : gc.pageHeightFactorPortrait),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
