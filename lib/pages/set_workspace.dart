@@ -245,7 +245,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       padding: gc.workspaceTilePadding,
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
+          color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(gc.entryBorderRadius),
           border: Border.all(
             color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).disabledColor,
@@ -259,7 +259,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             workspace,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).hoverColor,
+              color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).hintColor : Theme.of(context).hoverColor,
               fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal,
             ),
           ),
