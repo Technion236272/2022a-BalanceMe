@@ -204,20 +204,16 @@ class _SetTransactionState extends State<SetTransaction> {
                   ),
                   SizedBox(
                     width: gc.smallTextFields,
-                    child: Column(
-                      children: [
-                        FormTextField(
-                          _transactionAmountController,
-                          1,
-                          1,
-                          widget._currentCategory.isIncome ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense,
-                          isValid: true,
-                          isNumeric: true,
-                          isEnabled: widget._mode != DetailsPageMode.Details,
-                          validatorFunction: _positiveNumberValidatorFunction,
-                        ),
-                        Divider(color: Theme.of(context).primaryColorLight)
-                      ],
+                    child: FormTextField(
+                      _transactionAmountController,
+                      1,
+                      1,
+                      widget._currentCategory.isIncome ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense,
+                      isBordered: false,
+                      isValid: true,
+                      isNumeric: true,
+                      isEnabled: widget._mode != DetailsPageMode.Details,
+                      validatorFunction: _positiveNumberValidatorFunction,
                     ),
                   ),
                   Padding(
