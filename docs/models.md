@@ -50,3 +50,20 @@ and its attributes
 * [ ] isDarkMode- a boolean which represents whether the user switched dark mode on, default is false.
 * [ ] language- a string which represents the language of the app, default is the user's language setting in his phone.
 
+## Workspace model
+> The workspace model is used to maintain the members of a workspace.
+> A workspace is a group of users, which maintains its own categories and transactions.
+> The workspace model has the following properties:
+
+* [ ] users - a sorted list of user emails, which represents the members of the workspace.
+* [ ] leader - a string which represents the user who added the workspace.
+* [ ] pendingJoiningRequests - a sorted list of users, which requested to join into the current workspace.
+* [ ] lastUpdatedDate- a Datetime which represents the last date in which the workspace was changed.
+
+## Belongs Workspace model
+> The belongs-workspace model is used to maintain the workspaces a user belongs to.
+> A user can be the leader of a workspace (by creating it) or a member of an existing workspace.
+> The belongs-workspace model has the following properties:
+* [ ] belongs- a sorted list of strings, which represents the workspaces the user is in.
+* [ ] joiningRequests -a sorted list of strings, which represents requests to join other workspaces by their names.
+* [ ] invitations-a sorted list of strings, which represents the workspaces which a user has been invited into.

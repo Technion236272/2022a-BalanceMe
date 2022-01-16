@@ -12,6 +12,12 @@ important directories and files in the app,
 > this folder contains the models used in the app,
 > for more detailed information-please read the models document.
 
+##controllers
+> this folder contains controllers and associated functions
+> for features which are required for most of the app
+* [ ] messages_controller- handles workspace messages, such as invitations and join requests.
+* [ ] theme_controller- handles dark mode, as well as the colors used in the app's UI
+
 ##firebase_wrapper
 > this folder contains wrapper classes 
 > for Firebase functions,
@@ -37,6 +43,9 @@ such as colors, icons, default values,padding sizes, etc.
 * [ ] login_utils- functions which are used for authentication, such as login and signing up via different providers.
 * [ ] types- enumerations and typedefs for complex types such as callbacks, authentication status, currency, etc.
 * [ ] utils- functions which are used in multiple files such as navigation and validators.
+* [ ] dispatcher- a list of methods which need to be listened to and modify the app's consumers
+* [ ] rate_us- a widget which allows a user to rate the app on Google play, as well as add a description.
+
 ##assets  
 > this folder contains static images
 > which we display in the app
@@ -59,6 +68,10 @@ such as colors, icons, default values,padding sizes, etc.
 * [ ] set_transaction-a page where the user adds a transaction (after pressing FAB)
 * [ ] settings- the main settings page
 * [ ] welcome- the home page shown if a user isn't signed in.
+* [ ] archive- a page where the user can view past transactions, category, by month/year
+* [ ] connection_lost- an error page shown if the user has no internet connection
+* [ ] set_workspace- the page where users can create, join and invite to workspaces
+* [ ] summary- a page which shows the user the total difference between expected and total incomes/expenses
 
 ##widgets
 > generic widgets used
@@ -69,7 +82,7 @@ such as colors, icons, default values,padding sizes, etc.
 * [ ] action_button- generic button which shows a loading circle until function ends
 * [ ]  appbar- appbar design shown throughout the app
 * [ ] bottom_navigation- widget to navigate between the three main screens
-* [ ] designed_date_picker- widget for displaying a calender to choose a date
+* [ ] date_picker- widget for displaying a calender to choose a date
 * [ ] user_avatar- widget for displaying the user's profile image
 * [ ] text box widgets- for uniform look for text fields and customizable optional fields
 * [ ] ring_pie_chart- shows pie charts in the balance page
@@ -80,4 +93,6 @@ such as colors, icons, default values,padding sizes, etc.
 * [ ]  generic_listview- widgets for showing multiple items in a ListView
 * [ ] generic_info- for displaying entries in the balance page
 * [ ]  generic_edit_button- a button which indicates certain widgets can be changed
-
+* [ ] dark_mode_switcher- the switch for dark mode in settings
+* [ ] generic_dismissible- widget for items which can be removed by swiping
+* [ ] generic_tooltip- a widget which shows a hint about the functionality of another widget.

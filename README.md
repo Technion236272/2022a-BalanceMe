@@ -24,14 +24,14 @@ customized for every user.*
 
 
 * [ ] Create and manage income and expense categories as you want.
-* [ ] View statistics about your expenses over time.
+* [ ] View statistics about your expenses over time in a user-friendly archive.
 * [ ] Allocate and keep track of your budget.
 
 ## Complementary Features
 
 * [ ] Set your group of friends/family/organization to share the same budget and keep track of their spending habits.
-* [ ] Create target goals to allocate savings to.
-* [ ] Filter and sort expense/income categories based on money spent,date, and other parameters.
+* [ ] Change the currency you use for keeping track of your spending abroad.
+* [ ] Keep an attached image of your receipt with your transaction.
 
 ## Table of contents
 [Overview](/docs/overview.md)
