@@ -112,6 +112,12 @@ class LanguageEn extends Languages {
   String get strLastName => "Last name";
 
   @override
+  String get strFirstNameLabel => "Enter first name";
+
+  @override
+  String get strLastNameLabel => "Enter last name";
+
+  @override
   String get strWeakPassword => "Your password is too weak, type in a stronger password";
 
   @override

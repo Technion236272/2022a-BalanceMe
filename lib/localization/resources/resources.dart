@@ -45,6 +45,8 @@ abstract class Languages {
   String get strFinish;
   String get strFirstName;
   String get strLastName;
+  String get strFirstNameLabel;
+  String get strLastNameLabel;
   String get strWeakPassword;
   String get strNotSignedIn;
   String get strSignInTimeout;

@@ -183,6 +183,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     _updateLastName();
     _saveProfile();
     _enableEditFirstName(null);
+    _enableEditLastName(null);
   }
 
   @override
@@ -199,7 +200,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 height: MediaQuery.of(context).size.width/gc.avatarSizedBoxHeightScale,
                 child: Stack(
                   children: [
-                    UserAvatar(widget.authRepository, MediaQuery.of(context).size.width/gc.profileAvatarRadiusScale,),
+                    Center(child: UserAvatar(widget.authRepository, MediaQuery.of(context).size.width/gc.profileAvatarRadiusScale)),
                     Positioned(
                       right:0,
                       bottom: 0,
@@ -232,13 +233,15 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ),
             TextBox(
               _controllerFirstName,
-              Languages.of(context)!.strFirstName,
+              Languages.of(context)!.strFirstNameLabel,
+              labelText: Languages.of(context)!.strFirstName,
               haveBorder: false,
               onChanged: _enableEditFirstName,
             ),
             TextBox(
               _controllerLastName,
-              Languages.of(context)!.strLastName,
+              Languages.of(context)!.strLastNameLabel,
+              labelText: Languages.of(context)!.strLastName,
               haveBorder: false,
               onChanged: _enableEditLastName,
             ),

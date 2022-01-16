@@ -33,7 +33,7 @@ class _UserAvatarState extends State<UserAvatar> {
               ),
             ),
           )
-        : const Icon(gc.emptyAvatarIcon,
-            size: gc.settingDefaultAppbarAvatarSize);
+        : Icon(gc.emptyAvatarIcon,
+            size: widget._radius);
   }
 }

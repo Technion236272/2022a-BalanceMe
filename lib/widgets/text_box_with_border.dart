@@ -15,11 +15,12 @@ import 'package:balance_me/global/constants.dart' as gc;
 /// textBoxHeight-optional, the height of the text box (specified in the height parameter)
 /// textBoxSize-optional inner padding in the text box which will increase its size- for longer text
 class TextBox extends StatelessWidget {
-  const TextBox(this.controller, this._hintText, {this.hideText = false, this.haveBorder = true,
+  const TextBox(this.controller, this._hintText, {this.labelText, this.hideText = false, this.haveBorder = true,
     this.suffix, this.textBoxHeight, this.textBoxSize, this.validatorFunction, this.isNumeric = false, this.languageDirection, Key? key, this.onChanged, this.textAlign}) : super(key: key);
 
   final TextEditingController controller;
   final String? _hintText;
+  final String? labelText;
   final bool hideText;
   final Widget? suffix;
   final bool haveBorder;
@@ -49,7 +50,7 @@ class TextBox extends StatelessWidget {
           decoration: InputDecoration(
             contentPadding: textBoxSize,
             hintText: _hintText,
-            label: _hintText == null ? null : Text(_hintText!),
+            label: labelText == null ? (_hintText == null ? null : Text(_hintText!)) : Text(labelText!),
             suffixIcon: suffix,
           ),
         ),
