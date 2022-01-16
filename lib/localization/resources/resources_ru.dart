@@ -507,6 +507,9 @@ class LanguageRu extends Languages {
   @override
   String get strCantRemovePersonalWorkspace => "You can't remove your personal workspace";
 
+  @override
+  String get strCantInviteSinceUserNotUpdated => "The invitation couldn't be sent since the invited user needs to update his app";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "вид";

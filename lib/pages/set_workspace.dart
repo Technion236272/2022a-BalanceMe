@@ -153,10 +153,16 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
       String invitedUser = _modalBottomSheetController.text.toLowerCase();
       if (await userStorage.isExist_generalInfo(invitedUser)) {
-        userStorage.SEND_updateInvitationsList(userStorage.userData!.currentWorkspace, invitedUser, true);
-        userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, invitedUser);
-        displaySnackBar(context, Languages.of(context)!.strInvitedSuccessfullyWorkspace);
-        GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, invitedUser);
+
+        if (!await userStorage.isExist_BelongsWorkspaces(user: invitedUser)) {
+          displaySnackBar(context, Languages.of(context)!.strCantInviteSinceUserNotUpdated);
+
+        } else {
+          userStorage.SEND_updateInvitationsList(userStorage.userData!.currentWorkspace, invitedUser, true);
+          userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, invitedUser);
+          displaySnackBar(context, Languages.of(context)!.strInvitedSuccessfullyWorkspace);
+          GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, invitedUser);
+        }
       } else {
         displaySnackBar(context, Languages.of(context)!.strUserNotFound);
       }

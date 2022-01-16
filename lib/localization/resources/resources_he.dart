@@ -508,6 +508,9 @@ class LanguageHe extends Languages {
   @override
   String get strCantRemovePersonalWorkspace => "‎לא ניתן למחוק את מרחב העבודה הפרטי";
 
+  @override
+  String get strCantInviteSinceUserNotUpdated => "‎לא היה ניתן לשלוח את ההזמנה מכיוון שהמשתמש שהוזמן צריך לעדכן את האפליקציה";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "‎סוג";

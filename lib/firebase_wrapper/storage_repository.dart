@@ -397,8 +397,9 @@ class UserStorage with ChangeNotifier {
     return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.generalInfoDoc));
   }
 
-  Future<bool> isExist_BelongsWorkspaces() async {
-    return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.belongsWorkspaces), specificKey: config.belongsWorkspaces);
+  Future<bool> isExist_BelongsWorkspaces({String? user}) async {
+    user = (user == null) ? _authRepository!.user!.email! : user;
+    return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.belongsWorkspaces), specificKey: config.belongsWorkspaces);
   }
 
   Future<bool> isExist_BalanceModel() async {
