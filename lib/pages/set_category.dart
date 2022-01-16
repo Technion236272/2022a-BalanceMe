@@ -178,20 +178,16 @@ class _SetCategoryState extends State<SetCategory> {
                 ),
                 SizedBox(
                   width: gc.smallTextFields,
-                  child: Column(
-                    children: [
-                      FormTextField(
-                          _categoryExpectedController,
-                          1,
-                          1,
-                          Languages.of(context)!.expected,
-                          isValid: true,
-                          isNumeric: true,
-                          isEnabled: widget._mode != DetailsPageMode.Details,
-                          validatorFunction: _positiveNumberValidatorFunction,
-                      ),
-                      Divider(color: Theme.of(context).primaryColorLight),
-                    ],
+                  child: FormTextField(
+                      _categoryExpectedController,
+                      1,
+                      1,
+                      Languages.of(context)!.expected,
+                      isBordered: false,
+                      isValid: true,
+                      isNumeric: true,
+                      isEnabled: widget._mode != DetailsPageMode.Details,
+                      validatorFunction: _positiveNumberValidatorFunction,
                   ),
                 ),
                 Padding(

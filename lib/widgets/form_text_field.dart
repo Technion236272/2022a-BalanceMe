@@ -22,10 +22,15 @@ class FormTextField  extends StatelessWidget {
   final StringCallbackStringNullable? validatorFunction;
   final bool autofocus;
 
-  OutlineInputBorder noBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(gc.textFieldRadius),
-      borderSide: BorderSide.none,
+  UnderlineInputBorder underlineFocus(BuildContext context) {
+    return UnderlineInputBorder(
+      borderSide: BorderSide(color: Theme.of(context).toggleableActiveColor),
+    );
+  }
+
+  UnderlineInputBorder underlineUnFocus(BuildContext context) {
+    return UnderlineInputBorder(
+      borderSide: BorderSide(color: gc.dividerColor),
     );
   }
 
@@ -41,10 +46,9 @@ class FormTextField  extends StatelessWidget {
       textDirection: getTextDirection(Languages.of(context)!.languageDirection),
       decoration: InputDecoration(
         hintText: _hintText,
-        border: isBordered ? null : noBorder(),
-        focusedBorder: isBordered ? null : noBorder(),
-        enabledBorder: isBordered ? null : noBorder(),
-        errorBorder: isBordered ? null : noBorder(),
+        border: isBordered ? null : underlineUnFocus(context),
+        focusedBorder: isBordered ? null : underlineFocus(context),
+        enabledBorder: isBordered ? null : underlineUnFocus(context),
       ),
       textAlign: isValid ? TextAlign.center : TextAlign.start,
       initialValue: initialValue,
