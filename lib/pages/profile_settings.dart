@@ -78,9 +78,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   void _saveProfile() {
     widget.userStorage.SEND_generalInfo();
-    //TODO - Make sure the logic is correct
-    _isDisabledFirstName = true;
-    _isDisabledLastName = true;
     displaySnackBar(context, Languages.of(context)!.strProfileUpdateSuccessful);
   }
 
@@ -186,6 +183,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     _updateLastName();
     _saveProfile();
     _enableEditFirstName(null);
+    _enableEditLastName(null);
   }
 
   @override
