@@ -47,6 +47,9 @@ class UserStorage with ChangeNotifier {
       _userData = (authRepository.user != null) ? _userData : UserModel(userEmail);
 
       if (!await isExist_BelongsWorkspaces()) {
+        if (!await isExist_BalanceModel()) {
+          await SEND_fullBalanceModel();
+        }
         await SEND_initialUserDoc();
         await SEND_resetUserMessages();
       }
