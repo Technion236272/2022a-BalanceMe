@@ -91,7 +91,8 @@ const double padStackRight = 20.0;
 const double padStackBottom = 40.0;
 const double borderWidth = 2.0;
 const double fontSizeLoginImage = 16;
-const double pageHeightFactor = 1.3;
+const double pageHeightFactorPortrait = 1.1;
+const double pageHeightFactorLandscape = 1.8;
 
 // Navigation
 int settingPageIndex = AppPages.Settings.index;
