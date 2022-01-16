@@ -419,10 +419,9 @@ class LanguageEn extends Languages {
   String get strWorkspace => "Workspace";
 
   @override
-  String get strWorkspaceExplanation => "‎מרחב עבודה מאפשר לנהל ולשתף את המאזן החודשי בין מספר משתמשים.\nבעמוד זה ניתן להוסיף מרחב חדש (אם המרחב כבר קיים ניתן לשלוח בקשת הצטרפות למייסד המרחב), להזמין משתמשים למרחב, למחוק מרחב ולהחליף בין מרחבים.";  // TODO- translate to english
-
+  String get strWorkspaceExplanation => "Workspaces allow the user to share and manage their monthly balance amongst multiple users.\nIn this screen, you can add a new workspace, join an existing one, invite new users, delete a workspace, and switch between them.";
   @override
-  String get strWorkspaceTooltip => "‎כל מרחב עבודה מתפקד כיחידה עצמאית וכל שינוי, הוספה והסרה ישתקף בו ולא ישפיע על מרחבים אחרים. ניתן לפתוח מספר לא מוגבל של מרחבי עבודה ולשתף כל אחד מהם עם מספר לא מוגבל של משתמשים. כל שינוי, הוספה או הסרה של הכנסה או הוצאה במרחב ישתקף אוטומטית אצל כל המשתמשים במרחב. ניתן להשתמש במרחבי העבודה גם לניהול אירוע מיוחד הדורש תכנון ספיציפי בפני עצמו, כגון אירוע משפחתי, טיול ועוד.";  // TODO- translate to english
+  String get strWorkspaceTooltip => "Each workspace functions as an independent unit, ie. any change to the workspace will not affect other workspaces and will be reflected immediately in its members' accounts. There is no limit on the total number of workspaces or members. Additionally, workspaces can be used to plan special events which require separate planning, for example, family events, trips, etc.";
 
   @override
   String get strChooseWorkspace => "Choose workspace:";
