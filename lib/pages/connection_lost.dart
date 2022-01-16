@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class ConnectionLostPage extends StatelessWidget {
   @override
@@ -8,7 +9,7 @@ class ConnectionLostPage extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            "assets/images/10_Connection Lost.png",
+            gc.lostConnectionImage,
             fit: BoxFit.cover,
           ),
           Positioned(
@@ -25,7 +26,7 @@ class ConnectionLostPage extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

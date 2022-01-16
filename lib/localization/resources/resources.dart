@@ -206,6 +206,7 @@ abstract class Languages {
   String get strLegalese;
   String get strScalesIcon;
   String get strLoadIcon;
+  String get strLostConnectionImage;
 
   // Monthly Report
   String get strMonthlyReportSubject;
