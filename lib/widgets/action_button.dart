@@ -28,7 +28,7 @@ class ActionButton extends StatelessWidget {
       child: Text(_textButton),
       onPressed: _onPressedCallback,
       style: ElevatedButton.styleFrom(
-        onSurface: gc.disabledColor,
+        onSurface: Theme.of(context).hoverColor,
       ),
     );
   }

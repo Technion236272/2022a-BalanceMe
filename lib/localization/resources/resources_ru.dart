@@ -109,6 +109,12 @@ class LanguageRu extends Languages {
 
   @override
   String get strLastName => "фамилия";
+//TODO - Add Translation
+  @override
+  String get strFirstNameLabel => "Enter first name";
+
+  @override
+  String get strLastNameLabel => "Enter last name";
 
   @override
   String get strWeakPassword => "ваш пароль слишком слабый, напишите сильны пароль.";

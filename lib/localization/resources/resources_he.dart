@@ -111,6 +111,12 @@ class LanguageHe extends Languages {
   String get strLastName => "שם משפחה‎";
 
   @override
+  String get strFirstNameLabel => "הכנס שם פרטי‎";
+
+  @override
+  String get strLastNameLabel => "הכנס שם משפחה‎";
+
+  @override
   String get strWeakPassword => "‎הסיסמה חלשה מדי, יש לרשום סיסמה חזקה יותר";
 
   @override
