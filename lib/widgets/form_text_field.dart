@@ -28,7 +28,7 @@ class FormTextField  extends StatelessWidget {
     );
   }
 
-  UnderlineInputBorder underlineUnFocus(BuildContext context) {
+  UnderlineInputBorder underlineUnFocus() {
     return UnderlineInputBorder(
       borderSide: BorderSide(color: gc.dividerColor),
     );
@@ -46,9 +46,9 @@ class FormTextField  extends StatelessWidget {
       textDirection: getTextDirection(Languages.of(context)!.languageDirection),
       decoration: InputDecoration(
         hintText: _hintText,
-        border: isBordered ? null : underlineUnFocus(context),
+        border: isBordered ? null : underlineUnFocus(),
         focusedBorder: isBordered ? null : underlineFocus(context),
-        enabledBorder: isBordered ? null : underlineUnFocus(context),
+        enabledBorder: isBordered ? null : underlineUnFocus(),
       ),
       textAlign: isValid ? TextAlign.center : TextAlign.start,
       initialValue: initialValue,
