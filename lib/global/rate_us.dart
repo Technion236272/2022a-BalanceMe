@@ -49,6 +49,7 @@ class RateUs extends StatelessWidget {
         height: gc.rateUsImageSize,
         child: Image.asset(gc.balanceImage),
       ),
+      starSize: gc.rateUsStarSize,
       submitButtonText: Languages.of(context)!.strSubmit,
       commentHint: Languages.of(context)!.strCommentHint,
       onCancelled: _onCancel,

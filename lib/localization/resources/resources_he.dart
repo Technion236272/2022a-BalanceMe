@@ -396,7 +396,7 @@ class LanguageHe extends Languages {
   String get strExpectedBankBalance => "‎מאזן מצופה בבנק";
 
   @override
-  String get strBeginningMonthBalance => "‎מאזן בבנק בתחילת החודש";
+  String get strBeginningMonthBalance => "‎מאזן הבנק בתחילת החודש";
 
   @override
   String get strBankInfo => "‎מאזן נוכחי בבנק = מאזן בבנק + מאזן בפועל \nמאזן מצופה בבנק = מאזן בבנק + מאזן צפוי";
@@ -569,10 +569,10 @@ class LanguageHe extends Languages {
   String get strFinalExpenses => "‎סך כל ההוצאות";
 
   @override
-  String get strEndOfMonthBankBalance => "‎המאזן בבנק בסוף החודש";
+  String get strEndOfMonthBankBalance => "‎המאזן הבנק בסוף החודש";
 
   @override
-  String get strSendMonthlyReport => "‎קבל דו״ח חודשי";
+  String get strSendMonthlyReport => "‎קבלת דו״ח חודשי";
 
   @override
   String get strSendMonthlyReportInfo => "‎יש לסמן אם ברצונך לקבל בדואר האלקטרוני דו״ח בסוף כל חודש";

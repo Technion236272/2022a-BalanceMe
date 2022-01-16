@@ -48,7 +48,7 @@ class UserStorage with ChangeNotifier {
 
       if (!await isExist_BelongsWorkspaces()) {
         await SEND_initialUserDoc();
-        SEND_resetUserMessages();
+        await SEND_resetUserMessages();
       }
 
       if (_userMessagesStream == null) {
@@ -90,12 +90,13 @@ class UserStorage with ChangeNotifier {
 
   void createUserData() {
     BuildContext? context = globalNavigatorKey.currentContext;
+    String languageCode = (context == null) ? getLocale().languageCode : Languages.of(context)!.languageCode;
     _userData = UserModel(
       (_authRepository != null && _authRepository!.getEmail != null ? _authRepository!.getEmail! : ""),
       firstName: (_userData == null) ? null : _userData!.firstName,
       lastName: (_userData == null) ? null : _userData!.lastName,
       isDarkMode: globalIsDarkMode,
-      language: (_userData == null || _userData!.language == "" || context == null) ? Languages.of(context!)!.languageCode : _userData!.language
+      language: (_userData == null || _userData!.language == "") ? languageCode : _userData!.language
     );
   }
 
@@ -258,7 +259,7 @@ class UserStorage with ChangeNotifier {
   }
 
   Future<String?> _getLastUpdatedDate() async {
-    if (_userData == null || _authRepository == null) {
+    if (_userData == null || _authRepository == null || _userData!.currentWorkspace == "") {
       return null;
     } else if (_userData!.currentWorkspace == _authRepository!.getEmail) {
       return _userData!.lastUpdatedDate;
@@ -278,7 +279,8 @@ class UserStorage with ChangeNotifier {
   void getBalanceAfterEndOfMonth() {
     GeneralInfoDispatcher.subscribe(() async {
       String date = getCurrentMonthPerEndMonthDay(_userData!.endOfMonthDay, DateTime.now());
-      if (currentDate == null || _userData == null || await _getLastUpdatedDate() == date) {
+      String? currentData = await _getLastUpdatedDate();
+      if (currentDate == null || _userData == null || currentData == null || currentData == date) {
         return;
       }
 
@@ -475,7 +477,7 @@ class UserStorage with ChangeNotifier {
 
   // SEND
   Future<void> SEND_generalInfo() async {
-    if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
+    if (_authRepository != null && _authRepository!.getEmail != null && _userData != null && _userData!.currentWorkspace != "") {
       await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).set({
       config.generalInfoDoc: _userData!.toJson(),
       });
@@ -565,7 +567,7 @@ class UserStorage with ChangeNotifier {
   Future<void> SEND_initialUserDoc() async {
     if (_authRepository != null && _authRepository!.getEmail != null) {
       createUserData();
-      SEND_generalInfo();
+      await SEND_generalInfo();
       await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.belongsWorkspaces).set({
         config.belongsWorkspaces: BelongsWorkspaces(_authRepository!.getEmail!).toJson(),
       });
@@ -667,9 +669,9 @@ class UserStorage with ChangeNotifier {
     _SEND_messageToUser(receiver, {"type": UserMessage.ShowMessage.index, "message": message, "user": user, "workspace": workspace});
   }
 
-  void SEND_resetUserMessages() async {
+  Future<void> SEND_resetUserMessages() async {
     if (_authRepository != null && _authRepository!.getEmail != null) {
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).set({
+      return await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).set({
         config.userMessages: [],
       });
     } else {

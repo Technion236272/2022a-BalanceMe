@@ -91,7 +91,7 @@ const double padStackRight = 20.0;
 const double padStackBottom = 40.0;
 const double borderWidth = 2.0;
 const double fontSizeLoginImage = 16;
-const double pageHeightFactorPortrait = 1.1;
+const double pageHeightFactorPortrait = 1.55;
 const double pageHeightFactorLandscape = 1.8;
 
 // Navigation
@@ -322,6 +322,7 @@ const double summaryTooltipFontSize = 12;
 const double rateUsImageSize = 120;
 const double rateUsAppNameFontSize = 25;
 const double rateUsExplanationFontSize = 15;
+const double rateUsStarSize = 38;
 
 // InviteFriend
 const String googlePlayURL = "https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me";
