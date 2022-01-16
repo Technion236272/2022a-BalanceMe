@@ -543,6 +543,9 @@ class LanguageHe extends Languages {
   @override
   String get strLoadIcon => "אייקון טעינה‎";
 
+  @override
+  String get strLostConnectionImage => "‎תמונה בעיה ברשת";
+
   // Monthly Report
   @override
   String get strMonthlyReportSubject => "‎הדו״ח לחודש % כבר כאן!";

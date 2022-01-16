@@ -115,6 +115,15 @@ class _SettingsState extends State<Settings> {
             trailing: Text(Languages.of(context)!.strLoadIcon),
           ),
           const Text(gc.loadLink, style: TextStyle(fontSize: gc.attributeFontSize)),
+          ListTile(
+            leading: Image.asset(
+              gc.lostConnectionImage,
+              height: MediaQuery.of(context).size.height / gc.scalesProportion,
+              width: MediaQuery.of(context).size.width / gc.scalesProportion,
+            ),
+            trailing: Text(Languages.of(context)!.strLostConnectionImage),
+          ),
+          const Text(gc.lostConnectionImageLink, style: TextStyle(fontSize: gc.attributeFontSize)),
         ],
     );
   }

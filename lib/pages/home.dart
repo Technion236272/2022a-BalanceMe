@@ -1,7 +1,7 @@
 // ================= Home Page =================
 import 'package:flutter/material.dart';
 import 'package:cross_connectivity/cross_connectivity.dart';
-import 'package:balance_me/pages/connection_lost_page.dart';
+import 'package:balance_me/pages/connection_lost.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/appbar.dart';
 import 'package:balance_me/widgets/bottom_navigation.dart';

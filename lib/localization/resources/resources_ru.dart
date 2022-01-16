@@ -539,6 +539,12 @@ class LanguageRu extends Languages {
   @override
   String get strScalesIcon => "Значок Весы";
 
+  @override
+  String get strLoadIcon => "значок загрузки";
+
+  @override
+  String get strLostConnectionImage => "Lost connection image";
+
   // Monthly Report
   @override
   String get strMonthlyReportSubject => "Your Report For Month % Is Here! [Workspace: #]";
@@ -563,9 +569,6 @@ class LanguageRu extends Languages {
 
   @override
   String get strSendMonthlyReportInfo => "Mark it if you wish to get a monthly report to your email at the end of the month";
-
-  @override
-  String get strLoadIcon => "значок загрузки";
 
   // RateUs
   @override

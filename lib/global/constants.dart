@@ -125,13 +125,14 @@ const double unselectedTabFontSize = 14.0;
 const double tabPadding = 5.0;
 
 //images
-const String balanceImage = 'assets/images/main.png';
+const String balanceImage = 'assets/images/balance_image.png';
 const String wallet = 'assets/images/wallet.png';
 const String lock = 'assets/images/recovery-password.png';
 const String key = 'assets/images/key.png';
 const double imageScale = 3.0;
 const double walletScale = 5.0;
 const String load='assets/images/load.png';
+const String lostConnectionImage = "assets/images/connection_lost.png";
 
 // RingPieChart
 const String pieChartInnerRadius = '65%';
@@ -281,11 +282,12 @@ const String google="google.com";
 const String regular="password";
 const int maxAccounts=2;
 
-//about
+//About
 const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
-const String loadLink="https://www.freeiconspng.com/img/7952";
+const String loadLink = "https://www.freeiconspng.com/img/7952";
+const String lostConnectionImageLink = "https://raw.githubusercontent.com/abuanwar072/20-Error-States-Flutter/master/assets/images/1_No%20Connection.png";
 
 //Workspaces
 const double bottomSheetSizeScale = 3.5;
