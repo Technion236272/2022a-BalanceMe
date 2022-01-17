@@ -101,15 +101,16 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
     return supportedLocales.first;
   }
 
-  void _disableCrashlyticsInDebug() async {
+  void _disableMonitorInDebug() async {
     if (kDebugMode) {
       await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+      await widget.performance.setPerformanceCollectionEnabled(false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _disableCrashlyticsInDebug();
+    _disableMonitorInDebug();
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<AuthRepository>(create: (_) => AuthRepository.instance()),
