@@ -37,7 +37,9 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
       child: Column(
         children: [
           RingPieChart(widget._categories, true, null),
-          AddCategoryButton(widget._categories.first.isIncome),
+          Visibility(
+              visible: userStorage.currentDate!=null,
+              child: AddCategoryButton(widget._categories.first.isIncome)),
           Card(
             shadowColor: gc.primaryColor.withOpacity(0.5),
             elevation: gc.cardElevationHeight,

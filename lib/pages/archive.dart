@@ -83,14 +83,13 @@ class _ArchiveState extends State<Archive> {
   @override
   Widget build(BuildContext context) {
     DateTime currentMonth = getCurrentMonth((widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay);
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: GestureDetector(
-        onTap: _hideDatePicker,
-        child: Stack(
+    return GestureDetector(
+      onTap: _hideDatePicker,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Stack(
         children: [
           _waitingForData ? const Center(child: CircularProgressIndicator())
-
           : (_balanceModel != null && !_balanceModel!.isEmpty) ?
               ListView(children: [BalancePage(_balanceModel!, _setCurrentTab)])
               : GenericInfo(topInfo: Languages.of(context)!.strDataUnavailable),

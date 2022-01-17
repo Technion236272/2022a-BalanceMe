@@ -202,7 +202,7 @@ class _SummaryPageState extends State<SummaryPage> {
                     visible: showWorkspacesAndBankBalance,
                     child: SizedBox(
                         width: MediaQuery.of(context).size.width / gc.currentWorkspaceBoxScale,
-                        child: Text(userStorage.userData!.currentWorkspace)
+                        child: Center(child: Text(userStorage.userData!.currentWorkspace))
                     ),
                   ),
                 )
@@ -257,6 +257,9 @@ class _SummaryPageState extends State<SummaryPage> {
                 Languages.of(context)!.strExpectedBankBalance,
                 userStorage.userData!.bankBalance! + (_expectedIncomes - _expectedExpenses),
                 true) : Container(),
+            Visibility(
+                visible: !(showWorkspacesAndBankBalance && userStorage.userData!.currentWorkspace == authRepository.getEmail),
+                child: SizedBox(height: gc.archiveViewPadding,)),
             Divider(),
             _summaryCardWidget(Languages.of(context)!.strIncomeBalanceInfo, Languages.of(context)!.strCurrentIncomes, _currentIncomes, Languages.of(context)!.strExpectedIncomes, _expectedIncomes, true),
             _summaryCardWidget(Languages.of(context)!.strExpensesBalanceInfo, Languages.of(context)!.strCurrentExpenses, _currentExpenses, Languages.of(context)!.strExpectedExpenses, _expectedExpenses, false),
