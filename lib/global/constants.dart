@@ -313,10 +313,11 @@ const EdgeInsets summeryAllAroundPadding = const EdgeInsets.all(8);
 const double setWorkspaceButtonPadding = 10;
 const double setWorkspaceButtonWidth = 75;
 const double setWorkspaceButtonHeight = 25;
-const double currentWorkspaceBoxScale = 4;
+const double currentWorkspaceBoxScale = 2;
 const double summeryChartBoxScale = 4.2;
 const double summeryTextScale = 2.6;
 const double summaryTooltipFontSize = 12;
+const double archiveViewPadding = 30;
 
 // Rate Us
 const double rateUsImageSize = 120;
