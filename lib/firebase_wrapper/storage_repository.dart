@@ -26,6 +26,7 @@ import 'package:balance_me/global/constants.dart' as gc;
 
 class UserStorage with ChangeNotifier {
   UserStorage.instance(BuildContext context, AuthRepository authRepository) {
+    GeneralInfoDispatcher.reset();
     _buildUserStorage(authRepository);
     _userData = (_userData == null && _authRepository!.getEmail != null) ? UserModel(_authRepository!.getEmail!) : _userData;
 
@@ -281,13 +282,13 @@ class UserStorage with ChangeNotifier {
 
   void getBalanceAfterEndOfMonth() {
     GeneralInfoDispatcher.subscribe(() async {
-      String date = getCurrentMonthPerEndMonthDay(_userData!.endOfMonthDay, DateTime.now());
-      String? currentData = await _getLastUpdatedDate();
-      if (currentDate == null || _userData == null || currentData == null || currentData == date) {
+      String dateToday = getCurrentMonthPerEndMonthDay(_userData!.endOfMonthDay, DateTime.now());
+      String? lastDate = await _getLastUpdatedDate();
+      if (currentDate == null || _userData == null || lastDate == null || lastDate == dateToday) {
         return;
       }
 
-      _setLastUpdatedDate(date);
+      _setLastUpdatedDate(dateToday);
       DateTime previousMonth = DateTime(currentDate!.year, currentDate!.month - 1, currentDate!.day);
       BalanceModel? balanceModel = await GET_balanceModel(dateTime: previousMonth);
       SEND_balanceModelAfterLogin(balanceModel.filterCategoriesWithConstantsTransaction());
@@ -401,8 +402,11 @@ class UserStorage with ChangeNotifier {
   }
 
   Future<bool> isExist_BelongsWorkspaces({String? user}) async {
-    user = (user == null) ? _authRepository!.user!.email! : user;
-    return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.belongsWorkspaces), specificKey: config.belongsWorkspaces);
+    if (_authRepository != null && _authRepository!.getEmail != null) {
+      user = (user == null) ? _authRepository!.user!.email! : user;
+      return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.belongsWorkspaces), specificKey: config.belongsWorkspaces);
+    }
+    return false;
   }
 
   Future<bool> isExist_BalanceModel() async {
