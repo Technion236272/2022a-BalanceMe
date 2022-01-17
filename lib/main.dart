@@ -1,5 +1,4 @@
 // ================= Main App =================
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -11,12 +10,11 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:firebase_performance/firebase_performance.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:balance_me/pages/home.dart';
 import 'package:balance_me/global/types.dart';
-import 'controllers/theme_controller.dart';
 import 'package:balance_me/global/config.dart' as config;
+import 'controllers/theme_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,12 +27,15 @@ Future<void> main() async {
 }
 
 class App extends StatelessWidget {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  FirebasePerformance performance = FirebasePerformance.instance;
+
   App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Firebase.initializeApp(),
+      future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Scaffold(
@@ -42,7 +43,7 @@ class App extends StatelessWidget {
                   child: Text(snapshot.error.toString(), textDirection: TextDirection.ltr)));
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return BalanceMeApp();
+          return const BalanceMeApp();
         }
         return const Center(child: CircularProgressIndicator());
       },
@@ -51,8 +52,7 @@ class App extends StatelessWidget {
 }
 
 class BalanceMeApp extends StatefulWidget {
-  BalanceMeApp({Key? key}) : super(key: key);
-  final FirebasePerformance performance = FirebasePerformance.instance;
+  const BalanceMeApp({Key? key}) : super(key: key);
 
   static void setLocale(BuildContext context, Locale newLocale) {
     _BalanceMeAppState? state = context.findAncestorStateOfType<_BalanceMeAppState>();
@@ -101,15 +101,8 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
     return supportedLocales.first;
   }
 
-  void _disableCrashlyticsInDebug() async {
-    if (kDebugMode) {
-      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    _disableCrashlyticsInDebug();
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<AuthRepository>(create: (_) => AuthRepository.instance()),
