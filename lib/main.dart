@@ -9,11 +9,12 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-import 'package:firebase_performance/firebase_performance.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:balance_me/pages/home.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/config.dart' as config;
+import 'package:balance_me/global/constants.dart' as gc;
+
 import 'controllers/theme_controller.dart';
 
 Future<void> main() async {
@@ -28,7 +29,6 @@ Future<void> main() async {
 
 class App extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  FirebasePerformance performance = FirebasePerformance.instance;
 
   App({Key? key}) : super(key: key);
 
