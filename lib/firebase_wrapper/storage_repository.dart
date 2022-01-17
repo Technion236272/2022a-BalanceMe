@@ -75,6 +75,7 @@ class UserStorage with ChangeNotifier {
   AuthRepository? _authRepository;
   UserModel? _userData;
   BalanceModel _balance = BalanceModel();
+  BalanceModel? archiveBalance = null;
   DateTime? currentDate;
   StreamSubscription? _userMessagesStream;
 
@@ -86,6 +87,7 @@ class UserStorage with ChangeNotifier {
 
   void resetBalance() {
     _balance = BalanceModel();
+    archiveBalance = null;
   }
 
   void assignBalance(BalanceModel balanceModel) {

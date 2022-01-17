@@ -1,6 +1,5 @@
 // ================= Archive Page =================
 import 'package:flutter/material.dart';
-import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -25,7 +24,6 @@ class Archive extends StatefulWidget {
 
 class _ArchiveState extends State<Archive> {
   final DateRangePickerController _dateController = DateRangePickerController();
-  BalanceModel? _balanceModel;
   bool _isIncomeTab = false;
   bool _isVisible = false;
   bool _waitingForData = false;
@@ -33,6 +31,7 @@ class _ArchiveState extends State<Archive> {
   @override
   void initState(){
     super.initState();
+    widget._userStorage.archiveBalance = null;
     widget._userStorage.currentDate = null;
     if (widget._authRepository.status == AuthStatus.Authenticated) {
       widget._userStorage.resetBalance();
@@ -72,7 +71,7 @@ class _ArchiveState extends State<Archive> {
       }
 
       _waitingForData = true;
-      _balanceModel = await widget._userStorage.GET_balanceModel(dateTime: requestedRange, successCallback: _showMsgAccordingToBalance, failureCallback: _showMsgAccordingToBalance);
+      widget._userStorage.archiveBalance = await widget._userStorage.GET_balanceModel(dateTime: requestedRange, successCallback: _showMsgAccordingToBalance, failureCallback: _showMsgAccordingToBalance);
       setState(() {});
       GoogleAnalytics.instance.logArchiveDateChange(requestedRange.toFullDate());
     } else {
@@ -90,8 +89,8 @@ class _ArchiveState extends State<Archive> {
         body: Stack(
         children: [
           _waitingForData ? const Center(child: CircularProgressIndicator())
-          : (_balanceModel != null && !_balanceModel!.isEmpty) ?
-              ListView(children: [BalancePage(_balanceModel!, _setCurrentTab)])
+          : (widget._userStorage.archiveBalance != null && !widget._userStorage.archiveBalance!.isEmpty) ?
+              ListView(children: [BalancePage(widget._userStorage.archiveBalance!, _setCurrentTab)])
               : GenericInfo(topInfo: Languages.of(context)!.strDataUnavailable),
           Padding(
             padding: const EdgeInsets.only(top: gc.archiveDatePickerPadding),
