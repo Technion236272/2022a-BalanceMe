@@ -3,7 +3,7 @@ import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_walkthrough_screen/flutter_walkthrough_screen.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class IntroWalkthrough extends StatefulWidget {
@@ -21,22 +21,27 @@ class _IntroWalkthroughState extends State<IntroWalkthrough> {
     isLast ? GoogleAnalytics.instance.logWalkthroughFinished() : GoogleAnalytics.instance.logWalkthroughSkipped();
   }
 
-  OnbordingData _setWalkthroughScreen(String imagePath, String title, String description) {
-    return OnbordingData(
-      fit: BoxFit.fitHeight,
-      image: AssetImage(imagePath),
-      titleText: Text(
-        title,
-        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-      ),
-      descText: Text(
-        description,
-        style: TextStyle(fontSize: 16),
+  PageViewModel _setWalkthroughScreen(String imagePath, String title, String description) {
+    return PageViewModel(
+      image: SizedBox(
+          width: MediaQuery.of(context).size.width/gc.imageWidthScale,
+          height: MediaQuery.of(context).size.width*gc.imageHeightScale,
+          child: Image.asset(imagePath)),
+      title: title,
+      bodyWidget: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [Expanded(child: Text(description, style: Theme.of(context).textTheme.bodyText2,))],),
+      decoration: PageDecoration(
+        pageColor: Theme.of(context).backgroundColor,
+        imageFlex: 3,
+        imagePadding: gc.walkthroughPadding,
+        titlePadding: gc.walkthroughPadding,
+        bodyAlignment: Alignment.topLeft
       ),
     );
   }
 
-  List<OnbordingData> _getListOfWalkthroughScreens() {
+  List<PageViewModel> _getListOfWalkthroughScreens() {
     return [
       _setWalkthroughScreen(
           gc.balanceImage,
@@ -44,52 +49,52 @@ class _IntroWalkthroughState extends State<IntroWalkthrough> {
           Languages.of(context)!.strWalkthroughDescription
       ),
       _setWalkthroughScreen(
-          _getImagePathPrefix + "",  // TODO- example
+          _getImagePathPrefix + gc.welcomeScreen,
           Languages.of(context)!.strWalkthroughWelcomeTitle,
           Languages.of(context)!.strWalkthroughWelcomeDescription
       ),
       _setWalkthroughScreen(
-          "",
+          _getImagePathPrefix + gc.loginScreen,
           Languages.of(context)!.strWalkthroughLoginTitle,
           Languages.of(context)!.strWalkthroughLoginDescription
       ),
       _setWalkthroughScreen(
-          "",
+          _getImagePathPrefix + gc.summaryScreen,
           Languages.of(context)!.strBalanceSummary,
           Languages.of(context)!.strWalkthroughSummaryDescription
       ),
       _setWalkthroughScreen(
-          "",
+          _getImagePathPrefix + gc.balanceScreen,
           Languages.of(context)!.strWalkthroughBalanceTitle,
           Languages.of(context)!.strWalkthroughBalanceDescription
       ),
       _setWalkthroughScreen(
-          "",
+          _getImagePathPrefix + gc.addCategoryScreen,
           Languages.of(context)!.strAddCategory,
           Languages.of(context)!.strWalkthroughAddCategoryDescription
       ),
       _setWalkthroughScreen(
-          "",
+          _getImagePathPrefix + gc.addTransactionScreen,
           Languages.of(context)!.strAddTransaction,
           Languages.of(context)!.strWalkthroughAddTransactionDescription
       ),
       _setWalkthroughScreen(
-          "",
+          _getImagePathPrefix + gc.workspacesScreen,
           Languages.of(context)!.strManageWorkspaces,
           Languages.of(context)!.strWorkspaceExplanation,
       ),
       _setWalkthroughScreen(
-          "",  // TODO- Same as before
+          _getImagePathPrefix + gc.workspacesScreen,
           Languages.of(context)!.strManageWorkspaces,
           Languages.of(context)!.strWorkspaceTooltip,
       ),
       _setWalkthroughScreen(
-          "",
+          _getImagePathPrefix + gc.archiveScreen,
           Languages.of(context)!.strArchive,
           Languages.of(context)!.strWalkthroughArchiveDescription
       ),
       _setWalkthroughScreen(
-          "",
+          _getImagePathPrefix + gc.settingsScreen,
           Languages.of(context)!.strSettings,
           Languages.of(context)!.strWalkthroughSettingsDescription
       ),
@@ -103,27 +108,26 @@ class _IntroWalkthroughState extends State<IntroWalkthrough> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IntroScreen(
-        onbordingDataList: _getListOfWalkthroughScreens(),
-        colors: [
-          gc.secondaryColor,
-          gc.primaryColor,
-        ],
-        nextButton: Text(Languages.of(context)!.strNext),
-        lastButton: TextButton(
-          onPressed: () {_closeWalkthrough(isLast: true);},
-          child: Text(Languages.of(context)!.strFinish),
-        ),
-        skipButton: TextButton(
-          onPressed: () {_closeWalkthrough(isLast: false);},
-          child: Text(
-            Languages.of(context)!.strSkip,
-            style: TextStyle(color: gc.linkColors, fontSize: gc.skipSize),
-          ),
-        ),
-        selectedDotColor: gc.alternativePrimary,
-        unSelectdDotColor: gc.tabUnselectedLabelColor,
+    return IntroductionScreen(
+      pages: _getListOfWalkthroughScreens(),
+      onDone: () => _closeWalkthrough(isLast: true),
+      onSkip: () =>_closeWalkthrough(isLast: false),
+      showSkipButton: true,
+      skip: Text(Languages.of(context)!.strSkip),
+      next: Text(Languages.of(context)!.strNext),
+      done: Text(Languages.of(context)!.strFinish),
+      dotsFlex: 2,
+      skipColor: gc.expenseEntryColor,
+      controlsPadding: EdgeInsets.fromLTRB(5, 16, 5, 16),
+      dotsDecorator: DotsDecorator(
+          size: const Size.square(gc.unselectedDotSize),
+          activeSize: const Size(gc.selectedDotSize, gc.unselectedDotSize),
+          activeColor: Theme.of(context).toggleableActiveColor,
+          color: Colors.black26,
+          spacing: gc.dotsSpacing,
+          activeShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(gc.unselectedDotSize)
+          )
       ),
     );
   }
