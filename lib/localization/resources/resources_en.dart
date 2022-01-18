@@ -557,7 +557,7 @@ class LanguageEn extends Languages {
 
   // Monthly Report
   @override
-  String get strMonthlyReportSubject => "Your Report For Month % Is Here! [Workspace: #]";
+  String get strMonthlyReportSubject => "Your Report For Month % Is Here!";
 
   @override
   String get strMonthlyReportContentHeader => "Hurrah! Another month has ended. It is a good time to summarize the month:";
