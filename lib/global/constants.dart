@@ -65,6 +65,7 @@ const Color constantSettingsColor = Colors.black45;
 const Color workspaceAskToJoinColor = Color(0xffffaa6c);
 const Color workspaceInvitationsColor = Color(0xffffdc9b);
 const Color workspaceUsersRequestsColor = Color(0xffc87b3f);
+const Color linkColors = Colors.purple;
 
 // AppBar
 const double appBarAvatarRadius = 40;
@@ -132,7 +133,7 @@ const String lock = 'assets/images/recovery-password.png';
 const String key = 'assets/images/key.png';
 const double imageScale = 3.0;
 const double walletScale = 5.0;
-const String load='assets/images/load.png';
+const String load = 'assets/images/load.png';
 const String lostConnectionImage = "assets/images/connection_lost.png";
 
 // RingPieChart
@@ -183,21 +184,20 @@ const double emailContainerBorderRadius = 30.0;
 const double emailContainerFontSize = 18;
 const EdgeInsets settingAppbarAvatarPadding = EdgeInsets.all(4.0);
 const double settingDefaultAppbarAvatarSize = 55;
-const double separateConstantsScale=20.0;
-const double avatarProportion=150.0;
-
+const double separateConstantsScale = 20.0;
+const double avatarProportion = 150.0;
 
 //error messages
 const String weakPassword = "weak-password";
 const String differentListLength = "one of your widget lists is shorter than the others";
-const String badEmail="invalid-email";
-const String userNotFound="user-not-found";
-const String incorrectPassword="wrong-password";
-const String emailInUse="email-already-in-use";
-const String credentialExists="account-exists-with-different-credential";
+const String badEmail = "invalid-email";
+const String userNotFound = "user-not-found";
+const String incorrectPassword = "wrong-password";
+const String emailInUse = "email-already-in-use";
+const String credentialExists = "account-exists-with-different-credential";
 
 //TextBox
-const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
+const TextStyle defaultHintStyle = TextStyle(fontSize: 16);
 
 //Category and Transaction
 const EdgeInsets topPadding = EdgeInsets.only(top: 20.0);
@@ -270,7 +270,7 @@ const double listViewBottomPadding = 140;
 const double categoryHeaderPadding = 20.0;
 
 //generic edit button
-const double disabledOpacity=0.5;
+const double disabledOpacity = 0.5;
 
 //Archive
 const EdgeInsets archiveDatePickerEdgeInsets = EdgeInsets.only(top: 8.0, bottom: 8.0);
@@ -278,10 +278,10 @@ const double archiveDatePickerPadding = 60;
 const double datePickerHeight = 35;
 
 //Login providers
-const String facebook="facebook.com";
-const String google="google.com";
-const String regular="password";
-const int maxAccounts=2;
+const String facebook = "facebook.com";
+const String google = "google.com";
+const String regular = "password";
+const int maxAccounts = 2;
 
 //About
 const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
@@ -298,7 +298,7 @@ const TextStyle bottomSheetTextStyle = TextStyle(fontSize: 16);
 const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 const EdgeInsets workspacesGeneralPadding = EdgeInsets.all(8.0);
 const EdgeInsets userTilePadding = EdgeInsets.only(top: 8.0);
-BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2,0));
+BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2, 0));
 const double inviteFontSize = 15;
 
 // Banner
@@ -332,3 +332,8 @@ const String googlePlayURL = "https://play.google.com/store/apps/details?id=com.
 const String appEmail = "appbalanceme@gmail.com";
 const String appPassword = "BalanceMe2022@";
 const List<String> sendReviewEmail = ["razle102030@gmail.com", "Tazachil@gmail.com"];
+
+// Walkthrough
+const double titleSize = 30.0;
+const double skipSize = 20.0;
+const double descriptionSize = 20.0;
