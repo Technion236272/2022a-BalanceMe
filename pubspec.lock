@@ -169,6 +169,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  dots_indicator:
+    dependency: transitive
+    description:
+      name: dots_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   email_validator:
     dependency: "direct main"
     description:
@@ -415,13 +422,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_walkthrough_screen:
-    dependency: "direct main"
-    description:
-      name: flutter_walkthrough_screen
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.2"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -511,6 +511,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
+  introduction_screen:
+    dependency: "direct main"
+    description:
+      name: introduction_screen
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   js:
     dependency: transitive
     description:

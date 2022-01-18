@@ -1,4 +1,5 @@
 // ================= Global Constants =================
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -148,7 +149,7 @@ const double percentSize = 40.0;
 const String inPracticeExpectedSeparator = "/";
 const DismissDirection removeDirection = DismissDirection.startToEnd;
 const double categoryTypeHeaderTopPadding = 13.0;
-const double addCategoryButtonWidth = 170;
+const double addCategoryButtonWidth = 210;
 const double addCategoryButtonHeight = 40;
 const EdgeInsets addCategoryButtonPadding = EdgeInsets.all(10);
 const double addCategoryButtonRadius = 20;
@@ -334,6 +335,20 @@ const String appPassword = "BalanceMe2022@";
 const List<String> sendReviewEmail = ["razle102030@gmail.com", "Tazachil@gmail.com"];
 
 // Walkthrough
-const double titleSize = 30.0;
-const double skipSize = 20.0;
+const double imageWidthScale = 1.66;
+const double imageHeightScale = 6/5;
+const EdgeInsets walkthroughPadding = EdgeInsets.only(bottom: 10);
+const double unselectedDotSize = 7.5;
+const double selectedDotSize = 2 * unselectedDotSize;
+const EdgeInsets dotsSpacing = EdgeInsets.symmetric(horizontal: 2.0);
 const double descriptionSize = 20.0;
+const String addCategoryScreen = "AddCategory.png";
+const String addTransactionScreen = "AddTransaction.png";
+const String archiveScreen = "Archive.png";
+const String balanceScreen = "Balance.png";
+const String loginScreen = "Login.png";
+const String settingsScreen = "Settings.png";
+const String summaryScreen = "Summary.png";
+const String welcomeScreen = "Welcome.png";
+const String workspacesScreen = "Workspaces.png";
+
