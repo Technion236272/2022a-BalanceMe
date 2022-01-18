@@ -11,6 +11,10 @@ const String imageStorePath = storageBucketPath + "/AppImage";
 const String avatarsCollection = "avatars";
 const String generalInfoDoc = "generalInfo";
 const String categoriesDoc = "categories";
+const String workspaceUsers = "workspaceUsers";
+const String workspaceLeader = "leader";
+const String belongsWorkspaces = "belongsWorkspaces";
+const String userMessages = "userMessages";
 const String incomeCategoriesField = "incomeCategories";
 const String expenseCategoriesField = "expensesCategories";
 

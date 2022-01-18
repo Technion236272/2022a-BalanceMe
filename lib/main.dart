@@ -12,8 +12,12 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:balance_me/pages/home.dart';
+import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
+
+import 'controllers/theme_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +31,7 @@ Future<void> main() async {
 
 class App extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   App({Key? key}) : super(key: key);
 
   @override
@@ -50,9 +55,15 @@ class App extends StatelessWidget {
 
 class BalanceMeApp extends StatefulWidget {
   const BalanceMeApp({Key? key}) : super(key: key);
+
   static void setLocale(BuildContext context, Locale newLocale) {
     _BalanceMeAppState? state = context.findAncestorStateOfType<_BalanceMeAppState>();
     state!.setLocale(newLocale);
+  }
+
+  static void setTheme(BuildContext context, bool isDarkMode) {
+    _BalanceMeAppState? state = context.findAncestorStateOfType<_BalanceMeAppState>();
+    state!.setTheme(isDarkMode);
   }
 
   @override
@@ -61,6 +72,7 @@ class BalanceMeApp extends StatefulWidget {
 
 class _BalanceMeAppState extends State<BalanceMeApp> {
   Locale? _locale;
+  ThemeMode _theme = globalIsDarkMode ? ThemeMode.dark : ThemeMode.light;
 
   @override
   void didChangeDependencies() async {
@@ -74,6 +86,13 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
     });
   }
 
+  void setTheme(bool isDarkMode) {
+    setState(() {
+      globalIsDarkMode = isDarkMode;
+      _theme = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
+
   Locale? localeResolution(locale, supportedLocales) {
     for (var supportedLocale in supportedLocales) {
       if (supportedLocale.languageCode == locale?.languageCode &&
@@ -83,8 +102,6 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
     }
     return supportedLocales.first;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +114,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
           )
         ],
         child: MaterialApp(
+          navigatorKey: globalNavigatorKey,
           builder: (context, child) {
             return MediaQuery(
               child: child!,
@@ -104,12 +122,9 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
             );
           },
           title: Languages.of(context) == null ? "" : Languages.of(context)!.strAppTitle,
-          theme: ThemeData(
-            appBarTheme: const AppBarTheme(
-              backgroundColor: gc.primaryColor,
-              foregroundColor: gc.secondaryColor,
-            ),
-          ),
+          theme: ThemeController(isDark: false).getTheme(),
+          darkTheme: ThemeController(isDark: true).getTheme(),
+          themeMode: _theme,
           debugShowCheckedModeBanner: false,
           locale: _locale,
           supportedLocales: getSupportedLocales(),

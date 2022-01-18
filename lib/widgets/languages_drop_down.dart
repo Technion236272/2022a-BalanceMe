@@ -32,7 +32,7 @@ class _LanguageDropDownState extends State<LanguageDropDown> {
     if (Provider.of<AuthRepository>(context, listen: false).status != AuthStatus.Authenticated && !userStorage.balance.isEmpty) {
       await showYesNoAlertDialog(
           context,
-          Languages.of(context)!.strChangeLanguageAlertDialogContent,
+          Languages.of(context)!.strBeforeChangeAlertDialogContent.replaceAll("%", Languages.of(context)!.strLanguage),
           _changeLanguageCallback,
           _closeDialogCallback
       );
@@ -47,15 +47,18 @@ class _LanguageDropDownState extends State<LanguageDropDown> {
         changeLanguage(context, language.languageCode);
       });
 
-      userStorage.setLanguage(language.languageCode);
-      userStorage.SEND_generalInfo();
+      if (userStorage.userData != null) {
+        userStorage.userData!.language = language.languageCode;
+        userStorage.SEND_generalInfo();
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<LanguageData>(
-      hint: Text(Languages.of(context)!.languageName),
+      dropdownColor: Theme.of(context).cardColor,
+      hint: Text(Languages.of(context)!.languageName, style: TextStyle(color: Theme.of(context).splashColor, fontSize: 15.0, fontWeight: FontWeight.bold),),
       onChanged: _onChangeLanguage,
       items: LanguageData.languageList().map<DropdownMenuItem<LanguageData>>(
             (e) => DropdownMenuItem<LanguageData>(

@@ -5,7 +5,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Defaults
 int defaultPage = AppPages.Balance.index;
-const bool darkMode = false;
+const BalanceTabs defaultCategoryType = BalanceTabs.Expenses;
+const bool defaultIsDarkMode = false;
 const List<int> daysOfMonth = [1, 10, 15];
 const int defaultEndOfMonthDay = 10;
 const Currency defaultUserCurrency = Currency.NIS;
@@ -13,9 +14,12 @@ const int defaultPrecision = 2;
 const bool defaultIsConstant = false;
 const int defaultMaxCharactersLimit = 20;
 const defaultMinPasswordLimit = 6;
+const double defaultInitialRating = 1.0;
+const double zero = 0.0;
 
 // Localization
 const String rtl = "rtl";
+const String ltr = "ltr";
 
 // Icons
 const IconData settingArrow = Icons.arrow_forward_ios_sharp;
@@ -27,7 +31,7 @@ const IconData settingsPage = Icons.settings;
 const IconData archivePage = Icons.archive;
 const IconData hidePassword = Icons.remove_red_eye_outlined;
 const IconData showPassword = Icons.remove_red_eye;
-const IconData transactionDetailsIcon = Icons.info;
+const IconData detailsIcon = Icons.info;
 const IconData expandIcon = Icons.expand_less;
 const IconData minimizeIcon = Icons.expand_more;
 const IconData addIcon = Icons.add;
@@ -36,21 +40,33 @@ const IconData editIcon = Icons.edit;
 const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
 const IconData calendarIcon = Icons.date_range_sharp;
+const IconData closeIcon = Icons.close;
 const IconData finishIcon = Icons.done;
 const IconData nextIcon = Icons.arrow_forward_sharp;
 
 // Colors
-const Color primaryColor = Colors.blue; // TODO- change to the chosen color
+const Color whiteColor = Colors.white;
+const Color blackColor = Colors.black;
+const Color primaryColor = Colors.blue;
+const Color primaryLightColor = Color(0xff6ec6ff);
+const Color primaryDarkColor = Color(0xff0069c0);
 const Color secondaryColor = Colors.white;
-const Color bottomNavigationSelectedColor = primaryColor;
+const Color secondaryDarkColor = Color(0xff888888);
+const Color darkPrimaryColor = Color(0xff37464f);
+const Color darkPrimaryLightColor = Color(0xff62717b);
+const Color darkPrimaryDarkColor = Color(0xff101f27);
+const Color darkSecondaryColor = Color(0xffff8f00);
+const Color darkSecondaryLightColor = Color(0xffffc046);
+const Color darkSecondaryDarkColor = Color(0xffc56000);
+const Color darkVeryLightColor = Color(0xffc0d0dc);
 const Color alternativePrimary = Color(0xff4e21ff);
-const Color tabColor = Color(0xffd3ff21);
-const Color linkColors = Color(0xffbc21ff);
-const Color tabTextColor = Colors.black;
 const Color hidePasswordColor = Colors.black;
-const Color leaveColor = Color(0xFFE30E0E);
 Color disabledColor = Colors.black38;
+Color shadowColor = Colors.black38;
 const Color constantSettingsColor = Colors.black45;
+const Color workspaceAskToJoinColor = Color(0xffffaa6c);
+const Color workspaceInvitationsColor = Color(0xffffdc9b);
+const Color workspaceUsersRequestsColor = Color(0xffc87b3f);
 const Color doneColor = primaryColor;
 const Color nextColor = primaryColor;
 
@@ -79,7 +95,8 @@ const double padStackRight = 20.0;
 const double padStackBottom = 40.0;
 const double borderWidth = 2.0;
 const double fontSizeLoginImage = 16;
-const double pageHeightFactor = 1.3;
+const double pageHeightFactorPortrait = 1.1;
+const double pageHeightFactorLandscape = 1.8;
 
 // Navigation
 int settingPageIndex = AppPages.Settings.index;
@@ -98,11 +115,11 @@ const int widthSmallAndMediumSizeMatching = 30;
 const int widthLargeSizeMatching = 20;
 const EdgeInsetsGeometry cardMargin = EdgeInsets.all(5.0);
 Color cardShadowColor = Colors.grey.withOpacity(0.5);
-const Color cardBGColor = Colors.grey; //TODO - change to chosen color
+const Color cardBGColor = Colors.grey;
 
 //Tabs
 const Color tabLabelColor = Colors.black;
-const Color unselectedTabLabelColor = Colors.black38;
+const Color unselectedTabLabelColor = Colors.black;
 Color tabIndicatorColor = Colors.lime.shade300;
 const Color tabBarColor = Colors.limeAccent;
 Color tabUnselectedLabelColor = Colors.grey.shade600;
@@ -113,12 +130,14 @@ const double unselectedTabFontSize = 14.0;
 const double tabPadding = 5.0;
 
 //images
-const String balanceImage = 'assets/images/main.png';
+const String balanceImage = 'assets/images/balance_image.png';
 const String wallet = 'assets/images/wallet.png';
 const String lock = 'assets/images/recovery-password.png';
 const String key = 'assets/images/key.png';
 const double imageScale = 3.0;
 const double walletScale = 5.0;
+const String load='assets/images/load.png';
+const String lostConnectionImage = "assets/images/connection_lost.png";
 //TODO: replace placeholders with images for the walkthrough
 const String loginWalkthrough='assets/images/main.png';
 const String settingsWalkthrough='assets/images/main.png';
@@ -138,6 +157,10 @@ const double percentSize = 40.0;
 const String inPracticeExpectedSeparator = "/";
 const DismissDirection removeDirection = DismissDirection.startToEnd;
 const double categoryTypeHeaderTopPadding = 13.0;
+const double addCategoryButtonWidth = 170;
+const double addCategoryButtonHeight = 40;
+const EdgeInsets addCategoryButtonPadding = EdgeInsets.all(10);
+const double addCategoryButtonRadius = 20;
 
 //Welcome
 const double imageTop = -40;
@@ -149,14 +172,14 @@ double rightCircleTop = leftCircleTop + 30;
 double welcomeTop = leftCircleTop + 30;
 double balanceInfoTop = leftCircleTop + 80;
 double startedInfoTop = leftCircleTop + 130;
-Color backgroundDesignColor = Colors.grey.shade300;
+Color backgroundDesignColor = Color(0xfffefefe);
 
 //ListView
 const Color dividerColor = Colors.blueGrey;
 
 //settings
-const double newPasswordSize = 22.0;
-const double profileAvatarRadiusScale = 6.0;
+const double profileAvatarRadiusScale = 3.5;
+const double newPasswordSize = 20.0;
 const double padProfileAvatar = 80.0;
 const double padAroundPencil = 0.0;
 const EdgeInsets avatarPadding = EdgeInsets.all(8.0);
@@ -170,6 +193,9 @@ const double emailContainerBorderRadius = 30.0;
 const double emailContainerFontSize = 18;
 const EdgeInsets settingAppbarAvatarPadding = EdgeInsets.all(4.0);
 const double settingDefaultAppbarAvatarSize = 55;
+const double separateConstantsScale=20.0;
+const double avatarProportion=150.0;
+
 
 //error messages
 const String weakPassword = "weak-password";
@@ -185,7 +211,8 @@ const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
 
 //Category and Transaction
 const EdgeInsets topPadding = EdgeInsets.only(top: 20.0);
-const double smallTextFields = 280;
+const double smallTextFields = 250;
+const double textFieldAndTooltipSizedBox = 325;
 const double generalTextFieldsPadding = 8.0;
 const double inputFontSize = 45;
 Color inputFontColor = Colors.grey.shade700;
@@ -194,6 +221,7 @@ const double buttonPadding = 50.0;
 const double editIconSize = 30.0;
 const double listTileHeight = 30.0;
 const double containerWidth = 200;
+const double expectedFontSize = 15;
 
 //Dropdown widget
 const double dropDownRadius = 30;
@@ -233,7 +261,7 @@ const double entryPadding = 8.0;
 const double entryBorderRadius = 10;
 Color entryColor = Colors.white;
 Color entryShadow = Colors.grey.withOpacity(0.5);
-const double shadowDesignConstant = 3;
+const double shadowDesignConstant = 5;
 Color incomeEntryColor = Colors.green.shade600;
 Color expenseEntryColor = Colors.red.shade600;
 
@@ -247,7 +275,7 @@ const double cardBorderWidth = 2.0;
 const double cardThinBorderWidth = 1.0;
 const double iconHorizontalPadding = 5.0;
 const double iconVerticalPadding = 10.0;
-const double iconSize = 30.0;
+const double iconSize = 24.0;
 const double listViewBottomPadding = 140;
 const double categoryHeaderPadding = 20.0;
 
@@ -265,10 +293,53 @@ const String google="google.com";
 const String regular="password";
 const int maxAccounts=2;
 
-//about
+//About
 const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
+const String loadLink = "https://www.freeiconspng.com/img/7952";
+const String lostConnectionImageLink = "https://raw.githubusercontent.com/abuanwar072/20-Error-States-Flutter/master/assets/images/1_No%20Connection.png";
+
+//Workspaces
+const double bottomSheetSizeScale = 3.5;
+const double workspaceUsersScale = 1.8;
+const EdgeInsets bottomSheetPadding = EdgeInsets.all(10.0);
+const TextStyle bottomSheetTextStyle = TextStyle(fontSize: 16);
+const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
+const EdgeInsets workspacesGeneralPadding = EdgeInsets.all(8.0);
+const EdgeInsets userTilePadding = EdgeInsets.only(top: 8.0);
+BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2,0));
+const double inviteFontSize = 15;
+
+// Banner
+const double bannerPadding = 20;
+
+//Summary
+const EdgeInsets summeryTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
+BorderRadius summeryTilesRadius = BorderRadius.circular(20);
+const EdgeInsets summeryHorizontalPadding = const EdgeInsets.only(left: 8.0, right: 8.0);
+const EdgeInsets summeryVerticalPadding = const EdgeInsets.only(top: 8.0, bottom: 8.0);
+const EdgeInsets summeryAllAroundPadding = const EdgeInsets.all(8);
+const double setWorkspaceButtonPadding = 10;
+const double setWorkspaceButtonWidth = 75;
+const double setWorkspaceButtonHeight = 25;
+const double currentWorkspaceBoxScale = 4;
+const double summeryChartBoxScale = 4.2;
+const double summeryTextScale = 2.6;
+const double summaryTooltipFontSize = 12;
+
+// Rate Us
+const double rateUsImageSize = 120;
+const double rateUsAppNameFontSize = 25;
+const double rateUsExplanationFontSize = 15;
+
+// InviteFriend
+const String googlePlayURL = "https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me";
+
+// SendEmail
+const String appEmail = "appbalanceme@gmail.com";
+const String appPassword = "BalanceMe2022@";
+const List<String> sendReviewEmail = ["razle102030@gmail.com", "Tazachil@gmail.com"];
 
 //walkthrough
 const double titleSize=30.0;

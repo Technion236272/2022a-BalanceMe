@@ -1,4 +1,5 @@
 // ================= Set Category =================
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
@@ -15,11 +16,10 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetCategory extends StatefulWidget {
-  SetCategory(this._mode, this._isIncomeTab, this._currencySign, {this.currentCategory, Key? key}) : super(key: key);
+  SetCategory(this._mode, this._isIncome, {this.currentCategory, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
-  final bool _isIncomeTab;
-  final String _currencySign;
+  final bool _isIncome;
   final Category? currentCategory;
 
   @override
@@ -48,7 +48,7 @@ class _SetCategoryState extends State<SetCategory> {
     _categoryDescriptionController = TextEditingController(text: _getDescriptionInitialValue());
     _categoryExpectedController = TextEditingController(text: widget.currentCategory == null ? ""
         : widget.currentCategory!.expected.toString());
-    _categoryTypeController = PrimitiveWrapper(widget._isIncomeTab ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense);
+    _categoryTypeController = PrimitiveWrapper(widget._isIncome ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense);
   }
 
   void _updatePerformingSave(bool state) {
@@ -90,18 +90,8 @@ class _SetCategoryState extends State<SetCategory> {
     });
   }
 
-  String? _essentialFieldValidatorFunction(String? value) {
-    if(value != null){
-      value = value.split(widget._currencySign).first;
-    }
-    return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
-  }
-
   String? _lineLimitValidatorFunction(String? value) {
-    if(value != null){
-      value = value.split(widget._currencySign).first;
-    }
-    String? message = _essentialFieldValidatorFunction(value);
+    String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
       return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
     }
@@ -109,10 +99,7 @@ class _SetCategoryState extends State<SetCategory> {
   }
 
   String? _positiveNumberValidatorFunction(String? value) {
-    if(value != null){
-      value = value.split(widget._currencySign).first;
-    }
-    String? message = _essentialFieldValidatorFunction(value);
+    String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
       try {
         return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
@@ -127,9 +114,8 @@ class _SetCategoryState extends State<SetCategory> {
     return Category(
       _categoryNameController.text.toString(),
       _categoryTypeController.value == Languages.of(context)!.strIncome,
-      double.parse(_categoryExpectedController.text.toString().split(widget._currencySign).first),
+      double.parse(_categoryExpectedController.text.toString()),
       _categoryDescriptionController.text.toString(),
-      widget.currentCategory == null ? null : widget.currentCategory!.amount,
       widget.currentCategory == null ? null : widget.currentCategory!.transactions,
     );
   }
@@ -153,6 +139,10 @@ class _SetCategoryState extends State<SetCategory> {
     _updatePerformingSave(false);
   }
 
+  void _radiobuttonOnChanged(){
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,16 +155,25 @@ class _SetCategoryState extends State<SetCategory> {
             child: Column(
               children: [
                 SizedBox(
-                  width: gc.smallTextFields,
-                  child: FormTextField(
-                    _categoryNameController,
-                    1,
-                    1,
-                    Languages.of(context)!.strCategoryName,
-                    isBordered: true,
-                    isValid: true,
-                    isEnabled: widget._mode != DetailsPageMode.Details,
-                    validatorFunction: _lineLimitValidatorFunction,
+                  width: gc.textFieldAndTooltipSizedBox,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      GenericTooltip(tip: _categoryTypeController.value == Languages.of(context)!.strIncome ? Languages.of(context)!.strIncomeCategoryInfo : Languages.of(context)!.strExpenseCategoryInfo),
+                      SizedBox(
+                        width: gc.smallTextFields,
+                        child: FormTextField(
+                          _categoryNameController,
+                          1,
+                          1,
+                          Languages.of(context)!.strCategoryName,
+                          isBordered: true,
+                          isValid: true,
+                          isEnabled: widget._mode != DetailsPageMode.Details,
+                          validatorFunction: _lineLimitValidatorFunction,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -184,6 +183,7 @@ class _SetCategoryState extends State<SetCategory> {
                       1,
                       1,
                       Languages.of(context)!.expected,
+                      isBordered: false,
                       isValid: true,
                       isNumeric: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
@@ -199,7 +199,7 @@ class _SetCategoryState extends State<SetCategory> {
                     visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),
                     child: GenericIconButton(
                       onTap: widget._mode == DetailsPageMode.Details ? _toggleEditDetailsMode : null,
-                      color: gc.primaryColor,
+                      color: Theme.of(context).hoverColor,
                       iconSize: gc.editIconSize,
                     ),
                   ),
@@ -217,6 +217,7 @@ class _SetCategoryState extends State<SetCategory> {
                           Languages.of(context)!.strIncome
                         ],
                           _categoryTypeController,
+                          onChangeCallback: _radiobuttonOnChanged,
                           isDisabled: widget._mode == DetailsPageMode.Details,
                         ),
                       ],

@@ -1,5 +1,6 @@
 // ================= A Class For English Language =================
 import 'package:balance_me/localization/resources/resources.dart';
+import 'package:balance_me/global/constants.dart' as gc;
 
 class LanguageEn extends Languages {
 
@@ -11,7 +12,7 @@ class LanguageEn extends Languages {
   String get languageCode => "en";
 
   @override
-  String get languageDirection => "ltr";
+  String get languageDirection => gc.ltr;
 
   @override
   String get strAppName => "BalanceMe";
@@ -37,6 +38,39 @@ class LanguageEn extends Languages {
   @override
   String get strDate =>"Date";
 
+  @override
+  String get strAdd =>"Add";
+
+  @override
+  String get strRemoved =>"removed";
+
+  @override
+  String get strChanged =>"changed";
+
+  @override
+  String get strSet =>"Set";
+
+  @override
+  String get strClose =>"Close";
+
+  @override
+  String get strInvite =>"Invite";
+
+  @override
+  String get strResend =>"Resend";
+
+  @override
+  String get strApprove =>"Approve";
+
+  @override
+  String get strReject =>"Reject";
+
+  @override
+  String get strProblemOccurred =>"Problem occurred, please try again later";
+
+  @override
+  String get strHide =>"Hide";
+
 // Settings
   @override
   String get strProfile => "Profile";
@@ -57,6 +91,9 @@ class LanguageEn extends Languages {
   String get strLanguageSettings => "Language";
 
   @override
+  String get strDarkModeSettings => "Dark Mode";
+
+  @override
   String get strVersionSettings => "Version";
 
   @override
@@ -75,6 +112,12 @@ class LanguageEn extends Languages {
   String get strLastName => "Last name";
 
   @override
+  String get strFirstNameLabel => "Enter first name";
+
+  @override
+  String get strLastNameLabel => "Enter last name";
+
+  @override
   String get strWeakPassword => "Your password is too weak, type in a stronger password";
 
   @override
@@ -84,8 +127,41 @@ class LanguageEn extends Languages {
   String get strSignInTimeout => "Password change failed. sign in and try again";
 
   @override
-  String get strChangeLanguageAlertDialogContent => "Attention:\nchange language might reset all your data. For saving the data, please log-in or sign up first.\nAre you sure you want to change the language?";
+  String get strLanguage => "language";
 
+  @override
+  String get strTheme => "theme";
+
+  @override
+  String get strBeforeChangeAlertDialogContent => "Attention:\nChange % might reset all your data. For saving the data, please log-in or sign up first.\nAre you sure you want to change the %?";
+
+  @override
+  String get strEndOfMonthInfo => "This is the day when your balance data is sent to the archive";
+
+  @override
+  String get strConstants => "Constant settings:";
+
+  @override
+  String get strInviteFriend => "Invite a friend";
+
+  @override
+  String get strInviteFriendContent => "You are welcome to try a perfect app that will allow you to keep track of your budgets, manage incomes and expenses easily, and compare your spending with previous months with our intuitive archive.\n%";
+
+  @override
+  String get strInviteFriendSubject => "Try BalanceMe App";
+
+
+  @override
+  String get strDeleteProfile => "Delete profile image";
+
+  @override
+  String get strDeleteProfileFailed => "Delete failed because you have no profile image";
+
+  @override
+  String get strDeleteProfileAlert => "Are you sure you want to delete your profile image?";
+
+  @override
+  String get strUpdate => "UPDATE";
 // Login
   @override
   String get strWelcomeBack => "Welcome Back!";
@@ -101,12 +177,6 @@ class LanguageEn extends Languages {
 
   @override
   String get strSuccessfullyLogout => "Successfully logged out";
-
-  @override
-  String get strSuccessfullyLogin => "You logged in successfully. Duplicate categories might be removed.";
-
-  @override
-  String get strSuccessfullySignUp => "You signed up successfully. You can edit your settings in settings page";
 
   @override
   String get strSignUp => "Sign Up";
@@ -151,7 +221,7 @@ class LanguageEn extends Languages {
   String get strCameraOption => "Camera";
 
   @override
-  String get strMinPasswordLimit => "The password should contain at least % characters";
+  String get strMinPasswordLimit => "Password length should be at least %";
 
   @override
   String get strBadEmail => "Your email is badly formed";
@@ -167,6 +237,18 @@ class LanguageEn extends Languages {
 
   @override
   String get strLinkProviderError => "An account with this email already exists under a different provider";
+
+  @override
+  String get strSignUpWith => "Sign up with %";
+
+  @override
+  String get strLoginWith => "Login with %";
+
+  @override
+  String get strGoogle => "Google";
+
+  @override
+  String get strFacebook => "Facebook";
 
   // Password Recovery
   @override
@@ -227,9 +309,6 @@ class LanguageEn extends Languages {
   String get expected => "Expected";
 
   @override
-  String get amount => "Amount";
-
-  @override
   String get strCategory => "category";
 
   @override
@@ -260,7 +339,7 @@ class LanguageEn extends Languages {
   String get strTransactionName => "Transaction Name";
 
   @override
-  String get strAddDescription => "Add Description...";
+  String get strAddDescription => "Add Description... (optional)";
 
   @override
   String get strEmptyDescription => "There is no description";
@@ -286,6 +365,148 @@ class LanguageEn extends Languages {
   @override
   String get strVerifyRemoval => "Are you sure you want to remove this %?";
 
+  // Summary
+  @override
+  String get strSummary => "Summary";
+
+  @override
+  String get strBalanceSummary => "Monthly Balance Summary";
+
+  @override
+  String get strCurrentIncomes => "Current Incomes";
+
+  @override
+  String get strExpectedIncomes => "Expected Incomes";
+
+  @override
+  String get strCurrentExpenses => "Current Expenses";
+
+  @override
+  String get strExpectedExpenses => "Expected Expenses";
+
+  @override
+  String get strTotalExpectedBalance => "Total Expected";
+
+  @override
+  String get strTotalCurrentBalance => "Total Current";
+
+  @override
+  String get strCurrentBankBalance => "Current Bank";
+
+  @override
+  String get strExpectedBankBalance => "Expected Bank";
+
+  @override
+  String get strBeginningMonthBalance => "Bank balance before";
+
+  @override
+  String get strBankInfo => "Current Bank Balance = Bank balance + Total Current Balance \nExpected Bank Balance = Bank balance + Total Expected Balance";
+
+  @override
+  String get strBeginningMontBalanceInfo => "This optional field allows you to enter the existing amount in the bank account at the beginning of the month and receive information about the status of the bank account";
+
+  @override
+  String get strIncomeBalanceInfo => "All categories current incomes vs expected incomes";
+
+  @override
+  String get strExpensesBalanceInfo => "All categories current expenses vs expected expenses";
+
+  @override
+  String get strTotalBalanceInfo => "Total Current Balance = Current Incomes - Current Expenses \nTotal Expected Balance = Expected Incomes - Expected Expenses";
+
+  // Workspaces
+  @override
+  String get strWorkspace => "Workspace";
+
+  @override
+  String get strWorkspaceExplanation => "Workspaces allow the user to share and manage their monthly balance amongst multiple users.\nIn this screen, you can add a new workspace, join an existing one, invite new users, delete a workspace, and switch between them.";
+  @override
+  String get strWorkspaceTooltip => "Each workspace functions as an independent unit, ie. any change to the workspace will not affect other workspaces and will be reflected immediately in its members' accounts. There is no limit on the total number of workspaces or members. Additionally, workspaces can be used to plan special events which require separate planning, for example, family events, trips, etc.";
+
+  @override
+  String get strChooseWorkspace => "Choose workspace:";
+
+  @override
+  String get strAddNewWorkspace => "New workspace name";
+
+  @override
+  String get strWorkspaceOperationSuccessful => "The workspace was % successfully";
+
+  @override
+  String get strCurrentWorkspace => "Current Workspace";
+
+  @override
+  String get strManageWorkspaces => "Manage Workspaces";
+
+  @override
+  String get strNotEmailValidator => "This field can't include the character @";
+
+  @override
+  String get strWorkspaceAlreadyExist => "You are already a member in this workspace";
+
+  @override
+  String get strUserAlreadyRequestToJoin => "The user has already requested to join this workspace";
+
+  @override
+  String get strYouAlreadyInvitedToJoin => "You already have been invited to join this workspace";
+
+  @override
+  String get strUserAlreadyInWorkspace => "The user is already in this workspace";
+
+  @override
+  String get strOtherWorkspaceUsers => "Other users in the workspace:";
+
+  @override
+  String get strEmptyWorkspace => "You are alone in this workspace";
+
+  @override
+  String get strJoinWorkspace => "This workspace is already exist.\nDo you want to send a joining request to this workspace?";
+
+  @override
+  String get strWorkspaceJoinRequestSent => "A joining request to the workspace has been sent";
+
+  @override
+  String get strPendingWorkspaceRequests => "You have requested to join:";
+
+  @override
+  String get strJoiningWorkspaceRequestExist => "A joining request to this workspace is already exist";
+
+  @override
+  String get strWorkspaceCreated => "The workspace has been created";
+
+  @override
+  String get strInviteUserToWorkspace => "Invite user to workspace";
+
+  @override
+  String get strUserInvitedToWorkspace => "Good news!\nYou have been invited to join % workspace by #!";
+
+  @override
+  String get strUserRequestJoiningToWorkspace => "# requests to join % workspace";
+
+  @override
+  String get strUserApproveJoining => "Your application to join % workspace has been approved by #!";
+
+  @override
+  String get strUserDisapproveJoining => "Your application to join % workspace has been rejected by #";
+
+  @override
+  String get strPendingUsersRequestsTitle => 'Those users want to join "%":';
+
+  @override
+  String get strInvitedSuccessfullyWorkspace => "An invitation to the workspace has been sent";
+
+  @override
+  String get strPendingInvitationsRequests => "You have been invited to join:";
+
+  @override
+  String get strUserApproveInvitation => "# accepts your invitation to join % workspace";
+
+  @override
+  String get strUserRejectInvitation => "# rejects your invitation to join % workspace";
+
+  @override
+  String get strCantRemovePersonalWorkspace => "You can't remove your personal workspace";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "Type";
@@ -296,6 +517,18 @@ class LanguageEn extends Languages {
   @override
   String get strBadNumberForm => "The inserted text is not a number";
 
+  @override
+  String get strIncomeTransactionInfo => "Income transactions examples: \n Rental payment from... \n Salary from... \n Tax refund from...";
+
+  @override
+  String get strExpenseTransactionInfo => "Expense transactions examples:\n Rental payment \n Electricity expenses \n Groceries \n Buying T-shirt in... \n Watching cinema movie";
+
+  @override
+  String get strIncomeCategoryInfo => "Income Category examples:\n Rental payments \n Salaries \n Refunds";
+
+  @override
+  String get strExpenseCategoryInfo => "Expense Category examples:\n Apartment \n Supermarket \n Shopping \n Hobbies";
+
   // Archive
   @override
   String get strDataUnavailable => "There is no data for the selected month";
@@ -303,7 +536,7 @@ class LanguageEn extends Languages {
   @override
   String get strDataReloadSuccessful => "The data has reloaded successfully";
 
-  //about
+  // About
   @override
   String get strAbout => "About the app";
 
@@ -312,6 +545,53 @@ class LanguageEn extends Languages {
 
   @override
   String get strScalesIcon => "Scales icon";
+
+  @override
+  String get strLoadIcon => "Load icon";
+
+  @override
+  String get strLostConnectionImage => "Lost connection image";
+
+  // Monthly Report
+  @override
+  String get strMonthlyReportSubject => "Your Report For Month % Is Here! [Workspace: #]";
+
+  @override
+  String get strMonthlyReportContentHeader => "Hurrah! Another month is ended. It is a good time to summarize the month:";
+
+  @override
+  String get strMonthlyReportContentFooter => "As usual, the constants transactions for the next month are created.\nSee you next month!";
+
+  @override
+  String get strFinalIncomes => "Total incomes";
+
+  @override
+  String get strFinalExpenses => "Total expenses";
+
+  @override
+  String get strEndOfMonthBankBalance => "Bank balance after";
+
+  @override
+  String get strSendMonthlyReport => "Receive monthly report";
+
+  @override
+  String get strSendMonthlyReportInfo => "Mark it if you wish to get a monthly report to your email at the end of the month";
+
+  // RateUs
+  @override
+  String get strRateUs => "Rate us";
+
+  @override
+  String get strRateUsExplanation => "Tap a star to set your rating. Add more description here if you want";
+
+  @override
+  String get strSubmit => "Submit";
+
+  @override
+  String get strCommentHint => "Set your comment here (optional)";
+
+  @override
+  String get strRateRecorded => "Your review has been recorded, thank you!";
 
   //walkthrough
   @override

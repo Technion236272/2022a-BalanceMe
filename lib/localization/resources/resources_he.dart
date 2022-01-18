@@ -37,6 +37,39 @@ class LanguageHe extends Languages {
   @override
   String get strDate =>"‎תאריך";
 
+  @override
+  String get strAdd =>"‎הוסף";
+
+  @override
+  String get strRemoved =>"‎נמחק";
+
+  @override
+  String get strChanged =>"‎השתנה";
+
+  @override
+  String get strSet =>"‎שנה";
+
+  @override
+  String get strClose =>"‎סגור";
+
+  @override
+  String get strInvite =>"‎הזמן";
+
+  @override
+  String get strResend =>"‎שלח שוב";
+
+  @override
+  String get strApprove =>"‎אישור";
+
+  @override
+  String get strReject =>"דחייה‎";
+
+  @override
+  String get strProblemOccurred => "‎התרחשה בעיה, יש לנסות שוב מאוחר יותר";
+
+  @override
+  String get strHide =>"‎הסתר";
+
   // Settings
   @override
   String get strProfile => "‎פרופיל";
@@ -57,6 +90,9 @@ class LanguageHe extends Languages {
   String get strLanguageSettings => "‎שפה";
 
   @override
+  String get strDarkModeSettings => "‎מצב כהה";
+
+  @override
   String get strVersionSettings => "גירסה‎";
 
   @override
@@ -75,6 +111,12 @@ class LanguageHe extends Languages {
   String get strLastName => "שם משפחה‎";
 
   @override
+  String get strFirstNameLabel => "הכנס שם פרטי‎";
+
+  @override
+  String get strLastNameLabel => "הכנס שם משפחה‎";
+
+  @override
   String get strWeakPassword => "‎הסיסמה חלשה מדי, יש לרשום סיסמה חזקה יותר";
 
   @override
@@ -84,7 +126,40 @@ class LanguageHe extends Languages {
   String get strSignInTimeout => "‎אין חשבון רשום כעת, יש לנסות שוב";
 
   @override
-  String get strChangeLanguageAlertDialogContent => "‎שימו לב:\nשינוי השפה עלול לגרום לאיפוס המידע. על מנת לשמור את המידע יש להתחבר או להירשם.\nהאם ברצונך להחליף שפה בכל זאת?";
+  String get strLanguage => "‎שפה";
+
+  @override
+  String get strTheme => "‎צבעים";
+
+  @override
+  String get strBeforeChangeAlertDialogContent => "‎שימו לב:\nשינוי ה% עלול לגרום לאיפוס המידע. על מנת לשמור את המידע יש להתחבר או להירשם.\nהאם ברצונך להחליף % בכל זאת?";
+
+  @override
+  String get strEndOfMonthInfo => "זהו היום בו המידע שלך מהמאזן מועבר לארכיון‎";
+
+  @override
+  String get strConstants => "הגדרות קבועות:‎";
+
+  @override
+  String get strDeleteProfile => "מחק את תמונת הפרופיל ‎";
+
+  @override
+  String get strDeleteProfileFailed => "המחיקה נכשלה כיוון שאין תמונת פרופיל‎";
+
+  @override
+  String get strDeleteProfileAlert => "‎האם ברצונך למחוק את תמונת הפרופיל שלך?";
+
+  @override
+  String get strUpdate => "עדכון‎";
+
+  @override
+  String get strInviteFriend => "הזמנת חבר‎";
+
+  @override
+  String get strInviteFriendContent => "‎נסו את האפליקציה לניהול פיננסי שמאפשרת מעקב ובקרה על התקציב החודשי. ניתן להכניס את ההוצאות וההכנסות הצפויות ולעדכן במהלך החודש את ההכנסות וההוצאות בפועל. \n%";
+
+  @override
+  String get strInviteFriendSubject => "‎נסה את האפליקציה לניהול חשבון אישי";
 
   // Login
   @override
@@ -101,12 +176,6 @@ class LanguageHe extends Languages {
 
   @override
   String get strSuccessfullyLogout => "‎התנתקת בהצלחה";
-
-  @override
-  String get strSuccessfullyLogin => "‎התחברת למערכת בהצלחה. קטגוריות כפולות נמחקו";
-
-  @override
-  String get strSuccessfullySignUp => "‎נרשמת למערכת בהצלחה. ניתן לגשת לעמוד ההגדרות על מנת לערוך אותן";
 
   @override
   String get strSignUp => "הרשמה‎";
@@ -151,7 +220,7 @@ class LanguageHe extends Languages {
   String get strCameraOption => "מצלמה‎";
 
   @override
-  String get strMinPasswordLimit => "‎אורך הסיסמה צריך להיות לפחות % תווים";
+  String get strMinPasswordLimit => "‎אורך הסיסמה  להיות לפחות %";
 
   @override
   String get strBadEmail => "‎כתובת הדואר האלקטרוני שהוזנה אינה תקינה";
@@ -167,6 +236,18 @@ class LanguageHe extends Languages {
 
   @override
   String get strLinkProviderError => "קיים חשבון עם כתובת זו תחת ספק אחר‎";
+
+  @override
+  String get strSignUpWith => "‎הרשמה עם %";
+
+  @override
+  String get strLoginWith => "‎התחברות עם %";
+
+  @override
+  String get strGoogle => "‎גוגל";
+
+  @override
+  String get strFacebook => "‎פייסבוק";
 
   // Password Recovery
   @override
@@ -227,9 +308,6 @@ class LanguageHe extends Languages {
   String get expected => "צפוי‎";
 
   @override
-  String get amount => "‎כמות";
-
-  @override
   String get strCategory => "‎קטגוריה";
 
   @override
@@ -260,7 +338,7 @@ class LanguageHe extends Languages {
   String get strTransactionName => "‎שם התנועה";
 
   @override
-  String get strAddDescription => "‎תיאור...";
+  String get strAddDescription => "‎תיאור... (אופציונלי)";
 
   @override
   String get strEmptyDescription => "‎אין תיאור זמין";
@@ -286,6 +364,150 @@ class LanguageHe extends Languages {
   @override
   String get strVerifyRemoval => "‎האם למחוק את ה%?";
 
+  // Summary
+  @override
+  String get strSummary => "‎סיכום";
+
+  @override
+  String get strBalanceSummary => "‎סיכום מאזן חודשי";
+
+  @override
+  String get strCurrentIncomes => "‎הכנסות בפועל";
+
+  @override
+  String get strExpectedIncomes => "‎הכנסות צפויות";
+
+  @override
+  String get strCurrentExpenses => "‎הוצאות בפועל";
+
+  @override
+  String get strExpectedExpenses => "‎הוצאות צפויות";
+
+  @override
+  String get strTotalExpectedBalance => "‎מאזן צפוי";
+
+  @override
+  String get strTotalCurrentBalance => "‎מאזן בפועל";
+
+  @override
+  String get strCurrentBankBalance => "‎מאזן נוכחי בבנק";
+
+  @override
+  String get strExpectedBankBalance => "‎מאזן מצופה בבנק";
+
+  @override
+  String get strBeginningMonthBalance => "‎מאזן בבנק בתחילת החודש";
+
+  @override
+  String get strBankInfo => "‎מאזן נוכחי בבנק = מאזן בבנק + מאזן בפועל \nמאזן מצופה בבנק = מאזן בבנק + מאזן צפוי";
+
+  @override
+  String get strBeginningMontBalanceInfo => "‎שדה אופציונלי זה מאפשר להזין את הסכום הקיים בחשבון הבנק בתחילת החודש ולקבל מידע לגבי מצב חשבון הבנק";
+
+  @override
+  String get strIncomeBalanceInfo => "‎הכנסות בפועל מול הכנסות צפויות בכל הקטגוריות";
+
+  @override
+  String get strExpensesBalanceInfo => "‎הוצאות בפועל מול הוצאות צפויות בכל הקטגוריות";
+
+  @override
+  String get strTotalBalanceInfo => "‎מאזן בפועל = הכנסות בפועל - הוצאות בפועל \nמאזן צפוי = הכנסות צפויות - הוצאות צפויות";
+
+
+  // Workspaces
+  @override
+  String get strWorkspace => "‎מרחב עבודה";
+
+  @override
+  String get strWorkspaceExplanation => "‎מרחב עבודה מאפשר לנהל ולשתף את המאזן החודשי בין מספר משתמשים.\nבעמוד זה ניתן להוסיף מרחב חדש (אם המרחב כבר קיים ניתן לשלוח בקשת הצטרפות למייסד המרחב), להזמין משתמשים למרחב, למחוק מרחב ולהחליף בין מרחבים.";
+
+  @override
+  String get strWorkspaceTooltip => "‎כל מרחב עבודה מתפקד כיחידה עצמאית וכל שינוי, הוספה והסרה ישתקף בו ולא ישפיע על מרחבים אחרים. ניתן לפתוח מספר לא מוגבל של מרחבי עבודה ולשתף כל אחד מהם עם מספר לא מוגבל של משתמשים. כל שינוי, הוספה או הסרה של הכנסה או הוצאה במרחב ישתקף אוטומטית אצל כל המשתמשים במרחב. ניתן להשתמש במרחבי העבודה גם לניהול אירוע מיוחד הדורש תכנון ספיציפי בפני עצמו, כגון אירוע משפחתי, טיול ועוד.";
+
+  @override
+  String get strChooseWorkspace => "‎הוספת מרחב עבודה:";
+
+  @override
+  String get strAddNewWorkspace => "‎שם מרחב העבודה חדש";
+
+  @override
+  String get strWorkspaceOperationSuccessful => "‎מרחב העבודה % בהצלחה";
+
+  @override
+  String get strCurrentWorkspace => "‎מרחב העבודה הנוכחי";
+
+  @override
+  String get strManageWorkspaces => "‎ניהול מרחבי עבודה";
+
+  @override
+  String get strNotEmailValidator => "‎השדה לא יכול להכיל את התו @";
+
+  @override
+  String get strWorkspaceAlreadyExist => "‎הינך כבר חלק ממרחב העבודה";
+
+  @override
+  String get strUserAlreadyRequestToJoin => "‎המשתמש כבר ביקש להצטרף למרחב העבודה";
+
+  @override
+  String get strYouAlreadyInvitedToJoin => "‎כבר הוזמנת להצטרף למרחב העבודה";
+
+  @override
+  String get strUserAlreadyInWorkspace => "‎המשתמש כבר נמצא בסביבת העבודה";
+
+  @override
+  String get strOtherWorkspaceUsers => "‎משתמשים נוספים במרחב:";
+
+  @override
+  String get strEmptyWorkspace => "‎מרחב העבודה ריק";
+
+  @override
+  String get strJoinWorkspace => "‎מרחב העבודה כבר קיים.\nהאם לשלוח בקשת הצטרפות למרחב?";
+
+  @override
+  String get strWorkspaceJoinRequestSent => "‎בקשת הצטרפות למרחב העבודה נשלחה";
+
+  @override
+  String get strPendingWorkspaceRequests => "‎ביקשת להצטרף למרחבי העבודה הבאים:";
+
+  @override
+  String get strJoiningWorkspaceRequestExist => "‎בקשת הצטרפות למרחב העבודה כבר נשלחה";
+
+  @override
+  String get strWorkspaceCreated => "‎מרחב העבודה נוצר בהצלחה";
+
+  @override
+  String get strInviteUserToWorkspace => "‎הזמן משתמש למרחב העבודה";
+
+  @override
+  String get strUserInvitedToWorkspace => "‎חדשות טובות!\n המשתמש # הזמין אותך להצטרף למרחב העבודה %";
+
+  @override
+  String get strUserRequestJoiningToWorkspace => "‎המשתמש # ביקש להצטרף למרחב העבודה %";
+
+  @override
+  String get strUserApproveJoining => "‎בקשתך להצטרף למרחב העבודה % אושרה על ידי המשתמש #";
+
+  @override
+  String get strUserDisapproveJoining => "‎בקשתך להצטרף למרחב העבודה % נדחתה על ידי המשתמש #";
+
+  @override
+  String get strPendingUsersRequestsTitle => '‎המשתמשים הבאים מעוניינים להצטרף ל-"%":';
+
+  @override
+  String get strInvitedSuccessfullyWorkspace => "‎הזמנת הצטרפות למרחב העבודה נשלחה";
+
+  @override
+  String get strPendingInvitationsRequests => "‎הוזמנת להצטרף למרחבי העבודה הבאים:";
+
+  @override
+  String get strUserApproveInvitation => "‎המשתמש # אישר את הזמנתך להצטרף למרחב העבודה %";
+
+  @override
+  String get strUserRejectInvitation => "‎המשתמש # דחה את הזמנתך להצטרף למרחב העבודה %";
+
+  @override
+  String get strCantRemovePersonalWorkspace => "‎לא ניתן למחוק את מרחב העבודה הפרטי";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "‎סוג";
@@ -295,6 +517,18 @@ class LanguageHe extends Languages {
 
   @override
   String get strBadNumberForm => "‎הטקסט שהוכנס איננו מספר";
+
+  @override
+  String get strIncomeTransactionInfo => "‎דוגמאות להכנסות: \n תשלום שכירות מ... \n משכורת מ... \n החזר מס מ...";
+
+  @override
+  String get strExpenseTransactionInfo => "‎דוגמאות להוצאות: \n שכר דירה \n הוצאות חשמל \n קניית מצרכים \n קניית חולצה ב... \n סרט בקולנוע";
+
+  @override
+  String get strIncomeCategoryInfo => "‎דוגמא לקטגורית הכנסות:\n שכירויות \n משכורות \n החזרים";
+
+  @override
+  String get strExpenseCategoryInfo => "‎דוגמא לקטגורית הוצאות:\n הוצאות דירה \n הוצאות סופרמרקט \n קניות \n תחביבים";
 
   // Archive
   @override
@@ -311,6 +545,53 @@ class LanguageHe extends Languages {
 
   @override
   String get strScalesIcon => "‎אייקון מאזניים";
+
+  @override
+  String get strLoadIcon => "אייקון טעינה‎";
+
+  @override
+  String get strLostConnectionImage => "‎תמונה בעיה ברשת";
+
+  // Monthly Report
+  @override
+  String get strMonthlyReportSubject => "‎הדו״ח לחודש % כבר כאן!";
+
+  @override
+  String get strMonthlyReportContentHeader => "‎הידד! עוד חודש הגיע לסיומו. זהו זמן מצוין לסכם את החודש:";
+
+  @override
+  String get strMonthlyReportContentFooter => "‎כרגיל, כל התנועות הקבועות לחודש הבא נוצרו.\nלהתראות בחודש הבא!";
+
+  @override
+  String get strFinalIncomes => "‎סך כל ההכנסות";
+
+  @override
+  String get strFinalExpenses => "‎סך כל ההוצאות";
+
+  @override
+  String get strEndOfMonthBankBalance => "‎המאזן בבנק בסוף החודש";
+
+  @override
+  String get strSendMonthlyReport => "‎קבל דו״ח חודשי";
+
+  @override
+  String get strSendMonthlyReportInfo => "‎יש לסמן אם ברצונך לקבל בדואר האלקטרוני דו״ח בסוף כל חודש";
+
+  // RateUs
+  @override
+  String get strRateUs => "‎דרגו אותנו";
+
+  @override
+  String get strRateUsExplanation => "‎בחרו בכוכב כדי לדרג. אם תרצו, ניתן להוסיף פירוט נוסף";
+
+  @override
+  String get strSubmit => "‎שליחה";
+
+  @override
+  String get strCommentHint => "‎כתבו את דעתכם כאן (אופציונלי)";
+
+  @override
+  String get strRateRecorded => "‎המשוב נקלט בהצלחה, תודה רבה!";
 
   //Walkthrough
   @override
