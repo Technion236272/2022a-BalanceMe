@@ -73,10 +73,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       message = emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
     }
     if (message == null) {
-      message = (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.contains(value)) ? Languages.of(context)!.strUserAlreadyRequestToJoin : null;
+      message = (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.contains(value!.toLowerCase())) ? Languages.of(context)!.strUserAlreadyRequestToJoin : null;
     }
     if (message == null) {
-      message = (_workspaceUsers != null && _workspaceUsers!.users.contains(value)) ? Languages.of(context)!.strUserAlreadyInWorkspace : null;
+      message = (_workspaceUsers != null && _workspaceUsers!.users.contains(value!.toLowerCase())) ? Languages.of(context)!.strUserAlreadyInWorkspace : null;
     }
     return message;
   }

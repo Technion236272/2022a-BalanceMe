@@ -71,6 +71,8 @@ class _MainAppBarState extends State<MainAppBar> {
       widget._authRepository.signOut();
     });
     widget._userStorage.signOut();
+    ScaffoldMessenger.of(context).clearMaterialBanners();
+    ScaffoldMessenger.of(context).clearSnackBars();
     displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogout);
   }
 
