@@ -207,7 +207,7 @@ class _SettingsState extends State<Settings> {
       ),
       widget.authRepository.status != AuthStatus.Authenticated ? null :
         GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
-      widget.authRepository.status != AuthStatus.Authenticated ? null :
+      (widget.authRepository.status != AuthStatus.Authenticated || widget.userStorage.userData == null) ? null :
         Checkbox(value: widget.userStorage.userData!.sendReport, onChanged: _toggleSendEmail),
       const LanguageDropDown(),
       DarkModeSwitcher(globalIsDarkMode),

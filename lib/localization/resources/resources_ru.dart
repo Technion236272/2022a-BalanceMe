@@ -109,7 +109,7 @@ class LanguageRu extends Languages {
 
   @override
   String get strLastName => "фамилия";
-//TODO - Add Translation
+
   @override
   String get strFirstNameLabel => "Enter first name";
 
