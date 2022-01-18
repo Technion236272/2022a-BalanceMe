@@ -207,20 +207,6 @@ abstract class Languages {
   String get strAbout;
   String get strLegalese;
   String get strScalesIcon;
-
-  //walkthrough
-  String get strSkip;
-  String get strNext;
-  String get strWelcomeTitle;
-  String get strWelcomeDescription;
-  String get strLoginTitle;
-  String get strLoginDescription;
-  String get strSettingsTitle;
-  String get strSettingsDescription;
-  String get strArchiveTitle;
-  String get strArchiveDescription;
-  String get strBalanceTitle;
-  String get strBalanceDescription;
   String get strLoadIcon;
   String get strLostConnectionImage;
 
@@ -240,4 +226,23 @@ abstract class Languages {
   String get strSubmit;
   String get strCommentHint;
   String get strRateRecorded;
+
+  // Walkthrough
+  String get strWatchWalkthrough;
+  String get strSkip;
+  String get strNext;
+  String get strWalkthroughDescription;
+  String get strWalkthroughWelcomeTitle;
+  String get strWalkthroughWelcomeDescription;
+  String get strWalkthroughLoginTitle;
+  String get strWalkthroughLoginDescription;
+  String get strWalkthroughSummaryDescription;
+  String get strWalkthroughBalanceTitle;
+  String get strWalkthroughBalanceDescription;
+  String get strWalkthroughAddCategoryDescription;
+  String get strWalkthroughAddTransactionDescription;
+  String get strWalkthroughArchiveDescription;
+  String get strWalkthroughSettingsDescription;
+  String get strWalkthroughFinalTitle;
+  String get strWalkthroughFinalDescription;
 }

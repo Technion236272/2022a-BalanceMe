@@ -593,7 +593,10 @@ class LanguageHe extends Languages {
   @override
   String get strRateRecorded => "‎המשוב נקלט בהצלחה, תודה רבה!";
 
-  //Walkthrough
+  // Walkthrough
+  @override
+  String get strWatchWalkthrough => "‎צפה בהדרכה";
+
   @override
   String get strSkip => "‎דלג";
 
@@ -601,33 +604,44 @@ class LanguageHe extends Languages {
   String get strNext => "המשך‎";
 
   @override
-  String get strWelcomeTitle => "ברוכים הבאים לאפליקציה‎";
+  String get strWalkthroughDescription => "‎סיור זה יציג בפניכם את האפליקציה.";
 
   @override
-  String get strWelcomeDescription => "‎סיור זה יראה לכם את התכונות המרכזיות של האפליקציה";
+  String get strWalkthroughWelcomeTitle => "‎מסך הכניסה";
 
   @override
-  String get strLoginTitle => "מסך ההתחברות‎";
+  String get strWalkthroughWelcomeDescription => "‎מסך זה מאפשר לחוות את השימוש באפליקציה ללא צורך בהתחברות. ניתן לבצע פעולות, אך על מנת לשמור את המידע שהוכנס יש להירשם או להתחבר לאפליקציה דרך הלחצן בחלקו העליון של המסך.";
 
   @override
-  String get strLoginDescription => "התחברות מאפשרת שמירת מידע שהוכנס באפליקציה, "
-      "יציאה מהאפליקציה ללא יציאה מהחשבון תשמור את הנתונים אוטומטית‎";
+  String get strWalkthroughLoginTitle => "מסך ההתחברות‎";
 
   @override
-  String get strSettingsTitle => "מסך ההגדרות‎";
+  String get strWalkthroughLoginDescription => "דרך מסך זה ניתן להירשם ולהתחבר לאפליקציה. לשם כך, בחרו בלשונית הרלוונטית עבורכם. ניתן להירשם ולהתחבר דרך גוגל, פייסבוק, או דרך שם משתמש וסיסמה לבחירתכם.‎";
 
   @override
-  String get strSettingsDescription => "במסך זה ניתן לשנות שם, תמונת פרופיל,סיסמה, מטבע ושפה‎";
+  String get strWalkthroughSummaryDescription => "מסך זה כולל שלוש לשוניות מרכזיות לניהול המאזן החודשי. הלשונית הראשונה היא לשונית הסיכום המאפשרת השוואה בין ההוצאות להכנסות בחודש הנוכחי. בנוסף, בלחיצה כל הכפתור ״שנה״ ניתן לנהל את מרחבי העבודה (יוסבר בהמשך). ניתן (ולא חובה) להכניס את המאזן בחשבון הבנק בתחילת החודש על מנת לקבל את תמונת החשבון בסוף החודש. בכל סוף חודש יתבצע עדכון אוטומטי של המאזן.‎";
 
   @override
-  String get strArchiveTitle => "מסך הארכיון‎";
+  String get strWalkthroughBalanceTitle => "מסכי ההוצאות וההכנסות‎";
 
   @override
-  String get strArchiveDescription => "מסך זה שומר את ההכנסות וההוצאות מחודשים קודמים‎";
+  String get strWalkthroughBalanceDescription => "הלשוניות הבאות דומות זו לזו וכוללות את ההוצאות וההכנסות לחודש הנוכחי. בכל מסך ניתן לראות בצורה ויזואלית את ההוצאות/ההכנסות ופירוט של קטגוריות ובתוכן תנועות (יוסבר בהמשך). בכפתור הוספת הקטגוריה ניתן להוסיף למסך קטגוריה חדשה. בכפתור ה+ ניתן להוסיף תנועה חדשה. הלחצנים השונים בעמוד מאפשרים לערוך ולמחוק קטגוריות ותנועות.‎";
 
   @override
-  String get strBalanceTitle => "מסך המאזן‎";
+  String get strWalkthroughAddCategoryDescription => "במסך זה ניתן להוסיף קטגוריה כהוצאה/הכנסה. קטגוריה היא שם כולל לקבוצת הוצאות/הכנסות בעלות מכנה משותף. לדוגמה, תחת הקטגוריה של בילויים ניתן להכניס צפייה בסרט או אכילה במסעדה. תוכלו לקבוע בעצמכם את הקטגוריות בהן תשתמשו (במידה ותזדקקו לעזרה, תוכלו ללחוץ לחיצה ארוכה על כפתור סימן הקריאה ליד שם הקטגוריה). יש לקבוע את סך ההוצאות/ההכנסות המוקצבות לקטגוריה.‎";
 
   @override
-  String get strBalanceDescription => "במסך זה יוצרים קטגוריות של הוצאות והכנסות, ומתעדים תנועות בקטגוריות‎";
+  String get strWalkthroughAddTransactionDescription => "במסך זה ניתן להוסיף תנועה חדשה. תנועה היא הוצאה/הכנסה ספציפית תחת קטגוריה מסוימת. למשל, תחת קטגוריית הבילויים תוכלו להכניס תנועה בשם צפייה בסרט. על התנועה לכלול את הסכום שהוצא/הוכנס וכן ניתן לקבוע האם התנועה קבועה. בסוף כל חודש יתרחש ניקוי אוטומטי ותנועות קבועות ימשיכו איתכם לחודש הבא.‎";
+
+  @override
+  String get strWalkthroughArchiveDescription => "מסך זה מאפשר צפייה בנתונים מחודשים קודמים. בכל 10 לחודש מתבצע ניקוי של מסכי ההוצאות וההכנסות והנתונים מועברים למסך הארכיון. לחצו על הכפתור במטרה לבחור חודש בו תרצו לצפות.‎";
+
+  @override
+  String get strWalkthroughSettingsDescription => "מסך זה מחולק לשני חלקים. החלק העליון כולל הגדרות הניתנות לשינוי, כמו למשל שפה וצבעי האפליקציה. כמו כן, ניתן לקבוע האם לקבל בסוף כל חודש דו״ח סיכום לדואר האלקטרוני. בחלק התחתון של העמוד ישנן הגדרות קבועות הכוללות אפשרויות להזמנת חבר לאפליקציה, דירוג האפליקציה ואף צפייה חוזרת במדריך זה.‎";
+
+  @override
+  String get strWalkthroughFinalTitle => "קדימה לעבודה!‎";
+
+  @override
+  String get strWalkthroughFinalDescription => "אנו מזמינים אתכם לחוות ולנהל את המאזן החודשי שלכם באפליקציה.\nנשמח לשמוע את דעתכם, הצעותיכם וחוויותיכם דרך ״דרגו אותנו״ במסך ההגדרות.‎";
 }
