@@ -1,7 +1,6 @@
 // ================= Storage Repository =================
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
-import 'package:mailer/mailer.dart' as mail;
 import 'package:mailer/smtp_server.dart';
 import 'package:balance_me/main.dart';
 import 'package:balance_me/global/dispatcher.dart';
@@ -18,10 +17,11 @@ import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/common_models/workspace_users_model.dart';
 import 'package:balance_me/common_models/belongs_workspaces.dart';
 import 'package:balance_me/controllers/messages_controller.dart';
-import 'package:balance_me/common_models/category_model.dart' as model;
-import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:mailer/mailer.dart' as mail;
+import 'package:balance_me/common_models/category_model.dart' as model;
+import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
@@ -59,11 +59,6 @@ class UserStorage with ChangeNotifier {
       if (_userMessagesStream == null) {
         startHandleUserMessage();
       }
-
-    } else {
-      _userData = UserModel(userEmail);
-      resetBalance();
-      finishHandleUserMessage();
     }
 
     notifyListeners();
@@ -86,6 +81,13 @@ class UserStorage with ChangeNotifier {
   BalanceModel get balance => _balance;
 
   // ================== Setters and Getters ==================
+
+  void signOut() {
+    resetBalance();
+    _userData = UserModel((_authRepository != null && _authRepository!.user == null || _authRepository!.getEmail == null) ? "" : _authRepository!.getEmail!);
+    GeneralInfoDispatcher.reset();
+    finishHandleUserMessage();
+  }
 
   void resetBalance() {
     _balance = BalanceModel();

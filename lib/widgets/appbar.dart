@@ -70,9 +70,7 @@ class _MainAppBarState extends State<MainAppBar> {
     setState(() {
       widget._authRepository.signOut();
     });
-    widget._userStorage.resetBalance();
-    GeneralInfoDispatcher.reset();
-    widget._userStorage.finishHandleUserMessage();
+    widget._userStorage.signOut();
     displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogout);
   }
 
