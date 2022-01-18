@@ -114,6 +114,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   void _requestJoiningWorkspace(String workspace) async {
     if (authRepository.user != null && authRepository.user!.email != null && !_belongWorkspace.joiningRequests.contains(workspace)) {
       userStorage.SEND_updateJoiningRequests(authRepository.user!.email!, workspace, true);
+      userStorage.SEND_updatePendingJoiningRequest(workspace, authRepository.user!.email!, true);
       _closeModalBottomSheet();
     }
 

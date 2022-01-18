@@ -70,7 +70,6 @@ class MessagesController {
 
     message["message"] = Languages.of(context!)!.strUserRequestJoiningToWorkspace;
     _handleShowMessage(message, [[() => {replyRequest(true)}, Languages.of(context!)!.strApprove], [() => {replyRequest(false)}, Languages.of(context!)!.strReject]]);
-    userStorage.SEND_updatePendingJoiningRequest(message["workspace"], message["user"], true);
   }
 
   static void _handleInviteWorkspace(Message message) {

@@ -1,7 +1,5 @@
 // ================= Home Page =================
 import 'package:flutter/material.dart';
-import 'package:balance_me/global/utils.dart';
-import 'package:balance_me/pages/walkthrough.dart';
 import 'package:balance_me/controllers/walkthrough_controller.dart';
 import 'package:cross_connectivity/cross_connectivity.dart';
 import 'package:balance_me/pages/connection_lost.dart';
