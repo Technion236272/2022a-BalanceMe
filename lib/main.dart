@@ -1,9 +1,9 @@
 // ================= Main App =================
 import 'package:balance_me/pages/home.dart';
-import 'package:balance_me/pages/walkthrough.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'controllers/theme_controller.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:balance_me/localization/locale_controller.dart';
 import 'package:balance_me/localization/languages_controller.dart';
@@ -12,12 +12,8 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:balance_me/pages/home.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/config.dart' as config;
-import 'package:balance_me/global/constants.dart' as gc;
-
-import 'controllers/theme_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -135,7 +131,7 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
             GlobalCupertinoLocalizations.delegate,
           ],
           localeResolutionCallback: localeResolution,
-          home:HomePage(),
+          home: HomePage(),
         ));
   }
 }

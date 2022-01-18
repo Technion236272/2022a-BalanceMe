@@ -644,5 +644,4 @@ class LanguageEn extends Languages {
 
   @override
   String get strWalkthroughFinalDescription => "We invite you to experience, and manage your monthly balance in the app. We would like to hear about your opinions, suggestions and experiences via 'rate us' in the settings screen.";
-
 }

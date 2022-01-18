@@ -1,7 +1,8 @@
 // ================= Home Page =================
+import 'package:flutter/material.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/pages/walkthrough.dart';
-import 'package:flutter/material.dart';
+import 'package:balance_me/controllers/walkthrough_controller.dart';
 import 'package:cross_connectivity/cross_connectivity.dart';
 import 'package:balance_me/pages/connection_lost.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,6 @@ import 'package:balance_me/global/types.dart';
 import 'package:balance_me/pages/settings.dart';
 import 'package:balance_me/pages/archive.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -38,20 +38,11 @@ class _HomePageState extends State<HomePage> {
       _selectedPage = index;
     });
   }
-  bool _wasWalkthroughSeen(SharedPreferences prefs) {
-    return prefs.containsKey(gc.walkthroughShown) &&
-        prefs.getBool(gc.walkthroughShown) != null &&
-        prefs.getBool(gc.walkthroughShown)!;
-  }
-
-  void _setWalkthroughSeen(SharedPreferences prefs) {
-    prefs.setBool(gc.walkthroughShown, true);
-  }
 
   void _setupWalkthrough() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (!_wasWalkthroughSeen(prefs)) {
-      _setWalkthroughSeen(prefs);
+    final WalkthroughController walkthroughController = WalkthroughController();
+    if (!walkthroughController.wasWalkthroughSeen()) {
+      walkthroughController.setWalkthroughSeen();
       navigateToPage(context, IntroWalkthrough(), AppPages.Walkthrough);
     }
   }

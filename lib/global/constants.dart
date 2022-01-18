@@ -41,8 +41,6 @@ const IconData galleryChoice = Icons.photo_library;
 const IconData cameraChoice = Icons.photo_camera;
 const IconData calendarIcon = Icons.date_range_sharp;
 const IconData closeIcon = Icons.close;
-const IconData finishIcon = Icons.done;
-const IconData nextIcon = Icons.arrow_forward_sharp;
 
 // Colors
 const Color whiteColor = Colors.white;
@@ -67,8 +65,6 @@ const Color constantSettingsColor = Colors.black45;
 const Color workspaceAskToJoinColor = Color(0xffffaa6c);
 const Color workspaceInvitationsColor = Color(0xffffdc9b);
 const Color workspaceUsersRequestsColor = Color(0xffc87b3f);
-const Color doneColor = primaryColor;
-const Color nextColor = primaryColor;
 const Color linkColors = Colors.purple;
 
 // AppBar
@@ -137,31 +133,8 @@ const String lock = 'assets/images/recovery-password.png';
 const String key = 'assets/images/key.png';
 const double imageScale = 3.0;
 const double walletScale = 5.0;
-const String load='assets/images/load.png';
+const String load = 'assets/images/load.png';
 const String lostConnectionImage = "assets/images/connection_lost.png";
-const String welcomeWalkthrough = 'assets/images/balance_image.png';
-
-const String settingsProfileEnglishWalkthrough = 'assets/images/screenshot_profile_english.png';
-const String WorkspaceCreateEnglishWalkthrough = 'assets/images/screenshot_create_workspace_english.png';
-const String balanceExpensesEnglishWalkthrough = 'assets/images/screenshot_balance_expenses_english.png';
-const String settingsEnglishWalkthrough = 'assets/images/screenshot_settings_english.png';
-const String WorkspacePageEnglishWalkthrough = 'assets/images/screenshot_workspace_english.png';
-const String balanceAddTransactionEnglishWalkthrough = 'assets/images/screenshot_add_transaction_english.png';
-const String balanceAddCategoryEnglishWalkthrough ='assets/images/screenshot_add_category_english.png';
-const String SummaryEnglishWalkthrough ='assets/images/screenshot_summary_english.png';
-const String archiveEnglishWalkthrough ='assets/images/screenshot_archive_english.png';
-
-const String loginHebrewWalkthrough = 'assets/images/screenshot_login_hebrew.png';
-const String balanceIncomesHebrewWalkthrough = 'assets/images/screenshot_balance_incomes_hebrew.png';
-const String balanceAddTransactionHebrewWalkthrough = 'assets/images/screenshot_add_transaction_hebrew.png';
-const String balanceAddCategoryHebrewWalkthrough = 'assets/images/screenshot_add_category_hebrew.png';
-const String balanceExpensesHebrewWalkthrough = 'assets/images/screenshot_balance_expenses_hebrew.png';
-const String WorkspacePageHebrewWalkthrough = 'assets/images/screenshot_workspace_hebrew.png';
-const String SummaryHebrewWalkthrough = 'assets/images/screenshot_summary_hebrew.png';
-const String InviteHebrewWalkthrough = 'assets/images/screenshot_invite_hebrew.png';
-const String settingsProfileHebrewWalkthrough ='assets/images/screenshot_profile_hebrew.png';
-const String settingsHebrewWalkthrough ='assets/images/screenshot_settings_hebrew.png';
-const String archiveHebrewWalkthrough ='assets/images/screenshot_archive_hebrew.png';
 
 // RingPieChart
 const String pieChartInnerRadius = '65%';
@@ -211,21 +184,21 @@ const double emailContainerBorderRadius = 30.0;
 const double emailContainerFontSize = 18;
 const EdgeInsets settingAppbarAvatarPadding = EdgeInsets.all(4.0);
 const double settingDefaultAppbarAvatarSize = 55;
-const double separateConstantsScale=20.0;
-const double avatarProportion=150.0;
-
+const double separateConstantsScale = 20.0;
+const double avatarProportion = 150.0;
 
 //error messages
 const String weakPassword = "weak-password";
-const String differentListLength = "one of your widget lists is shorter than the others";
-const String badEmail="invalid-email";
-const String userNotFound="user-not-found";
-const String incorrectPassword="wrong-password";
-const String emailInUse="email-already-in-use";
-const String credentialExists="account-exists-with-different-credential";
+const String differentListLength =
+    "one of your widget lists is shorter than the others";
+const String badEmail = "invalid-email";
+const String userNotFound = "user-not-found";
+const String incorrectPassword = "wrong-password";
+const String emailInUse = "email-already-in-use";
+const String credentialExists = "account-exists-with-different-credential";
 
 //TextBox
-const TextStyle defaultHintStyle = TextStyle( fontSize: 16);
+const TextStyle defaultHintStyle = TextStyle(fontSize: 16);
 
 //Category and Transaction
 const EdgeInsets topPadding = EdgeInsets.only(top: 20.0);
@@ -246,7 +219,8 @@ const double dropDownRadius = 30;
 const EdgeInsets dropDownMargin = EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 0);
 const EdgeInsets dropDownPadding = EdgeInsets.symmetric(horizontal: 10);
 const double numOfItems = 150;
-const TextStyle dropDownTextStyle = TextStyle(color: Colors.black, fontSize: 15);
+const TextStyle dropDownTextStyle =
+    TextStyle(color: Colors.black, fontSize: 15);
 const double dropDownIconSize = 30;
 Color dropDownBGColor = primaryColor.withOpacity(0.2);
 Border dropDownBorder = Border.all(color: primaryColor, width: 2);
@@ -298,25 +272,28 @@ const double listViewBottomPadding = 140;
 const double categoryHeaderPadding = 20.0;
 
 //generic edit button
-const double disabledOpacity=0.5;
+const double disabledOpacity = 0.5;
 
 //Archive
-const EdgeInsets archiveDatePickerEdgeInsets = EdgeInsets.only(top: 8.0, bottom: 8.0);
+const EdgeInsets archiveDatePickerEdgeInsets =
+    EdgeInsets.only(top: 8.0, bottom: 8.0);
 const double archiveDatePickerPadding = 60;
 const double datePickerHeight = 35;
 
 //Login providers
-const String facebook="facebook.com";
-const String google="google.com";
-const String regular="password";
-const int maxAccounts=2;
+const String facebook = "facebook.com";
+const String google = "google.com";
+const String regular = "password";
+const int maxAccounts = 2;
 
 //About
-const String scalesLink = "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
+const String scalesLink =
+    "https://pixabay.com/vectors/icon-silhouette-scales-justice-law-1302201/";
 const double scalesProportion = 10;
 const double attributeFontSize = 10;
 const String loadLink = "https://www.freeiconspng.com/img/7952";
-const String lostConnectionImageLink = "https://raw.githubusercontent.com/abuanwar072/20-Error-States-Flutter/master/assets/images/1_No%20Connection.png";
+const String lostConnectionImageLink =
+    "https://raw.githubusercontent.com/abuanwar072/20-Error-States-Flutter/master/assets/images/1_No%20Connection.png";
 
 //Workspaces
 const double bottomSheetSizeScale = 3.5;
@@ -326,7 +303,8 @@ const TextStyle bottomSheetTextStyle = TextStyle(fontSize: 16);
 const EdgeInsets workspaceTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 const EdgeInsets workspacesGeneralPadding = EdgeInsets.all(8.0);
 const EdgeInsets userTilePadding = EdgeInsets.only(top: 8.0);
-BoxShadow workspaceTileShadow = BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2,0));
+BoxShadow workspaceTileShadow =
+    BoxShadow(color: shadowColor, blurRadius: 2, offset: Offset(2, 0));
 const double inviteFontSize = 15;
 
 // Banner
@@ -335,8 +313,10 @@ const double bannerPadding = 20;
 //Summary
 const EdgeInsets summeryTilePadding = EdgeInsets.only(bottom: 2.0, top: 2.0);
 BorderRadius summeryTilesRadius = BorderRadius.circular(20);
-const EdgeInsets summeryHorizontalPadding = const EdgeInsets.only(left: 8.0, right: 8.0);
-const EdgeInsets summeryVerticalPadding = const EdgeInsets.only(top: 8.0, bottom: 8.0);
+const EdgeInsets summeryHorizontalPadding =
+    const EdgeInsets.only(left: 8.0, right: 8.0);
+const EdgeInsets summeryVerticalPadding =
+    const EdgeInsets.only(top: 8.0, bottom: 8.0);
 const EdgeInsets summeryAllAroundPadding = const EdgeInsets.all(8);
 const double setWorkspaceButtonPadding = 10;
 const double setWorkspaceButtonWidth = 75;
@@ -352,17 +332,18 @@ const double rateUsAppNameFontSize = 25;
 const double rateUsExplanationFontSize = 15;
 
 // InviteFriend
-const String googlePlayURL = "https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me";
+const String googlePlayURL =
+    "https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me";
 
 // SendEmail
 const String appEmail = "appbalanceme@gmail.com";
 const String appPassword = "BalanceMe2022@";
-const List<String> sendReviewEmail = ["razle102030@gmail.com", "Tazachil@gmail.com"];
+const List<String> sendReviewEmail = [
+  "razle102030@gmail.com",
+  "Tazachil@gmail.com"
+];
 
-//walkthrough
-const double titleSize=30.0;
-const double skipSize=20.0;
-const double descriptionSize=20.0;
-
-//shared preference keys
-const String walkthroughShown="walkthroughShown";
+// Walkthrough
+const double titleSize = 30.0;
+const double skipSize = 20.0;
+const double descriptionSize = 20.0;

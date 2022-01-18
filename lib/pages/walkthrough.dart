@@ -1,3 +1,4 @@
+// ================= Walkthrough Page =================
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:flutter/material.dart';
@@ -6,107 +7,122 @@ import 'package:balance_me/global/constants.dart' as gc;
 
 class IntroWalkthrough extends StatefulWidget {
   const IntroWalkthrough({Key? key}) : super(key: key);
+
   @override
   _IntroWalkthroughState createState() => _IntroWalkthroughState();
 }
 
-OnbordingData _walkthroughScreen(
-    String imagePath, String title, String description) {
-  return OnbordingData(
-    image: AssetImage(imagePath),
-    titleText: Text(title,style: TextStyle(fontSize: gc.titleSize,fontWeight: FontWeight.w600),),
-    descText: Text(description,style: TextStyle(fontSize: gc.descriptionSize),),
-  );
-}
+class _IntroWalkthroughState extends State<IntroWalkthrough> {  // TODO- add GA!
+  String get _getImagePathPrefix => "assets/images/walkthrough/${Languages.of(context)!.languageCode}/";
 
-List<OnbordingData> _listOfWalkthroughScreens(BuildContext context) {
-  //TODO: check locale language, and fix descriptions
-  return [
-    _walkthroughScreen(
-        gc.welcomeWalkthrough,
-        Languages.of(context)!.strWelcomeTitle,
-        Languages.of(context)!.strWelcomeDescription),
-    _walkthroughScreen(
-        gc.loginHebrewWalkthrough,
-        Languages.of(context)!.strLoginTitle,
-        Languages.of(context)!.strLoginDescription),
-    //balance
-    _walkthroughScreen(
-        gc.balanceExpensesHebrewWalkthrough,
-        Languages.of(context)!.strBalanceTitle,
-        Languages.of(context)!.strBalanceDescription),
-    _walkthroughScreen(
-        gc.balanceIncomesHebrewWalkthrough,
-        Languages.of(context)!.strBalanceTitle,
-        Languages.of(context)!.strBalanceDescription),
-    _walkthroughScreen(
-        gc.balanceAddCategoryHebrewWalkthrough,
-        Languages.of(context)!.strBalanceTitle,
-        Languages.of(context)!.strBalanceDescription),
-    _walkthroughScreen(
-        gc.balanceAddTransactionHebrewWalkthrough,
-        Languages.of(context)!.strBalanceTitle,
-        Languages.of(context)!.strBalanceDescription),
-    _walkthroughScreen(
-        gc.SummaryHebrewWalkthrough,
-        Languages.of(context)!.strBalanceTitle,
-        Languages.of(context)!.strBalanceDescription),
-    //archive
-    _walkthroughScreen(
-        gc.archiveHebrewWalkthrough,
-        Languages.of(context)!.strArchiveTitle,
-        Languages.of(context)!.strArchiveDescription),
-    //workspace
-    _walkthroughScreen(
-        gc.WorkspacePageHebrewWalkthrough,
-        Languages.of(context)!.strArchiveTitle,
-        Languages.of(context)!.strArchiveDescription),
-    _walkthroughScreen(
-        gc.InviteHebrewWalkthrough,
-        Languages.of(context)!.strArchiveTitle,
-        Languages.of(context)!.strArchiveDescription),
-    //settings
-    _walkthroughScreen(
-        gc.settingsHebrewWalkthrough,
-        Languages.of(context)!.strSettingsTitle,
-        Languages.of(context)!.strSettingsDescription),
-    _walkthroughScreen(
-        gc.settingsProfileHebrewWalkthrough,
-        Languages.of(context)!.strSettingsTitle,
-        Languages.of(context)!.strSettingsDescription),
-  ];
-}
+  void _closeWalkthrough() {
+    navigateBack(context);
+  }
 
-final List<Color> _imageColor = [
-  gc.secondaryColor,
-  gc.primaryColor,
-];
+  OnbordingData _setWalkthroughScreen(String imagePath, String title, String description) {
+    return OnbordingData(
+      fit: BoxFit.fitHeight,
+      image: AssetImage(imagePath),
+      titleText: Text(
+        title,
+        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+      ),
+      descText: Text(
+        description,
+        style: TextStyle(fontSize: 16),
+      ),
+    );
+  }
 
-class _IntroWalkthroughState extends State<IntroWalkthrough> {
+  List<OnbordingData> _getListOfWalkthroughScreens() {
+    return [
+      _setWalkthroughScreen(
+          gc.balanceImage,
+          Languages.of(context)!.strWelcomeAboard,
+          Languages.of(context)!.strWalkthroughDescription
+      ),
+      _setWalkthroughScreen(
+          _getImagePathPrefix + "",  // TODO- example
+          Languages.of(context)!.strWalkthroughWelcomeTitle,
+          Languages.of(context)!.strWalkthroughWelcomeDescription
+      ),
+      _setWalkthroughScreen(
+          "",
+          Languages.of(context)!.strWalkthroughLoginTitle,
+          Languages.of(context)!.strWalkthroughLoginDescription
+      ),
+      _setWalkthroughScreen(
+          "",
+          Languages.of(context)!.strBalanceSummary,
+          Languages.of(context)!.strWalkthroughSummaryDescription
+      ),
+      _setWalkthroughScreen(
+          "",
+          Languages.of(context)!.strWalkthroughBalanceTitle,
+          Languages.of(context)!.strWalkthroughBalanceDescription
+      ),
+      _setWalkthroughScreen(
+          "",
+          Languages.of(context)!.strAddCategory,
+          Languages.of(context)!.strWalkthroughAddCategoryDescription
+      ),
+      _setWalkthroughScreen(
+          "",
+          Languages.of(context)!.strAddTransaction,
+          Languages.of(context)!.strWalkthroughAddTransactionDescription
+      ),
+      _setWalkthroughScreen(
+          "",
+          Languages.of(context)!.strManageWorkspaces,
+          Languages.of(context)!.strWorkspaceExplanation,
+      ),
+      _setWalkthroughScreen(
+          "",  // TODO- Same as before
+          Languages.of(context)!.strManageWorkspaces,
+          Languages.of(context)!.strWorkspaceTooltip,
+      ),
+      _setWalkthroughScreen(
+          "",
+          Languages.of(context)!.strArchive,
+          Languages.of(context)!.strWalkthroughArchiveDescription
+      ),
+      _setWalkthroughScreen(
+          "",
+          Languages.of(context)!.strSettings,
+          Languages.of(context)!.strWalkthroughSettingsDescription
+      ),
+      _setWalkthroughScreen(
+          gc.balanceImage,
+          Languages.of(context)!.strWalkthroughFinalTitle,
+          Languages.of(context)!.strWalkthroughFinalDescription
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    return IntroScreen(
-      onbordingDataList: _listOfWalkthroughScreens(context),
-      colors: _imageColor,
-      nextButton: Icon(gc.nextIcon, color: gc.nextColor),
-      lastButton: IconButton(
-        color: gc.doneColor,
-        icon: Icon(gc.finishIcon),
-        onPressed: () {
-          navigateBack(context);
-        },
-      ),
-      skipButton: TextButton(
-        onPressed: () {
-          navigateBack(context);
-        },
-        child: Text(
-          Languages.of(context)!.strSkip,
-          style: TextStyle(color: gc.linkColors, fontSize: gc.skipSize),
+    return Scaffold(
+      body: IntroScreen(
+        onbordingDataList: _getListOfWalkthroughScreens(),
+        colors: [
+          gc.secondaryColor,
+          gc.primaryColor,
+        ],
+        nextButton: Text(Languages.of(context)!.strNext),
+        lastButton: TextButton(
+          onPressed: _closeWalkthrough,
+          child: Text(Languages.of(context)!.strFinish),
         ),
+        skipButton: TextButton(
+          onPressed: _closeWalkthrough,
+          child: Text(
+            Languages.of(context)!.strSkip,
+            style: TextStyle(color: gc.linkColors, fontSize: gc.skipSize),
+          ),
+        ),
+        selectedDotColor: gc.alternativePrimary,
+        unSelectdDotColor: gc.tabUnselectedLabelColor,
       ),
-      selectedDotColor: gc.alternativePrimary,
-      unSelectdDotColor: gc.tabUnselectedLabelColor,
     );
   }
 }

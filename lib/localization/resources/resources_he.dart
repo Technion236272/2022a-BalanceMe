@@ -141,7 +141,7 @@ class LanguageHe extends Languages {
   String get strConstants => "הגדרות קבועות:‎";
 
   @override
-  String get strDeleteProfile => "מחק את תמונת הפרופיל ‎";
+  String get strDeleteProfile => "מחק את תמונת הפרופיל‎";
 
   @override
   String get strDeleteProfileFailed => "המחיקה נכשלה כיוון שאין תמונת פרופיל‎";
@@ -199,7 +199,7 @@ class LanguageHe extends Languages {
   String get strMissingFields => "יש לרשום כתובת דואר אלקטרוני וסיסמה במידה וברצונך להירשם‎";
 
   @override
-  String get strMismatchingPasswords => "הסיסמאות אינן זהות‎ ";
+  String get strMismatchingPasswords => "הסיסמאות אינן זהות‎";
 
   @override
   String get strConfirmPassword => "אימות סיסמה‎";
