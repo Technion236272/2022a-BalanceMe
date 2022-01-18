@@ -34,9 +34,17 @@ customized for every user.*
 * [ ] Keep an attached image of your receipt with your transaction.
 
 ## Table of contents
+
+
 [Overview](/docs/overview.md)
+
+
 [Database](/docs/database.md)
+
+
 [Models](/docs/models.md)
+
+
 [Setup](/docs/setup.md)
 
 
