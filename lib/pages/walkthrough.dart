@@ -20,28 +20,60 @@ OnbordingData _walkthroughScreen(
 }
 
 List<OnbordingData> _listOfWalkthroughScreens(BuildContext context) {
+  //TODO: check locale language, and fix descriptions
   return [
     _walkthroughScreen(
         gc.welcomeWalkthrough,
         Languages.of(context)!.strWelcomeTitle,
         Languages.of(context)!.strWelcomeDescription),
     _walkthroughScreen(
-        gc.loginWalkthrough,
+        gc.loginHebrewWalkthrough,
         Languages.of(context)!.strLoginTitle,
         Languages.of(context)!.strLoginDescription),
+    //balance
     _walkthroughScreen(
-        gc.settingsWalkthrough,
+        gc.balanceExpensesHebrewWalkthrough,
+        Languages.of(context)!.strBalanceTitle,
+        Languages.of(context)!.strBalanceDescription),
+    _walkthroughScreen(
+        gc.balanceIncomesHebrewWalkthrough,
+        Languages.of(context)!.strBalanceTitle,
+        Languages.of(context)!.strBalanceDescription),
+    _walkthroughScreen(
+        gc.balanceAddCategoryHebrewWalkthrough,
+        Languages.of(context)!.strBalanceTitle,
+        Languages.of(context)!.strBalanceDescription),
+    _walkthroughScreen(
+        gc.balanceAddTransactionHebrewWalkthrough,
+        Languages.of(context)!.strBalanceTitle,
+        Languages.of(context)!.strBalanceDescription),
+    _walkthroughScreen(
+        gc.SummaryHebrewWalkthrough,
+        Languages.of(context)!.strBalanceTitle,
+        Languages.of(context)!.strBalanceDescription),
+    //archive
+    _walkthroughScreen(
+        gc.archiveHebrewWalkthrough,
+        Languages.of(context)!.strArchiveTitle,
+        Languages.of(context)!.strArchiveDescription),
+    //workspace
+    _walkthroughScreen(
+        gc.WorkspacePageHebrewWalkthrough,
+        Languages.of(context)!.strArchiveTitle,
+        Languages.of(context)!.strArchiveDescription),
+    _walkthroughScreen(
+        gc.InviteHebrewWalkthrough,
+        Languages.of(context)!.strArchiveTitle,
+        Languages.of(context)!.strArchiveDescription),
+    //settings
+    _walkthroughScreen(
+        gc.settingsHebrewWalkthrough,
         Languages.of(context)!.strSettingsTitle,
         Languages.of(context)!.strSettingsDescription),
     _walkthroughScreen(
-        gc.archivePageWalkthrough,
-        Languages.of(context)!.strArchiveTitle,
-        Languages.of(context)!.strArchiveDescription),
-    //archive
-    _walkthroughScreen(
-        gc.balancePageWalkthrough,
-        Languages.of(context)!.strBalanceTitle,
-        Languages.of(context)!.strBalanceDescription),
+        gc.settingsProfileHebrewWalkthrough,
+        Languages.of(context)!.strSettingsTitle,
+        Languages.of(context)!.strSettingsDescription),
   ];
 }
 

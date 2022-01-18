@@ -139,12 +139,29 @@ const double imageScale = 3.0;
 const double walletScale = 5.0;
 const String load='assets/images/load.png';
 const String lostConnectionImage = "assets/images/connection_lost.png";
-//TODO: replace placeholders with images for the walkthrough
-const String loginWalkthrough='assets/images/main.png';
-const String settingsWalkthrough='assets/images/main.png';
-const String balancePageWalkthrough='assets/images/main.png';
-const String welcomeWalkthrough='assets/images/main.png';
-const String archivePageWalkthrough='assets/images/main.png';
+const String welcomeWalkthrough = 'assets/images/balance_image.png';
+
+const String settingsProfileEnglishWalkthrough = 'assets/images/screenshot_profile_english.png';
+const String WorkspaceCreateEnglishWalkthrough = 'assets/images/screenshot_create_workspace_english.png';
+const String balanceExpensesEnglishWalkthrough = 'assets/images/screenshot_balance_expenses_english.png';
+const String settingsEnglishWalkthrough = 'assets/images/screenshot_settings_english.png';
+const String WorkspacePageEnglishWalkthrough = 'assets/images/screenshot_workspace_english.png';
+const String balanceAddTransactionEnglishWalkthrough = 'assets/images/screenshot_add_transaction_english.png';
+const String balanceAddCategoryEnglishWalkthrough ='assets/images/screenshot_add_category_english.png';
+const String SummaryEnglishWalkthrough ='assets/images/screenshot_summary_english.png';
+const String archiveEnglishWalkthrough ='assets/images/screenshot_archive_english.png';
+
+const String loginHebrewWalkthrough = 'assets/images/screenshot_login_hebrew.png';
+const String balanceIncomesHebrewWalkthrough = 'assets/images/screenshot_balance_incomes_hebrew.png';
+const String balanceAddTransactionHebrewWalkthrough = 'assets/images/screenshot_add_transaction_hebrew.png';
+const String balanceAddCategoryHebrewWalkthrough = 'assets/images/screenshot_add_category_hebrew.png';
+const String balanceExpensesHebrewWalkthrough = 'assets/images/screenshot_balance_expenses_hebrew.png';
+const String WorkspacePageHebrewWalkthrough = 'assets/images/screenshot_workspace_hebrew.png';
+const String SummaryHebrewWalkthrough = 'assets/images/screenshot_summary_hebrew.png';
+const String InviteHebrewWalkthrough = 'assets/images/screenshot_invite_hebrew.png';
+const String settingsProfileHebrewWalkthrough ='assets/images/screenshot_profile_hebrew.png';
+const String settingsHebrewWalkthrough ='assets/images/screenshot_settings_hebrew.png';
+const String archiveHebrewWalkthrough ='assets/images/screenshot_archive_hebrew.png';
 
 // RingPieChart
 const String pieChartInnerRadius = '65%';
