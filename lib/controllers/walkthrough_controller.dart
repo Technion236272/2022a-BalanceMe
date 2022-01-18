@@ -1,24 +1,34 @@
 // ================= Walkthrough Controller =================
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:balance_me/pages/walkthrough.dart';
+import 'package:balance_me/global/utils.dart';
+import 'package:balance_me/global/types.dart';
 
 class WalkthroughController {
-  WalkthroughController() {
-    _init();
+  static String walkthroughKey = "walkthroughShown";
+
+  static void setupWalkthrough() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (!await _wasWalkthroughSeen(prefs)) {
+      _setWalkthroughSeen(prefs);
+
+      if (globalNavigatorKey.currentContext == null) {
+        return;
+      }
+      BuildContext context = globalNavigatorKey.currentContext!;
+
+      navigateToPage(context, IntroWalkthrough(), AppPages.Walkthrough);
+    }
   }
 
-  late SharedPreferences _prefs;
-  final String _walkthroughKey = "walkthroughShown";
-
-  void _init() async {
-    _prefs = await SharedPreferences.getInstance();
+  static Future<bool> _wasWalkthroughSeen(SharedPreferences prefs) async {
+    bool? wasWalkthroughSeen = prefs.getBool(walkthroughKey);
+    return prefs.containsKey(walkthroughKey) && wasWalkthroughSeen != null && wasWalkthroughSeen;
   }
 
-  bool wasWalkthroughSeen() {
-    bool? wasWalkthroughSeen = _prefs.getBool(_walkthroughKey);
-    return _prefs.containsKey(_walkthroughKey) && wasWalkthroughSeen != null && wasWalkthroughSeen;
-  }
-
-  void setWalkthroughSeen() {
-    _prefs.setBool(_walkthroughKey, true);
+  static void _setWalkthroughSeen(SharedPreferences prefs) {
+    prefs.setBool(walkthroughKey, true);
   }
 }

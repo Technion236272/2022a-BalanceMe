@@ -30,21 +30,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _setupWalkthrough();
+    WalkthroughController.setupWalkthrough();
   }
 
   void _updateSelectedPage(int index) {
     setState(() {
       _selectedPage = index;
     });
-  }
-
-  void _setupWalkthrough() async {
-    final WalkthroughController walkthroughController = WalkthroughController();
-    if (!walkthroughController.wasWalkthroughSeen()) {
-      walkthroughController.setWalkthroughSeen();
-      navigateToPage(context, IntroWalkthrough(), AppPages.Walkthrough);
-    }
   }
 
   Widget _getCurrentPage(AuthRepository authRepository, UserStorage userStorage) {

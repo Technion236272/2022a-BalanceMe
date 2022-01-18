@@ -1,4 +1,5 @@
 // ================= Walkthrough Page =================
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,12 @@ class IntroWalkthrough extends StatefulWidget {
   _IntroWalkthroughState createState() => _IntroWalkthroughState();
 }
 
-class _IntroWalkthroughState extends State<IntroWalkthrough> {  // TODO- add GA!
+class _IntroWalkthroughState extends State<IntroWalkthrough> {
   String get _getImagePathPrefix => "assets/images/walkthrough/${Languages.of(context)!.languageCode}/";
 
-  void _closeWalkthrough() {
+  void _closeWalkthrough({bool isLast = false}) {
     navigateBack(context);
+    isLast ? GoogleAnalytics.instance.logWalkthroughFinished() : GoogleAnalytics.instance.logWalkthroughSkipped();
   }
 
   OnbordingData _setWalkthroughScreen(String imagePath, String title, String description) {
@@ -110,11 +112,11 @@ class _IntroWalkthroughState extends State<IntroWalkthrough> {  // TODO- add GA!
         ],
         nextButton: Text(Languages.of(context)!.strNext),
         lastButton: TextButton(
-          onPressed: _closeWalkthrough,
+          onPressed: () {_closeWalkthrough(isLast: true);},
           child: Text(Languages.of(context)!.strFinish),
         ),
         skipButton: TextButton(
-          onPressed: _closeWalkthrough,
+          onPressed: () {_closeWalkthrough(isLast: false);},
           child: Text(
             Languages.of(context)!.strSkip,
             style: TextStyle(color: gc.linkColors, fontSize: gc.skipSize),

@@ -115,6 +115,14 @@ class GoogleAnalytics {
     _logEvent("RateUsSubmit", {"user": _getUserEmail(), "rate": rate, "comment": comment});
   }
 
+  void logWalkthroughSkipped() {
+    _logEvent("WalkthroughSkipped", {"user": _getUserEmail()});
+  }
+
+  void logWalkthroughFinished() {
+    _logEvent("WalkthroughFinished", {"user": _getUserEmail()});
+  }
+
   // FireBase
   void logPreCheckFailed(String functionName) {
     _logEvent("${functionName}PreCheckFailed", {"user": _getUserEmail()});
