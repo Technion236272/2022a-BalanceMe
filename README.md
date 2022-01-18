@@ -29,12 +29,19 @@ customized for every user.*
 * [ ] Create and manage income and expense categories as you want.
 * [ ] View statistics about your expenses over time in a user-friendly archive.
 * [ ] Allocate and keep track of your budget.
+* [ ] Set up a workspace, to track incomes and expenses with your friends and family, or special events.
+* [ ] save your transactions based on categories, date , name, price etc.
+
 
 ## Complementary Features
 
-* [ ] Set your group of friends/family/organization to share the same budget and keep track of their spending habits.
+
 * [ ] Change the currency you use for keeping track of your spending abroad.
 * [ ] Keep an attached image of your receipt with your transaction.
+* [ ] watch a walkthrough to learn how to use the app to manage your spending
+* [ ] customize your in app experience by changing the app's language, dark mode, profile image.
+* [ ] compare your total incomes and expenses in the summary page.
+
 
 ## Table of contents
 
