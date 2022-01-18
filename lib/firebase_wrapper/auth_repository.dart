@@ -237,7 +237,7 @@ class AuthRepository with ChangeNotifier {
     return Future.delayed(Duration.zero);
   }
 
-  void uploadAvatar(XFile? avatarImage) async {
+  Future<void> uploadAvatar(XFile? avatarImage) async {
     Trace performanceTrace = await performance.newTrace("uploadAvatar");
     await performanceTrace.start();
     if (avatarImage != null && _user != null) {
