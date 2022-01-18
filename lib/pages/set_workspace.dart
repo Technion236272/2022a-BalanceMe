@@ -189,58 +189,59 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _getModalBottomSheet(bool isAddWorkspace) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: Container(
-        height: MediaQuery.of(context).size.height / gc.bottomSheetSizeScale,
-        color: Theme.of(context).cardColor,
-        child: Form(
-          key: _modalBottomSheetFormKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: gc.bottomSheetPadding,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        isAddWorkspace ? Languages.of(context)!.strAddNewWorkspace :  Languages.of(context)!.strInviteUserToWorkspace,
-                        style: gc.bottomSheetTextStyle,
-                      ),
-                      IconButton(
-                        onPressed: _closeModalBottomSheet,
-                        icon: Icon(gc.closeIcon),
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                      ),
-                    ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: Container(
+          color: Theme.of(context).cardColor,
+          child: Form(
+            key: _modalBottomSheetFormKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: gc.bottomSheetPadding,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          isAddWorkspace ? Languages.of(context)!.strAddNewWorkspace :  Languages.of(context)!.strInviteUserToWorkspace,
+                          style: gc.bottomSheetTextStyle,
+                        ),
+                        IconButton(
+                          onPressed: _closeModalBottomSheet,
+                          icon: Icon(gc.closeIcon),
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const Divider(),
-              Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: FormTextField(
-                  _modalBottomSheetController,
-                  1,
-                  1,
-                  isAddWorkspace ? Languages.of(context)!.strWorkspace : Languages.of(context)!.strEmailText,
-                  isBordered: true,
-                  isValid: true,
-                  validatorFunction: isAddWorkspace ? _addUserValidatorFunction : _inviteUserValidatorFunction,
-                  autofocus: true,
+                const Divider(),
+                Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: FormTextField(
+                    _modalBottomSheetController,
+                    1,
+                    1,
+                    isAddWorkspace ? Languages.of(context)!.strWorkspace : Languages.of(context)!.strEmailText,
+                    isBordered: true,
+                    isValid: true,
+                    validatorFunction: isAddWorkspace ? _addUserValidatorFunction : _inviteUserValidatorFunction,
+                    autofocus: true,
+                  ),
                 ),
-              ),
-              ElevatedButton(
-                  onPressed: isAddWorkspace ? _addWorkspace : _inviteUserToWorkspace,
-                  child: isAddWorkspace ? Text(Languages.of(context)!.strAdd) : Text(Languages.of(context)!.strInvite),
-              ),
-            ],
+                ElevatedButton(
+                    onPressed: isAddWorkspace ? _addWorkspace : _inviteUserToWorkspace,
+                    child: isAddWorkspace ? Text(Languages.of(context)!.strAdd) : Text(Languages.of(context)!.strInvite),
+                ),
+              ],
+            ),
           ),
         ),
       ),
