@@ -12,10 +12,9 @@ bool globalIsDarkMode = gc.defaultIsDarkMode;
 
 enum AuthStatus {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
-enum AppPages {Settings, Balance, Archive, Welcome, Login, SetCategory, SetTransaction, Summary, Incomes, Expenses, ForgotPassword, Profile, ChangePassword, SetWorkspace}
+enum AppPages {Settings, Balance, Archive, Welcome, Login, SetCategory, SetTransaction, Summary, Incomes, Expenses, ForgotPassword, Profile, ChangePassword, SetWorkspace, Walkthrough}
 
 enum BalanceTabs {Summary, Expenses, Incomes}
-enum AppPages {Settings, Balance, Archive, Welcome, Login, SetCategory, SetTransaction, Incomes, Expenses, ForgotPassword, Profile, ChangePassword, Walkthrough}
 
 enum Entry {Category, Transaction}
 

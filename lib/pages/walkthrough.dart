@@ -1,6 +1,5 @@
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
-import 'package:balance_me/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_walkthrough_screen/flutter_walkthrough_screen.dart';
 import 'package:balance_me/global/constants.dart' as gc;

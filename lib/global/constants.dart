@@ -69,6 +69,7 @@ const Color workspaceInvitationsColor = Color(0xffffdc9b);
 const Color workspaceUsersRequestsColor = Color(0xffc87b3f);
 const Color doneColor = primaryColor;
 const Color nextColor = primaryColor;
+const Color linkColors = Colors.purple;
 
 // AppBar
 const double appBarAvatarRadius = 40;
