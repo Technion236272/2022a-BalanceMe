@@ -1,6 +1,8 @@
 // ================= Auth Repository =================
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
+import 'package:firebase_performance/firebase_performance.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,8 +14,6 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-
 
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;
@@ -22,6 +22,7 @@ class AuthRepository with ChangeNotifier {
   String? _avatarUrl;
 
   final FirebaseStorage _storage = FirebaseStorage.instanceFor(bucket: config.storageBucketPath);
+  final FirebasePerformance performance = FirebasePerformance.instance;
 
   AuthRepository.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onAuthStateChanged);
@@ -237,12 +238,15 @@ class AuthRepository with ChangeNotifier {
   }
 
   void uploadAvatar(XFile? avatarImage) async {
+    Trace performanceTrace = await performance.newTrace("uploadAvatar");
+    await performanceTrace.start();
     if (avatarImage != null && _user != null) {
       Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' + _user!.email.toString());
       UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage.path));
       await uploadedAvatar;
     }
     await getAvatarUrl();
+    await performanceTrace.stop();
     notifyListeners();
   }
 
@@ -260,16 +264,18 @@ class AuthRepository with ChangeNotifier {
   }
 
   Future<void> getAvatarUrl() async {
+    Trace performanceTrace = await performance.newTrace("getAvatarUrl");
+    await performanceTrace.start();
     try {
       if (_user != null ) {
         Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' + _user!.email.toString());
         _avatarUrl = await storageReference.getDownloadURL();
       }
-      _avatarUrl = null;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       _avatarUrl = null;
     }
+    await performanceTrace.stop();
   }
 
   Future<void> _onAuthStateChanged(User? firebaseUser) async {

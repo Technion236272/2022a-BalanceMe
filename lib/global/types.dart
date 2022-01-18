@@ -30,7 +30,7 @@ enum LoginMethod {Regular, Facebook, Google}
 
 enum Currency {NIS, USD, EURO}
 
-enum UserMessage {JoinWorkspace, InviteWorkspace, ShowMessage}
+enum UserMessage {JoinWorkspace, InviteWorkspace, ShowMessage, ApproveJoining, DisapproveJoining, ApproveInvitation, RejectInvitation}
 
 Map<Currency, String> CurrencySign = {Currency.NIS: "₪", Currency.USD: "\$", Currency.EURO: "€"};
 

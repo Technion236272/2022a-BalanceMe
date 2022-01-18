@@ -170,7 +170,7 @@ class UserStorage with ChangeNotifier {
       isApproved ? addNewUserToWorkspace(workspace, user) : null;
 
       if (_authRepository != null && _authRepository!.getEmail != null) {
-        SEND_showMessageToUser(user, isApproved ? Languages.of(context)!.strUserApproveJoining : Languages.of(context)!.strUserDisapproveJoining, _authRepository!.getEmail!, workspace);
+        SEND_showMessageToUser(user, isApproved ? UserMessage.ApproveJoining : UserMessage.DisapproveJoining, _authRepository!.getEmail!, workspace);
       }
     }
   }
@@ -182,7 +182,7 @@ class UserStorage with ChangeNotifier {
 
       String? workspaceLeader = await GET_workspaceLeader(workspace);
       if (workspaceLeader != null) {
-        SEND_showMessageToUser(workspaceLeader, isAccepted ? Languages.of(context)!.strUserApproveInvitation : Languages.of(context)!.strUserRejectInvitation, _authRepository!.getEmail!, workspace);
+        SEND_showMessageToUser(workspaceLeader, isAccepted ? UserMessage.ApproveInvitation : UserMessage.RejectInvitation, _authRepository!.getEmail!, workspace);
       }
     }
   }
@@ -425,7 +425,9 @@ class UserStorage with ChangeNotifier {
   // GET
   Future<void> GET_generalInfo(BuildContext context) async {  // Get General Info
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) {
+      Trace performanceTrace = await performance.newTrace("GetGeneralInfo");
+      await performanceTrace.start();
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) async {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
           if (_userData != null && _userData!.language != "") {
@@ -439,6 +441,7 @@ class UserStorage with ChangeNotifier {
         } else {
           GoogleAnalytics.instance.logRequestDataNotExists("postLogin", generalInfo);
         }
+        await performanceTrace.stop();
       });
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("GetPostLogin");
@@ -449,6 +452,9 @@ class UserStorage with ChangeNotifier {
     BalanceModel balanceModel = BalanceModel();
 
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
+      Trace performanceTrace = await performance.newTrace("GetBalanceModel");
+      await performanceTrace.start();
+
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, dateTime == null ? currentDate : dateTime);
       String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.getEmail! : _userData!.currentWorkspace;
       await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).get().then((categories) async {
@@ -459,6 +465,7 @@ class UserStorage with ChangeNotifier {
         } else {  // There is no data
           failureCallback != null ? failureCallback(null) : null;
         }
+        await performanceTrace.stop();
       });
 
     } else {
@@ -470,21 +477,29 @@ class UserStorage with ChangeNotifier {
   }
 
   Future<WorkspaceUsers?> GET_workspaceUsers(String workspace) async {
-      WorkspaceUsers? workspaceUsers;
-      await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) {
-        if (users.exists && users.data() != null) {
-          workspaceUsers = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]);
-        }
-      });
-      return workspaceUsers;
+    Trace performanceTrace = await performance.newTrace("GetGeneralInfo");
+    await performanceTrace.start();
+
+    WorkspaceUsers? workspaceUsers;
+    await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) async {
+      if (users.exists && users.data() != null) {
+        workspaceUsers = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]);
+      }
+      await performanceTrace.stop();
+    });
+    return workspaceUsers;
   }
 
   Future<String?> GET_workspaceLeader(String workspace) async {
+    Trace performanceTrace = await performance.newTrace("GetGeneralInfo");
+    await performanceTrace.start();
+
     String? leader;
-    await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) {
+    await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) async {
       if (users.exists && users.data() != null) {
         leader = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]).leader;
       }
+      await performanceTrace.stop();
     });
     return leader;
   }
@@ -679,8 +694,8 @@ class UserStorage with ChangeNotifier {
     _SEND_messageToUser(user, joiningRequest);
   }
 
-  void SEND_showMessageToUser(String receiver, String message, String user, String workspace) {
-    _SEND_messageToUser(receiver, {"type": UserMessage.ShowMessage.index, "message": message, "user": user, "workspace": workspace});
+  void SEND_showMessageToUser(String receiver, UserMessage message, String user, String workspace) {
+    _SEND_messageToUser(receiver, {"type": message.index, "user": user, "workspace": workspace});
   }
 
   Future<void> SEND_resetUserMessages() async {

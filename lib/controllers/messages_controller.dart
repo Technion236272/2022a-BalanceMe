@@ -33,6 +33,22 @@ class MessagesController {
               _handleShowMessage(message);
               break;
 
+            case UserMessage.ApproveJoining:
+              _handleApproveJoining(message);
+              break;
+
+            case UserMessage.DisapproveJoining:
+              _handleDisapproveJoining(message);
+              break;
+
+            case UserMessage.ApproveInvitation:
+              _handleApproveInvitation(message);
+              break;
+
+            case UserMessage.RejectInvitation:
+              _handleRejectInvitation(message);
+              break;
+
             default:
               GoogleAnalytics.instance.logHandleUnknownMessage(message.toString());
               break;
@@ -64,6 +80,26 @@ class MessagesController {
 
     message["message"] = Languages.of(context!)!.strUserInvitedToWorkspace;
     _handleShowMessage(message, [[() => {replyRequest(true)}, Languages.of(context!)!.strApprove], [() => {replyRequest(false)}, Languages.of(context!)!.strReject]]);
+  }
+
+  static void _handleApproveJoining(Message message) {
+    message["message"] = Languages.of(context!)!.strUserApproveJoining;
+    _handleShowMessage(message);
+  }
+
+  static void _handleDisapproveJoining(Message message) {
+    message["message"] = Languages.of(context!)!.strUserDisapproveJoining;
+    _handleShowMessage(message);
+  }
+
+  static void _handleApproveInvitation(Message message) {
+    message["message"] = Languages.of(context!)!.strUserApproveInvitation;
+    _handleShowMessage(message);
+  }
+
+  static void _handleRejectInvitation(Message message) {
+    message["message"] = Languages.of(context!)!.strUserRejectInvitation;
+    _handleShowMessage(message);
   }
 
   static void _handleShowMessage(Message message, [List<List>? actions]) {

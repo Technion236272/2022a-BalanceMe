@@ -111,8 +111,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       displaySnackBar(context, Languages.of(context)!.strDeleteProfileFailed);
       return;
     }
-    showYesNoAlertDialog(context, Languages.of(context)!.strDeleteProfileAlert,
-        _deleteImage, _cancelDeleteImage);
+    showYesNoAlertDialog(context, Languages.of(context)!.strDeleteProfileAlert, _deleteImage, _cancelDeleteImage);
   }
 
   void _cancelDeleteImage() {
@@ -130,7 +129,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     icons.add(const Icon(gc.galleryChoice, color: gc.darkVeryLightColor));
     icons.add(const Icon(gc.cameraChoice, color: gc.darkVeryLightColor));
     if (widget.authRepository.avatarUrl != null) {
-      icons.add(const Icon(gc.deleteIcon));
+      icons.add(const Icon(gc.deleteIcon,  color: gc.darkVeryLightColor));
     }
     return icons;
   }
@@ -184,6 +183,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     _saveProfile();
     _enableEditFirstName(null);
     _enableEditLastName(null);
+    FocusScope.of(context).unfocus(); // Remove the keyboard
   }
 
   @override
