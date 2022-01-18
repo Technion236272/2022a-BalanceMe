@@ -6,6 +6,7 @@ import 'package:mailer/smtp_server.dart';
 import 'package:balance_me/main.dart';
 import 'package:balance_me/global/dispatcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -72,6 +73,7 @@ class UserStorage with ChangeNotifier {
 
   // Declaration
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebasePerformance performance = FirebasePerformance.instance;
   AuthRepository? _authRepository;
   UserModel? _userData;
   BalanceModel _balance = BalanceModel();

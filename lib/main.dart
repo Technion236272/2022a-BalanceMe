@@ -10,8 +10,6 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-import 'package:firebase_performance/firebase_performance.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:balance_me/pages/home.dart';
 import 'package:balance_me/global/types.dart';
@@ -30,11 +28,12 @@ Future<void> main() async {
 
 class App extends StatelessWidget {
   App({Key? key}) : super(key: key);
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Firebase.initializeApp(),
+      future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Scaffold(
@@ -52,7 +51,6 @@ class App extends StatelessWidget {
 
 class BalanceMeApp extends StatefulWidget {
   BalanceMeApp({Key? key}) : super(key: key);
-  final FirebasePerformance performance = FirebasePerformance.instance;
 
   static void setLocale(BuildContext context, Locale newLocale) {
     _BalanceMeAppState? state = context.findAncestorStateOfType<_BalanceMeAppState>();
@@ -101,15 +99,8 @@ class _BalanceMeAppState extends State<BalanceMeApp> {
     return supportedLocales.first;
   }
 
-  void _disableCrashlyticsInDebug() async {
-    if (kDebugMode) {
-      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    _disableCrashlyticsInDebug();
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<AuthRepository>(create: (_) => AuthRepository.instance()),
