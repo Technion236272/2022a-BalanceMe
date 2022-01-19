@@ -1,7 +1,7 @@
 
 # Database
 
-* *BalanceMe's database serves multiple purposes:
+* BalanceMe's database serves multiple purposes:
   it must save the individual user's preferences and settings,such as language, name and currency while simultaneously
   saving his or a group's incomes and expanses in such a way,in order to minimize the impact on the app's performance.
 
