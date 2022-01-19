@@ -1,4 +1,5 @@
 // ================= Set Transaction =================
+import 'package:balance_me/widgets/generic_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_me/widgets/date_picker.dart';
@@ -18,12 +19,11 @@ import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class SetTransaction extends StatefulWidget {
-  SetTransaction(this._mode, this._currentCategory, this._currencySign, {this.callback, this.currentTransaction, Key? key}) : super(key: key);
+  SetTransaction(this._mode, this._currentCategory, {this.callback, this.currentTransaction, Key? key}) : super(key: key);
 
   DetailsPageMode _mode;
   final Category _currentCategory;
   final Transaction? currentTransaction;
-  final String _currencySign;
   final VoidCallback? callback;
 
   @override
@@ -104,19 +104,8 @@ class _SetTransactionState extends State<SetTransaction> {
     });
   }
 
-  String? _essentialFieldValidatorFunction(String? value) {
-    if (value != null){
-      value = value.split(widget._currencySign).first;
-    }
-    return essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
-  }
-
   String? _lineLimitValidatorFunction(String? value) {
-    if (value != null){
-      value = value.split(widget._currencySign).first;
-    }
-
-    String? message = _essentialFieldValidatorFunction(value);
+    String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
       return lineLimitMaxValidator(value, gc.defaultMaxCharactersLimit) ? null : Languages.of(context)!.strMaxCharactersLimit.replaceAll("%", gc.defaultMaxCharactersLimit.toString());
     }
@@ -125,11 +114,7 @@ class _SetTransactionState extends State<SetTransaction> {
   }
 
   String? _positiveNumberValidatorFunction(String? value) {
-    if (value != null){
-      value = value.split(widget._currencySign).first;
-    }
-
-    String? message = _essentialFieldValidatorFunction(value);
+    String? message = essentialFieldValidator(value) ? null : Languages.of(context)!.strEssentialField;
     if (message == null) {
       try {
         return positiveNumberValidator(num.parse(value!)) ? null : Languages.of(context)!.strMustPositiveNum;
@@ -155,7 +140,7 @@ class _SetTransactionState extends State<SetTransaction> {
     return Transaction(
         _transactionNameController.text.toString(),
         (_dateRangePickerController.value == null) ? DateTime.now().toFullDate() : _dateRangePickerController.value!,
-        double.parse(_transactionAmountController.text.toString().split(widget._currencySign).first),
+        double.parse(_transactionAmountController.text.toString()),
         _transactionDescriptionController.text.toString(),
         _isConstant
     );
@@ -168,7 +153,7 @@ class _SetTransactionState extends State<SetTransaction> {
       String message = Languages.of(context)!.strSaveSucceeded;
 
       if (widget._mode == DetailsPageMode.Add) {
-        Category category = (_dropDownController.value == widget._currentCategory.name) ? widget._currentCategory : userStorage.balance.findCategory(_dropDownController.value);
+        Category category = (_dropDownController.value == widget._currentCategory.name) ? widget._currentCategory : userStorage.balance.findCategory(_dropDownController.value, widget._currentCategory.isIncome);
         message = userStorage.addTransaction(category, createNewTransaction()) ? message : Languages.of(context)!.strAlreadyExist;
       } else {
         message = userStorage.editTransaction(widget._currentCategory, _dropDownController.value, widget.currentTransaction!, createNewTransaction()) ? message : Languages.of(context)!.strAlreadyExist;
@@ -196,16 +181,25 @@ class _SetTransactionState extends State<SetTransaction> {
                 Column(
                 children: [
                   SizedBox(
-                    width: gc.smallTextFields,
-                    child: FormTextField(
-                      _transactionNameController,
-                      1,
-                      1,
-                      Languages.of(context)!.strTransactionName,
-                      isBordered: true,
-                      isValid: true,
-                      isEnabled: widget._mode != DetailsPageMode.Details,
-                      validatorFunction: _lineLimitValidatorFunction,
+                    width: gc.textFieldAndTooltipSizedBox,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GenericTooltip(tip: widget._currentCategory.isIncome ? Languages.of(context)!.strIncomeTransactionInfo : Languages.of(context)!.strExpenseTransactionInfo),
+                        SizedBox(
+                          width: gc.smallTextFields,
+                          child: FormTextField(
+                            _transactionNameController,
+                            1,
+                            1,
+                            Languages.of(context)!.strTransactionName,
+                            isBordered: true,
+                            isValid: true,
+                            isEnabled: widget._mode != DetailsPageMode.Details,
+                            validatorFunction: _lineLimitValidatorFunction,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -214,7 +208,8 @@ class _SetTransactionState extends State<SetTransaction> {
                       _transactionAmountController,
                       1,
                       1,
-                      Languages.of(context)!.amount,
+                      widget._currentCategory.isIncome ? Languages.of(context)!.strIncome : Languages.of(context)!.strExpense,
+                      isBordered: false,
                       isValid: true,
                       isNumeric: true,
                       isEnabled: widget._mode != DetailsPageMode.Details,
@@ -234,7 +229,7 @@ class _SetTransactionState extends State<SetTransaction> {
                               margin: gc.dropDownMargin,
                               padding: gc.dropDownPadding,
                               decoration: BoxDecoration(
-                                color: gc.disabledColor.withOpacity(0.2),
+                                color: Theme.of(context).disabledColor.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(gc.dropDownRadius),
                                 border: gc.disabledDropDownBorder,
                               ),
@@ -254,7 +249,7 @@ class _SetTransactionState extends State<SetTransaction> {
                       visible: userStorage.currentDate != null && userStorage.currentDate!.isSameDate(DateTime.now()),
                       child: GenericIconButton(
                         onTap: (widget._mode == DetailsPageMode.Details) ? _toggleEditDetailsMode : null,
-                        color: gc.primaryColor,
+                        color: Theme.of(context).hoverColor,
                         iconSize: gc.editIconSize,
                       ),
                     ),
@@ -274,12 +269,20 @@ class _SetTransactionState extends State<SetTransaction> {
                         widget._mode == DetailsPageMode.Details ? Text(widget.currentTransaction!.date)
                         : SizedBox(
                           width: MediaQuery.of(context).size.width/2.5,
-                          child: DatePicker(
-                                dateController: _dateRangePickerController,
-                                view: DatePickerType.Day,
-                                iconColor: gc.primaryColor,
-                                firstDate: getCurrentMonth(userStorage.userData == null ? gc.defaultEndOfMonthDay : userStorage.userData!.endOfMonthDay),
-                                lastDate: DateTime.now(),
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: ColorScheme.light(
+                                primary: Theme.of(context).primaryColor,
+                                onSurface: Theme.of(context).primaryColor, // body text color
+                              ),
+                            ),
+                            child: DatePicker(
+                                  dateController: _dateRangePickerController,
+                                  view: DatePickerType.Day,
+                                  iconColor: Theme.of(context).hoverColor,
+                                  firstDate: getCurrentMonth(userStorage.userData == null ? gc.defaultEndOfMonthDay : userStorage.userData!.endOfMonthDay),
+                                  lastDate: DateTime.now(),
+                            ),
                           ),
                         ),
                         Switch(

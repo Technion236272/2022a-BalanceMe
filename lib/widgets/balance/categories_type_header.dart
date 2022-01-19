@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:balance_me/firebase_wrapper/storage_repository.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/common_models/category_model.dart';
+import 'package:balance_me/widgets/balance/add_category_button.dart';
 import 'package:balance_me/widgets/ring_pie_chart.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/types.dart';
@@ -34,15 +35,15 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
     return Padding(
       padding: const EdgeInsets.only(top: gc.categoryTypeHeaderTopPadding),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           RingPieChart(widget._categories, true, null),
+          AddCategoryButton(widget._categories.first.isIncome),
           Card(
             shadowColor: gc.primaryColor.withOpacity(0.5),
             elevation: gc.cardElevationHeight,
             shape: RoundedRectangleBorder(
-              side: const BorderSide(
-                  color: gc.primaryColor, width: gc.cardBorderWidth),
+              side: BorderSide(
+                  color: Theme.of(context).toggleableActiveColor, width: gc.cardBorderWidth),
               borderRadius: BorderRadius.circular(gc.entryBorderRadius),
             ),
             child: Row(
@@ -57,20 +58,12 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
                         padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                         child: Text(
                           Languages.of(context)!.strCurrent,
-                          style: TextStyle(
-                              color: gc.disabledColor,
-                              fontSize: gc.fontSizeLoginImage,
-                              fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ),
                       Text(_getTotalCategoriesListAmount(false).toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
                           style: TextStyle(
-                              color: (widget._categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(false)>=_getTotalCategoriesListAmount(true))
-                                      ? gc.incomeEntryColor
-                                      : (!widget._categories.elementAt(0).isIncome && _getTotalCategoriesListAmount(true)>_getTotalCategoriesListAmount(false))
-                                      ? gc.incomeEntryColor
-                                      : gc.expenseEntryColor,
+                              color: getColorForCard(widget._categories.elementAt(0).isIncome, _getTotalCategoriesListAmount(false), _getTotalCategoriesListAmount(true)),
                               fontSize: gc.fontSizeLoginImage,
                               fontWeight: FontWeight.bold,
                           ),
@@ -85,19 +78,14 @@ class _CategoriesTypeHeaderState extends State<CategoriesTypeHeader> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
                         child: Text(Languages.of(context)!.expected,
-                            style: TextStyle(
-                                color: gc.disabledColor,
-                                fontSize: gc.fontSizeLoginImage,
-                                fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ),
                       Text(_getTotalCategoriesListAmount(true).toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
-                          style: const TextStyle(
-                              color: gc.primaryColor,
-                              fontSize: gc.fontSizeLoginImage,
-                              fontWeight: FontWeight.bold,
-                          ),
+                          style: TextStyle(
+                          color: Theme.of(context).toggleableActiveColor,
+                          fontSize: gc.expectedFontSize,
+                          fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

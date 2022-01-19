@@ -1,6 +1,8 @@
 // ================= Auth Repository =================
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
+import 'package:firebase_performance/firebase_performance.dart';
+import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,8 +14,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
-import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
-
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;
@@ -21,9 +22,8 @@ class AuthRepository with ChangeNotifier {
   AuthStatus _status = AuthStatus.Uninitialized;
   String? _avatarUrl;
 
-
   final FirebaseStorage _storage = FirebaseStorage.instanceFor(bucket: config.storageBucketPath);
-
+  final FirebasePerformance performance = FirebasePerformance.instance;
 
   AuthRepository.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onAuthStateChanged);
@@ -36,6 +36,8 @@ class AuthRepository with ChangeNotifier {
   User? get user => _user;
 
   String? get avatarUrl => _avatarUrl;
+
+  String? get getEmail =>  (user == null) ? null : user!.email;
 
   Future<bool> signUp(String email, String password, BuildContext context) async {
     try {
@@ -154,30 +156,44 @@ class AuthRepository with ChangeNotifier {
   }
 
 
-  Future<void> handleProvidersThirdParty(String? email, AuthCredential credential, BuildContext context,String provider) async {
+  Future<void> handleProvidersThirdParty(String? email, AuthCredential credential, BuildContext context, String provider, bool isSignIn) async {
     if (email!=null) {
       List<String> methods = await _auth.fetchSignInMethodsForEmail(email);
-      if (methods.isEmpty || methods.contains(provider)) {
+      if ((methods.isEmpty && !isSignIn) || (methods.contains(provider) && isSignIn)) {
         await FirebaseAuth.instance.signInWithCredential(credential);
-      } else {
+      }
+      else if (methods.isEmpty && isSignIn) {
+          throw FirebaseAuthException(code: gc.userNotFound);
+      }
+      else {
         displaySnackBar(context, Languages.of(context)!.strLinkProviderError);
         GoogleAnalytics.instance.logMultipleProviders(providerLinked: provider);
       }
     }
   }
 
-  Future<bool> signInGoogle(BuildContext context) async {
+  Future<bool> signInGoogle(BuildContext context,bool isSignIn) async {
     try {
       _status = AuthStatus.Authenticating;
       notifyListeners();
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      if (googleUser == null) {
+        return false;
+      }
+      final GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
-      await handleProvidersThirdParty(googleUser?.email,credential,context,gc.google);
+      await handleProvidersThirdParty(googleUser.email,credential,context,gc.google,isSignIn);
       _status = AuthStatus.Authenticated;
       await getAvatarUrl();
       notifyListeners();
       return true;
+    } on FirebaseAuthException catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+      if (e.code == gc.userNotFound) {
+        displaySnackBar(context, Languages.of(context)!.strUserNotFound);
+        GoogleAnalytics.instance.logMultipleProviders(providerLinked: gc.google);
+      }
+      return false;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       _status = AuthStatus.Unauthenticated;
@@ -186,17 +202,28 @@ class AuthRepository with ChangeNotifier {
     }
   }
 
-  Future<bool> signInWithFacebook(BuildContext context) async {
+  Future<bool> signInWithFacebook(BuildContext context, bool isSignIn) async {
     try {
-      final loginResult = await FacebookAuth.instance.login(permissions: gc.permissionFacebook);
-      final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
-      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+      final facebookLogin = FacebookLogin();
+      final loginAttempt = await facebookLogin.logIn(permissions: [FacebookPermission.publicProfile, FacebookPermission.email,]);
+       FacebookAccessToken? accessToken=null;
+      if (loginAttempt.status == FacebookLoginStatus.success) {
+        accessToken = loginAttempt.accessToken;
+      } else {
+        return false;
+      }
+      final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(accessToken!.token);
+      await handleProvidersThirdParty(await facebookLogin.getUserEmail(), facebookAuthCredential ,context, gc.facebook ,  isSignIn);
       _status = AuthStatus.Authenticated;
       await getAvatarUrl();
       notifyListeners();
       return true;
     } on FirebaseAuthException catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
+      if (e.code == gc.userNotFound) {
+        displaySnackBar(context, Languages.of(context)!.strUserNotFound);
+        GoogleAnalytics.instance.logMultipleProviders(providerLinked: gc.facebook);
+      }
       if (e.code == gc.credentialExists) {
         displaySnackBar(context, Languages.of(context)!.strLinkProviderError);
         GoogleAnalytics.instance.logMultipleProviders(providerLinked: gc.facebook);
@@ -219,27 +246,45 @@ class AuthRepository with ChangeNotifier {
     return Future.delayed(Duration.zero);
   }
 
-  void uploadAvatar(XFile? avatarImage) async {
+  Future<void> uploadAvatar(XFile? avatarImage) async {
+    Trace performanceTrace = await performance.newTrace("uploadAvatar");
+    await performanceTrace.start();
     if (avatarImage != null && _user != null) {
       Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' + _user!.email.toString());
       UploadTask uploadedAvatar = storageReference.putFile(File(avatarImage.path));
       await uploadedAvatar;
     }
     await getAvatarUrl();
+    await performanceTrace.stop();
     notifyListeners();
   }
 
-  Future<void> getAvatarUrl() async {
+  Future<void> deleteAvatarUrl() async {
     try {
       if (user != null) {
         Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' + _user!.email.toString());
+         await storageReference.delete();
+         _avatarUrl=null;
+        notifyListeners();
+      }
+    } catch (e, stackTrace) {
+      SentryMonitor().sendToSentry(e, stackTrace);
+    }
+  }
+
+  Future<void> getAvatarUrl() async {
+    Trace performanceTrace = await performance.newTrace("getAvatarUrl");
+    await performanceTrace.start();
+    try {
+      if (_user != null ) {
+        Reference storageReference = _storage.ref().child(config.avatarsCollection + '/' + _user!.email.toString());
         _avatarUrl = await storageReference.getDownloadURL();
       }
-      return null;
     } catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
       _avatarUrl = null;
     }
+    await performanceTrace.stop();
   }
 
   Future<void> _onAuthStateChanged(User? firebaseUser) async {
@@ -253,12 +298,12 @@ class AuthRepository with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updatePassword(BuildContext context, String newPassword) async {
+  Future<void> updatePassword(BuildContext context, String newPassword, Function? failureCB) async {
     if (_user != null) {
       try {
         await _user!.updatePassword(newPassword);
         notifyListeners();
-        displaySnackBar(context, Languages.of(context)!.strChangePasswordSuccess);
+        return;
       } on FirebaseAuthException catch (e, stackTrace) {
         SentryMonitor().sendToSentry(e, stackTrace);
         if (e.code == gc.weakPassword) {
@@ -271,5 +316,6 @@ class AuthRepository with ChangeNotifier {
     } else {
       displaySnackBar(context, Languages.of(context)!.strSignInTimeout);
     }
+    failureCB != null ? failureCB() : null;
   }
 }

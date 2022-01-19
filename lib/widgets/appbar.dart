@@ -1,5 +1,7 @@
 // ================= AppBar Widget =================
+import 'package:balance_me/pages/profile_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_me/global/dispatcher.dart';
 import 'package:balance_me/pages/authentication/authentication_manager.dart';
 import 'package:balance_me/widgets/user_avatar.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -8,7 +10,6 @@ import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/global/utils.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/constants.dart' as gc;
-
 
 // MinorAppBar
 class MinorAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -68,10 +69,15 @@ class _MainAppBarState extends State<MainAppBar> {
   void _logoutApp() {
     setState(() {
       widget._authRepository.signOut();
-      if (Languages.of(context) != null) {
-        displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogout);
-      }
     });
+    widget._userStorage.signOut();
+    ScaffoldMessenger.of(context).clearMaterialBanners();
+    ScaffoldMessenger.of(context).clearSnackBars();
+    displaySnackBar(context, Languages.of(context)!.strSuccessfullyLogout);
+  }
+
+  void _profileTap(){
+    navigateToPage(context, ProfileSettings( authRepository: widget._authRepository, userStorage: widget._userStorage), null);
   }
 
   @override
@@ -79,7 +85,11 @@ class _MainAppBarState extends State<MainAppBar> {
     return AppBar(
       title: Text(_getAppBarTitle(context)),
       centerTitle: true,
-      leading: UserAvatar(widget._authRepository, gc.appBarAvatarRadius),
+      leading: Visibility(
+          visible: widget._authRepository.status == AuthStatus.Authenticated,
+          child: GestureDetector(
+            onTap: _profileTap,
+              child: UserAvatar(widget._authRepository, gc.appBarAvatarRadius))),
       actions: [
         widget._authRepository.status == AuthStatus.Authenticated ?
             IconButton(

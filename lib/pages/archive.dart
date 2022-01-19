@@ -31,6 +31,7 @@ class _ArchiveState extends State<Archive> {
   @override
   void initState(){
     super.initState();
+    widget._userStorage.archiveBalance = null;
     widget._userStorage.currentDate = null;
     if (widget._authRepository.status == AuthStatus.Authenticated) {
       widget._userStorage.resetBalance();
@@ -60,7 +61,7 @@ class _ArchiveState extends State<Archive> {
     _stopWaitingForDataCB();
   }
 
-  void _getCurrentBalance() {
+  void _getCurrentBalance() async {
     if (widget._authRepository.status == AuthStatus.Authenticated && _dateController.selectedDate != null) {
       int endOfMonthDay = (widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay;
       DateTime requestedRange = DateTime(_dateController.selectedDate!.year, _dateController.selectedDate!.month, endOfMonthDay);
@@ -69,13 +70,10 @@ class _ArchiveState extends State<Archive> {
         return;
       }
 
-      widget._userStorage.setDate(requestedRange);
-      setState(() {
-        _waitingForData = true;
-        widget._userStorage.GET_balanceModel(successCallback: _showMsgAccordingToBalance, failureCallback: _showMsgAccordingToBalance);
-      });
-      GoogleAnalytics.instance.logArchiveDateChange(widget._userStorage.currentDate!.toFullDate());
-
+      _waitingForData = true;
+      widget._userStorage.archiveBalance = await widget._userStorage.GET_balanceModel(dateTime: requestedRange, successCallback: _showMsgAccordingToBalance, failureCallback: _showMsgAccordingToBalance);
+      setState(() {});
+      GoogleAnalytics.instance.logArchiveDateChange(requestedRange.toFullDate());
     } else {
       _showMsgAccordingToBalance();
     }
@@ -84,16 +82,15 @@ class _ArchiveState extends State<Archive> {
   @override
   Widget build(BuildContext context) {
     DateTime currentMonth = getCurrentMonth((widget._userStorage.userData == null) ? gc.defaultEndOfMonthDay : widget._userStorage.userData!.endOfMonthDay);
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: GestureDetector(
-        onTap: _hideDatePicker,
-        child: Stack(
+    return GestureDetector(
+      onTap: _hideDatePicker,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Stack(
         children: [
           _waitingForData ? const Center(child: CircularProgressIndicator())
-
-          : (widget._userStorage.currentDate != null && !widget._userStorage.balance.isEmpty) ?
-              ListView(children: [BalancePage(widget._userStorage.balance, _setCurrentTab)])
+          : (widget._userStorage.archiveBalance != null && !widget._userStorage.archiveBalance!.isEmpty) ?
+              ListView(children: [BalancePage(widget._userStorage.archiveBalance!, _setCurrentTab)])
               : GenericInfo(topInfo: Languages.of(context)!.strDataUnavailable),
           Padding(
             padding: const EdgeInsets.only(top: gc.archiveDatePickerPadding),

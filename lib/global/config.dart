@@ -2,7 +2,7 @@
 
 // Project Config
 const String projectName = "BalanceMe";
-const String projectVersion = "v1.0.2";
+const String projectVersion = "v2.0.0";
 
 // FireBase Config
 const String firebaseVersion = "v1.0.0";
@@ -11,6 +11,10 @@ const String imageStorePath = storageBucketPath + "/AppImage";
 const String avatarsCollection = "avatars";
 const String generalInfoDoc = "generalInfo";
 const String categoriesDoc = "categories";
+const String workspaceUsers = "workspaceUsers";
+const String workspaceLeader = "leader";
+const String belongsWorkspaces = "belongsWorkspaces";
+const String userMessages = "userMessages";
 const String incomeCategoriesField = "incomeCategories";
 const String expenseCategoriesField = "expensesCategories";
 
