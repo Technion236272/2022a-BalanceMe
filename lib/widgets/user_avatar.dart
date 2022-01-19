@@ -4,9 +4,7 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:balance_me/global/constants.dart' as gc;
 
 class UserAvatar extends StatefulWidget {
-  const UserAvatar(this._authRepository, this._radius,
-      {Key? key})
-      : super(key: key);
+  const UserAvatar(this._authRepository, this._radius, {Key? key}) : super(key: key);
 
   final AuthRepository _authRepository;
   final double _radius;
@@ -24,16 +22,16 @@ class _UserAvatarState extends State<UserAvatar> {
               radius: widget._radius,
               backgroundColor: Colors.transparent,
               child: ClipOval(
-                  child:FadeInImage.assetNetwork(
-                      height:widget._radius,
-                      width:widget._radius,
+                  child: FadeInImage.assetNetwork(
+                      height: widget._radius,
+                      width: widget._radius,
                       fit: BoxFit.cover,
                       placeholder: gc.load,
-                      image: widget._authRepository.avatarUrl!)
+                      image: widget._authRepository.avatarUrl!
+                  ),
               ),
             ),
           )
-        : const Icon(gc.emptyAvatarIcon,
-            size: gc.settingDefaultAppbarAvatarSize);
+        : Icon(gc.emptyAvatarIcon, size: widget._radius);
   }
 }

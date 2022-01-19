@@ -107,7 +107,7 @@ class ThemeController {
           ),
         ),
         labelStyle: TextStyle(color: gc.whiteColor, fontSize: 15.0),
-        hintStyle: TextStyle(color: gc.whiteColor, fontSize: 15.0),
+        hintStyle: TextStyle(color: gc.darkVeryLightColor, fontSize: 15.0),
       ),
       dividerTheme: DividerThemeData(
         color: gc.darkPrimaryDarkColor,
@@ -240,7 +240,7 @@ class ThemeController {
           ),
         ),
         labelStyle: TextStyle(color: gc.blackColor, fontSize: 15.0),
-        hintStyle: TextStyle(color: gc.blackColor, fontSize: 15.0),
+        hintStyle: TextStyle(color: gc.disabledColor, fontSize: 15.0),
         prefixStyle: TextStyle(color: gc.blackColor, fontSize: 15.0),
         suffixStyle: TextStyle(color: gc.blackColor, fontSize: 15.0),
       ),

@@ -1,4 +1,5 @@
 // ================= Settings Page =================
+import 'package:balance_me/pages/walkthrough.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/firebase_wrapper/google_analytics_repository.dart';
 import 'package:share_plus/share_plus.dart';
@@ -76,6 +77,10 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  void _showWalkthrough() {
+    navigateToPage(context, IntroWalkthrough(), AppPages.Walkthrough);
+  }
+
   void _inviteFriend() {
     Share.share(Languages.of(context)!.strInviteFriendContent.replaceAll("%", gc.googlePlayURL), subject: Languages.of(context)!.strInviteFriendSubject);
     GoogleAnalytics.instance.logInviteFriendOpened();
@@ -144,6 +149,7 @@ class _SettingsState extends State<Settings> {
         Languages.of(context)!.strConstants,
         style: Theme.of(context).textTheme.subtitle1,
       ),
+      Text(Languages.of(context)!.strWatchWalkthrough),
       Text(Languages.of(context)!.strInviteFriend),
       Text(Languages.of(context)!.strRateUs),
       Text(Languages.of(context)!.strAbout),
@@ -152,6 +158,10 @@ class _SettingsState extends State<Settings> {
     ];
     List<Widget?> trailingSettings = [
       null,
+      IconButton(
+        onPressed: _showWalkthrough,
+        icon: _getSettingsArrow(),
+      ),
       IconButton(
         onPressed: _inviteFriend,
         icon: _getSettingsArrow(),
@@ -197,7 +207,7 @@ class _SettingsState extends State<Settings> {
       ),
       widget.authRepository.status != AuthStatus.Authenticated ? null :
         GenericRadioButton(CurrencySign.values.toList(), _currencyController, onChangeCallback: _changeCurrency),
-      widget.authRepository.status != AuthStatus.Authenticated ? null :
+      (widget.authRepository.status != AuthStatus.Authenticated || widget.userStorage.userData == null) ? null :
         Checkbox(value: widget.userStorage.userData!.sendReport, onChanged: _toggleSendEmail),
       const LanguageDropDown(),
       DarkModeSwitcher(globalIsDarkMode),

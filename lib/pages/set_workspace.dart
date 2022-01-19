@@ -73,10 +73,10 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       message = emailValidator(value) ? null : Languages.of(context)!.strBadEmail;
     }
     if (message == null) {
-      message = (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.contains(value)) ? Languages.of(context)!.strUserAlreadyRequestToJoin : null;
+      message = (_workspaceUsers != null && _workspaceUsers!.pendingJoiningRequests.contains(value!.toLowerCase())) ? Languages.of(context)!.strUserAlreadyRequestToJoin : null;
     }
     if (message == null) {
-      message = (_workspaceUsers != null && _workspaceUsers!.users.contains(value)) ? Languages.of(context)!.strUserAlreadyInWorkspace : null;
+      message = (_workspaceUsers != null && _workspaceUsers!.users.contains(value!.toLowerCase())) ? Languages.of(context)!.strUserAlreadyInWorkspace : null;
     }
     return message;
   }
@@ -119,6 +119,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
     String? workspaceLeader = await userStorage.GET_workspaceLeader(workspace);
     if (workspaceLeader != null && await userStorage.SEND_joinWorkspaceRequest(workspace, workspaceLeader)) {
+      userStorage.SEND_updatePendingJoiningRequest(workspace, authRepository.user!.email!, true);
       displaySnackBar(context, Languages.of(context)!.strWorkspaceJoinRequestSent);
       GoogleAnalytics.instance.logWorkspaceJoinRequestSent(workspace);
 
@@ -153,10 +154,16 @@ class _SetWorkspaceState extends State<SetWorkspace> {
 
       String invitedUser = _modalBottomSheetController.text.toLowerCase();
       if (await userStorage.isExist_generalInfo(invitedUser)) {
-        userStorage.SEND_updateInvitationsList(userStorage.userData!.currentWorkspace, invitedUser, true);
-        userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, invitedUser);
-        displaySnackBar(context, Languages.of(context)!.strInvitedSuccessfullyWorkspace);
-        GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, invitedUser);
+
+        if (!await userStorage.isExist_BelongsWorkspaces(user: invitedUser)) {
+          displaySnackBar(context, Languages.of(context)!.strCantInviteSinceUserNotUpdated);
+
+        } else {
+          userStorage.SEND_updateInvitationsList(userStorage.userData!.currentWorkspace, invitedUser, true);
+          userStorage.SEND_inviteWorkspaceRequest(userStorage.userData!.currentWorkspace, invitedUser);
+          displaySnackBar(context, Languages.of(context)!.strInvitedSuccessfullyWorkspace);
+          GoogleAnalytics.instance.logInviteUserToWorkspace(userStorage.userData!.currentWorkspace, invitedUser);
+        }
       } else {
         displaySnackBar(context, Languages.of(context)!.strUserNotFound);
       }
@@ -182,58 +189,59 @@ class _SetWorkspaceState extends State<SetWorkspace> {
   }
 
   Widget _getModalBottomSheet(bool isAddWorkspace) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: Container(
-        height: MediaQuery.of(context).size.height / gc.bottomSheetSizeScale,
-        color: Theme.of(context).cardColor,
-        child: Form(
-          key: _modalBottomSheetFormKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: gc.bottomSheetPadding,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        isAddWorkspace ? Languages.of(context)!.strAddNewWorkspace :  Languages.of(context)!.strInviteUserToWorkspace,
-                        style: gc.bottomSheetTextStyle,
-                      ),
-                      IconButton(
-                        onPressed: _closeModalBottomSheet,
-                        icon: Icon(gc.closeIcon),
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                      ),
-                    ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: Container(
+          color: Theme.of(context).cardColor,
+          child: Form(
+            key: _modalBottomSheetFormKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: gc.bottomSheetPadding,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          isAddWorkspace ? Languages.of(context)!.strAddNewWorkspace :  Languages.of(context)!.strInviteUserToWorkspace,
+                          style: gc.bottomSheetTextStyle,
+                        ),
+                        IconButton(
+                          onPressed: _closeModalBottomSheet,
+                          icon: Icon(gc.closeIcon),
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const Divider(),
-              Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: FormTextField(
-                  _modalBottomSheetController,
-                  1,
-                  1,
-                  isAddWorkspace ? Languages.of(context)!.strWorkspace : Languages.of(context)!.strEmailText,
-                  isBordered: true,
-                  isValid: true,
-                  validatorFunction: isAddWorkspace ? _addUserValidatorFunction : _inviteUserValidatorFunction,
-                  autofocus: true,
+                const Divider(),
+                Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: FormTextField(
+                    _modalBottomSheetController,
+                    1,
+                    1,
+                    isAddWorkspace ? Languages.of(context)!.strWorkspace : Languages.of(context)!.strEmailText,
+                    isBordered: true,
+                    isValid: true,
+                    validatorFunction: isAddWorkspace ? _addUserValidatorFunction : _inviteUserValidatorFunction,
+                    autofocus: true,
+                  ),
                 ),
-              ),
-              ElevatedButton(
-                  onPressed: isAddWorkspace ? _addWorkspace : _inviteUserToWorkspace,
-                  child: isAddWorkspace ? Text(Languages.of(context)!.strAdd) : Text(Languages.of(context)!.strInvite),
-              ),
-            ],
+                ElevatedButton(
+                    onPressed: isAddWorkspace ? _addWorkspace : _inviteUserToWorkspace,
+                    child: isAddWorkspace ? Text(Languages.of(context)!.strAdd) : Text(Languages.of(context)!.strInvite),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -245,7 +253,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
       padding: gc.workspaceTilePadding,
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
+          color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(gc.entryBorderRadius),
           border: Border.all(
             color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).disabledColor,
@@ -259,7 +267,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
             workspace,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).toggleableActiveColor : Theme.of(context).hoverColor,
+              color: userStorage.userData!.currentWorkspace == workspace ? Theme.of(context).hintColor : Theme.of(context).hoverColor,
               fontWeight: userStorage.userData!.currentWorkspace == workspace ? FontWeight.bold : FontWeight.normal,
             ),
           ),

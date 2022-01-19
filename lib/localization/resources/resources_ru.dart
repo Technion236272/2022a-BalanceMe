@@ -111,6 +111,12 @@ class LanguageRu extends Languages {
   String get strLastName => "фамилия";
 
   @override
+  String get strFirstNameLabel => "Enter first name";
+
+  @override
+  String get strLastNameLabel => "Enter last name";
+
+  @override
   String get strWeakPassword => "ваш пароль слишком слабый, напишите сильны пароль.";
 
   @override
@@ -501,6 +507,9 @@ class LanguageRu extends Languages {
   @override
   String get strCantRemovePersonalWorkspace => "You can't remove your personal workspace";
 
+  @override
+  String get strCantInviteSinceUserNotUpdated => "The invitation couldn't be sent since the invited user needs to update his app";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "вид";
@@ -547,7 +556,7 @@ class LanguageRu extends Languages {
 
   // Monthly Report
   @override
-  String get strMonthlyReportSubject => "Your Report For Month % Is Here! [Workspace: #]";
+  String get strMonthlyReportSubject => "Your Report For Month % Is Here!";
 
   @override
   String get strMonthlyReportContentHeader => "Hurrah! Another month is ended. It is a good time to summarize the month:";
@@ -585,4 +594,56 @@ class LanguageRu extends Languages {
 
   @override
   String get strRateRecorded => "Your review has been recorded, thank you!";
+
+  // Walkthrough
+  @override
+  String get strWatchWalkthrough => "Watch walkthrough";
+
+  @override
+  String get strSkip => "пропустить";
+
+  @override
+  String get strNext => "следующий";
+
+  @override
+  String get strWalkthroughDescription => "This walkthrough will show you the major functionalities of the app.";
+
+  @override
+  String get strWalkthroughWelcomeTitle => "‎מסך הכניסה";
+
+  @override
+  String get strWalkthroughWelcomeDescription => "‎מסך זה מאפשר לחוות את השימוש באפליקציה ללא צורך בהתחברות. ניתן לבצע פעולות, אך על מנת לשמור את המידע שהוכנס יש להירשם או להתחבר לאפליקציה דרך הלחצן בחלקו העליון של המסך.";
+
+  @override
+  String get strWalkthroughLoginTitle => "מסך ההתחברות‎";
+
+  @override
+  String get strWalkthroughLoginDescription => "דרך מסך זה ניתן להירשם ולהתחבר לאפליקציה. לשם כך, בחרו בלשונית הרלוונטית עבורכם. ניתן להירשם ולהתחבר דרך גוגל, פייסבוק, או דרך שם משתמש וסיסמה לבחירתכם.‎";
+
+  @override
+  String get strWalkthroughSummaryDescription => "מסך זה כולל שלוש לשוניות מרכזיות לניהול המאזן החודשי. הלשונית הראשונה היא לשונית הסיכום המאפשרת השוואה בין ההוצאות להכנסות בחודש הנוכחי. בנוסף, בלחיצה כל הכפתור ״שנה״ ניתן לנהל את מרחבי העבודה (יוסבר בהמשך). ניתן (ולא חובה) להכניס את המאזן בחשבון הבנק בתחילת החודש על מנת לקבל את תמונת החשבון בסוף החודש. בכל סוף חודש יתבצע עדכון אוטומטי של המאזן.‎";
+
+  @override
+  String get strWalkthroughBalanceTitle => "מסכי ההוצאות וההכנסות‎";
+
+  @override
+  String get strWalkthroughBalanceDescription => "הלשוניות הבאות דומות זו לזו וכוללות את ההוצאות וההכנסות לחודש הנוכחי. בכל מסך ניתן לראות בצורה ויזואלית את ההוצאות/ההכנסות ופירוט של קטגוריות ובתוכן תנועות (יוסבר בהמשך). בכפתור הוספת הקטגוריה ניתן להוסיף למסך קטגוריה חדשה. בכפתור ה+ ניתן להוסיף תנועה חדשה. ניתן בעתיד לערוך ולמחוק קטגוריות ותנועות.‎";
+
+  @override
+  String get strWalkthroughAddCategoryDescription => "במסך זה ניתן להוסיף קטגוריה כהוצאה/הכנסה. קטגוריה היא שם כולל לקבוצת הוצאות/הכנסות בעלות מכנה משותף. לדוגמה, תחת הקטגוריה של בילויים ניתן להכניס צפייה בסרט או אכילה במסעדה. תוכלו לקבוע בעצמכם את הקטגוריות בהן תשתמשו (במידה ותזדקקו לעזרה, תוכלו ללחוץ לחיצה ארוכה על כפתור סימן הקריאה ליד שם הקטגוריה). יש לקבוע את סך ההוצאות/ההכנסות המוקצבות לקטגוריה.‎";
+
+  @override
+  String get strWalkthroughAddTransactionDescription => "במסך זה ניתן להוסיף תנועה חדשה תחת קטגוריה מסוימת. תנועה היא הוצאה/הכנסה ספציפית תחת קטגוריה מסוימת. למשל, תחת קטגוריית הבילויים תוכלו להכניס תנועה בשם צפייה בסרט. על התנועה לכלול את הסכום שהוצא/הוכנס וכן ניתן לקבוע האם התנועה קבועה לכל החודשים. בסוף כל חודש יתרחש ניקוי אוטומטי ותנועות קבועות ימשיכו איתכם לחודש הבא.‎";
+
+  @override
+  String get strWalkthroughArchiveDescription => "מסך זה מאפשר צפייה בנתונים מחודשים קודמים. בכל 10 לחודש מתבצע ניקוי של מסכי ההוצאות וההכנסות והנתונים מועברים למסך הארכיון. לחצו את הכפתור במטרה לבחור חודש בו תרצו לצפות.‎";
+
+  @override
+  String get strWalkthroughSettingsDescription => "מסך זה מחולק לשני חלקים. החלק העליון כולל הגדרות הניתנות לשינוי, כמו למשל שפה וצבעי האפליקציה. כמו כן, ניתן לקבוע האם לקבל בסוףף כל חודש דו״ח סיכום לדואר האלקטרוני. בחלק התחתון של העמוד ישנן הגדרות קבועות הכוללות אפשרויות להזמנת חבר לאפליקציה, דירוג האפליקציה ואף צפייה חוזרת במדריך זה.‎";
+
+  @override
+  String get strWalkthroughFinalTitle => "קדימה לעבודה!‎";
+
+  @override
+  String get strWalkthroughFinalDescription => "אנו מזמינים אתכם לחוות ולנהל את המאזן החודשי שלכם באפליקציה. נשמח לשמוע את דעתכם, הצעותיכם וחוויותיכם דרך ״דרגו אותנו״ במסך ההגדרות‎";
 }

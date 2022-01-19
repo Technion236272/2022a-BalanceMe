@@ -12,7 +12,7 @@ bool globalIsDarkMode = gc.defaultIsDarkMode;
 
 enum AuthStatus {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
-enum AppPages {Settings, Balance, Archive, Welcome, Login, SetCategory, SetTransaction, Summary, Incomes, Expenses, ForgotPassword, Profile, ChangePassword, SetWorkspace}
+enum AppPages {Settings, Balance, Archive, Welcome, Login, SetCategory, SetTransaction, Summary, Incomes, Expenses, ForgotPassword, Profile, ChangePassword, SetWorkspace, Walkthrough}
 
 enum BalanceTabs {Summary, Expenses, Incomes}
 
@@ -30,7 +30,7 @@ enum LoginMethod {Regular, Facebook, Google}
 
 enum Currency {NIS, USD, EURO}
 
-enum UserMessage {JoinWorkspace, InviteWorkspace, ShowMessage}
+enum UserMessage {JoinWorkspace, InviteWorkspace, ShowMessage, ApproveJoining, DisapproveJoining, ApproveInvitation, RejectInvitation}
 
 Map<Currency, String> CurrencySign = {Currency.NIS: "₪", Currency.USD: "\$", Currency.EURO: "€"};
 

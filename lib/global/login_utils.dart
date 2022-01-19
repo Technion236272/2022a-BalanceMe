@@ -1,4 +1,5 @@
 // ================= Login and SignUp Functions =================
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_me/global/dispatcher.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -69,6 +70,10 @@ void recoverPassword(String? email, BuildContext context, Function? failureCB) a
 }
 
 void startLoginProcess(BuildContext context, Future<bool> loginFunction, String loginFunctionName, bool isSigningIn, UserStorage userStorage, {VoidCallback? failureCallback}) async {
+  final FirebasePerformance performance = FirebasePerformance.instance;
+  Trace performanceTrace = await performance.newTrace("${isSigningIn ? "Login" : "SignUp"}Via$loginFunctionName");
+  await performanceTrace.start();
+
   GeneralInfoDispatcher.reset();
   BalanceModel lastBalance = userStorage.balance.copy();
   if (await loginFunction) {
@@ -87,6 +92,7 @@ void startLoginProcess(BuildContext context, Future<bool> loginFunction, String 
       }
 
       navigateBack(context);
+      await performanceTrace.stop();
     });
 
   } else if (failureCallback != null) {

@@ -112,6 +112,12 @@ class LanguageEn extends Languages {
   String get strLastName => "Last name";
 
   @override
+  String get strFirstNameLabel => "Enter first name";
+
+  @override
+  String get strLastNameLabel => "Enter last name";
+
+  @override
   String get strWeakPassword => "Your password is too weak, type in a stronger password";
 
   @override
@@ -413,10 +419,9 @@ class LanguageEn extends Languages {
   String get strWorkspace => "Workspace";
 
   @override
-  String get strWorkspaceExplanation => "‎מרחב עבודה מאפשר לנהל ולשתף את המאזן החודשי בין מספר משתמשים.\nבעמוד זה ניתן להוסיף מרחב חדש (אם המרחב כבר קיים ניתן לשלוח בקשת הצטרפות למייסד המרחב), להזמין משתמשים למרחב, למחוק מרחב ולהחליף בין מרחבים.";  // TODO- translate to english
-
+  String get strWorkspaceExplanation => "Workspaces allow the user to share and manage their monthly balance amongst multiple users.\nIn this screen, you can add a new workspace, join an existing one, invite new users, delete a workspace, and switch between them.";
   @override
-  String get strWorkspaceTooltip => "‎כל מרחב עבודה מתפקד כיחידה עצמאית וכל שינוי, הוספה והסרה ישתקף בו ולא ישפיע על מרחבים אחרים. ניתן לפתוח מספר לא מוגבל של מרחבי עבודה ולשתף כל אחד מהם עם מספר לא מוגבל של משתמשים. כל שינוי, הוספה או הסרה של הכנסה או הוצאה במרחב ישתקף אוטומטית אצל כל המשתמשים במרחב. ניתן להשתמש במרחבי העבודה גם לניהול אירוע מיוחד הדורש תכנון ספיציפי בפני עצמו, כגון אירוע משפחתי, טיול ועוד.";  // TODO- translate to english
+  String get strWorkspaceTooltip => "Each workspace functions as an independent unit, ie. any change to the workspace will not affect other workspaces and will be reflected immediately in its members' accounts. There is no limit on the total number of workspaces or members. Additionally, workspaces can be used to plan special events which require separate planning, for example, family events, trips, etc.";
 
   @override
   String get strChooseWorkspace => "Choose workspace:";
@@ -502,6 +507,9 @@ class LanguageEn extends Languages {
   @override
   String get strCantRemovePersonalWorkspace => "You can't remove your personal workspace";
 
+  @override
+  String get strCantInviteSinceUserNotUpdated => "The invitation couldn't be sent since the invited user needs to update his app";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "Type";
@@ -549,10 +557,10 @@ class LanguageEn extends Languages {
 
   // Monthly Report
   @override
-  String get strMonthlyReportSubject => "Your Report For Month % Is Here! [Workspace: #]";
+  String get strMonthlyReportSubject => "Your Report For Month % Is Here!";
 
   @override
-  String get strMonthlyReportContentHeader => "Hurrah! Another month is ended. It is a good time to summarize the month:";
+  String get strMonthlyReportContentHeader => "Hurrah! Another month has ended. It is a good time to summarize the month:";
 
   @override
   String get strMonthlyReportContentFooter => "As usual, the constants transactions for the next month are created.\nSee you next month!";
@@ -587,4 +595,56 @@ class LanguageEn extends Languages {
 
   @override
   String get strRateRecorded => "Your review has been recorded, thank you!";
+
+  // Walkthrough
+  @override
+  String get strWatchWalkthrough => "Watch walkthrough";
+
+  @override
+  String get strSkip => "Skip";
+
+  @override
+  String get strNext => "Next";
+
+  @override
+  String get strWalkthroughDescription => "This walkthrough will show you the major functionalities of the app.";
+
+  @override
+  String get strWalkthroughWelcomeTitle => "Welcome screen";
+
+  @override
+  String get strWalkthroughWelcomeDescription => "This screen will allow you to experience the app without logging in. However, in order to save any changes you've made you must login or sign up, by tapping the button on the upper part of the screen";
+
+  @override
+  String get strWalkthroughLoginTitle => "Authentication screen";
+
+  @override
+  String get strWalkthroughLoginDescription => "Via this screen you can sign in or sign up. To do so, choose the relevant tab for you. You can sign in using your Facebook or Google accounts, or with an email and password of your choice";
+
+  @override
+  String get strWalkthroughSummaryDescription => "This screen has three main tabs to manage your monthly balance. The first is called summary, and it will allow you to compare between incomes and expenses in the current month Additionally, by tapping on the change button, you can manage your workspaces (as explained later). You can, if you wish, to enter your balance in the beginning of the month, to get the state of your balance at the end of the month. Each month, your total balance will be updated automatically";
+
+  @override
+  String get strWalkthroughBalanceTitle => "Income and expense screens";
+
+  @override
+  String get strWalkthroughBalanceDescription => "The next tabs are similar, and include the incomes and expenses of the current month. In each screen there is a chart, to visually represent your incomes/expenses, as well as a description of your categories and transactions (explained later). if you want to add a category, tap on 'add category'. With the + button, you can add a new transaction under that category. As well as update and delete existing transactions ";
+
+  @override
+  String get strWalkthroughAddCategoryDescription => "In this screen you can add a category as an income, or expense. A category is a collective name for a group of individual incomes and expenses with a common denominator. For example, under the category of 'entertainment', you can add 'watching a movie', or 'eating in a restaurant'. The choice is yours (for suggestions for names, long tap on the exclamation mark, next to the category's name). You must determine the expected budget for the category.";
+
+  @override
+  String get strWalkthroughAddTransactionDescription => "In this screen, you can add a new transaction under an existing category.A transaction is a single instance of an income/ expense .For example, under the category of 'entertainment', you can add a transaction called 'watching a movie'. Each transaction must contain the amount of money you've earned/spent. Any transaction can be made constant, for all months. At the end of the month, an automatic cleanup will be performed, and only your constant transactions will be moved to the next month. ";
+
+  @override
+  String get strWalkthroughArchiveDescription => "This screen allows viewing data from past months. At the 10th day of each month, the income and expense screens will be cleaned up, and their data transferred to the archive. Tap the button to choose which month's data you would like to watch";
+
+  @override
+  String get strWalkthroughSettingsDescription => "This screen is divided to two sections. The upper section includes settings which can be changed, such as language, and dark mode. Additionally, you can choose whether you want a monthly report to be delivered to your email. The lower section has constants and options such as inviting a friend, rating the app, and re-watching this walkthrough.";
+
+  @override
+  String get strWalkthroughFinalTitle => "Let's get going!";
+
+  @override
+  String get strWalkthroughFinalDescription => "We invite you to experience, and manage your monthly balance in the app. We would like to hear about your opinions, suggestions and experiences via 'rate us' in the settings screen.";
 }

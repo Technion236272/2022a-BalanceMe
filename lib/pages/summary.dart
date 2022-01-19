@@ -111,37 +111,39 @@ class _SummaryPageState extends State<SummaryPage> {
                 ),
                 borderRadius: BorderRadius.circular(gc.entryBorderRadius),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
-                        child: Text(
-                          firstTitle,
-                          style: Theme.of(context).textTheme.subtitle1
-                        ),
-                      ),
-                      Text(
-                        currentAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
-                        textDirection: getTextDirection(gc.ltr),
-                        style: TextStyle(
-                          color: getColorForCard(currentAboveExpected, currentAmount, expectedAmount),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(gc.categoryTopPadding),
-                    child: Column(
+              child: Padding(
+                padding: gc.summeryAllAroundPadding,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: gc.categoryAroundPadding),
-                          child: Text(secTitle,
-                            style: Theme.of(context).textTheme.subtitle1
+                        Flexible(
+                          child: Text(
+                            firstTitle,
+                            style: Theme.of(context).textTheme.subtitle1,
+                            maxLines: 2,
+                          ),
+                        ),
+                        Flexible(
+                          child: Text(
+                            secTitle,
+                            style: Theme.of(context).textTheme.subtitle1,
+                            maxLines: 2,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          currentAmount.toMoneyFormat(CurrencySign[userStorage.userData == null ? gc.defaultUserCurrency : userStorage.userData!.userCurrency]!),
+                          textDirection: getTextDirection(gc.ltr),
+                          style: TextStyle(
+                            color: getColorForCard(currentAboveExpected, currentAmount, expectedAmount),
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
@@ -154,8 +156,8 @@ class _SummaryPageState extends State<SummaryPage> {
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -183,10 +185,9 @@ class _SummaryPageState extends State<SummaryPage> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  flex: 1,
+                Flexible(
                   child: Visibility(
                     visible: showWorkspacesAndBankBalance,
                     child: Text(
@@ -196,13 +197,12 @@ class _SummaryPageState extends State<SummaryPage> {
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
+                Flexible(
                   child: Visibility(
                     visible: showWorkspacesAndBankBalance,
                     child: SizedBox(
                         width: MediaQuery.of(context).size.width / gc.currentWorkspaceBoxScale,
-                        child: Text(userStorage.userData!.currentWorkspace)
+                        child: Center(child: Text(userStorage.userData!.currentWorkspace))
                     ),
                   ),
                 )
@@ -257,6 +257,9 @@ class _SummaryPageState extends State<SummaryPage> {
                 Languages.of(context)!.strExpectedBankBalance,
                 userStorage.userData!.bankBalance! + (_expectedIncomes - _expectedExpenses),
                 true) : Container(),
+            Visibility(
+                visible: !(showWorkspacesAndBankBalance && userStorage.userData!.currentWorkspace == authRepository.getEmail),
+                child: SizedBox(height: gc.archiveViewPadding,)),
             Divider(),
             _summaryCardWidget(Languages.of(context)!.strIncomeBalanceInfo, Languages.of(context)!.strCurrentIncomes, _currentIncomes, Languages.of(context)!.strExpectedIncomes, _expectedIncomes, true),
             _summaryCardWidget(Languages.of(context)!.strExpensesBalanceInfo, Languages.of(context)!.strCurrentExpenses, _currentExpenses, Languages.of(context)!.strExpectedExpenses, _expectedExpenses, false),

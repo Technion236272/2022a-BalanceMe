@@ -105,7 +105,7 @@ class _SignUpState extends State<SignUp> {
       child: Form(
         key: _formKey,
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * gc.pageHeightFactor,
+          height: MediaQuery.of(context).size.height * ((MediaQuery.of(context).orientation == Orientation.landscape) ? gc.pageHeightFactorLandscape : gc.pageHeightFactorPortrait),
           child: Column(
             children: [
               const LoginImage(),

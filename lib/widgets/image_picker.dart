@@ -14,7 +14,12 @@ List<Widget> createOptions(List<GestureTapCallback?> actions,
   for (int i = 0; i < actions.length; i++) {
     options.add(ListTile(
       leading: leading[i],
-      title: Text(titles[i]),
+      title: Text(
+          titles[i],
+          style: TextStyle(
+              color: gc.secondaryColor,
+              fontSize: 15,
+              fontWeight: FontWeight.bold)),
       onTap: actions[i],
     ));
   }

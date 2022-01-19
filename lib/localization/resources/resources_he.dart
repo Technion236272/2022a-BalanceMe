@@ -111,6 +111,12 @@ class LanguageHe extends Languages {
   String get strLastName => "שם משפחה‎";
 
   @override
+  String get strFirstNameLabel => "הכנס שם פרטי‎";
+
+  @override
+  String get strLastNameLabel => "הכנס שם משפחה‎";
+
+  @override
   String get strWeakPassword => "‎הסיסמה חלשה מדי, יש לרשום סיסמה חזקה יותר";
 
   @override
@@ -135,7 +141,7 @@ class LanguageHe extends Languages {
   String get strConstants => "הגדרות קבועות:‎";
 
   @override
-  String get strDeleteProfile => "מחק את תמונת הפרופיל ‎";
+  String get strDeleteProfile => "מחק את תמונת הפרופיל‎";
 
   @override
   String get strDeleteProfileFailed => "המחיקה נכשלה כיוון שאין תמונת פרופיל‎";
@@ -193,7 +199,7 @@ class LanguageHe extends Languages {
   String get strMissingFields => "יש לרשום כתובת דואר אלקטרוני וסיסמה במידה וברצונך להירשם‎";
 
   @override
-  String get strMismatchingPasswords => "הסיסמאות אינן זהות‎ ";
+  String get strMismatchingPasswords => "הסיסמאות אינן זהות‎";
 
   @override
   String get strConfirmPassword => "אימות סיסמה‎";
@@ -390,7 +396,7 @@ class LanguageHe extends Languages {
   String get strExpectedBankBalance => "‎מאזן מצופה בבנק";
 
   @override
-  String get strBeginningMonthBalance => "‎מאזן בבנק בתחילת החודש";
+  String get strBeginningMonthBalance => "‎מאזן הבנק בתחילת חודש";
 
   @override
   String get strBankInfo => "‎מאזן נוכחי בבנק = מאזן בבנק + מאזן בפועל \nמאזן מצופה בבנק = מאזן בבנק + מאזן צפוי";
@@ -502,6 +508,9 @@ class LanguageHe extends Languages {
   @override
   String get strCantRemovePersonalWorkspace => "‎לא ניתן למחוק את מרחב העבודה הפרטי";
 
+  @override
+  String get strCantInviteSinceUserNotUpdated => "‎לא היה ניתן לשלוח את ההזמנה מכיוון שהמשתמש שהוזמן צריך לעדכן את האפליקציה";
+
   // Set Category And Transaction
   @override
   String get strTypeSelection => "‎סוג";
@@ -563,10 +572,10 @@ class LanguageHe extends Languages {
   String get strFinalExpenses => "‎סך כל ההוצאות";
 
   @override
-  String get strEndOfMonthBankBalance => "‎המאזן בבנק בסוף החודש";
+  String get strEndOfMonthBankBalance => "‎המאזן הבנק בסוף החודש";
 
   @override
-  String get strSendMonthlyReport => "‎קבל דו״ח חודשי";
+  String get strSendMonthlyReport => "‎קבלת דו״ח חודשי";
 
   @override
   String get strSendMonthlyReportInfo => "‎יש לסמן אם ברצונך לקבל בדואר האלקטרוני דו״ח בסוף כל חודש";
@@ -586,4 +595,56 @@ class LanguageHe extends Languages {
 
   @override
   String get strRateRecorded => "‎המשוב נקלט בהצלחה, תודה רבה!";
+
+  // Walkthrough
+  @override
+  String get strWatchWalkthrough => "‎צפה בהדרכה";
+
+  @override
+  String get strSkip => "‎דלג";
+
+  @override
+  String get strNext => "המשך‎";
+
+  @override
+  String get strWalkthroughDescription => "‎סיור זה יציג בפניכם את האפליקציה.";
+
+  @override
+  String get strWalkthroughWelcomeTitle => "‎מסך הכניסה";
+
+  @override
+  String get strWalkthroughWelcomeDescription => "‎מסך זה מאפשר לחוות את השימוש באפליקציה ללא צורך בהתחברות. ניתן לבצע פעולות, אך על מנת לשמור את המידע שהוכנס יש להירשם או להתחבר לאפליקציה דרך הלחצן בחלקו העליון של המסך.";
+
+  @override
+  String get strWalkthroughLoginTitle => "מסך ההתחברות‎";
+
+  @override
+  String get strWalkthroughLoginDescription => "דרך מסך זה ניתן להירשם ולהתחבר לאפליקציה. לשם כך, בחרו בלשונית הרלוונטית עבורכם. ניתן להירשם ולהתחבר דרך גוגל, פייסבוק, או דרך שם משתמש וסיסמה לבחירתכם.‎";
+
+  @override
+  String get strWalkthroughSummaryDescription => "מסך זה כולל שלוש לשוניות מרכזיות לניהול המאזן החודשי. הלשונית הראשונה היא לשונית הסיכום המאפשרת השוואה בין ההוצאות להכנסות בחודש הנוכחי. בנוסף, בלחיצה כל הכפתור ״שנה״ ניתן לנהל את מרחבי העבודה (יוסבר בהמשך). ניתן (ולא חובה) להכניס את המאזן בחשבון הבנק בתחילת החודש על מנת לקבל את תמונת החשבון בסוף החודש. בכל סוף חודש יתבצע עדכון אוטומטי של המאזן.‎";
+
+  @override
+  String get strWalkthroughBalanceTitle => "מסכי ההוצאות וההכנסות‎";
+
+  @override
+  String get strWalkthroughBalanceDescription => "הלשוניות הבאות דומות זו לזו וכוללות את ההוצאות וההכנסות לחודש הנוכחי. בכל מסך ניתן לראות בצורה ויזואלית את ההוצאות/ההכנסות ופירוט של קטגוריות ובתוכן תנועות (יוסבר בהמשך). בכפתור הוספת הקטגוריה ניתן להוסיף למסך קטגוריה חדשה. בכפתור ה+ ניתן להוסיף תנועה חדשה. הלחצנים השונים בעמוד מאפשרים לערוך ולמחוק קטגוריות ותנועות.‎";
+
+  @override
+  String get strWalkthroughAddCategoryDescription => "במסך זה ניתן להוסיף קטגוריה כהוצאה/הכנסה. קטגוריה היא שם כולל לקבוצת הוצאות/הכנסות בעלות מכנה משותף. לדוגמה, תחת הקטגוריה של בילויים ניתן להכניס צפייה בסרט או אכילה במסעדה. תוכלו לקבוע בעצמכם את הקטגוריות בהן תשתמשו (במידה ותזדקקו לעזרה, תוכלו ללחוץ לחיצה ארוכה על כפתור סימן הקריאה ליד שם הקטגוריה). יש לקבוע את סך ההוצאות/ההכנסות המוקצבות לקטגוריה.‎";
+
+  @override
+  String get strWalkthroughAddTransactionDescription => "במסך זה ניתן להוסיף תנועה חדשה. תנועה היא הוצאה/הכנסה ספציפית תחת קטגוריה מסוימת. למשל, תחת קטגוריית הבילויים תוכלו להכניס תנועה בשם צפייה בסרט. על התנועה לכלול את הסכום שהוצא/הוכנס וכן ניתן לקבוע האם התנועה קבועה. בסוף כל חודש יתרחש ניקוי אוטומטי ותנועות קבועות ימשיכו איתכם לחודש הבא.‎";
+
+  @override
+  String get strWalkthroughArchiveDescription => "מסך זה מאפשר צפייה בנתונים מחודשים קודמים. בכל 10 לחודש מתבצע ניקוי של מסכי ההוצאות וההכנסות והנתונים מועברים למסך הארכיון. לחצו על הכפתור במטרה לבחור חודש בו תרצו לצפות.‎";
+
+  @override
+  String get strWalkthroughSettingsDescription => "מסך זה מחולק לשני חלקים. החלק העליון כולל הגדרות הניתנות לשינוי, כמו למשל שפה וצבעי האפליקציה. כמו כן, ניתן לקבוע האם לקבל בסוף כל חודש דו״ח סיכום לדואר האלקטרוני. בחלק התחתון של העמוד ישנן הגדרות קבועות הכוללות אפשרויות להזמנת חבר לאפליקציה, דירוג האפליקציה ואף צפייה חוזרת במדריך זה.‎";
+
+  @override
+  String get strWalkthroughFinalTitle => "קדימה לעבודה!‎";
+
+  @override
+  String get strWalkthroughFinalDescription => "אנו מזמינים אתכם לחוות ולנהל את המאזן החודשי שלכם באפליקציה.\nנשמח לשמוע את דעתכם, הצעותיכם וחוויותיכם דרך ״דרגו אותנו״ במסך ההגדרות.‎";
 }
