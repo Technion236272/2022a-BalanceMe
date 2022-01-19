@@ -31,7 +31,7 @@ customized for every user.*
 * [ ] Watch a detailed walkthrough to learn how to use our app
 * [ ] Create and manage income and expense categories as you want.
 * [ ] View your data about your expenses over time in a user-friendly archive.
-* [ ] Allocate and keep track of your budget.
+* [ ] Allocate , keep track of your budget and get a monthly report to your email at the end of every month.
 * [ ] Set up a workspace, to track incomes and expenses with your friends and family, or special events.
 * [ ] Save your transactions based on categories, date , name, price etc.
 
