@@ -63,6 +63,7 @@ dependencies:
   rating_dialog: ^2.0.3
   shared_preferences: ^2.0.11
   introduction_screen: ^2.1.0
+  flutter_login_facebook: ^1.2.0
 
 
 dev_dependencies:

@@ -14,6 +14,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
 class AuthRepository with ChangeNotifier {
   final FirebaseAuth _auth;
@@ -201,20 +202,28 @@ class AuthRepository with ChangeNotifier {
     }
   }
 
-  Future<bool> signInWithFacebook(BuildContext context) async {
+  Future<bool> signInWithFacebook(BuildContext context, bool isSignIn) async {
     try {
-      final loginResult = await FacebookAuth.instance.login(permissions: gc.permissionFacebook);
-      if (loginResult.accessToken == null) {
+      final facebookLogin = FacebookLogin();
+      final loginAttempt = await facebookLogin.logIn(permissions: [FacebookPermission.publicProfile, FacebookPermission.email,]);
+       FacebookAccessToken? accessToken=null;
+      if (loginAttempt.status == FacebookLoginStatus.success) {
+        accessToken = loginAttempt.accessToken;
+      } else {
         return false;
       }
-      final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
-      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+      final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(accessToken!.token);
+      await handleProvidersThirdParty(await facebookLogin.getUserEmail(), facebookAuthCredential ,context, gc.facebook ,  isSignIn);
       _status = AuthStatus.Authenticated;
       await getAvatarUrl();
       notifyListeners();
       return true;
     } on FirebaseAuthException catch (e, stackTrace) {
       SentryMonitor().sendToSentry(e, stackTrace);
+      if (e.code == gc.userNotFound) {
+        displaySnackBar(context, Languages.of(context)!.strUserNotFound);
+        GoogleAnalytics.instance.logMultipleProviders(providerLinked: gc.facebook);
+      }
       if (e.code == gc.credentialExists) {
         displaySnackBar(context, Languages.of(context)!.strLinkProviderError);
         GoogleAnalytics.instance.logMultipleProviders(providerLinked: gc.facebook);
