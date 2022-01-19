@@ -1,7 +1,7 @@
 
 # Overview
+ 
 
-* 
 Welcome to the BalanceMe app project,
 this page will provide a brief overview on
 the project's structure as well as
@@ -9,16 +9,23 @@ important directories and files in the app.
 
 
 #common models
+
+
 > this folder contains the models used in the app,
 > for more detailed information-please read the models document.
 
+
 #controllers
+
+
 > this folder contains controllers and associated functions
 > for features which are required for most of the app
 * [ ] messages_controller- handles workspace messages, such as invitations and join requests.
 * [ ] theme_controller- handles dark mode, as well as the colors used in the app's UI
 
 #firebase_wrapper
+
+
 > this folder contains wrapper classes 
 > for Firebase functions,
 > as well as various analytics tools
@@ -32,7 +39,11 @@ logging errors and exceptions to Sentry,
 in order to determine which elements of the app require refinement.
 * [ ] storage_repository- wrapper to the user model, receives and updates 
   information about the user from and to the database
+  
+
 #global
+
+
 > this folder contains constants and
 > functions, which are used in multiple files
 > to ensure their reusability.
@@ -46,18 +57,27 @@ such as colors, icons, default values,padding sizes, etc.
 * [ ] dispatcher- a list of methods which need to be listened to and modify the app's consumers
 * [ ] rate_us- a widget which allows a user to rate the app on Google play, as well as add a description.
 
-#assets  
+
+#assets
+
+
 > this folder contains static images
 > which we display in the app
 > regardless of user input.
 
+
 #localization
+
+
 > this folder contains the required
 > files to support different languages
 * [ ] resources- contains all the strings which are displayed to the user in the app, in English,Hebrew and Russian.
 * [ ] language and locale controllers- determine which language is used and change it based on the app's settings.
 
+
 #pages
+
+
 > this folder contains the main screens
 > displayed to the user (whether signed in or not).
 * [ ] authentication - pages related to signing in/up.
@@ -73,7 +93,10 @@ such as colors, icons, default values,padding sizes, etc.
 * [ ] set_workspace- the page where users can create, join and invite to workspaces
 * [ ] summary- a page which shows the user the total difference between expected and total incomes/expenses
 
+
 #widgets
+
+
 > generic widgets used
 > in different pages, to ensure uniform design as
 > as well as reusability
