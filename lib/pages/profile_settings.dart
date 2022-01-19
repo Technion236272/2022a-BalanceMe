@@ -91,38 +91,37 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   List<GestureTapCallback?> _getActions() {
     List<GestureTapCallback?> imageOptions = [];
-    imageOptions.add(() async {
-      await _chooseAvatarSource(ImageSource.gallery);
+    imageOptions.add(() {
+       _chooseAvatarSource(ImageSource.gallery);
     });
-    imageOptions.add(() async {
-      await _chooseAvatarSource(ImageSource.camera);
+    imageOptions.add(() {
+      _chooseAvatarSource(ImageSource.camera);
     });
     if (widget.authRepository.avatarUrl != null) {
-      imageOptions.add(() async {
-        await _deleteAvatar();
+      imageOptions.add(() {
+        _deleteAvatar();
       });
     }
     return imageOptions;
   }
 
-  Future<void> _deleteAvatar() async {
+  void _deleteAvatar() {
+    navigateBack(context);
     if (widget.authRepository.avatarUrl == null) {
-      navigateBack(context);
       displaySnackBar(context, Languages.of(context)!.strDeleteProfileFailed);
       return;
     }
-    showYesNoAlertDialog(context, Languages.of(context)!.strDeleteProfileAlert,
-        _deleteImage, _cancelDeleteImage);
+    showYesNoAlertDialog(context, Languages.of(context)!.strDeleteProfileAlert, _deleteImage, _hideFileModal);
   }
 
-  void _cancelDeleteImage() {
-    navigateBack(context);
+  void _hideFileModal() {
     navigateBack(context);
   }
 
   void _deleteImage() async {
-    _cancelDeleteImage();
+    _hideFileModal();
     await widget.authRepository.deleteAvatarUrl();
+    setState(() {});
   }
 
   List<Widget?> _iconsLeading() {
@@ -130,7 +129,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     icons.add(const Icon(gc.galleryChoice, color: gc.darkVeryLightColor));
     icons.add(const Icon(gc.cameraChoice, color: gc.darkVeryLightColor));
     if (widget.authRepository.avatarUrl != null) {
-      icons.add(const Icon(gc.deleteIcon));
+      icons.add(const Icon(gc.deleteIcon,  color: gc.darkVeryLightColor));
     }
     return icons;
   }
@@ -140,13 +139,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     titles.add(Languages.of(context)!.strGalleryOption);
     titles.add(Languages.of(context)!.strCameraOption);
 
-    if (widget.authRepository.avatarUrl!=null) {
+    if (widget.authRepository.avatarUrl != null) {
       titles.add(Languages.of(context)!.strDeleteProfile);
     }
     return titles;
   }
 
-  Future<void> _chooseAvatarSource(ImageSource source) async {
+  void _chooseAvatarSource(ImageSource source) async {
+    navigateBack(context);
     if (source == ImageSource.gallery) {
       if (await Permission.storage.request().isGranted) {
         await _updateAvatar(ImageSource.gallery);
@@ -156,7 +156,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         await _updateAvatar(ImageSource.camera);
       }
     }
-    navigateBack(context);
   }
 
   Future<void> _updateAvatar(ImageSource image) async {
@@ -167,9 +166,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     if (pickedImage == null) {
       displaySnackBar(context, Languages.of(context)!.strNoImagePicked);
     } else {
-      setState(() {
-        widget.authRepository.uploadAvatar(pickedImage);
-      });
+      await widget.authRepository.uploadAvatar(pickedImage);
+      setState(() {});
     }
     GoogleAnalytics.instance.logAvatarChange();
   }
@@ -184,6 +182,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     _saveProfile();
     _enableEditFirstName(null);
     _enableEditLastName(null);
+    FocusScope.of(context).unfocus(); // Remove the keyboard
   }
 
   @override
@@ -202,7 +201,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   children: [
                     Center(child: UserAvatar(widget.authRepository, MediaQuery.of(context).size.width/gc.profileAvatarRadiusScale)),
                     Positioned(
-                      right:0,
+                      right: 0,
                       bottom: 0,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(gc.padAroundPencil, gc.padProfileAvatar, gc.padAroundPencil, gc.padAroundPencil),

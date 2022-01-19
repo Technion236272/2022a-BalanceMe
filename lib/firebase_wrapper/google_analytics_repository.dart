@@ -7,7 +7,6 @@ import 'package:balance_me/firebase_wrapper/auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
-import 'package:flutter/material.dart';
 
 /// Singleton that is used for sending logs to Google Analytics.
 /// you should use it as "GoogleAnalytics.instance.LogSomething();"
@@ -113,6 +112,14 @@ class GoogleAnalytics {
 
   void logRateUsSubmit(double rate, String comment) {
     _logEvent("RateUsSubmit", {"user": _getUserEmail(), "rate": rate, "comment": comment});
+  }
+
+  void logWalkthroughSkipped() {
+    _logEvent("WalkthroughSkipped", {"user": _getUserEmail()});
+  }
+
+  void logWalkthroughFinished() {
+    _logEvent("WalkthroughFinished", {"user": _getUserEmail()});
   }
 
   // FireBase

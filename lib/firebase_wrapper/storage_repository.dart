@@ -1,11 +1,11 @@
 // ================= Storage Repository =================
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
-import 'package:mailer/mailer.dart' as mail;
 import 'package:mailer/smtp_server.dart';
 import 'package:balance_me/main.dart';
 import 'package:balance_me/global/dispatcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:sorted_list/sorted_list.dart';
 import 'package:balance_me/localization/resources/resources.dart';
 import 'package:balance_me/firebase_wrapper/auth_repository.dart';
@@ -17,15 +17,17 @@ import 'package:balance_me/common_models/balance_model.dart';
 import 'package:balance_me/common_models/workspace_users_model.dart';
 import 'package:balance_me/common_models/belongs_workspaces.dart';
 import 'package:balance_me/controllers/messages_controller.dart';
-import 'package:balance_me/common_models/category_model.dart' as model;
-import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/types.dart';
 import 'package:balance_me/global/utils.dart';
+import 'package:mailer/mailer.dart' as mail;
+import 'package:balance_me/common_models/category_model.dart' as model;
+import 'package:balance_me/common_models/transaction_model.dart' as model;
 import 'package:balance_me/global/config.dart' as config;
 import 'package:balance_me/global/constants.dart' as gc;
 
 class UserStorage with ChangeNotifier {
   UserStorage.instance(BuildContext context, AuthRepository authRepository) {
+    GeneralInfoDispatcher.reset();
     _buildUserStorage(authRepository);
     _userData = (_userData == null && _authRepository!.getEmail != null) ? UserModel(_authRepository!.getEmail!) : _userData;
 
@@ -47,18 +49,16 @@ class UserStorage with ChangeNotifier {
       _userData = (authRepository.user != null) ? _userData : UserModel(userEmail);
 
       if (!await isExist_BelongsWorkspaces()) {
+        if (!await isExist_BalanceModel()) {
+          await SEND_fullBalanceModel();
+        }
         await SEND_initialUserDoc();
-        SEND_resetUserMessages();
+        await SEND_resetUserMessages();
       }
 
       if (_userMessagesStream == null) {
         startHandleUserMessage();
       }
-
-    } else {
-      _userData = UserModel(userEmail);
-      resetBalance();
-      finishHandleUserMessage();
     }
 
     notifyListeners();
@@ -68,9 +68,11 @@ class UserStorage with ChangeNotifier {
 
   // Declaration
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebasePerformance performance = FirebasePerformance.instance;
   AuthRepository? _authRepository;
   UserModel? _userData;
   BalanceModel _balance = BalanceModel();
+  BalanceModel? archiveBalance = null;
   DateTime? currentDate;
   StreamSubscription? _userMessagesStream;
 
@@ -80,8 +82,16 @@ class UserStorage with ChangeNotifier {
 
   // ================== Setters and Getters ==================
 
+  void signOut() {
+    resetBalance();
+    _userData = UserModel((_authRepository != null && _authRepository!.user == null || _authRepository!.getEmail == null) ? "" : _authRepository!.getEmail!);
+    GeneralInfoDispatcher.reset();
+    finishHandleUserMessage();
+  }
+
   void resetBalance() {
     _balance = BalanceModel();
+    archiveBalance = null;
   }
 
   void assignBalance(BalanceModel balanceModel) {
@@ -90,12 +100,13 @@ class UserStorage with ChangeNotifier {
 
   void createUserData() {
     BuildContext? context = globalNavigatorKey.currentContext;
+    String languageCode = (context == null) ? getLocale().languageCode : Languages.of(context)!.languageCode;
     _userData = UserModel(
       (_authRepository != null && _authRepository!.getEmail != null ? _authRepository!.getEmail! : ""),
       firstName: (_userData == null) ? null : _userData!.firstName,
       lastName: (_userData == null) ? null : _userData!.lastName,
       isDarkMode: globalIsDarkMode,
-      language: (_userData == null || _userData!.language == "" || context == null) ? Languages.of(context!)!.languageCode : _userData!.language
+      language: (_userData == null || _userData!.language == "") ? languageCode : _userData!.language
     );
   }
 
@@ -159,7 +170,7 @@ class UserStorage with ChangeNotifier {
       isApproved ? addNewUserToWorkspace(workspace, user) : null;
 
       if (_authRepository != null && _authRepository!.getEmail != null) {
-        SEND_showMessageToUser(user, isApproved ? Languages.of(context)!.strUserApproveJoining : Languages.of(context)!.strUserDisapproveJoining, _authRepository!.getEmail!, workspace);
+        SEND_showMessageToUser(user, isApproved ? UserMessage.ApproveJoining : UserMessage.DisapproveJoining, _authRepository!.getEmail!, workspace);
       }
     }
   }
@@ -171,7 +182,7 @@ class UserStorage with ChangeNotifier {
 
       String? workspaceLeader = await GET_workspaceLeader(workspace);
       if (workspaceLeader != null) {
-        SEND_showMessageToUser(workspaceLeader, isAccepted ? Languages.of(context)!.strUserApproveInvitation : Languages.of(context)!.strUserRejectInvitation, _authRepository!.getEmail!, workspace);
+        SEND_showMessageToUser(workspaceLeader, isAccepted ? UserMessage.ApproveInvitation : UserMessage.RejectInvitation, _authRepository!.getEmail!, workspace);
       }
     }
   }
@@ -258,7 +269,7 @@ class UserStorage with ChangeNotifier {
   }
 
   Future<String?> _getLastUpdatedDate() async {
-    if (_userData == null || _authRepository == null) {
+    if (_userData == null || _authRepository == null || _userData!.currentWorkspace == "") {
       return null;
     } else if (_userData!.currentWorkspace == _authRepository!.getEmail) {
       return _userData!.lastUpdatedDate;
@@ -277,12 +288,13 @@ class UserStorage with ChangeNotifier {
 
   void getBalanceAfterEndOfMonth() {
     GeneralInfoDispatcher.subscribe(() async {
-      String date = getCurrentMonthPerEndMonthDay(_userData!.endOfMonthDay, DateTime.now());
-      if (currentDate == null || _userData == null || await _getLastUpdatedDate() == date) {
+      String dateToday = getCurrentMonthPerEndMonthDay(_userData!.endOfMonthDay, DateTime.now());
+      String? lastDate = await _getLastUpdatedDate();
+      if (currentDate == null || _userData == null || lastDate == null || lastDate == dateToday) {
         return;
       }
 
-      _setLastUpdatedDate(date);
+      _setLastUpdatedDate(dateToday);
       DateTime previousMonth = DateTime(currentDate!.year, currentDate!.month - 1, currentDate!.day);
       BalanceModel? balanceModel = await GET_balanceModel(dateTime: previousMonth);
       SEND_balanceModelAfterLogin(balanceModel.filterCategoriesWithConstantsTransaction());
@@ -395,8 +407,12 @@ class UserStorage with ChangeNotifier {
     return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.generalInfoDoc));
   }
 
-  Future<bool> isExist_BelongsWorkspaces() async {
-    return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(_authRepository!.user!.email!).collection(config.generalInfoDoc).doc(config.belongsWorkspaces), specificKey: config.belongsWorkspaces);
+  Future<bool> isExist_BelongsWorkspaces({String? user}) async {
+    if (_authRepository != null && _authRepository!.getEmail != null) {
+      user = (user == null) ? _authRepository!.user!.email! : user;
+      return await _isDocExist(_firestore.collection(config.firebaseVersion).doc(user).collection(config.generalInfoDoc).doc(config.belongsWorkspaces), specificKey: config.belongsWorkspaces);
+    }
+    return false;
   }
 
   Future<bool> isExist_BalanceModel() async {
@@ -409,7 +425,9 @@ class UserStorage with ChangeNotifier {
   // GET
   Future<void> GET_generalInfo(BuildContext context) async {  // Get General Info
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) {
+      Trace performanceTrace = await performance.newTrace("GetGeneralInfo");
+      await performanceTrace.start();
+      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) async {
         if (generalInfo.exists && generalInfo.data() != null) {
           _userData!.updateFromJson(generalInfo.data()![config.generalInfoDoc]);
           if (_userData != null && _userData!.language != "") {
@@ -423,6 +441,7 @@ class UserStorage with ChangeNotifier {
         } else {
           GoogleAnalytics.instance.logRequestDataNotExists("postLogin", generalInfo);
         }
+        await performanceTrace.stop();
       });
     } else {
       GoogleAnalytics.instance.logPreCheckFailed("GetPostLogin");
@@ -433,6 +452,9 @@ class UserStorage with ChangeNotifier {
     BalanceModel balanceModel = BalanceModel();
 
     if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
+      Trace performanceTrace = await performance.newTrace("GetBalanceModel");
+      await performanceTrace.start();
+
       String date = getCurrentMonthPerEndMonthDay(userData!.endOfMonthDay, dateTime == null ? currentDate : dateTime);
       String workspace = (_userData!.currentWorkspace == "") ? _authRepository!.getEmail! : _userData!.currentWorkspace;
       await _firestore.collection(config.firebaseVersion).doc(workspace).collection(config.categoriesDoc).doc(date).get().then((categories) async {
@@ -443,6 +465,7 @@ class UserStorage with ChangeNotifier {
         } else {  // There is no data
           failureCallback != null ? failureCallback(null) : null;
         }
+        await performanceTrace.stop();
       });
 
     } else {
@@ -454,28 +477,36 @@ class UserStorage with ChangeNotifier {
   }
 
   Future<WorkspaceUsers?> GET_workspaceUsers(String workspace) async {
-      WorkspaceUsers? workspaceUsers;
-      await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) {
-        if (users.exists && users.data() != null) {
-          workspaceUsers = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]);
-        }
-      });
-      return workspaceUsers;
+    Trace performanceTrace = await performance.newTrace("GetGeneralInfo");
+    await performanceTrace.start();
+
+    WorkspaceUsers? workspaceUsers;
+    await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) async {
+      if (users.exists && users.data() != null) {
+        workspaceUsers = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]);
+      }
+      await performanceTrace.stop();
+    });
+    return workspaceUsers;
   }
 
   Future<String?> GET_workspaceLeader(String workspace) async {
+    Trace performanceTrace = await performance.newTrace("GetGeneralInfo");
+    await performanceTrace.start();
+
     String? leader;
-    await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) {
+    await _firestore.collection(config.firebaseVersion).doc(workspace).get().then((users) async {
       if (users.exists && users.data() != null) {
         leader = WorkspaceUsers.fromJson(users.data()![config.workspaceUsers]).leader;
       }
+      await performanceTrace.stop();
     });
     return leader;
   }
 
   // SEND
   Future<void> SEND_generalInfo() async {
-    if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
+    if (_authRepository != null && _authRepository!.getEmail != null && _userData != null && _userData!.currentWorkspace != "") {
       await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).set({
       config.generalInfoDoc: _userData!.toJson(),
       });
@@ -565,7 +596,7 @@ class UserStorage with ChangeNotifier {
   Future<void> SEND_initialUserDoc() async {
     if (_authRepository != null && _authRepository!.getEmail != null) {
       createUserData();
-      SEND_generalInfo();
+      await SEND_generalInfo();
       await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.belongsWorkspaces).set({
         config.belongsWorkspaces: BelongsWorkspaces(_authRepository!.getEmail!).toJson(),
       });
@@ -663,13 +694,13 @@ class UserStorage with ChangeNotifier {
     _SEND_messageToUser(user, joiningRequest);
   }
 
-  void SEND_showMessageToUser(String receiver, String message, String user, String workspace) {
-    _SEND_messageToUser(receiver, {"type": UserMessage.ShowMessage.index, "message": message, "user": user, "workspace": workspace});
+  void SEND_showMessageToUser(String receiver, UserMessage message, String user, String workspace) {
+    _SEND_messageToUser(receiver, {"type": message.index, "user": user, "workspace": workspace});
   }
 
-  void SEND_resetUserMessages() async {
+  Future<void> SEND_resetUserMessages() async {
     if (_authRepository != null && _authRepository!.getEmail != null) {
-      await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).set({
+      return await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).set({
         config.userMessages: [],
       });
     } else {

@@ -189,6 +189,7 @@ abstract class Languages {
   String get strUserApproveInvitation;
   String get strUserRejectInvitation;
   String get strCantRemovePersonalWorkspace;
+  String get strCantInviteSinceUserNotUpdated;
 
   // Set Category And Transaction
   String get strTypeSelection;
@@ -226,4 +227,23 @@ abstract class Languages {
   String get strSubmit;
   String get strCommentHint;
   String get strRateRecorded;
+
+  // Walkthrough
+  String get strWatchWalkthrough;
+  String get strSkip;
+  String get strNext;
+  String get strWalkthroughDescription;
+  String get strWalkthroughWelcomeTitle;
+  String get strWalkthroughWelcomeDescription;
+  String get strWalkthroughLoginTitle;
+  String get strWalkthroughLoginDescription;
+  String get strWalkthroughSummaryDescription;
+  String get strWalkthroughBalanceTitle;
+  String get strWalkthroughBalanceDescription;
+  String get strWalkthroughAddCategoryDescription;
+  String get strWalkthroughAddTransactionDescription;
+  String get strWalkthroughArchiveDescription;
+  String get strWalkthroughSettingsDescription;
+  String get strWalkthroughFinalTitle;
+  String get strWalkthroughFinalDescription;
 }

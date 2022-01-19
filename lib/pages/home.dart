@@ -1,5 +1,6 @@
 // ================= Home Page =================
 import 'package:flutter/material.dart';
+import 'package:balance_me/controllers/walkthrough_controller.dart';
 import 'package:cross_connectivity/cross_connectivity.dart';
 import 'package:balance_me/pages/connection_lost.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedPage = gc.defaultPage;
+
+  @override
+  void initState() {
+    super.initState();
+    WalkthroughController.setupWalkthrough();
+  }
 
   void _updateSelectedPage(int index) {
     setState(() {
