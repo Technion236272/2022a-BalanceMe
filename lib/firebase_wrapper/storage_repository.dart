@@ -46,7 +46,7 @@ class UserStorage with ChangeNotifier {
     String userEmail = (authRepository.user == null || authRepository.getEmail == null) ? "" : authRepository.getEmail!;
 
     if (authRepository.status == AuthStatus.Authenticated) {
-      _userData = (authRepository.user != null) ? _userData : UserModel(userEmail);
+      _userData = (authRepository.user != null && _userData != null) ? _userData : UserModel(userEmail);
 
       if (!await isExist_BelongsWorkspaces()) {
         if (!await isExist_BalanceModel()) {
@@ -84,7 +84,7 @@ class UserStorage with ChangeNotifier {
 
   void signOut() {
     resetBalance();
-    _userData = UserModel((_authRepository != null && _authRepository!.user == null || _authRepository!.getEmail == null) ? "" : _authRepository!.getEmail!);
+    _userData = null;
     GeneralInfoDispatcher.reset();
     finishHandleUserMessage();
   }
@@ -424,7 +424,7 @@ class UserStorage with ChangeNotifier {
 
   // GET
   Future<void> GET_generalInfo(BuildContext context) async {  // Get General Info
-    if (_authRepository != null && _authRepository!.getEmail != null && _userData != null) {
+    if (_authRepository != null && _authRepository!.getEmail != null && _authRepository!.getEmail != "" && _userData != null) {
       Trace performanceTrace = await performance.newTrace("GetGeneralInfo");
       await performanceTrace.start();
       await _firestore.collection(config.firebaseVersion).doc(_authRepository!.getEmail!).collection(config.generalInfoDoc).doc(config.generalInfoDoc).get().then((generalInfo) async {
