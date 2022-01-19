@@ -1,10 +1,10 @@
 
 # Setup
 
-* *BalanceMe, despite having a relatively small number of screens, can be difficult to set up.
+* BalanceMe, despite having a relatively small number of screens, can be difficult to set up.
   The purpose of this section is to explain the requirements for installing and using BalanceMe and its files.
   failure to install and set up any of the following package may result in undefined behaviour
-*
+
 
 ## Requirements
 > Dart IDE
