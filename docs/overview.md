@@ -23,6 +23,7 @@ important directories and files in the app.
 * [ ] messages_controller- handles workspace messages, such as invitations and join requests.
 * [ ] theme_controller- handles dark mode, as well as the colors used in the app's UI
 
+
 #firebase_wrapper
 
 
