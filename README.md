@@ -40,8 +40,6 @@ customized for every user.*
 
 
 * [ ] Change the currency you use for keeping track of your spending abroad.
-* [ ] Keep an attached image of your receipt with your transaction.
-* [ ] watch a walkthrough to learn how to use the app to manage your spending
 * [ ] customize your in app experience by changing the app's language, dark mode, profile image.
 * [ ] compare your total incomes and expenses in the summary page.
 * [ ] Invite new users into the app with our "invite a friend" feature
