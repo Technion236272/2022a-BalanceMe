@@ -17,7 +17,7 @@ void signInGoogle(BuildContext context, AuthRepository authRepository,UserStorag
 }
 
 void signInFacebook(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInWithFacebook(context), LoginMethod.Facebook.toCleanString(), true, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInWithFacebook(context,true), LoginMethod.Facebook.toCleanString(), true, userStorage, failureCallback: failureCallback);
 }
 
 void signUpGoogle(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
@@ -25,7 +25,7 @@ void signUpGoogle(BuildContext context, AuthRepository authRepository, UserStora
 }
 
 void signUpFacebook(BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
-  startLoginProcess(context, authRepository.signInWithFacebook(context), LoginMethod.Facebook.toCleanString(), false, userStorage, failureCallback: failureCallback);
+  startLoginProcess(context, authRepository.signInWithFacebook(context,false), LoginMethod.Facebook.toCleanString(), false, userStorage, failureCallback: failureCallback);
 }
 
 void emailPasswordSignUp(String? email, String? password, String? confirmPassword, BuildContext context, AuthRepository authRepository, UserStorage userStorage, {VoidCallback? failureCallback}) async {
