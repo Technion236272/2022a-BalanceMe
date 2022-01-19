@@ -613,31 +613,31 @@ class LanguageEn extends Languages {
   String get strWalkthroughWelcomeTitle => "Welcome screen";
 
   @override
-  String get strWalkthroughWelcomeDescription => "This screen will allow you to experience the app without logging in. However, in order to save any changes you've made you must login or sign up, by tapping the button on the upper part of the screen";
+  String get strWalkthroughWelcomeDescription => "This screen will allow you to experience the app without logging in. However, in order to save any changes you've made you must login or sign up, by tapping the button on the upper part of the screen.";
 
   @override
   String get strWalkthroughLoginTitle => "Authentication screen";
 
   @override
-  String get strWalkthroughLoginDescription => "Via this screen you can sign in or sign up. To do so, choose the relevant tab for you. You can sign in using your Facebook or Google accounts, or with an email and password of your choice";
+  String get strWalkthroughLoginDescription => "Via this screen you can sign in or sign up. To do so, choose the relevant tab for you. You can sign in using your Facebook or Google accounts, or with an email and password of your choice.";
 
   @override
-  String get strWalkthroughSummaryDescription => "This screen has three main tabs to manage your monthly balance. The first is called summary, and it will allow you to compare between incomes and expenses in the current month Additionally, by tapping on the change button, you can manage your workspaces (as explained later). You can, if you wish, to enter your balance in the beginning of the month, to get the state of your balance at the end of the month. Each month, your total balance will be updated automatically";
+  String get strWalkthroughSummaryDescription => "This screen has three main tabs to manage your monthly balance. The first is called summary, and it will allow you to compare between incomes and expenses in the current month. Additionally, by tapping on the change button, you can manage your workspaces (as explained later). You can, if you wish, to enter your balance in the beginning of the month, to get the state of your balance at the end of the month. Each month, your total balance will be updated automatically.";
 
   @override
   String get strWalkthroughBalanceTitle => "Income and expense screens";
 
   @override
-  String get strWalkthroughBalanceDescription => "The next tabs are similar, and include the incomes and expenses of the current month. In each screen there is a chart, to visually represent your incomes/expenses, as well as a description of your categories and transactions (explained later). if you want to add a category, tap on 'add category'. With the + button, you can add a new transaction under that category. As well as update and delete existing transactions ";
+  String get strWalkthroughBalanceDescription => "The next tabs are similar, and include the incomes and expenses of the current month. In each screen there is a chart, to visually represent your incomes/expenses, as well as a description of your categories and transactions (explained later). if you want to add a category, tap on 'add category'. With the + button, you can add a new transaction under that category. As well as update and delete existing transactions.";
 
   @override
   String get strWalkthroughAddCategoryDescription => "In this screen you can add a category as an income, or expense. A category is a collective name for a group of individual incomes and expenses with a common denominator. For example, under the category of 'entertainment', you can add 'watching a movie', or 'eating in a restaurant'. The choice is yours (for suggestions for names, long tap on the exclamation mark, next to the category's name). You must determine the expected budget for the category.";
 
   @override
-  String get strWalkthroughAddTransactionDescription => "In this screen, you can add a new transaction under an existing category.A transaction is a single instance of an income/ expense .For example, under the category of 'entertainment', you can add a transaction called 'watching a movie'. Each transaction must contain the amount of money you've earned/spent. Any transaction can be made constant, for all months. At the end of the month, an automatic cleanup will be performed, and only your constant transactions will be moved to the next month. ";
+  String get strWalkthroughAddTransactionDescription => "In this screen, you can add a new transaction under an existing category. A transaction is a single instance of an income/expense. For example, under the category of 'entertainment', you can add a transaction called 'watching a movie'. Each transaction must contain the amount of money you've earned/spent. Any transaction can be made constant, for all months. At the end of the month, an automatic cleanup will be performed, and only your constant transactions will be moved to the next month.";
 
   @override
-  String get strWalkthroughArchiveDescription => "This screen allows viewing data from past months. At the 10th day of each month, the income and expense screens will be cleaned up, and their data transferred to the archive. Tap the button to choose which month's data you would like to watch";
+  String get strWalkthroughArchiveDescription => "This screen allows viewing data from past months. At the 10th day of each month, the income and expense screens will be cleaned up, and their data transferred to the archive. Tap the button to choose which month's data you would like to watch.";
 
   @override
   String get strWalkthroughSettingsDescription => "This screen is divided to two sections. The upper section includes settings which can be changed, such as language, and dark mode. Additionally, you can choose whether you want a monthly report to be delivered to your email. The lower section has constants and options such as inviting a friend, rating the app, and re-watching this walkthrough.";

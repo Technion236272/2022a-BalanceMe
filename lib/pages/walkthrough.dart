@@ -113,9 +113,18 @@ class _IntroWalkthroughState extends State<IntroWalkthrough> {
       onDone: () => _closeWalkthrough(isLast: true),
       onSkip: () =>_closeWalkthrough(isLast: false),
       showSkipButton: true,
-      skip: Text(Languages.of(context)!.strSkip),
-      next: Text(Languages.of(context)!.strNext),
-      done: Text(Languages.of(context)!.strFinish),
+      skip: Text(
+        Languages.of(context)!.strSkip,
+        style: gc.walkthroughNevigationSize,
+      ),
+      next: Text(
+        Languages.of(context)!.strNext,
+        style: gc.walkthroughNevigationSize,
+      ),
+      done: Text(
+        Languages.of(context)!.strFinish,
+        style: gc.walkthroughNevigationSize,
+      ),
       dotsFlex: 2,
       skipColor: gc.expenseEntryColor,
       controlsPadding: EdgeInsets.fromLTRB(5, 16, 5, 16),
