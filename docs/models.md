@@ -43,9 +43,9 @@ and its attributes
 
 * [ ] GroupName- A string which represents the group a user belongs to, the default value is a user's own email
 * [ ] EndOfMonthDay- An integer which represents the day the user wishes to archive last month's incomes and expenses, default is the tenth.
-* [ ] UserCurrency-An enum which represents the currency with which the user wishes to register incomes and expenses with, default is NIS.
+* [ ] UserCurrency- An enum which represents the currency with which the user wishes to register incomes and expenses with, default is NIS.
 * [ ] FirstName- A nullable string which represents the first name of the user, optional, default is null.
-* [ ] LastName-A nullable string which represents the last name of the user, optional, default is null.
+* [ ] LastName- A nullable string which represents the last name of the user, optional, default is null.
 * [ ] IsDarkMode- A boolean which represents whether the user switched dark mode on, default is false.
 * [ ] Language- A string which represents the language of the app, default is the user's language setting in his phone.
 
@@ -64,5 +64,5 @@ and its attributes
 > A user can be the leader of a workspace (by creating it) or a member of an existing workspace.
 > The belongs-workspace model has the following properties:
 * [ ] Belongs- A sorted list of strings, which represents the workspaces the user is in.
-* [ ] JoiningRequests -A sorted list of strings, which represents requests to join other workspaces by their names.
-* [ ] Invitations-A sorted list of strings, which represents the workspaces which a user has been invited into.
+* [ ] JoiningRequests - A sorted list of strings, which represents requests to join other workspaces by their names.
+* [ ] Invitations- A sorted list of strings, which represents the workspaces which a user has been invited into.
