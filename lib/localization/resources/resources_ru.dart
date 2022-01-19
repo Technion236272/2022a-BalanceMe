@@ -378,10 +378,10 @@ class LanguageRu extends Languages {
   String get strExpectedIncomes => "Ожидаемые доходы";
 
   @override
-  String get strCurrentExpenses => "текущий расходы";
+  String get strCurrentExpenses => "текущий\n расходы";
 
   @override
-  String get strExpectedExpenses => "Ожидаемые расходы";
+  String get strExpectedExpenses => "Ожидаемые\n расходы";
 
   @override
   String get strTotalExpectedBalance => "общего Ожидаемые";

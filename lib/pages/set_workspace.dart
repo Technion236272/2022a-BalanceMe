@@ -481,7 +481,7 @@ class _SetWorkspaceState extends State<SetWorkspace> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(Languages.of(context)!.strChooseWorkspace),
+                                Expanded(flex: 2, child: Text(Languages.of(context)!.strChooseWorkspace)),
                                 Visibility(
                                   visible: _workspaceUsers != null && authRepository.user != null && _workspaceUsers!.leader == authRepository.user!.email,
                                   child: TextButton(
