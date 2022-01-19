@@ -1,16 +1,6 @@
 
 #Screenshots
 
-![Category Screen Example](../assets/images/category_screenshot.png "Category screen")
 
-
-![Archive Screen Example](../assets/images/archive_screenshot.png "Archive screen")
-
-
-![Login Screen Example](../assets/images/login_screenshot.png "Login screen")
-
-
-![Balance Screen Example](../assets/images/balance_screenshot.png "Balance screen")
-
-
-![Transaction Screen Example](../assets/images/transaction_screenshot.png "Transaction screen")
+<img src="/assets/images/walkthrough/en/Welcome.png" alt="drawing" width="200"/> <img src="/assets/images/walkthrough/en/Balance.png" alt="drawing" width="200"/><img src="/assets/images/walkthrough/en/Summary.png" alt="drawing" width="200"/>
+<img src="/assets/images/walkthrough/en/Workspaces.png" alt="drawing" width="200"/>
