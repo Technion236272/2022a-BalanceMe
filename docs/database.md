@@ -24,9 +24,9 @@
 
 > for simplicity's sake, a user starts in a singleton workspace with his own email as a name- the default workspace can be deleted,
 > a user can open and join multiple workspaces at a time, with each workspace having a unique name.
-> categories and transactions are tracked separately in each workspace
+> categories and transactions are tracked separately in each workspace. Each user has a workspace users collection, with the following parameters:
+ 
 
-> Each user has a workspace users collection, with the following parameters:
 * [ ] leader- the user who opened the workspace, can send invitations to join the workspace, as well as delete it (with the exception of the default workspace)
 * [ ] users- all the user emails who belong to that workspace.
 
