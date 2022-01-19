@@ -1,7 +1,7 @@
 
 # Models
 
-*In order to simplify the code and the user experience,
+In order to simplify the code and the user experience,
 BalanceMe contains several models. 
  In this document, we will describe each model's purpose
 and its attributes
