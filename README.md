@@ -7,6 +7,13 @@ the user's financial balance over time. The user allocates a budget and at the e
 the application reports to the user about his spending habits and whether the user spent over budget or not.
 
 
+<a href='https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250" height="100"/></a>
+
+
+<img src="/assets/images/walkthrough/en/Welcome.png" alt="drawing" width="200"/> <img src="/assets/images/walkthrough/en/Balance.png" alt="drawing" width="200"/><img src="/assets/images/walkthrough/en/Summary.png" alt="drawing" width="200"/>
+<img src="/assets/images/walkthrough/en/Workspaces.png" alt="drawing" width="200"/>
+
+
 ## Motivation
 
 
@@ -21,20 +28,39 @@ customized for every user.*
 ## Core Features
 
 
+* [ ] Watch a detailed walkthrough to learn how to use our app
 * [ ] Create and manage income and expense categories as you want.
-* [ ] View statistics about your expenses over time.
-* [ ] Allocate and keep track of your budget.
+* [ ] View your data about your expenses over time in a user-friendly archive.
+* [ ] Allocate , keep track of your budget and get a monthly report to your email at the end of every month.
+* [ ] Set up a workspace, to track incomes and expenses with your friends and family, or special events.
+* [ ] Save your transactions based on categories, date , name, price etc.
+
 
 ## Complementary Features
 
-* [ ] Set your group of friends/family/organization to share the same budget and keep track of their spending habits.
-* [ ] Create target goals to allocate savings to.
-* [ ] Filter and sort expense/income categories based on money spent,date, and other parameters.
+
+* [ ] Customize your in app experience by changing the app's Currency,language, dark mode, profile image.
+* [ ] Compare your total incomes and expenses in the summary page.
+* [ ] Invite new users into the app with our "invite a friend" feature
+* [ ] Send feedback and rate the app in-app
+
 
 ## Table of contents
+
+
 [Overview](/docs/overview.md)
+
+
 [Database](/docs/database.md)
+
+
 [Models](/docs/models.md)
+
+
 [Setup](/docs/setup.md)
 
 
+## Disclaimer
+
+
+>Google Play and the Google Play logo are trademarks of Google LLC.
