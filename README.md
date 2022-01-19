@@ -10,6 +10,7 @@ the application reports to the user about his spending habits and whether the us
 <a href='https://play.google.com/store/apps/details?id=com.technion.balanceme.balance_me&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250" height="100"/></a>
 
 
+![](/assets/images/walkthrough/en/Welcome.png) ![](/assets/images/walkthrough/en/Balance.png) ![](/assets/images/walkthrough/en/Summary.png) ![](/assets/images/walkthrough/en/Workspaces.png) ![](/assets/images/walkthrough/en/Archive.png)
 
 
 ## Motivation
