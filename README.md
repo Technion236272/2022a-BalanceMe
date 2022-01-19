@@ -28,6 +28,7 @@ customized for every user.*
 ## Core Features
 
 
+* [ ] Watch a detailed walkthrough to learn how to use our app
 * [ ] Create and manage income and expense categories as you want.
 * [ ] View statistics about your expenses over time in a user-friendly archive.
 * [ ] Allocate and keep track of your budget.
@@ -43,6 +44,8 @@ customized for every user.*
 * [ ] watch a walkthrough to learn how to use the app to manage your spending
 * [ ] customize your in app experience by changing the app's language, dark mode, profile image.
 * [ ] compare your total incomes and expenses in the summary page.
+* [ ] Invite new users into the app with our "invite a friend" feature
+* [ ] Send feedback and rate the app in-app
 
 
 ## Table of contents
