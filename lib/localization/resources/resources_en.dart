@@ -460,7 +460,7 @@ class LanguageEn extends Languages {
   String get strEmptyWorkspace => "You are alone in this workspace";
 
   @override
-  String get strJoinWorkspace => "This workspace is already exist.\nDo you want to send a joining request to this workspace?";
+  String get strJoinWorkspace => "This workspace already exists.\nDo you want to send a joining request to this workspace?";
 
   @override
   String get strWorkspaceJoinRequestSent => "A joining request to the workspace has been sent";
