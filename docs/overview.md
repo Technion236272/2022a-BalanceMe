@@ -8,14 +8,14 @@ the project's structure as well as
 important directories and files in the app.
 
 
-##common models
+common models
 
 
 > this folder contains the models used in the app,
 > for more detailed information-please read the models document.
 
 
-#controllers
+controllers
 
 
 > this folder contains controllers and associated functions
@@ -24,7 +24,7 @@ important directories and files in the app.
 * [ ] theme_controller- handles dark mode, as well as the colors used in the app's UI
 
 
-#firebase_wrapper
+firebase_wrapper
 
 
 > this folder contains wrapper classes 
@@ -42,7 +42,7 @@ in order to determine which elements of the app require refinement.
   information about the user from and to the database
   
 
-#global
+global
 
 
 > this folder contains constants and
@@ -59,7 +59,7 @@ such as colors, icons, default values,padding sizes, etc.
 * [ ] rate_us- a widget which allows a user to rate the app on Google play, as well as add a description.
 
 
-#assets
+assets
 
 
 > this folder contains static images
@@ -67,7 +67,7 @@ such as colors, icons, default values,padding sizes, etc.
 > regardless of user input.
 
 
-#localization
+localization
 
 
 > this folder contains the required
@@ -76,7 +76,7 @@ such as colors, icons, default values,padding sizes, etc.
 * [ ] language and locale controllers- determine which language is used and change it based on the app's settings.
 
 
-#pages
+pages
 
 
 > this folder contains the main screens
@@ -95,7 +95,7 @@ such as colors, icons, default values,padding sizes, etc.
 * [ ] summary- a page which shows the user the total difference between expected and total incomes/expenses
 
 
-#widgets
+widgets
 
 
 > generic widgets used
