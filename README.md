@@ -30,18 +30,17 @@ customized for every user.*
 
 * [ ] Watch a detailed walkthrough to learn how to use our app
 * [ ] Create and manage income and expense categories as you want.
-* [ ] View statistics about your expenses over time in a user-friendly archive.
+* [ ] View your data about your expenses over time in a user-friendly archive.
 * [ ] Allocate and keep track of your budget.
 * [ ] Set up a workspace, to track incomes and expenses with your friends and family, or special events.
-* [ ] save your transactions based on categories, date , name, price etc.
+* [ ] Save your transactions based on categories, date , name, price etc.
 
 
 ## Complementary Features
 
 
-* [ ] Change the currency you use for keeping track of your spending abroad.
-* [ ] customize your in app experience by changing the app's language, dark mode, profile image.
-* [ ] compare your total incomes and expenses in the summary page.
+* [ ] Customize your in app experience by changing the app's Currency,language, dark mode, profile image.
+* [ ] Compare your total incomes and expenses in the summary page.
 * [ ] Invite new users into the app with our "invite a friend" feature
 * [ ] Send feedback and rate the app in-app
 
